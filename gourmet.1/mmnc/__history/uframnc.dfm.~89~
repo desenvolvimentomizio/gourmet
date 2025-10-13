@@ -1,14 +1,40 @@
 inherited framnc: Tframnc
   Width = 1375
+  Height = 663
   ExplicitWidth = 1375
+  ExplicitHeight = 663
   inherited PlGeral: TPanel
     Width = 1375
+    Height = 663
     ExplicitWidth = 1375
+    ExplicitHeight = 663
+    inherited SplBotoes: TSplitter
+      Height = 643
+      ExplicitHeight = 643
+    end
+    inherited PlBotoes: TPanel
+      Height = 643
+      ExplicitHeight = 643
+      inherited ImageLogoBase: TImage
+        Top = 564
+        ExplicitTop = 564
+      end
+      inherited PlInfo: TPanel
+        Top = 625
+        ExplicitTop = 625
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 564
+        ExplicitHeight = 564
+      end
+    end
     inherited PlLista: TPanel
       Width = 1231
+      Height = 643
       ExplicitWidth = 1231
+      ExplicitHeight = 643
       inherited SplLista: TSplitter
-        Top = 436
+        Top = 459
         Width = 1231
         Visible = True
         ExplicitTop = 430
@@ -19,16 +45,16 @@ inherited framnc: Tframnc
         ExplicitWidth = 1231
       end
       inherited PlRodaPe: TPanel
-        Top = 441
+        Top = 464
         Width = 1231
-        Height = 139
+        Height = 179
         Visible = True
-        ExplicitTop = 441
+        ExplicitTop = 464
         ExplicitWidth = 1231
-        ExplicitHeight = 139
+        ExplicitHeight = 179
         object PlRodapeItens: TPanel
           Left = 0
-          Top = 112
+          Top = 152
           Width = 1231
           Height = 27
           Align = alBottom
@@ -159,7 +185,7 @@ inherited framnc: Tframnc
           Left = 0
           Top = 0
           Width = 856
-          Height = 112
+          Height = 152
           Align = alClient
           BorderStyle = bsNone
           Color = clCream
@@ -284,7 +310,7 @@ inherited framnc: Tframnc
           Left = 856
           Top = 0
           Width = 375
-          Height = 112
+          Height = 152
           Align = alRight
           BevelOuter = bvNone
           BorderWidth = 2
@@ -312,7 +338,7 @@ inherited framnc: Tframnc
             Left = 2
             Top = 42
             Width = 371
-            Height = 68
+            Height = 81
             Align = alClient
             Color = 13303780
             DataSource = DSTotaisDtls
@@ -374,6 +400,48 @@ inherited framnc: Tframnc
             TabOrder = 2
             Visible = False
           end
+          object plbotoesmodalidade: TPanel
+            Left = 2
+            Top = 123
+            Width = 371
+            Height = 27
+            Align = alBottom
+            BevelOuter = bvNone
+            TabOrder = 3
+            object btinformardinheiro: TButton
+              AlignWithMargins = True
+              Left = 248
+              Top = 3
+              Width = 120
+              Height = 21
+              Align = alRight
+              Caption = 'INCLUIR Modalidade'
+              TabOrder = 0
+              OnClick = btinformardinheiroClick
+            end
+            object btInformaAutorizacao: TButton
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 120
+              Height = 21
+              Align = alLeft
+              Caption = 'Informar Autoriza'#231#227'o'
+              TabOrder = 1
+              OnClick = btInformaAutorizacaoClick
+            end
+            object btExcluiModalidade: TButton
+              AlignWithMargins = True
+              Left = 122
+              Top = 3
+              Width = 120
+              Height = 21
+              Align = alRight
+              Caption = 'EXCLUIR Modalidade'
+              TabOrder = 2
+              OnClick = btExcluiModalidadeClick
+            end
+          end
         end
       end
       inherited PlFiltros: TPanel
@@ -406,12 +474,12 @@ inherited framnc: Tframnc
       end
       inherited PnlGrid: TPanel
         Width = 1231
-        Height = 307
+        Height = 330
         ExplicitWidth = 1231
-        ExplicitHeight = 307
+        ExplicitHeight = 330
         inherited DBGLista: TDBGrid
           Width = 1231
-          Height = 281
+          Height = 304
           Columns = <
             item
               Expanded = False
@@ -571,11 +639,11 @@ inherited framnc: Tframnc
             end>
         end
         inherited PnlRodapeGrid: TPanel
-          Top = 281
+          Top = 304
           Width = 1231
           Height = 26
           Visible = True
-          ExplicitTop = 281
+          ExplicitTop = 304
           ExplicitWidth = 1231
           ExplicitHeight = 26
           object Pnl1: TPanel
@@ -833,6 +901,10 @@ inherited framnc: Tframnc
         Caption = 'Regerar XML todas'
         Visible = False
         OnClick = RegerarXMLtodas1Click
+      end
+      object Enviarpendentes1: TMenuItem
+        Caption = 'Enviar pendentes'
+        OnClick = Enviarpendentes1Click
       end
       object N1: TMenuItem
         Caption = '-'
@@ -1171,6 +1243,12 @@ inherited framnc: Tframnc
     Left = 800
     Top = 189
   end
+  inherited cfgmgou: TUniQuery
+    SQL.Strings = (
+      
+        'select cfgmgouhoravirada,cfgmgouctadelivery from cfgmgou where c' +
+        'fgcodigo=:flacodigo')
+  end
   object cfg: TUniQuery
     SQL.Strings = (
       'SELECT'
@@ -1186,6 +1264,7 @@ inherited framnc: Tframnc
       '  /*Sa'#237'das*/'
       '  cfgmsai.cfgtoecuffora,'
       '  cfgmsai.cfgtoecufinte,'
+      '  cfgmgouctadelivery,'
       ''
       '  /*Contas a Receber*/'
       '  cfgmcre.cfgviaassinar,'
@@ -1251,7 +1330,8 @@ inherited framnc: Tframnc
       '  cfgimpnfc2,'
       '  cfgimpnfc3,'
       '  cfgservarqnfes,'
-      '  cfg.cfgusanfc'
+      '  cfg.cfgusanfc,'
+      '  cfgmgouctadelivery'
       'FROM cfgmcfg,'
       '     ufs,'
       '     etd,'
@@ -1264,9 +1344,11 @@ inherited framnc: Tframnc
       '     etf,'
       '     cdd,'
       '     cfgmsai,'
+      '     cfgmgou,'
       '     ctd'
       'WHERE cfg.cfgcodigo = ctd.cfgcodigo'
       'AND cfg.cfgcodigo = cfgmsai.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmgou.cfgcodigo'
       'AND ufs.ufscodigo = edr.ufscodigo'
       'AND cfg.cfgcodigo = cfgmcfg.cfgcodigo'
       'AND cfg.cfgcodigo = cfgmcre.cfgcodigo'
@@ -1433,6 +1515,9 @@ inherited framnc: Tframnc
       FieldName = 'cfgmensagempdv'
       Size = 250
     end
+    object cfgcfgmgouctadelivery: TIntegerField
+      FieldName = 'cfgmgouctadelivery'
+    end
   end
   object itm: TUniQuery
     SQL.Strings = (
@@ -1476,7 +1561,7 @@ inherited framnc: Tframnc
       'AND itm.meschave = :meschave'
       'ORDER BY itm.itmitem')
     Left = 740
-    Top = 472
+    Top = 408
     ParamData = <
       item
         DataType = ftUnknown
@@ -1624,8 +1709,8 @@ inherited framnc: Tframnc
   end
   object Ditm: TUniDataSource
     DataSet = itm
-    Left = 808
-    Top = 480
+    Left = 816
+    Top = 424
   end
   object mic: TUniQuery
     SQL.Strings = (
@@ -1718,8 +1803,8 @@ inherited framnc: Tframnc
         Name = 'mdacodigo'
         DataType = ftInteger
       end>
-    Left = 1128
-    Top = 540
+    Left = 1144
+    Top = 372
     Data = {
       0400030010006D64616964656E74696669636163616F01002300000000000800
       64746C76616C6F72060000000F00000009006D6461636F6469676F0300000000
@@ -1754,8 +1839,8 @@ inherited framnc: Tframnc
   end
   object DSTotaisDtls: TDataSource
     DataSet = TotaisDtls
-    Left = 1064
-    Top = 543
+    Left = 1264
+    Top = 295
   end
   object dtl: TUniQuery
     SQL.Strings = (
@@ -1848,8 +1933,8 @@ inherited framnc: Tframnc
       ''
       '')
     Options.DetailDelay = 50
-    Left = 1008
-    Top = 528
+    Left = 1088
+    Top = 376
     ParamData = <
       item
         DataType = ftUnknown
@@ -1907,8 +1992,8 @@ inherited framnc: Tframnc
       'AND mes.sdecodigo <> '#39'02'#39
       'AND (rfi.tficodigo in (9));'
       '-- Filtros  ')
-    Left = 952
-    Top = 495
+    Left = 1144
+    Top = 295
     ParamData = <
       item
         DataType = ftUnknown
@@ -1929,8 +2014,8 @@ inherited framnc: Tframnc
       '  INNER JOIN mes ON rfm.meschave = mes.meschave'
       'where mes.meschave=:meschave'
       'and mes.flacodigo=:flacodigo')
-    Left = 1000
-    Top = 483
+    Left = 1040
+    Top = 347
     ParamData = <
       item
         DataType = ftUnknown

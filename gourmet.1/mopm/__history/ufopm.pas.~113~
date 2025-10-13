@@ -1246,7 +1246,7 @@ begin
       ito.Params[1].AsInteger := Acesso.Filial;
 
       ito.Open;
-
+      vlacrescimoav:=0;
       while not ito.Eof do
       begin
 
@@ -1255,14 +1255,15 @@ begin
         else
         begin
           VTotProdutos := VTotProdutos + Self.itoitosaldoav.AsFloat;
-          vlacrescimoav := vlacrescimoav + Self.itoitoacrescimoav.AsCurrency;
+//          vlacrescimoav := vlacrescimoav + Self.itoitoacrescimoav.AsCurrency;
         end;
         ito.Next;
       end;
 
-      mesmesprodutos.AsFloat := VTotProdutos + vlacrescimoav;
+      mesmesprodutos.AsFloat := VTotProdutos;
+//      mesmesprodutos.AsFloat := VTotProdutos + vlacrescimoav;
 
-      mesmestotal.AsFloat := Self.orcorctotalav.AsFloat;
+      mesmestotal.AsFloat := Self.orcorctotalav.AsFloat+mesmesdesconto.AsFloat;
       mesmesdesconto.AsFloat := Self.orcorcdescontoav.AsFloat;
       mesmesvalor.AsFloat := Self.orcorctotalav.AsFloat+mesmesdesconto.AsFloat;
 
@@ -1468,20 +1469,8 @@ begin
           pro.SQL.Text := 'select sbrcobraadicional from sbr where procodigo=' + itmprocodigo.AsString;
           pro.Open;
 
-          if not pro.IsEmpty then
-          begin
 
-            if pro.FieldByName('sbrcobraadicional').AsInteger=1 then
-              itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency
-            else
-              itmitmtotal.AsFloat := Self.itoitototalav.AsFloat;
-          end
-          else
-          begin
-
-            itmitmtotal.AsFloat := Self.itoitototalav.AsFloat;
-
-          end;
+          itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency;
 
 
 
@@ -1592,7 +1581,7 @@ begin
 
           itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
 
-          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) *
+          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
             (consulta.FieldByName('propisaliquota').AsFloat / 100);
           itmitmquantpis.AsFloat := 0;
           itmitmaliqpisvalor.AsFloat := 0;
@@ -1610,7 +1599,7 @@ begin
           itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
 
           itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
-          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) *
+          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
             (consulta.FieldByName('procofinsaliquota').AsFloat / 100);
           itmitmquantcofins.AsFloat := 0;
           itmitmaliqcofinsvalor.AsFloat := 0;
@@ -1927,7 +1916,7 @@ begin
       mesmesnumeropedido.AsString := orcorcnumeropedido.AsString;
       mesmoccodigo.AsInteger := orcmoccodigo.AsInteger;
       mescznchave.AsInteger := vpCznChave;
-      mesmestotal.AsCurrency := mesmestotal.AsFloat;
+      mesmestotal.AsCurrency := orcorctotalav.AsCurrency;
 
       if (Orcmoccodigo.AsInteger = mocRetiraBalcao) or (Orcmoccodigo.AsInteger = mocMesa) then
       begin

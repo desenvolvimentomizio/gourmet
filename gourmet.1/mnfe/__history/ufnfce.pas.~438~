@@ -1361,7 +1361,7 @@ begin
     begin
       If not FileExists(vlArqNFCe) Then
       Begin
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
         begin
           vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
         end;
@@ -1811,7 +1811,7 @@ begin
     if ACBrNFeNFCe.Configuracoes.WebServices.Ambiente <> taHomologacao then
     begin
 
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
       begin
         vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
         Exit;
@@ -2116,7 +2116,7 @@ Begin
 
       If not FileExists(vArqNFCe) Then
       Begin
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
         begin
 
         if pos('gourmetstone', application.ExeName)=0 then
@@ -2263,7 +2263,6 @@ begin
   try
   try
     Result := False;
-
 
     PlTitulo.Caption := 'Gerar NFC-e';
     info.Lines.add('Inicio: ' + datetimetostr(now));
@@ -2469,7 +2468,7 @@ begin
   If not FileExists(vpNomeArquivoNFCe) Then
   Begin
 
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0)  then
     begin
       vpNomeArquivoNFCe := BaixaXMLServidor(IPServidorArquivos, vpNomeArquivoNFCe);
     end;
@@ -3687,162 +3686,152 @@ Begin
             if ((cfgcrtcodigo.AsInteger>=3) and (cfgcfgapuracaoicm.AsInteger=2) ) or  (cfgcfgmodonfe.AsInteger = 2) then
             begin
 
-
-
               nrt.close;
               nrt.ParamByName('nrtcodigo').AsString:=itmnrtcodigo.AsString;
               nrt.Open;
 
-              if (nrt.RecordCount>0) and (copy(mesmesprotocolo.asstring,1,6)<>'000000') and (copy(mesmesprotocolo.asstring,1,6)<>'')  then
+              if (nrt.RecordCount>0) {and (copy(mesmesprotocolo.asstring,1,6)<>'000000') and (copy(mesmesprotocolo.asstring,1,6)<>'')}  then
               begin
-                showmessage('ja tem dandos em inr');
-
 
                 inr.close;
                 inr.ParamByName('itmchave').AsString:=itmitmchave.AsString;
                 inr.Open;
 
-                //  Informações do tributo: IBS / CBS
-
-                IBSCBS.CST := StrToCSTIBSCBS(inr.FieldByName('cst_ibscbs').AsString);
-                IBSCBS.cClassTrib :=inr.FieldByName('class_trib_ibscbs').AsString;
-                IBSCBS.gIBSCBS.vBC :=inr.FieldByName('base_calc_ibscbs').AsCurrency;
-
-                TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
-
-
-                // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
-                IBSCBS.gIBSCBS.gIBSUF.pIBSUF :=inr.FieldByName('perc_ibs_uf').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_uf').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=inr.FieldByName('valor_ibs_uf').AsCurrency;
-                TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
-
-
-                IBSCBS.gIBSCBS.gIBSMun.pIBSMun :=inr.FieldByName('perc_ibs_mun').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_mun').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency;
-                IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=inr.FieldByName('valor_ibs_mun').AsCurrency;
-                TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
-
-                IBSCBS.gIBSCBS.gCBS.pCBS :=inr.FieldByName('perc_cbs').AsCurrency;
-                IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq :=inr.FieldByName('red_aliq_cbs').AsCurrency;
-                IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_cbs').AsCurrency;
-                IBSCBS.gIBSCBS.gCBS.vCBS :=inr.FieldByName('valor_cbs').AsCurrency;
-
-                TotalIBSCBSgIBSCBSgCBSvCBS:=SimpleRoundTo(TotalIBSCBSgIBSCBSgCBSvCBS+IBSCBS.gIBSCBS.gCBS.vCBS,-2);
-
-                IBSCBS.gIBSCBS.vIBS := inr.FieldByName('total_ibs_ufmun').AsCurrency;
-
-              end
-              else
-              begin
-
-               showmessage('vai applicar as informações salvar em nrt');
-
-                //  Informações do tributo: IBS / CBS
-
-                IBSCBS.CST :=  StrToCSTIBSCBS(nrtnrtcstibscbs.AsString); // TCSTIBSCBS.cst000;
-
-                IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( (self.itmitmtotal.AsFloat-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
-
-                TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
-
-
-                //  CALCULOS IBS ESTADUAL
-                // IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 100;
-                // IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
-                // IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 100;
-
-
-                // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
-                IBSCBS.gIBSCBS.gIBSUF.pIBSUF := nrtnrtibs_aliquota_estadual.AsFloat;
-                if nrtnrtreducao_ibs.AsFloat>0 then
+                if inr.RecordCount>0 then
                 begin
-                  IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq :=nrtnrtreducao_ibs.AsFloat  ;
-                  IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := RoundTo(nrtnrtibs_aliquota_estadual.AsFloat-((nrtnrtibs_aliquota_estadual.AsFloat)*((nrtnrtreducao_ibs.AsFloat)/100)),-2);
-                  IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet/100),-2);
+
+                  //  Informações do tributo: IBS / CBS
+
+                  IBSCBS.CST := StrToCSTIBSCBS(inr.FieldByName('cst_ibscbs').AsString);
+                  IBSCBS.cClassTrib :=inr.FieldByName('class_trib_ibscbs').AsString;
+                  IBSCBS.gIBSCBS.vBC :=inr.FieldByName('base_calc_ibscbs').AsCurrency;
+
+                  TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
+
+
+                  // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
+                  IBSCBS.gIBSCBS.gIBSUF.pIBSUF :=inr.FieldByName('perc_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=inr.FieldByName('valor_ibs_uf').AsCurrency;
+                  TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
+
+
+                  IBSCBS.gIBSCBS.gIBSMun.pIBSMun :=inr.FieldByName('perc_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=inr.FieldByName('valor_ibs_mun').AsCurrency;
+                  TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
+
+                  IBSCBS.gIBSCBS.gCBS.pCBS :=inr.FieldByName('perc_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq :=inr.FieldByName('red_aliq_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.vCBS :=inr.FieldByName('valor_cbs').AsCurrency;
+
+                  TotalIBSCBSgIBSCBSgCBSvCBS:=SimpleRoundTo(TotalIBSCBSgIBSCBSgCBSvCBS+IBSCBS.gIBSCBS.gCBS.vCBS,-2);
+
+                  IBSCBS.gIBSCBS.vIBS := inr.FieldByName('total_ibs_ufmun').AsCurrency;
+
                 end
                 else
                 begin
-                  IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSUF.pIBSUF /100),-2);
+
+
+
+                  //  Informações do tributo: IBS / CBS
+
+                  IBSCBS.CST :=  StrToCSTIBSCBS(nrtnrtcstibscbs.AsString); // TCSTIBSCBS.cst000;
+                  IBSCBS.cClassTrib := nrtnrtcodigo.AsString;
+                  IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( (self.itmitmtotal.AsFloat-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
+
+                  TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
+
+
+                  // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
+                  IBSCBS.gIBSCBS.gIBSUF.pIBSUF := nrtnrtibs_aliquota_estadual.AsFloat;
+                  if nrtnrtreducao_ibs.AsFloat>0 then
+                  begin
+                    IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq :=nrtnrtreducao_ibs.AsFloat  ;
+                    IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := RoundTo(nrtnrtibs_aliquota_estadual.AsFloat-((nrtnrtibs_aliquota_estadual.AsFloat)*((nrtnrtreducao_ibs.AsFloat)/100)),-2);
+                    IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet/100),-2);
+                  end
+                  else
+                  begin
+                    IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSUF.pIBSUF /100),-2);
+                  end;
+                  TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
+
+
+                  IBSCBS.gIBSCBS.gIBSMun.pIBSMun := nrtnrtibs_aliquota_municipal.AsFloat;
+                  if nrtnrtreducao_ibs.AsFloat>0 then
+                  begin
+                    IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq :=nrtnrtreducao_ibs.AsFloat  ;
+                    IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := RoundTo(nrtnrtibs_aliquota_municipal.AsFloat-(nrtnrtibs_aliquota_municipal.AsFloat*(nrtnrtreducao_ibs.AsFloaT/100)),-2);
+                    IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet/100),-2);
+                  end
+                  else
+                  begin
+                    IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSMun.pIBSMun/100),-2);
+                  end;
+
+                  TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
+
+                  IBSCBS.gIBSCBS.gCBS.pCBS := nrtnrtcbs_aliquota.AsFloat;
+                  if nrtnrtreducao_ibs.AsFloat>0 then
+                  begin
+                    IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := nrtnrtreducao_cbs.AsFloat;
+                    IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet :=SimpleRoundTo(nrtnrtcbs_aliquota.AsFloat-(nrtnrtcbs_aliquota.AsFloat*(nrtnrtreducao_cbs.AsFloat/100)),-2);
+                    IBSCBS.gIBSCBS.gCBS.vCBS :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet/100),-2); // total do item
+                  end
+                  else
+                  begin
+                    IBSCBS.gIBSCBS.gCBS.vCBS :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gCBS.pCBS/100),-2); // total do item
+                  end;
+
+                  TotalIBSCBSgIBSCBSgCBSvCBS:=SimpleRoundTo(TotalIBSCBSgIBSCBSgCBSvCBS+IBSCBS.gIBSCBS.gCBS.vCBS,-2);
+
+                  IBSCBS.gIBSCBS.vIBS := SimpleRoundTo( IBSCBS.gIBSCBS.gIBSMun.vIBSMun +IBSCBS.gIBSCBS.gIBSUF.vIBSUF, -2); // aqui deve dar 0.01
+
+                  inr.close;
+                  inr.ParamByName('itmchave').AsString:=itmitmchave.AsString;
+                  inr.Open;
+
+                  if inr.IsEmpty then
+                    inr.Append
+                  else
+                    inr.Edit;
+                  //  Informações do tributo: IBS / CBS
+
+                  inr.FieldByName('itmchave').AsInteger:=itmitmchave.AsInteger;
+
+                  inr.FieldByName('cst_ibscbs').AsString:=CSTIBSCBSToStr(IBSCBS.CST);
+                  inr.FieldByName('class_trib_ibscbs').AsString:=IBSCBS.cClassTrib ;
+                  inr.FieldByName('base_calc_ibscbs').AsCurrency:=IBSCBS.gIBSCBS.vBC ;
+
+
+                  // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
+                  inr.FieldByName('perc_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.pIBSUF ;
+                  inr.FieldByName('red_aliq_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq ;
+                  inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet ;
+                  inr.FieldByName('valor_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.vIBSUF;
+
+
+                  inr.FieldByName('perc_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.pIBSMun ;
+                  inr.FieldByName('red_aliq_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq ;
+                  inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet ;
+                  inr.FieldByName('valor_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.vIBSMun ;
+
+                  inr.FieldByName('perc_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.pCBS ;
+                  inr.FieldByName('red_aliq_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq;
+                  inr.FieldByName('aliq_efetiva_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet;
+                  inr.FieldByName('valor_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.vCBS;
+
+                  inr.FieldByName('total_ibs_ufmun').AsCurrency:=IBSCBS.gIBSCBS.vIBS;
+                  inr.Post;
+
                 end;
-                TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
-
-                // CALCULOS IBS MUNICIPAL
-                // IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 0;
-                // IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 0;
-                // IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 100;
-
-
-                IBSCBS.gIBSCBS.gIBSMun.pIBSMun := nrtnrtibs_aliquota_municipal.AsFloat;
-                if nrtnrtreducao_ibs.AsFloat>0 then
-                begin
-                  IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq :=nrtnrtreducao_ibs.AsFloat  ;
-                  IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := RoundTo(nrtnrtibs_aliquota_municipal.AsFloat-(nrtnrtibs_aliquota_municipal.AsFloat*(nrtnrtreducao_ibs.AsFloaT/100)),-2);
-                  IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet/100),-2);
-                end
-                else
-                begin
-                  IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSMun.pIBSMun/100),-2);
-                end;
-
-                TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
-
-                IBSCBS.gIBSCBS.gCBS.pCBS := nrtnrtcbs_aliquota.AsFloat;
-                if nrtnrtreducao_ibs.AsFloat>0 then
-                begin
-                  IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := nrtnrtreducao_cbs.AsFloat;
-                  IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet :=SimpleRoundTo(nrtnrtcbs_aliquota.AsFloat-(nrtnrtcbs_aliquota.AsFloat*(nrtnrtreducao_cbs.AsFloat/100)),-2);
-                  IBSCBS.gIBSCBS.gCBS.vCBS :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet/100),-2); // total do item
-                end
-                else
-                begin
-                  IBSCBS.gIBSCBS.gCBS.vCBS :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gCBS.pCBS/100),-2); // total do item
-                end;
-
-                TotalIBSCBSgIBSCBSgCBSvCBS:=SimpleRoundTo(TotalIBSCBSgIBSCBSgCBSvCBS+IBSCBS.gIBSCBS.gCBS.vCBS,-2);
-
-                IBSCBS.gIBSCBS.vIBS := SimpleRoundTo( IBSCBS.gIBSCBS.gIBSMun.vIBSMun +IBSCBS.gIBSCBS.gIBSUF.vIBSUF, -2); // aqui deve dar 0.01
-
-                inr.close;
-                inr.ParamByName('itmchave').AsString:=itmitmchave.AsString;
-                inr.Open;
-
-                if inr.IsEmpty then
-                  inr.Append
-                else
-                  inr.Edit;
-                //  Informações do tributo: IBS / CBS
-
-                inr.FieldByName('itmchave').AsInteger:=itmitmchave.AsInteger;
-
-                inr.FieldByName('cst_ibscbs').AsString:=CSTIBSCBSToStr(IBSCBS.CST);
-                inr.FieldByName('class_trib_ibscbs').AsString:=IBSCBS.cClassTrib ;
-                inr.FieldByName('base_calc_ibscbs').AsCurrency:=IBSCBS.gIBSCBS.vBC ;
-
-
-                // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
-                inr.FieldByName('perc_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.pIBSUF ;
-                inr.FieldByName('red_aliq_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq ;
-                inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet ;
-                inr.FieldByName('valor_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.vIBSUF;
-
-
-                inr.FieldByName('perc_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.pIBSMun ;
-                inr.FieldByName('red_aliq_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq ;
-                inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet ;
-                inr.FieldByName('valor_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.vIBSMun ;
-
-                inr.FieldByName('perc_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.pCBS ;
-                inr.FieldByName('red_aliq_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq;
-                inr.FieldByName('aliq_efetiva_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet;
-                inr.FieldByName('valor_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.vCBS;
-
-                inr.FieldByName('total_ibs_ufmun').AsCurrency:=IBSCBS.gIBSCBS.vIBS;
-                inr.Post;
-                showmessage('regstro em inr');
               end;
+
             end;
 
 
@@ -4083,7 +4072,6 @@ Begin
 
       // reforma tributaria
 
-
       if ((cfgcrtcodigo.AsInteger>=3) and (cfgcfgapuracaoicm.AsInteger=2) ) or  (cfgcfgmodonfe.AsInteger = 2) then
       begin
 
@@ -4188,13 +4176,6 @@ Begin
             mnr.FieldByName('total_cbs').AsCurrency:=Total.IBSCBSTot.gCBS.vCBS;
             mnr.FieldByName('credito_presumido_cbs').AsCurrency:=0;
             mnr.Post;
-
-
-
-
-
-
-
           end;
 
         end;
@@ -6664,7 +6645,7 @@ Begin
 
     If not FileExists(vpNomeArquivoNFCe) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
       begin
         vpNomeArquivoNFCe := BaixaXMLServidor(IPServidorArquivos, vpNomeArquivoNFCe);
       end;

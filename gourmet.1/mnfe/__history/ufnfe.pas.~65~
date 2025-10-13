@@ -182,7 +182,6 @@ Type
     toetoecodigo: TIntegerField;
     itmpunqtdtribtotal: TFloatField;
     itmunisimbolotrib: TStringField;
-    itmproanpcodigo: TIntegerField;
     plstatus: TPanel;
     consultarEvento: TTabSheet;
     Memo8: TMemo;
@@ -474,7 +473,6 @@ Type
     nrtcsFcodigo: TStringField;
     nrtcofins_aliquota: TFloatField;
     nrtnrtclassificacao_is: TStringField;
-    nrtnrtclassificacao_ibscbs: TStringField;
     nrtnrtclassificacao_cpresumido: TStringField;
     nrtnrtibs_aliquota_estadual: TFloatField;
     nrtnrtibs_aliquota_municipal: TFloatField;
@@ -487,6 +485,9 @@ Type
     itmnrtcodigo: TStringField;
     cfgcfgapuracaoicm: TIntegerField;
     itmitmtotal: TCurrencyField;
+    inr: TUniQuery;
+    mnr: TUniQuery;
+    mesmesprotocolo: TStringField;
     Procedure FormClose(Sender: TObject; Var Action: TCloseAction);
     Procedure bconfirmaClick(Sender: TObject);
     Procedure bcancelaClick(Sender: TObject);
@@ -520,8 +521,6 @@ Type
     Procedure mReimprimirNFe;
     Procedure CarregaNFe(narq: String);
     Procedure ImprimeNFe;
-    Procedure GeraXML(taModo: TpcnTipoAmbiente = taProducao);
-    Procedure ReGeraXML(taModo: TpcnTipoAmbiente = taProducao);
 
     Function validaentidade: Boolean;
     Function validatransporte: Boolean;
@@ -548,8 +547,6 @@ Type
     function processa: Boolean;
     procedure ajustafuncao;
     procedure AjustaCaminhoGeralNF(Data: TDate);
-    procedure mGeraXML;
-    procedure mReGeraXML;
     procedure SalvarLogErro(eMessage, eStackTrace: String);
     procedure mInutilizarNumeroNFeDireto;
     procedure mManifDestDesconhecimento;
@@ -840,11 +837,6 @@ begin
       ReimprirEvento;
     rnfConsultaEvento:
       mConsultaEventoNFe;
-    rnfGerarXML:
-      mGeraXML;
-    rnfReGerarXML:
-      mReGeraXML;
-
     rnfInutilizar:
       mInutilizarNumeroNFe;
     rnfStatusSefaz:
@@ -1030,14 +1022,14 @@ begin
 
         itm.Edit;
         itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
         itmitmbpis.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency);
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
 
         itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
         itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency);
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
         itm.post;
       end
       else
@@ -1366,9 +1358,9 @@ begin
         begin
 
           itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
+            itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
           itmitmbpis.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency);
+            itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
         end
         else
         begin
@@ -1379,9 +1371,9 @@ begin
         if itmitmaliqcofins.AsFloat > 0 then
         begin
           itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
+            itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
           itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency);
+            itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
 
         end
         else
@@ -3292,9 +3284,6 @@ Begin
 
             // Reforma Tributária
 
-            if (toettocodigo.AsInteger = ttoVenda) or (toettocodigo.AsInteger = ttoOutros) then
-            begin
-
             if ((cfgcrtcodigo.AsInteger>=3) and (cfgcfgapuracaoicm.AsInteger=2) ) or  (cfgcfgmodonfe.AsInteger = 2) then
             begin
 
@@ -3302,56 +3291,63 @@ Begin
               nrt.ParamByName('nrtcodigo').AsString:=itmnrtcodigo.AsString;
               nrt.Open;
 
-
-              if nrt.RecordCount=1 then
+              if (nrt.RecordCount>0) and (copy(mesmesprotocolo.asstring,1,6)<>'000000') and (copy(mesmesprotocolo.asstring,1,6)<>'')  then
               begin
 
-               {
-                 Esse campo vDevTrib deve ser preenchido quando houver:
-                 Devolução de mercadorias → para registrar a parcela do
-                   IBS que está sendo devolvida (por UF de destino).
-                 Operações de estorno/desfazimento de operação tributada → quando é
-                 preciso abater o valor do IBS devido anteriormente.
-                 Ou seja:
-                 NF de devolução (cliente devolve mercadoria → o fornecedor
-                 precisa destacar o IBS devolvido).
-                 Cancelamentos ou ajustes em que a legislação obrigue a registrar a
-                 devolução/estorno do tributo.
+                inr.close;
+                inr.ParamByName('itmchave').AsString:=itmitmchave.AsString;
+                inr.Open;
 
-               }
+                if inr.RecordCount>0 then
+                begin
 
+                  //  Informações do tributo: IBS / CBS
 
-                // Informações do tributo: Imposto Seletivo
-                // ISel.CSTIS := StrToCSTIS( nrtnrtclassificacao_is.AsString) ;
-                // ISel.cClassTribIS := '000001';
-                // ISel.vBCIS := 100;
-                // ISel.pIS := 5;
-                // ISel.pISEspec := 5;
-                // ISel.uTrib := 'UNIDAD';
-                // ISel.qTrib := 10;
-                // ISel.vIS := 100;
+                  IBSCBS.CST := StrToCSTIBSCBS(inr.FieldByName('cst_ibscbs').AsString);
+                  IBSCBS.cClassTrib :=inr.FieldByName('class_trib_ibscbs').AsString;
+                  IBSCBS.gIBSCBS.vBC :=inr.FieldByName('base_calc_ibscbs').AsCurrency;
+
+                  TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
 
 
+                  // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
+                  IBSCBS.gIBSCBS.gIBSUF.pIBSUF :=inr.FieldByName('perc_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=inr.FieldByName('valor_ibs_uf').AsCurrency;
+                  TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
 
 
-                //  Informações do tributo: IBS / CBS
+                  IBSCBS.gIBSCBS.gIBSMun.pIBSMun :=inr.FieldByName('perc_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq :=inr.FieldByName('red_aliq_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency;
+                  IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=inr.FieldByName('valor_ibs_mun').AsCurrency;
+                  TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
+
+                  IBSCBS.gIBSCBS.gCBS.pCBS :=inr.FieldByName('perc_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq :=inr.FieldByName('red_aliq_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet :=inr.FieldByName('aliq_efetiva_cbs').AsCurrency;
+                  IBSCBS.gIBSCBS.gCBS.vCBS :=inr.FieldByName('valor_cbs').AsCurrency;
+
+                  TotalIBSCBSgIBSCBSgCBSvCBS:=SimpleRoundTo(TotalIBSCBSgIBSCBSgCBSvCBS+IBSCBS.gIBSCBS.gCBS.vCBS,-2);
+
+                  IBSCBS.gIBSCBS.vIBS := inr.FieldByName('total_ibs_ufmun').AsCurrency;
+
+                end
+                else
+                begin
 
 
-                IBSCBS.CST :=  StrToCSTIBSCBS(nrtnrtcstibscbs.AsString); // TCSTIBSCBS.cst000;
-                IBSCBS.cClassTrib :=nrtnrtclassificacao_ibscbs.AsString;
-                IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( (self.itmitmtotal.AsFloat-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
 
-                TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
+                  //  Informações do tributo: IBS / CBS
 
+                  IBSCBS.CST :=  StrToCSTIBSCBS(nrtnrtcstibscbs.AsString); // TCSTIBSCBS.cst000;
+                  IBSCBS.cClassTrib := nrtnrtcodigo.AsString;
+                  IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( (self.itmitmtotal.AsFloat-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
 
-                //  CALCULOS IBS ESTADUAL
-                // IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 100;
-                // IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
-                // IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 100;
+                  TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
 
 
-               { if nrtnrtreducao_ibs.AsFloat>0 then
-                begin}
                   // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
                   IBSCBS.gIBSCBS.gIBSUF.pIBSUF := nrtnrtibs_aliquota_estadual.AsFloat;
                   if nrtnrtreducao_ibs.AsFloat>0 then
@@ -3364,16 +3360,7 @@ Begin
                   begin
                     IBSCBS.gIBSCBS.gIBSUF.vIBSUF :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSUF.pIBSUF /100),-2);
                   end;
-
-
-
-
                   TotalIBSCBSgIBSCBSgIBSUFvIBSUF:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSUFvIBSUF+IBSCBS.gIBSCBS.gIBSUF.vIBSUF,-2);
-
-                  // CALCULOS IBS MUNICIPAL
-                  // IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 0;
-                  // IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 0;
-                  // IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 100;
 
 
                   IBSCBS.gIBSCBS.gIBSMun.pIBSMun := nrtnrtibs_aliquota_municipal.AsFloat;
@@ -3388,16 +3375,7 @@ Begin
                     IBSCBS.gIBSCBS.gIBSMun.vIBSMun :=SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gIBSMun.pIBSMun/100),-2);
                   end;
 
-
-
                   TotalIBSCBSgIBSCBSgIBSMunvIBSMun:=SimpleRoundTo(TotalIBSCBSgIBSCBSgIBSMunvIBSMun+IBSCBS.gIBSCBS.gIBSMun.vIBSMun,-2);
-
-
-                  // CALCULOS CBS
-                  //  IBSCBS.gIBSCBS.gCBS.gDif.pDif := 0;
-                  //  IBSCBS.gIBSCBS.gCBS.gDif.vDif := 0;
-                  //  IBSCBS.gIBSCBS.gCBS.gDevTrib.vDevTrib := 0;
-
 
                   IBSCBS.gIBSCBS.gCBS.pCBS := nrtnrtcbs_aliquota.AsFloat;
                   if nrtnrtreducao_ibs.AsFloat>0 then
@@ -3415,94 +3393,50 @@ Begin
 
                   IBSCBS.gIBSCBS.vIBS := SimpleRoundTo( IBSCBS.gIBSCBS.gIBSMun.vIBSMun +IBSCBS.gIBSCBS.gIBSUF.vIBSUF, -2); // aqui deve dar 0.01
 
+                  inr.close;
+                  inr.ParamByName('itmchave').AsString:=itmitmchave.AsString;
+                  inr.Open;
 
-              {  end
-                else
-                begin
+                  if inr.IsEmpty then
+                    inr.Append
+                  else
+                    inr.Edit;
+                  //  Informações do tributo: IBS / CBS
 
+                  inr.FieldByName('itmchave').AsInteger:=itmitmchave.AsInteger;
 
-                IBSCBS.gIBSCBS.gTribRegular.CSTReg :=StrToCSTIBSCBS(nrtnrtcstibscbs.AsString);
-                IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := nrtnrtclassificacao_ibscbs.AsString;
-
-                IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := nrtnrtibs_aliquota_estadual.AsFloat  ;
-                IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF :=SimpleRoundTo( IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF /100),-2);
-
-                TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSUF:=TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSUF+IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF;
-
-                IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := nrtnrtibs_aliquota_municipal.AsFloat;
-                IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSMun := SimpleRoundTo( IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun/100),-2);
-
-                TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSMun:=TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSMun+IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSMun;
-
-                IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := nrtnrtcbs_aliquota.AsFloat;
-                IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := SimpleRoundTo(IBSCBS.gIBSCBS.vBC*(IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS/100),-2);
-
-                TotalIBSCBSgIBSCBSgTribRegularvTribRegCBS:=TotalIBSCBSgIBSCBSgTribRegularvTribRegCBS+IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS;
-
-                IBSCBS.gIBSCBS.vBC := self.itmitmtotal.AsFloat;
-
-              //  IBSCBS.gIBSCBS.vIBS := SimpleRoundTo( IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSMun
-              //                         +IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF, -2); // aqui deve dar 0.01
+                  inr.FieldByName('cst_ibscbs').AsString:=CSTIBSCBSToStr(IBSCBS.CST);
+                  inr.FieldByName('class_trib_ibscbs').AsString:=IBSCBS.cClassTrib ;
+                  inr.FieldByName('base_calc_ibscbs').AsCurrency:=IBSCBS.gIBSCBS.vBC ;
 
 
+                  // pAliqEfet=0,0600%×(1−0,40)=0,0600%×0,60
+                  inr.FieldByName('perc_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.pIBSUF ;
+                  inr.FieldByName('red_aliq_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq ;
+                  inr.FieldByName('aliq_efetiva_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet ;
+                  inr.FieldByName('valor_ibs_uf').AsCurrency:=IBSCBS.gIBSCBS.gIBSUF.vIBSUF;
 
 
-                // Crédito Presumido
-                // IBSCBS.gIBSCBS.gIBSCredPres.cCredPres :=TcCredPres.cpNenhum;
-                // IBSCBS.gIBSCBS.gIBSCredPres.pCredPres := 5;
-                // IBSCBS.gIBSCBS.gIBSCredPres.vCredPres := 100;
-                // IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus := 100;
+                  inr.FieldByName('perc_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.pIBSMun ;
+                  inr.FieldByName('red_aliq_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq ;
+                  inr.FieldByName('aliq_efetiva_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet ;
+                  inr.FieldByName('valor_ibs_mun').AsCurrency:=IBSCBS.gIBSCBS.gIBSMun.vIBSMun ;
 
-                // IBSCBS.gIBSCBS.gCBSCredPres.cCredPres := cp01;
-                // IBSCBS.gIBSCBS.gCBSCredPres.pCredPres := 5;
-                // IBSCBS.gIBSCBS.gCBSCredPres.vCredPres := 100;
-                // IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus := 100;
+                  inr.FieldByName('perc_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.pCBS ;
+                  inr.FieldByName('red_aliq_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq;
+                  inr.FieldByName('aliq_efetiva_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet;
+                  inr.FieldByName('valor_cbs').AsCurrency:=IBSCBS.gIBSCBS.gCBS.vCBS;
 
-                // Tipo Tributação Compra Governamental
-                // IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
-                // IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF := 50;
-                // IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSMun := 5;
-                // IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSMun := 50;
-                // IBSCBS.gIBSCBS.gTribCompraGov.pAliqCBS := 5;
-                // IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
+                  inr.FieldByName('total_ibs_ufmun').AsCurrency:=IBSCBS.gIBSCBS.vIBS;
+                  inr.Post;
 
-                //  Informações do tributo: IBS / CBS em operações com imposto monofásico
-                // IBSCBS.gIBSCBSMono.qBCMono := 1;
-                // IBSCBS.gIBSCBSMono.adRemIBS := 5;
-                // IBSCBS.gIBSCBSMono.adRemCBS := 5;
-                // IBSCBS.gIBSCBSMono.vIBSMono := 100;
-                // IBSCBS.gIBSCBSMono.vCBSMono := 100;
-
-                // IBSCBS.gIBSCBSMono.qBCMonoReten := 1;
-                // IBSCBS.gIBSCBSMono.adRemIBSReten := 5;
-                // IBSCBS.gIBSCBSMono.vIBSMonoReten := 100;
-                // IBSCBS.gIBSCBSMono.vCBSMonoReten := 100;
-
-                // IBSCBS.gIBSCBSMono.qBCMonoRet := 1;
-                // IBSCBS.gIBSCBSMono.adRemIBSRet := 5;
-                // IBSCBS.gIBSCBSMono.vIBSMonoRet := 100;
-                // IBSCBS.gIBSCBSMono.vCBSMonoRet := 100;
-
-                // IBSCBS.gIBSCBSMono.pDifIBS := 5;
-                // IBSCBS.gIBSCBSMono.vIBSMonoDif := 100;
-                // IBSCBS.gIBSCBSMono.pDifCBS := 5;
-                // IBSCBS.gIBSCBSMono.vCBSMonoDif := 100;
-
-                // IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
-                // IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
-                end;}
+                end;
               end;
-            end;
 
             end;
-
-
-
 
           End;
 
-          if trim(itmproanpcodigo.AsString) = '' then
-          begin
 
             If self.itmitmaliqipi.AsFloat <> 0 Then
             Begin
@@ -3537,7 +3471,7 @@ Begin
               // ipi.CST := ipi01;
             End;
 
-          end;
+
           if itmcspcodigo.AsString = '' then
           begin
             pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
@@ -3820,7 +3754,120 @@ Begin
     end;
     }
 
-   Total.ICMSTot.vNF := mesmestotal.AsCurrency;
+    // reforma tributaria
+// reforma tributaria
+
+      if ((cfgcrtcodigo.AsInteger>=3) and (cfgcfgapuracaoicm.AsInteger=2) ) or  (cfgcfgmodonfe.AsInteger = 2) then
+      begin
+
+        mnr.Close;
+        mnr.ParamByName('meschave').AsInteger:=mesmeschave.AsInteger;
+        mnr.Open;
+
+        if (mnr.RecordCount>0) and (copy(mesmesprotocolo.asstring,1,6)<>'000000')  and (copy(mesmesprotocolo.asstring,1,6)<>'')  then
+        begin
+          // carrega os dados de uma nota ja emitida e autorizada
+
+          Total.IBSCBSTot.vBCIBSCBS :=mnr.FieldByName('total_base_ibscbs').AsCurrency;
+
+          Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF :=mnr.FieldByName('total_ibs_uf').AsCurrency;
+          Total.IBSCBSTot.gIBS.gIBSUFTot.vDif := 0;
+          Total.IBSCBSTot.gIBS.gIBSUFTot.vDevTrib := 0;
+
+
+          Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun :=mnr.FieldByName('total_ibs_mun').AsCurrency;
+          Total.IBSCBSTot.gIBS.gIBSMunTot.vDif := 0;
+          Total.IBSCBSTot.gIBS.gIBSMunTot.vDevTrib := 0;
+
+          // RESUMO IBS
+
+          Total.IBSCBSTot.gIBS.vIBS :=mnr.FieldByName('credito_presumido_ibs').AsCurrency;
+          Total.IBSCBSTot.gIBS.vCredPres := 0;
+          Total.IBSCBSTot.gIBS.vCredPresCondSus := 0;
+
+
+          // CBS
+          Total.IBSCBSTot.gCBS.vDif := 0;
+          Total.IBSCBSTot.gCBS.vDevTrib := 0;
+
+          Total.IBSCBSTot.gCBS.vCBS :=mnr.FieldByName('total_cbs').AsCurrency;
+
+          Total.IBSCBSTot.gCBS.vCredPres := 0;
+          Total.IBSCBSTot.gCBS.vCredPresCondSus := 0;
+
+        end
+        else
+        begin
+          // calculo para emissão da nota
+
+
+          if nrt.RecordCount>0 then
+          begin
+
+            // Total.ISTot.vIS := 100;
+
+            Total.IBSCBSTot.vBCIBSCBS := TotalIBSCBSgIBSCBSvBC;
+
+            // UF E MUN
+
+            if TotalIBSCBSgIBSCBSgIBSUFvIBSUF>0 then
+              Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF := TotalIBSCBSgIBSCBSgIBSUFvIBSUF
+            else
+              Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF := TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSUF;
+
+            Total.IBSCBSTot.gIBS.gIBSUFTot.vDif := 0;
+            Total.IBSCBSTot.gIBS.gIBSUFTot.vDevTrib := 0;
+
+
+            if TotalIBSCBSgIBSCBSgIBSMunvIBSMun>0 then
+              Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun :=TotalIBSCBSgIBSCBSgIBSMunvIBSMun
+            else
+              Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun := TotalIBSCBSgIBSCBSgTribRegularvTribRegIBSMun;
+
+            Total.IBSCBSTot.gIBS.gIBSMunTot.vDif := 0;
+            Total.IBSCBSTot.gIBS.gIBSMunTot.vDevTrib := 0;
+
+            // RESUMO IBS
+
+            Total.IBSCBSTot.gIBS.vIBS := Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF+Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun;
+            Total.IBSCBSTot.gIBS.vCredPres := 0;
+            Total.IBSCBSTot.gIBS.vCredPresCondSus := 0;
+
+
+            // CBS
+            Total.IBSCBSTot.gCBS.vDif := 0;
+            Total.IBSCBSTot.gCBS.vDevTrib := 0;
+
+            if TotalIBSCBSgIBSCBSgCBSvCBS>0 then
+              Total.IBSCBSTot.gCBS.vCBS :=TotalIBSCBSgIBSCBSgCBSvCBS
+            else
+              Total.IBSCBSTot.gCBS.vCBS :=TotalIBSCBSgIBSCBSgTribRegularvTribRegCBS;
+
+            Total.IBSCBSTot.gCBS.vCredPres := 0;
+            Total.IBSCBSTot.gCBS.vCredPresCondSus := 0;
+
+
+            if mnr.IsEmpty then
+              mnr.Append
+            else
+              mnr.Edit;
+
+            mnr.FieldByName('meschave').AsInteger:=mesmeschave.AsInteger;
+            mnr.FieldByName('total_base_ibscbs').AsCurrency:=Total.IBSCBSTot.vBCIBSCBS ;
+            mnr.FieldByName('total_ibs_uf').AsCurrency:=Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF;
+            mnr.FieldByName('total_ibs_mun').AsCurrency:=Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun;
+            mnr.FieldByName('total_ibs_ufmun').AsCurrency:=Total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF+Total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun;
+            mnr.FieldByName('credito_presumido_ibs').AsCurrency:=Total.IBSCBSTot.gIBS.vIBS;
+            mnr.FieldByName('total_cbs').AsCurrency:=Total.IBSCBSTot.gCBS.vCBS;
+            mnr.FieldByName('credito_presumido_cbs').AsCurrency:=0;
+            mnr.Post;
+
+          end;
+
+        end;
+      end;
+
+    Total.ICMSTot.vNF := mesmestotal.AsCurrency;
 
     Total.ICMSTot.vPIS := vltotpis;
     Total.ICMSTot.vCOFINS := vltotcofins;
@@ -4368,17 +4415,7 @@ Begin
         consulta.ExecSQL;
 
 
-         if cfgcfgmodonfe.AsInteger = 2 then
-         begin
-          // ImprimeNFe;
-          // GeraXML(taHomologacao)
-         end
-         else if cfgcfgmodonfe.AsInteger = 1 then
-         begin
-          // ImprimeNFe;
-          // GeraXML(taProducao);
-         end;
-
+         
         CheckBox3.Checked := True;
         atualizatela;
 
@@ -4473,7 +4510,7 @@ Begin
         mes.Params[1].AsInteger := Acesso.Filial;
         mes.Open;
 
-        GeraXML;
+        // por que  GeraXML;
 
         ACBrNFeNotas.Enviar(mesmeschave.AsInteger, False, True, False);
 
@@ -4702,3187 +4739,6 @@ begin
   end;
 end;
 
-Procedure Tfnfe.GeraXML(taModo: TpcnTipoAmbiente = taProducao);
-Var
-  it: Integer;
-  vtBC: Double;
-
-  vtICMS: Double;
-  vtBCST: Double;
-  vtICMSST: Double;
-  vtipi: Double;
-  vCST: String;
-
-  vInfComplTEF, vInfComplGeral, vSeparadorGeral: String;
-  vInfComplCF, vSeparadorCF: String;
-  vInfComplNF, vSeparadorNF: String;
-  vInfComplNFP, vSeparadorNFP: String;
-  vInfComplNFe, vSeparadorNFe: String;
-
-  vxdesc, vxtot, vxliq: Double;
-
-  vAnoMesNFe: String;
-
-  vTestaInscEst: String;
-
-  vErro: String;
-  vMsgRetorno: String;
-
-  vNumeroNFe: Integer;
-  vChaveNFe: String;
-  vProtocoloNFe: String;
-
-  (* CST e CSOSN *)
-  vlCSTIcmsOK: Boolean;
-  vlCSTIcms: TpcnCSTIcms;
-
-  vlCSOSNIcmsOK: Boolean;
-  vlCSOSNIcms: TpcnCSOSNIcms;
-
-  (* Totais Carga Tributária *)
-  vlTotTrib: Double;
-  vlTotTribEst: Double;
-  vlMensagemCargaTrib: String;
-
-  (* Retornos da SEFAZ *)
-  vCStat: Integer;
-  vXMotivo: String;
-
-  (* Utilizados para chamada do mvpr - Validação de Produtos *)
-  // ValidaProdutos: TValidaProdutos;
-  vPodeProdutos: Boolean;
-  Pack: HModule;
-  i: Integer;
-  vlNomeArquivoNFe: string;
-  ok: Boolean;
-
-  vHora: string;
-  vDia: String;
-  vltotpis: Double;
-  vltotcofins: Double;
-  vlTotalFrete: Double;
-  vxser: Double;
-  vlTotvFCP: Double;
-  vlTotvFCPST: Double;
-  vlQtdTributaria: Double;
-  vlTemANP: Boolean;
-  vlorigCombl: TorigCombCollectionItem;
-
-var
-  s: String;
-  iValue, iCode: Integer;
-
-  vlMensagemICM: string;
-
-Begin
-  vlTotalFrete := 0;
-
-  vlTotvFCP := 0;
-  vlTotvFCPST := 0;
-
-  vxdesc := 0;
-  vxtot := 0;
-  vxliq := 0;
-  vltotpis := 0;
-  vltotcofins := 0;
-  vxser := 0;
-
-  //
-  // ****** Carrega consulta da tabela mes e itm ********
-  //
-
-  mes.Close;
-  mes.Params[0].AsString := vpMesChave;
-  mes.Params[1].AsInteger := Acesso.Filial;
-  mes.Open;
-
-  itm.Close;
-  itm.Params[0].AsString := vpMesChave;
-  itm.Params[1].AsInteger := Acesso.Filial;
-  itm.Open;
-
-
-  //
-  // Carrega Operação e Entidade
-  //
-
-  toe.Close;
-  toe.SQL.Text := 'SELECT ttecodigo, toeidentificacao, toecodigo, ttocodigo,toedescricao,cstnormal,cstcodigo FROM toe WHERE toecodigo = ' +
-    mestoecodigo.AsString;
-  toe.Open;
-
-  etd.Close;
-  etd.ParamByName('etdcodigo').AsInteger := mesetdcodigo.AsInteger;
-  etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
-  etd.Open;
-
-  AjustaObservacoes;
-
-  CheckBox1.Checked := True;
-  atualizatela;
-
-
-  //
-  // ***** Inicia GERAÇÃO da NFe *****
-  //
-
-  ACBrNFeNotas.NotasFiscais.Clear;
-
-  ACBrNFeDANFEFR.NumCopias := 1;
-
-
-  If FileExists(ExtractFilePath(Application.ExeName) + 'logonfe.jpg') Then
-  begin
-    ACBrNFeDANFEFR.Logo := ExtractFilePath(Application.ExeName) + 'logonfe.jpg';
-    ACBrNFeDANFEFR.ExpandeLogoMarca := True;
-  end;
-
-  Try
-
-    With ACBrNFeNotas.NotasFiscais.add.NFe Do
-    Begin
-
-      ide.indIntermed := iiSemOperacao;
-
-      infRespTec.cnpj := '14477548000131';
-      infRespTec.email := 'Mizio@Miziosisemas.com.br';
-      infRespTec.xContato := 'Mizio Sistemas';
-      infRespTec.fone := '6635442765';
-
-      (*
-        *
-        ********* Identificação da NFe - IDE ********
-        *
-      *)
-
-      ide.cUF := cfgufscodigo.AsInteger;
-      // Ide.cNF -> Código da NFe definido por último.
-
-      ide.natOp := toetoeidentificacao.AsString;
-
-      case mestfpcodigo.AsInteger of
-        0:
-          ide.indPag := ipVista;
-        1:
-          ide.indPag := ipPrazo;
-        9:
-          ide.indPag := ipOutras;
-      else
-        ide.indPag := ipOutras;
-      end;
-
-      vHora := agora(Application, zcone);
-      vDia := hoje(Application, zcone);
-
-      fnfe.vpDataAtual := strtodatetime(formatdatetime('dd/mm/yyyy', strtodate(vDia)) + ' ' + formatdatetime('hh:mm:ss', strtodatetime(vHora)));
-
-      ide.modelo := 55;
-      ide.serie := cfgcfgserienfe.AsInteger;
-
-      // Ide.cNF -> Número da NFe definido por último.
-      ide.dEmi := vpDataAtual;
-      ide.dSaiEnt := strtodatetime(agora(Application, zcone));
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-        if not etd.Active then
-        begin
-          etd.Close;
-          etd.ParamByName('etdcodigo').AsInteger := mesetdcodigo.AsInteger;
-          etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
-          etd.Open;
-
-        end;
-
-        if etdtcbcodigo.AsInteger = 2 then
-        begin
-          if (cfgatvcodigo.AsInteger = atvrestaurante) then
-          begin
-
-            if cfgcfgpresencialtoedestino.AsInteger = 1 then
-            begin
-              ide.idDest := doInterestadual;
-              Transp.modFrete := mfSemFrete;
-            end
-            else
-            begin
-              ide.idDest := doInterna;
-            end;
-          end
-          else
-          begin
-            if ide.indPres = pcPresencial then
-            begin
-              if ide.indFinal = cfConsumidorFinal then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                  Transp.modFrete := mfSemFrete;
-                end;
-              end
-              else
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                end;
-
-              end;
-            end
-            else
-            begin
-              ide.idDest := doInterestadual
-            end;
-          end;
-
-        end
-        else
-        begin
-          if (cfgatvcodigo.AsInteger = atvrestaurante) or (cfgatvcodigo.AsInteger = atvmercado) then
-          begin
-
-            if cfgcfgpresencialtoedestino.AsInteger = 1 then
-            begin
-              ide.idDest := doInterestadual;
-              Transp.modFrete := mfSemFrete;
-            end
-            else
-            begin
-              ide.idDest := doInterna;
-            end;
-          end
-          else
-          begin
-            if ide.indPres = pcPresencial then
-            begin
-              if ide.indFinal = cfConsumidorFinal then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                  Transp.modFrete := mfSemFrete;
-                end;
-              end
-              else
-              begin
-                ide.idDest := doInterestadual
-              end;
-            end
-            else
-            begin
-
-              if cfgcfgpresencialtoedestino.AsInteger = 1 then
-              begin
-                ide.idDest := doInterestadual
-              end
-              else
-              begin
-                ide.idDest := doInterna;
-              end;
-
-            end;
-          end;
-
-        end;
-      end
-      else
-      begin
-        ide.idDest := doInterna;
-      end;
-
-      case toettecodigo.AsInteger of
-        0:
-          ide.tpNF := tnEntrada;
-        1:
-          ide.tpNF := tnSaida;
-      end;
-
-      ide.tpImp := tiRetrato;
-      ide.tpEmis := teNormal;
-
-      (* Finalidade da NFe *)
-      case toettocodigo.AsInteger of
-        ttoCompra, ttoVenda, ttoOutros, ttoRemessaRetorno:
-          ide.finNFe := fnNormal;
-        ttoDevolucao:
-          ide.finNFe := fnDevolucao;
-        ttoAjuste:
-          ide.finNFe := fnAjuste;
-        ttoComplemento:
-          ide.finNFe := fnComplementar;
-      end;
-
-      if mesmespararevenda.AsInteger = 1 then
-      begin
-        ide.indFinal := cfNao;
-      end
-      else
-      begin
-        ide.indFinal := cfConsumidorFinal;
-      end;
-
-      if (toettocodigo.AsInteger = ttoVenda) or (toettocodigo.AsInteger = ttoOutros) then
-        ide.indPres := pcPresencial
-      else
-        ide.indPres := pcNao;
-
-if mesoricodigo.AsInteger=3 then  // delivery entrega
-      begin
-        ide.indPres:= pcTeleatendimento;
-        ide.indIntermed:=iiOperacaoSemIntermediador;
-
-      end
-      else if (mesoricodigo.AsInteger=7) or (mesoricodigo.AsInteger=8)  then  // nuc ou aiqfome
-      begin
-
-        ide.indPres:= pcTeleatendimento;
-        ide.indIntermed:=iiOperacaoComIntermediador;
-
-        with infIntermed do
-        begin
-
-         ori.close;
-         ori.ParamByName('oricodigo').AsInteger:=mesoricodigo.AsInteger;
-         ori.Open;
-
-         if orietdcodigo.AsInteger<>0 then
-         begin
-           infIntermed.CNPJ:=SoNumeros(orietddoc1.AsString);
-           infIntermed.idCadIntTran:=orietdapelido.AsString;
-         end;
-
-        end;
-
-      end
-      else    // presencial no salão
-      begin
-        ide.indPres := pcPresencial;
-        ide.indIntermed := iiSemOperacao;
-      end;
-
-
-      ide.cMunFG := cfgcddcodigo.AsInteger;
-
-      if cfgcfgmodonfe.AsInteger = 2 then
-        ide.tpAmb := taHomologacao;
-
-      if cfgcfgmodonfe.AsInteger = 1 then
-      begin
-        ide.tpAmb := taModo;
-      end
-      else
-      begin
-        ide.tpAmb := taHomologacao;
-      end;
-
-      ide.verProc := '21.25.300.1';
-
-      ctd.Close;
-      ctd.Connection := zcone;
-      ctd.Open;
-
-      if not ctd.IsEmpty then
-      begin
-        if (ctdctdcnpj.AsString <> '') and (ctdctdcnpj.AsString <> '0') then
-        begin
-          try
-            if strtofloat(SoNumeros(ctdctdcnpj.AsString)) > 0 then
-            begin
-              autXML.add.CNPJCPF := SoNumeros(ctdctdcnpj.AsString);
-            end;
-          except
-
-          end;
-        end;
-      end;
-      (*
-        *
-        ****** Grupo de Informações de Documentos Referenciados
-        *
-      *)
-      vInfComplCF := '';
-      vSeparadorCF := '';
-
-      vInfComplNF := '';
-      vSeparadorNF := '';
-      vInfComplNFP := '';
-      vSeparadorNFP := '';
-      vInfComplNFe := '';
-      vSeparadorNFe := '';
-
-      dfr.Close;
-      dfr.Params[0].AsString := vpMesChave;
-      dfr.Open;
-
-      (* Documento Fiscal Referenciado *)
-      while not dfr.Eof do
-      begin
-        with ide.NFref.add do
-        begin
-          (* Nota Fiscal Modelo 1/1a *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscal then
-            with RefNF do
-            begin
-              cUF := dfrufscodigo.AsInteger;
-              AAMM := formatdatetime('yymm', dfrdfremissao.AsFloat);
-              cnpj := SomenteNumeros(dfretddoc1.AsString);
-              modelo := dfrtdfcodigo.AsInteger;
-              // serie := dfrdfrserie.AsInteger;
-              serie := cfgcfgserienfe.AsInteger;
-              nNF := dfrdfrnumero.AsInteger;
-
-              if vInfComplNF = '' then
-                vInfComplNF := 'Nota Fiscal referenciada: ';
-
-              vInfComplNF := vInfComplNF + vSeparadorNF + dfrdfrnumero.AsString;
-              vSeparadorNF := ', ';
-            end;
-
-          (* Nota Fiscal de Produtor Rural *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscalDeProdutor then
-            with RefNFP do
-            begin
-              cUF := dfrufscodigo.AsInteger;
-              AAMM := formatdatetime('yymm', dfrdfremissao.AsFloat);
-              CNPJCPF := SomenteNumeros(dfretddoc1.AsString);
-              IE := SomenteNumeros(dfredrinscest.AsString);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              modelo := dfrtdfcodigo.AsString;
-              // serie := dfrdfrserie.AsInteger;
-              serie := cfgcfgserienfe.AsInteger;
-              nNF := dfrdfrnumero.AsInteger;
-
-              if vInfComplNFP = '' then
-                vInfComplNFP := 'Nota Fiscal de Produtor referenciada: ';
-
-              vInfComplNFP := vInfComplNFP + vSeparadorNFP + dfrdfrnumero.AsString;
-              vSeparadorNFP := ', ';
-            end;
-
-          (* Nota Fiscal Eletrônica - NFe *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscalEletronica then
-          begin
-            refNFe := dfrdfrchavenfe.AsString;
-
-            if vInfComplNFe = '' then
-              vInfComplNFe := 'NF-e referenciada: ';
-
-            vInfComplNFe := vInfComplNFe + vSeparadorNFe + dfrdfrchavenfe.AsString;
-            vSeparadorNFe := ', ';
-          end;
-        end;
-
-        dfr.Next;
-      end;
-
-      if vInfComplNF <> '' then
-        vInfComplNF := vInfComplNF + ';';
-
-      if vInfComplNFP <> '' then
-        vInfComplNFP := vInfComplNFP + ';';
-
-      if vInfComplNFe <> '' then
-        vInfComplNFe := vInfComplNFe + ';';
-
-      if vInfComplCF <> '' then
-        vInfComplCF := vInfComplCF + ';';
-
-      (*
-        *
-        ****** Emitente da NFe - EMIT ********
-        *
-      *)
-
-      Emit.CNPJCPF := SomenteNumeros(cfgetddoc1.AsString);
-      Emit.IE := SomenteNumeros(cfgedrinscest.AsString);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      Emit.xNome := cfgetdidentificacao.AsString;
-      Emit.xFant := cfgetdapelido.AsString;
-      Emit.EnderEmit.fone := cfgetftelefone.AsString;
-      Emit.EnderEmit.CEP := StrToInt(SomenteNumeros(cfgedrcep.AsString));
-      Emit.EnderEmit.xLgr := cfgedrrua.AsString;
-      Emit.EnderEmit.nro := cfgedrnumero.AsString;
-      Emit.EnderEmit.xCpl := '';
-      Emit.EnderEmit.xBairro := cfgedrbairro.AsString;
-      Emit.EnderEmit.cMun := cfgcddcodigo.AsInteger;
-      Emit.EnderEmit.xMun := cfgcddnome.AsString;
-      Emit.EnderEmit.UF := UpperCase(cfgufssigla.AsString);
-      Emit.EnderEmit.cPais := 1058;
-
-      if trim(mesmesfilialpedido.AsString) <> '' then
-      begin
-        Emit.EnderEmit.xCpl := mesmesfilialpedido.AsString;
-      end;
-
-      Emit.EnderEmit.xPais := 'BRASIL';
-
-      case cfgcrtcodigo.AsInteger of
-        1:
-          Emit.CRT := crtSimplesNacional;
-        2:
-          Emit.CRT := crtSimplesExcessoReceita;
-        3:
-          Emit.CRT := crtRegimeNormal;
-      end;
-
-      (*
-        *
-        ********* Destinatário da NFe **********
-        *
-      *)
-
-      Dest.CNPJCPF := SomenteNumeros(self.etdetddoc1.AsString);
-      if etdedrcep.AsString = '' then
-        Dest.EnderDest.CEP := StrToInt(SomenteNumeros(cfgedrcep.AsString))
-      else
-        Dest.EnderDest.CEP := StrToInt(SomenteNumeros(etdedrcep.AsString));
-
-      Dest.EnderDest.xLgr := etdedrrua.AsString;
-      Dest.EnderDest.nro := etdedrnumero.AsString;
-      Dest.EnderDest.xCpl := '';
-      Dest.EnderDest.xBairro := etdedrbairro.AsString;
-
-      if etdcddcodigo.AsString = '' then
-        Dest.EnderDest.cMun := cfgcddcodigo.AsInteger
-      else
-        Dest.EnderDest.cMun := etdcddcodigo.AsInteger;
-
-      if etdcddnome.AsString = '' then
-        Dest.EnderDest.xMun := cfgcddnome.AsString
-      else
-        Dest.EnderDest.xMun := etdcddnome.AsString;
-
-      if etdufssigla.AsString = '' then
-        Dest.EnderDest.UF := UpperCase(cfgufssigla.AsString)
-      else
-        Dest.EnderDest.UF := UpperCase(etdufssigla.AsString);
-      Dest.EnderDest.fone := etdetftelefone.AsString;
-
-      (* Valida Inscrição Estadual do Destinatário *)
-      try
-        vTestaInscEst := trim(SomenteNumeros(etdedrinscest.AsString));
-
-        if vTestaInscEst = '00000000000' then
-          vTestaInscEst := '';
-
-        strtofloat(vTestaInscEst);
-
-        ACBrValidador1.TipoDocto := docInscEst;
-        ACBrValidador1.Complemento := UpperCase(etdufssigla.AsString);
-        ACBrValidador1.Documento := vTestaInscEst;
-
-        if not ACBrValidador1.Validar then
-        begin
-          Application.MessageBox(pchar('Inscrição Estadual do destinatário inválida.' + #13 + #13 +
-            'Corrija no cadastro do destinatário e tente novamente.'), 'Inscrição Estadual Inválida', MB_OK + MB_ICONERROR);
-          vTestaInscEst := '';
-          exit;
-        end;
-
-        if Length(SomenteNumeros(self.etdetddoc1.AsString)) = 14 then
-          ACBrValidador1.TipoDocto := docCNPJ;
-
-        if Length(SomenteNumeros(self.etdetddoc1.AsString)) = 11 then
-          ACBrValidador1.TipoDocto := docCPF;
-
-        ACBrValidador1.Documento := SomenteNumeros(self.etdetddoc1.AsString);
-
-        if not ACBrValidador1.Validar then
-        begin
-          Application.MessageBox(pchar('CNPJ ou CPF do destinatário inválido.' + #13 + #13 +
-            'Corrija no cadastro do destinatário e tente novamente.'), 'CNPJ ou CPF Inválido', MB_OK + MB_ICONERROR);
-
-          exit;
-        end;
-
-      except
-        vTestaInscEst := '';
-      end;
-
-      if vTestaInscEst <> '' then
-      begin
-        Dest.IE := vTestaInscEst;
-        Dest.indIEDest := inContribuinte;
-      end
-      else
-      begin
-        Dest.IE := '';
-        Dest.indIEDest := inNaoContribuinte;
-      end;
-      if etdedrrazaofazenda.AsString <> '' then
-        Dest.xNome := etdedrrazaofazenda.AsString
-      else
-        Dest.xNome := etdetdidentificacao.AsString;
-
-      Dest.EnderDest.cPais := 1058;
-      Dest.EnderDest.xPais := 'BRASIL';
-
-      (*
-        *
-        ********* Detalhamento de Produtos e Serviços - DET ***********
-        *
-      *)
-
-      itm.Refresh;
-
-      itm.IndexFieldNames := 'itmchave';
-      itm.First;
-      it := 1;
-
-      vtBC := 0;
-      vtICMS := 0;
-      vtBCST := 0;
-      vtICMSST := 0;
-
-      vlTotTrib := 0;
-      vlTotTribEst := 0;
-      vlMensagemCargaTrib := '';
-
-      VerifieAjustaItemcomSubstituicao(Emit.EnderEmit.UF, Dest.EnderDest.UF);
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-        if ide.indPres = pcPresencial then
-        begin
-
-          { if Dest.indIEDest = inContribuinte then
-            begin
-            VerifieAjustaItemcomConsumidorFinal(True);
-            end
-            else
-            begin }
-          VerifieAjustaItemcomConsumidorFinal(False);
-          { end; }
-
-        end;
-      end;
-
-      itm.Close;
-      itm.Params[0].AsString := vpMesChave;
-      itm.Params[1].AsInteger := Acesso.Filial;
-      itm.Open;
-
-      itm.First;
-      vlTemANP := False;
-
-      While Not itm.Eof Do
-      Begin
-        if (trim(itmproanpcodigo.AsString) <> '') and (trim(itmproanpcodigo.AsString) <> '0') then
-        begin
-
-          vlTemANP := True;
-
-          consulta.Close;
-          consulta.SQL.Text := 'select prounitrib, proqtdtrib from  pro where procodigo=' + itmprocodigo.AsString;
-          consulta.Open;
-          itm.Edit;
-          itmpunqtdtribtotal.AsFloat := consulta.FieldByName('proqtdtrib').AsFloat;
-          itmunisimbolotrib.AsString := consulta.FieldByName('prounitrib').AsString;
-          vlQtdTributaria := consulta.FieldByName('proqtdtrib').AsFloat;
-          itm.post;
-
-        end;
-
-        itm.Next;
-      End;
-      itm.First;
-
-      While Not itm.Eof Do
-      Begin
-        With Det.add Do
-        Begin
-
-          infAdProd := itmitmdesccomple.AsString;
-          Prod.nItem := it;
-          Prod.ncm := SomenteNumeros(itmproncm.AsString);
-
-          Prod.CFOP := itmcfocfop.AsString; // '5101';
-
-          
-          Prod.cProd := self.itmprocodigo.AsString; // '67';
-
-          If cfgcfgdescrinfe.AsInteger = 0 Then
-            Prod.xProd := BuscaTroca(trim(itmpronome.AsString), '%', '');
-
-          If cfgcfgdescrinfe.AsInteger = 1 Then
-            Prod.xProd := BuscaTroca(trim(itmpronomereduzido.AsString), '%', '');
-
-          If (Copy(Prod.xProd, 1, 1) = '.') Then
-            Prod.xProd := trim(Copy(Prod.xProd, 2, 300));
-
-          Prod.qCom := self.itmitmquantidade.AsFloat;
-          Prod.uCom := self.itmunisimbolo.AsString; // 'KG';
-          Prod.vProd := TBRound(self.itmitmquantidade.AsFloat * self.itmitmvalor.AsFloat, 2);
-          Prod.vUnCom := self.itmitmvalor.AsFloat; // 10;
-
-          Prod.vDesc := self.itmitmdesconto.AsFloat;
-
-          Prod.qTrib := self.itmpunqtdtribtotal.AsFloat;
-          Prod.uTrib := self.itmunisimbolotrib.AsString;
-          Prod.vUnTrib := Prod.vProd / Prod.qTrib; // 10;
-          Prod.vOutro := self.itmitmoutras.AsFloat;
-
-          // inclui dados do pedido
-          if (mesmesnumeropedido.AsString <> '') and (itmitmitempedido.AsString <> '') then
-          begin
-            Prod.xPed := mesmesnumeropedido.AsString;
-
-            s := itmitmitempedido.AsString;
-
-            val(s, iValue, iCode);
-
-            if iCode = 0 then
-            begin
-              Prod.nItemPed := formatfloat('000000', itmitmitempedido.AsInteger);
-            end
-            else
-            begin
-              Prod.nItemPed := itmitmitempedido.AsString;
-            end;
-
-          end;
-
-          vxdesc := vxdesc + Prod.vDesc; // acumula o valor do desconto
-          vxtot := vxtot + Prod.vProd; // acumula o valor total do item
-          vxliq := vxliq + (vxtot - vxdesc); // acumula o valor liquido da nota
-
-          if itmtpocodigo.AsInteger = 99 then
-            Prod.CEST := '01.999.00';
-
-          if itmtcecest.AsString <> '' then
-          begin
-
-            Prod.CEST := itmtcecest.AsString;
-
-          end;
-
-          With Imposto Do
-          Begin
-
-            (* Se for operação de Venda define o total de carga tributária por item *)
-            if (toettocodigo.AsInteger = ttoVenda) or (toettocodigo.AsInteger = ttoOutros) then
-            begin
-              Imposto.vTotTrib := itmitmcargatrib.AsFloat + itmitmcargatribest.AsFloat;
-
-              (* Acumula totais de carga tributária por ente Federal e Estadual *)
-              vlTotTrib := vlTotTrib + itmitmcargatrib.AsFloat;
-              vlTotTribEst := vlTotTribEst + itmitmcargatribest.AsFloat;
-            end;
-
-            case mesrefcodigo.AsInteger of
-              1:
-                begin
-                  Prod.vFrete := itmitmfrete.AsCurrency;
-                  vlTotalFrete := vlTotalFrete + itmitmfrete.AsCurrency;
-                end;
-              9:
-                Total.ICMSTot.vFrete := 0;
-            end;
-            // if cfgcrtcodigo.AsInteger = 3 then
-            // begin
-            if vlTemANP then
-            begin
-              if trim(itmproanpcodigo.AsString) <> '' then
-              begin
-                if trim(itmproanpcodigo.AsString) = '210203001' then
-                begin
-
-                  itm.Edit;
-                  itmcstcodigo.AsString := '061';
-                  itm.post;
-                end;
-              end;
-            end;
-
-            // end;
-
-            With ICMS Do
-            Begin
-
-              
-              // ICMS.orig:=TpcnOrigemMercadoria.oeEstrangeiraAdquiridaBrasil;
-              case Emit.CRT of
-                (* CSOSN *)
-                crtSimplesNacional:
-
-                  begin
-
-                    vCST := self.itmcstcodigo.AsString;
-
-                    if (Copy(self.itmcstcodigo.AsString, 2, 2) = '61') then
-                    begin
-
-                      vCST := Copy(self.itmcstcodigo.AsString, 2, 2);
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, vCST);
-
-                      if vlCSTIcmsOK then
-                        CST := vlCSTIcms;
-
-                    end
-                    else
-                    begin
-
-                      vlCSOSNIcms := StrToCSOSNIcms(vlCSOSNIcmsOK, vCST);
-
-                      if vlCSOSNIcmsOK then
-                        CSOSN := vlCSOSNIcms
-
-                    end;
-                  end;
-
-                (* CST *)
-                crtRegimeNormal, crtSimplesExcessoReceita:
-                  begin
-
-                    vCST := Copy(self.itmcstcodigo.AsString, 2, 2);
-
-                    if (Copy(self.itmcstcodigo.AsString, 2, 2) = '60') and (trim(itmproanpcodigo.AsString) <> '') then
-                    begin
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, Copy(self.itmcstcodigo.AsString, 2, 2) + 'rep');
-
-                    end
-                    else
-                    begin
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, vCST);
-
-                    end;
-
-                    if vlCSTIcmsOK then
-                      CST := vlCSTIcms;
-                  end;
-              end;
-
-              // (cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50, cst51, cst60, cst70, cst80, cst81, cst90,cstPart10,cstPart90,cstRep41,cstVazio);
-              ICMS.modBC := dbiValorOperacao;
-              If (lowercase(self.itmicmcodigo.AsString) = 'ff') Or (lowercase(self.itmicmcodigo.AsString) = 'ii') Or
-                (lowercase(self.itmicmcodigo.AsString) = 'nn') Then
-              Begin
-                ICMS.pICMS := 0;
-                ICMS.vICMS := 0;
-                ICMS.vBC := 0;
-              End
-              Else
-              Begin
-                If (self.itmitmicm.AsFloat = 0.01) or (self.itmitmicm.AsFloat = 0) Then
-                Begin
-                  ICMS.pICMS := 0;
-                  ICMS.vICMS := 0;
-                  ICMS.vBC := 0;
-                End
-                Else
-                Begin
-                  ICMS.pICMS := self.itmicmaliquotas.AsFloat;
-                  ICMS.vICMS := itmitmicm.AsFloat;
-                  ICMS.vBC := itmitmbicm.AsCurrency;
-                  ICMS.pRedBC := itmitmpercreducaobaseicm.AsCurrency;
-
-                  if (ICMS.CSOSN = csosn900) or (ICMS.CSOSN = csosn400) then
-                  begin
-                    if (itmitmbicms.AsFloat > 0) and (itmitmaliqicms.AsFloat > 0) then
-                    begin
-                      ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := itmitmmva.AsFloat;
-                      ICMS.vBCST := itmitmbicms.AsFloat;
-                      ICMS.pICMSST := itmitmaliqicms.AsFloat;
-                      ICMS.vICMSST := itmitmicms.AsFloat;
-                    end;
-                  end
-                  else
-                  begin
-                    if (itmitmbicms.AsFloat > 0) and (itmitmaliqicms.AsFloat > 0) then
-                    begin
-                      ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := itmitmmva.AsFloat;
-                      ICMS.vBCST := itmitmbicms.AsFloat;
-                      ICMS.pICMSST := itmitmaliqicms.AsFloat;
-                      ICMS.vICMSST := itmitmicms.AsFloat;
-                    end;
-                  end;
-                End;
-              End;
-
-              vtICMS := vtICMS + ICMS.vICMS;
-              vtBC := vtBC + ICMS.vBC;
-
-              vtICMSST := vtICMSST + ICMS.vICMSST;
-              vtBCST := vtBCST + ICMS.vBCST;
-              if cfgcrtcodigo.AsInteger <> 1 then
-              begin
-
-                if (itmitmbasefcpicm.AsString <> '') and (itmitmbasefcpicm.AsString <> '0') then
-                begin
-                  vBCFCP := itmitmbasefcpicm.AsFloat;
-                  pFCP := itmitmpercfcpicm.AsFloat;
-                  vFCP := itmitmvalofcpicm.AsFloat;
-                  vlTotvFCP := vlTotvFCP + itmitmvalofcpicm.AsFloat;
-                end;
-
-                if (itmitmbasefcpicmst.AsString <> '') and (itmitmbasefcpicmst.AsString <> '0') then
-                begin
-                  vBCFCPST := itmitmbasefcpicmst.AsFloat;
-                  pFCPST := itmitmpercfcpicmst.AsFloat;
-                  vFCPST := itmitmvalofcpicmst.AsFloat;
-                  vlTotvFCPST := vlTotvFCPST + itmitmvalofcpicmst.AsFloat;
-                end;
-              end;
-
-              if mesmespararevenda.AsInteger = 1 then
-              begin
-                if itmcstcodigo.AsString = '101' then
-                begin
-                  vpmestotalbaseicm := vpmestotalbaseicm + ((itmitmvalor.AsFloat * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency);
-                end;
-
-              end;
-
-            End;
-
-            if trim(itmproanpcodigo.AsString) = '' then
-            begin
-
-              If self.itmitmaliqipi.AsFloat <> 0 Then
-              Begin
-
-                if toettocodigo.AsInteger=ttoDevolucao then
-                begin
-                   vIPIDevol := itmitmipi.AsCurrency;
-                   pDevol := 100;
-                end
-                else
-                begin
-                  ipi.vIPI := itmitmipi.AsCurrency;
-                end;
-
-                ipi.vBC := itmitmbipi.AsCurrency;
-                ipi.pIPI := self.itmitmaliqipi.AsFloat;
-
-                ipi.CST := StrToCSTIPI(ok, itmcsicodigo.AsString);
-                // ipi.CST := ipi50;
-                vtipi := vtipi + ipi.vIPI;
-              End
-              Else
-              Begin
-                ipi.CST := StrToCSTIPI(ok, itmcsicodigo.AsString);
-                if toettocodigo.AsInteger=ttoDevolucao then
-                begin
-                   vIPIDevol := itmitmipi.AsCurrency;
-                   pDevol := 100;
-                   vtipi := vtipi + vIPIDevol;
-                end;
-
-              End;
-            end;
-
-            if itmcspcodigo.AsString = '' then
-            begin
-              pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
-            end
-            else
-            begin
-              pis.CST := StrToCSTPIS(ok, formatfloat('00', itmcspcodigo.AsInteger));
-            end;
-
-            if itmcsfcodigo.AsString = '' then
-            BEGIN
-              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', 99));
-            END
-            else
-            begin
-              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', itmcsfcodigo.AsInteger));
-            end;
-
-            if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
-            begin
-              if itmitmaliqpis.AsFloat <> 0 then
-              begin
-                pis.pPIS := itmitmaliqpis.AsFloat;
-                pis.vBC := itmitmbpis.AsCurrency;
-                pis.vPIS := itmitmpis.AsFloat;
-                vltotpis := vltotpis + pis.vPIS;
-
-              end;
-
-              if itmitmaliqcofins.AsFloat <> 0 then
-              begin
-                COFINS.pCOFINS := itmitmaliqcofins.AsFloat;
-                COFINS.vBC := itmitmbcofins.AsCurrency;
-                COFINS.vCOFINS := itmitmcofins.AsFloat;
-                vltotcofins := vltotcofins + COFINS.vCOFINS;
-              end;
-
-            end;
-
-            { if cfgcfgcstpis.AsString <> '' then
-              begin
-              pis.CST := StrToCSTPIS(ok, cfgcfgcstpis.AsString);
-              end;
-
-              if cfgcfgcstcofins.AsString <> '' then
-              begin
-              COFINS.CST := StrToCSTCOFINS(ok, cfgcfgcstcofins.AsString);
-              end; }
-
-          End;
-          it := it + 1;
-        End;
-        itm.Next;
-      End;
-
-      (*
-        *
-        ******** Informações do Transporte da NF-e - TRANSP ********
-        *
-      *)
-
-      // Responsavel pelo Frete 0- Por conta do emitente; 1- Por conta do destinatário/remetente;2- Por conta de terceiros;9- Sem cobrança de frete
-      case mesrefcodigo.AsInteger of
-        0:
-          begin
-          if mesmesretirabalcao.AsInteger=1 then
-            Transp.modFrete := mfSemFrete
-          else
-            Transp.modFrete := mfContaEmitente;
-          end;
-        1:
-          Transp.modFrete := mfContaDestinatario;
-        2:
-          Transp.modFrete := mfContaTerceiros;
-        9:
-          Transp.modFrete := mfSemFrete;
-      end;
-
-      if (ide.indPres = pcPresencial) and (ide.indFinal = cfConsumidorFinal) then
-      begin
-        Transp.modFrete := mfSemFrete;
-      end;
-
-      dtm.Close;
-      dtm.ParamByName('meschave').AsString := vpMesChave;
-      dtm.Open;
-
-      if Transp.modFrete <> mfSemFrete then
-      begin
-
-        If dtm.RecordCount = 1 Then
-        Begin
-
-          If dtmetdcodigo.AsInteger <> mesetdcodigo.AsInteger Then
-          Begin
-            Transp.Transporta.xNome := dtmetdidentificacao.AsString;
-            Transp.Transporta.CNPJCPF := SomenteNumeros(dtmetddoc1.AsString);
-            Transp.Transporta.IE := SomenteNumeros(dtmedrinscest.AsString);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            Transp.Transporta.xEnder := dtmedrrua.AsString;
-            Transp.Transporta.xMun := dtmcddnome.AsString;
-            Transp.Transporta.UF := dtmufssigla.AsString;
-
-            // Transp.veicTransp.placa := dtmdtmplaca.AsString;
-            // Transp.veicTransp.UF := dtmufssigla.AsString;
-
-            if Emit.EnderEmit.UF <> Dest.EnderDest.UF then // fora do estado
-            begin
-
-              Transp.Transporta.xNome := dtmetdidentificacao.AsString;
-              Transp.Transporta.CNPJCPF := SomenteNumeros(dtmetddoc1.AsString);
-              Transp.Transporta.IE := SomenteNumeros(dtmedrinscest.AsString);
-
-              if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-                Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-              if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-                Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-              if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-                Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-              if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-                Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-              Transp.Transporta.xEnder := dtmedrrua.AsString;
-              Transp.Transporta.xMun := dtmcddnome.AsString;
-              Transp.Transporta.UF := dtmufssigla.AsString;
-
-              // Transp.veicTransp.placa := dtmdtmplaca.AsString;
-              // Transp.veicTransp.UF := dtmufssigla.AsString;
-
-              Transp.Vol.add;
-              Transp.Vol.Items[0].qVol := dtmdtmvolumes.AsInteger;
-              Transp.Vol.Items[0].esp := dtmdtmespecie.AsString;
-              Transp.Vol.Items[0].marca := dtmdtmmarcas.AsString;
-              Transp.Vol.Items[0].pesoB := dtmdtmpesobruto.AsFloat;
-              Transp.Vol.Items[0].pesoL := dtmdtmpesoliq.AsFloat;
-            end;
-
-          End;
-
-          Transp.Vol.add;
-          Transp.Vol.Items[0].qVol := dtmdtmvolumes.AsInteger;
-          Transp.Vol.Items[0].esp := dtmdtmespecie.AsString;
-          Transp.Vol.Items[0].marca := dtmdtmmarcas.AsString;
-          Transp.Vol.Items[0].pesoB := dtmdtmpesobruto.AsFloat;
-          Transp.Vol.Items[0].pesoL := dtmdtmpesoliq.AsFloat;
-        End
-        Else
-        Begin
-          Transp.Transporta.xNome := '';
-          Transp.Transporta.CNPJCPF := '';
-          Transp.Transporta.IE := '';
-          Transp.Transporta.xEnder := '';
-          Transp.Transporta.xMun := '';
-          Transp.Transporta.UF := '';
-
-          Transp.Vol.add;
-          Transp.Vol.Items[0].qVol := 1;
-          Transp.Vol.Items[0].esp := '';
-          Transp.Vol.Items[0].marca := '';
-          Transp.Vol.Items[0].pesoB := 0;
-          Transp.Vol.Items[0].pesoL := 0;
-        End;
-
-      end
-      else
-      begin
-        Transp.Transporta.xNome := '';
-        Transp.Transporta.CNPJCPF := '';
-        Transp.Transporta.IE := '';
-        Transp.Transporta.xEnder := '';
-        Transp.Transporta.xMun := '';
-        Transp.Transporta.UF := '';
-
-        Transp.Vol.add;
-        Transp.Vol.Items[0].qVol := 1;
-        Transp.Vol.Items[0].esp := '';
-        Transp.Vol.Items[0].marca := '';
-        Transp.Vol.Items[0].pesoB := 0;
-        Transp.Vol.Items[0].pesoL := 0;
-
-      end;
-      (*
-        *
-        ******* Totais da NFe *******
-        *
-      *)
-
-      Total.ICMSTot.vTotTrib := RoundTo(vlTotTrib + vlTotTribEst, -2);
-
-      if toettocodigo.AsInteger=ttoDevolucao then
-        Total.ICMSTot.vIPIDevol := vtipi
-      else
-        Total.ICMSTot.vIPI := vtipi;
-
-      Total.ICMSTot.vBC := vtBC;
-
-      Total.ICMSTot.vICMS := RoundTo(vtICMS, -2);
-      // 180;
-      Total.ICMSTot.vBCST := vtBCST;
-      Total.ICMSTot.vST := RoundTo(vtICMSST, -2);
-      consulta.Close;
-      consulta.SQL.Text := 'select messervicos, mesprodutos, mesdesconto from mes where meschave=' + mesmeschave.AsString;
-      consulta.Open;
-
-      if consulta.FieldByName('messervicos').AsFloat > 0 then
-      begin
-
-        if cfgcfgdescontonoservico.AsInteger = 1 then
-        begin
-          { vxser := consulta.FieldByName('messervicos').AsFloat -
-            (consulta.FieldByName('mesdesconto').AsCurrency * (consulta.FieldByName('mesdesconto').AsCurrency / (consulta.FieldByName('mesprodutos').AsFloat +
-            consulta.FieldByName('messervicos').AsFloat))); }
-          vxser := consulta.FieldByName('messervicos').AsFloat;
-
-        end
-        else
-        begin
-          vxser := consulta.FieldByName('messervicos').AsFloat;
-
-        end;
-      end
-      else
-      begin
-        vxser := 0;
-      end;
-
-
-      Total.ICMSTot.vNF := mesmestotal.AsCurrency;
-
-      Total.ICMSTot.vProd := RoundTo(vxtot, -2);
-      Total.ICMSTot.vDesc := RoundTo(vxdesc, -2);
-      Total.ICMSTot.vOutro := mesmesoutras.AsCurrency;
-      Total.ICMSTot.vFrete := mesmesfrete.AsCurrency;
-
-      if cfgcrtcodigo.AsInteger <> 1 then
-      begin
-
-        Total.ICMSTot.vFCP := vlTotvFCP;
-        Total.ICMSTot.vFCPST := vlTotvFCPST;
-      end;
-
-      case mesrefcodigo.AsInteger of
-        1:
-          Total.ICMSTot.vFrete := vlTotalFrete;
-        9:
-          Total.ICMSTot.vFrete := 0;
-      end;
-
-
-
-      qTomTof.Close;
-      qTomTof.SQL.Text := 'SELECT tofidentificacao FROM tom, tof WHERE ';
-      qTomTof.SQL.add('tom.tofcodigo = tof.tofcodigo AND ');
-      qTomTof.SQL.add('tof.ticcodigo IN (' + IntToStr(ticObservacao) + ') AND ');
-      qTomTof.SQL.add('tom.meschave = ' + vpMesChave + ' ');
-      qTomTof.SQL.add('ORDER BY tof.tofcodigo');
-      qTomTof.Open;
-
-      vInfComplGeral := '';
-
-      while not qTomTof.Eof do
-      begin
-
-        if pos('%?', qTomTof.Fields[0].AsString) > 0 then
-        begin
-          vlMensagemICM := StringReplace(qTomTof.Fields[0].AsString, '%?', itmicmcodigo.AsString + '%', []);
-
-          vlMensagemICM := StringReplace(vlMensagemICM, 'R$?',
-            'R$ ' + floattostr(RoundTo(vpmestotalbaseicm { mesmestotal.AsCurrency } * (itmicmcodigo.AsFloat / 100), -2)), []);
-
-          vInfComplGeral := vInfComplGeral + trim(vlMensagemICM) + ';';
-        end
-        else
-        begin
-          vInfComplGeral := vInfComplGeral + trim(qTomTof.Fields[0].AsString) + ';';
-        end;
-
-        qTomTof.Next;
-      end;
-
-      vInfComplTEF:='';
-
-      dtl.First;
-      while not dtl.Eof do
-      begin
-
-        rdc.close;
-        rdc.ParamByName('dtlchave').AsInteger:=dtl.FieldByName('dtlchave').AsInteger;
-        rdc.Open;
-
-        if not rdc.IsEmpty then
-        begin
-          if pos('{',rdc.FieldByName('rdcnrauto').AsString)=0 then
-          begin
-             vInfComplTEF:=vInfComplTEF+#13+'; Cód. Transação TEF: '+rdc.FieldByName('rdcnrauto').AsString;
-          end;
-        end;
-
-        dtl.Next;
-      end;
-
-      vInfComplGeral:=vInfComplGeral+#13+vInfComplTEF;
-
-
-      (* Trata mensagem referente Carga Tributária *)
-      if (vlTotTrib + vlTotTribEst) > 0 then
-      begin
-        vlMensagemCargaTrib := 'Trib. aprox. R$ ';
-        vlMensagemCargaTrib := vlMensagemCargaTrib + formatfloat('#,###.00', RoundTo(vlTotTrib, -2)) + ' Federal ';
-
-        if vlTotTribEst > 0 then
-          vlMensagemCargaTrib := vlMensagemCargaTrib + ' e ' + formatfloat('#,###.00', RoundTo(vlTotTribEst, -2)) + ' Estadual ';
-
-        vlMensagemCargaTrib := vlMensagemCargaTrib + ' Fonte: IBPT 5oi7eW;'
-      end;
-
-      // InfAdic.infCpl := vInfComplGeral + vInfComplCF + vInfComplNF + vInfComplNFP + vInfComplNFe + vlMensagemCargaTrib;
-
-
-      InfAdic.infCpl := StringReplace(vInfComplGeral + vInfComplCF + vInfComplNF + vInfComplNFP + vInfComplNFe + vlMensagemCargaTrib,
-        toetoeidentificacao.AsString, '', [rfReplaceAll, rfIgnoreCase]);
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-        if ide.indPres = pcPresencial then
-        begin
-          if ide.indFinal = cfConsumidorFinal then
-          begin
-
-            consulta.Close;
-            consulta.SQL.Text := 'select toeidentificacao from toe where toecodigo=' + mestoecodigo.AsString;
-            consulta.Open;
-            ide.natOp := consulta.FieldByName('toeidentificacao').AsString;
-
-            if etdtcbcodigo.AsInteger = 2 then
-            begin
-              if (cfgatvcodigo.AsInteger = atvrestaurante) then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                end;
-              end
-              else
-              begin
-                if ide.indPres = pcPresencial then
-                begin
-                  if ide.indFinal = cfConsumidorFinal then
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual;
-                      Transp.modFrete := mfSemFrete;
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                      Transp.modFrete := mfSemFrete;
-                    end;
-                  end
-                  else
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                    end;
-                  end;
-                end
-                else
-                begin
-                  ide.idDest := doInterestadual
-                end;
-              end;
-
-            end
-            else
-            begin
-              if (cfgatvcodigo.AsInteger = atvrestaurante) or (cfgatvcodigo.AsInteger = atvmercado) then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                end;
-              end
-              else
-              begin
-                ide.idDest := doInterestadual;
-              end;
-
-            end;
-
-            // InfAdic.infCpl := InfAdic.infCpl + ' ' + '"ICMS recolhido anteriormente por estimativa simplificada - Operação Presencial/Venda no Balcão”';
-
-          end;
-        end;
-      end;
-
-      (*
-        *
-        ********* Identifica o Número da NF-e **********
-        *
-      *)
-
-      if (self.mesmesnumero.AsString <> '') and (self.mesmesnumero.AsString <> '0') and (self.mestemcodigo.AsInteger <> 3) then
-        vNumeroNFe := self.mesmesnumero.AsInteger
-      else
-      begin
-
-        { qConsulta.Close;
-          qConsulta.SQL.Text := 'select cfgnumeronfe from cfgmnfe where cfgcodigo=1';
-          qConsulta.Open;
-
-          vNumeroNFe := qConsulta.FieldByName('cfgnumeronfe').AsInteger + 1; }
-
-        NumeroNFe.ParamByName('flacodigo').AsString := vpFilial;
-        NumeroNFe.ExecSQL;
-        vNumeroNFe := NumeroNFe.Fields[0].AsInteger;
-
-      end;
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=1';
-      consulta.ExecSQL;
-
-      qconsulta.Close;
-      qconsulta.SQL.Text := 'UPDATE mes SET mesnumero = ' + IntToStr(vNumeroNFe) + ' WHERE meschave = ' + vpMesChave + ' and flacodigo=' +
-        Acesso.Filial.ToString;
-      qconsulta.ExecSQL;
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=null';
-      consulta.ExecSQL;
-
-      cfg.Close;
-      cfg.ParamByName('flacodigo').AsString := vpFilial;
-      cfg.Open;
-
-      if vNumeroNFe > cfgcfgnumeronfe.AsInteger then
-      begin
-        { qConsulta.Close;
-          qConsulta.SQL.Text := 'UPDATE cfgmnfe SET cfgnumeronfe = ' + IntToStr(vNumeroNFe) + ' and cfgcodigo=1';
-          qConsulta.ExecSQL;
-
-          qConsulta.Close;
-          qConsulta.SQL.Text := 'UPDATE cfgmnfe SET cfgnumeronfe = ' + IntToStr(vNumeroNFe) + ' and cfgcodigo=' + Acesso.Filial.ToString;
-          qConsulta.ExecSQL; }
-
-      end;
-
-      ide.nNF := vNumeroNFe;
-      ide.cNF := GerarCodigoDFe(vNumeroNFe);
-
-      (* A partir deste momento venda é considerada uma NF-e Pendente pois já possui número *)
-
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=1';
-      consulta.ExecSQL;
-
-      qconsulta.Close;
-      qconsulta.SQL.Text := 'UPDATE mes SET ';
-      qconsulta.SQL.add('mesregistro = ' + QuotedStr(ajustadata(DateToStr(vpDataAtual))) + ', ');
-      qconsulta.SQL.add('mesnumero = ' + IntToStr(vNumeroNFe) + ', ');
-      qconsulta.SQL.add('tdfcodigo = ''55'', ');
-      qconsulta.SQL.add('temcodigo = 4 ');
-      qconsulta.SQL.add('WHERE meschave = ' + vpMesChave + ' and flacodigo=' + Acesso.Filial.ToString);
-      qconsulta.ExecSQL;
-
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=null';
-      consulta.ExecSQL;
-
-    End;
-  Except
-    On E: Exception Do
-    Begin
-      If E.Message = '' Then
-        vErro := ''
-      Else
-        vErro := #13 + 'Erro: ' + E.Message;
-
-      Application.MessageBox(pchar('Erro preenchimento dos dados da NF-e.' + #13 + vErro + #13 + #13 + #13 + 'Utilize a opção "Imprimir com NFe".'),
-        'Erro Preenchimento NF-e', MB_OK + MB_ICONERROR);
-
-      SalvarLogErro(E.Message, E.StackTrace);
-      exit;
-    End;
-  End;
-
-  try
-    // Gera Arquivo da NF-e e mantém memória
-    ACBrNFeNotas.Configuracoes.WebServices.Visualizar := False;
-
-    ACBrNFeNotas.NotasFiscais.GerarNFe;
-
-    vChaveNFe := Copy(ACBrNFeNotas.NotasFiscais.Items[0].NFe.infNFe.ID, 4, 44);
-    ACBrNFeNotas.NotasFiscais.Items[0].GravarXML(vChaveNFe + '-nfe.xml', ACBrNFeNotas.Configuracoes.Arquivos.PathSalvar);
-
-    CheckBox3.Checked := True;
-    atualizatela;
-
-    // Assina e salva arquivo no Path definido
-    try
-      ACBrNFeNotas.NotasFiscais.Assinar;
-    except
-
-    end;
-
-    CheckBox4.Checked := True;
-    atualizatela;
-
-    CheckBox5.Checked := True;
-    atualizatela;
-
-  Except
-    On E: Exception Do
-    Begin
-      If E.Message = '' Then
-        vErro := ''
-      Else
-        vErro := #13 + 'Erro: ' + E.Message;
-
-      Application.MessageBox(pchar('Erro na geração da NF-e.' + #13 + 'Mensagem: ' + vErro + #13 + #13 + #13 + 'Utilize a opção "Imprimir com NFe".'),
-        'Erro Geração NF-e', MB_OK + MB_ICONERROR);
-
-      SalvarLogErro(E.Message, E.StackTrace);
-
-      exit;
-    End;
-  end;
-
-  vpRetorno := '';
-
-End;
-
-Procedure Tfnfe.ReGeraXML(taModo: TpcnTipoAmbiente = taProducao);
-Var
-  it: Integer;
-  vtBC: Double;
-
-  vtICMS: Double;
-  vtBCST: Double;
-  vtICMSST: Double;
-  vtipi: Double;
-  vCST: String;
-
-  vInfComplTEF, vInfComplGeral, vSeparadorGeral: String;
-  vInfComplCF, vSeparadorCF: String;
-  vInfComplNF, vSeparadorNF: String;
-  vInfComplNFP, vSeparadorNFP: String;
-  vInfComplNFe, vSeparadorNFe: String;
-
-  vxdesc, vxtot, vxliq: Double;
-
-  vAnoMesNFe: String;
-
-  vTestaInscEst: String;
-
-  vErro: String;
-  vMsgRetorno: String;
-
-  vNumeroNFe: Integer;
-  vChaveNFe: String;
-  vProtocoloNFe: String;
-
-  (* CST e CSOSN *)
-  vlCSTIcmsOK: Boolean;
-  vlCSTIcms: TpcnCSTIcms;
-
-  vlCSOSNIcmsOK: Boolean;
-  vlCSOSNIcms: TpcnCSOSNIcms;
-
-  (* Totais Carga Tributária *)
-  vlTotTrib: Double;
-  vlTotTribEst: Double;
-  vlMensagemCargaTrib: String;
-
-  (* Retornos da SEFAZ *)
-  vCStat: Integer;
-  vXMotivo: String;
-
-  (* Utilizados para chamada do mvpr - Validação de Produtos *)
-  // ValidaProdutos: TValidaProdutos;
-  vPodeProdutos: Boolean;
-  Pack: HModule;
-  i: Integer;
-  vlNomeArquivoNFe: string;
-  ok: Boolean;
-
-  vHora: string;
-  vDia: String;
-  vlTotalFrete: Double;
-  vlTemANP: Boolean;
-  vlTotalST: Double;
-  vxser: Double;
-
-  vlTotvFCP: Double;
-  vlTotvFCPST: Double;
-
-var
-  s: String;
-  iValue, iCode: Integer;
-
-  vlMensagemICM: string;
-  vlQtdTributaria: Double;
-  vlorigCombl: TorigCombCollectionItem;
-
-
-Begin
-  vlTemANP := False;
-  vlTotalST := 0;
-  vlTotalFrete := 0;
-
-  vxdesc := 0;
-  vxtot := 0;
-  vxliq := 0;
-  vxser := 0;
-
-  vlTotvFCP := 0;
-  vlTotvFCPST := 0;
-
-
-  //
-  // ****** Carrega consulta da tabela mes e itm ********
-  //
-
-  mes.Close;
-  mes.Params[0].AsString := vpMesChave;
-  mes.Params[1].AsInteger := Acesso.Filial;
-  mes.Open;
-
-  itm.Close;
-  itm.Params[0].AsString := vpMesChave;
-  itm.Params[1].AsInteger := Acesso.Filial;
-  itm.Open;
-
-
-  //
-  // Carrega Operação e Entidade
-  //
-
-  toe.Close;
-  toe.SQL.Text := 'SELECT ttecodigo, toeidentificacao, toecodigo, ttocodigo,toedescricao,cstnormal,cstcodigo FROM toe WHERE toecodigo = ' +
-    mestoecodigo.AsString;
-  toe.Open;
-
-  etd.Close;
-  etd.ParamByName('etdcodigo').AsInteger := mesetdcodigo.AsInteger;
-  etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
-  etd.Open;
-
-  AjustaObservacoes;
-
-  CheckBox1.Checked := True;
-  atualizatela;
-
-
-  //
-  // ***** Inicia GERAÇÃO da NFe *****
-  //
-
-  ACBrNFeNotas.NotasFiscais.Clear;
-
-  ACBrNFeDANFEFR.NumCopias := cfgcfgviasnfe.AsInteger;
-
-  If FileExists(ExtractFilePath(Application.ExeName) + 'logonfe.jpg') Then
-  begin
-    ACBrNFeDANFEFR.Logo := ExtractFilePath(Application.ExeName) + 'logonfe.jpg';
-    ACBrNFeDANFEFR.ExpandeLogoMarca := True;
-  end;
-
-  Try
-
-    With ACBrNFeNotas.NotasFiscais.add.NFe Do
-    Begin
-      ide.indIntermed := iiSemOperacao;
-
-      infRespTec.cnpj := '14477548000131';
-      infRespTec.email := 'Mizio@Miziosisemas.com.br';
-      infRespTec.xContato := 'Mizio Sistemas';
-      infRespTec.fone := '6635442765';
-
-      (*
-        *
-        ********* Identificação da NFe - IDE ********
-        *
-      *)
-
-      ide.cUF := cfgufscodigo.AsInteger;
-      // Ide.cNF -> Código da NFe definido por último.
-
-      ide.natOp := toetoeidentificacao.AsString;
-
-      case mestfpcodigo.AsInteger of
-        0:
-          ide.indPag := ipVista;
-        1:
-          ide.indPag := ipPrazo;
-        9:
-          ide.indPag := ipOutras;
-      else
-        ide.indPag := ipOutras;
-      end;
-
-      vHora := agora(Application, zcone);
-      vDia := mesmesregistro.AsString;
-
-      fnfe.vpDataAtual := mesmesregistro.AsFloat;
-      ide.modelo := 55;
-      ide.serie := cfgcfgserienfe.AsInteger;
-
-      // Ide.cNF -> Número da NFe definido por último.
-      ide.dEmi := vpDataAtual;
-      ide.dSaiEnt := strtodatetime(agora(Application, zcone));
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-
-        if not etd.Active then
-        begin
-          etd.Close;
-          etd.ParamByName('etdcodigo').AsInteger := mesetdcodigo.AsInteger;
-          etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
-          etd.Open;
-
-        end;
-
-        if etdtcbcodigo.AsInteger = 2 then
-        begin
-          if (cfgatvcodigo.AsInteger = atvrestaurante) then
-          begin
-
-            if cfgcfgpresencialtoedestino.AsInteger = 1 then
-            begin
-              ide.idDest := doInterestadual;
-              Transp.modFrete := mfSemFrete;
-            end
-            else
-            begin
-              ide.idDest := doInterna;
-            end;
-          end
-          else
-          begin
-            if ide.indPres = pcPresencial then
-            begin
-              if ide.indFinal = cfConsumidorFinal then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                  Transp.modFrete := mfSemFrete;
-                end;
-              end
-              else
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                end;
-              end;
-            end
-            else
-            begin
-              ide.idDest := doInterestadual
-            end;
-          end;
-
-        end
-        else
-        begin
-          if (cfgatvcodigo.AsInteger = atvrestaurante) or (cfgatvcodigo.AsInteger = atvmercado) then
-          begin
-
-            if cfgcfgpresencialtoedestino.AsInteger = 1 then
-            begin
-              ide.idDest := doInterestadual;
-              Transp.modFrete := mfSemFrete;
-            end
-            else
-            begin
-              ide.idDest := doInterna;
-            end;
-          end
-          else
-          begin
-            if ide.indPres = pcPresencial then
-            begin
-              if ide.indFinal = cfConsumidorFinal then
-              begin
-                ide.idDest := doInterna;
-                Transp.modFrete := mfSemFrete;
-              end
-              else
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                end;
-              end;
-            end
-            else
-            begin
-
-              ide.idDest := doInterestadual
-            end;
-          end;
-        end;
-      end
-      else
-      begin
-        ide.idDest := doInterna;
-      end;
-
-      case toettecodigo.AsInteger of
-        0:
-          ide.tpNF := tnEntrada;
-        1:
-          ide.tpNF := tnSaida;
-      end;
-
-      ide.tpImp := tiRetrato;
-      ide.tpEmis := teNormal;
-
-      (* Finalidade da NFe *)
-      case toettocodigo.AsInteger of
-        ttoCompra, ttoVenda, ttoOutros, ttoRemessaRetorno:
-          ide.finNFe := fnNormal;
-        ttoDevolucao:
-          ide.finNFe := fnDevolucao;
-        ttoAjuste:
-          ide.finNFe := fnAjuste;
-        ttoComplemento:
-          ide.finNFe := fnComplementar;
-      end;
-
-      if mesmespararevenda.AsInteger = 1 then
-      begin
-        ide.indFinal := cfNao;
-      end
-      else
-      begin
-        ide.indFinal := cfConsumidorFinal;
-      end;
-
-      if (toettocodigo.AsInteger = ttoVenda) or (toettocodigo.AsInteger = ttoOutros) then
-      begin
-        ide.indPres := pcPresencial;
-      end
-      else
-      begin
-        ide.indPres := pcNao;
-      end;
-
-
-      if mesoricodigo.AsInteger=3 then  // delivery entrega
-      begin
-        ide.indPres:= pcTeleatendimento;
-        ide.indIntermed:=iiOperacaoSemIntermediador;
-
-      end
-      else if (mesoricodigo.AsInteger=7) or (mesoricodigo.AsInteger=8)  then  // nuc ou aiqfome
-      begin
-
-        ide.indPres:= pcTeleatendimento;
-        ide.indIntermed:=iiOperacaoComIntermediador;
-
-        with infIntermed do
-        begin
-
-          ori.close;
-          ori.ParamByName('oricodigo').AsInteger:=mesoricodigo.AsInteger;
-          ori.Open;
-
-          if orietdcodigo.AsInteger<>0 then
-          begin
-            infIntermed.CNPJ:=SoNumeros(orietddoc1.AsString);
-            infIntermed.idCadIntTran:=orietdapelido.AsString;
-          end;
-
-        end;
-
-      end
-      else    // presencial no salão
-      begin
-        ide.indPres := pcPresencial;
-        ide.indIntermed := iiSemOperacao;
-      end;
-
-
-      ide.cMunFG := cfgcddcodigo.AsInteger;
-
-      if cfgcfgmodonfe.AsInteger = 2 then
-        ide.tpAmb := taHomologacao;
-
-      if cfgcfgmodonfe.AsInteger = 1 then
-      begin
-        ide.tpAmb := taModo;
-      end
-      else
-      begin
-        ide.tpAmb := taHomologacao;
-      end;
-
-      ide.verProc := '21.25.300.1';
-
-      ctd.Close;
-      ctd.Connection := zcone;
-      ctd.Open;
-
-      if not ctd.IsEmpty then
-      begin
-        if (ctdctdcnpj.AsString <> '') and (ctdctdcnpj.AsString <> '0') then
-        begin
-          try
-            if strtofloat(SoNumeros(ctdctdcnpj.AsString)) > 0 then
-            begin
-              autXML.add.CNPJCPF := SoNumeros(ctdctdcnpj.AsString);
-            end;
-          except
-
-          end;
-        end;
-      end;
-      (*
-        *
-        ****** Grupo de Informações de Documentos Referenciados
-        *
-      *)
-      vInfComplCF := '';
-      vSeparadorCF := '';
-
-      vInfComplNF := '';
-      vSeparadorNF := '';
-      vInfComplNFP := '';
-      vSeparadorNFP := '';
-      vInfComplNFe := '';
-      vSeparadorNFe := '';
-
-      dfr.Close;
-      dfr.Params[0].AsString := vpMesChave;
-      dfr.Open;
-
-      (* Documento Fiscal Referenciado *)
-      while not dfr.Eof do
-      begin
-        with ide.NFref.add do
-        begin
-          (* Nota Fiscal Modelo 1/1a *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscal then
-            with RefNF do
-            begin
-              cUF := dfrufscodigo.AsInteger;
-              AAMM := formatdatetime('yymm', dfrdfremissao.AsFloat);
-              cnpj := SomenteNumeros(dfretddoc1.AsString);
-              modelo := dfrtdfcodigo.AsInteger;
-              // serie := dfrdfrserie.AsInteger;
-              serie := cfgcfgserienfe.AsInteger;
-              nNF := dfrdfrnumero.AsInteger;
-
-              if vInfComplNF = '' then
-                vInfComplNF := 'Nota Fiscal referenciada: ';
-
-              vInfComplNF := vInfComplNF + vSeparadorNF + dfrdfrnumero.AsString;
-              vSeparadorNF := ', ';
-            end;
-
-          (* Nota Fiscal de Produtor Rural *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscalDeProdutor then
-            with RefNFP do
-            begin
-              cUF := dfrufscodigo.AsInteger;
-              AAMM := formatdatetime('yymm', dfrdfremissao.AsFloat);
-              CNPJCPF := SomenteNumeros(dfretddoc1.AsString);
-              IE := SomenteNumeros(dfredrinscest.AsString);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              if Copy(IE, 1, 1) = '0' then
-                IE := Copy(IE, 2, 20);
-
-              modelo := dfrtdfcodigo.AsString;
-              // serie := dfrdfrserie.AsInteger;
-              serie := cfgcfgserienfe.AsInteger;
-              nNF := dfrdfrnumero.AsInteger;
-
-              if vInfComplNFP = '' then
-                vInfComplNFP := 'Nota Fiscal de Produtor referenciada: ';
-
-              vInfComplNFP := vInfComplNFP + vSeparadorNFP + dfrdfrnumero.AsString;
-              vSeparadorNFP := ', ';
-            end;
-
-          (* Nota Fiscal Eletrônica - NFe *)
-          if dfrtdfcodigo.AsString = tdfNotaFiscalEletronica then
-          begin
-            refNFe := dfrdfrchavenfe.AsString;
-
-            if vInfComplNFe = '' then
-              vInfComplNFe := 'NF-e referenciada: ';
-
-            vInfComplNFe := vInfComplNFe + vSeparadorNFe + dfrdfrchavenfe.AsString;
-            vSeparadorNFe := ', ';
-          end;
-        end;
-
-        dfr.Next;
-      end;
-
-      if vInfComplNF <> '' then
-        vInfComplNF := vInfComplNF + ';';
-
-      if vInfComplNFP <> '' then
-        vInfComplNFP := vInfComplNFP + ';';
-
-      if vInfComplNFe <> '' then
-        vInfComplNFe := vInfComplNFe + ';';
-
-      if vInfComplCF <> '' then
-        vInfComplCF := vInfComplCF + ';';
-
-      (*
-        *
-        ****** Emitente da NFe - EMIT ********
-        *
-      *)
-
-      Emit.CNPJCPF := SomenteNumeros(cfgetddoc1.AsString);
-      Emit.IE := SomenteNumeros(cfgedrinscest.AsString);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      if Copy(Emit.IE, 1, 1) = '0' then
-        Emit.IE := Copy(Emit.IE, 2, 20);
-
-      Emit.xNome := cfgetdidentificacao.AsString;
-      Emit.xFant := cfgetdapelido.AsString;
-      Emit.EnderEmit.fone := cfgetftelefone.AsString;
-      Emit.EnderEmit.CEP := StrToInt(SomenteNumeros(cfgedrcep.AsString));
-      Emit.EnderEmit.xLgr := cfgedrrua.AsString;
-      Emit.EnderEmit.nro := cfgedrnumero.AsString;
-      Emit.EnderEmit.xCpl := '';
-      Emit.EnderEmit.xBairro := cfgedrbairro.AsString;
-      Emit.EnderEmit.cMun := cfgcddcodigo.AsInteger;
-      Emit.EnderEmit.xMun := cfgcddnome.AsString;
-      Emit.EnderEmit.UF := UpperCase(cfgufssigla.AsString);
-      Emit.EnderEmit.cPais := 1058;
-
-      if trim(mesmesfilialpedido.AsString) <> '' then
-      begin
-        Emit.EnderEmit.xCpl := mesmesfilialpedido.AsString;
-      end;
-
-      Emit.EnderEmit.xPais := 'BRASIL';
-
-      case cfgcrtcodigo.AsInteger of
-        1:
-          Emit.CRT := crtSimplesNacional;
-        2:
-          Emit.CRT := crtSimplesExcessoReceita;
-        3:
-          Emit.CRT := crtRegimeNormal;
-      end;
-
-      (*
-        *
-        ********* Destinatário da NFe **********
-        *
-      *)
-
-      Dest.CNPJCPF := SomenteNumeros(self.etdetddoc1.AsString);
-      if etdedrcep.AsString = '' then
-        Dest.EnderDest.CEP := StrToInt(SomenteNumeros(cfgedrcep.AsString))
-      else
-        Dest.EnderDest.CEP := StrToInt(SomenteNumeros(etdedrcep.AsString));
-
-      Dest.EnderDest.xLgr := etdedrrua.AsString;
-      Dest.EnderDest.nro := etdedrnumero.AsString;
-      Dest.EnderDest.xCpl := '';
-      Dest.EnderDest.xBairro := etdedrbairro.AsString;
-
-      if etdcddcodigo.AsString = '' then
-        Dest.EnderDest.cMun := cfgcddcodigo.AsInteger
-      else
-        Dest.EnderDest.cMun := etdcddcodigo.AsInteger;
-
-      if etdcddnome.AsString = '' then
-        Dest.EnderDest.xMun := cfgcddnome.AsString
-      else
-        Dest.EnderDest.xMun := etdcddnome.AsString;
-
-      if etdufssigla.AsString = '' then
-        Dest.EnderDest.UF := UpperCase(cfgufssigla.AsString)
-      else
-        Dest.EnderDest.UF := UpperCase(etdufssigla.AsString);
-      Dest.EnderDest.fone := etdetftelefone.AsString;
-
-      (* Valida Inscrição Estadual do Destinatário *)
-      try
-        vTestaInscEst := trim(SomenteNumeros(etdedrinscest.AsString));
-
-        if vTestaInscEst = '00000000000' then
-          vTestaInscEst := '';
-
-        strtofloat(vTestaInscEst);
-
-        ACBrValidador1.TipoDocto := docInscEst;
-        ACBrValidador1.Complemento := UpperCase(etdufssigla.AsString);
-        ACBrValidador1.Documento := vTestaInscEst;
-
-        if not ACBrValidador1.Validar then
-        begin
-          Application.MessageBox(pchar('Inscrição Estadual do destinatário inválida.' + #13 + #13 +
-            'Corrija no cadastro do destinatário e tente novamente.'), 'Inscrição Estadual Inválida', MB_OK + MB_ICONERROR);
-          vTestaInscEst := '';
-          exit;
-        end;
-
-        if Length(SomenteNumeros(self.etdetddoc1.AsString)) = 14 then
-          ACBrValidador1.TipoDocto := docCNPJ;
-
-        if Length(SomenteNumeros(self.etdetddoc1.AsString)) = 11 then
-          ACBrValidador1.TipoDocto := docCPF;
-
-        ACBrValidador1.Documento := SomenteNumeros(self.etdetddoc1.AsString);
-
-        if not ACBrValidador1.Validar then
-        begin
-          Application.MessageBox(pchar('CNPJ ou CPF do destinatário inválido.' + #13 + #13 +
-            'Corrija no cadastro do destinatário e tente novamente.'), 'CNPJ ou CPF Inválido', MB_OK + MB_ICONERROR);
-
-          exit;
-        end;
-
-      except
-        vTestaInscEst := '';
-      end;
-
-      if vTestaInscEst <> '' then
-      begin
-        Dest.IE := vTestaInscEst;
-        Dest.indIEDest := inContribuinte;
-      end
-      else
-      begin
-        Dest.IE := '';
-        Dest.indIEDest := inNaoContribuinte;
-      end;
-
-      if etdedrrazaofazenda.AsString <> '' then
-        Dest.xNome := etdedrrazaofazenda.AsString
-      else
-        Dest.xNome := etdetdidentificacao.AsString;
-
-      Dest.EnderDest.cPais := 1058;
-      Dest.EnderDest.xPais := 'BRASIL';
-
-      (*
-        *
-        ********* Detalhamento de Produtos e Serviços - DET ***********
-        *
-      *)
-
-      itm.Refresh;
-
-      itm.IndexFieldNames := 'itmchave';
-      itm.First;
-      it := 1;
-
-      vtBC := 0;
-      vtICMS := 0;
-      vtBCST := 0;
-      vtICMSST := 0;
-
-      vlTotTrib := 0;
-      vlTotTribEst := 0;
-      vlMensagemCargaTrib := '';
-
-      VerifieAjustaItemcomSubstituicao(Emit.EnderEmit.UF, Dest.EnderDest.UF);
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-        if ide.indPres = pcPresencial then
-        begin
-          { if Dest.indIEDest = inContribuinte then
-            begin
-            VerifieAjustaItemcomConsumidorFinal(True);
-            end
-            else
-            begin }
-          VerifieAjustaItemcomConsumidorFinal(False);
-          { end; }
-        end;
-      end;
-
-      itm.Close;
-      itm.Params[0].AsString := vpMesChave;
-      itm.Params[1].AsInteger := Acesso.Filial;
-      itm.Open;
-
-      itm.First;
-
-      vlTemANP := False;
-      While Not itm.Eof Do
-      Begin
-
-        if (trim(itmproanpcodigo.AsString) <> '') and (trim(itmproanpcodigo.AsString) <> '0') then
-        begin
-
-          vlTemANP := True;
-
-          consulta.Close;
-          consulta.SQL.Text := 'select unisimbolo, proqtdtrib  from pro,uni where pro.prounitrib=uni.unicodigo  and  procodigo=' +
-            itmprocodigo.AsString;
-          consulta.Open;
-          itm.Edit;
-          itmpunqtdtribtotal.AsFloat := consulta.FieldByName('proqtdtrib').AsFloat;
-          itmunisimbolotrib.AsString := consulta.FieldByName('unisimbolo').AsString;
-          vlQtdTributaria := consulta.FieldByName('proqtdtrib').AsFloat;
-          itm.post;
-        end;
-
-        With Det.add Do
-        Begin
-
-          infAdProd := itmitmdesccomple.AsString;
-          Prod.nItem := it;
-          Prod.ncm := SomenteNumeros(itmproncm.AsString);
-
-          Prod.CFOP := itmcfocfop.AsString; // '5101';
-
-
-          Prod.cProd := self.itmprocodigo.AsString; // '67';
-
-          If cfgcfgdescrinfe.AsInteger = 0 Then
-            Prod.xProd := BuscaTroca(trim(itmpronome.AsString), '%', '');
-
-          If cfgcfgdescrinfe.AsInteger = 1 Then
-            Prod.xProd := BuscaTroca(trim(itmpronomereduzido.AsString), '%', '');
-
-          If (Copy(Prod.xProd, 1, 1) = '.') Then
-            Prod.xProd := trim(Copy(Prod.xProd, 2, 300));
-
-          Prod.qCom := self.itmitmquantidade.AsFloat;
-          Prod.uCom := self.itmunisimbolo.AsString; // 'KG';
-          Prod.vProd := TBRound(self.itmitmquantidade.AsFloat * self.itmitmvalor.AsFloat, 2);
-          Prod.vUnCom := self.itmitmvalor.AsFloat; // 10;
-
-          Prod.vDesc := self.itmitmdesconto.AsFloat;
-
-          Prod.qTrib := self.itmpunqtdtribtotal.AsFloat;
-          Prod.uTrib := self.itmunisimbolotrib.AsString;
-          Prod.vUnTrib := Prod.vProd / Prod.qTrib; // 10;
-          Prod.vOutro := self.itmitmoutras.AsFloat;
-          // inclui dados do pedido
-          if (mesmesnumeropedido.AsString <> '') and (itmitmitempedido.AsString <> '') then
-          begin
-            Prod.xPed := mesmesnumeropedido.AsString;
-
-            s := itmitmitempedido.AsString;
-
-            val(s, iValue, iCode);
-
-            if iCode = 0 then
-            begin
-              Prod.nItemPed := formatfloat('000000', itmitmitempedido.AsInteger);
-            end
-            else
-            begin
-              Prod.nItemPed := itmitmitempedido.AsString;
-            end;
-
-          end;
-
-          vxdesc := vxdesc + Prod.vDesc; // acumula o valor do desconto
-          vxtot := vxtot + Prod.vProd; // acumula o valor total do item
-          vxliq := vxliq + (vxtot - vxdesc); // acumula o valor liquido da nota
-
-          if itmtpocodigo.AsInteger = 99 then
-            Prod.CEST := '01.999.00';
-
-          if itmtcecest.AsString <> '' then
-          begin
-            Prod.CEST := itmtcecest.AsString;
-          end;
-
-          With Imposto Do
-          Begin
-
-            (* Se for operação de Venda define o total de carga tributária por item *)
-            if (toettocodigo.AsInteger = ttoVenda) or (toettocodigo.AsInteger = ttoOutros) then
-            begin
-              Imposto.vTotTrib := itmitmcargatrib.AsFloat + itmitmcargatribest.AsFloat;
-
-              (* Acumula totais de carga tributária por ente Federal e Estadual *)
-              vlTotTrib := vlTotTrib + itmitmcargatrib.AsFloat;
-              vlTotTribEst := vlTotTribEst + itmitmcargatribest.AsFloat;
-            end;
-
-            case mesrefcodigo.AsInteger of
-              1:
-                begin
-                  Prod.vFrete := itmitmfrete.AsCurrency;
-                  vlTotalFrete := vlTotalFrete + itmitmfrete.AsCurrency;
-                end;
-              9:
-                Total.ICMSTot.vFrete := 0;
-            end;
-
-            // if cfgcrtcodigo.AsInteger = 3 then
-            // begin
-            if vlTemANP then
-            begin
-              if trim(itmproanpcodigo.AsString) <> '' then
-              begin
-                if trim(itmproanpcodigo.AsString) = '210203001' then
-                begin
-
-                  itm.Edit;
-                  itmcstcodigo.AsString := '061';
-                  itm.post;
-                end;
-              end;
-            end;
-            // end;
-
-            With ICMS Do
-            Begin
-
-              
-              // ICMS.orig:=TpcnOrigemMercadoria.oeEstrangeiraAdquiridaBrasil;
-              case Emit.CRT of
-                (* CSOSN *)
-                crtSimplesNacional:
-                  begin
-                    vCST := self.itmcstcodigo.AsString;
-
-                    if (Copy(self.itmcstcodigo.AsString, 2, 2) = toecstnormal.AsString) then // '61'
-                    begin
-
-                      vCST := Copy(self.itmcstcodigo.AsString, 2, 2);
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, vCST);
-
-                      if vlCSTIcmsOK then
-                        CST := vlCSTIcms;
-
-                    end
-                    else
-                    begin
-
-                      vlCSOSNIcms := StrToCSOSNIcms(vlCSOSNIcmsOK, vCST);
-
-                      if vlCSOSNIcmsOK then
-                        CSOSN := vlCSOSNIcms
-
-                    end;
-                  end;
-
-                (* CST *)
-                crtRegimeNormal, crtSimplesExcessoReceita:
-                  begin
-
-                    vCST := Copy(self.itmcstcodigo.AsString, 2, 2);
-
-                    if (Copy(self.itmcstcodigo.AsString, 2, 2) = '60') and (trim(itmproanpcodigo.AsString) <> '') then
-                    begin
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, Copy(self.itmcstcodigo.AsString, 2, 2) + 'rep');
-
-                    end
-                    else
-                    begin
-                      vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, vCST);
-
-                    end;
-
-                    if vlCSTIcmsOK then
-                      CST := vlCSTIcms;
-                  end;
-              end;
-
-              // (cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50, cst51, cst60, cst70, cst80, cst81, cst90,cstPart10,cstPart90,cstRep41,cstVazio);
-
-              ICMS.modBC := dbiValorOperacao;
-              If (lowercase(self.itmicmcodigo.AsString) = 'ff') Or (lowercase(self.itmicmcodigo.AsString) = 'ii') Or
-                (lowercase(self.itmicmcodigo.AsString) = 'nn') Then
-              Begin
-                ICMS.pICMS := 0;
-                ICMS.vICMS := 0;
-                ICMS.vBC := 0;
-              End
-              Else
-              Begin
-                If (self.itmitmicm.AsFloat = 0.01) or (self.itmitmicm.AsFloat = 0) Then
-                Begin
-                  ICMS.pICMS := 0;
-                  ICMS.vICMS := 0;
-                  ICMS.vBC := 0;
-                End
-                Else
-                Begin
-                  ICMS.pICMS := self.itmicmaliquotas.AsFloat;
-                  ICMS.vICMS := itmitmicm.AsFloat;
-                  ICMS.vBC := itmitmbicm.AsCurrency;
-                  ICMS.pRedBC := itmitmpercreducaobaseicm.AsCurrency;
-                  if (ICMS.CSOSN = csosn900) or (ICMS.CSOSN = csosn400) then
-                  begin
-                    if (itmitmbicms.AsFloat > 0) and (itmitmaliqicms.AsFloat > 0) then
-                    begin
-                      ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := itmitmmva.AsFloat;
-                      ICMS.vBCST := itmitmbicms.AsFloat;
-                      ICMS.pICMSST := itmitmaliqicms.AsFloat;
-                      ICMS.vICMSST := itmitmicms.AsFloat;
-                    end;
-                  end
-                  else
-                  begin
-                    if (itmitmbicms.AsFloat > 0) and (itmitmaliqicms.AsFloat > 0) then
-                    begin
-                      ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := itmitmmva.AsFloat;
-                      ICMS.vBCST := itmitmbicms.AsFloat;
-                      ICMS.pICMSST := itmitmaliqicms.AsFloat;
-                      ICMS.vICMSST := itmitmicms.AsFloat;
-                    end;
-                  end;
-                End;
-              End;
-
-              if (ICMS.CSOSN = csosn202) or (ICMS.CSOSN = csosn500) then
-              begin
-                vtICMS := vtICMS + 0;
-                vtBC := vtBC + 0;
-                ICMS.vBCFCPST := 0;
-                ICMS.pFCPST := 0;
-                ICMS.vFCPST := 0;
-
-              end
-              else
-              begin
-                vtICMS := vtICMS + ICMS.vICMS;
-                vtBC := vtBC + ICMS.vBC;
-
-              end;
-
-              vlTotalST := vlTotalST + ICMS.vICMSST;
-              vtICMSST := vtICMSST + ICMS.vICMSST;
-
-              vtBCST := vtBCST + ICMS.vBCST;
-              if cfgcrtcodigo.AsInteger <> 1 then
-              begin
-
-                if (itmitmbasefcpicm.AsString <> '') and (itmitmbasefcpicm.AsString <> '0') then
-                begin
-                  vBCFCP := itmitmbasefcpicm.AsFloat;
-                  pFCP := itmitmpercfcpicm.AsFloat;
-                  vFCP := itmitmvalofcpicm.AsFloat;
-                  vlTotvFCP := vlTotvFCP + itmitmvalofcpicm.AsFloat;
-                end;
-
-                if (itmitmbasefcpicmst.AsString <> '') and (itmitmbasefcpicmst.AsString <> '0') then
-                begin
-                  vBCFCPST := itmitmbasefcpicmst.AsFloat;
-                  pFCPST := itmitmpercfcpicmst.AsFloat;
-                  vFCPST := itmitmvalofcpicmst.AsFloat;
-                  vlTotvFCPST := vlTotvFCPST + itmitmvalofcpicmst.AsFloat;
-                end;
-
-              end;
-              if mesmespararevenda.AsInteger = 1 then
-              begin
-                if itmcstcodigo.AsString = '101' then
-                begin
-                  vpmestotalbaseicm := vpmestotalbaseicm + ((itmitmvalor.AsFloat * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency);
-                end;
-
-              end;
-
-            End;
-            if trim(itmproanpcodigo.AsString) = '' then
-            begin
-
-              If self.itmitmaliqipi.AsFloat <> 0 Then
-              Begin
-                if toettocodigo.AsInteger=ttoDevolucao then
-                begin
-                   vIPIDevol := itmitmipi.AsCurrency;
-                   pDevol := 100;
-                end
-                else
-                begin
-                  ipi.vIPI := itmitmipi.AsCurrency;
-                end;
-
-                ipi.vBC := itmitmbipi.AsCurrency;
-                ipi.pIPI := self.itmitmaliqipi.AsFloat;
-
-                ipi.CST := StrToCSTIPI(ok, itmcsicodigo.AsString);
-                // ipi.CST := ipi50;
-                vtipi := vtipi + ipi.vIPI;
-              End
-              Else
-              Begin
-                ipi.CST := StrToCSTIPI(ok, itmcsicodigo.AsString);
-                if toettocodigo.AsInteger=ttoDevolucao then
-                begin
-                   vIPIDevol := itmitmipi.AsCurrency;
-                   pDevol := 100;
-                   vtipi := vtipi + vIPIDevol;
-                end;
-
-              End;
-
-            end;
-            if itmcspcodigo.AsString = '' then
-            begin
-              pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
-
-            end
-            else
-            begin
-
-              pis.CST := StrToCSTPIS(ok, formatfloat('00', itmcspcodigo.AsInteger));
-            end;
-
-            if itmcsfcodigo.AsString = '' then
-            begin
-              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', 99));
-
-            end
-            else
-            begin
-
-              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', itmcsfcodigo.AsInteger));
-            end;
-
-            { if cfgcfgcstpis.AsString <> '' then
-              begin
-              pis.CST := StrToCSTPIS(ok, cfgcfgcstpis.AsString);
-              end;
-
-              if cfgcfgcstcofins.AsString <> '' then
-              begin
-              COFINS.CST := StrToCSTCOFINS(ok, cfgcfgcstcofins.AsString);
-              end; }
-
-          End;
-          it := it + 1;
-        End;
-        itm.Next;
-      End;
-
-      (*
-        *
-        ******** Informações do Transporte da NF-e - TRANSP ********
-        *
-      *)
-
-      // Responsavel pelo Frete 0- Por conta do emitente; 1- Por conta do destinatário/remetente;2- Por conta de terceiros;9- Sem cobrança de frete
-      case mesrefcodigo.AsInteger of
-        0:
-          begin
-          if mesmesretirabalcao.AsInteger=1 then
-            Transp.modFrete := mfSemFrete
-          else
-            Transp.modFrete := mfContaEmitente;
-          end;
-        1:
-           Transp.modFrete := mfContaDestinatario;
-        2:
-          Transp.modFrete := mfContaTerceiros;
-        9:
-          Transp.modFrete := mfSemFrete;
-      end;
-
-      if (ide.indPres = pcPresencial) and (ide.indFinal = cfConsumidorFinal) then
-      begin
-        Transp.modFrete := mfSemFrete;
-      end;
-
-      dtm.Close;
-      dtm.ParamByName('meschave').AsString := vpMesChave;
-      dtm.ParamByName('flacodigo').AsInteger := Acesso.Filial;
-      dtm.Open;
-
-      if Transp.modFrete <> mfSemFrete then
-      begin
-
-        If dtm.RecordCount = 1 Then
-        Begin
-
-          Transp.Transporta.xNome := dtmetdidentificacao.AsString;
-          Transp.Transporta.CNPJCPF := SomenteNumeros(dtmetddoc1.AsString);
-          Transp.Transporta.IE := SomenteNumeros(dtmedrinscest.AsString);
-
-          if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-            Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-          if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-            Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-          if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-            Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-          if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-            Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-          Transp.Transporta.xEnder := dtmedrrua.AsString;
-          Transp.Transporta.xMun := dtmcddnome.AsString;
-          Transp.Transporta.UF := dtmufssigla.AsString;
-
-          { Transp.veicTransp.placa := dtmdtmplaca.AsString;
-            Transp.veicTransp.UF := dtmufssigla.AsString; }
-
-          if Emit.EnderEmit.UF <> Dest.EnderDest.UF then // fora do estado
-          begin
-
-            Transp.Transporta.xNome := dtmetdidentificacao.AsString;
-            Transp.Transporta.CNPJCPF := SomenteNumeros(dtmetddoc1.AsString);
-            Transp.Transporta.IE := SomenteNumeros(dtmedrinscest.AsString);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            if Copy(Transp.Transporta.IE, 1, 1) = '0' then
-              Transp.Transporta.IE := Copy(Transp.Transporta.IE, 2, 20);
-
-            Transp.Transporta.xEnder := dtmedrrua.AsString;
-            Transp.Transporta.xMun := dtmcddnome.AsString;
-            Transp.Transporta.UF := dtmufssigla.AsString;
-
-            // Transp.veicTransp.placa := dtmdtmplaca.AsString;
-            // Transp.veicTransp.UF := dtmufssigla.AsString;
-
-          end
-          else
-          begin
-
-            Transp.Vol.add;
-            Transp.Vol.Items[0].qVol := dtmdtmvolumes.AsInteger;
-            Transp.Vol.Items[0].esp := dtmdtmespecie.AsString;
-            Transp.Vol.Items[0].marca := dtmdtmmarcas.AsString;
-            Transp.Vol.Items[0].pesoB := dtmdtmpesobruto.AsFloat;
-            Transp.Vol.Items[0].pesoL := dtmdtmpesoliq.AsFloat;
-          end;
-        End
-        Else
-        Begin
-          Transp.Transporta.xNome := '';
-          Transp.Transporta.CNPJCPF := '';
-          Transp.Transporta.IE := '';
-          Transp.Transporta.xEnder := '';
-          Transp.Transporta.xMun := '';
-          Transp.Transporta.UF := '';
-
-          Transp.Vol.add;
-          Transp.Vol.Items[0].qVol := 1;
-          Transp.Vol.Items[0].esp := '';
-          Transp.Vol.Items[0].marca := '';
-          Transp.Vol.Items[0].pesoB := 0;
-          Transp.Vol.Items[0].pesoL := 0;
-        End;
-
-      end
-      else
-      begin
-        Transp.Transporta.xNome := '';
-        Transp.Transporta.CNPJCPF := '';
-        Transp.Transporta.IE := '';
-        Transp.Transporta.xEnder := '';
-        Transp.Transporta.xMun := '';
-        Transp.Transporta.UF := '';
-
-        Transp.Vol.add;
-        Transp.Vol.Items[0].qVol := 1;
-        Transp.Vol.Items[0].esp := '';
-        Transp.Vol.Items[0].marca := '';
-        Transp.Vol.Items[0].pesoB := 0;
-        Transp.Vol.Items[0].pesoL := 0;
-
-      end;
-      (*
-        *
-        ******* Totais da NFe *******
-        *
-      *)
-
-      Total.ICMSTot.vTotTrib := RoundTo(vlTotTrib + vlTotTribEst, -2);
-
-      if toettocodigo.AsInteger=ttoDevolucao then
-        Total.ICMSTot.vIPIDevol := vtipi
-      else
-        Total.ICMSTot.vIPI := vtipi;
-
-      Total.ICMSTot.vBC := vtBC;
-
-      Total.ICMSTot.vICMS := RoundTo(vtICMS, -2);
-      // 180;
-      Total.ICMSTot.vBCST := vtBCST;
-      Total.ICMSTot.vST := RoundTo(vtICMSST, -2);
-
-
-      consulta.Close;
-      consulta.SQL.Text := 'select messervicos, mesprodutos, mesdesconto from mes where meschave=' + mesmeschave.AsString;
-      consulta.Open;
-
-      if consulta.FieldByName('messervicos').AsFloat > 0 then
-      begin
-        if cfgcfgdescontonoservico.AsInteger = 1 then
-        begin
-          { vxser := consulta.FieldByName('messervicos').AsFloat -
-            (consulta.FieldByName('mesdesconto').AsCurrency * (consulta.FieldByName('mesdesconto').AsCurrency / (consulta.FieldByName('mesprodutos').AsFloat +
-            consulta.FieldByName('messervicos').AsFloat))); }
-          vxser := consulta.FieldByName('messervicos').AsFloat;
-
-        end
-        else
-        begin
-          vxser := consulta.FieldByName('messervicos').AsFloat;
-
-        end;
-      end
-      else
-      begin
-        vxser := 0;
-      end;
-
-      Total.ICMSTot.vNF := mesmestotal.AsCurrency;
-
-      Total.ICMSTot.vProd := RoundTo(vxtot, -2);
-      Total.ICMSTot.vDesc := RoundTo(vxdesc, -2);
-      Total.ICMSTot.vOutro := mesmesoutras.AsCurrency;
-      Total.ICMSTot.vFrete := mesmesfrete.AsCurrency;
-
-      if cfgcrtcodigo.AsInteger <> 1 then
-      begin
-
-        Total.ICMSTot.vFCP := vlTotvFCP;
-        Total.ICMSTot.vFCPST := vlTotvFCPST;
-      end;
-
-
-      case mesrefcodigo.AsInteger of
-        1:
-          Total.ICMSTot.vFrete := vlTotalFrete;
-        9:
-          Total.ICMSTot.vFrete := 0;
-      end;
-
-      qTomTof.Close;
-      qTomTof.SQL.Text := 'SELECT tofidentificacao FROM tom, tof WHERE ';
-      qTomTof.SQL.add('tom.tofcodigo = tof.tofcodigo AND ');
-      qTomTof.SQL.add('tof.ticcodigo IN (' + IntToStr(ticObservacao) + ') AND ');
-      qTomTof.SQL.add('tom.meschave = ' + vpMesChave + ' ');
-      qTomTof.SQL.add('ORDER BY tof.tofcodigo');
-      qTomTof.Open;
-
-      vInfComplGeral := '';
-
-      while not qTomTof.Eof do
-      begin
-        if pos(trim(qTomTof.Fields[0].AsString), vInfComplGeral) = 0 then
-        begin
-
-          if pos('%?', qTomTof.Fields[0].AsString) > 0 then
-          begin
-            vlMensagemICM := StringReplace(qTomTof.Fields[0].AsString, '%?', itmicmcodigo.AsString + '%', []);
-
-            vlMensagemICM := StringReplace(vlMensagemICM, 'R$?',
-              'R$ ' + floattostr(RoundTo(vpmestotalbaseicm { mesmestotal.AsCurrency } * (itmicmcodigo.AsFloat / 100), -2)), []);
-
-            if pos(vlMensagemICM, vInfComplGeral) >= 0 then
-            begin
-              vInfComplGeral := vInfComplGeral + trim(vlMensagemICM) + ';';
-            end;
-          end
-          else
-          begin
-
-            if pos(trim(qTomTof.Fields[0].AsString), vInfComplGeral) = 0 then
-            begin
-              vInfComplGeral := vInfComplGeral + trim(qTomTof.Fields[0].AsString) + ';';
-            end;
-          end;
-
-        end;
-        qTomTof.Next;
-      end;
-
-
-      vInfComplTEF:='';
-
-      dtl.First;
-      while not dtl.Eof do
-      begin
-
-        rdc.close;
-        rdc.ParamByName('dtlchave').AsInteger:=dtl.FieldByName('dtlchave').AsInteger;
-        rdc.Open;
-
-        if not rdc.IsEmpty then
-        begin
-          if pos('{',rdc.FieldByName('rdcnrauto').AsString)=0 then
-          begin
-            vInfComplTEF:=vInfComplTEF+#13+'; Cód. Transação TEF: '+rdc.FieldByName('rdcnrauto').AsString;
-          end;
-        end;
-
-        dtl.Next;
-      end;
-
-      vInfComplGeral:=vInfComplGeral+#13+vInfComplTEF;
-
-vInfComplTEF:='';
-
-      dtl.First;
-      while not dtl.Eof do
-      begin
-
-        rdc.close;
-        rdc.ParamByName('dtlchave').AsInteger:=dtl.FieldByName('dtlchave').AsInteger;
-        rdc.Open;
-
-        if not rdc.IsEmpty then
-        begin
-          if pos('{',rdc.FieldByName('rdcnrauto').AsString)=0 then
-          begin
-            vInfComplTEF:=vInfComplTEF+#13+'; Cód. Transação TEF: '+rdc.FieldByName('rdcnrauto').AsString;
-          end;
-        end;
-
-        dtl.Next;
-      end;
-
-      vInfComplGeral:=vInfComplGeral+#13+vInfComplTEF;
-
-
-      (* Trata mensagem referente Carga Tributária *)
-      if (vlTotTrib + vlTotTribEst) > 0 then
-      begin
-        vlMensagemCargaTrib := 'Trib. aprox. R$ ';
-        vlMensagemCargaTrib := vlMensagemCargaTrib + formatfloat('#,###.00', RoundTo(vlTotTrib, -2)) + ' Federal ';
-
-        if vlTotTribEst > 0 then
-          vlMensagemCargaTrib := vlMensagemCargaTrib + ' e ' + formatfloat('#,###.00', RoundTo(vlTotTribEst, -2)) + ' Estadual ';
-
-        vlMensagemCargaTrib := vlMensagemCargaTrib + ' Fonte: IBPT 5oi7eW;'
-      end;
-
-      // InfAdic.infCpl := vInfComplGeral + vInfComplCF + vInfComplNF + vInfComplNFP + vInfComplNFe + vlMensagemCargaTrib;
-
-      InfAdic.infCpl := StringReplace(vInfComplGeral + vInfComplCF + vInfComplNF + vInfComplNFP + vInfComplNFe + vlMensagemCargaTrib,
-        toetoeidentificacao.AsString, '', [rfReplaceAll, rfIgnoreCase]);
-
-      if UpperCase(cfgufssigla.AsString) <> UpperCase(etdufssigla.AsString) then
-      begin
-        if ide.indPres = pcPresencial then
-        begin
-          if ide.indFinal = cfConsumidorFinal then
-          begin
-
-            consulta.Close;
-            consulta.SQL.Text := 'select toeidentificacao from toe where toecodigo=' + mestoecodigo.AsString;
-            consulta.Open;
-            ide.natOp := consulta.FieldByName('toeidentificacao').AsString;
-
-            if etdtcbcodigo.AsInteger = 2 then
-            begin
-              if (cfgatvcodigo.AsInteger = atvrestaurante) then
-              begin
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-
-                  ide.idDest := doInterna;
-                end;
-
-              end
-              else
-              begin
-                if ide.indPres = pcPresencial then
-                begin
-                  if ide.indFinal = cfConsumidorFinal then
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual;
-                      Transp.modFrete := mfSemFrete;
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                      Transp.modFrete := mfSemFrete;
-                    end;
-                  end
-                  else
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                      Transp.modFrete := mfSemFrete;
-                    end;
-                  end;
-                end
-                else
-                begin
-                  ide.idDest := doInterestadual
-                end;
-              end;
-
-            end
-            else
-            begin
-              if (cfgatvcodigo.AsInteger = atvrestaurante) or (cfgatvcodigo.AsInteger = atvmercado) then
-              begin
-
-
-                if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                begin
-                  ide.idDest := doInterestadual;
-                  Transp.modFrete := mfSemFrete;
-                end
-                else
-                begin
-                  ide.idDest := doInterna;
-                  Transp.modFrete := mfSemFrete;
-                end;
-              end
-              else
-              begin
-                if ide.indPres = pcPresencial then
-                begin
-                  if ide.indFinal = cfConsumidorFinal then
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual;
-                      Transp.modFrete := mfSemFrete;
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                      Transp.modFrete := mfSemFrete;
-                    end;
-                  end
-                  else
-                  begin
-
-                    if cfgcfgpresencialtoedestino.AsInteger = 1 then
-                    begin
-                      ide.idDest := doInterestadual
-                    end
-                    else
-                    begin
-                      ide.idDest := doInterna;
-                      Transp.modFrete := mfSemFrete;
-                    end;
-                  end;
-                end
-                else
-                begin
-
-                  ide.idDest := doInterestadual
-                end;
-              end;
-            end;
-
-            // InfAdic.infCpl := InfAdic.infCpl + ' ' + '"ICMS recolhido anteriormente por estimativa simplificada - Operação Presencial/Venda no Balcão”';
-
-          end;
-        end;
-      end;
-
-      (*
-        *
-        ********* Identifica o Número da NF-e **********
-        *
-      *)
-
-      if (self.mesmesnumero.AsString <> '') and (self.mesmesnumero.AsString <> '0') and (self.mestemcodigo.AsInteger <> 3) then
-        vNumeroNFe := self.mesmesnumero.AsInteger
-      else
-      begin
-
-        { qConsulta.Close;
-          qConsulta.SQL.Text := 'select cfgnumeronfe from cfgmnfe where cfgcodigo=1';
-          qConsulta.Open;
-
-          vNumeroNFe := qConsulta.FieldByName('cfgnumeronfe').AsInteger + 1; }
-
-        NumeroNFe.ParamByName('flacodigo').AsString := vpFilial;
-        NumeroNFe.ExecSQL;
-        vNumeroNFe := NumeroNFe.Fields[0].AsInteger;
-
-      end;
-
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=1';
-      consulta.ExecSQL;
-
-      qconsulta.Close;
-      qconsulta.SQL.Text := 'UPDATE mes SET mesnumero = ' + IntToStr(vNumeroNFe) + ' WHERE meschave = ' + vpMesChave + ' and flacodigo=' +
-        Acesso.Filial.ToString;
-      qconsulta.ExecSQL;
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=null';
-      consulta.ExecSQL;
-
-      cfg.Close;
-      cfg.ParamByName('flacodigo').AsString := vpFilial;
-      cfg.Open;
-
-      if vNumeroNFe > cfgcfgnumeronfe.AsInteger then
-      begin
-        { qConsulta.Close;
-          qConsulta.SQL.Text := 'UPDATE cfgmnfe SET cfgnumeronfe = ' + IntToStr(vNumeroNFe) + ' and cfgcodigo=1';
-          qConsulta.ExecSQL;
-
-          qConsulta.Close;
-          qConsulta.SQL.Text := 'UPDATE cfgmnfe SET cfgnumeronfe = ' + IntToStr(vNumeroNFe) + ' and cfgcodigo=' + Acesso.Filial.ToString;
-          qConsulta.ExecSQL; }
-
-      end;
-
-      ide.nNF := vNumeroNFe;
-      ide.cNF := GerarCodigoDFe(vNumeroNFe);
-
-    End;
-  Except
-    On E: Exception Do
-    Begin
-      If E.Message = '' Then
-        vErro := ''
-      Else
-        vErro := #13 + 'Erro: ' + E.Message;
-
-      Application.MessageBox(pchar('Erro preenchimento dos dados da NF-e.' + #13 + vErro + #13 + #13 + #13 + 'Utilize a opção "Imprimir com NFe".'),
-        'Erro Preenchimento NF-e', MB_OK + MB_ICONERROR);
-
-      SalvarLogErro(E.Message, E.StackTrace);
-      exit;
-    End;
-  End;
-
-  try
-    // Gera Arquivo da NF-e e mantém memória
-
-    ACBrNFeNotas.Configuracoes.WebServices.Visualizar := False;
-
-    ACBrNFeNotas.NotasFiscais.GerarNFe;
-
-    vChaveNFe := Copy(ACBrNFeNotas.NotasFiscais.Items[0].NFe.infNFe.ID, 4, 44);
-    ACBrNFeNotas.NotasFiscais.Items[0].GravarXML(vChaveNFe + '-nfe.xml', ACBrNFeNotas.Configuracoes.Arquivos.PathSalvar);
-
-    CheckBox3.Checked := True;
-    atualizatela;
-
-    // Assina e salva arquivo no Path definido
-    try
-      ACBrNFeNotas.NotasFiscais.Assinar;
-    except
-
-    end;
-
-    CheckBox4.Checked := True;
-    atualizatela;
-
-    CheckBox5.Checked := True;
-    atualizatela;
-
-  Except
-    On E: Exception Do
-    Begin
-      If E.Message = '' Then
-        vErro := ''
-      Else
-        vErro := #13 + 'Erro: ' + E.Message;
-
-      Application.MessageBox(pchar('Erro na geração da NF-e.' + #13 + 'Mensagem: ' + vErro + #13 + #13 + #13 + 'Utilize a opção "Imprimir com NFe".'),
-        'Erro Geração NF-e', MB_OK + MB_ICONERROR);
-
-      SalvarLogErro(E.Message, E.StackTrace);
-
-      exit;
-    End;
-  end;
-
-  vpRetorno := '';
-
-End;
 
 Function Tfnfe.GeraNomeNFe(vmeschave: String): String;
 Var
@@ -9478,7 +6334,7 @@ Begin
 
   If not FileExists(vpArquivoNFe) Then
   Begin
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('\', cfgcfgservarqnfes.AsString) = 0) then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
 
 
@@ -9543,16 +6399,6 @@ Begin
     showmessage('457882 - ATENÇÃO: O Arquivo ' + vpArquivoNFe + ' não foi localizado!');
 End;
 
-Procedure Tfnfe.mReGeraXML;
-Begin
-  ReGeraXML;
-
-End;
-
-Procedure Tfnfe.mGeraXML;
-Begin
-  GeraXML;
-End;
 
 Procedure Tfnfe.mEnviarNFe;
 Begin
@@ -9754,7 +6600,7 @@ Begin
 
     If not FileExists(vpArquivoNFe) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
       begin
         vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
       end;
@@ -9883,7 +6729,7 @@ Begin
 
   If not FileExists(vpArquivoNFe) Then
   Begin
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
       vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
     end;
@@ -10019,7 +6865,7 @@ Begin
 
   If not FileExists(vpArquivoNFe) Then
   Begin
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
       vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
     end;
@@ -10255,7 +7101,7 @@ begin
 
   If not FileExists(vpArquivoNFe) Then
   Begin
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
 
        vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
@@ -10450,7 +7296,7 @@ begin
   If not FileExists(vpArquivoNFe) Then
   Begin
 
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
 
 
@@ -10482,7 +7328,7 @@ begin
 
     If not FileExists(vpArquivoXMLEvento) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0)  then
       begin
         vpArquivoXMLEvento := BaixaXMLServidor(IPServidorArquivos, vpArquivoXMLEvento);
       end;
@@ -11177,7 +8023,7 @@ Begin
         If not FileExists(vpArquivoNFe) Then
         Begin
 
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0)  then
         begin
         xml := BaixaXMLServidor(IPServidorArquivos, xml);
         end;
@@ -11343,7 +8189,7 @@ begin
 
     If not FileExists(vpArquivoNFe) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1')  and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
       begin
         vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
       end;
@@ -11359,7 +8205,7 @@ begin
 
    If not FileExists(vpArquivoXMLEvento) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
       begin
         vpArquivoXMLEvento := BaixaXMLServidor(IPServidorArquivos, vpArquivoXMLEvento);
       end;

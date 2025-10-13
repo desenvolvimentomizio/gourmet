@@ -1361,7 +1361,7 @@ begin
     begin
       If not FileExists(vlArqNFCe) Then
       Begin
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',lowercase(cfgcfgservarqnfes.AsString))=0) then
         begin
           vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
         end;
@@ -1811,7 +1811,7 @@ begin
     if ACBrNFeNFCe.Configuracoes.WebServices.Ambiente <> taHomologacao then
     begin
 
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',lowercase(cfgcfgservarqnfes.AsString))=0) then
       begin
         vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
         Exit;
@@ -2116,7 +2116,7 @@ Begin
 
       If not FileExists(vArqNFCe) Then
       Begin
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',lowercase(cfgcfgservarqnfes.AsString))=0) then
         begin
 
         if pos('gourmetstone', application.ExeName)=0 then
@@ -2468,7 +2468,7 @@ begin
   If not FileExists(vpNomeArquivoNFCe) Then
   Begin
 
-    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0)  then
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',lowercase(cfgcfgservarqnfes.AsString))=0)  then
     begin
       vpNomeArquivoNFCe := BaixaXMLServidor(IPServidorArquivos, vpNomeArquivoNFCe);
     end;
@@ -6628,24 +6628,9 @@ Begin
     vpNomeArquivoNFCe := GeraNomeArqNFCe(vMesChave);
     vlNomeArquivo:= vpNomeArquivoNFCe;
 
-   { if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('\', cfgcfgservarqnfes.AsString) = 0) then
-    begin
-
-      if FileExists(vpNomeArquivoNFCe) then
-      begin
-
-        if not DirectoryExists(ExtractFilePath(vlNomeArquivo)) then
-          ForceDirectories(ExtractFilePath(vlNomeArquivo));
-
-        copyfile(pchar(vpNomeArquivoNFCe), pchar(vlNomeArquivo), False);
-
-      end;
-
-    end;}
-
     If not FileExists(vpNomeArquivoNFCe) Then
     Begin
-      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
+      if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',lowercase(cfgcfgservarqnfes.AsString))=0) then
       begin
         vpNomeArquivoNFCe := BaixaXMLServidor(IPServidorArquivos, vpNomeArquivoNFCe);
       end;

@@ -182,7 +182,6 @@ Type
     toetoecodigo: TIntegerField;
     itmpunqtdtribtotal: TFloatField;
     itmunisimbolotrib: TStringField;
-    itmproanpcodigo: TIntegerField;
     plstatus: TPanel;
     consultarEvento: TTabSheet;
     Memo8: TMemo;
@@ -2280,30 +2279,8 @@ Begin
     else
     begin
 
-      vlTemANP := False;
+      
 
-      itm.First;
-      While Not itm.Eof Do
-      Begin
-        if (trim(itmproanpcodigo.AsString) <> '') and (trim(itmproanpcodigo.AsString) <> '0') then
-        begin
-
-          vlTemANP := True;
-
-          consulta.Close;
-          consulta.SQL.Text := 'select unisimbolo, proqtdtrib  from pro,uni where pro.prounitrib=uni.unicodigo  and  procodigo=' +
-            itmprocodigo.AsString;
-          consulta.Open;
-          itm.Edit;
-          itmpunqtdtribtotal.AsFloat := consulta.FieldByName('proqtdtrib').AsFloat;
-          itmunisimbolotrib.AsString := consulta.FieldByName('unisimbolo').AsString;
-          vlQtdTributaria := consulta.FieldByName('proqtdtrib').AsFloat;
-          itm.post;
-
-        end;
-
-        itm.Next;
-      End;
       itm.First;
 
       dtm.Close;
@@ -2782,24 +2759,8 @@ Begin
 
       vlQtdTributaria := 1;
 
-      vlTemANP := False;
+      
 
-      if (trim(itmproanpcodigo.AsString) <> '') and (trim(itmproanpcodigo.AsString) <> '0') then
-      begin
-
-        vlTemANP := True;
-
-        consulta.Close;
-        consulta.SQL.Text := 'select unisimbolo, proqtdtrib  from pro,uni where pro.prounitrib=uni.unicodigo  and  procodigo=' +
-          itmprocodigo.AsString;
-        consulta.Open;
-        itm.Edit;
-        itmpunqtdtribtotal.AsFloat := consulta.FieldByName('proqtdtrib').AsFloat;
-        itmunisimbolotrib.AsString := consulta.FieldByName('unisimbolo').AsString;
-        vlQtdTributaria := consulta.FieldByName('proqtdtrib').AsFloat;
-        itm.post;
-
-      end;
       With Det.add Do
       Begin
 
@@ -2868,38 +2829,7 @@ Begin
 
         Prod.CFOP := SoNumeros(itmcfocfop.AsString); // '5101';
 
-        if trim(itmproanpcodigo.AsString) <> '' THEN
-        begin
-
-          with Prod.comb do
-          begin
-            cProdANP := itmproanpcodigo.AsInteger;
-            UFcons := UpperCase(etdufssigla.AsString);
-
-            if trim(itmproanpcodigo.AsString) = '210203001' then
-            begin
-
-              vPart := itmitmvalor.AsCurrency / itmpunqtdtribtotal.AsFloat;
-
-              pGLP := 100;
-              descANP := 'GLP';
-
-              origCombl := TorigCombCollectionItem.Create;
-
-              origCombl.indImport := iiNacional;
-              origCombl.cUFOrig := 51;
-              origCombl.pOrig := 100.0000;
-
-              origComb.add(origCombl);
-
-            end
-            else
-              descANP := 'OUTROS ÓLEOS LUBRIFICANTES AUTOMOTIVOS';
-
-          end;
-
-        end;
-
+        
         Prod.cProd := self.itmprocodigo.AsString; // '67';
 
         If cfgcfgdescrinfe.AsInteger = 0 Then
@@ -2986,29 +2916,6 @@ Begin
               Total.ICMSTot.vFrete := 0;
           end;
 
-          // if cfgcrtcodigo.AsInteger = 3 then
-          // begin
-
-          if vlTemANP then
-          begin
-
-            if trim(itmproanpcodigo.AsString) <> '' then
-            begin
-
-              if trim(itmproanpcodigo.AsString) = '210203001' then
-              begin
-
-                itm.Edit;
-                itmcstcodigo.AsString := '061';
-                itm.post;
-
-              end;
-
-            end;
-
-          end;
-          // end;
-
           With ICMS Do
           Begin
 
@@ -3046,7 +2953,7 @@ Begin
               crtRegimeNormal, crtSimplesExcessoReceita:
                 begin
 
-                  if (Copy(self.itmcstcodigo.AsString, 2, 2) = '60') and (trim(itmproanpcodigo.AsString) <> '') then
+                  if (Copy(self.itmcstcodigo.AsString, 2, 2) = '60') then
                   begin
 
                     vlCSTIcms := StrToCSTICMS(vlCSTIcmsOK, Copy(self.itmcstcodigo.AsString, 2, 2) + 'rep');
@@ -3438,8 +3345,6 @@ Begin
 
           End;
 
-          if trim(itmproanpcodigo.AsString) = '' then
-          begin
 
             If self.itmitmaliqipi.AsFloat <> 0 Then
             Begin
@@ -3474,7 +3379,7 @@ Begin
               // ipi.CST := ipi01;
             End;
 
-          end;
+
           if itmcspcodigo.AsString = '' then
           begin
             pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
@@ -5123,114 +5028,6 @@ begin
         if usEmitente <> ufDestinatario then // fora do estado
         begin
 
-          if trim(itmproanpcodigo.AsString) <> '' then // tem codigo de anp
-          begin
-
-            if (cfgcfgdefinetoeatendimento.AsInteger = 1) then
-            begin
-
-              consulta.Close;
-              consulta.SQL.Text :=
-                'select toecfopsaida,cstcodigo,csicodigo,cspcodigo, csfcodigo,cfgpercentualpis, cfgpercentualcofins, toetextopermite, toetextonaopermite from toe where toecodigo='
-                + itmtoecodigo.AsString;
-              consulta.Open;
-
-              vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
-              vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
-              vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
-              vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
-
-              vlToeMensagemPermite := consulta.FieldByName('toetextopermite').AsString;
-              vlToeMensagemNaoPermite := consulta.FieldByName('toetextonaopermite').AsString;
-
-              vlcfgpercentualpis := consulta.FieldByName('cfgpercentualpis').AsString;
-              vlcfgpercentualpis := StringReplace(vlcfgpercentualpis, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-              vlcfgpercentualcofins := consulta.FieldByName('cfgpercentualcofins').AsString;
-              vlcfgpercentualcofins := StringReplace(vlcfgpercentualcofins, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-              vlcfop := consulta.FieldByName('toecfopsaida').AsString;
-
-              consulta.Close;
-              consulta.SQL.Text := 'select tcecest from tce where tcecest=' + QuotedStr(itmtcecest.AsString);
-              consulta.Open;
-
-              vlTceCest := consulta.FieldByName('tcecest').AsString;
-
-              if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
-              begin
-
-                itmncm.Close;
-                itmncm.SQL.Text := 'update itm set   itmcest=' + QuotedStr(vlTceCest) + '  ,itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
-                  + vlcfgpercentualpis + ',  cfocfop=' + QuotedStr(vlcfop) + ',cstcodigo=' + QuotedStr(vlcstcodigo) + ', csicodigo=' +
-                  QuotedStr(vlcsicodigo) + ', cspcodigo=' + QuotedStr(vlcspcodigo) + ',csfodigo=' + QuotedStr(vlcsfcodigo) + '   ,toecodigo=' +
-                  cfgcfgtoesubstanpforaestado.AsString + ' where itmchave=' + itmitmchave.AsString;
-                itmncm.ExecSQL;
-              end;
-
-            end
-            else
-            begin
-              if (cfgcfgtoesubstanpforaestado.AsInteger <> 0) and (cfgcfgtoesubstanpnoestado.AsInteger <> 0) then
-              begin
-
-                if etdtcbcodigo.AsInteger = 2 then
-                begin
-
-                  consulta.Close;
-                  consulta.SQL.Text :=
-                    'select toecfopsaida,cstcodigo,csicodigo,cspcodigo, csfcodigo,cfgpercentualpis, cfgpercentualcofins, toetextopermite, toetextonaopermite from toe where toecodigo='
-                    + cfgcfgtoesubstanpforaestado.AsString;
-                  consulta.Open;
-                end
-                else
-                begin
-                  consulta.Close;
-                  consulta.SQL.Text :=
-                    'select toecfopsaida,cstcodigo,csicodigo,cspcodigo, csfcodigo,cfgpercentualpis, cfgpercentualcofins, toetextopermite, toetextonaopermite from toe where toecodigo='
-                    + cfgcfgtoesubstanpnoestado.AsString;
-                  consulta.Open;
-
-                end;
-
-                vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
-                vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
-                vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
-                vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
-
-                vlToeMensagemPermite := consulta.FieldByName('toetextopermite').AsString;
-                vlToeMensagemNaoPermite := consulta.FieldByName('toetextonaopermite').AsString;
-
-                vlcfgpercentualpis := consulta.FieldByName('cfgpercentualpis').AsString;
-                vlcfgpercentualpis := StringReplace(vlcfgpercentualpis, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfgpercentualcofins := consulta.FieldByName('cfgpercentualcofins').AsString;
-                vlcfgpercentualcofins := StringReplace(vlcfgpercentualcofins, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfop := consulta.FieldByName('toecfopsaida').AsString;
-
-                consulta.Close;
-                consulta.SQL.Text := 'select tcecest from tce where tcecest=' + QuotedStr(itmtcecest.AsString);
-                consulta.Open;
-
-                vlTceCest := consulta.FieldByName('tcecest').AsString;
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
-                begin
-
-                  itmncm.Close;
-                  itmncm.SQL.Text := 'update itm set   itmcest=' + QuotedStr(vlTceCest) + '  ,itmaliqcofins=' + vlcfgpercentualcofins +
-                    ' ,itmaliqpis=' + vlcfgpercentualpis + ',  cfocfop=' + QuotedStr(vlcfop) + ',cstcodigo=' + QuotedStr(vlcstcodigo) + ', csicodigo='
-                    + QuotedStr(vlcsicodigo) + ', cspcodigo=' + QuotedStr(vlcspcodigo) + ',csfodigo=' + QuotedStr(vlcsfcodigo) + '   ,toecodigo=' +
-                    cfgcfgtoesubstanpforaestado.AsString + ' where itmchave=' + itmitmchave.AsString;
-                  itmncm.ExecSQL;
-                end;
-
-              end;
-
-            end;
-          end
-          else
-          begin
 
             if (cfgcfgtoesubstforaestado.AsInteger <> 0) and (cfgcfgtoesubstnoestado.AsInteger <> 0) then
             begin
@@ -5379,102 +5176,10 @@ begin
 
             end;
 
-          end;
+
         end
         else if usEmitente = ufDestinatario then
         begin
-
-          if trim(itmproanpcodigo.AsString) <> '' then // tem codigo anp
-          begin
-
-            if (cfgcfgdefinetoeatendimento.AsInteger = 1) then
-            begin
-              if (cfgcfgtoesubstanpnoestado.AsInteger <> 0) then
-              begin
-
-                consulta.Close;
-                consulta.SQL.Text :=
-                  'select toecfopsaida,cstcodigo,csicodigo,cspcodigo, csfcodigo,cfgpercentualpis, cfgpercentualcofins, toetextopermite, toetextonaopermite from toe where toecodigo='
-                  + itmtoecodigo.AsString;
-                consulta.Open;
-
-                vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
-                vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
-                vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
-                vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
-
-                vlToeMensagemPermite := consulta.FieldByName('toetextopermite').AsString;
-                vlToeMensagemNaoPermite := consulta.FieldByName('toetextonaopermite').AsString;
-
-                vlcfgpercentualpis := consulta.FieldByName('cfgpercentualpis').AsString;
-                vlcfgpercentualpis := StringReplace(vlcfgpercentualpis, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfgpercentualcofins := consulta.FieldByName('cfgpercentualcofins').AsString;
-                vlcfgpercentualcofins := StringReplace(vlcfgpercentualcofins, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfop := consulta.FieldByName('toecfopsaida').AsString;
-
-                vlTceCest := itmtcecest.AsString;
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
-                begin
-
-                  itmncm.Close;
-                  itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
-                    + vlcfgpercentualpis + ',  cfocfop=' + QuotedStr(vlcfop) + ',cstcodigo=' + QuotedStr(vlcstcodigo) + ', csicodigo=' +
-                    QuotedStr(vlcsicodigo) + ', cspcodigo=' + QuotedStr(vlcspcodigo) + ',csfodigo=' + QuotedStr(vlcsfcodigo) + '   ,toecodigo=' +
-                    cfgcfgtoesubstanpnoestado.AsString + ' where itmchave=' + itmitmchave.AsString;
-                  itmncm.ExecSQL;
-                end;
-
-              end;
-
-            end
-            else
-            begin
-
-              if (cfgcfgtoesubstanpnoestado.AsInteger <> 0) then
-              begin
-
-                consulta.Close;
-                consulta.SQL.Text :=
-                  'select toecfopsaida,cstcodigo,csicodigo,cspcodigo, csfcodigo,cfgpercentualpis, cfgpercentualcofins, toetextopermite, toetextonaopermite from toe where toecodigo='
-                  + cfgcfgtoesubstanpnoestado.AsString;
-                consulta.Open;
-
-                vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
-                vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
-                vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
-                vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
-
-                vlToeMensagemPermite := consulta.FieldByName('toetextopermite').AsString;
-                vlToeMensagemNaoPermite := consulta.FieldByName('toetextonaopermite').AsString;
-
-                vlcfgpercentualpis := consulta.FieldByName('cfgpercentualpis').AsString;
-                vlcfgpercentualpis := StringReplace(vlcfgpercentualpis, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfgpercentualcofins := consulta.FieldByName('cfgpercentualcofins').AsString;
-                vlcfgpercentualcofins := StringReplace(vlcfgpercentualcofins, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-                vlcfop := consulta.FieldByName('toecfopsaida').AsString;
-
-                vlTceCest := itmtcecest.AsString;
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
-                begin
-
-                  itmncm.Close;
-                  itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
-                    + vlcfgpercentualpis + ',  cfocfop=' + QuotedStr(vlcfop) + ',cstcodigo=' + QuotedStr(vlcstcodigo) + ', csicodigo=' +
-                    QuotedStr(vlcsicodigo) + ', cspcodigo=' + QuotedStr(vlcspcodigo) + ',csfodigo=' + QuotedStr(vlcsfcodigo) + '   ,toecodigo=' +
-                    cfgcfgtoesubstanpnoestado.AsString + ' where itmchave=' + itmitmchave.AsString;
-                  itmncm.ExecSQL;
-                end;
-
-              end;
-
-            end;
-          end
-          else
-          begin
 
             if (cfgcfgtoesubstnoestado.AsInteger <> 0) then
             begin
@@ -5567,7 +5272,6 @@ begin
 
             end;
 
-          end;
         end;
 
       end

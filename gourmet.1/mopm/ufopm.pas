@@ -1469,24 +1469,8 @@ begin
           pro.SQL.Text := 'select sbrcobraadicional from sbr where procodigo=' + itmprocodigo.AsString;
           pro.Open;
 
-         { if not pro.IsEmpty then
-          begin
 
-            if pro.FieldByName('sbrcobraadicional').AsInteger=1 then
-              itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency
-            else
-              itmitmtotal.AsFloat := Self.itoitototalav.AsFloat;
-
-             itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency;
-
-
-          end
-          else
-          begin}
-
-            itmitmtotal.AsFloat := Self.itoitototalav.AsFloat{ + itoitoacrescimoav.AsCurrency};
-
-         {end;}
+          itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency;
 
 
 
@@ -1597,14 +1581,14 @@ begin
 
           itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
 
-          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) *
+          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
             (consulta.FieldByName('propisaliquota').AsFloat / 100);
           itmitmquantpis.AsFloat := 0;
           itmitmaliqpisvalor.AsFloat := 0;
 
           if itmitmaliqpis.AsFloat > 0 then
           begin
-            itmitmbpis.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency;
+            itmitmbpis.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency);
           end
           else
           begin
@@ -1615,13 +1599,13 @@ begin
           itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
 
           itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
-          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) *
+          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
             (consulta.FieldByName('procofinsaliquota').AsFloat / 100);
           itmitmquantcofins.AsFloat := 0;
           itmitmaliqcofinsvalor.AsFloat := 0;
           if itmitmaliqcofins.AsFloat > 0 then
           begin
-            itmitmbcofins.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency;
+            itmitmbcofins.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency);
           end
           else
           begin

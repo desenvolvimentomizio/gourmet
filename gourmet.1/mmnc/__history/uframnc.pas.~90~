@@ -194,6 +194,13 @@ type
     TotaisDtlsrdcnrauto: TStringField;
     TotaisDtlsdtlchave: TIntegerField;
     dtldtlchave: TIntegerField;
+    dtlrdcnrauto: TStringField;
+    plbotoesmodalidade: TPanel;
+    btinformardinheiro: TButton;
+    btInformaAutorizacao: TButton;
+    btExcluiModalidade: TButton;
+    cfgcfgmgouctadelivery: TIntegerField;
+    Enviarpendentes1: TMenuItem;
     procedure DSTabelaDataChange(Sender: TObject; Field: TField);
     procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure listaitmDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -228,6 +235,10 @@ type
       Shift: TShiftState);
     procedure Removerduplicidade1Click(Sender: TObject);
     procedure listaporDblClick(Sender: TObject);
+    procedure btExcluiModalidadeClick(Sender: TObject);
+    procedure btInformaAutorizacaoClick(Sender: TObject);
+    procedure btinformardinheiroClick(Sender: TObject);
+    procedure Enviarpendentes1Click(Sender: TObject);
   private
     procedure AtualizarDetalhe;
     function geranomenfe(vmeschave: String): String;
@@ -237,6 +248,8 @@ type
     function CancelarRFI(vmeschave, motivo, vMeaCodigo: string): string;
     function GeraNomeArqNFCe(vmeschave: string; vFlaCodigo: String = '1'; vTipo: String = ''; vCodigoNota: String = ''): string;
     procedure modulonfe(arq: String; Rotina: TRotinasNFe; chave: String);
+    function RegistraValorFinalizador(Vchave: String; aValor: Currency;
+      aTeclaFinalizador: Integer): String;
 
     { Private declarations }
   public
@@ -280,7 +293,8 @@ implementation
 
 {$R *.dfm}
 
-uses ufetd, pcnConversaoNFe;
+uses ufetd, pcnConversaoNFe, ufrdcnrautoNFCe, ufModalidadeNCFe,
+  ufModalidadeNFCe;
 
 function formuFrame(pCargaFrame: TCargaFrame): string;
 begin
@@ -321,8 +335,8 @@ var
   vlRetorno: string;
   vlPackIDC: Cardinal;
 begin
-  if (uqtabelatemcodigo.AsInteger = 1) and (Self.uqtabelaetdcodigo.AsInteger = 0) then
-  begin
+ // if (uqtabelatemcodigo.AsInteger = 1) and (Self.uqtabelaetdcodigo.AsInteger = 0) then
+ // begin
     vlRetorno := '0';
     vlPackIDC := 0;
     vlPackIDC := LoadPackage('modulos\midc.bpl');
@@ -351,7 +365,7 @@ begin
       mic.Post;
 
     end;
-  end
+ { end
   else
   begin
     if (Self.uqtabelaetdcodigo.AsInteger <> 0) then
@@ -362,7 +376,7 @@ begin
     begin
       ShowMessage('Este estágio não permite alteração de Cliente!');
     end;
-  end;
+  end;}
   inherited;
 end;
 
@@ -384,6 +398,14 @@ var
   vMotivo: string;
   vlMeaCodigo: string;
 Begin
+
+  if uqtabelatemcodigo.AsInteger = temNFEContingencia then
+  begin
+    Application.MessageBox(PChar('Esta NFC-e esta EM CONTIGÊNCIA, precisa ser autorizada, para depois cancelar.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+
   if uqtabelasdecodigo.AsString = '02' then
   begin
     Application.MessageBox(PChar('A NFC-e selecionada já está cancelada.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
@@ -603,6 +625,8 @@ Var
   vrec, i: Integer;
   CurrentBookMark, CursorBookMark, FirstBookMark, LastBookMark: TBookmark;
 Begin
+  try
+   ActImprimirVendaNFCE.Enabled:=false;
 
   if DBGLista.SelectedRows.Count > 1 then
   begin
@@ -651,6 +675,9 @@ Begin
     Begin
       ShowMessage('ATENÇÃO: Este registro já é uma NFCe, só pode ser Reimpresso!');
     End;
+  end;
+  finally
+    ActImprimirVendaNFCE.Enabled:=true;
   end;
 end;
 
@@ -1287,6 +1314,240 @@ begin
 
 end;
 
+procedure Tframnc.btExcluiModalidadeClick(Sender: TObject);
+begin
+  inherited;
+
+  if dtl.Locate('dtlchave',TotaisDtlsdtlchave.AsInteger,[]) then
+  begin
+
+
+    if acesso.usuario<>1 then
+      begin
+      if (dtlrdcnrauto.AsString<>'') and (pos('{',dtlrdcnrauto.AsString)=0) then
+      begin
+        ShowMessage('Este registro tem número de autorização válido, não pode ser excluido!');
+        exit;
+      end;
+    end;
+
+
+    If Application.MessageBox(PChar('Confirma a EXCLUSÃO do registro Selecionado?'), PChar('Exclusão do recebimento'),
+    MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = idYes Then
+    Begin
+
+      if Dtldtlchave.AsString<>'' then
+      begin
+        if Dtldtlchave.AsInteger<>0 then
+        begin
+
+          consulta.Close;
+          consulta.sql.Text:='delete from dtl where dtlchave='+Dtldtlchave.AsString;
+          consulta.ExecSQL;
+
+          consulta.Close;
+          consulta.sql.Text:='delete from cco where ccochave in (select ccochave from clt where clt.dtlchave='+Dtldtlchave.AsString+')';
+          consulta.ExecSQL;
+
+          consulta.Close;
+          consulta.sql.Text:='delete from clt where clt.dtlchave='+Dtldtlchave.AsString;
+          consulta.ExecSQL;
+
+          dtl.Close;
+          dtl.ParamByName('flacodigo').AsInteger := 1;
+          dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+          dtl.Open;
+
+          dtl.First;
+
+        end;
+      end;
+
+      ActAtualizar.Execute;
+    End;
+
+  end;
+
+end;
+
+procedure Tframnc.btInformaAutorizacaoClick(Sender: TObject);
+var
+ i:Integer;
+ vlrdcnrauto:String;
+begin
+
+  inherited;
+
+  if (uqtabelamesnumero.AsInteger<>0) and (uqtabelatemcodigo.AsInteger=5) then
+  begin
+    ShowMessage('Nota Fiscal já gerada, não pode modificada!');
+    exit;
+  end;
+
+  if dtl.Locate('dtlchave',TotaisDtlsdtlchave.AsInteger,[]) then
+  begin
+
+    i:=dtl.RecNo;
+
+    consulta.Close;
+    consulta.sql.Text:='select rdcnrauto from dtl where dtlchave='+dtldtlchave.AsString;
+    consulta.Open;
+
+    vlrdcnrauto:=consulta.FieldByName('rdcnrauto').AsString;
+
+    CriaFormulario(TfrdcnrautoNFCe, dtldtlchave.AsString, '');
+
+    dtl.Close;
+    dtl.ParamByName('flacodigo').AsInteger := 1;
+    dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    dtl.Open;
+
+
+
+    dtl.RecNo:=i;
+
+    consulta.close;
+    consulta.sql.Text:='update rdc set rdcnrauto='+QuotedStr(dtlrdcnrauto.AsString)+
+                       ' where rdcnrauto='+QuotedStr(vlrdcnrauto);
+    consulta.ExecSQL;
+
+
+    consulta.close;
+    consulta.sql.Text:='update ltr set rdcnrauto='+QuotedStr(dtlrdcnrauto.AsString)+
+                       ' where dtlchave='+dtldtlchave.AsString;
+    consulta.ExecSQL;
+
+
+    consulta.close;
+    consulta.sql.Text:='update mes set mesretirabalcao=1 '+
+                       ' where meschave='+uqtabelameschave.AsString;
+    consulta.ExecSQL;
+
+
+
+  end;
+end;
+
+procedure Tframnc.btinformardinheiroClick(Sender: TObject);
+var
+ vlValor:Currency;
+ i:Integer;
+begin
+  inherited;
+
+  Application.CreateForm(TfModalidadeNFCe, fModalidadeNFCe);
+  vlValor:=0;
+  if fModalidadeNFCe.ShowModal=mrok then
+  begin
+    vlValor:=fModalidadeNFCe.nbValoreRecebido.Value;
+
+    if (vlValor<>0) and (fModalidadeNFCe.cbTipoModalidade.Text='Dinheiro') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 117);
+    end
+    else if (vlValor<>0) and (fModalidadeNFCe.cbTipoModalidade.Text='Cartão de Crédito') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 114);
+    end
+    else if (vlValor<>0) and (fModalidadeNFCe.cbTipoModalidade.Text='Cartão de Débito') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 115);
+    end
+    else if (vlValor<>0) and (fModalidadeNFCe.cbTipoModalidade.Text='PIX') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 119);
+    end;
+
+    dtl.First;
+    dtl.Close;
+    dtl.ParamByName('flacodigo').AsInteger := 1;
+    dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    dtl.Open;
+
+  end;
+
+  fModalidadeNFCe.Free;
+
+end;
+
+Function Tframnc.RegistraValorFinalizador(Vchave: String; aValor:Currency; aTeclaFinalizador:Integer): String;
+type
+  Tregistralotedatagourmet = function(AOwner: TComponent; Conexao: TUniConnection; Vchave: string; vTrmCodigo: string; principal: string;
+    multa: string; juros: string; desconto: string; Acesso: TAcesso; vmodo: string; vDia: TDate; vPodeConvenio: Boolean = True;
+    vTeclaFinalizador: Integer = 0; vValorFinalizador: Double = 0; vPodeCartoes: Boolean = True; pCtaCaixa: Integer = 0;
+    vPodeTrocaDoacao: Boolean = True; vControleEntrega: Boolean = False; vCcxChave: Integer = 0; vetdcodigo: Integer = 0; vComplemento:Boolean=false): string;
+
+Var
+  vlRegistra: Tregistralotedatagourmet;
+
+  Vpri: String;
+  Vjur: String;
+  vMulta: String;
+  Vdes: String;
+  vPodeConvenio: Boolean;
+
+  // vConfiguracoesTEF: TConfiguracoesTEF;
+
+  vlPacklte: cardinal;
+
+
+  vlCcxChave: Integer;
+  vldia: TDate;
+  vlTeclaFinalizador: Integer;
+  vlValorFinalizador: Double;
+  vlCtaCodigo: string;
+  Acesso: TAcesso;
+  vlEtdCodigo: Integer;
+  vpValorFinalizador:Currency;
+
+
+Begin
+
+  vlPacklte := LoadPackage('modulos\mlte.bpl');
+
+  If vlPacklte <> 0 Then
+    Try
+      @vlRegistra := GetProcAddress(vlPacklte, PChar('registralotedatagourmet'));
+      If Assigned(vlRegistra) Then
+      Begin
+          vpValorFinalizador:=aValor;
+          Vpri := currtostr(vpValorFinalizador);
+          Vdes := '0';
+          Vjur := '0';
+          vMulta := '0';
+
+        vPodeConvenio := False;
+
+        cfg.Close;
+        cfg.ParamByName('flacodigo').AsInteger:=self.Acesso.Filial;
+        cfg.Open;
+
+        vlCtaCodigo := cfgcfgmgouctadelivery.AsString;
+
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT ccx.ccxchave , ccx.ccxdataber , ccx.ccxhoraaber, clb.clbidentificacao FROM ccx ';
+        consulta.SQL.Add('INNER JOIN clb ON ccx.clbcodigo = clb.clbcodigo ');
+        consulta.SQL.Add('WHERE ccx.ctacodigo = ' + vlCtaCodigo + ' ');
+        consulta.SQL.Add('AND ccx.ccxdatafecha IS NULL order by ccxchave desc limit 1');
+        consulta.Open;
+
+        vlCcxChave := consulta.FieldByName('ccxchave').AsInteger;
+
+        vldia := date();
+        vlTeclaFinalizador := aTeclaFinalizador;
+
+        Result := vlRegistra(Application, zcone, Vchave, '1', Vpri, vMulta, Vjur, Vdes,self.Acesso, inttostr(32), vldia, vPodeConvenio,
+                            vlTeclaFinalizador, vpValorFinalizador, True, StrToInt(vlCtaCodigo), False, True, vlCcxChave, uqtabelaetdcodigo.AsInteger, true  );
+
+      End;
+    Finally
+     // UnLoadPackage(vlPacklte);
+    End;
+
+End;
+
+
+
 procedure Tframnc.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 var
   fixRect: TRect;
@@ -1336,6 +1597,22 @@ procedure Tframnc.DSTabelaDataChange(Sender: TObject; Field: TField);
 begin
   inherited;
   AtualizarDetalhe;
+end;
+
+procedure Tframnc.Enviarpendentes1Click(Sender: TObject);
+begin
+  inherited;
+  uqtabela.First;
+  while not uqtabela.Eof do
+  begin
+
+    if ActImprimirVendaNFCE.Enabled then
+     ActImprimirVendaNFCE.Execute;
+
+    uqtabela.Next;
+  end;
+
+
 end;
 
 Function Tframnc.validaitens(vmeschave: String): Boolean;

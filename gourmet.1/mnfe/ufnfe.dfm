@@ -1295,7 +1295,6 @@ object fnfe: Tfnfe
       
         '     ,IF ( ISNULL(puni.unisimbolo),uni.unisimbolo,puni.unisimbol' +
         'o)                    AS unisimbolotrib'
-      '     , pro.proanpcodigo'
       
         '     , ROUND(((itm.itmquantidade * itm.itmvalor) * (IFNULL(tcg.t' +
         'cgaliqnac, 0) / 100)), 2) AS itmcargatrib'
@@ -1436,9 +1435,6 @@ object fnfe: Tfnfe
       DisplayWidth = 6
       FieldName = 'unisimbolotrib'
       Size = 6
-    end
-    object itmproanpcodigo: TIntegerField
-      FieldName = 'proanpcodigo'
     end
     object itmitmbicms: TFloatField
       FieldName = 'itmbicms'

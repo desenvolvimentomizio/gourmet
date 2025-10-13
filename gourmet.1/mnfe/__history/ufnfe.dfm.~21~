@@ -2,7 +2,7 @@ object fnfe: Tfnfe
   Left = 0
   Top = 0
   BorderIcons = []
-  Caption = 'Gerenciamento de Notas - v.:  25.27.304.30'
+  Caption = 'Gerenciamento de Notas - v.:  25.28.501.10 - IBS/CBS'
   ClientHeight = 645
   ClientWidth = 1045
   Color = clWhite
@@ -1019,7 +1019,8 @@ object fnfe: Tfnfe
       '  mes.mesbicm,'
       '  mes.sdecodigo,'
       '  mes.mescodigonota,'
-      '  mes.oricodigo'
+      '  mes.oricodigo,'
+      '  mes.mesprotocolo'
       ''
       'FROM mes,'
       '     etd,'
@@ -1148,6 +1149,10 @@ object fnfe: Tfnfe
     end
     object mesoricodigo: TIntegerField
       FieldName = 'oricodigo'
+    end
+    object mesmesprotocolo: TStringField
+      FieldName = 'mesprotocolo'
+      Size = 100
     end
   end
   object dtm: TUniQuery
@@ -1290,7 +1295,6 @@ object fnfe: Tfnfe
       
         '     ,IF ( ISNULL(puni.unisimbolo),uni.unisimbolo,puni.unisimbol' +
         'o)                    AS unisimbolotrib'
-      '     , pro.proanpcodigo'
       
         '     , ROUND(((itm.itmquantidade * itm.itmvalor) * (IFNULL(tcg.t' +
         'cgaliqnac, 0) / 100)), 2) AS itmcargatrib'
@@ -1302,6 +1306,7 @@ object fnfe: Tfnfe
       '     , itm.cspcodigo'
       '     , itm.csfcodigo'
       '     , itm.csicodigo'
+      '     , itm.itmtotal'
       ''
       '     , itm.itmpercreducaobaseicm'
       '     , itm.itmaliqpis'
@@ -1321,6 +1326,7 @@ object fnfe: Tfnfe
       '     , itmmva'
       '     , proproducao'
       '     , uni.unicodigo'
+      '     , pro.nrtcodigo    '
       '    '
       ''
       '  ,itmbasefcpicm'
@@ -1430,9 +1436,6 @@ object fnfe: Tfnfe
       FieldName = 'unisimbolotrib'
       Size = 6
     end
-    object itmproanpcodigo: TIntegerField
-      FieldName = 'proanpcodigo'
-    end
     object itmitmbicms: TFloatField
       FieldName = 'itmbicms'
     end
@@ -1538,6 +1541,13 @@ object fnfe: Tfnfe
     end
     object itmunicodigo: TIntegerField
       FieldName = 'unicodigo'
+    end
+    object itmnrtcodigo: TStringField
+      FieldName = 'nrtcodigo'
+      Size = 10
+    end
+    object itmitmtotal: TCurrencyField
+      FieldName = 'itmtotal'
     end
   end
   object qTomTof: TUniQuery
@@ -1922,7 +1932,8 @@ object fnfe: Tfnfe
       '  cfgmsai.cfgtoetransflaintepro,'
       '  cfgmsai.cfgtoetransflainte,'
       '  cfgmsai.cfgcontrolaestoque,'
-      ' cfgcertificadoa1,'
+      '  cfgcertificadoa1,'
+      '  cfgapuracaoicm,'
       ''
       ''
       ''
@@ -1953,8 +1964,8 @@ object fnfe: Tfnfe
       '  cfgmnfe.cfgversao,'
       '  cfgmnfe.cfgcestativo,'
       '  cfgmsai.cfgprevisualizarimpressaonfe,'
-      'cfgtoeinteproducaopropria,'
-      'cfgtoeforaproducaopropria,'
+      '  cfgtoeinteproducaopropria,'
+      '  cfgtoeforaproducaopropria,'
       ''
       '  /*SPED*/'
       '  cfgmcfg.crtcodigo,'
@@ -2014,14 +2025,14 @@ object fnfe: Tfnfe
       'AND ufs.ufscodigo = edr.ufscodigo'
       'AND cfg.cfgcodigo = cfgmcfg.cfgcodigo'
       'AND etd.etdcodigo = etf.etdcodigo'
-      'AND etf.ttfcodigo = 1'
+      '-- AND etf.ttfcodigo = 1'
       'AND ete.etdcodigo = etd.etdcodigo AND ete.eteenvianfe=1'
       'AND edr.cddcodigo = cdd.cddcodigo'
       'AND cfg.cfgcodigo = cfgment.cfgcodigo'
       'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
       'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
       'AND etd.etdcodigo = edr.etdcodigo'
-      'AND edr.tedcodigo = 1'
+      '-- AND edr.tedcodigo = 1'
       'AND cfg.cfgcodigo = cfgmspd.cfgcodigo'
       'AND cfg.flacodigo = :flacodigo'
       'order by etecodigo'
@@ -2335,6 +2346,9 @@ object fnfe: Tfnfe
     end
     object cfgcfgcontrolaestoque: TIntegerField
       FieldName = 'cfgcontrolaestoque'
+    end
+    object cfgcfgapuracaoicm: TIntegerField
+      FieldName = 'cfgapuracaoicm'
     end
   end
   object tcg: TUniQuery
@@ -3090,5 +3104,202 @@ object fnfe: Tfnfe
   object qdtl: TUniQuery
     Left = 252
     Top = 472
+  end
+  object nrt: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  nrtcodigo,'
+      '  crtcodigo,'
+      '  nrtidentificacao,'
+      '  nrtcfop_interno,'
+      '  nrticm_interno,'
+      '  nrtcfop_externo,'
+      '  nrticm_externo,'
+      '  nrtcombate_pobreza_aliquota,'
+      '  nrtreducao_base_aliquota,'
+      '  cstcodigo,'
+      '  csicodigo,'
+      '  cspcodigo,'
+      '  pis_aliquota,'
+      '  csFcodigo,'
+      '  cofins_aliquota,'
+      '  nrtclassificacao_is,'
+      '  nrtclassificacao_cpresumido,'
+      '  nrtibs_aliquota_estadual,'
+      '  nrtibs_aliquota_municipal,'
+      '  nrtdata_inicio,'
+      '  nrtdata_fim,'
+      '  nrtcbs_aliquota,'
+      '  nrtreducao_cbs,'
+      '  nrtreducao_ibs,'
+      '  nrtcstibscbs'
+      'FROM nrt where nrtcodigo=:nrtcodigo')
+    Left = 360
+    Top = 504
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'nrtcodigo'
+        Value = nil
+      end>
+    object nrtnrtcodigo: TStringField
+      FieldName = 'nrtcodigo'
+      Required = True
+      Size = 100
+    end
+    object nrtcrtcodigo: TIntegerField
+      FieldName = 'crtcodigo'
+      Required = True
+    end
+    object nrtnrtidentificacao: TStringField
+      FieldName = 'nrtidentificacao'
+      Required = True
+      Size = 100
+    end
+    object nrtnrtcfop_interno: TStringField
+      FieldName = 'nrtcfop_interno'
+      Required = True
+      Size = 5
+    end
+    object nrtnrticm_interno: TFloatField
+      FieldName = 'nrticm_interno'
+      Required = True
+    end
+    object nrtnrtcfop_externo: TStringField
+      FieldName = 'nrtcfop_externo'
+      Required = True
+      Size = 5
+    end
+    object nrtnrticm_externo: TFloatField
+      FieldName = 'nrticm_externo'
+      Required = True
+    end
+    object nrtnrtcombate_pobreza_aliquota: TFloatField
+      FieldName = 'nrtcombate_pobreza_aliquota'
+      Required = True
+    end
+    object nrtnrtreducao_base_aliquota: TFloatField
+      FieldName = 'nrtreducao_base_aliquota'
+      Required = True
+    end
+    object nrtcstcodigo: TStringField
+      FieldName = 'cstcodigo'
+      Required = True
+      Size = 5
+    end
+    object nrtcsicodigo: TStringField
+      FieldName = 'csicodigo'
+      Required = True
+      Size = 5
+    end
+    object nrtcspcodigo: TStringField
+      FieldName = 'cspcodigo'
+      Required = True
+      Size = 5
+    end
+    object nrtpis_aliquota: TFloatField
+      FieldName = 'pis_aliquota'
+      Required = True
+    end
+    object nrtcsFcodigo: TStringField
+      FieldName = 'csFcodigo'
+      Required = True
+      Size = 5
+    end
+    object nrtcofins_aliquota: TFloatField
+      FieldName = 'cofins_aliquota'
+      Required = True
+    end
+    object nrtnrtclassificacao_is: TStringField
+      FieldName = 'nrtclassificacao_is'
+      Required = True
+      Size = 50
+    end
+    object nrtnrtclassificacao_cpresumido: TStringField
+      FieldName = 'nrtclassificacao_cpresumido'
+      Required = True
+      Size = 50
+    end
+    object nrtnrtibs_aliquota_estadual: TFloatField
+      FieldName = 'nrtibs_aliquota_estadual'
+      Required = True
+    end
+    object nrtnrtibs_aliquota_municipal: TFloatField
+      FieldName = 'nrtibs_aliquota_municipal'
+      Required = True
+    end
+    object nrtnrtdata_inicio: TDateField
+      FieldName = 'nrtdata_inicio'
+      Required = True
+    end
+    object nrtnrtdata_fim: TDateField
+      FieldName = 'nrtdata_fim'
+    end
+    object nrtnrtcbs_aliquota: TFloatField
+      FieldName = 'nrtcbs_aliquota'
+    end
+    object nrtnrtreducao_cbs: TFloatField
+      FieldName = 'nrtreducao_cbs'
+    end
+    object nrtnrtreducao_ibs: TFloatField
+      FieldName = 'nrtreducao_ibs'
+    end
+    object nrtnrtcstibscbs: TStringField
+      FieldName = 'nrtcstibscbs'
+      Size = 5
+    end
+  end
+  object inr: TUniQuery
+    SQL.Strings = (
+      'select'
+      '  inrregra,'
+      '  itmchave,'
+      '  cst_ibscbs,'
+      '  class_trib_ibscbs,'
+      '  base_calc_ibscbs,'
+      '  perc_ibs_uf,'
+      '  red_aliq_ibs_uf,'
+      '  aliq_efetiva_ibs_uf,'
+      '  valor_ibs_uf,'
+      '  perc_ibs_mun,'
+      '  red_aliq_ibs_mun,'
+      '  aliq_efetiva_ibs_mun,'
+      '  valor_ibs_mun,'
+      '  total_ibs_ufmun,'
+      '  perc_cbs,'
+      '  red_aliq_cbs,'
+      '  aliq_efetiva_cbs,'
+      '  valor_cbs'
+      'from inr where itmchave=:itmchave')
+    Left = 544
+    Top = 536
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itmchave'
+        Value = nil
+      end>
+  end
+  object mnr: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mnrchave,'
+      '  meschave,'
+      '  total_base_ibscbs,'
+      '  total_ibs_uf,'
+      '  total_ibs_mun,'
+      '  total_ibs_ufmun,'
+      '  credito_presumido_ibs,'
+      '  total_cbs,'
+      '  credito_presumido_cbs'
+      'FROM mnr where meschave=:meschave')
+    Left = 584
+    Top = 536
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
   end
 end
