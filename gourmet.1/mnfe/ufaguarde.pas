@@ -1,0 +1,26 @@
+unit ufaguarde;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  Tfaguarde = class(TForm)
+    Label1: TLabel;
+    Timer1: TTimer;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  faguarde: Tfaguarde;
+
+implementation
+
+{$R *.dfm}
+
+end.

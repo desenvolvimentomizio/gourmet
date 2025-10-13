@@ -1,0 +1,1978 @@
+unit ufcprsimples;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Data.DB, Vcl.DBCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.ImgList, Vcl.Controls,
+  PngImageList, System.Classes, System.Actions, Vcl.ActnList, ACBrBase,
+  ACBrValidador, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls, Vcl.Dialogs, uPegaBase,
+  Vcl.Graphics, System.SysUtils, System.DateUtils, System.Math, uFuncoes, System.ImageList;
+
+type
+  Tfcprsimples = class(Tfrmbase)
+    cfgufssigla: TStringField;
+    cfgetddoc1: TStringField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    Dbuscapro: tunidatasource;
+    buscapro: tuniquery;
+    Dcfg: tunidatasource;
+    spd: tuniquery;
+    spdspdexercicio: TIntegerField;
+    spdspddatainicial: TDateField;
+    spdspddatafinal: TDateField;
+    spdspdativo: TIntegerField;
+    icm: tuniquery;
+    icmicmcodigo: TStringField;
+    icmicmaliquotas: TStringField;
+    Uni: tuniquery;
+    uniunicodigo: TIntegerField;
+    uniunisimbolo: TStringField;
+    uniuninome: TStringField;
+    ftr: tuniquery;
+    ftrftrchave: TIntegerField;
+    ftrftremitente: TStringField;
+    ftrmeschave: TIntegerField;
+    ftrtficodigo: TIntegerField;
+    ftrftrdescricao: TStringField;
+    ftrftrnumero: TStringField;
+    ftrftrparcelas: TIntegerField;
+    ftrftrtotal: TFloatField;
+    ftrrfichave: TIntegerField;
+    rfi: tuniquery;
+    rfirfichave: TIntegerField;
+    rfietdcodigo: TIntegerField;
+    rfirfitipo: TStringField;
+    rfitficodigo: TIntegerField;
+    rfibcocodigo: TStringField;
+    rficarcodigo: TIntegerField;
+    rfirfiemissao: TDateField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    rfirfihistorico: TStringField;
+    rfm: tuniquery;
+    rfmrfmchave: TIntegerField;
+    rfmrfichave: TIntegerField;
+    rfmmeschave: TIntegerField;
+    toe: tuniquery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    toetoecfopsaida: TStringField;
+    tdf: tuniquery;
+    tdftdfcodigo: TStringField;
+    tdftdfidentificacao: TStringField;
+    ufs: tuniquery;
+    ufsufssigla: TStringField;
+    ufstedcodigo: TIntegerField;
+    ufsetdcodigo: TIntegerField;
+    tom: tuniquery;
+    tomtomchave: TIntegerField;
+    tomtofcodigo: TIntegerField;
+    tommeschave: TIntegerField;
+    tomtofidentificacao: TStringField;
+    registromeschave: TIntegerField;
+    registroetdcodigo: TIntegerField;
+    registroetdidentificacao: TStringField;
+    registromesemissao: TDateField;
+    registromesregistro: TDateField;
+    registrotdfcodigo: TStringField;
+    registrotdfidentificacao: TStringField;
+    registrosdecodigo: TStringField;
+    registromesserie: TStringField;
+    registromesnumero: TIntegerField;
+    registromeschavenfe: TStringField;
+    registrotoecodigo: TIntegerField;
+    registrotoeidentificacao: TStringField;
+    registromesvalor: TFloatField;
+    registromesdesconto: TFloatField;
+    registromestotal: TFloatField;
+    registromesfrete: TFloatField;
+    registromesseguro: TFloatField;
+    registromesoutras: TFloatField;
+    registromesbicm: TFloatField;
+    registromesicm: TFloatField;
+    registromesbicms: TFloatField;
+    registromesicms: TFloatField;
+    registromesipi: TFloatField;
+    registromespis: TFloatField;
+    registromescofins: TFloatField;
+    registromespiss: TFloatField;
+    registromescofinss: TFloatField;
+    registroclbcodigo: TIntegerField;
+    registrotrmcodigo: TIntegerField;
+    registromesprotocolo: TStringField;
+    itm: tuniquery;
+    itmitmchave: TIntegerField;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmpronome: TStringField;
+    itmcstcodigo: TStringField;
+    itmprocodigoori: TStringField;
+    itmpronomeori: TStringField;
+    itmitmdesccomple: TStringField;
+    itmitmquantidade: TFloatField;
+    itmitmvalor: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmtotal: TFloatField;
+    itmitmmovifisico: TStringField;
+    itmtoecodigo: TIntegerField;
+    itmtoeidentificacao: TStringField;
+    itmcfocfop: TStringField;
+    itmitmbicm: TFloatField;
+    itmicmcodigo: TStringField;
+    itmitmaliqicm: TStringField;
+    itmitmicm: TFloatField;
+    itmitmbicms: TFloatField;
+    itmitmaliqicms: TFloatField;
+    itmitmicms: TFloatField;
+    itmitmapuipi: TStringField;
+    itmcsicodigo: TStringField;
+    itmceicodigo: TStringField;
+    itmitmbipi: TFloatField;
+    itmitmaliqipi: TFloatField;
+    itmitmipi: TFloatField;
+    itmcspcodigo: TStringField;
+    itmitmbpis: TFloatField;
+    itmitmaliqpis: TFloatField;
+    itmitmpis: TFloatField;
+    itmitmquantpis: TFloatField;
+    itmitmaliqpisvalor: TFloatField;
+    itmcsfcodigo: TStringField;
+    itmitmbcofins: TFloatField;
+    itmitmaliqcofins: TFloatField;
+    itmitmquantcofins: TFloatField;
+    itmitmaliqcofinsvalor: TFloatField;
+    itmitmcofins: TFloatField;
+    itmpcccodigo: TStringField;
+    itmunicodigo: TIntegerField;
+    itmpuncodigo: TIntegerField;
+    itmpunidentificacao: TStringField;
+    itmprogtin: TStringField;
+    itmunisimbolo: TStringField;
+    itmitmcontendo: TFloatField;
+    itmcfocfopdestinacao: TStringField;
+    itmunicodigobase: TIntegerField;
+    itmunisimbolobase: TStringField;
+    itmitmcusto: TFloatField;
+    itmitmfrete: TFloatField;
+    itmitmseguro: TFloatField;
+    itmitmoutras: TFloatField;
+    itmitmdescontototal: TFloatField;
+    Dvitm: tunidatasource;
+    Label1: TLabel;
+    meschave: TDBEdit;
+    Label6: TLabel;
+    etdcodigo: TDBEdit;
+    Label2: TLabel;
+    tdfcodigo: TDBEdit;
+    Label3: TLabel;
+    mesemissao: TDBEdit;
+    Label4: TLabel;
+    mesregistro: TDBEdit;
+    Label9: TLabel;
+    messerie: TDBEdit;
+    Label5: TLabel;
+    mesnumero: TDBEdit;
+    Label7: TLabel;
+    toecodigo: TDBEdit;
+    acoes: TActionList;
+    ActIncluir: TAction;
+    ActAlterar: TAction;
+    ActExcluir: TAction;
+    bsalvarsemprocessar: TButton;
+    Detd: tunidatasource;
+    etv: tuniquery;
+    etvetvcodigo: TIntegerField;
+    etvetdcodigo: TIntegerField;
+    etvtvicodigo: TIntegerField;
+    etd: tuniquery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    etdetdapelido: TStringField;
+    etdetddeletar: TIntegerField;
+    etdtpecodigo: TIntegerField;
+    etdetddatacad: TDateField;
+    etdetddataalt: TDateField;
+    etdetddoc1: TStringField;
+    ete: tuniquery;
+    eteetecodigo: TIntegerField;
+    eteetdcodigo: TIntegerField;
+    eteeteemail: TStringField;
+    eteetecontato: TStringField;
+    eteetedepartamento: TStringField;
+    etf: tuniquery;
+    etfetfcodigo: TIntegerField;
+    etfetdcodigo: TIntegerField;
+    etfttfcodigo: TIntegerField;
+    etfetftelefone: TStringField;
+    etfetfcontato: TStringField;
+    etfetfdepartamento: TStringField;
+    edr: tuniquery;
+    edredrcodigo: TIntegerField;
+    edrtedcodigo: TIntegerField;
+    edretdcodigo: TIntegerField;
+    edredrrua: TStringField;
+    edredrnumero: TStringField;
+    edredrcxpostal: TStringField;
+    edredrcomple: TStringField;
+    edredrbairro: TStringField;
+    edrcddcodigo: TStringField;
+    edredrinscest: TStringField;
+    edredrcep: TStringField;
+    mfi: tuniquery;
+    mfimfichave: TIntegerField;
+    mfirfichave: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    mfimfivalor: TFloatField;
+    mfimfidata: TDateField;
+    mfimfihistorico: TStringField;
+    pro: tuniquery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    pun: tuniquery;
+    punpuncodigo: TIntegerField;
+    punprocodigo: TIntegerField;
+    pununicodigo: TIntegerField;
+    punpunidentificacao: TStringField;
+    pununicodigobase: TIntegerField;
+    punpunmultiplicador: TFloatField;
+    punpunquantidade: TFloatField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpuncusto: TFloatField;
+    punpunmargem: TFloatField;
+    punpunpesobruto: TFloatField;
+    punpunpesoliq: TFloatField;
+    pundgrcodigo: TIntegerField;
+    punpunbarra: TStringField;
+    ActObsIncluir: TAction;
+    ActObsExcluir: TAction;
+    toettmcodigo: TIntegerField;
+    registrorefcodigo: TIntegerField;
+    ref: tuniquery;
+    refrefcodigo: TIntegerField;
+    refrefidentificacao: TStringField;
+    registrorefidentificacao: TStringField;
+    refcodigo: TDBEdit;
+    Label8: TLabel;
+    tfp: tuniquery;
+    tfptfpidentificacao: TStringField;
+    Label11: TLabel;
+    tfpcodigo: TDBEdit;
+    Label12: TLabel;
+    Label13: TLabel;
+    registrotfpidentificacao: TStringField;
+
+    registrotrfcodigo: TStringField;
+    registrotemcodigo: TIntegerField;
+    Dtom: tunidatasource;
+    PlDetalhe: TPanel;
+    PlItens: TPanel;
+    PlObs: TPanel;
+    PlObsdetalhe: TPanel;
+    listaitens: TDBGrid;
+    ActObsAlterar: TAction;
+    ufsetd: tuniquery;
+    Dufs: tunidatasource;
+    tfptfpcodigo: TIntegerField;
+    registrotfpcodigo: TIntegerField;
+    cfgcfgprouso: TIntegerField;
+    Bvregistro: TBevel;
+    plbotoesitens: TPanel;
+    BActIncluir: TBitBtn;
+    BActAlterar: TBitBtn;
+    BActEcluir: TBitBtn;
+    SpDetalhe: TSplitter;
+    Label10: TLabel;
+    Label14: TLabel;
+    Dedr: tunidatasource;
+    ACBrValidador: TACBrValidador;
+    pletddoc1: TPanel;
+    plinsc: TPanel;
+    PlTedcodigo: TPanel;
+    Panel3: TPanel;
+    Panel5: TPanel;
+    ufssiglaetd: TDBText;
+    Panel6: TPanel;
+    ufssiglacfg: TDBText;
+    Ddtm: tunidatasource;
+    dtm: tuniquery;
+    dtmdtmchave: TIntegerField;
+    dtmdtmplaca: TStringField;
+    dtmdtmvolumes: TFloatField;
+    dtmdtmpesobruto: TFloatField;
+    dtmdtmpesoliq: TFloatField;
+    dtmmeschave: TIntegerField;
+    dtmetdcodigo: TIntegerField;
+    dtmufscodigo: TStringField;
+    dtmedrrua: TStringField;
+    dtmcddnome: TStringField;
+    dtmufssigla: TStringField;
+    dtmetddoc1: TStringField;
+    dtmetdidentificacao: TStringField;
+    dtmdtmespecie: TStringField;
+    dtmdtmmarcas: TStringField;
+    dtmedrinscest: TStringField;
+    PGDetalhes: TPageControl;
+    observacoes: TTabSheet;
+    Panel2: TPanel;
+    bActObsIncluir: TBitBtn;
+    bActObsAlterar: TBitBtn;
+    bActObsExcluir: TBitBtn;
+    GBObs: TGroupBox;
+    listaobs: TDBGrid;
+    dadostransporte: TTabSheet;
+    Panel7: TPanel;
+    bbActDtmIncluir: TBitBtn;
+    bActDtmExcluir: TBitBtn;
+    Label15: TLabel;
+    etdcodigotrans: TDBEdit;
+    etdidentificacao: TDBEdit;
+    Label16: TLabel;
+    ufssigla: TDBEdit;
+    Label17: TLabel;
+    dtmplaca: TDBEdit;
+    dtmpesoliq: TDBEdit;
+    Label18: TLabel;
+    dtmpesobruto: TDBEdit;
+    Label19: TLabel;
+    dtmmarcas: TDBEdit;
+    Label20: TLabel;
+    dtmespecie: TDBEdit;
+    Label21: TLabel;
+    dtmvolumes: TDBEdit;
+    Label22: TLabel;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgserienfe: TStringField;
+    GBBaseICM: TGroupBox;
+    mesbicm: TDBEdit;
+    GBValorICM: TGroupBox;
+    mesicm: TDBEdit;
+    GBBaseICMST: TGroupBox;
+    mesbicms: TDBEdit;
+    GBValorICMST: TGroupBox;
+    mesicms: TDBEdit;
+    GBTotalBruto: TGroupBox;
+    mesvalor: TDBEdit;
+    GBDesconto: TGroupBox;
+    mesdesconto: TDBEdit;
+    GBFrete: TGroupBox;
+    mesfrete: TDBEdit;
+    GBSeguro: TGroupBox;
+    messeguro: TDBEdit;
+    GBOutras: TGroupBox;
+    mesoutras: TDBEdit;
+    GBIPI: TGroupBox;
+    mesipi: TDBEdit;
+    GBTotalLiquido: TGroupBox;
+    mestotal: TDBEdit;
+    bvalidar: TButton;
+    Dtoe: tunidatasource;
+    toettecodigo: TIntegerField;
+    toettocodigo: TIntegerField;
+    toetoeorigem: TStringField;
+    Label23: TLabel;
+    edritem: TDBEdit;
+    registroedritem: TIntegerField;
+    edredritem: TIntegerField;
+    registroedrrua: TStringField;
+    qTotaisItens: tuniquery;
+    registromesprodutos: TFloatField;
+    registromesservicos: TFloatField;
+    tomcfg: tuniquery;
+    tomcfgtomchave: TIntegerField;
+    IntegerField2: TIntegerField;
+    TSDocumentoRef: TTabSheet;
+    Panel1: TPanel;
+    bDFRAlterar: TBitBtn;
+    bDRFIncluir: TBitBtn;
+    bDRFExcluir: TBitBtn;
+    DBGrid1: TDBGrid;
+    dfr: tuniquery;
+    dfrdfrchave: TIntegerField;
+    dfrdfrdocumento: TStringField;
+    dfrtdfidentificacao: TStringField;
+    DSdfr: tunidatasource;
+    plTotalItens: TPanel;
+    plTotItens: TPanel;
+    registroflacodigo: TIntegerField;
+    GBOutrosCustos: TGroupBox;
+    mesoutroscustos: TDBEdit;
+    registromesoutroscustos: TFloatField;
+    itmitmoutroscustos: TFloatField;
+    saldo: tuniquery;
+    cfgcfgproinativsaldozero: TIntegerField;
+    cfgcfgajustacusto: TIntegerField;
+    clb: tuniquery;
+    clbclbsalvasaldo: TIntegerField;
+    mostra: TProgressBar;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActExcluirExecute(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure toecodigoEnter(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure bsalvarsemprocessarClick(Sender: TObject);
+    procedure bvalidarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure itmCalcFields(DataSet: TDataSet);
+    procedure listaitensDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure mescalculatotal(Sender: TObject);
+    procedure ActObsIncluirExecute(Sender: TObject);
+    procedure ActObsExcluirExecute(Sender: TObject);
+    procedure toecodigoExit(Sender: TObject);
+    procedure ActObsAlterarExecute(Sender: TObject);
+    procedure etdcodigoExit(Sender: TObject);
+    procedure tfpcodigoEnter(Sender: TObject);
+    procedure mesbicmExit(Sender: TObject);
+    procedure tdfcodigoExit(Sender: TObject);
+    procedure mesregistroExit(Sender: TObject);
+    procedure mesvalorExit(Sender: TObject);
+    procedure mesemissaoExit(Sender: TObject);
+    procedure etdcodigoEnter(Sender: TObject);
+    procedure tdfcodigoEnter(Sender: TObject);
+    procedure bbActDtmIncluirClick(Sender: TObject);
+    procedure bActDtmExcluirClick(Sender: TObject);
+    procedure edritemEnter(Sender: TObject);
+    procedure edritemExit(Sender: TObject);
+    procedure acoesExecute(Action: TBasicAction; var Handled: Boolean);
+    procedure mesnumeroExit(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure bDRFIncluirClick(Sender: TObject);
+    procedure bDFRAlterarClick(Sender: TObject);
+    procedure bDRFExcluirClick(Sender: TObject);
+    procedure etdcodigotransExit(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DedrDataChange(Sender: TObject; Field: TField);
+    procedure bcancelaClick(Sender: TObject);
+  private
+    vpIsEmissaoPropria: Boolean;
+    vptoeatu: string;
+    procedure ajustaobservacoes;
+    procedure recalculartotais;
+    procedure ajustartotais;
+    procedure VerificaToe;
+    procedure travacampos;
+    procedure verificaentidade;
+    function ValidaPeriodo: Boolean;
+    procedure AtualizaTotalItens;
+    procedure AjustaFiltroTOE;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpTdfcodigo: string;
+    vpitmprocodigo: string;
+  end;
+
+var
+  fcprsimples: Tfcprsimples;
+
+  // Início ID do Módulo fracpr
+const
+  vPlIdMd = '02.04.08.001-03';
+
+  // Fim ID do Módulo fracpr
+
+implementation
+
+{$R *.dfm}
+
+uses midaslib, ufitmcpr, uftomcpr;
+
+procedure Tfcprsimples.acoesExecute(Action: TBasicAction; var Handled: Boolean);
+begin
+  inherited;
+  if not PlDetalhe.Visible then
+    Handled := True;
+end;
+
+procedure Tfcprsimples.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  If registro.State <> dsBrowse Then
+    registro.Post;
+
+  If Not itm.active Then
+    itm.Open;
+
+  CriaFormulario(Tfitmcpr, Self.itmitmchave.AsString, Self.registromeschave.AsString);
+
+  itm.Refresh;
+
+  // if mesvalor.Color = $00FFD8B0 then
+
+  {
+    pro.Close;
+    pro.Open;
+  }
+
+  recalculartotais;
+
+  AtualizaTotalItens;
+end;
+
+procedure Tfcprsimples.ActExcluirExecute(Sender: TObject);
+begin
+  inherited;
+
+  if (Self.registromeschavenfe.AsString = '') or (Self.registromeschavenfe.AsString = '0') then
+  begin
+
+    If ActExcluir.Enabled = False Then
+    Begin
+      ShowMessage('Excluir não autorizada!');
+    End
+    Else If Application.MessageBox(PChar('Confirma a exclusão do registro selecionado?'), PChar('Excluir'),
+      MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = IDYES Then
+    Begin
+      Self.itm.Delete;
+
+      if mesvalor.Color = $00FFD8B0 then
+        recalculartotais;
+
+      mescalculatotal(Self);
+    End;
+  end
+  else
+  begin
+    ShowMessage('Este registro já é uma NFE emitida, seus itens não podem ser excluidos!');
+  end;
+
+  AtualizaTotalItens;
+end;
+
+Procedure Tfcprsimples.ajustaobservacoes;
+Var
+  retorno: String;
+Begin
+
+  tomcfg.Close;
+  tomcfg.Open;
+
+  If cfgcfgobs1.AsInteger > 0 Then
+    If Not tomcfg.Locate('tofcodigo', cfgcfgobs1.AsInteger, []) Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'insert into tom (meschave, tofcodigo) values (' + Self.meschave.Field.AsString + ',' + cfgcfgobs1.AsString + ')';
+      consulta.ExecSQL;
+    End;
+
+  If cfgcfgobs2.AsInteger > 0 Then
+    If Not tomcfg.Locate('tofcodigo', cfgcfgobs2.AsInteger, []) Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'insert into tom (meschave, tofcodigo) values (' + Self.meschave.Field.AsString + ',' + cfgcfgobs2.AsString + ')';
+      consulta.ExecSQL;
+    End;
+
+  If cfgcfgobs3.AsInteger > 0 Then
+    If Not tomcfg.Locate('tofcodigo', cfgcfgobs3.AsInteger, []) Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'insert into tom (meschave, tofcodigo) values (' + Self.meschave.Field.AsString + ',' + cfgcfgobs3.AsString + ')';
+      consulta.ExecSQL;
+    End;
+
+  If cfgcfgobs4.AsInteger > 0 Then
+    If Not tomcfg.Locate('tofcodigo', cfgcfgobs4.AsInteger, []) Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'insert into tom (meschave, tofcodigo) values (' + Self.meschave.Field.AsString + ',' + cfgcfgobs4.AsString + ')';
+      consulta.ExecSQL;
+    End;
+
+End;
+
+procedure Tfcprsimples.mesbicmExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+
+  if (Self.psituacao.Caption = 'Incluindo') and not(Self.mesbicm.ReadOnly) then
+    mesvalor.Field.AsFloat := Self.mesbicm.Field.AsFloat;
+end;
+
+Procedure Tfcprsimples.mescalculatotal(Sender: TObject);
+Begin
+  Inherited;
+  ajustartotais;
+End;
+
+procedure Tfcprsimples.mesemissaoExit(Sender: TObject);
+begin
+  inherited;
+
+  Self.ValidaSaida(Sender);
+
+  if Self.ActiveControl = bcancela then
+    Exit;
+
+  if Self.mesemissao.Field.AsString = '' then
+  begin
+    {
+      Tarefa: 2067
+      Campo emissao nao pode ficar em branco.
+    }
+    ShowMessage('ATENÇÃO, Data de emissão deve ser informada.');
+    mesemissao.SetFocus;
+    Exit;
+  end;
+
+  if mesregistro.Field.AsFloat < mesemissao.Field.AsFloat then
+  begin
+    ShowMessage('ATENÇÃO, Data de emissão deve ser menor que data de registro.');
+    mesemissao.SetFocus;
+    Exit;
+  end;
+
+end;
+
+procedure Tfcprsimples.mesnumeroExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  { * OS13226
+    Validação para não permitir o registro do mesmo documento do fornecedor repetido
+    Daniel de souza - 12/09/2014 08:40 * }
+
+  consulta.Close;
+  consulta.SQL.Text := 'select meschave, mesregistro from mes where sdecodigo=' + QuotedStr('00') + ' and etdcodigo=' + Self.etdcodigo.Field.AsString
+    + ' and ';
+  consulta.SQL.Add('tdfcodigo=' + chr(39) + Self.tdfcodigo.Field.AsString + chr(39) + ' and ');
+  consulta.SQL.Add('mesnumero=' + chr(39) + Self.mesnumero.Field.AsString + chr(39) + ' and tdfcodigo<>' + chr(39) + 'PE' + chr(39));
+  consulta.Open;
+  if (not consulta.IsEmpty) and (psituacao.Caption = 'Incluindo') then
+  begin
+    Application.MessageBox(PChar('Já existe registro deste documento para este fornecedor.' + #13 + 'Dia: ' + datetostr(consulta.Fields[1].AsFloat) +
+      ' Nr. Registro: ' + consulta.Fields[0].AsString), PChar('Duplicidade'), MB_ICONERROR + MB_OK);
+    Self.mesnumero.Field.AsString := '';
+    Self.tdfcodigo.Field.AsString := '';
+    Self.etdcodigo.Field.AsString := '';
+    Self.etdcodigo.SetFocus;
+
+  end;
+  { * OS13226 * }
+
+end;
+
+procedure Tfcprsimples.mesregistroExit(Sender: TObject);
+begin
+  ValidaSaida(Sender);
+
+  if Self.ActiveControl = bcancela then
+    Exit;
+
+  if mesregistro.Field.AsString = '' then
+    Exit;
+
+  spd.Close;
+  spd.Open;
+
+  if mesregistro.Field.AsFloat < mesemissao.Field.AsFloat then
+  begin
+    ShowMessage('ATENÇÃO, Data de registro deve ser maior que data de emissão.');
+    mesemissao.SetFocus;
+    Exit;
+  end;
+
+  if not ValidaPeriodo then
+    mesregistro.SetFocus;
+end;
+
+procedure Tfcprsimples.mesvalorExit(Sender: TObject);
+begin
+  inherited;
+
+  If (Self.mesvalor.Field.AsFloat <= 0) and (mestotal.Color <> $00FFD8B0) Then
+  Begin
+    ShowMessage('O campo TOTAL PRODUTOS R$ não pode ser menor ou igual a zero!');
+    mesvalor.SetFocus;
+    Exit;
+  End;
+
+  Self.ValidaSaida(Sender);
+end;
+
+procedure Tfcprsimples.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+
+  registrosdecodigo.AsString := '00';
+  registromesvalor.AsFloat := 0;
+  registromesdesconto.AsFloat := 0;
+  registromesprodutos.AsFloat := 0;
+  registromesservicos.AsFloat := 0;
+  registromestotal.AsFloat := 0;
+  registromesfrete.AsFloat := 0;
+  registromesseguro.AsFloat := 0;
+  registromesoutras.AsFloat := 0;
+  registromesbicm.AsFloat := 0;
+  registromesicm.AsFloat := 0;
+  registromesbicms.AsFloat := 0;
+  registromesicms.AsFloat := 0;
+  registromesipi.AsFloat := 0;
+  registromespis.AsFloat := 0;
+  registromescofins.AsFloat := 0;
+  registromespiss.AsFloat := 0;
+  registromescofinss.AsFloat := 0;
+  registrorefcodigo.AsInteger := 9;
+  registroclbcodigo.AsInteger := Acesso.Usuario;
+  registrotrmcodigo.AsInteger := 1;
+  Self.registromesregistro.AsFloat := Date;
+  Self.registrotemcodigo.AsInteger := 1;
+  Self.registromeschavenfe.AsString := '0';
+  Self.registrotrfcodigo.AsInteger := 1;
+  Self.registroflacodigo.AsInteger := Acesso.Filial;
+  Self.registromesoutroscustos.AsString := '0';
+  Self.registrotfpcodigo.AsInteger := 2;
+
+end;
+
+procedure Tfcprsimples.tdfcodigoEnter(Sender: TObject);
+begin
+  inherited;
+  Self.txtFiltro := 'tdfcodigo=' + QuotedStr('00') + ' or tdfcodigo=' + QuotedStr('01') + ' or tdfcodigo=' + QuotedStr('PE');
+  tdf.Filter := Self.txtFiltro;
+  tdf.Filtered := True;
+
+end;
+
+procedure Tfcprsimples.tdfcodigoExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  if Self.tdfcodigo.Field.AsString = 'PE' then
+  begin
+    if psituacao.Caption = 'Incluindo' then
+    begin
+      messerie.Field.AsString := '0';
+      messerie.Enabled := False;
+      mesnumero.Color := clWhite;
+      mesnumero.Enabled := True;
+      messerie.ReadOnly := False;
+      mesnumero.ReadOnly := False;
+    end;
+  end
+  else
+  begin
+    messerie.Enabled := True;
+    mesnumero.Enabled := True;
+    messerie.ReadOnly := False;
+    mesnumero.ReadOnly := False;
+
+    mesnumero.Color := PEG_COR_VALORREQUERIDO;
+
+  end;
+
+end;
+
+procedure Tfcprsimples.tfpcodigoEnter(Sender: TObject);
+begin
+  inherited;
+  Self.txtFiltro := 'tfpcodigo<>99';
+end;
+
+procedure Tfcprsimples.toecodigoEnter(Sender: TObject);
+begin
+  inherited;
+  AjustaFiltroTOE;
+end;
+
+procedure Tfcprsimples.toecodigoExit(Sender: TObject);
+begin
+  inherited;
+
+  VerificaToe;
+
+  ValidaSaida(Sender);
+
+end;
+
+procedure Tfcprsimples.ActIncluirExecute(Sender: TObject);
+var
+  ult: Integer;
+begin
+  inherited;
+
+  if (Self.registromeschavenfe.AsString = '') or (Self.registromeschavenfe.AsString = '0') then
+  begin
+
+    If registro.State <> dsBrowse Then
+      registro.Post;
+
+    If Not itm.active Then
+      itm.Open;
+
+    { consulta.Close;
+      consulta.SQL.Text := 'select sum(itmtotal) as total from itm where meschave=' + Self.registromeschave.AsString + ' group by meschave';
+      consulta.Open;
+
+      if (consulta.Fields[0].AsFloat >= mestotal.Field.AsFloat) and (mestotal.Field.AsFloat > 0) and (mesvalor.Color <> $00FFD8B0) then
+      begin
+      ShowMessage('Atenção: O total dos itens já é igual ao valor informado para o Total da Compra!');
+      end
+      else
+      begin }
+
+    CriaFormulario(Tfitmcpr, '', Self.registromeschave.AsString);
+
+    consulta.Close;
+    consulta.SQL.Text := 'select max(itmchave) as ultimo from itm where meschave=' + Self.registromeschave.AsString;
+    consulta.Open;
+
+    ult := 0;
+
+    if consulta.Fields[0].AsInteger > 0 then
+      ult := consulta.Fields[0].AsInteger;
+
+    itm.Refresh;
+
+    if tdfcodigo.Field.AsString = '00' then
+    begin
+      recalculartotais;
+    end;
+
+    { if mesvalor.Color = $00FFD8B0 then
+      recalculartotais; }
+  end;
+  { end
+    else
+    ShowMessage('Este registro já é uma NFE emitida, não é possível incluir mais itens!'); }
+
+  if ult > 0 then
+    itm.Locate('itmchave', ult, []);
+
+  pro.Close;
+  pro.Open;
+
+  AtualizaTotalItens;
+
+  BActIncluir.SetFocus;
+
+end;
+
+procedure Tfcprsimples.AtualizaTotalItens;
+var
+  vlRegi: Integer;
+  vlTot: Double;
+begin
+
+  vlRegi := itm.RecNo;
+  vlTot := 0;
+
+  itm.DisableControls;
+  itm.First;
+  mostra.Visible := True;
+  mostra.Position := 0;
+  mostra.Max := itm.RecordCount;
+
+  while not itm.Eof do
+  begin
+    mostra.Position := mostra.Position + 1;
+    Application.ProcessMessages;
+    // itm.Edit;
+    vlTot := vlTot + itmitmtotal.AsCurrency - itmitmdesconto.AsCurrency;
+    itm.Next;
+  end;
+  itm.EnableControls;
+  plTotItens.Caption := FormatFloat('##,###,##0.00', vlTot);
+  mostra.Visible := False;
+  itm.RecNo := vlRegi;
+
+  { if mestotal.Field.AsFloat < vlTot then
+    ShowMessage('Atenção: Valor de registro de itens maior que valor informado para o Total da Nota!'); }
+
+  Application.ProcessMessages;
+
+end;
+
+procedure Tfcprsimples.AjustaFiltroTOE;
+begin
+  if dsregistro.DataSet.active then
+  begin
+    if dsregistro.State <> dsBrowse then
+    begin
+      if Self.ufssiglaetd.Field.AsString <> '' then
+      begin
+        ufs.Close;
+        ufs.Params[0].AsString := Self.etdcodigo.Field.AsString;
+        ufs.Open;
+        vptoeatu := toecodigo.Field.AsString;
+        // toeorigem 1 2 ou 3 são para entradas
+        // 1 e 5 dentro do estado
+        // 2 2 6 para fora do estado
+        if Self.ufssiglaetd.Field.AsString = Self.ufssiglacfg.Field.AsString then
+        begin
+          if (Self.etdcodigo.Field.AsInteger = Self.cfgcfgetdempresa.AsInteger) or (tdfcodigo.Field.AsString = '00') then
+            Self.txtFiltro := ' toeorigem = ''1'' and ttocodigo<>8 and ttmcodigo = 0 and ttecodigo = 0 '
+          else
+            Self.txtFiltro := ' toeorigem = ''1'' and ttocodigo<>8 and ttmcodigo = 1 and ttecodigo = 0';
+        end
+        else if (Self.etdcodigo.Field.AsInteger = Self.cfgcfgetdempresa.AsInteger) or (tdfcodigo.Field.AsString = '00') then
+          Self.txtFiltro := ' toeorigem = ''2'' and ttocodigo<>8 and ttmcodigo = 0 and ttecodigo = 0'
+        else
+          Self.txtFiltro := ' toeorigem = ''2'' and ttocodigo<>8 and ttmcodigo = 1 and ttecodigo = 0';
+        toe.Filter := Self.txtFiltro;
+        toe.Filtered := True;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfcprsimples.recalculartotais;
+var
+  regatu: Integer;
+  vlcusto: String;
+  vlValcusto: Double;
+
+begin
+  regatu := itm.RecNo;
+
+  if not itm.active then
+    itm.Open;
+
+  if cfgcfgajustacusto.AsInteger = 1 then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=1';
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := '';
+    mostra.Visible := True;
+    mostra.Max := itm.RecordCount;
+    mostra.Position := 0;
+    itm.DisableControls;
+    itm.First;
+    while not itm.Eof do
+    begin
+
+      mostra.Position := mostra.Position + 1;
+      Application.ProcessMessages;
+      vlValcusto := TBRound((itmitmvalor.AsCurrency - (itmitmdesconto.AsCurrency / Self.itmitmquantidade.AsFloat)) +
+        (itmitmfrete.AsCurrency / Self.itmitmquantidade.AsFloat) + (itmitmoutras.AsCurrency / Self.itmitmquantidade.AsFloat) +
+        (itmitmseguro.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmicms.AsCurrency / Self.itmitmquantidade.AsFloat) +
+        (Self.itmitmipi.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmoutroscustos.AsCurrency / Self.itmitmquantidade.AsFloat), 2);
+
+      vlcusto := floattostr(vlValcusto);
+      vlcusto := StringReplace(vlcusto, '.', '', []);
+      vlcusto := StringReplace(vlcusto, ',', '.', []);
+
+      consulta.SQL.Add('update itm set itmcusto=' + vlcusto + ' where itmchave=' + itmitmchave.AsString + ';');
+
+      { itm.Edit;
+        itmitmcusto.AsCurrency := TBRound((itmitmvalor.AsCurrency - (itmitmdesconto.AsCurrency / Self.itmitmquantidade.AsFloat)) +
+        (itmitmfrete.AsCurrency / Self.itmitmquantidade.AsFloat) + (itmitmoutras.AsCurrency / Self.itmitmquantidade.AsFloat) +
+        (itmitmseguro.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmicms.AsCurrency / Self.itmitmquantidade.AsFloat) +
+        (Self.itmitmipi.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmoutroscustos.AsCurrency / Self.itmitmquantidade.AsFloat), 2);
+        itm.Post; }
+
+      itm.Next;
+    end;
+    consulta.Execute;
+    itm.EnableControls;
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=null';
+    consulta.ExecSQL;
+
+  end;
+
+  mostra.Position := 0;
+  mostra.Visible := False;
+
+  if registro.State <> dsEdit then
+    registro.Edit;
+  { *
+    (* Se NÃO for de Emissão Própria abandona rotina *)
+    if (not vpIsEmissaoPropria) then
+    Exit;
+    * }
+  qTotaisItens.Close;
+  qTotaisItens.Params[0].AsInteger := meschave.Field.AsInteger;
+  qTotaisItens.Open;
+
+  registromesfrete.AsFloat := qTotaisItens.FieldByName('frete').AsFloat;
+  registromesseguro.AsFloat := qTotaisItens.FieldByName('seguro').AsFloat;
+  registromesoutras.AsFloat := qTotaisItens.FieldByName('outras').AsFloat;
+  registromesdesconto.AsFloat := qTotaisItens.FieldByName('desconto').AsFloat;
+  registromesbicm.AsFloat := qTotaisItens.FieldByName('bicm').AsFloat;
+  registromesbicms.AsFloat := qTotaisItens.FieldByName('bicms').AsFloat;
+  registromesicm.AsFloat := qTotaisItens.FieldByName('icm').AsFloat;
+  registromesicms.AsFloat := qTotaisItens.FieldByName('icms').AsFloat;
+  registromesipi.AsFloat := qTotaisItens.FieldByName('ipi').AsFloat;
+  registromesvalor.AsFloat := qTotaisItens.FieldByName('totalItens').AsFloat;
+  registromestotal.AsFloat := qTotaisItens.FieldByName('totalGeral').AsFloat;
+
+  qTotaisItens.Close;
+
+  registro.Post;
+
+  ajustartotais;
+
+end;
+
+procedure Tfcprsimples.ajustartotais;
+begin
+  if (registro.State = dsInsert) or (registro.State = dsEdit) then
+    try
+      if Self.mesvalor.Field.AsString = '' then
+        Self.mesvalor.Field.AsString := '0';
+
+      if Self.mesdesconto.Field.AsString = '' then
+        Self.mesdesconto.Field.AsString := '0';
+
+      if Self.mesfrete.Field.AsString = '' then
+        Self.mesfrete.Field.AsString := '0';
+
+      if Self.messeguro.Field.AsString = '' then
+        Self.messeguro.Field.AsString := '0';
+
+      if Self.mesoutras.Field.AsString = '' then
+        Self.mesoutras.Field.AsString := '0';
+
+      Self.mestotal.Field.AsCurrency := (Self.mesvalor.Field.AsCurrency + Self.mesfrete.Field.AsCurrency + Self.mesicms.Field.AsCurrency +
+        Self.messeguro.Field.AsCurrency + Self.mesipi.Field.AsCurrency + Self.mesoutras.Field.AsCurrency) - Self.mesdesconto.Field.AsCurrency;
+    except
+    end;
+
+  plTotItens.Caption := '';
+
+end;
+
+procedure Tfcprsimples.VerificaToe;
+begin
+  if psituacao.Caption = 'Incluindo' then
+  begin
+
+    if (vptoeatu <> toecodigo.Field.AsString) and (toecodigo.Field.AsString <> '') then
+    begin
+      consulta.Close;
+      consulta.SQL.Text := 'select toecfopsaida from toe where toecodigo=' + Self.toecodigo.Field.AsString;
+      consulta.Open;
+
+      if not itm.active then
+        itm.Open;
+
+      itm.DisableControls;
+
+      itm.First;
+      while not itm.Eof do
+      begin
+        itm.Edit;
+        itmtoecodigo.AsInteger := Self.toecodigo.Field.AsInteger;
+        itmcfocfopdestinacao.AsString := Self.consulta.FieldByName('toecfopsaida').AsString;
+        itm.Post;
+
+        itm.Next;
+      end;
+
+      itm.First;
+
+      itm.EnableControls;
+
+      if Self.FindComponent('ltdfcodigo') <> nil then
+        (Self.FindComponent('ltdfcodigo') as TDBText).Field.Value := '';
+
+      if refcodigo.Field.AsString = '' then
+        if Self.FindComponent('lrefcodigo') <> nil then
+          (Self.FindComponent('lrefcodigo') as TDBText).Field.Value := '';
+
+      if tfpcodigo.Field.AsString = '' then
+        if Self.FindComponent('ltfpcodigo') <> nil then
+          (Self.FindComponent('ltfpcodigo') as TDBText).Field.Value := '';
+    end;
+
+    if Self.toecodigo.Field.AsString <> '' then
+    begin
+      consulta.Close;
+      consulta.SQL.Text := 'select ttmcodigo from toe where toecodigo=' + Self.toecodigo.Field.AsString;
+      consulta.Open;
+
+      vpIsEmissaoPropria := consulta.Fields[0].AsInteger = 0;
+
+      if (vpIsEmissaoPropria) { and (Self.tdfcodigo.Field.AsString <> 'PE') } then
+      begin
+        mesbicm.Color := $FFD8B0;
+        mesicm.Color := $FFD8B0;
+        mesbicms.Color := $FFD8B0;
+        mesicms.Color := $FFD8B0;
+        mesvalor.Color := $FFD8B0;
+        mesipi.Color := PEG_COR_VALORREQUERIDO;
+        mestotal.Color := $FFD8B0;
+        mesbicm.TabStop := False;
+        mesicm.TabStop := False;
+        mesbicms.TabStop := False;
+        mesicms.TabStop := False;
+        mesvalor.TabStop := False;
+        mesdesconto.TabStop := False;
+        mesfrete.TabStop := False;
+        messeguro.TabStop := False;
+        mesoutras.TabStop := False;
+        mesipi.TabStop := True;
+        mestotal.TabStop := False;
+        messerie.Field.AsString := cfgcfgserienfe.AsString;
+
+        mesnumero.ReadOnly := True;
+        mesnumero.TabStop := False;
+        mesnumero.Color := $FFD8B0;
+
+        messerie.ReadOnly := True;
+        messerie.TabStop := False;
+        messerie.Color := $FFD8B0;
+
+        mesemissao.Field.AsFloat := Date;
+
+        // tdfcodigo.Field.AsString := '00';
+        tdfcodigo.ReadOnly := True;
+        tdfcodigo.TabStop := False;
+      end
+      else
+      begin
+        mesnumero.ReadOnly := False;
+        mesnumero.TabStop := True;
+
+        messerie.ReadOnly := False;
+        messerie.TabStop := True;
+
+        tdfcodigo.ReadOnly := False;
+        tdfcodigo.TabStop := True;
+        mesbicm.TabStop := True;
+        mesicm.TabStop := True;
+        mesbicms.TabStop := True;
+        mesicms.TabStop := True;
+        mesvalor.TabStop := True;
+        mesdesconto.TabStop := True;
+        mesfrete.TabStop := True;
+        messeguro.TabStop := True;
+        mesoutras.TabStop := True;
+        mesipi.TabStop := True;
+        mestotal.TabStop := True;
+        mesbicm.Color := PEG_COR_VALORREQUERIDO;
+        mesicm.Color := PEG_COR_VALORREQUERIDO;
+        mesbicms.Color := PEG_COR_VALORREQUERIDO;
+        mesicms.Color := PEG_COR_VALORREQUERIDO;
+        mesvalor.Color := PEG_COR_VALORREQUERIDO;
+        mesdesconto.Color := PEG_COR_VALORREQUERIDO;
+        mesfrete.Color := PEG_COR_VALORREQUERIDO;
+        messeguro.Color := PEG_COR_VALORREQUERIDO;
+        mesoutras.Color := PEG_COR_VALORREQUERIDO;
+        mesipi.Color := PEG_COR_VALORREQUERIDO;
+        mestotal.Color := PEG_COR_VALORREQUERIDO;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfcprsimples.ActObsAlterarExecute(Sender: TObject);
+begin
+  inherited;
+
+  If registro.State <> dsBrowse Then
+    registro.Post;
+
+  MostraFormu('mtof', tomtofcodigo.AsString, '');
+
+  tom.Refresh;
+end;
+
+procedure Tfcprsimples.ActObsExcluirExecute(Sender: TObject);
+begin
+  inherited;
+
+  If ActObsExcluir.Enabled = False Then
+  Begin
+    ShowMessage('Excluir não autorizada!');
+    Exit;
+  End;
+
+  If Application.MessageBox(PChar('Confirma a exclusão do registro selecionado?'), PChar('Excluir'), MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO +
+    MB_DEFBUTTON2) = IDYES Then
+    Self.tom.Delete;
+
+  tom.Refresh;
+end;
+
+procedure Tfcprsimples.ActObsIncluirExecute(Sender: TObject);
+var
+  vch: string;
+begin
+  inherited;
+
+  If registro.State <> dsBrowse Then
+    registro.Post;
+
+  vch := '';
+  vch := MostraFormu('mtof', '', '');
+
+  if vch <> '' then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'INSERT INTO tom (tofcodigo, meschave) VALUES (' + vch + ',' + Self.meschave.Field.AsString + ')';
+    consulta.ExecSQL;
+  end;
+
+  tom.Refresh;
+end;
+
+procedure Tfcprsimples.bActDtmExcluirClick(Sender: TObject);
+var
+  vlMensagem: String;
+begin
+  if dtm.IsEmpty then
+    Exit;
+
+  vlMensagem := 'Confirma a exclusão dos Dados de Transporte?';
+
+  if Application.MessageBox(PChar(vlMensagem), PChar('Excluir'), MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = IDNO then
+    Exit;
+
+  Self.dtm.Delete;
+end;
+
+procedure Tfcprsimples.bbActDtmIncluirClick(Sender: TObject);
+begin
+  if not dtm.IsEmpty then
+  begin
+    Application.MessageBox(PChar('É permitido somente um transportador por NF.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  MostraFormu('mdtm', '', registromeschave.AsString);
+  dtm.Refresh;
+end;
+
+procedure Tfcprsimples.bcancelaClick(Sender: TObject);
+var
+  vlListapro: Tstringlist;
+  vlqtdpro: Integer;
+begin
+  vlListapro := Tstringlist.Create;
+  itm.First;
+  while not itm.Eof do
+  begin
+    vlListapro.Add(itmprocodigo.AsString);
+    itm.Next;
+
+  end;
+
+  if registro.State = dsBrowse then
+  begin
+    registro.Edit;
+    tdfcodigo.Field.AsString := vpTdfcodigo;
+    registro.Post;
+  end;
+
+  inherited;
+
+  for vlqtdpro := 0 to vlListapro.Count - 1 do
+  begin
+
+    vpitmprocodigo := vlListapro.Strings[vlqtdpro];
+
+    consulta.Close;
+    consulta.SQL.Text := 'UPDATE pun set puncusto=(select  (itmcusto/ itmcontendo) as itmcusto from  itm, toe ';
+    consulta.SQL.Add(' where itm.toecodigo=toe.toecodigo AND itm.procodigo=pun.procodigo and toe.ttocodigo=1 AND ttecodigo=0');
+    consulta.SQL.Add(' ORDER BY itmchave DESC LIMIT 1)');
+    consulta.SQL.Add('WHERE  pun.procodigo = ' + vpitmprocodigo);
+    consulta.ExecSQL;
+
+  end;
+
+  vlListapro.Free;
+
+end;
+
+procedure Tfcprsimples.bconfirmaClick(Sender: TObject);
+Var
+  vdif: Double;
+  vtotit: Double;
+  vlSituacao: string;
+  vlChave: string;
+  vlNumero: string;
+  vlTdfCodigo: string;
+  Confirma: Integer;
+Begin
+  if registro.State <> dsEdit then
+  begin
+    registro.Edit;
+  end;
+
+  registroclbcodigo.AsInteger := Acesso.Usuario;
+
+  tdfcodigo.Field.AsString := vpTdfcodigo;
+  recalculartotais;
+  AtualizaTotalItens;
+
+  If registromesprotocolo.AsString <> '' Then
+  Begin
+    ShowMessage('As alterações deste lançamento não serão salvas, pois já é uma NFe válida!');
+    Close;
+    Exit;
+  End;
+
+  Try
+    itm.DisableControls;
+
+    vtotit := 0;
+
+    itm.First;
+    While Not itm.Eof Do
+    Begin
+      vtotit := vtotit + itmitmtotal.AsFloat { + itmitmicm.AsFloat } + itmitmicms.AsFloat + itmitmipi.AsFloat + itmitmfrete.AsFloat +
+        itmitmoutras.AsFloat + itmitmseguro.AsFloat - itmitmdesconto.AsFloat;
+
+      itm.Next;
+    End;
+
+    itm.First;
+
+    If Self.registro.State = dsBrowse Then
+      registro.Edit;
+
+    If Self.registrotemcodigo.AsInteger <> 3 Then
+      Self.registrotemcodigo.AsInteger := 2;
+
+    registromesprodutos.AsFloat := registromestotal.AsFloat;
+
+    vlSituacao := psituacao.Caption;
+    vlTdfCodigo := Self.tdfcodigo.Field.AsString;
+    vlNumero := Self.mesnumero.Field.AsString;
+
+    if psituacao.Caption = 'Alterando' then
+    begin
+      registrotoecodigo.AsString := vptoeatu;
+    end;
+
+    { * DANIEL 18/09 * }
+
+    Inherited;
+
+    vlChave := Self.registromeschave.AsString;
+
+    if vpIsEmissaoPropria then
+      ajustaobservacoes;
+
+    if (vlSituacao = 'Incluindo') and (vlTdfCodigo = 'PE') and (vlNumero = '') then
+    begin
+      consulta.Close;
+      consulta.SQL.Text := 'update mes set mesnumero=meschave where meschave=' + vlChave;
+      consulta.ExecSQL;
+
+    end;
+    { * DANIEL 18/09 * }
+
+    (* Adicionar aqui verificação de existência itens de grade *)
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT itm.itmchave FROM itm ';
+    consulta.SQL.Add('JOIN pro ON itm.procodigo = pro.procodigo ');
+    consulta.SQL.Add('WHERE IFNULL(pro.gracodigo, 0) > 0 ');
+    consulta.SQL.Add('AND itm.meschave = ' + registromeschave.AsString);
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+      MostraFormu('mimv', Self.registromeschave.AsString, '');
+
+    if (psituacao.Caption = 'Incluindo') and (registrotfpcodigo.AsInteger = 1) then
+    begin
+      Confirma := Application.MessageBox(PChar('Deseja criar o registro de Contas a Pagar desta Fatura ?'), 'Atenção',
+        MB_YESNO + MB_DEFBUTTON2 + MB_ICONQUESTION)
+    end
+    else
+      Confirma := IDNO;
+
+    If (Confirma = IDYES) Then
+    Begin
+      MostraFormu('mcpa', '', '', 'RegistraCPA', registromeschave.AsString);
+    End;
+    itm.First;
+
+    clb.Close;
+    clb.ParamByName('clbcodigo').AsInteger := Acesso.Usuario;
+    clb.Open;
+
+    itm.First;
+
+    while not itm.Eof do
+    begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'update pro set sipcodigo=1 where procodigo=' + itmprocodigo.AsString;
+      consulta.ExecSQL;
+
+      itm.Next;
+    end;
+
+  Finally
+    itm.EnableControls;
+  End;
+
+end;
+
+procedure Tfcprsimples.bDFRAlterarClick(Sender: TObject);
+begin
+  MostraFormu('mdfr', dfrdfrchave.AsString, registromeschave.AsString);
+  dfr.Refresh;
+end;
+
+procedure Tfcprsimples.bDRFExcluirClick(Sender: TObject);
+begin
+  if dfr.IsEmpty then
+    Exit;
+
+  consulta.Close;
+  consulta.SQL.Text := 'DELETE FROM dfr WHERE dfrchave = ' + dfrdfrchave.AsString;
+  consulta.ExecSQL;
+
+  dfr.Refresh;
+end;
+
+procedure Tfcprsimples.bDRFIncluirClick(Sender: TObject);
+begin
+  MostraFormu('mdfr', '', registromeschave.AsString);
+  dfr.Refresh;
+end;
+
+procedure Tfcprsimples.bsalvarsemprocessarClick(Sender: TObject);
+Var
+  totit: currency;
+  dados: String;
+  vdif: Double;
+  vtotdes: Double;
+Begin
+  Try
+    itm.DisableControls;
+    itm.First;
+    vtotdes := 0;
+
+    While Not itm.Eof Do
+    Begin
+      If mesdesconto.Field.AsFloat > 0 Then
+      Begin
+        vtotdes := vtotdes + Self.itmitmdesconto.AsFloat;
+      End;
+      itm.Next;
+    End;
+
+    vtotdes := 0;
+
+    If (mesdesconto.Field.AsFloat > 0) Then
+    Begin
+      itm.First;
+      While Not itm.Eof Do
+      Begin
+        itm.Edit;
+        itmitmtotal.AsFloat := Self.itmitmquantidade.AsFloat * Self.itmitmvalor.AsFloat;
+        itmitmdesconto.AsFloat := (Self.mesdesconto.Field.AsFloat * (Self.itmitmtotal.AsFloat / Self.mesvalor.Field.AsFloat)) /
+          Self.itmitmquantidade.AsFloat;
+        vtotdes := vtotdes + (itmitmdesconto.AsFloat * Self.itmitmquantidade.AsFloat);
+        itm.Post;
+        itm.Next;
+      End;
+    End;
+
+    If (mesoutras.Field.AsFloat > 0) Then
+    Begin
+      itm.First;
+      While Not itm.Eof Do
+      Begin
+        itm.Edit;
+        itmitmoutras.AsFloat := (mesoutras.Field.AsFloat * (itmitmtotal.AsFloat / Self.mesvalor.Field.AsFloat)) / Self.itmitmquantidade.AsFloat;
+        itm.Post;
+        itm.Next;
+      End;
+    End;
+
+    If (messeguro.Field.AsFloat > 0) Then
+    Begin
+      itm.First;
+      While Not itm.Eof Do
+      Begin
+        itm.Edit;
+        itmitmseguro.AsFloat := (messeguro.Field.AsFloat * (itmitmtotal.AsFloat / Self.mesvalor.Field.AsFloat)) / Self.itmitmquantidade.AsFloat;
+        itm.Post;
+        itm.Next;
+      End;
+    End;
+
+    If (mesfrete.Field.AsFloat > 0) Then
+    Begin
+      itm.First;
+      While Not itm.Eof Do
+      Begin
+        itm.Edit;
+        itmitmfrete.AsFloat := (mesfrete.Field.AsFloat * (itmitmtotal.AsFloat / Self.mesvalor.Field.AsFloat)) / Self.itmitmquantidade.AsFloat;
+        itm.Post;
+        itm.Next;
+      End;
+    End;
+
+    if cfgcfgajustacusto.AsInteger = 1 then
+    begin
+
+      itm.First;
+      While Not itm.Eof Do
+      Begin
+        itm.Edit;
+        itmitmcusto.AsCurrency := TBRound((itmitmvalor.AsCurrency - (itmitmdesconto.AsCurrency / Self.itmitmquantidade.AsFloat)) +
+          (itmitmfrete.AsCurrency / Self.itmitmquantidade.AsFloat) + (itmitmoutras.AsCurrency / Self.itmitmquantidade.AsFloat) +
+          (itmitmseguro.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmicms.AsCurrency / Self.itmitmquantidade.AsFloat) +
+          (Self.itmitmipi.AsCurrency / Self.itmitmquantidade.AsFloat) + (Self.itmitmoutroscustos.AsCurrency / Self.itmitmquantidade.AsFloat), 2);
+        itm.Post;
+        itm.Next;
+      End;
+
+    end;
+    itm.First;
+    totit := 0;
+
+    While Not itm.Eof Do
+    Begin
+      totit := totit + (itmitmcusto.AsFloat * Self.itmitmquantidade.AsFloat);
+      dados := dados + Self.itmprocodigo.AsString + ',';
+      itm.Next;
+    End;
+
+  Finally
+    itm.EnableControls;
+  End;
+
+  If Self.registro.State = dsBrowse Then
+  Begin
+    registro.Edit;
+  End;
+
+  Self.registrotemcodigo.AsInteger := 1;
+  registro.Post;
+  Close;
+
+end;
+
+procedure Tfcprsimples.bvalidarClick(Sender: TObject);
+begin
+
+  vpTdfcodigo := tdfcodigo.Field.AsString;
+  tdfcodigo.Field.AsString := 'RE';
+
+  PlDetalhe.Visible := True;
+
+  inherited;
+
+  If registro.State = dsBrowse Then
+    registro.Edit;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT meschave, mesregistro, ttmcodigo FROM mes,toe WHERE mes.sdecodigo=' + QuotedStr('00') + ' and ';
+  consulta.SQL.Add('mes.toecodigo=toe.toecodigo AND ');
+  consulta.SQL.Add('mesnumero = ' + QuotedStr(Self.mesnumero.Field.AsString) + ' AND ');
+  consulta.SQL.Add('messerie = ' + QuotedStr(Self.messerie.Field.AsString) + ' AND ');
+  consulta.SQL.Add('etdcodigo = ' + Self.etdcodigo.Field.AsString);
+  consulta.Open;
+
+  If (Not consulta.IsEmpty) And (psituacao.Caption = 'Incluindo') and (consulta.Fields[2].AsString = '1') Then
+  Begin
+    ShowMessage('Este documento já foi registrado no dia: ' + consulta.Fields[1].AsString + ' com a chave: ' + consulta.Fields[0].AsString + '.' + #13
+      + ' Não pode ser reincluído!');
+    Exit;
+  End;
+
+  If (Self.mesvalor.Field.AsFloat <= 0) and (mestotal.Color <> $00FFD8B0) Then
+  Begin
+    ShowMessage('O campo TOTAL PRODUTOS R$ não pode ser menor ou igual a zero!');
+    mesvalor.SetFocus;
+    Exit;
+  End;
+
+  if not ValidaPeriodo then
+  Begin
+    If Not itm.active Then
+      itm.Open;
+
+    If Not tom.active Then
+      tom.Open;
+
+    if not dfr.active then
+      dfr.Open;
+
+    Self.mesregistro.SetFocus;
+    Exit;
+  End;
+
+  If psituacao.Caption = 'Incluindo' Then
+  begin
+    registro.Post;
+    travacampos;
+  end;
+
+  bconfirma.Enabled := True;
+
+  If Not itm.active Then
+    itm.Open;
+
+  listaitens.SetFocus;
+  listaitens.SelectedIndex := 1;
+
+  If Not tom.active Then
+    tom.Open;
+
+  if not dfr.active then
+    dfr.Open;
+
+  If psituacao.Caption = 'Incluindo' Then
+    Self.ActIncluir.Execute;
+
+  if vpIsEmissaoPropria then
+    ajustaobservacoes;
+end;
+
+procedure Tfcprsimples.DedrDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  AjustaFiltroTOE;
+end;
+
+procedure Tfcprsimples.travacampos;
+begin
+  etdcodigo.ReadOnly := True;
+  tdfcodigo.ReadOnly := True;
+  toecodigo.ReadOnly := True;
+  mesemissao.ReadOnly := True;
+  mesregistro.ReadOnly := True;
+  messerie.ReadOnly := True;
+  mesnumero.ReadOnly := True;
+
+  refcodigo.ReadOnly := True;
+
+  mesbicm.ReadOnly := True;
+  mesicm.ReadOnly := True;
+  mesbicms.ReadOnly := True;
+  mesicms.ReadOnly := True;
+  mesvalor.ReadOnly := True;
+  mesdesconto.ReadOnly := True;
+  mesfrete.ReadOnly := True;
+  messeguro.ReadOnly := True;
+  mesoutras.ReadOnly := True;
+  mesipi.ReadOnly := True;
+  mestotal.ReadOnly := True;
+  tfpcodigo.ReadOnly := True;
+
+  etdcodigo.Color := $FFD8B0;
+  tdfcodigo.Color := $FFD8B0;
+  toecodigo.Color := $FFD8B0;
+  mesemissao.Color := $FFD8B0;
+  mesregistro.Color := $FFD8B0;
+  messerie.Color := $FFD8B0;
+  mesnumero.Color := $FFD8B0;
+
+  refcodigo.Color := $FFD8B0;
+
+  mesbicm.Color := $FFD8B0;
+  mesicm.Color := $FFD8B0;
+  mesbicms.Color := $FFD8B0;
+  mesicms.Color := $FFD8B0;
+  mesvalor.Color := $FFD8B0;
+  mesdesconto.Color := $FFD8B0;
+  mesfrete.Color := $FFD8B0;
+  messeguro.Color := $FFD8B0;
+  mesoutras.Color := $FFD8B0;
+  mesipi.Color := $FFD8B0;
+  mestotal.Color := $FFD8B0;
+  tfpcodigo.Color := $FFD8B0;
+
+  bvalidar.Visible := False;
+
+end;
+
+procedure Tfcprsimples.edritemEnter(Sender: TObject);
+begin
+  inherited;
+  Self.txtFiltro := ' etdcodigo=' + Self.etdcodigo.Field.AsString;
+
+  { edr.Filter := 'etdcodigo=' + self.etdcodigo.Field.AsString;
+    edr.Filtered := true; }
+
+end;
+
+procedure Tfcprsimples.edritemExit(Sender: TObject);
+begin
+  Self.ValidaSaida(Sender);
+
+  if Self.ActiveControl = bcancela then
+    Exit;
+
+  if edritem.Field.IsNull then
+    Exit;
+
+  if edr.Locate('edrcodigo', edritem.Field.AsInteger, []) then
+    edritem.Field.AsInteger := edredritem.AsInteger;
+
+  verificaentidade;
+
+  AjustaFiltroTOE;
+
+end;
+
+procedure Tfcprsimples.etdcodigoEnter(Sender: TObject);
+begin
+  inherited;
+  if Self.psituacao.Caption = 'Incluindo' then
+    toecodigo.Field.AsString := '';
+end;
+
+procedure Tfcprsimples.etdcodigoExit(Sender: TObject);
+var
+  vlEndereco: String;
+begin
+  Self.ValidaSaida(Sender);
+
+  if Self.ActiveControl = bcancela then
+    Exit;
+
+  if Self.etdcodigo.Field.AsString <> '' then
+  begin
+    Self.txtFiltro := ' etdcodigo=' + Self.etdcodigo.Field.AsString;
+
+    edr.Filter := 'etdcodigo=' + Self.etdcodigo.Field.AsString;
+    edr.Filtered := True;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select edrinscest, edritem from edr where etdcodigo=' + Self.etdcodigo.Field.AsString;
+    consulta.Open;
+
+    if consulta.RecordCount = 1 then
+    begin
+      plinsc.Caption := consulta.Fields[0].AsString;
+      Self.registroedritem.AsInteger := consulta.Fields[1].AsInteger;
+      Self.edritem.Color := $00FFD8B0;
+      Self.edritem.ReadOnly := True;
+      Self.edritem.TabStop := False;
+      verificaentidade;
+    end
+    else
+    begin
+      if edritem.Field.AsString = '' then
+      begin
+        Self.edritem.Color := PEG_COR_VALORREQUERIDO;
+        Self.edritem.ReadOnly := False;
+        Self.edritem.TabStop := True;
+        Self.txtFiltro := ' etdcodigo=' + Self.etdcodigo.Field.AsString;
+
+        vlEndereco := MostraLista('medr', txtFiltro);
+
+        if vlEndereco <> '' then
+          if edr.Locate('edrcodigo', vlEndereco, []) then
+            edritem.Field.AsInteger := edredritem.AsInteger;
+      end;
+    end;
+
+    ufs.Close;
+    ufs.Params[0].AsInteger := Self.etdcodigo.Field.AsInteger;
+    ufs.Open;
+
+    if registro.State <> dsBrowse then
+    begin
+      messerie.Field.AsString := Self.cfgcfgserienfe.AsString;
+    end;
+
+    tdfcodigo.SetFocus;
+
+  end;
+end;
+
+procedure Tfcprsimples.etdcodigotransExit(Sender: TObject);
+begin
+  inherited;
+  { Desativar ValidaSaida() }
+end;
+
+procedure Tfcprsimples.verificaentidade;
+var
+  pode: Boolean;
+  vtpe: Integer;
+begin
+  if (Self.etdcodigo.Field.AsString <> '') and (Self.edritem.Field.AsString <> '') then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'select edrinscest, edritem from edr where etdcodigo=' + Self.etdcodigo.Field.AsString + ' and edritem=' +
+      Self.registroedritem.AsString;
+    consulta.Open;
+
+    if consulta.RecordCount = 1 then
+    begin
+      plinsc.Caption := consulta.Fields[0].AsString;
+      Self.registroedritem.AsInteger := consulta.Fields[1].AsInteger;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select etddoc1,etdidentificacao, tpecodigo from etd where etdcodigo=' + Self.etdcodigo.Field.AsString;
+    consulta.Open;
+
+    if consulta.RecordCount = 1 then
+    begin
+      pletddoc1.Caption := consulta.Fields[0].AsString;
+      vtpe := consulta.Fields[2].AsInteger;
+      Self.PlTedcodigo.Caption := consulta.Fields[2].AsString;
+
+    end;
+    ACBrValidador.AjustarTamanho := True;
+    pode := False;
+    if vtpe = 1 then
+    begin
+      ACBrValidador.TipoDocto := docCPF;
+      ACBrValidador.Documento := Self.pletddoc1.Caption;
+      pletddoc1.Caption := ACBrValidador.Formatar;
+    end
+    else if vtpe = 2 then
+    begin
+      ACBrValidador.TipoDocto := docCNPJ;
+      ACBrValidador.Documento := pletddoc1.Caption;
+      pletddoc1.Caption := ACBrValidador.Formatar;
+    end
+    else if vtpe = 3 then
+    begin
+      ACBrValidador.TipoDocto := docCPF;
+      ACBrValidador.Documento := pletddoc1.Caption;
+      pletddoc1.Caption := ACBrValidador.Formatar;
+    end;
+
+    if ACBrValidador.Validar then
+    begin
+
+      pletddoc1.Color := $FFD8B0;
+      ufs.Close;
+      ufs.Params[0].AsInteger := Self.etdcodigo.Field.AsInteger;
+      ufs.Open;
+
+    end
+    else
+    begin
+      if PlTedcodigo.Caption = '9' then
+      begin
+        pletddoc1.Color := clSilver;
+        ufs.Close;
+        ufs.Params[0].AsInteger := Self.etdcodigo.Field.AsInteger;
+        ufs.Open;
+      end
+      else
+      begin
+        pletddoc1.Color := clred;
+        etdcodigo.Field.AsString := '';
+        ShowMessage('Entidade com CNPJ ou CPF Inválido, não pode ser registrado Compra!');
+        etdcodigo.SetFocus;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfcprsimples.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  Self.salvacolunas(listaitens);
+  inherited;
+end;
+
+procedure Tfcprsimples.FormDestroy(Sender: TObject);
+begin
+  try
+    inherited;
+
+  finally
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=NULL';
+    consulta.ExecSQL;
+
+  end;
+
+end;
+
+procedure Tfcprsimples.FormShow(Sender: TObject);
+begin
+  try
+    IdModulo := vPlIdMd;
+
+    PlDetalhe.Visible := False;
+
+    inherited;
+
+    Self.carregacolunas(listaitens);
+
+    cfg.Open;
+    ufs.Open;
+    dtm.Open;
+
+    If psituacao.Caption = 'Alterando' Then
+    Begin
+
+      vptoeatu := Self.toecodigo.Field.AsString;
+      Self.bvalidar.Click;
+
+      if (tdfcodigo.Field.AsString = tdfNotaFiscalEletronica) or (vpTdfcodigo = tdfNotaFiscalEletronica) then
+      BEGIN
+        etdcodigo.Enabled := False;
+        mesemissao.Enabled := False;
+        messerie.Enabled := False;
+        mesnumero.Enabled := False;
+        refcodigo.Enabled := False;
+        tfpcodigo.Enabled := False;
+        BActIncluir.Enabled := False;
+        BActEcluir.Enabled := False;
+        tdfcodigo.Enabled := False;
+        BActAlterar.SetFocus;
+      END
+      else
+      begin
+        VerificaToe;
+        etdcodigo.SetFocus;
+      end;
+
+      Self.bvalidar.Visible := False;
+      listaitens.SetFocus;
+    End
+    Else
+    Begin
+      bvalidar.Visible := True;
+    End;
+
+  finally
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=1';
+    consulta.ExecSQL;
+  end;
+end;
+
+procedure Tfcprsimples.itmCalcFields(DataSet: TDataSet);
+begin
+  inherited;
+  itmitmdescontototal.AsFloat := itmitmdesconto.AsFloat * itmitmquantidade.AsFloat;
+
+end;
+
+procedure Tfcprsimples.listaitensDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+end;
+
+function Tfcprsimples.ValidaPeriodo: Boolean;
+begin
+  spd.Close;
+  spd.Open;
+
+  if DateInRange(registromesregistro.AsFloat, spdspddatainicial.AsFloat, spdspddatafinal.AsFloat) then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  Application.MessageBox(PChar('Data de entrada fora do período ativo do Sistema.' + #13 + #13 + 'Período ativo: ' + Self.spdspddatainicial.AsString +
+    ' até ' + Self.spdspddatafinal.AsString + '.'), 'Período Inválido', MB_ICONWARNING + MB_OK);
+
+  Result := False;
+end;
+
+end.

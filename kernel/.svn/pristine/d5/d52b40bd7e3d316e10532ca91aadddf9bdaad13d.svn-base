@@ -1,0 +1,707 @@
+unit ufrarfi;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, Vcl.StdCtrls, Vcl.DBCtrls,
+  Vcl.Mask, VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Classes,
+  System.Actions, Vcl.ActnList, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Imaging.pngimage, Vcl.Controls,
+  Vcl.Graphics, System.SysUtils, System.Math, System.Diagnostics, uFuncoes, uPegaBase,
+  Vcl.Dialogs, System.ImageList, Vcl.ImgList,  Xml.xmldom,
+  Xml.XMLIntf, Xml.XMLDoc;
+
+type
+  Tfrarfi = class(Tfrabase)
+    spbTodos: TAction;
+    spbEmAberto: TAction;
+    spbBaixados: TAction;
+    spbVencidos: TAction;
+    spbAVencer: TAction;
+    extrfi: tuniquery;
+    cfg: tuniquery;
+    cfgcfgdtinictb: TDateField;
+    cfgcfgdtfinctb: TDateField;
+    uqtabelarfichave: TIntegerField;
+    uqtabelasrfidentificacao: TStringField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelatfdcodigo: TIntegerField;
+    uqtabelaflacodigo: TIntegerField;
+    uqtabelatficodigo: TIntegerField;
+    uqtabelabcocodigo: TStringField;
+    uqtabelacarcodigo: TIntegerField;
+    uqtabelarfiemissao: TDateField;
+    uqtabelarfivencimento: TDateField;
+    uqtabelarfinumero: TStringField;
+    uqtabelarfivalor: TFloatField;
+    uqtabelarfihistorico: TStringField;
+    uqtabelasrfcodigo: TIntegerField;
+    uqtabelarfiprevisao: TIntegerField;
+    uqtabelatfiidentificacao: TStringField;
+    uqtabelacaridentificacao: TStringField;
+    uqtabelarfimulta: TFloatField;
+    uqtabelarfijuros: TFloatField;
+    uqtabelarfidesconto: TFloatField;
+    mfi: tuniquery;
+    mfimfichave: TIntegerField;
+    mfimfihistorico: TStringField;
+    mfimfidata: TDateField;
+    mfimfivalor: TFloatField;
+    mfitmfidentificacao: TStringField;
+    mficedidentificacao: TStringField;
+    Dmfi: tunidatasource;
+    PlDetalhe: TPanel;
+    GbGeral: TGroupBox;
+    pltotalGeral: TPanel;
+    GBEmAberto: TGroupBox;
+    plemaberto: TPanel;
+    GBRecebidos: TGroupBox;
+    plEstaPago: TPanel;
+    GBTotal: TGroupBox;
+    pltotal: TPanel;
+    GBVencidos: TGroupBox;
+    plvencido: TPanel;
+    uqtabelarfipercmulta: TFloatField;
+    uqtabelabconome: TStringField;
+    uqtabelatitcodigo: TIntegerField;
+    uqtabelarfibaixadocapital: TFloatField;
+    uqtabelarfisaldocapital: TFloatField;
+    uqtabelarfisaldogeral: TFloatField;
+    uqtabelarfidtultbaixa: TDateField;
+    uqTotais: tuniquery;
+    uqTotaisrfivalor: TFloatField;
+    uqTotaisrfibaixadocapital: TFloatField;
+    uqTotaisrfivencidos: TFloatField;
+    uqTotaisrfisaldocapital: TFloatField;
+    plDetalhes: TPanel;
+    DBGListaMfi: TDBGrid;
+    plTotaisDetalhes: TPanel;
+    pltotaldetalhe: TPanel;
+    plTituloTotalDetalhes: TPanel;
+    mficedcodigo: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    ccm: tuniquery;
+    ccmmeamotivo: TStringField;
+    ccmmeacodigo: TIntegerField;
+    ccmccmmotivo: TStringField;
+    plEstorno: TPanel;
+    Dccm: TDataSource;
+    plTituloCancelamento: TPanel;
+    Label1: TLabel;
+    meacodigo: TDBEdit;
+    meamotivo: TDBMemo;
+    ccmmotivo: TDBMemo;
+    erf: tuniquery;
+    erferfdata: TDateField;
+    erferfhora: TTimeField;
+    Derf: TDataSource;
+    Label2: TLabel;
+    erfdata: TDBEdit;
+    Label3: TLabel;
+    erfhora: TDBEdit;
+    ccmerfchave: TIntegerField;
+    Label4: TLabel;
+    Label5: TLabel;
+    erfclbidentificacao: TStringField;
+    clbidentificacao: TDBEdit;
+    uqtabelarfidias: TIntegerField;
+    ccmccmchave: TIntegerField;
+    erferfvalorlote: TFloatField;
+    erferfvalorcredito: TFloatField;
+    Label6: TLabel;
+    erfvalorlote: TDBEdit;
+    Label7: TLabel;
+    erfvalorcredito: TDBEdit;
+    uqtabelarfidtprevisao: TDateField;
+    ActCancelar: TAction;
+    uqtabelameschave: TIntegerField;
+    uqtabelarngchave: TIntegerField;
+    uqtabelabolnossonumero: TStringField;
+    cfgcfgusabol: TIntegerField;
+    uqtabelarfibaixatotal: TFloatField;
+    cfgcfgdatapadrao: TDateField;
+    GBPrincipal: TGroupBox;
+    plvencidovencido: TPanel;
+    gbjurosvencido: TGroupBox;
+    pljurosvencido: TPanel;
+    uqtabelaflasigla: TStringField;
+    uqtabelarfirepetir: TIntegerField;
+    uqtabelatngcodigo: TIntegerField;
+    uqtabelaedrcodigo: TIntegerField;
+    procedure spbTodosExecute(Sender: TObject);
+    procedure spbEmAbertoExecute(Sender: TObject);
+    procedure spbBaixadosExecute(Sender: TObject);
+    procedure spbVencidosExecute(Sender: TObject);
+    procedure spbAVencerExecute(Sender: TObject);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure DBGListaMfiDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGListaMfiKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure bConfirmaSelecaoClick(Sender: TObject);
+    procedure FrameResize(Sender: TObject);
+  private
+    procedure ReposicionaTotais;
+    { Private declarations }
+
+  public
+    { Public declarations }
+    vpSQLTotaisOrigem: String;
+    vtfdcodigo: Integer;
+    procedure chamabaixas(modulo, funcao: string; vrfichave: string; vetdcodigo: string = '');
+     function mostrabaixas(modulo, funcao: string; vrfichave: string; vetdcodigo: string = ''):string;function
+    RegistroAcessoOperacao(vactcodigo: string; vMotivo: string): Boolean;
+    procedure CalculaTotais;override;
+
+    procedure Carregar; override;
+
+  end;
+
+  TliberacaoRFI = function(AOwner: TComponent; conexao: TUniConnection; vusuario: string; vactcodigo: string; vMotivo: string; vtdecodigo, vorcchave, vmeschave: String; vltecodigo, vddfcodigo: String; vForcaLogin: Boolean = false): string;
+
+  // Tbaixa = function(AOwner: TComponent; conexao: TUniConnection; Acesso:TAcesso; vtfdcodigo: string; vetdcodigo: string): string;
+
+  Tbaixa = function(pCargaFrame: TCargaFrame; vtfdcodigo: string; vrfichave: string): string;
+
+var
+  frarfi: Tfrarfi;
+
+implementation
+
+{$R *.dfm}
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+function Tfrarfi.RegistroAcessoOperacao(vactcodigo: string; vMotivo: string): Boolean;
+var
+  auto: TliberacaoRFI;
+  vRetornoUsr: string;
+  vLiberacao: Boolean;
+  Pack: Cardinal;
+begin
+
+  vLiberacao := True;
+
+  Pack := LoadPackage('modulos\mlia.bpl');
+  if Pack <> 0 then
+    try
+      @auto := GetProcAddress(Pack, PChar('liberacao'));
+
+      if Assigned(auto) then
+      begin
+        vRetornoUsr := auto(Application, Self.zcone, Acesso.Usuario.ToString, vactcodigo, vMotivo, '', '', '', '', '', True);
+
+        if (vRetornoUsr = '0') or (vRetornoUsr = '') then // retornou NÃO AUTORIZADO
+          vLiberacao := false;
+      end;
+    finally
+      DoUnLoadPackage(Application, Pack);
+    end;
+
+  Result := vLiberacao;
+end;
+
+procedure Tfrarfi.bConfirmaSelecaoClick(Sender: TObject);
+begin
+
+  // inherited;
+  inherited AtualizaFiltroUQTabela;
+  CalculaTotais;
+end;
+
+procedure Tfrarfi.CalculaTotais;
+var
+  vlrTotal: double;
+  vlrEstaPago: double;
+  vlrEmAberto: double;
+  vlrVencido: double;
+  vlrTotalGeral: double;
+  vlrTotalPrincipal: double;
+  vlrTotalJuros: double;
+
+  vlRecNo: Integer;
+  vlHoje: Tdate;
+begin
+
+  vlrTotal := 0;
+  vlrEstaPago := 0;
+  vlrEmAberto := 0;
+  vlrVencido := 0;
+  vlrTotalGeral := 0;
+  vlrTotalPrincipal := 0;
+  vlrTotalJuros := 0;
+
+  vlHoje := StrToDate(hoje(Application, zcone));
+
+  (* Condição para a query uqTotais respeitar os mesmos filtros de uqTabela *)
+
+  { vpSQLTotaisOrigem := Copy(uqTotais.SQL.Text, 1, Pos('WHERE rfi.tfdcodigo = :tfdcodigo', uqTotais.SQL.Text) + 32);
+    vpSQLTotaisOrigem := vpSQLTotaisOrigem + ' ' + Copy(uqtabela.SQL.Text, Pos('WHERE rfi.tfdcodigo = :tfdcodigo', uqtabela.SQL.Text) + 32, Length(uqtabela.SQL.Text));
+
+    uqTotais.Close;
+    uqTotais.SQL.Text := vpSQLTotaisOrigem;
+    uqTotais.SQL.Add('AND rfi.srfcodigo <> 9');
+    uqTotais.SQL.Add('AND rfi.flacodigo=:flacodigo');
+
+    uqTotais.Params[0].AsInteger := vtfdcodigo;
+    uqTotais.Params[1].AsInteger := Acesso.Filial;
+
+    uqTotais.FilterSQL := uqtabela.FilterSQL;
+    uqTotais.Open;
+
+    vlrTotal := uqTotaisrfivalor.AsFloat;
+    vlrEstaPago := uqTotaisrfibaixadocapital.AsFloat;
+    vlrEmAberto := uqTotaisrfisaldocapital.AsFloat;
+    vlrVencido := uqTotaisrfivencidos.AsFloat; }
+  if uqtabela.Active then
+  begin
+
+    try
+
+      vlRecNo := uqtabela.RecNo;
+      uqtabela.DisableControls;
+      uqtabela.First;
+      while not uqtabela.Eof do
+      begin
+        if (uqtabelasrfcodigo.AsInteger <> srfCancelado) and (uqtabelasrfcodigo.AsInteger <> srfRenegociado) then
+        begin
+          vlrTotal := vlrTotal + uqtabelarfivalor.AsCurrency;
+          vlrEstaPago := vlrEstaPago + uqtabelarfibaixadocapital.AsCurrency+uqtabelarfijuros.AsCurrency+uqtabelarfimulta.AsCurrency;
+          vlrEmAberto := vlrEmAberto + uqtabelarfisaldogeral.AsCurrency;
+          if Self.uqtabelarfivencimento.AsFloat <= vlHoje then
+          begin
+            vlrVencido := vlrVencido + uqtabelarfisaldogeral.AsCurrency;
+            vlrTotalPrincipal := vlrTotalPrincipal + uqtabelarfisaldocapital.AsCurrency;
+            vlrTotalJuros := vlrTotalJuros + uqtabelarfijuros.AsCurrency;
+
+          end;
+
+          vlrTotalGeral := vlrTotalGeral + uqtabelarfisaldogeral.AsCurrency;
+
+        end;
+
+        uqtabela.Next;
+      end;
+
+    finally
+      try
+        uqtabela.RecNo := vlRecNo;
+
+      except
+
+        uqtabela.First;
+      end;
+      uqtabela.EnableControls;
+
+    end;
+    plvencidovencido.Caption := formatfloat('##,###,##0.00', vlrTotalPrincipal);
+    pljurosvencido.Caption := formatfloat('##,###,##0.00', vlrTotalJuros);
+    pltotal.Caption := formatfloat('##,###,##0.00', vlrTotal);
+    plEstaPago.Caption := formatfloat('##,###,##0.00', vlrEstaPago);
+    plemaberto.Caption := formatfloat('##,###,##0.00', vlrEmAberto);
+    plvencido.Caption := formatfloat('##,###,##0.00', vlrVencido);
+    pltotalGeral.Caption := formatfloat('##,###,##0.00', vlrTotalGeral);
+
+    if vlrTotalPrincipal > 0 then
+      GBVencidos.Visible := True
+    else
+      GBVencidos.Visible := false;
+
+    if vlrTotalJuros > 0 then
+      gbjurosvencido.Visible := True
+    else
+      gbjurosvencido.Visible := false;
+    if vlrTotal > 0 then
+      GBTotal.Visible := True
+    else
+      GBTotal.Visible := false;
+
+    if vlrEstaPago > 0 then
+      GBRecebidos.Visible := True
+    else
+      GBRecebidos.Visible := false;
+
+    if vlrEmAberto > 0 then
+      GBEmAberto.Visible := True
+    else
+      GBEmAberto.Visible := false;
+
+    if vlrTotalPrincipal > 0 then
+      GBPrincipal.Visible := True
+    else
+      GBPrincipal.Visible := false;
+
+    if vlrTotalGeral > 0 then
+      GbGeral.Visible := True
+    else
+      GbGeral.Visible := false;
+
+  end;
+end;
+
+procedure Tfrarfi.Carregar;
+begin
+  cfg.close;
+  cfg.Connection := zcone;
+  cfg.Open;
+
+  inherited Carregar;
+end;
+
+procedure Tfrarfi.ReposicionaTotais;
+begin
+{  GbGeral.Left := PlDetalhe.Width - GbGeral.Width;
+  gbjurosvencido.Left := GbGeral.Left - gbjurosvencido.Width;
+  GBPrincipal.Left := gbjurosvencido.Left - GBPrincipal.Width;
+  GBVencidos.Left := GBPrincipal.Left - GBVencidos.Width;
+  GBEmAberto.Left := GBVencidos.Left - GBEmAberto.Width;
+  GBRecebidos.Left := GBEmAberto.Left - GBRecebidos.Width;
+  GBTotal.Left := GBRecebidos.Left - GBTotal.Width;
+
+  GbGeral.top := 0;
+  gbjurosvencido.top := 0;
+  GBPrincipal.top := 0;
+  GBVencidos.top := 0;
+  GBEmAberto.top := 0;
+  GBRecebidos.top := 0;
+  GBTotal.top := 0;}
+
+end;
+
+procedure Tfrarfi.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+
+  fixRect := Rect;
+
+  If Odd(DSTabela.DataSet.RecNo) Then
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE
+  else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  if Self.uqtabelasrfcodigo.AsInteger IN [srfQuitado, srfRenegociado] then
+    DBGLista.Canvas.Font.Color := clGreen
+  else if Self.uqtabelasrfcodigo.AsInteger IN [srfCancelado] then
+    DBGLista.Canvas.Font.Color := clsilver
+  else if ((uqtabelasrfcodigo.AsInteger = srfEmAberto) or (Self.uqtabelasrfcodigo.AsInteger = srfBaixaParcial)) then
+    if (uqtabelarfivencimento.AsFloat > Self.cfgcfgdatapadrao.AsFloat) then
+      DBGLista.Canvas.Font.Color := clBlack
+    else
+      DBGLista.Canvas.Font.Color := clRed;
+
+  { cast DBGrid to a unit friendly class thus exposing all it private bits! }
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. Check against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        if DBGLista.Canvas.Font.Color = clGreen then
+          Brush.Color := CLWHITE // $004080FF;
+        else
+          Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(Rect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      if DBGLista.Canvas.Font.Color = clGreen then
+        Brush.Color := CLWHITE
+      else
+        Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      Font.Color := CLWHITE;
+    End;
+
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. Check against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        if DBGLista.Canvas.Font.Color = clGreen then
+          Brush.Color := clsilver
+        else
+          Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure Tfrarfi.DBGListaMfiDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  gridzebrado(Sender, Rect, DataCol, Column, State);
+
+  { if Self.mficedcodigo.AsInteger = 1 then
+    DBGListaMfi.Canvas.Font.Color := clNavy
+    else
+    DBGListaMfi.Canvas.Font.Color := clRed;
+
+    TDBGrid(Sender).DefaultDrawDataCell(Rect, TDBGrid(Sender).Columns[DataCol].Field, State); }
+end;
+
+procedure Tfrarfi.DBGListaMfiKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  If ((Shift = [ssCtrl]) And (Key = 46)) Then
+    Abort;
+end;
+
+procedure Tfrarfi.DSTabelaDataChange(Sender: TObject; Field: TField);
+var
+  vtot: double;
+begin
+  inherited;
+
+  if Self.uqtabela.IsEmpty then
+    Exit;
+
+  Self.mfi.Close;
+  mfi.Filtered := false;
+  Self.mfi.Params[0].AsInteger := Self.uqtabelarfichave.AsInteger;
+  Self.mfi.Open;
+
+  mfi.DisableControls;
+  vtot := 0;
+  mfi.First;
+  while not mfi.Eof do
+  begin
+    if mficedcodigo.AsInteger = IfThen(vtfdcodigo = tfdReceber, 0, 1) then
+      vtot := vtot + mfimfivalor.AsFloat
+    else
+      vtot := vtot - mfimfivalor.AsFloat;
+
+    mfi.Next;
+  end;
+  mfi.First;
+
+  if mfi.RecordCount = 1 then
+    vtot := 0;
+
+  if (vtfdcodigo = tfdReceber) then
+    mfi.Filter := 'cedcodigo = 0'
+  else
+    mfi.Filter := 'cedcodigo = 1';
+
+  mfi.Filtered := True;
+
+  ccm.Close;
+  ccm.Params[0].AsInteger := uqtabelatitcodigo.AsInteger;
+  ccm.Open;
+
+  erf.Close;
+  erf.Params[0].AsInteger := ccmerfchave.AsInteger;
+  erf.Open;
+
+  if not ccm.IsEmpty then
+    plEstorno.Visible := True
+  else
+    plEstorno.Visible := false;
+
+  mfi.EnableControls;
+
+  if vtot < 0 then
+    vtot := vtot * -1;
+
+  pltotaldetalhe.Caption := formatfloat('##,###,##0.00', vtot);
+end;
+
+procedure Tfrarfi.FrameResize(Sender: TObject);
+begin
+  inherited;
+  ReposicionaTotais;
+end;
+function Tfrarfi.mostrabaixas(modulo, funcao, vrfichave,
+  vetdcodigo: string): string;
+var
+  vu: string;
+  vlFormu: function(pCargaFrame: TCargaFrame; Acesso: Tacesso; vrfichave: string): string;
+
+  vlCargaFrame: TCargaFrame;
+begin
+
+  Pack := LoadPackage('modulos\' + modulo + '.bpl');
+  if Pack <> 0 then
+    try
+      @vlFormu := GetProcAddress(Pack, PChar(funcao));
+
+      if Assigned(vlFormu) then
+      begin
+        vlCargaFrame := CargaFrameFormu(Application, Pack, zcone, Acesso, vrfichave);
+        if vetdcodigo <> '' then
+          vlCargaFrame.Filtro := 'rfi.etdcodigo=' + vetdcodigo;
+
+        // vu := vlFormu(vlCargaFrame, vtfdcodigo, Self.uqtabelarfichave.AsString);
+        vu:='';
+        vu := vlFormu(vlCargaFrame, Acesso, vrfichave);
+
+      end;
+    finally
+    result:=vu;
+      DoUnLoadPackage(Application, Pack);
+    end;
+
+end;
+
+
+
+procedure Tfrarfi.ActAtualizarExecute(Sender: TObject);
+var
+  vfilsitu: string;
+  vElapsed: TDateTime;
+  sw: TStopwatch;
+begin
+  sw := TStopwatch.Create;
+
+  try
+    sw.Start;
+
+    uqtabela.Params[0].AsInteger := vtfdcodigo;
+
+    cfg.Close;
+    cfg.Open;
+
+    if spbEmAberto.Checked then
+      vfilsitu := ' (rfi.srfcodigo=' + IntToStr(srfEmAberto) + ' OR rfi.srfcodigo=' + IntToStr(srfBaixaParcial) + ')'
+    else if spbBaixados.Checked then
+      vfilsitu := ' (rfi.srfcodigo=' + IntToStr(srfBaixaParcial) + ' OR rfi.srfcodigo=' + IntToStr(srfQuitado) + ' OR rfi.srfcodigo=' + IntToStr(srfRenegociado) + ')'
+    else if spbVencidos.Checked then
+      vfilsitu := ' (rfivencimento<''' + ajustadata(Self.cfgcfgdatapadrao.AsString) + ''') AND (rfi.srfcodigo=' + IntToStr(srfEmAberto) + ' OR rfi.srfcodigo=' + IntToStr(srfBaixaParcial) + ')'
+    else if spbAVencer.Checked then
+      vfilsitu := ' (rfivencimento>=''' + ajustadata(Self.cfgcfgdatapadrao.AsString) + ' '') AND (rfi.srfcodigo=' + IntToStr(srfEmAberto) + ' OR rfi.srfcodigo=' + IntToStr(srfBaixaParcial) + ')'
+    else if spbTodos.Checked then
+      vfilsitu := ''
+    else
+      (* Força abertura da tela com opção "Em Aberto" selecionada *)
+      vfilsitu := ' (rfi.srfcodigo=' + IntToStr(srfEmAberto) + ' OR rfi.srfcodigo=' + IntToStr(srfBaixaParcial) + ')';
+
+    Self.txtfiltrosql := vfilsitu;
+
+    inherited;
+    ReposicionaTotais;
+
+    CalculaTotais;
+
+    sw.Stop;
+
+    PlQtdRecno.hint := Format('Tempo Execução: %d ms', [sw.ElapsedMilliseconds]);
+  finally
+  end;
+end;
+
+procedure Tfrarfi.spbAVencerExecute(Sender: TObject);
+begin
+  inherited;
+  spbTodos.Checked := false;
+  spbEmAberto.Checked := false;
+  spbVencidos.Checked := false;
+  spbBaixados.Checked := false;
+  spbAVencer.Checked := True;
+ // cbTipoData.Text := 'Vencimento';
+  AtualizaTipoData;
+  Self.ActAtualizar.Execute;
+end;
+
+procedure Tfrarfi.spbBaixadosExecute(Sender: TObject);
+begin
+  inherited;
+  spbTodos.Checked := false;
+  spbEmAberto.Checked := false;
+  spbAVencer.Checked := false;
+  spbVencidos.Checked := false;
+  spbBaixados.Checked := True;
+//  cbTipoData.Text := 'Última Baixa';
+  AtualizaTipoData;
+  Self.ActAtualizar.Execute;
+end;
+
+procedure Tfrarfi.spbEmAbertoExecute(Sender: TObject);
+begin
+  inherited;
+  spbTodos.Checked := false;
+  spbAVencer.Checked := false;
+  spbVencidos.Checked := false;
+  spbBaixados.Checked := false;
+  spbEmAberto.Checked := True;
+  //cbTipoData.Text := 'Vencimento';
+  AtualizaTipoData;
+  Self.ActAtualizar.Execute;
+end;
+
+procedure Tfrarfi.spbTodosExecute(Sender: TObject);
+begin
+  inherited;
+  spbEmAberto.Checked := false;
+  spbAVencer.Checked := false;
+  spbVencidos.Checked := false;
+  spbBaixados.Checked := false;
+  spbTodos.Checked := True;
+ // cbTipoData.Text := 'Emissão';
+  AtualizaTipoData;
+  ActAtualizar.Execute;
+end;
+
+procedure Tfrarfi.spbVencidosExecute(Sender: TObject);
+begin
+  inherited;
+  spbTodos.Checked := false;
+  spbEmAberto.Checked := false;
+  spbAVencer.Checked := false;
+  spbBaixados.Checked := false;
+  spbVencidos.Checked := True;
+//  cbTipoData.Text := 'Vencimento';
+  AtualizaTipoData;
+  Self.ActAtualizar.Execute;
+end;
+
+Procedure Tfrarfi.chamabaixas(modulo: string; funcao: string; vrfichave: string; vetdcodigo: string = '');
+var
+  vu: string;
+  vlFormu: function(pCargaFrame: TCargaFrame; Acesso: Tacesso; vrfichave: string): string;
+
+  vlCargaFrame: TCargaFrame;
+begin
+
+  Pack := LoadPackage('modulos\' + modulo + '.bpl');
+  if Pack <> 0 then
+    try
+      @vlFormu := GetProcAddress(Pack, PChar(funcao));
+
+      if Assigned(vlFormu) then
+      begin
+        vlCargaFrame := CargaFrameFormu(Application, Pack, zcone, Acesso, vrfichave);
+        if vetdcodigo <> '' then
+          vlCargaFrame.Filtro := 'rfi.etdcodigo=' + vetdcodigo;
+
+        // vu := vlFormu(vlCargaFrame, vtfdcodigo, Self.uqtabelarfichave.AsString);
+        vu := vlFormu(vlCargaFrame, Acesso, vrfichave);
+
+      end;
+    finally
+      DoUnLoadPackage(Application, Pack);
+    end;
+End;
+
+end.

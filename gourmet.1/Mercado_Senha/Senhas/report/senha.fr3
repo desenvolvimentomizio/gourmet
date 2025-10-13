@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.6.8" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42070,481905081" ReportOptions.Description.Text="" ReportOptions.LastChange="43089,4367868287" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end.">
+  <Variables>
+    <item Name=" New Category1"/>
+    <item Name="senha"/>
+  </Variables>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="74" PaperHeight="306" PaperSize="256" LeftMargin="10" RightMargin="10" TopMargin="3" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxMemoView Name="Memo1" Left="34,01577" Top="117,16543" Width="120,94496" Height="34,01577" Font.Charset="1" Font.Color="-16777208" Font.Height="-29" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="SENHA"/>
+    <TfrxMemoView Name="Memo2" Left="26,45671" Top="177,63791" Width="147,40167" Height="132,28355" Font.Charset="1" Font.Color="-16777208" Font.Height="-64" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" VAlign="vaBottom" Text="[senha]&#13;&#10;&#13;&#10;&#13;&#10;"/>
+    <TfrxMemoView Name="Memo3" Left="18,89765" Top="3,77953" Width="170,07885" Height="64,25201" Font.Charset="1" Font.Color="-16777208" Font.Height="-29" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="MERCADO AMAZONAS"/>
+    <TfrxMemoView Name="Memo4" Left="15,11812" Top="75,5906" Width="173,85838" Height="18,89765" Font.Charset="1" Font.Color="-16777208" Font.Height="-29" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text=""/>
+  </TfrxReportPage>
+</TfrxReport>

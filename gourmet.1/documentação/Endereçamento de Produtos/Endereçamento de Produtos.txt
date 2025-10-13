@@ -1,0 +1,8 @@
+enp - Endereçamento de Produtos
+
+are - Área de Enderaçamento de Produtos
+rue - Rua de Enderaçamento de Produtos
+pde - Predio de Endereçamento de Produtos
+ane - Andar de Endereçamento de Produtos
+ape - Apartamento de Endereçamento de Produtos
+

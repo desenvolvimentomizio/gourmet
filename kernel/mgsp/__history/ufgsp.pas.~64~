@@ -1,0 +1,3501 @@
+unit ufgsp;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  VirtualTable, ACBrBase, ACBrValidador, Data.DB, MemDS, DBAccess, Uni, ACBrSpedFiscal, Vcl.ComCtrls,
+  ACBrEFDBlocos, uFuncoes, ACBrUtil, uPegaBase, FileCtrl, IdComponent,
+  IdMessage, IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL,
+  IdSSLOpenSSL, IdBaseComponent, IdTCPConnection, IdTCPClient,
+  IdExplicitTLSClientServerBase, Vcl.DBCtrls, ZipForge;
+
+type
+  Tfgsp = class(TForm)
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    Label7: TLabel;
+    Label8: TLabel;
+    memoTXT: TMemo;
+    Panel1: TPanel;
+    edNotas: TEdit;
+    Panel2: TPanel;
+    btnB_0: TButton;
+    btnB_1: TButton;
+    btnB_C: TButton;
+    btnB_D: TButton;
+    btnB_E: TButton;
+    btnB_H: TButton;
+    btnB_G: TButton;
+    ACBrSPEDFiscal1: TACBrSPEDFiscal;
+    spd: TUniQuery;
+    spdspdchave: TIntegerField;
+    spdspdexercicio: TIntegerField;
+    spdspddatainicial: TDateField;
+    spdspddatafinal: TDateField;
+    spdspddatabalanco: TDateField;
+    spdpcccodigo: TStringField;
+    spdspdativo: TIntegerField;
+    spdspdmotivoinv: TStringField;
+    spdspdvalortotal: TFloatField;
+    Dcfg: TDataSource;
+    consulta: TUniQuery;
+    ctd: TUniQuery;
+    ctdctdcodigo: TIntegerField;
+    ctdcfgcodigo: TIntegerField;
+    ctdctdidentificacao: TStringField;
+    ctdctdcpf: TStringField;
+    ctdctdcrc: TStringField;
+    ctdctdcnpj: TStringField;
+    ctdctdcep: TStringField;
+    ctdctdendereco: TStringField;
+    ctdctdnumero: TStringField;
+    ctdctdcomple: TStringField;
+    ctdctdbairro: TStringField;
+    ctdctdfone: TStringField;
+    ctdctdfax: TStringField;
+    ctdctdemail: TStringField;
+    ctdcddcodigo: TStringField;
+    etd: TUniQuery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    etdetddoc1: TStringField;
+    etdtpecodigo: TIntegerField;
+    etdedrcodigo: TIntegerField;
+    etdedrinscest: TStringField;
+    etdcddcodigo: TStringField;
+    etdedrrua: TStringField;
+    etdedrnumero: TStringField;
+    etdedrcomple: TStringField;
+    etdedrbairro: TStringField;
+    etdedritem: TIntegerField;
+    Uni: TUniQuery;
+    uniunicodigo: TIntegerField;
+    uniunisimbolo: TStringField;
+    uniuninome: TStringField;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    propunbarra: TStringField;
+    protpocodigo: TIntegerField;
+    protpoidentificacao: TStringField;
+    proproncm: TStringField;
+    proicmcodigo: TStringField;
+    prounicodigo: TIntegerField;
+    proicmaliquotas: TStringField;
+    prounisimbolo: TStringField;
+    tof: TUniQuery;
+    toftofcodigo: TIntegerField;
+    toftofidentificacao: TStringField;
+    toe: TUniQuery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    mes: TUniQuery;
+    mesttecodigo: TIntegerField;
+    mesttmcodigo: TIntegerField;
+    mesetdcodigo: TIntegerField;
+    mestdfcodigo: TStringField;
+    messdecodigo: TStringField;
+    mesmesserie: TStringField;
+    mesmesnumero: TIntegerField;
+    mesmeschavenfe: TStringField;
+    mesmesemissao: TDateField;
+    mesmesregistro: TDateField;
+    mesmesvalor: TFloatField;
+    mesmesdesconto: TFloatField;
+    mesmestotal: TFloatField;
+    mesrefcodigo: TIntegerField;
+    mesmesfrete: TFloatField;
+    mesmesseguro: TFloatField;
+    mesmesoutras: TFloatField;
+    mesmesbicm: TFloatField;
+    mesmesicm: TFloatField;
+    mesmesbicms: TFloatField;
+    mesmesicms: TFloatField;
+    mesmesipi: TFloatField;
+    mesmespis: TFloatField;
+    mesmescofins: TFloatField;
+    mesmespiss: TFloatField;
+    mesmescofinss: TFloatField;
+    mesmeschave: TIntegerField;
+    mestoecodigo: TIntegerField;
+    mestfpcodigo: TIntegerField;
+    mesedritem: TIntegerField;
+    mesmesprodutos: TFloatField;
+    mestemcodigo: TIntegerField;
+    itm: TUniQuery;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmitmdesccomple: TStringField;
+    itmitmquantidade: TFloatField;
+    itmunicodigo: TIntegerField;
+    itmunisimbolo: TStringField;
+    itmitmtotal: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmmovifisico: TStringField;
+    itmcstcodigo: TStringField;
+    itmtoecodigo: TIntegerField;
+    itmcfocfop: TStringField;
+    itmcfocfopdestinacao: TStringField;
+    itmitmbicm: TFloatField;
+    itmitmaliqicm: TStringField;
+    itmitmicm: TFloatField;
+    itmitmicms: TFloatField;
+    itmitmbicms: TFloatField;
+    itmitmaliqicms: TFloatField;
+    itmitmapuipi: TStringField;
+    itmcsicodigo: TStringField;
+    itmceicodigo: TStringField;
+    itmitmbipi: TFloatField;
+    itmitmaliqipi: TFloatField;
+    itmitmipi: TFloatField;
+    itmcspcodigo: TStringField;
+    itmitmbpis: TFloatField;
+    itmitmaliqpis: TFloatField;
+    itmitmquantpis: TFloatField;
+    itmitmaliqpisvalor: TFloatField;
+    itmitmpis: TFloatField;
+    itmcsfcodigo: TStringField;
+    itmitmbcofins: TFloatField;
+    itmitmaliqcofins: TFloatField;
+    itmitmquantcofins: TFloatField;
+    itmitmaliqcofinsvalor: TFloatField;
+    itmitmcofins: TFloatField;
+    itmitmchave: TIntegerField;
+    ivt: TUniQuery;
+    ivtivtchave: TIntegerField;
+    ivtspdchave: TIntegerField;
+    ivtprocodigo: TIntegerField;
+    ivtpcccodigo: TStringField;
+    ivtivtquantidade: TFloatField;
+    ivtivtvalor: TFloatField;
+    ivtivttotal: TFloatField;
+    ivtivtproprietario: TStringField;
+    ivtivtdescricao: TStringField;
+    ivtetdcodigo: TIntegerField;
+    ivtpronome: TStringField;
+    ivtunisimbolo: TStringField;
+    itmC190: TUniQuery;
+    itmC190cstcodigo: TStringField;
+    itmC190cfocfopdestinacao: TStringField;
+    itmC190itmbicm: TFloatField;
+    itmC190itmicm: TFloatField;
+    itmC190itmbicms: TFloatField;
+    itmC190itmicms: TFloatField;
+    itmC190itmipi: TFloatField;
+    itmC190total: TFloatField;
+    itme110: TUniQuery;
+    itme110totalicms: TFloatField;
+    ACBrValidador1: TACBrValidador;
+    proivt: TUniQuery;
+    proivtprocodigo: TIntegerField;
+    proivtpronome: TStringField;
+    proivtpunbarra: TStringField;
+    proivttpocodigo: TIntegerField;
+    proivttpoidentificacao: TStringField;
+    proivtproncm: TStringField;
+    proivticmcodigo: TStringField;
+    proivtunicodigo: TIntegerField;
+    proivticmaliquotas: TStringField;
+    proivtunisimbolo: TStringField;
+    uniivt: TUniQuery;
+    uniivtunicodigo: TIntegerField;
+    uniivtunisimbolo: TStringField;
+    uniivtuninome: TStringField;
+    cte: TUniQuery;
+    ctectechave: TIntegerField;
+    ctecteoperacao: TStringField;
+    ctecteemissor: TStringField;
+    cteetdcodigo: TIntegerField;
+    ctetdfcodigo: TStringField;
+    ctesdecodigo: TStringField;
+    ctecteserie: TStringField;
+    ctectesubserie: TStringField;
+    ctectenumero: TStringField;
+    ctecteechave: TStringField;
+    ctecteemissao: TDateField;
+    ctectedtaquis: TDateField;
+    ctetcfcodigo: TStringField;
+    ctecteechaveref: TStringField;
+    ctectevalor: TFloatField;
+    ctectedesconto: TFloatField;
+    cterefcodigo: TIntegerField;
+    ctectevalordoc: TFloatField;
+    ctectebicm: TFloatField;
+    ctecteicm: TFloatField;
+    ctectevlrntrbi: TFloatField;
+    cteticcodigo: TIntegerField;
+    ctepcccodigo: TStringField;
+    cteictchave: TIntegerField;
+    ctecstcodigo: TStringField;
+    ctecfocfop: TStringField;
+    cteictaliqicm: TFloatField;
+    cteictvlroperacao: TFloatField;
+    cteictbicm: TFloatField;
+    cteicticm: TFloatField;
+    cteictredbase: TFloatField;
+    ctetofcodigo: TIntegerField;
+    Validadorgtin: TACBrValidador;
+    etdcte: TUniQuery;
+    etdcteetdcodigo: TIntegerField;
+    etdcteetdidentificacao: TStringField;
+    etdcteetddoc1: TStringField;
+    etdctetpecodigo: TIntegerField;
+    etdcteedrcodigo: TIntegerField;
+    etdcteedrinscest: TStringField;
+    etdctecddcodigo: TStringField;
+    etdcteedrrua: TStringField;
+    etdcteedrnumero: TStringField;
+    etdcteedrcomple: TStringField;
+    etdcteedrbairro: TStringField;
+    etdcteedritem: TIntegerField;
+    ctee110: TUniQuery;
+    ctee110totalicms: TFloatField;
+    csv: TUniQuery;
+    csvcsvchave: TIntegerField;
+    csvetdcodigo: TIntegerField;
+    csvcstcodigo: TStringField;
+    csvcfocfop: TStringField;
+    csvcsvemissao: TDateField;
+    csvcsvregistro: TDateField;
+    csvcsvserie: TStringField;
+    csvcsvsubserie: TStringField;
+    csvcsvnumero: TStringField;
+    csvcsvvalor: TFloatField;
+    csvcsvdesconto: TFloatField;
+    csvcsvgeral: TFloatField;
+    csvcsvbicm: TFloatField;
+    csvcsvicm: TFloatField;
+    csvcsvbicms: TFloatField;
+    csvcsvicms: TFloatField;
+    csvcsvpis: TFloatField;
+    csvcsvcofins: TFloatField;
+    csvcsvaliqicm: TFloatField;
+    csvclccodigo: TStringField;
+    csvtcscodigo: TStringField;
+    csvtoecodigo: TIntegerField;
+    csvtdfcodigo: TStringField;
+    csvsdecodigo: TStringField;
+    etdcsv: TUniQuery;
+    etdcsvetdcodigo: TIntegerField;
+    etdcsvetdidentificacao: TStringField;
+    etdcsvetddoc1: TStringField;
+    etdcsvtpecodigo: TIntegerField;
+    etdcsvedrcodigo: TIntegerField;
+    etdcsvedrinscest: TStringField;
+    etdcsvcddcodigo: TStringField;
+    etdcsvedrrua: TStringField;
+    etdcsvedrnumero: TStringField;
+    etdcsvedrcomple: TStringField;
+    etdcsvedrbairro: TStringField;
+    etdcsvedritem: TIntegerField;
+    CfgEtd: TUniQuery;
+    CfgEtdetdcodigo: TIntegerField;
+    CfgEtdetdidentificacao: TStringField;
+    CfgEtdetddoc1: TStringField;
+    CfgEtdtpecodigo: TIntegerField;
+    CfgEtdedrcodigo: TIntegerField;
+    CfgEtdedrinscest: TStringField;
+    CfgEtdcddcodigo: TStringField;
+    CfgEtdedrrua: TStringField;
+    CfgEtdedrnumero: TStringField;
+    CfgEtdedrcomple: TStringField;
+    CfgEtdedrbairro: TStringField;
+    CfgEtdufssigla: TStringField;
+    CfgEtdetdapelido: TStringField;
+    CfgEtdetftelefone: TStringField;
+    CfgEtdeteemail: TStringField;
+    CfgEtdedrcep: TStringField;
+    mPro: TVirtualTable;
+    mProprocodigo: TIntegerField;
+    mPropronome: TStringField;
+    mPropunbarra: TStringField;
+    mProtpocodigo: TIntegerField;
+    mProtpoidentificacao: TStringField;
+    mProproncm: TStringField;
+    mProicmcodigo: TStringField;
+    mProunicodigo: TIntegerField;
+    mProicmaliquotas: TStringField;
+    mProunisimbolo: TStringField;
+    mUni: TVirtualTable;
+    mUniunicodigo: TIntegerField;
+    mUniunisimbolo: TStringField;
+    mUniuninome: TStringField;
+    mEtd: TVirtualTable;
+    mEtdetdcodigo: TIntegerField;
+    mEtdetdidentificacao: TStringField;
+    mEtdetddoc1: TStringField;
+    mEtdtpecodigo: TIntegerField;
+    mEtdedrcodigo: TIntegerField;
+    mEtdedrinscest: TStringField;
+    mEtdcddcodigo: TStringField;
+    mEtdedrrua: TStringField;
+    mEtdedrnumero: TStringField;
+    mEtdedrcomple: TStringField;
+    mEtdedrbairro: TStringField;
+    mEtdedritem: TIntegerField;
+    cfg: TUniQuery;
+    tom: TUniQuery;
+    tomtofcodigo: TIntegerField;
+    tomtofidentificacao: TStringField;
+    mad: TUniQuery;
+    madmadchave: TIntegerField;
+    madetdcodigo: TIntegerField;
+    madspdchave: TIntegerField;
+    madmadvalorccredito: TFloatField;
+    madmadvalorcdebito: TFloatField;
+    etdadc: TUniQuery;
+    etdadcetdcodigo: TIntegerField;
+    etdadcetdidentificacao: TStringField;
+    etdadcetddoc1: TStringField;
+    etdadctpecodigo: TIntegerField;
+    etdadcedrcodigo: TIntegerField;
+    etdadcedrinscest: TStringField;
+    etdadccddcodigo: TStringField;
+    etdadcedrrua: TStringField;
+    etdadcedrnumero: TStringField;
+    etdadcedrcomple: TStringField;
+    etdadcedrbairro: TStringField;
+    etdadcedritem: TIntegerField;
+    btnTXT: TButton;
+    btnError: TButton;
+    btnB_9: TButton;
+    cbConcomitante: TCheckBox;
+    Label2: TLabel;
+    memoError: TMemo;
+    mostra: TProgressBar;
+    mesrec: TUniQuery;
+    mesrecmeschavenfe: TStringField;
+    mesrecmeschave: TIntegerField;
+    mesnfce: TUniQuery;
+    mesnfcemeschave: TIntegerField;
+    mesnfcemeschavenfe: TStringField;
+    spdspdpasta: TStringField;
+    spdspdregistro: TDateTimeField;
+    rel: TUniQuery;
+    DSTabela: TUniDataSource;
+    ZipForge: TZipForge;
+    cteufscodigo: TStringField;
+    ctecddcodigo: TStringField;
+    itmC190itmoutras: TCurrencyField;
+    itmC190ttecodigo: TIntegerField;
+    csvcsvchavexml: TStringField;
+    unimulti: TUniQuery;
+    mostra1: TProgressBar;
+    itmC190itmaliqicm: TFloatField;
+    itmsubst: TUniQuery;
+    mesttocodigo: TIntegerField;
+    cfgcfgservarqnfes: TStringField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgetdsped: TIntegerField;
+    btnB_K: TButton;
+    prok: TUniQuery;
+    prokprocodigo: TIntegerField;
+    prokpronome: TStringField;
+    prokpunbarra: TStringField;
+    proktpocodigo: TIntegerField;
+    proktpoidentificacao: TStringField;
+    prokproncm: TStringField;
+    prokicmcodigo: TStringField;
+    prokunicodigo: TIntegerField;
+    prokicmaliquotas: TStringField;
+    prokunisimbolo: TStringField;
+    prokprosaldo: TFloatField;
+    prokuninome: TStringField;
+    Label1: TLabel;
+    prosaldok: TUniQuery;
+    prosaldokprocodigo: TIntegerField;
+    prosaldokprosaldo: TFloatField;
+    rfi: TUniQuery;
+    ori: TUniQuery;
+    orietdcodigo: TIntegerField;
+    rfirfivalor: TCurrencyField;
+    dtl: TUniQuery;
+    dtldtlvalor: TCurrencyField;
+    cta: TUniQuery;
+    ctacfgctacodigopix: TIntegerField;
+    etdpix: TUniQuery;
+    etdpixetdcodigo: TIntegerField;
+    etdpixetdidentificacao: TStringField;
+    etdpixetddoc1: TStringField;
+    etdpixtpecodigo: TIntegerField;
+    etdpixedrcodigo: TIntegerField;
+    etdpixedrinscest: TStringField;
+    etdpixcddcodigo: TStringField;
+    etdpixedrrua: TStringField;
+    etdpixedrnumero: TStringField;
+    etdpixedrcomple: TStringField;
+    etdpixedrbairro: TStringField;
+    etdpixedritem: TIntegerField;
+    ctacfgetdcodigopix: TIntegerField;
+    dtlmad: TUniQuery;
+    dtlmadmdacodigo: TIntegerField;
+    dtlmaddtlvalor: TCurrencyField;
+    adc: TUniQuery;
+    adcetdcodigo: TIntegerField;
+    etdrfi: TUniQuery;
+    etdrfietdcodigo: TIntegerField;
+    etdrfietdidentificacao: TStringField;
+    etdrfietddoc1: TStringField;
+    etdrfitpecodigo: TIntegerField;
+    etdrfiedrcodigo: TIntegerField;
+    etdrfiedrinscest: TStringField;
+    etdrficddcodigo: TStringField;
+    etdrfiedrrua: TStringField;
+    etdrfiedrnumero: TStringField;
+    etdrfiedrcomple: TStringField;
+    etdrfiedrbairro: TStringField;
+    etdrfiedritem: TIntegerField;
+    procedure btnB_0Click(Sender: TObject);
+    procedure btnB_CClick(Sender: TObject);
+    procedure btnB_DClick(Sender: TObject);
+    procedure btnB_EClick(Sender: TObject);
+    procedure btnB_GClick(Sender: TObject);
+    procedure btnB_HClick(Sender: TObject);
+    procedure btnB_1Click(Sender: TObject);
+    procedure btnB_9Click(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure bcancelaClick(Sender: TObject);
+    procedure btnErrorClick(Sender: TObject);
+    procedure btnB_KClick(Sender: TObject);
+  private
+    Procedure LoadToMemo;
+    procedure CarregaEntidades;
+    procedure CarregaUniEPro;
+    procedure LimpaPastas(vPasta: string);
+    procedure FileSearch(const dirName: string; vListaArq: TStringlist);
+    procedure MostraInventario;
+    function ImprimeRelatorio(modulo, varquivo: string): string;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    Acesso: TAcesso;
+    fzcone: TUniConnection;
+    vpSpdChave: String;
+    vpDiretorio: String;
+    vpArquivo: string;
+    pack: THandle;
+
+  end;
+
+  TImprimeRelat = function(AOwner: TComponent; Conexao: TUniConnection; vtabela: TUniDataSource; DirRelatorio: String; Impressora: String = '';
+    vUsuCodigo: string = ''): string;
+
+var
+  fgsp: Tfgsp;
+
+implementation
+
+{$R *.dfm}
+
+function tiorazerosesquerda(numero: string): string;
+var
+  i: integer;
+begin
+  try
+    for i := 0 to length(numero) do
+      if numero[i] in ['1' .. '9', '-'] then
+        break;
+    result := copy(numero, i, 20);
+  except
+    result := numero;
+  end;
+end;
+
+function geracaospedfiscal(owner: Tapplication; zcone: TUniConnection; vspdchave: string; Acesso: TAcesso): string;
+begin
+  fgsp := Tfgsp.Create(owner);
+  fgsp.fzcone := zcone;
+  fgsp.Acesso := Acesso;
+  fgsp.vpSpdChave := vspdchave;
+  fgsp.ShowModal;
+  fgsp.Free;
+end;
+
+exports geracaospedfiscal;
+
+procedure Tfgsp.bcancelaClick(Sender: TObject);
+begin
+  modalresult := mrcancel;
+end;
+
+procedure Tfgsp.LimpaPastas(vPasta: string);
+var
+  SR: TSearchRec;
+  i: integer;
+begin
+  i := FindFirst(vPasta + '\*.*', faAnyFile, SR);
+  while i = 0 do
+  begin
+
+    if (SR.Attr <> faDirectory) then
+      DeleteFile(vPasta + '\' + SR.Name);
+
+    i := FindNext(SR);
+  end;
+end;
+
+procedure Tfgsp.bconfirmaClick(Sender: TObject);
+var
+  vlListaArqs: TStringlist;
+  i: integer;
+begin
+  try
+    bconfirma.Enabled := false;
+
+    consulta.close;
+    consulta.sql.text:='UPDATE etd SET etdidentificacao='+QuotedStr('CONSUMIDOR')+', etdapelido='+QuotedStr('CONSUMIDOR')+' where etdcodigo=0';
+    consulta.execsql;
+
+
+
+    vpDiretorio := extractfilepath(application.ExeName) + 'sped';
+
+    if not DirectoryExists(vpDiretorio) then
+      ForceDirectories(vpDiretorio);
+
+    spd.Close;
+    spd.Params[0].AsString := vpSpdChave;
+    spd.Open;
+
+    memoError.Lines.Add('Periodo: ' + spdspddatainicial.AsString + ' até ' + spdspddatafinal.AsString);
+    application.ProcessMessages;
+
+    vpArquivo := 'SpedEFD-' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat) + '.txt';
+    memoError.Lines.Add('Arquivo a ser gerado: ' + vpArquivo);
+    application.ProcessMessages;
+
+    if not DirectoryExists(vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat)) then
+      ForceDirectories(vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat));
+
+    vpDiretorio := vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat);
+
+    memoError.Lines.Add('Verificando diretório: ' + vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat));
+    application.ProcessMessages;
+
+    spd.Edit;
+    spdspdpasta.AsString := vpDiretorio;
+    spdspdregistro.AsString := agora(application, fzcone);
+    spd.Post;
+
+    LimpaPastas(vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat));
+
+    memoError.Lines.Add('Limpando Pastas: ' + vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat));
+    application.ProcessMessages;
+
+    spd.Edit;
+    spdspdpasta.AsString := vpDiretorio;
+    spd.Post;
+
+    // vpDiretorio := vpDiretorio + '\' + FormatDateTime('mmmmyyyy', spdspddatafinal.AsFloat);
+
+    if not DirectoryExists(vpDiretorio + '\arqxmlsemitidos') then
+      ForceDirectories(vpDiretorio + '\arqxmlsemitidos');
+
+    memoError.Lines.Add('Criando Pastas: ' + vpDiretorio + '\arqxmlsemitidos');
+    application.ProcessMessages;
+
+    if not DirectoryExists(vpDiretorio + '\arqxmlsemitidos\nfe') then
+      ForceDirectories(vpDiretorio + '\arqxmlsemitidos\nfe');
+
+    memoError.Lines.Add('Criando Pastas: ' + vpDiretorio + '\arqxmlsemitidos\nfe');
+    application.ProcessMessages;
+
+    LimpaPastas(vpDiretorio + '\arqxmlsemitidos\nfe');
+
+    memoError.Lines.Add('Limpando Pastas: ' + vpDiretorio + '\arqxmlsemitidos\nfe');
+    application.ProcessMessages;
+
+    if not DirectoryExists(vpDiretorio + '\arqxmlsemitidos\nfce') then
+      ForceDirectories(vpDiretorio + '\arqxmlsemitidos\nfce');
+
+    LimpaPastas(vpDiretorio + '\arqxmlsemitidos\nfce');
+
+    if not DirectoryExists(vpDiretorio + '\arqxmlsrecebidos') then
+      ForceDirectories(vpDiretorio + '\arqxmlsrecebidos');
+
+    LimpaPastas(vpDiretorio + '\arqxmlsemitidos');
+
+    ACBrSPEDFiscal1.Arquivo := vpDiretorio + '\' + vpArquivo;
+
+    mostra.Visible := True;
+    mostra.Max := 8;
+    application.ProcessMessages;
+    btnB_0Click(Self);
+    memoError.Lines.Add('Gerado Informações de Clients');
+    application.ProcessMessages;
+
+    mostra.Position := 1;
+    application.ProcessMessages;
+
+    btnB_CClick(Self);
+    mostra.Position := 2;
+    memoError.Lines.Add('Gerado Informações de Fornecedores');
+    application.ProcessMessages;
+
+    btnB_DClick(Self);
+    memoError.Lines.Add('Gerado Informações do Bloco D');
+    mostra.Position := 3;
+    application.ProcessMessages;
+
+    btnB_EClick(Self);
+    memoError.Lines.Add('Gerado Informações do Bloco E');
+    mostra.Position := 4;
+    application.ProcessMessages;
+
+    btnB_GClick(Self);
+    memoError.Lines.Add('Gerado Informações do Bloco G');
+
+    mostra.Position := 5;
+    application.ProcessMessages;
+
+    btnB_HClick(Self);
+    mostra.Position := 6;
+    application.ProcessMessages;
+
+    btnB_KClick(Self);
+    mostra.Position := 6;
+    application.ProcessMessages;
+
+    btnB_1Click(Self);
+    memoError.Lines.Add('Gerado Informações do Bloco 1');
+
+    mostra.Position := 7;
+    application.ProcessMessages;
+
+    btnB_9Click(Self);
+    memoError.Lines.Add('Bloco de encerramento');
+    SLEEP(5000);
+
+    mostra.Position := 8;
+    application.ProcessMessages;
+
+    vlListaArqs := TStringlist.Create;
+
+    FileSearch(vpDiretorio, vlListaArqs);
+
+    vlListaArqs.SaveToFile(vpDiretorio + 'arquivoanexados.txt');
+
+    ZipForge.FileName := vpDiretorio + '\' + ExtractFileName(vpDiretorio) + '.zip';
+    ZipForge.OpenArchive(fmCreate);
+
+    ZipForge.BaseDir := vpDiretorio;
+    ZipForge.AddFiles('*.*');
+
+    ZipForge.CloseArchive;
+
+    spd.Edit;
+    spdspdpasta.AsString := vpDiretorio;
+    spdspdregistro.AsString := agora(application, fzcone);
+    spd.Post;
+
+    ShowMessage('Concluido com sucesso!');
+
+  finally
+    bconfirma.Enabled := True;
+    modalresult := mrok;
+
+  end;
+end;
+
+procedure Tfgsp.FileSearch(const dirName: string; vListaArq: TStringlist);
+var
+  searchResult: TSearchRec;
+begin
+  if FindFirst(dirName + '\*', faAnyFile, searchResult) = 0 then
+  begin
+    try
+      repeat
+        if (searchResult.Attr and faDirectory) = 0 then
+        begin
+
+          vListaArq.Append(IncludeTrailingBackSlash(dirName) + searchResult.Name);
+
+        end
+        else if (searchResult.Name <> '.') and (searchResult.Name <> '..') then
+        begin
+          FileSearch(IncludeTrailingBackSlash(dirName) + searchResult.Name, vListaArq);
+        end;
+      until FindNext(searchResult) <> 0 finally FindClose(searchResult);
+    end;
+  end;
+end;
+
+procedure Tfgsp.btnB_0Click(Sender: TObject);
+
+Const
+  StrUNID: Array [0 .. 4] Of String = ('PC', 'UN', 'LT', 'PC', 'MT');
+
+Var
+  Int0150: integer;
+  Int0175: integer;
+  Int0300: integer;
+  Int0190: integer;
+  Int0500: integer;
+  Int0600: integer;
+  Vuniinv: String;
+  Pode: Boolean;
+  CodEntidade: String;
+  vlListaUnidades: TStringlist;
+
+Begin
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco 0.
+  // abertura das tabelas do Bloco-0(Abertura do arquivo digital e identificação da Entidade.
+  cfg.Close;
+  spd.Close;
+  ctd.Close;
+  etd.Close;
+  Uni.Close;
+  pro.Close;
+  toe.Close;
+  tof.Close;
+
+  cfg.Close;
+  cfg.Params[0].AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  spd.Close;
+  spd.Params[0].AsString := vpSpdChave;
+  spd.Open;
+
+  ctd.Open;
+  etd.Open;
+  Uni.Open;
+  pro.Open;
+  tof.Open;
+
+  CfgEtd.Close;
+  CfgEtd.Open;
+
+  vlListaUnidades := TStringlist.Create;
+
+  if CfgEtd.IsEmpty then
+  begin
+
+    ShowMessage('Atenção: Verifique os dados de configurações do SPED.' + #13 + 'Dados da entidade ligada a empresa estão incompletos!');
+    memoError.Lines.Add(' ERRO ERRO ERRO :' + #13 + #13 + #13 + 'Atenção: Verifique os dados de configurações do SPED.' + #13 +
+      'Dados da entidade ligada a empresa estão incompletos!');
+  end;
+
+  cbConcomitante.Enabled := false;
+  btnB_0.Enabled := false;
+  btnB_C.Enabled := True;
+
+  // Definindo
+
+  With ACBrSPEDFiscal1 Do // Daniel
+  Begin
+    DT_INI := Self.spdspddatainicial.AsFloat;
+    DT_FIN := Self.spdspddatafinal.AsFloat;
+  End;
+
+  dtlmad.Close;
+  dtlmad.ParamByName('datainicial').AsDate := Self.spdspddatainicial.AsFloat;
+  dtlmad.ParamByName('datafinal').AsDate := Self.spdspddatafinal.AsFloat;
+  dtlmad.Open;
+
+  adc.Close;
+  adc.Open;
+
+  if not dtlmad.IsEmpty then
+  begin
+
+    mad.Close;
+    mad.Params[0].AsInteger := Self.spdspdchave.AsInteger;
+    mad.Open;
+
+    if mad.RecordCount = 0 then
+      mad.Append
+    else
+      mad.Edit;
+
+    madetdcodigo.AsInteger := adcetdcodigo.AsInteger;;
+    madspdchave.AsInteger := Self.spdspdchave.AsInteger;
+
+    dtlmad.First;
+    madmadvalorccredito.AsCurrency := dtlmaddtlvalor.AsCurrency;
+
+    dtlmad.Next;
+    madmadvalorcdebito.AsCurrency := dtlmaddtlvalor.AsCurrency;
+
+    mad.Post;
+
+  end
+  else
+  begin
+
+    mad.Close;
+    mad.Params[0].AsInteger := Self.spdspdchave.AsInteger;
+    mad.Open;
+
+    while not mad.Eof do
+    begin
+      mad.Delete;
+    end;
+
+  end;
+
+  toe.Close;
+  toe.Params[0].AsFloat := Self.spdspddatainicial.AsFloat;
+  toe.Params[1].AsFloat := Self.spdspddatafinal.AsFloat;
+  toe.Open;
+
+  If cbConcomitante.Checked Then
+  Begin
+    With ACBrSPEDFiscal1 Do
+    Begin
+      LinhasBuffer := StrToIntDef('1000', 0);
+      IniciaGeracao;
+    End;
+    LoadToMemo;
+  End;
+
+  With ACBrSPEDFiscal1.Bloco_0 Do
+  Begin
+
+    If CfgEtd.Active Then
+    Begin
+      If CfgEtd.RecordCount > 0 Then
+      Begin
+        With Registro0000New Do
+        Begin
+          COD_VER := vlVersao116;
+          COD_FIN := RaOriginal;
+          NOME := Trim(Self.CfgEtdetdidentificacao.AsString);
+          CNPJ := SoNumeros(Self.CfgEtdetddoc1.AsString);
+          CPF := '';
+          UF := Self.CfgEtdufssigla.AsString;
+          IE := tiorazerosesquerda(SoNumeros(Self.CfgEtdedrinscest.AsString));
+          COD_MUN := Self.CfgEtdcddcodigo.AsInteger;
+          IM := '';
+          SUFRAMA := '';
+          IND_PERFIL := PfPerfilA;
+          IND_ATIV := AtOutros;
+        End;
+      End;
+    End;
+
+    With Registro0001New Do
+    Begin
+      IND_MOV := ImComDados;
+
+      With Registro0005New Do
+      Begin
+        FANTASIA := Trim(Self.CfgEtdetdapelido.AsString);
+        CEP := SoNumeros(Self.CfgEtdedrcep.AsString);
+        ENDERECO := Trim(Self.CfgEtdedrrua.AsString);
+        NUM := Trim(Self.CfgEtdedrnumero.AsString);
+        COMPL := Trim(Self.CfgEtdedrcomple.AsString);
+        BAIRRO := Trim(Self.CfgEtdedrbairro.AsString);
+        FONE := SoNumeros(Self.CfgEtdetftelefone.AsString);
+        FAX := '';
+        EMAIL := Self.CfgEtdeteemail.AsString;
+      End;
+
+      // FILHO - Dados do contador.                                                    // Daniel
+      With Registro0100New Do
+      Begin
+        NOME := Trim(Self.ctdctdidentificacao.AsString);
+        CPF := SoNumeros(Self.ctdctdcpf.AsString);
+        CRC := SoNumeros(Self.ctdctdcrc.AsString);
+        CNPJ := SoNumeros(Self.ctdctdcnpj.AsString);
+        CEP := SoNumeros(Self.ctdctdcep.AsString);
+        ENDERECO := Trim(Self.ctdctdendereco.AsString);
+        NUM := Self.ctdctdnumero.AsString;
+        COMPL := '';
+        BAIRRO := Trim(Self.ctdctdbairro.AsString);
+        FONE := SoNumeros(Self.ctdctdfone.AsString);
+        FAX := SoNumeros(Self.ctdctdfax.AsString);
+        EMAIL := Self.ctdctdemail.AsString;
+        COD_MUN := Self.ctdcddcodigo.AsInteger;
+      End;
+
+
+
+
+
+
+      //
+      // ***** PARTICIPANTES *********
+      //
+
+      CarregaEntidades;
+
+      mEtd.IndexFieldNames := 'etdidentificacao';
+      mEtd.First;
+      While Not mEtd.Eof Do
+      Begin
+
+        If Not Registro0150.LocalizaRegistro(mEtdetdcodigo.AsString) Then
+        Begin
+
+          if Trim(Self.mEtdetdidentificacao.AsString) <> '' then
+          begin
+            if Self.mEtdetdidentificacao.AsString <> 'CONSUMIDOR' then
+            begin
+
+              With Registro0150New Do
+              Begin
+                COD_PART := mEtdetdcodigo.AsString;
+                NOME := Trim(Self.mEtdetdidentificacao.AsString);
+                COD_PAIS := '1058';
+                CNPJ := '';
+                CPF := '';
+
+                If (Self.mEtdtpecodigo.AsInteger = 1) Or (Self.mEtdtpecodigo.AsInteger = 3) Then
+                  CPF := SoNumeros(Self.mEtdetddoc1.AsString)
+                Else
+                  CNPJ := SoNumeros(Self.mEtdetddoc1.AsString);
+
+                IE := SoNumeros(Self.mEtdedrinscest.AsString);
+                COD_MUN := Self.mEtdcddcodigo.AsInteger;
+                SUFRAMA := '';
+                ENDERECO := Trim(Self.mEtdedrrua.AsString);
+                NUM := Trim(Self.mEtdedrnumero.AsString);
+                COMPL := Trim(Self.mEtdedrcomple.AsString);
+                BAIRRO := Trim(Self.mEtdedrbairro.AsString);
+
+              end;
+              // Registro de alterações
+              { With Registro0175New Do // ajustar
+                Begin
+                DT_ALT := DT_INI + 1;
+                NR_CAMPO := '1';
+                CONT_ANT := 'CAMPO ANTERIOR ' + '1';
+                End; }
+            End;
+          End;
+
+        end;
+        mEtd.Next;
+      End;
+
+
+
+
+
+
+
+
+
+      //
+      // *****  UNIDADES E PRODUTOS
+      //
+
+      CarregaUniEPro;
+
+      mUni.First; // ir para o inicio da tabela
+      While Not mUni.Eof Do
+      Begin
+
+        if mPro.Locate('unisimbolo', Trim(Self.mUniunisimbolo.AsString), []) then
+        begin
+          With Registro0190New Do
+          Begin
+            UNID := Trim(Self.mUniunisimbolo.AsString);
+            DESCR := Self.mUniuninome.AsString;
+          End;
+        end
+        else
+        begin
+          if pro.Locate('unisimbolo', Trim(Self.mUniunisimbolo.AsString), []) then
+          begin
+            With Registro0190New Do
+            Begin
+              UNID := Trim(Self.mUniunisimbolo.AsString);
+              DESCR := Self.mUniuninome.AsString;
+            End;
+          end
+
+        end;
+
+        mUni.Next;
+      End;
+
+      unimulti.Close;
+      unimulti.SQL.Text := 'SELECT DISTINCT  uni.unisimbolo, pun.punmultiplicador,pro.procodigo ';
+      unimulti.SQL.Add('FROM itm,pro,pun,uni,mes,toe WHERE ');
+      unimulti.SQL.Add('pro.procodigo=itm.procodigo ');
+      unimulti.SQL.Add('AND itm.puncodigo=pun.puncodigo ');
+      unimulti.SQL.Add('AND uni.unicodigo=itm.unicodigo ');
+      unimulti.SQL.Add('AND mes.mesregistro>=' + QuotedStr(Ajustadata(Self.spdspddatainicial.AsString)) + ' ');
+      unimulti.SQL.Add('AND mes.mesregistro<=' + QuotedStr(Ajustadata(Self.spdspddatafinal.AsString)) + ' ');
+      unimulti.SQL.Add('AND mes.toecodigo=toe.toecodigo ');
+      unimulti.SQL.Add('AND toe.ttmcodigo=1 ');
+      unimulti.SQL.Add('AND  mes.sdecodigo<>' + QuotedStr('02') + ' and mes.tdfcodigo<>' + QuotedStr('CI'));
+
+      unimulti.SQL.Add('AND mes.meschave=itm.meschave ');
+      unimulti.SQL.Add('order by pro.procodigo');
+
+
+      // unimulti.SQL.Add('AND itm.procodigo=' + Self.mProprocodigo.AsString + ' ');
+      // unimulti.SQL.Add('AND unisimbolo<>' + QuotedStr(UNID_INV));
+
+      unimulti.Open;
+
+      mPro.IndexFieldNames := 'procodigo';
+
+      mostra.Max := mPro.RecordCount;
+      mostra.Position := 0;
+      application.ProcessMessages;
+
+      mPro.First; // ir para o inicio da tabela
+      While Not mPro.Eof Do
+      Begin
+
+        mostra.Position := mostra.Position + 1;
+        application.ProcessMessages;
+
+        With Registro0200New Do // Fran - 21/12/2011 as 10hs4min
+        Begin
+
+          COD_ITEM := Self.mProprocodigo.AsString; // '000001'-   código do item
+          DESCR_ITEM := Trim(Self.mPropronome.AsString); // 'PRODUTO 1'- Descrição do item
+
+          COD_BARRA := '';
+
+          if Self.mPropunbarra.AsString <> '' then
+          begin
+            If EAN13Valido(Floattostr(Strtofloat(Self.mPropunbarra.AsString))) Then
+              COD_BARRA := Self.mPropunbarra.AsString; // '' - Representação alfanumérico do código de barra do produto, se houver
+          end;
+
+          UNID_INV := Self.mProunisimbolo.AsString; // 'UN' - Unidade de medida utilizada na qualificação de estoques
+
+          Case (Self.mProtpocodigo.AsInteger) Of
+            0:
+              TIPO_ITEM := TiMercadoriaRevenda;
+            1:
+              TIPO_ITEM := TiMateriaPrima;
+            2:
+              TIPO_ITEM := TiEmbalagem;
+            3:
+              TIPO_ITEM := TiProdutoProcesso;
+            4:
+              TIPO_ITEM := TiProdutoAcabado;
+            5:
+              TIPO_ITEM := TiSubproduto;
+            6:
+              TIPO_ITEM := TiProdutoIntermediario;
+            7:
+              TIPO_ITEM := TiMaterialConsumo;
+            8:
+              TIPO_ITEM := TiAtivoImobilizado;
+            9:
+              TIPO_ITEM := TiServicos;
+            10:
+              TIPO_ITEM := TiOutrosInsumos;
+            99:
+              TIPO_ITEM := TiOutras;
+          End;
+
+          COD_NCM := copy(Self.mProproncm.AsString, 1, 8); // '30049026';  Código da Nomenclatura Comum do Mercdosul
+
+          COD_GEN := '';
+
+          If (copy(Self.mProproncm.AsString, 1, 2) <> '00') And (length(Self.mProproncm.AsString) = 8) Then
+            COD_GEN := copy(Self.mProproncm.AsString, 1, 2); // '30' - Código do gênero do item, conforme a tabela 4.2.1
+
+          If (mProicmaliquotas.AsString = 'FF') Or (mProicmaliquotas.AsString = 'NN') Or (mProicmaliquotas.AsString = 'II') Then
+            ALIQ_ICMS := 0 // usar a aliquota 0
+          Else
+            ALIQ_ICMS := Self.mProicmaliquotas.AsCurrency; // 17.00;
+
+          If unimulti.Locate('procodigo', Self.mProprocodigo.AsInteger, []) Then
+          Begin
+
+            While Not unimulti.Eof Do
+            Begin
+              if { (unimulti.FieldByName('unisimbolo').AsString <> UNID_INV) and }
+                (unimulti.FieldByName('procodigo').AsInteger = Self.mProprocodigo.AsInteger) then
+              begin
+
+                 if pos(Trim(uppercase(unimulti.Fields[0].AsString)+unimulti.Fields[1].AsString ), vlListaUnidades.Text) = 0 then
+                 begin
+
+                With Registro0220New Do
+                Begin
+
+
+                  UNID_CONV := Trim(uppercase(unimulti.Fields[0].AsString));
+                  FAT_CONV := unimulti.Fields[1].AsFloat;
+
+                  vlListaUnidades.Add(Trim(uppercase(unimulti.Fields[0].AsString+unimulti.Fields[1].AsString )));
+
+                End;
+
+                end;
+              end;
+              if unimulti.FieldByName('procodigo').AsInteger <> Self.mProprocodigo.AsInteger then
+                break
+              else
+                unimulti.Next;
+            End;
+
+          End;
+
+
+          // unidades base do cadastro não utilizadas em movimentações no mes
+
+          If Not mUni.Locate('unisimbolo', UNID_INV, []) Then
+          Begin
+
+            consulta.Close;
+            consulta.SQL.Text := 'SELECT punmultiplicador, uninome FROM pun,uni WHERE ';
+            consulta.SQL.Add('pun.unicodigo=uni.unicodigo ');
+            consulta.SQL.Add('AND pun.procodigo=' + Self.mProprocodigo.AsString + ' ');
+            consulta.SQL.Add('AND unisimbolo=' + QuotedStr(UNID_INV));
+            consulta.Open;
+
+            If Not consulta.IsEmpty Then
+            Begin
+              If Not Registro0190.LocalizaRegistro(UNID_INV) Then
+              Begin
+                With Registro0190New Do
+                Begin
+                  UNID := UNID_INV;
+                  DESCR := consulta.Fields[1].AsString;
+                End;
+              End;
+            End;
+          End;
+        End;
+
+        mPro.Next;
+      End;
+
+      toe.Close;
+      toe.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+      toe.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+      toe.Open;
+
+      toe.First; // ir para o inicio da tabela                                    // Fran - 21/12/2011 as 10hs20min
+      While Not toe.Eof Do
+      Begin
+        With Registro0400New Do
+        Begin
+          COD_NAT := Self.toetoecodigo.AsString; // '12020';
+          DESCR_NAT := Self.toetoeidentificacao.AsString; // 'DESCRIÇÃO DA NATUREZA DE OPERAÇÃO 12020';
+        End;
+        toe.Next;
+      End;
+
+    End;
+  End;
+
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_0;
+    LoadToMemo;
+  End;
+
+end;
+
+Procedure Tfgsp.CarregaUniEPro;
+Var
+  i: integer;
+  vlSpdChaveBalanco: string;
+Begin
+
+  mUni.Clear;
+  mPro.Clear;
+
+  mUni.Open;
+  mPro.Open;
+
+  //
+  // *****  UNIDADES  *****
+  //
+
+  Uni.Close;
+  Uni.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  Uni.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  Uni.Open;
+
+  Uni.First; // ir para o inicio da tabela
+  While Not Uni.Eof Do
+  Begin
+
+    If Not mUni.Locate('unisimbolo', Trim(uniunisimbolo.AsString), []) Then
+    Begin
+      mUni.Append;
+      mUniunicodigo.AsInteger := uniunicodigo.AsInteger;
+      mUniunisimbolo.AsString := Trim(uniunisimbolo.AsString);
+      mUniuninome.AsString := uniuninome.AsString;
+      mUni.Post;
+    End;
+
+    Uni.Next;
+  End;
+
+
+
+  //
+  // *****  PRODUTOS *****
+  //
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT ivt.spdchave FROM ivt,spd WHERE ivt.spdchave=spd.spdchave and spd.spddatabalanco=:databalanco limit 1';
+  consulta.ParamByName('databalanco').AsDate := spdspddatabalanco.AsFloat;
+  consulta.Open;
+  vlSpdChaveBalanco := consulta.FieldByName('spdchave').AsString;
+
+  If FormatDateTime('m', Self.spdspddatainicial.AsFloat) = '2' Then
+  begin
+
+    uniivt.Close;
+    uniivt.Open;
+
+    uniivt.First;
+    While Not uniivt.Eof Do
+    Begin
+      If Not mUni.Locate('unicodigo', uniivtunicodigo.AsInteger, []) Then
+      Begin
+        mUni.Append;
+        mUniunicodigo.AsInteger := uniivtunicodigo.AsInteger;
+        mUniunisimbolo.AsString := uniivtunisimbolo.AsString;
+        mUniuninome.AsString := uniivtuninome.AsString;
+        mUni.Post;
+      End;
+
+      uniivt.Next;
+    End;
+
+    proivt.Close;
+    proivt.ParamByName('spdchave').AsString := vlSpdChaveBalanco;
+    proivt.Open;
+
+    proivt.First;
+    While Not proivt.Eof Do
+    Begin
+
+      If Not mPro.Locate('procodigo', proivtprocodigo.AsInteger, []) Then
+      Begin
+        mPro.Append;
+        For i := 0 To mPro.FieldCount - 1 Do
+        Begin
+          mPro.Fields[i] := proivt.Fields[i];
+        End;
+        mPro.Post;
+
+      End;
+
+      proivt.Next;
+    End;
+
+  end;
+
+  pro.Close;
+  pro.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  pro.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  pro.Open;
+
+  pro.First;
+  While Not pro.Eof Do
+  Begin
+
+    If Not mPro.Locate('procodigo', proprocodigo.AsInteger, []) Then
+    Begin
+      mPro.Append;
+      For i := 0 To mPro.FieldCount - 1 Do
+      Begin
+        mPro.Fields[i] := pro.Fields[i];
+      End;
+      mPro.Post;
+
+    End;
+
+    pro.Next;
+  End;
+
+  prok.Close;
+  prok.ParamByName('datainicial').AsDate := Self.spdspddatafinal.AsFloat;
+  prok.ParamByName('datafinal').AsDate := Self.spdspddatafinal.AsFloat;
+  prok.Open;
+
+  if not prok.IsEmpty then
+  begin
+
+    prok.First;
+    While Not prok.Eof Do
+    Begin
+
+      If Not mPro.Locate('procodigo', prokprocodigo.AsInteger, []) Then
+      Begin
+        mPro.Append;
+        For i := 0 To mPro.FieldCount - 1 Do
+        Begin
+          mPro.Fields[i] := prok.Fields[i];
+        End;
+        mPro.Post;
+
+      End;
+
+      If Not mUni.Locate('unisimbolo', prokunisimbolo.AsString, []) Then
+      Begin
+        mUni.Append;
+        mUniunicodigo.AsInteger := prokunicodigo.AsInteger;
+        mUniunisimbolo.AsString := Trim(prokunisimbolo.AsString);
+        mUniuninome.AsString := prokuninome.AsString;
+        mUni.Post;
+
+      End;
+
+      prok.Next;
+    End;
+
+  end;
+
+End;
+
+procedure Tfgsp.FormShow(Sender: TObject);
+var
+  i: integer;
+begin
+  Self.Width := 279;
+  Self.Height := 435;
+
+  for i := 0 to Self.ComponentCount - 1 do
+  begin
+    if Self.Components[i] is TUniQuery then
+      TUniQuery(Self.Components[i]).Connection := fzcone;
+
+    if Self.Components[i] is tUniTable then
+      tUniTable(Self.Components[i]).Connection := fzcone;
+
+  end;
+
+end;
+
+procedure Tfgsp.btnB_1Click(Sender: TObject);
+begin
+  btnB_1.Enabled := false;
+  btnB_9.Enabled := cbConcomitante.Checked;
+
+  // Alimenta o componente com informações para gerar todos os registros do Bloco 1.
+  With ACBrSPEDFiscal1.Bloco_1 Do
+  Begin
+
+    With Registro1001New Do
+    Begin
+      IND_MOV := ImComDados; // imSemDados;
+    End;
+
+    With Registro1010New Do
+    Begin
+      IND_EXP := 'N';
+      IND_CCRF := 'N';
+      IND_COMB := 'N';
+      IND_USINA := 'N';
+      IND_VA := 'N';
+      IND_EE := 'N';
+      // if mad.RecordCount = 0 then
+      // IND_CART := 'N'; // define se houve operações com cartoes
+      // else
+      IND_CART := 'S'; // define se houve operações com cartoes
+      IND_FORM := 'N';
+      IND_AER := 'N';
+      IND_GIAF1 := 'N';
+      IND_GIAF3 := 'N';
+      IND_GIAF4 := 'N';
+      IND_REST_RESSARC_COMPL_ICMS := 'N';
+
+    End;
+
+    { With Registro1250New Do
+      Begin
+      VL_CREDITO_ICMS_OP := 0;
+      VL_ICMS_ST_REST := 0;
+      VL_FCP_ST_REST := 0;
+      VL_ICMS_ST_COMPL := 0;
+      VL_FCP_ST_COMPL := 0;
+      End; }
+
+    dtlmad.Close;
+    dtlmad.ParamByName('datainicial').AsDate := Self.spdspddatainicial.AsFloat;
+    dtlmad.ParamByName('datafinal').AsDate := Self.spdspddatafinal.AsFloat;
+    dtlmad.Open;
+
+
+
+    // pagamentos online
+
+    {
+
+      ori.Close;
+      ori.Open;
+
+      if ori.RecordCount > 0 then
+      begin
+      ori.First;
+      while not ori.Eof do
+      begin
+      rfi.Close;
+      rfi.ParamByName('etdcodigo').AsInteger := orietdcodigo.AsInteger;
+      rfi.ParamByName('datainicial').AsDate := spdspddatainicial.AsDateTime;
+      rfi.ParamByName('datafinal').AsDate := spdspddatafinal.AsDateTime;
+      rfi.Open;
+
+      if rfirfivalor.AsCurrency > 0 then
+      begin
+
+      With Registro1601New Do
+      Begin
+
+      COD_PART_IP := orietdcodigo.AsString + '01';
+      COD_PART_IT := orietdcodigo.AsString + '01';
+      TOT_VS := rfirfivalor.AsCurrency;
+      TOT_ISS := 0;
+      TOT_OUTROS := 0;
+
+      End;
+
+      end;
+
+      ori.Next;
+      end;
+      end;
+
+    }
+
+    // pagamento via pix
+    {
+    dtl.Close;
+    dtl.ParamByName('datainicial').AsDate := spdspddatainicial.AsDateTime;
+    dtl.ParamByName('datafinal').AsDate := spdspddatafinal.AsDateTime;
+    dtl.Open;
+
+    if dtl.RecordCount > 0 then
+    begin
+
+      if dtldtlvalor.AsCurrency > 0 then
+      begin
+
+        With Registro1601New Do
+        Begin
+
+          COD_PART_IP := ctacfgetdcodigopix.AsString + '01';
+          COD_PART_IT := ctacfgetdcodigopix.AsString + '01';
+          TOT_VS := dtldtlvalor.AsCurrency;
+          TOT_ISS := 0;
+          TOT_OUTROS := 0;
+
+        End;
+
+      end;
+
+    end;
+
+    }
+
+    adc.Close;
+    adc.Open;
+
+    while not adc.Eof do
+    begin
+
+      rfi.Close;
+      rfi.ParamByName('datainicial').AsDate := spdspddatainicial.AsDateTime;
+      rfi.ParamByName('datafinal').AsDate := spdspddatafinal.AsDateTime;
+      rfi.ParamByName('etdcodigo').AsInteger := adcetdcodigo.AsInteger;
+      rfi.Open;
+
+      if rfi.RecordCount > 0 then
+      begin
+
+        if rfirfivalor.AsCurrency > 0 then
+        begin
+
+          With Registro1601New Do
+          Begin
+
+            COD_PART_IP := adcetdcodigo.AsString + '01';
+            COD_PART_IT := adcetdcodigo.AsString + '01';
+            TOT_VS := rfirfivalor.AsCurrency;
+            TOT_ISS := 0;
+            TOT_OUTROS := 0;
+
+          End;
+
+        end;
+
+      end;
+
+      adc.Next;
+
+    end;
+
+  End;
+
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_1;
+    LoadToMemo;
+  End;
+
+  // Showmessage('Concluido com sucesso!');
+
+end;
+
+procedure Tfgsp.btnB_9Click(Sender: TObject);
+begin
+  btnB_9.Enabled := false;
+  ACBrSPEDFiscal1.WriteBloco_9;
+  LoadToMemo;
+
+  // Habilita os botões
+  btnB_0.Enabled := True;
+  btnB_1.Enabled := True;
+  btnB_C.Enabled := True;
+  btnB_D.Enabled := True;
+  btnB_E.Enabled := True;
+  btnB_G.Enabled := True;
+  btnB_H.Enabled := True;
+
+  cbConcomitante.Enabled := True;
+
+end;
+
+procedure Tfgsp.btnB_CClick(Sender: TObject);
+Var
+  INotas: integer;
+  IItens: integer;
+  NNotas: integer;
+  BNotas: integer;
+  VQueryC190: String;
+  VQueryC490: String;
+  vlOrigemNotas: string;
+  vlDestinoNotas: string;
+
+  vlNomeArquivo: string;
+  vlsqlmes: string;
+
+  vlBaseIcm: double;
+  vlValorIcm: double;
+
+  vlvBaseIcm: double;
+  vlvValorIcm: double;
+
+Begin
+
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco C. -  Documentos Fiscais - Mercadorias
+  btnB_C.Enabled := false;
+  btnB_D.Enabled := True;
+
+  NNotas := StrToInt64Def(edNotas.Text, 1);
+  BNotas := StrToInt64Def('1000', 1);
+
+  mes.Close;
+  mes.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  mes.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  mes.Open;
+  vlsqlmes := mes.SQL.Text;
+
+  mesrec.Close;
+  mesrec.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  mesrec.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  mesrec.Open;
+
+  mesnfce.Close;
+  mesnfce.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  mesnfce.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  mesnfce.Open;
+
+  With ACBrSPEDFiscal1.Bloco_C Do
+  Begin
+    If (mes.RecordCount > 0) or (mesnfce.RecordCount > 0) Then
+    Begin
+
+      With RegistroC001New Do
+      Begin
+        if (mesnfce.IsEmpty) and (mes.IsEmpty) then
+        begin
+          IND_MOV := imSemDados;
+        end
+        else
+        begin
+
+          IND_MOV := ImComDados;
+
+
+          //
+          // *****  NOTAS FISCAIS  *****
+          //
+
+          mostra1.Position := 0;
+          mostra1.Max := mes.RecordCount;
+          application.ProcessMessages;
+
+          mes.First; // ir para o inicio da tabela
+          While Not mes.Eof Do
+          Begin // Fran  - 21/12/2011 as 17hs30min
+            Label1.caption := mostra1.Position.ToString;
+            mostra1.Position := mostra1.Position + 1;
+            application.ProcessMessages;
+
+
+
+            // if mesmesnumero.Asinteger=21624 then
+            // showmessage('') ;
+
+            if (mestemcodigo.AsInteger = 5) or (mestemcodigo.AsInteger = 3) then
+            begin
+
+             itm.Close;
+             itm.Params[0].AsInteger := Self.mesmeschave.AsInteger;
+             itm.Open;
+
+
+              If (mes.RecordCount > 0) and (itm.RecordCount>0) Then
+              Begin
+
+                With RegistroC100New Do // Nota Fiscal, Nota Fiscal avulsa, Nota Fiscal de produtor e NF-e
+                Begin
+                  vlBaseIcm := 0;
+                  vlValorIcm := 0;
+                  if mesmeschavenfe.AsString <> '' then
+                  begin
+                    if (mestdfcodigo.AsString = '65') or (mestdfcodigo.AsString = '55') then
+                    begin
+
+                      itm.Close;
+                      itm.Params[0].AsInteger := Self.mesmeschave.AsInteger;
+                      itm.Open;
+
+                      vlvBaseIcm := 0;
+                      vlvValorIcm := 0;
+
+                      mostra.Position := 0;
+                      mostra.Max := itm.RecordCount;
+
+                      itm.First;
+                      While Not itm.Eof Do // Fran - 22/12/2011 as 9hs28min(termino)
+                      Begin
+                        mostra.Position := mostra.Position + 1;
+                        application.ProcessMessages;
+                        if itmcfocfop.AsString <> '5.405' then
+                        begin
+                          vlvBaseIcm := vlvBaseIcm + itmitmbicm.AsCurrency;
+                          vlvValorIcm := vlvValorIcm + itmitmicm.AsCurrency;
+                        end;
+
+                        itm.Next;
+                      End;
+
+                      vlDestinoNotas := vpDiretorio + '\arqxmlsemitidos\nfce';
+                      vlOrigemNotas := cfgcfgservarqnfes.AsString + '\arqnfces\' + FormatDateTime('yyyymm', spdspddatafinal.AsFloat);
+                    end
+                    else if mestdfcodigo.AsString = '55' then
+                    begin
+                      vlDestinoNotas := vpDiretorio + '\arqxmlsemitidos\nfe';
+                      vlOrigemNotas := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', spdspddatafinal.AsFloat);
+                    end;
+
+                    vlNomeArquivo := vlOrigemNotas + '\' + mesmeschavenfe.AsString + '-nfe.xml';
+
+                    if fileexists(vlNomeArquivo) then
+                    begin
+                      copyfile(pwidechar(vlNomeArquivo), pwidechar(vlDestinoNotas + '\' + mesmeschavenfe.AsString + '-nfe.xml'), false);
+                    end;
+
+                  end;
+
+                  If Self.mesttecodigo.AsInteger = 0 Then // Tipo de operação (0-Entrada,1-Saida)
+                    IND_OPER := TpEntradaAquisicao
+                  Else If Self.mesttecodigo.AsInteger = 1 Then
+                    IND_OPER := TpSaidaPrestacao;
+
+                  If mesttmcodigo.AsInteger = 0 Then // Indicador do emitente do documento fiscal - (0-Emissão Própria, 1-Terceiros)
+                    IND_EMIT := EdEmissaoPropria
+                  Else If Self.mesttmcodigo.AsInteger = 1 Then
+                    IND_EMIT := EdTerceiros;
+
+                  COD_MOD := Self.mestdfcodigo.AsString; // Modelo de documento fiscal (Nota fiscal, Nota Fiscal Eletrônica...)
+
+                  If Self.messdecodigo.AsString = '00' Then // Situação do documento fiscal(documento regular,documento fiscal complementar...)
+                    COD_SIT := SdRegular // Documento regular
+                  Else If Self.messdecodigo.AsString = '01' Then
+                    COD_SIT := SdExtempRegular // Escrituração extemporânea de documento regular
+                  Else If Self.messdecodigo.AsString = '02' Then
+                    COD_SIT := SdCancelado // Documento cancelado
+                  Else If Self.messdecodigo.AsString = '03' Then
+                    COD_SIT := SdCanceladoExtemp
+                    // Escrituração extemporânea de documento cancelado
+                  Else If Self.messdecodigo.AsString = '04' Then
+                    COD_SIT := SdDoctoDenegado // 04 - NF-e ou CT-e - denegado
+                  Else If Self.messdecodigo.AsString = '05' Then
+                    COD_SIT := SdDoctoNumInutilizada // 05 - NF-e ou CT-e - Numeração inutilizada
+                  Else If Self.messdecodigo.AsString = '06' Then
+                    COD_SIT := SdFiscalCompl // 06 - Documento Fiscal Complementar
+                  Else If Self.messdecodigo.AsString = '07' Then
+                    COD_SIT := SdExtempCompl
+                    // 07 - Escrituração extemporânea de documento complementar
+                  Else If Self.messdecodigo.AsString = '08' Then
+                    COD_SIT := SdRegimeEspecNEsp;
+                  // 08 - Documento Fiscal emitido com base em Regime Especial ou Norma Específica
+                  SER := Self.mesmesserie.AsString; // série do documento fiscal
+                  NUM_DOC := Self.mesmesnumero.AsString; // FormatFloat('11000000', INotas); Número do documento fiscal
+
+                  CHV_NFE := Self.mesmeschavenfe.AsString; // Chave da Nota Fiscal eletrônica
+                  DT_DOC := Self.mesmesemissao.AsFloat; // DT_INI + INotas; Data da emissão do documento fiscal
+                  DT_E_S := Self.mesmesregistro.AsFloat; // DT_INI + INotas;  data da entrada ou da saída
+
+                  If (Self.messdecodigo.AsString <> '02') and (Self.messdecodigo.AsString <> '04') Then
+                  Begin
+
+                    If ((COD_MOD <> '65') and (mesetdcodigo.AsInteger <> 0)) and (COD_MOD <> '2D') Then
+                    BEGIN
+                      COD_PART := Self.mesetdcodigo.AsString + FormatFloat('00', Self.mesedritem.AsInteger); // codigo do participante - entidade
+                    END;
+
+                    if Self.mesttecodigo.AsInteger = 1 then
+                    begin
+
+                      VL_DOC := mesmestotal.AsFloat;
+
+                      { if mesmesprodutos.AsFloat = 0 then
+                        VL_DOC := mesmesprodutos.AsFloat
+                        else
+                        VL_DOC := mesmesprodutos.AsFloat; }
+
+                    end
+                    else
+                    begin
+
+                      // if mesmesprodutos.AsFloat = 0 then
+                      VL_DOC := mesmestotal.AsFloat;
+                      // else
+                      // VL_DOC := mesmesprodutos.AsFloat + mesmesipi.AsCurrency + mesmesicms.AsCurrency;
+
+                    end;
+                    If Self.mestfpcodigo.AsString = '0' Then // indicador do tipo de pagamento(0-A vista, 1-A prazo,9-sem pagamento)
+                      IND_PGTO := TpVista // 0 - À Vista
+                    Else If Self.mestfpcodigo.AsString = '1' Then
+                      IND_PGTO := TpPrazo // 1 - A Prazo
+                    Else If Self.mestfpcodigo.AsString = '2' Then
+                      IND_PGTO := tpOutros; // 9 - Sem pagamento
+
+                    VL_DESC := Self.mesmesdesconto.AsFloat; // Valor total do desconto
+
+                    VL_ABAT_NT := 0; // abatimento não tributado e não comercia (ex: desconto ICMS nas remessas para ZFM)
+
+                    if mesmesprodutos.AsFloat = 0 then
+                    begin
+                      if Self.mesttecodigo.AsInteger = 1 then
+                      begin
+                        VL_MERC := Self.mesmesprodutos.AsFloat;
+                      end
+                      else
+                      begin
+                        if (Self.mesmesipi.AsCurrency > 0) and (Self.mesmesoutras.AsCurrency = 0) then
+                          VL_MERC := Self.mesmestotal.AsFloat - Self.mesmesipi.AsCurrency + Self.mesmesdesconto.AsFloat
+                          // Valor total das mercadorias e serviços
+                        else
+                          VL_MERC := Self.mesmestotal.AsFloat - mesmesoutras.AsCurrency + Self.mesmesdesconto.AsFloat;
+                        // Valor total das mercadorias e serviços
+                      end;
+                    end
+                    else
+                    begin
+                      if Self.mesttecodigo.AsInteger = 1 then
+                      begin
+                        VL_MERC := Self.mesmestotal.AsFloat;
+                        // VL_MERC := Self.mesmesprodutos.AsFloat;
+                      end
+                      else
+                      begin
+
+                        if (Self.mesmesipi.AsCurrency > 0) and (Self.mesmesoutras.AsCurrency = 0) then
+                          VL_MERC := Self.mesmesprodutos.AsFloat + Self.mesmesdesconto.AsFloat // Valor total das mercadorias e serviços
+                        else
+                          VL_MERC := Self.mesmestotal.AsFloat - mesmesoutras.AsCurrency + Self.mesmesdesconto.AsFloat;
+                        // Valor total das mercadorias e serviços
+
+                      end;
+                    end;
+
+                    If Self.mesrefcodigo.AsInteger = 0 Then // indicador do tipo de frete(0-emitente,1- destinatário/remetente...)
+                      IND_FRT := TfPorContaEmitente // 0 - Por conta de Emitente
+                    Else If Self.mesrefcodigo.AsInteger = 1 Then
+                      IND_FRT := TfPorContaDestinatario // 1 - Por conta do Destinatario
+                    Else If Self.mesrefcodigo.AsInteger = 2 Then
+                      IND_FRT := TfPorContaTerceiros // 2 - Por conta do Terceiro
+                    Else If Self.mesrefcodigo.AsInteger = 9 Then
+                      IND_FRT := TfSemCobrancaFrete; // 9 - Sem cobrança de frete
+
+                    VL_FRT := Self.mesmesfrete.AsCurrency;
+                    VL_SEG := Self.mesmesseguro.AsFloat; // valor do seguro indicado no documento fiscal
+                    if Self.mesttecodigo.AsInteger = 1 then
+                      VL_OUT_DA := 0
+                    else
+                      VL_OUT_DA := Self.mesmesoutras.AsFloat + Self.mesmesipi.AsCurrency + mesmesicms.AsCurrency;
+
+                    // Verifica se registra impostos é diferente de 1='Registrar Normal'
+                    If cfgcrtcodigo.AsInteger in [1] Then
+                    Begin
+                      VL_BC_ICMS := 0;
+                      VL_ICMS := 0;
+                      VL_BC_ICMS_ST := 0;
+                      VL_ICMS_ST := 0;
+                      VL_IPI := 0;
+                      VL_PIS := 0;
+                      VL_COFINS := 0;
+                      VL_PIS_ST := 0;
+                      VL_COFINS_ST := 0;
+                    End
+                    Else
+                    Begin
+
+                      if mesttocodigo.AsInteger = ttoCompra then
+                      begin
+                        VL_BC_ICMS := Self.mesmesbicm.AsCurrency;
+                        VL_ICMS := Self.mesmesicm.AsCurrency;
+
+                        // daniel 30 03      VL_BC_ICMS := 0;
+                        // daniel 30 03      VL_ICMS := 0;
+                        VL_BC_ICMS_ST := Self.mesmesbicms.AsCurrency;
+                        VL_ICMS_ST := Self.mesmesicms.AsCurrency; // Valor do ICMS retido por substituição tributária
+                      end
+                      else
+                      begin
+
+                        if Self.mesmesbicm.AsCurrency > 0 then
+                        begin
+                          VL_BC_ICMS := Self.mesmesbicm.AsCurrency;
+                          VL_ICMS := Self.mesmesicm.AsCurrency;
+                        end
+                        else
+                        begin
+                          VL_BC_ICMS := 0;
+                          VL_ICMS := 0;
+                        end;
+
+                        VL_BC_ICMS_ST := Self.mesmesbicms.AsCurrency;
+                        VL_ICMS_ST := Self.mesmesicms.AsCurrency; // Valor do ICMS retido por substituição tributária
+
+                      end;
+
+                      If ((COD_MOD <> '65') and (mesetdcodigo.AsInteger <> 0)) and (COD_MOD <> '2D') Then
+                      BEGIN
+                        VL_IPI := Self.mesmesipi.AsFloat; // valor total do IPI
+                        VL_PIS := Self.mesmespis.AsFloat; // Valor total do PIS
+                        VL_COFINS := Self.mesmescofins.AsFloat; // Valor total da COFINS
+                        VL_PIS_ST := Self.mesmespiss.AsFloat; // Valor total do PIS retido por substituição tributária
+                        VL_COFINS_ST := Self.mesmescofinss.AsFloat; // Valor total da COFINS retido por substituição tributária
+                      end;
+
+                    End;
+
+                    { if vlvValorIcm > 0 then
+                      begin
+                      VL_BC_ICMS := vlvBaseIcm;
+                      VL_ICMS := vlvValorIcm;
+                      end;
+                    }
+                  End;
+
+
+
+
+
+                  //
+                  // **** REGISTRO C170: ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55). ****
+                  //
+
+                  // Indicador do emitente do documento fiscal - (0-Emissão Própria, 1-Terceiros)
+                  If ((mesttmcodigo.AsInteger = tmcInclusao) Or (Self.mestdfcodigo.AsString = tdfNotaFiscal)) and
+                    (Self.messdecodigo.AsString <> sdeDocCancelado) and (Self.messdecodigo.AsString <> sdeNFeCTeDenegada) Then
+                  Begin
+
+                    itm.Close;
+                    itm.Params[0].AsInteger := Self.mesmeschave.AsInteger;
+                    itm.Open;
+
+                    mostra.Position := 0;
+                    mostra.Max := itm.RecordCount;
+
+                    itm.First;
+                    While Not itm.Eof Do // Fran - 22/12/2011 as 9hs28min(termino)
+                    Begin
+                      mostra.Position := mostra.Position + 1;
+                      application.ProcessMessages;
+                      With RegistroC170New Do // Inicio Adicionar os Itens:
+                      Begin
+                        NUM_ITEM := FormatFloat('000', Self.itm.Recno); // FormatFloat('000', IItens) número sequencial do item no docuemnto fiscal
+                        COD_ITEM := Self.itmprocodigo.AsString; // ('000000', StrToInt(NUM_ITEM)); Código do item no cadastro de pordutos
+                        DESCR_COMPL := Self.itmitmdesccomple.AsString;
+                        // FormatFloat('11000000', INotas) + ' -> ITEM ' // Descrição complementar do item como adotado no documento fiscal
+                        QTD := Self.itmitmquantidade.AsFloat; // Quantidade do item
+                        UNID := Self.itmunisimbolo.AsString; // 'UN' unidade do item
+
+                        // VL_ITEM := Self.itmitmtotal.AsCurrency - itmitmipi.AsCurrency;
+
+                        VL_ITEM := Self.itmitmtotal.AsCurrency;
+                        // + ((mesmesoutras.AsCurrency+mesmesipi.AsCurrency+mesmesicms.AsCurrency)* (Self.itmitmtotal.AsCurrency/self.mesmestotal.AsCurrency) )    { / self.itmitmquantidade.Asfloat }; // Valor do item
+                        VL_DESC := Self.itmitmdesconto.AsCurrency; // Valor do desconto
+
+                        // Movimetação física do item/produto
+                        If Self.itmitmmovifisico.AsInteger = 0 Then
+                          IND_MOV := MfSim // 0 - Sim
+                        Else If Self.itmitmmovifisico.AsInteger = 1 Then
+                          IND_MOV := MfNao; // 1 - Não
+
+                        // Indicador do emitente do documento fiscal - (0-Emissão Própria, 1-Terceiros)
+
+                        CST_ICMS := Self.itmcstcodigo.AsString;
+
+
+
+                        // '090'; // self.itmcstcodigo.asstring; // Código da situação tributária referente ao ICMS.
+
+                        if mesttecodigo.AsInteger = tteEntrada then
+                        begin
+                          CFOP := SoNumeros(Self.itmcfocfopdestinacao.AsString);
+                        end
+                        else
+                        begin
+                          CFOP := SoNumeros(Self.itmcfocfop.AsString);
+                        end;
+
+                        COD_NAT := Self.itmtoecodigo.AsString; // '64' Código da Natureza da operação
+
+                        // Verifica se "Registra impostos" é diferente de 1='Registrar Normal'
+                        If cfgcrtcodigo.AsInteger in [2, 3] Then
+                        Begin
+
+                          if mesttocodigo.AsInteger = ttoCompra then
+                          begin
+                            if Self.itmitmbicms.AsFloat > 0 then
+                            begin
+                              VL_BC_ICMS := Self.itmitmbicm.AsFloat; // Valor da base de cálculo do ICMS
+                              ALIQ_ICMS := Self.itmitmaliqicm.AsFloat; // Aliquota de icms
+                              VL_ICMS := Self.itmitmicm.AsFloat; // Valor do icms creditado/debitado
+
+                              vlBaseIcm := vlBaseIcm + VL_BC_ICMS;
+                              vlValorIcm := vlValorIcm + VL_ICMS;
+
+                              VL_BC_ICMS_ST := Self.itmitmbicms.AsFloat; // Valor da base de cálculo referente icms substituição tributária
+                              ALIQ_ST := Self.itmitmaliqicms.AsFloat; // Aliquota ICMS substituição tributária na unidade da federação de destino
+                              VL_ICMS_ST := Self.itmitmicms.AsFloat; // Valor do ICMS referente a substituição tributária}
+
+                            end
+                            else
+                            begin
+
+                              VL_BC_ICMS := Self.itmitmbicm.AsFloat; // Valor da base de cálculo do ICMS
+                              ALIQ_ICMS := Self.itmitmaliqicm.AsFloat; // Aliquota de icms
+                              VL_ICMS := Self.itmitmicm.AsFloat; // Valor do icms creditado/debitado
+
+                              vlBaseIcm := vlBaseIcm + Self.itmitmbicm.AsFloat;
+                              vlValorIcm := vlValorIcm + Self.itmitmicm.AsFloat;
+
+                              VL_BC_ICMS_ST := Self.itmitmbicms.AsFloat; // Valor da base de cálculo referente icms substituição tributária
+                              ALIQ_ST := Self.itmitmaliqicms.AsFloat; // Aliquota ICMS substituição tributária na unidade da federação de destino
+                              VL_ICMS_ST := Self.itmitmicms.AsFloat; // Valor do ICMS referente a substituição tributária}
+
+                            end;
+
+                          end
+                          else
+                          begin
+
+                            VL_BC_ICMS := Self.itmitmbicm.AsFloat; // Valor da base de cálculo do ICMS
+                            ALIQ_ICMS := Self.itmitmaliqicm.AsFloat; // Aliquota de icms
+                            VL_ICMS := Self.itmitmicm.AsFloat; // Valor do icms creditado/debitado
+
+                            VL_BC_ICMS_ST := Self.itmitmbicms.AsFloat; // Valor da base de cálculo referente icms substituição tributária
+                            ALIQ_ST := Self.itmitmaliqicms.AsFloat; // Aliquota ICMS substituição tributária na unidade da federação de destino
+                            VL_ICMS_ST := Self.itmitmicms.AsFloat; // Valor do ICMS referente a substituição tributária}
+
+                          end;
+
+                          IND_APUR := IaMensal; // indicador doperíodo de apuração do IPI
+
+                          // Identifica se movimento é de Entrada ou Saída (0='Entrada' 1=Saída)
+                          If mesttecodigo.AsInteger = 0 Then
+                          begin
+                            CST_IPI := '49'; // CST_IPI :=  self.itmcsicodigo.AsString;
+                          end
+                          // código da situação tributária referente ao IPI, conforme tabela CSI.
+                          Else
+                            CST_IPI := '99'; { self.itmcsicodigo.AsString; } // código da situação tributária referente ao IPI, conforme tabela CSI.
+
+                          COD_ENQ := ''; // '';  Código do enquadramento legal do IPI, conforme tabela indicada no item 4.5.3.(Não existe)
+                          VL_BC_IPI := 0; // Valor da bese de calculo do IPI
+                          ALIQ_IPI := 0; // Alicquota do IPI
+                          VL_IPI := 0; // Valor do IPI creditado/depitado
+
+                          // Identifica se movimento é de Entrada ou Saída (0='Entrada' 1=Saída)
+                          If mesttecodigo.AsInteger = 0 Then
+                            CST_PIS := Self.itmcspcodigo.AsString // Código da situação tributária referente ao PIS
+                          Else
+                            CST_PIS := Self.itmcspcodigo.AsString; // Código da situação tributária referente ao PIS
+
+                          if Self.itmcspcodigo.AsString = '06' then
+                          begin
+
+                            VL_BC_PIS := 0; // pisOutrasOperacoes  - valor base de calculo do PIS
+                            ALIQ_PIS_PERC := 0; // Aliquota do PIS(em percentual)
+                            QUANT_BC_PIS := 0; // Quantidade - base cálculo do PIS
+                            ALIQ_PIS_R := 0; // Aliquota do PIS (em reais)
+                            VL_PIS := 0; // valor do PIS
+
+                          end
+                          else
+                          begin
+
+                            VL_BC_PIS := Self.itmitmbpis.AsFloat; // pisOutrasOperacoes  - valor base de calculo do PIS
+                            ALIQ_PIS_PERC := Self.itmitmaliqpis.AsFloat; // Aliquota do PIS(em percentual)
+                            QUANT_BC_PIS := Self.itmitmquantpis.AsFloat; // Quantidade - base cálculo do PIS
+                            ALIQ_PIS_R := Self.itmitmaliqpisvalor.AsFloat; // Aliquota do PIS (em reais)
+                            VL_PIS := Self.itmitmpis.AsFloat; // valor do PIS
+                          end;
+
+                          // Identifica se movimento é de Entrada ou Saída (0='Entrada' 1=Saída)
+                          If mesttecodigo.AsInteger = 0 Then
+                            CST_COFINS := Self.itmcsfcodigo.AsString // cofinsOutrasOperacoes  - Código da situação tribitária da COFINS
+                          Else
+                            CST_COFINS := Self.itmcsfcodigo.AsString; // cofinsOutrasOperacoes  - Código da situação tribitária da COFINS
+
+                          if Self.itmcsfcodigo.AsString = '06' then
+                          begin
+                            VL_BC_COFINS := 0; // Base de cálculo da COFINS
+                            ALIQ_COFINS_PERC := 0; // Aliquota da COFINS
+                            QUANT_BC_COFINS := 0; // Quantidade - base de cálculo da COFINS
+                            ALIQ_COFINS_R := 0; // Alíquota da COFINS(em reais)
+                            VL_COFINS := 0; // Valor da COFINS
+
+                          end
+                          else
+                          begin
+
+                            VL_BC_COFINS := Self.itmitmbcofins.AsFloat; // Base de cálculo da COFINS
+                            ALIQ_COFINS_PERC := Self.itmitmaliqcofins.AsFloat; // Aliquota da COFINS
+                            QUANT_BC_COFINS := Self.itmitmquantcofins.AsFloat; // Quantidade - base de cálculo da COFINS
+                            ALIQ_COFINS_R := Self.itmitmaliqcofinsvalor.AsFloat; // Alíquota da COFINS(em reais)
+                            VL_COFINS := Self.itmitmcofins.AsFloat; // Valor da COFINS
+                          end;
+
+                        End
+                        Else
+                        Begin
+                          VL_BC_ICMS := Self.itmitmbicm.AsFloat; // Valor da base de cálculo do ICMS
+                          ALIQ_ICMS := Self.itmitmaliqicm.AsFloat; // Aliquota de icms
+                          VL_ICMS := Self.itmitmicm.AsFloat; // Valor do icms creditado/debitado
+
+                          VL_BC_ICMS_ST := Self.itmitmbicms.AsFloat; // Valor da base de cálculo referente icms substituição tributária
+                          ALIQ_ST := Self.itmitmaliqicms.AsFloat; // Aliquota ICMS substituição tributária na unidade da federação de destino
+                          VL_ICMS_ST := Self.itmitmicms.AsFloat; // Valor do ICMS referente a substituição tributária}
+
+                          IND_APUR := IaMensal; // indicador doperíodo de apuração do IPI
+
+                          // Identifica se movimento é de Entrada ou Saída (0='Entrada' 1=Saída)
+                          If mesttecodigo.AsInteger = 0 Then
+                          begin
+                            CST_IPI := '49'; // CST_IPI :=  self.itmcsicodigo.AsString;
+
+                            // código da situação tributária referente ao IPI, conforme tabela CSI.
+                          end
+                          Else
+                            CST_IPI := '98'; { self.itmcsicodigo.AsString; } // código da situação tributária referente ao IPI, conforme tabela CSI.
+
+                          COD_ENQ := ''; // '';  Código do enquadramento legal do IPI, conforme tabela indicada no item 4.5.3.(Não existe)
+                          VL_BC_IPI := 0; // Valor da bese de calculo do IPI
+                          ALIQ_IPI := 0; // Alicquota do IPI
+                          VL_IPI := 0; // Valor do IPI creditado/depitado
+
+                          CST_PIS := Self.itmcspcodigo.AsString; // Código da situação tributária referente ao PIS
+                          VL_BC_PIS := Self.itmitmbpis.AsFloat; // pisOutrasOperacoes  - valor base de calculo do PIS
+                          ALIQ_PIS_PERC := Self.itmitmaliqpis.AsFloat; // Aliquota do PIS(em percentual)
+                          QUANT_BC_PIS := Self.itmitmquantpis.AsFloat; // Quantidade - base cálculo do PIS
+                          ALIQ_PIS_R := Self.itmitmaliqpisvalor.AsFloat; // Aliquota do PIS (em reais)
+                          VL_PIS := Self.itmitmpis.AsFloat; // valor do PIS
+
+                          CST_COFINS := Self.itmcsfcodigo.AsString; // cofinsOutrasOperacoes  - Código da situação tribitária da COFINS
+                          VL_BC_COFINS := Self.itmitmbcofins.AsFloat; // Base de cálculo da COFINS
+                          ALIQ_COFINS_PERC := Self.itmitmaliqcofins.AsFloat; // Aliquota da COFINS
+                          QUANT_BC_COFINS := Self.itmitmquantcofins.AsFloat; // Quantidade - base de cálculo da COFINS
+                          ALIQ_COFINS_R := Self.itmitmaliqcofinsvalor.AsFloat; // Alíquota da COFINS(em reais)
+                          VL_COFINS := Self.itmitmcofins.AsFloat; // Valor da COFINS
+
+                        End;
+
+                        COD_CTA := '1.01.03.01.01'; // Código da Conta analítica Contábil debitada/creditada - Não será informada
+
+                      End; // Fim dos Itens;
+
+                      itm.Next
+
+                    End;
+
+                    If cfgcrtcodigo.AsInteger in [2, 3] Then
+                    Begin
+
+                      { if mesttocodigo.AsInteger = ttoVenda then
+                        begin
+                        VL_BC_ICMS := vlvBaseIcm;
+                        VL_ICMS := vlvValorIcm;
+
+                        end; }
+                    End;
+
+                  End;
+
+
+
+
+
+                  //
+                  // ***  REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55). ***
+                  //
+
+                  If (Self.messdecodigo.AsString <> '02') { and (Self.messdecodigo.AsString <> '04') } Then
+                  Begin
+
+                    If VQueryC190 = '' Then
+                      VQueryC190 := itmC190.SQL.Text;
+
+                    itmC190.Close;
+
+                    { If not cfgcrtcodigo.AsInteger in [1] Then
+                      itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo , toe.toecfopsaida , CAST(icm.icmaliquotas AS DECIMAL(10,2))'
+                      Else If cfgcfgcstterceiros.AsString = '' Then
+                      itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo , toe.toecfopsaida'
+                      Else
+                      itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo , toe.toecfopsaida ,  CAST(itm.itmaliqicms AS DECIMAL(10,2))'; }
+
+                    if itmC190ttecodigo.AsInteger = tteEntrada then
+                    begin
+                      If cfgcrtcodigo.AsInteger in [2, 3] Then
+                        itmC190.SQL.Text := VQueryC190 +
+                          ' GROUP BY cstcodigo, IF(ttecodigo=1, itm.cfocfop, toe.toecfopsaida)  , CAST((select c.icmaliquotas from icm c where c.icmcodigo=itm.icmcodigo) AS DECIMAL(10,2))'
+                      Else
+                        itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo, toe.toecfopsaida , CAST(icm.icmaliquotas AS DECIMAL(10,2))';
+                      // , toe.toecfopsaida, CAST(icm.icmaliquotas AS DECIMAL(10,2))';
+
+                    end
+                    else
+                    begin
+
+                      If not cfgcrtcodigo.AsInteger in [1] Then
+                        itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo, toe.toecfopsaida , CAST(icm.icmaliquotas AS DECIMAL(10,2))'
+                      Else
+                        itmC190.SQL.Text := VQueryC190 + ' GROUP BY cstcodigo, toe.toecfopsaida , CAST(icm.icmaliquotas AS DECIMAL(10,2))';
+                      // , toe.toecfopsaida, CAST(icm.icmaliquotas AS DECIMAL(10,2))';
+
+                    end;
+                    itmC190.Params[0].AsInteger := Self.mesmeschave.AsInteger;
+                    itmC190.Open;
+
+                    itmC190.First;
+                    While Not itmC190.Eof Do // Fran - 22/12/2011 as 9hs28min(termino)
+                    Begin
+
+                      With RegistroC190New Do
+                      Begin
+                        // Indicador do emitente do documento fiscal - (0-Emissão Própria, 1-Terceiros)
+                        CST_ICMS := Self.itmC190cstcodigo.AsString;
+                        {
+                          if mesttecodigo.AsInteger=tteEntrada then
+                          begin
+                          CFOP := SoNumeros(Self.itmcfocfopdestinacao.AsString);
+                          end
+                          else
+                          begin
+                          CFOP := SoNumeros(Self.itmcfocfop.AsString);
+                          end;
+                        }
+
+                        CFOP := SoNumeros(Self.itmC190cfocfopdestinacao.AsString);
+
+                        if itmC190ttecodigo.AsInteger = 1 then
+                          VL_OPR := itmC190total.AsFloat - itmC190itmoutras.AsCurrency
+                        else
+                          VL_OPR := itmC190total.AsFloat + itmC190itmicms.AsCurrency + itmC190itmipi.AsCurrency;
+
+                        VL_RED_BC := 0;
+
+                        // Verifica se "Registra impostos" é diferente de 1='Registrar Normal'
+                        If cfgcrtcodigo.AsInteger in [1] Then
+                        Begin
+                          ALIQ_ICMS := 0;
+                          VL_BC_ICMS := 0;
+                          VL_ICMS := 0;
+
+                          VL_BC_ICMS_ST := 0;
+                          VL_ICMS_ST := 0;
+
+                          VL_IPI := 0
+                        End
+                        Else
+                        Begin
+
+                          if itmC190itmaliqicm.AsFloat > 0 then
+                          begin
+
+                            if mesttocodigo.AsInteger = ttoCompra then
+                            begin
+
+                              { if itmC190itmbicms.AsFloat <> 0 then
+                                begin
+                                ALIQ_ICMS := 0;
+                                VL_BC_ICMS := 0;
+                                VL_ICMS := 0;
+
+                                end
+                                else
+                                begin }
+                              ALIQ_ICMS := itmC190itmaliqicm.AsFloat;
+                              VL_BC_ICMS := itmC190itmbicm.AsFloat;
+                              VL_ICMS := itmC190itmicm.AsFloat;
+                              { end; }
+
+                            end
+                            else
+                            begin
+
+                              ALIQ_ICMS := itmC190itmaliqicm.AsFloat;
+                              VL_BC_ICMS := itmC190itmbicm.AsFloat;
+                              VL_ICMS := itmC190itmicm.AsFloat;
+
+                            end;
+
+                            if (itmC190cstcodigo.AsString = '020') or (itmC190cstcodigo.AsString = '070') or (itmC190cstcodigo.AsString = '570') then
+                            BEGIN
+                              VL_RED_BC := mesmestotal.AsCurrency - itmC190itmbicm.AsCurrency;
+                            END;
+
+                            if mesttocodigo.AsInteger = ttoCompra then
+                            begin
+
+                              if (CFOP = '5405') or (CFOP = '1403') then
+                              begin
+                                ALIQ_ICMS := itmC190itmaliqicm.AsFloat;
+                                VL_BC_ICMS := itmC190itmbicm.AsFloat;
+                                VL_ICMS := itmC190itmicm.AsFloat;
+                              end;
+                            end;
+                          end;
+
+                          VL_BC_ICMS_ST := itmC190itmbicms.AsFloat;
+                          VL_ICMS_ST := itmC190itmicms.AsFloat;
+                          VL_IPI := itmC190itmipi.AsFloat
+
+                        End;
+                      End;
+
+                      itmC190.Next;
+                    End;
+                  End;
+
+                  { if mesttocodigo.AsInteger = ttoCompra then
+                    begin
+
+                    VL_BC_ICMS := vlBaseIcm;
+                    VL_ICMS := vlValorIcm;
+
+                    end; }
+
+                End;
+              End;
+
+              If cbConcomitante.Checked Then
+              Begin
+                If (INotas Mod BNotas) = 0 Then // Gravar a cada N notas
+                Begin
+                  // Grava registros na memoria para o TXT, e limpa memoria
+                  ACBrSPEDFiscal1.WriteBloco_C(false); // False, NAO fecha o Bloco
+
+                  application.ProcessMessages;
+                End;
+              End;
+            end;
+
+            mes.Next;
+          End;
+
+        end;
+        mostra.Position := 0;
+        mostra.Max := mesrec.RecordCount;
+        application.ProcessMessages;
+        while not mesrec.Eof do
+        begin
+          mostra.Position := mostra.Position + 1;
+          application.ProcessMessages;
+
+          mesrec.Next;
+        End;
+
+        mostra.Position := 0;
+        mostra.Max := mesnfce.RecordCount;
+        application.ProcessMessages;
+        mesnfce.First;
+        while not mesnfce.Eof do
+        begin
+
+          mostra.Position := mostra.Position + 1;
+          application.ProcessMessages;
+
+          mesnfce.Next;
+        End;
+
+
+
+
+
+
+        //
+        // *****  CONTAS DE CONSUMO  *****
+        //
+
+        csv.Close;
+        csv.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+        csv.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+        csv.Open;
+
+        If Not csv.IsEmpty Then
+        Begin
+
+          While Not csv.Eof Do
+          Begin
+            If csvcsvgeral.AsFloat > 0 Then
+            begin
+              If (Trim(csvtcscodigo.AsString) = '1') Or (Trim(csvtcscodigo.AsString) = '2') Then
+              Begin
+                With RegistroC500New Do // REGISTRO DE 1-ENERGIA E 2-AGUA
+                Begin
+                  IND_OPER := TpEntradaAquisicao;
+                  IND_EMIT := EdTerceiros;
+                  COD_PART := Self.csvetdcodigo.AsString + '01';
+                  // Estou utilizando sempre como endereço principal
+                  COD_MOD := csvtdfcodigo.AsString;
+                  If csvsdecodigo.AsString = '00' Then
+                  Begin
+                    COD_SIT := SdRegular;
+                  End;
+
+                  SER := csvcsvserie.AsString;
+                  SUB := csvcsvsubserie.AsString;
+                  COD_CONS := csvclccodigo.AsString;
+                  NUM_DOC := csvcsvnumero.AsString;
+                  DT_DOC := csvcsvemissao.AsFloat;
+                  DT_E_S := csvcsvregistro.AsFloat;
+                  VL_DOC := csvcsvvalor.AsCurrency;
+                  VL_DESC := csvcsvdesconto.AsCurrency;
+                  VL_FORN := csvcsvgeral.AsCurrency;
+                  VL_SERV_NT := 0;
+                  VL_TERC := 0;
+                  VL_DA := 0;
+                  VL_BC_ICMS := 0; // csvcsvbicm.AsCurrency;
+                  VL_ICMS := 0; // csvcsvicm.AsCurrency;
+                  VL_BC_ICMS_ST := 0; // csvcsvbicms.AsCurrency;
+                  VL_ICMS_ST := 0; // csvcsvicms.AsCurrency;
+                  VL_PIS := csvcsvpis.AsCurrency;
+                  VL_COFINS := csvcsvcofins.AsCurrency;
+
+                  if csvcsvchavexml.AsString <> '' then
+                  begin
+                    CHV_DOCe := csvcsvchavexml.AsString;
+                  end;
+                End;
+
+                With RegistroC590New Do // REGISTRO DE AGUA E ENERGIA
+                Begin
+                  CST_ICMS := csvcstcodigo.AsString;
+                  CFOP := SoNumeros(csvcfocfop.AsString);
+                  ALIQ_ICMS := csvcsvaliqicm.AsFloat;
+                  VL_OPR := csvcsvgeral.AsCurrency;
+                  VL_BC_ICMS := 0; // csvcsvbicm.AsCurrency;
+                  VL_ICMS := 0; // csvcsvicm.AsCurrency;
+                  VL_BC_ICMS_ST := 0; // csvcsvbicms.AsCurrency;
+                  VL_ICMS_ST := 0; // csvcsvicms.AsCurrency;
+                  VL_RED_BC := 0;
+                End;
+              End;
+            End;
+            csv.Next;
+          End;
+
+        End;
+      End;
+    End;
+  End;
+
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_C(True); // True, fecha o Bloco   ENCERRAMENTO DO BLOCO C.
+    LoadToMemo;
+  End;
+
+end;
+
+procedure Tfgsp.btnB_DClick(Sender: TObject);
+begin
+  btnB_D.Enabled := false;
+  btnB_E.Enabled := True;
+
+  // Alimenta o componente com informações para gerar todos os registros do Bloco D.
+
+  With ACBrSPEDFiscal1.Bloco_D Do
+  Begin
+
+    cte.Close;
+    cte.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+    cte.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+    cte.Open;
+
+    csv.Close;
+    csv.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+    csv.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+
+    csv.Filter := 'tcscodigo=' + Chr(39) + '3' + Chr(39);
+    csv.Filtered := True;
+    csv.Open;
+
+    cte.First;
+
+    If (cte.RecordCount > 0) Or (csv.RecordCount > 0) Then
+    Begin
+
+      With RegistroD001New Do
+      Begin
+        IND_MOV := ImComDados;
+
+        While Not cte.Eof Do
+        Begin
+          With RegistroD100New Do
+          Begin
+            IND_OPER := TpEntradaAquisicao;
+            IND_EMIT := EdTerceiros;
+            COD_PART := Self.cteetdcodigo.AsString + '01'; // Utilizando sempre como endereço principal
+            COD_MOD := Self.ctetdfcodigo.AsString;
+            COD_SIT := SdRegular;
+            SER := Self.ctecteserie.AsString;
+            NUM_DOC := Self.ctectenumero.AsString;
+            CHV_CTE := Self.ctecteechave.AsString;
+            DT_DOC := Self.ctecteemissao.AsFloat;
+            // StrToDate('30/11/2011');
+            DT_A_P := Self.ctectedtaquis.AsFloat;; // StrToDate('30/11/2011');
+
+            If Self.ctetcfcodigo.AsString <> '99' Then
+            Begin
+              TP_CT_e := Self.ctetcfcodigo.AsString;
+            End;
+
+            VL_DOC := Self.ctectevalordoc.AsFloat;
+            VL_DESC := Self.ctectedesconto.AsFloat;
+
+            IND_FRT := TfPorContaDestinatario;
+
+            VL_SERV := Self.ctectevalor.AsFloat;
+            VL_BC_ICMS := 0; // CONFORME info Lediane da DELTA - DATA: 16/05/2012 self.ctectebicm.AsFloat;
+            VL_ICMS := 0; // self.ctecteicm.AsFloat;
+            VL_NT := 0;
+            COD_INF := '';
+            COD_CTA := Self.ctepcccodigo.AsString;
+
+            COD_MUN_ORIG := ctecddcodigo.AsString;
+            COD_MUN_DEST := CfgEtdcddcodigo.AsString;
+          End;
+
+          With RegistroD190New Do
+          Begin
+            CST_ICMS := ctecstcodigo.AsString;
+
+            CFOP := SoNumeros(ctecfocfop.AsString);
+            ALIQ_ICMS := 0; // self.cteictaliqicm.AsFloat;
+            VL_OPR := Self.cteictvlroperacao.AsFloat;
+            VL_BC_ICMS := 0; // self.ctectebicm.AsFloat;
+            VL_ICMS := 0; // self.ctecteicm.AsFloat;
+            VL_RED_BC := 0; // self.cteictredbase.AsFloat;
+            COD_OBS := '';
+          End;
+          cte.Next;
+        End;
+
+        If Not csv.IsEmpty Then
+        Begin
+
+          While Not csv.Eof Do
+          Begin
+            If (Trim(csvtcscodigo.AsString) = '3') Then
+            Begin
+              With RegistroD500New Do
+              // Registro de telecomunicações
+              Begin
+                IND_OPER := TpEntradaAquisicao;
+                IND_EMIT := EdTerceiros;
+                COD_PART := Self.csvetdcodigo.AsString + '01';
+                // Utilizando sempre como endereço principal
+                COD_MOD := csvtdfcodigo.AsString;
+                If csvsdecodigo.AsString = '00' Then
+                Begin
+                  COD_SIT := SdRegular;
+                End;
+
+                SER := csvcsvserie.AsString;
+                SUB := csvcsvsubserie.AsString;
+                NUM_DOC := csvcsvnumero.AsString;
+                DT_DOC := csvcsvemissao.AsFloat;
+                DT_A_P := csvcsvregistro.AsFloat;
+                VL_DOC := csvcsvvalor.AsCurrency;
+                VL_DESC := csvcsvdesconto.AsCurrency;
+                VL_SERV := csvcsvgeral.AsCurrency;
+                VL_SERV_NT := 0;
+                VL_TERC := 0;
+                VL_DA := 0;
+                VL_BC_ICMS := 0; // csvcsvbicm.AsCurrency; instrução do gabriel 16/06
+                VL_ICMS := 0; // csvcsvicm.AsCurrency; instrução do gabriel 16/06
+                VL_PIS := csvcsvpis.AsCurrency;
+                VL_COFINS := csvcsvcofins.AsCurrency;
+
+                If csvclccodigo.AsString = '1' Then
+                Begin
+                  TP_ASSINANTE := AssComercialIndustrial;
+                End
+                Else If csvclccodigo.AsString = '2' Then
+                Begin
+                  TP_ASSINANTE := AssPodrPublico;
+                End
+                Else If csvclccodigo.AsString = '3' Then
+                Begin
+                  TP_ASSINANTE := AssResidencial;
+                End
+                Else If csvclccodigo.AsString = '4' Then
+                Begin
+                  TP_ASSINANTE := AssPublico;
+                End
+                Else If csvclccodigo.AsString = '5' Then
+                Begin
+                  TP_ASSINANTE := AssSemiPublico;
+                End
+                Else If csvclccodigo.AsString = '6' Then
+                Begin
+                  TP_ASSINANTE := AssOutros;
+                End;
+              End;
+
+              With RegistroD590New Do // Registro de telecomunicações
+              Begin
+                CST_ICMS := csvcstcodigo.AsString;
+                CFOP := SoNumeros(csvcfocfop.AsString);
+                ALIQ_ICMS := csvcsvaliqicm.AsFloat;
+                VL_OPR := csvcsvgeral.AsCurrency;
+                VL_BC_ICMS := 0; // csvcsvbicm.AsCurrency;
+                VL_ICMS := 0; // csvcsvicm.AsCurrency;
+                VL_RED_BC := 0;
+
+              End;
+            End;
+            csv.Next;
+          End;
+        End;
+      End;
+    End
+    Else
+    Begin
+
+      With RegistroD001New Do
+      Begin
+        IND_MOV := imSemDados;
+      End;
+    End;
+  End;
+
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_d; // True, fecha o Bloco   ENCERRAMENTO DO BLOCO d.
+
+    LoadToMemo;
+  End;
+
+end;
+
+procedure Tfgsp.btnB_EClick(Sender: TObject);
+Const
+  ESTADOS: Array [0 .. 1] Of String = ('RS', 'SC');
+Var
+  i: integer;
+  VTOTICMS: double;
+Begin
+  // Alimenta o componente com informações para gerar todos os registros do Bloco E.
+  btnB_E.Enabled := false;
+  btnB_G.Enabled := True;
+
+  With ACBrSPEDFiscal1.Bloco_E Do
+  Begin
+    With RegistroE001New Do
+    Begin
+      IND_MOV := ImComDados;
+
+      With RegistroE100New Do
+      Begin
+
+        DT_INI := Self.spdspddatainicial.AsFloat;
+        DT_FIN := Self.spdspddatafinal.AsFloat;
+
+        itme110.Close;
+        itme110.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+        itme110.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+        itme110.Open;
+
+        ctee110.Close;
+        ctee110.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+        ctee110.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+        ctee110.Open;
+
+      End;
+
+      // Gera um registro E200 e filhos para cada estado onde o contribuinte possui inscrição estadual
+      { For I := Low(ESTADOS) To High(ESTADOS) Do
+        Begin
+        With RegistroE200New Do
+        Begin
+        DT_INI :=self.spdspddatainicial.AsFloat;
+        DT_FIN :=self.spdspddatafinal.AsFloat;
+        UF := ESTADOS[I];
+
+        With RegistroE210New Do
+        Begin
+        IND_MOV_ST := mstSemOperacaoST;
+        VL_SLD_CRED_ANT_ST := 0;
+        VL_DEVOL_ST := 0;
+        VL_RESSARC_ST := 0;
+        VL_OUT_CRED_ST := 0;
+        VL_AJ_CREDITOS_ST := 0;
+        VL_SLD_DEV_ANT_ST := 0.00;
+        VL_DEDUCOES_ST := 0;
+        VL_ICMS_RECOL_ST := 0.00;
+        VL_SLD_CRED_ST_TRANSPORTAR := 0;
+        VL_OUT_DEB_ST := 0.00;
+        DEB_ESP_ST := 0;
+
+        // with RegistroE220New do begin
+        // COD_AJ_APUR    := 'RS109999';
+        // DESCR_COMPL_AJ := '';
+        // VL_AJ_APUR     := 0.00;
+        //
+        // with RegistroE230New do begin
+        // NUM_DA    := '123';
+        // NUM_PROC  := '123';
+        // IND_PROC  := opOutros;
+        // PROC      := 'DESCRIÇÃO RESUMIDA';
+        // TXT_COMPL := 'COMPLEMENTO';
+        // end;
+        //
+        // with RegistroE240New do begin
+        // COD_PART   := '000001';
+        // COD_MOD    := '01';
+        // SER        := 'SERI';
+        // SUB        := '';
+        // NUM_DOC    := '123456789';
+        // DT_DOC     := Now;
+        // COD_ITEM   := '000001';
+        // VL_AJ_ITEM := 0;
+        // end;
+        // end;
+
+        With RegistroE250New Do
+        Begin
+        COD_OR := '000';
+        VL_OR := 0;
+        DT_VCTO := Now;
+        COD_REC := '123';
+        NUM_PROC := '1020304050';
+        IND_PROC := opOutros;
+        PROC := 'DESCRIÇÃO RESUMIDA';
+        TXT_COMPL := '';
+        MES_REF := '112011';
+        End;
+        End;
+        End;
+        End; }
+
+      { With RegistroE500New Do
+        Begin
+        IND_APUR := iaMensal;
+        DT_INI := StrToDate('01/11/2011');
+        DT_FIN := StrToDate('30/11/2011');
+
+        With RegistroE510New Do
+        Begin
+        CFOP := '5120';
+        CST_IPI := '50';
+        VL_CONT_IPI := 0;
+        VL_BC_IPI := 0;
+        VL_IPI := 0;
+        End;
+
+        With RegistroE520New Do
+        Begin
+        VL_SD_ANT_IPI := 0;
+        VL_DEB_IPI := 0;
+        VL_CRED_IPI := 0;
+        VL_OD_IPI := 10.00;
+        VL_OC_IPI := 0;
+        VL_SC_IPI := 0;
+        VL_SD_IPI := 10.00;
+
+        With RegistroE530New Do
+        Begin
+        IND_AJ := ajDebito;
+        VL_AJ := 10;
+        COD_AJ := '001';
+        IND_DOC := odOutros;
+        NUM_DOC := '123';
+        DESCR_AJ := 'DESCRIÇÃO DETALHADA';
+        End;
+        End;
+        //   fim registro E500
+        End; }
+    End;
+  End;
+
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_E;
+    LoadToMemo;
+  End;
+
+end;
+
+procedure Tfgsp.btnB_GClick(Sender: TObject);
+begin
+  btnB_G.Enabled := false;
+  btnB_H.Enabled := True;
+
+  // Alimenta o componente com informações para gerar todos os registros do Bloco G.
+  { With ACBrSPEDFiscal1.Bloco_G Do
+    Begin
+    With RegistroG001New Do
+    Begin
+    IND_MOV := imComDados;
+
+    With RegistroG110New Do
+    Begin
+    DT_INI := Now;
+    DT_FIN := Now;
+    SALDO_IN_ICMS := 44.00;
+    SOM_PARC := 4.40;
+    VL_TRIB_EXP := 10.999;
+    VL_TOTAL := 10.999;
+    IND_PER_SAI := 1.00;
+    ICMS_APROP := 4.40;
+    SOM_ICMS_OC := 10.999;
+
+    With RegistroG125New Do
+    Begin
+    COD_IND_BEM := '000001';
+    DT_MOV := StrToDate('01/11/2011');
+    TIPO_MOV := mbcSI;
+    VL_IMOB_ICMS_OP := 10.999;
+    VL_IMOB_ICMS_ST := 10.999;
+    VL_IMOB_ICMS_FRT := 10.999;
+    VL_IMOB_ICMS_DIF := 10.999;
+    NUM_PARC := 10;
+    VL_PARC_PASS := 4.40;
+
+    With RegistroG126New Do
+    Begin
+    DT_INI := StrToDate('01/10/2011'); ;
+    DT_FIN := StrToDate('30/10/2011'); ;
+    NUM_PARC := 1234;
+    VL_PARC_PASS := 10.999;
+    VL_TRIB_OC := 10.999;
+    VL_TOTAL := 10.999;
+    IND_PER_SAI := 1.00;
+    VL_PARC_APROP := 10.999;
+    End;
+
+    With RegistroG130New Do
+    Begin
+    IND_EMIT := edEmissaoPropria;
+    COD_PART := '000001';
+    COD_MOD := '55';
+    SERIE := '1';
+    NUM_DOC := '000068849';
+    CHV_NFE_CTE := '35100260318797000100550010000688490882775007';
+    DT_DOC := Now;
+
+    With RegistroG140New Do
+    Begin
+    NUM_ITEM := '9999';
+    COD_ITEM := '000001';
+    End;
+    End;
+    End;
+    End;
+    End;
+    End; }
+
+  If cbConcomitante.Checked Then
+  Begin
+    // ACBrSPEDFiscal1.WriteBloco_G;
+    LoadToMemo;
+  End;
+  // Showmessage('Concluido com sucesso!');
+
+end;
+
+procedure Tfgsp.btnB_HClick(Sender: TObject);
+Var
+  IInvent: integer;
+  vlSpdChaveBalanco: String;
+  vlrecuperar: double;
+  vlpercentual: double;
+Begin
+  cfg.Close;
+  cfg.Params[0].AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  btnB_H.Enabled := false;
+  btnB_1.Enabled := True;
+
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco H.
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT ivt.spdchave FROM ivt,spd WHERE ivt.spdchave=spd.spdchave and spd.spddatabalanco=:databalanco limit 1';
+  consulta.ParamByName('databalanco').AsDate := spdspddatabalanco.AsFloat;
+  consulta.Open;
+  vlSpdChaveBalanco := consulta.FieldByName('spdchave').AsString;
+
+  ivt.Close;
+  ivt.ParamByName('spdchave').AsString := vlSpdChaveBalanco;
+  ivt.Open;
+
+  If FormatDateTime('m', Self.spdspddatainicial.AsFloat) = '2' Then
+  begin
+    MostraInventario;
+    With ACBrSPEDFiscal1.Bloco_H Do
+      With RegistroH001New Do // abertura do bloco H
+      begin
+        IND_MOV := ImComDados; // indicador do movimento,bloco com dados informados
+
+        // inventario normal
+
+        With RegistroH005New Do // Inventário
+        Begin
+          DT_INV := Self.spdspddatabalanco.AsFloat;
+          // DT_FIN o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
+
+          ivt.First;
+          While Not ivt.Eof Do
+          Begin
+            VL_INV := VL_INV + Self.ivtivttotal.AsFloat; // 1000;
+            ivt.Next;
+          End;
+          MOT_INV := miFinalPeriodo;
+          // self.spdspdmotivoinv.AsFloat; -  Motivo do Inventário - ainda não está informado no componente, está só no manual.
+
+          // FILHO
+
+          ivt.First;
+          While Not ivt.Eof Do
+          Begin
+
+            With RegistroH010New Do
+            Begin
+              COD_ITEM := Self.ivtprocodigo.AsString;
+              UNID := Self.ivtunisimbolo.AsString; // 'UN'; unidade do item
+              QTD := Self.ivtivtquantidade.AsFloat; // 1 - quantidade do item
+              VL_UNIT := Self.ivtivtvalor.AsFloat; // 100 - valor unitario do item
+              VL_ITEM := Self.ivtivttotal.AsFloat; // 100 - valor do item
+
+              IND_PROP := PiInformante; // 0- Item de propriedade do informante e em seu poder
+
+              If IND_PROP <> PiInformante Then
+                COD_PART := cfgcfgetdsped.AsString + '01';
+
+              TXT_COMPL := ''; // self.ivtpronome.AsString; // descrição complementar do item
+              COD_CTA := Self.ivtpcccodigo.AsString; // codigo da conta analítoca contábil debitada/creditada
+            End;
+            ivt.Next;
+          End;
+        End;
+
+        {
+          // inventario sore icms
+
+          With RegistroH005New Do // Inventário
+          Begin
+          DT_INV := Self.spdspddatabalanco.AsFloat;
+          // DT_FIN o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
+
+          ivt.First;
+
+          vlpercentual := 0;
+
+          While Not ivt.Eof Do
+          Begin
+          if (ivtqtd.AsFloat > 0) and ((ivtcst.AsString = '000') or (ivtcst.AsString = '020')) then
+          begin
+
+          if (ivticmscodigo.AsString <> '01') and (ivticmscodigo.AsString <> '00') then
+          begin
+
+          VL_INV := VL_INV + Self.ivtivttotal.AsFloat; // 1000;
+          end;
+
+          end;
+          ivt.Next;
+          End;
+          MOT_INV := miMudancaTributacao; // self.spdspdmotivoinv.AsFloat; -  Motivo do Inventário - ainda não está informado no componente, está só no manual.
+
+          // FILHO
+
+          ivt.First;
+          While Not ivt.Eof Do
+          Begin
+
+          if (ivtqtd.AsFloat > 0) and ((ivtcst.AsString = '000') or (ivtcst.AsString = '020')) then
+          begin
+          if (ivticmscodigo.AsString <> '01') and (ivticmscodigo.AsString <> '00') then
+          begin
+
+          With RegistroH010New Do
+          Begin
+          COD_ITEM := Self.ivtprocodigo.AsString;
+          // FormatFloat('00000000000000', IInvent); Código do item
+          UNID := Self.ivtunisimbolo.AsString; // 'UN'; unidade do item
+          QTD := Self.ivtivtquantidade.AsFloat; // 1 - quantidade do item
+          VL_UNIT := Self.ivtivtvalor.AsFloat; // 100 - valor unitario do item
+          VL_ITEM := Self.ivtivttotal.AsFloat; // 100 - valor do item
+
+          case Self.ivtivtproprietario.AsInteger of
+          0:
+          IND_PROP := PiInformante; // 0- Item de propriedade do informante e em seu poder
+          1:
+          IND_PROP := PiInformanteNoTerceiro; // 1- Item de propriedade do informante em posse de terceiros
+          2:
+          IND_PROP := PiTerceiroNoInformante; // 2- Item de propriedade de terceiros em posse do informante;
+          end;
+
+          If IND_PROP <> PiInformante Then
+          COD_PART := cfgcfgetdsped.AsString + '01';
+          // Utilizando sempre como endereço principal // codigo do participante (Apenas informado quando item não for de propriedade do informante)
+
+          TXT_COMPL := ''; // self.ivtpronome.AsString; // descrição complementar do item
+          COD_CTA := Self.ivtpcccodigo.AsString; // codigo da conta analítoca contábil debitada/creditada
+
+
+          With RegistroH020New Do
+          begin
+
+          CST_ICMS := ivtcst.AsString;
+          BC_ICMS := VL_ITEM;
+
+          consulta.Close;
+          consulta.SQL.Text := 'select icmaliquotas from icm where icmcodigo=' + QuotedStr(ivticmscodigo.AsString);
+          consulta.Open;
+
+          if consulta.Fieldbyname('icmaliquotas').AsFloat > 7 then
+          begin
+          vlpercentual := 7;
+          end
+          else
+          begin
+          vlpercentual := consulta.Fieldbyname('icmaliquotas').AsFloat;
+          end;
+          vlrecuperar := Self.ivtivttotal.AsFloat * (vlpercentual / 100);
+
+          VL_ICMS := vlrecuperar;
+          /// Informe o valor do ICMS a ser debitado ou creditado
+
+          end;
+
+
+          End;
+          end;
+          end;
+          ivt.Next;
+          End;
+          End;
+
+        }
+
+        { // inventario sore icms com compras de fora do estado
+
+          With RegistroH005New Do // Inventário
+          Begin
+          DT_INV := Self.spdspddatabalanco.AsFloat;
+          // DT_FIN o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
+
+          ivt.First;
+
+          vlpercentual := 0;
+
+          While Not ivt.Eof Do
+          Begin
+          if ivtitmicmsvalor.AsFloat=0 then
+          begin
+          if ivtufscodigo.AsInteger<>51 then
+          begin
+          if (ivtqtd.AsFloat > 0) and ((ivtcst.AsString = '000') or (ivtcst.AsString = '020')) then
+          begin
+
+          if (ivticmscodigo.AsString <> '01') and (ivticmscodigo.AsString <> '00') then
+          begin
+
+          VL_INV := VL_INV + Self.ivtivttotal.AsFloat; // 1000;
+          end;
+
+
+          end;
+          end;
+          end;
+          ivt.Next;
+          End;
+          MOT_INV := miDeterminacaoFiscos; // self.spdspdmotivoinv.AsFloat; -  Motivo do Inventário - ainda não está informado no componente, está só no manual.
+
+          // FILHO
+
+          ivt.First;
+          While Not ivt.Eof Do
+          Begin
+          if ivtitmicmsvalor.AsFloat=0 then
+          begin
+          if ivtufscodigo.AsInteger<>51 then
+          begin
+          if (ivtqtd.AsFloat > 0) and ((ivtcst.AsString = '000') or (ivtcst.AsString = '020')) then
+          begin
+          if (ivticmscodigo.AsString <> '01') and (ivticmscodigo.AsString <> '00') then
+          begin
+
+          With RegistroH010New Do
+          Begin
+          COD_ITEM := Self.ivtprocodigo.AsString;
+          // FormatFloat('00000000000000', IInvent); Código do item
+          UNID := Self.ivtunisimbolo.AsString; // 'UN'; unidade do item
+          QTD := Self.ivtivtquantidade.AsFloat; // 1 - quantidade do item
+          VL_UNIT := Self.ivtivtvalor.AsFloat; // 100 - valor unitario do item
+          VL_ITEM := Self.ivtivttotal.AsFloat; // 100 - valor do item
+
+          case Self.ivtivtproprietario.AsInteger of
+          0:
+          IND_PROP := PiInformante; // 0- Item de propriedade do informante e em seu poder
+          1:
+          IND_PROP := PiInformanteNoTerceiro; // 1- Item de propriedade do informante em posse de terceiros
+          2:
+          IND_PROP := PiTerceiroNoInformante; // 2- Item de propriedade de terceiros em posse do informante;
+          end;
+
+          If IND_PROP <> PiInformante Then
+          COD_PART := cfgcfgetdsped.AsString + '01';
+          // Utilizando sempre como endereço principal // codigo do participante (Apenas informado quando item não for de propriedade do informante)
+
+          TXT_COMPL := ''; // self.ivtpronome.AsString; // descrição complementar do item
+          COD_CTA := Self.ivtpcccodigo.AsString; // codigo da conta analítoca contábil debitada/creditada
+
+          With RegistroH020New Do
+          begin
+
+          CST_ICMS := ivtcst.AsString;
+          BC_ICMS := VL_ITEM;
+
+
+          vlpercentual := 13;
+
+          vlrecuperar := Self.ivtivttotal.AsFloat * (vlpercentual / 100);
+
+          VL_ICMS := vlrecuperar;
+          /// Informe o valor do ICMS a ser debitado ou creditado
+
+          end;
+
+          End;
+          end;
+          end;
+          end;
+          end;
+          ivt.Next;
+          End;
+          End;
+        }
+
+      end;
+
+  end;
+  If cbConcomitante.Checked Then
+  Begin
+    ACBrSPEDFiscal1.WriteBloco_H; // encerramento do bloco H
+    LoadToMemo;
+  End;
+
+end;
+
+procedure Tfgsp.btnB_KClick(Sender: TObject);
+begin
+
+  btnB_K.Enabled := false;
+  btnB_1.Enabled := True;
+
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco K.
+  with ACBrSPEDFiscal1.Bloco_K do
+  begin
+
+    prosaldok.Close;
+    prosaldok.ParamByName('datainicial').AsDate := Self.spdspddatafinal.AsFloat;
+    prosaldok.ParamByName('datafinal').AsDate := Self.spdspddatafinal.AsFloat;
+    prosaldok.Open;
+
+    if not prosaldok.IsEmpty then
+    begin
+
+      with RegistroK001New do
+      begin
+        IND_MOV := ImComDados;
+
+        with RegistroK100New do
+        begin
+          DT_INI := Self.spdspddatainicial.AsFloat;
+          DT_FIN := Self.spdspddatafinal.AsFloat;
+
+          while not prosaldok.Eof do
+          begin
+
+            with RegistroK200New do
+            begin
+
+              COD_ITEM := prosaldokprocodigo.AsString;
+              QTD := prosaldokprosaldo.AsFloat;
+              IND_EST := estPropInformantePoder;
+              // COD_PART := mEtdetdcodigo.AsString;
+              // COD_PART := mEtdetdcodigo.AsString;
+              DT_EST := ACBrSPEDFiscal1.DT_FIN;
+
+            end;
+            prosaldok.Next;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  ACBrSPEDFiscal1.WriteBloco_K;
+
+end;
+
+procedure Tfgsp.MostraInventario;
+var
+  vlRelCodigo: String;
+  vlNomeArq: string;
+  BlobField: TBlobField;
+begin
+  vlRelCodigo := '01300000000';
+  rel.Close;
+  rel.ParamByName('relcodigo').AsString := vlRelCodigo;
+  rel.Open;
+  if rel.Locate('relcodigo', vlRelCodigo, []) then
+  begin
+    vlNomeArq := extractfilepath(application.ExeName) + 'relat\rel' + vlRelCodigo + '.fr3';
+
+    BlobField := rel.FieldByName('relarquivo') as TBlobField;
+    BlobField.SaveToFile(vlNomeArq);
+    if fileexists(vlNomeArq) then
+      ImprimeRelatorio('mrfr', vlNomeArq);
+  end;
+end;
+
+function Tfgsp.ImprimeRelatorio(modulo: string; varquivo: string): string;
+var
+  relat: TImprimeRelat;
+  ch: string;
+begin
+  pack := LoadPackage('modulos\' + modulo + '.bpl');
+  if pack <> 0 then
+    try
+      @relat := GetProcAddress(pack, Pchar('mrfrImpressao'));
+      if Assigned(relat) then
+      begin
+        ch := relat(application, fzcone, Self.DSTabela, varquivo, '', Acesso.Usuario.ToString);
+        result := ch;
+      end;
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+procedure Tfgsp.btnErrorClick(Sender: TObject);
+begin
+
+  // Limpa a lista de erros.
+  memoError.Lines.Clear;
+
+  // Método que gera o arquivo TXT.
+  ACBrSPEDFiscal1.SaveFileTXT;
+
+end;
+
+Procedure Tfgsp.CarregaEntidades;
+Var
+  CodEntidade: integer;
+  i: integer;
+Begin
+  mEtd.Clear;
+  mEtd.Open;
+
+  etd.Close;
+  etd.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  etd.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  etd.Open;
+
+  etd.First;
+  While Not etd.Eof Do
+  Begin
+    CodEntidade := StrToInt(etdetdcodigo.AsString + FormatFloat('00', etdedritem.AsInteger));
+    if etdetdidentificacao.AsString <> 'CONSUMIDOR' then
+    BEGIN
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etd.Fields[i];
+
+        mEtd.Post;
+      End;
+    END;
+
+    etd.Next;
+  End;
+
+  etdcte.Close;
+  etdcte.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  etdcte.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  etdcte.Open;
+
+  etdcte.First;
+  While Not etdcte.Eof Do
+  Begin
+    CodEntidade := StrToInt(etdcteetdcodigo.AsString + FormatFloat('00', etdcteedritem.AsInteger));
+
+    if etdcteetdidentificacao.AsString <> 'CONSUMIDOR' then
+    BEGIN
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etdcte.Fields[i];
+
+        mEtd.Post;
+      End;
+
+    END;
+    etdcte.Next;
+  End;
+
+  etdcsv.Close;
+  etdcsv.Params[0].AsDate := Self.spdspddatainicial.AsFloat;
+  etdcsv.Params[1].AsDate := Self.spdspddatafinal.AsFloat;
+  etdcsv.Open;
+
+  etdcsv.First;
+  While Not etdcsv.Eof Do
+  Begin
+    CodEntidade := StrToInt(etdcsvetdcodigo.AsString + FormatFloat('00', etdcsvedritem.AsInteger));
+    if etdcsvetdidentificacao.AsString <> 'CONSUMIDOR' then
+    BEGIN
+
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etdcsv.Fields[i];
+
+        mEtd.Post;
+      End;
+
+    END;
+    etdcsv.Next;
+  End;
+
+  etdadc.Close;
+  etdadc.Params[0].AsInteger := Self.spdspdchave.AsInteger;
+  etdadc.Open;
+
+  etdadc.First;
+  While Not etdadc.Eof Do
+  Begin
+    CodEntidade := StrToInt(etdadcetdcodigo.AsString + FormatFloat('00', etdadcedritem.AsInteger));
+    // CodEntidade := etdadcetdcodigo.AsInteger;
+    if etdadcetdidentificacao.AsString <> 'CONSUMIDOR' then
+    BEGIN
+
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etdadc.Fields[i];
+
+        mEtd.Post;
+      End;
+
+    END;
+    etdadc.Next;
+  End;
+
+
+
+
+
+  // dados de pix e recebimentos online
+  {
+  ori.Close;
+  ori.Open;
+  while not ori.Eof do
+  begin
+
+    if orietdcodigo.AsInteger <> 0 then
+    begin
+      etdpix.Close;
+      etdpix.ParamByName('etdcodigo').AsInteger := orietdcodigo.AsInteger;
+      etdpix.Open;
+
+      CodEntidade := StrToInt(etdpixetdcodigo.AsString + FormatFloat('00', etdpixedritem.AsInteger));
+
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etdpix.Fields[i];
+
+        mEtd.Post;
+      End;
+
+    end;
+    ori.Next;
+
+  end;
+  }
+  {
+  if ori.RecordCount > 0 then
+  begin
+    ori.First;
+    while not ori.Eof do
+    begin
+      rfi.Close;
+      rfi.ParamByName('etdcodigo').AsInteger := orietdcodigo.AsInteger;
+      rfi.ParamByName('datainicial').AsDate := spdspddatainicial.AsDateTime;
+      rfi.ParamByName('datafinal').AsDate := spdspddatafinal.AsDateTime;
+      rfi.Open;
+
+      if rfirfivalor.AsCurrency > 0 then
+      begin
+
+        etdpix.Close;
+        etdpix.ParamByName('etdcodigo').AsInteger := orietdcodigo.AsInteger;
+        etdpix.Open;
+
+        CodEntidade := StrToInt(etdpixetdcodigo.AsString + FormatFloat('00', etdpixedritem.AsInteger));
+
+        If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+        Begin
+          mEtd.Append;
+          mEtdetdcodigo.AsInteger := CodEntidade;
+          For i := 1 To mEtd.FieldCount - 1 Do
+            mEtd.Fields[i] := etdpix.Fields[i];
+
+          mEtd.Post;
+        End;
+
+      end;
+
+      ori.Next;
+
+    end;
+  end;
+  }
+
+  dtl.Close;
+  dtl.ParamByName('datainicial').AsDate := spdspddatainicial.AsDateTime;
+  dtl.ParamByName('datafinal').AsDate := spdspddatafinal.AsDateTime;
+  dtl.Open;
+  if dtl.RecordCount > 0 then
+  begin
+
+    if dtldtlvalor.AsCurrency > 0 then
+    begin
+
+      cta.Close;
+      cta.Open;
+
+      if ctacfgctacodigopix.AsString <> '' then
+      begin
+
+        etdpix.Close;
+        etdpix.ParamByName('etdcodigo').AsInteger := ctacfgetdcodigopix.AsInteger;
+        etdpix.Open;
+
+        CodEntidade := StrToInt(ctacfgetdcodigopix.AsString + FormatFloat('00', etdpixedritem.AsInteger));
+
+        If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+        Begin
+          mEtd.Append;
+          mEtdetdcodigo.AsInteger := CodEntidade;
+          For i := 1 To mEtd.FieldCount - 1 Do
+            mEtd.Fields[i] := etdpix.Fields[i];
+
+          mEtd.Post;
+        End;
+
+      end;
+
+    end;
+
+  end;
+
+  adc.Close;
+  adc.Open;
+
+  while not adc.Eof do
+  begin
+
+    etdrfi.Close;
+    etdrfi.ParamByName('etdcodigo').AsInteger := adcetdcodigo.AsInteger;
+    etdrfi.Open;
+
+    if not etdrfi.IsEmpty then
+    begin
+      CodEntidade := StrToInt(etdrfietdcodigo.AsString + FormatFloat('00', etdrfiedritem.AsInteger));
+
+      If Not mEtd.Locate('etdcodigo', CodEntidade, []) Then
+      Begin
+        mEtd.Append;
+        mEtdetdcodigo.AsInteger := CodEntidade;
+        For i := 1 To mEtd.FieldCount - 1 Do
+          mEtd.Fields[i] := etdpix.Fields[i];
+
+        mEtd.Post;
+
+      End;
+
+    end;
+
+    adc.Next;
+  end;
+
+End;
+
+Procedure Tfgsp.LoadToMemo;
+Begin
+  memoTXT.Lines.Clear;
+  If fileexists(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo) Then
+    memoTXT.Lines.LoadFromFile(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo);
+End;
+
+end.

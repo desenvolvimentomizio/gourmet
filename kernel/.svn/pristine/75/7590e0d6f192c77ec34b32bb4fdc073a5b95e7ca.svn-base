@@ -1,0 +1,858 @@
+unit ufrfimlt;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Data.DB, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ExtCtrls, Vcl.ImgList, Vcl.Controls, PngImageList,
+  System.Classes, System.Actions, Vcl.ActnList, MemDS, DBAccess, Uni,
+  Vcl.Buttons, Vcl.ComCtrls, Vcl.Dialogs, System.SysUtils, uFuncoes, uPegaBase,
+  System.ImageList, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  Tfrfimlt = class(Tfrmbase)
+    registrotitcodigo: TIntegerField;
+    registroetdcodigo: TIntegerField;
+    registrotitemissao: TDateField;
+    registrotitnumero: TStringField;
+    registrotitvalor: TFloatField;
+    Label1: TLabel;
+    titcodigo: TDBEdit;
+    ltitvalor: TLabel;
+    titvalor: TDBEdit;
+    F: TBevel;
+    BGerarRepeticoes: TBitBtn;
+    registrotitparcelas: TIntegerField;
+    registrotitvctoinicial: TDateField;
+    registrotitvalorparcela: TFloatField;
+    Label6: TLabel;
+    titparcelas: TDBEdit;
+    ltitvalorparcela: TLabel;
+    titvalorparcela: TDBEdit;
+    registrotficodigo: TIntegerField;
+    tittithora: TTimeField;
+    tittithistorico: TStringField;
+    titclbcodigo: TIntegerField;
+    registrotfdcodigo: TIntegerField;
+    registrosrfcodigo: TIntegerField;
+    Label8: TLabel;
+    titvctoinicial: TDBEdit;
+    registrotitprevisao: TIntegerField;
+    registromoecodigo: TIntegerField;
+    registrotitmoradia: TFloatField;
+    registrotitvalomulta: TFloatField;
+    registrotitpercmesmora: TFloatField;
+    registrotitvalodesc: TFloatField;
+    registrotitpercmulta: TFloatField;
+    Label2: TLabel;
+    etdcodigo: TDBEdit;
+    titemissao: TDBEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    tficodigo: TDBEdit;
+    Label17: TLabel;
+    titnumero: TDBEdit;
+    Label9: TLabel;
+    bcocodigo: TDBEdit;
+    Label10: TLabel;
+    carcodigo: TDBEdit;
+    lmoecodigo: TLabel;
+    moecodigo: TDBEdit;
+    ltitmoradia: TLabel;
+    titmoradia: TDBEdit;
+    ltitpercmesmora: TLabel;
+    titpercmesmora: TDBEdit;
+    ltitdiasdesc: TLabel;
+    titdiasdesc: TDBEdit;
+    ltitvalodesc: TLabel;
+    titvalodesc: TDBEdit;
+    ltitdiasmulta: TLabel;
+    titdiasmulta: TDBEdit;
+    ltitpercmesmulta: TLabel;
+    ltitvalomulta: TLabel;
+    titvalomulta: TDBEdit;
+    Label12: TLabel;
+    tithistorico: TDBEdit;
+    Label16: TLabel;
+    titprevisao: TDBEdit;
+    registroflacodigo: TIntegerField;
+    registrobcocodigo: TStringField;
+    registrocarcodigo: TIntegerField;
+    car: tuniquery;
+    carcarcodigo: TIntegerField;
+    carcaridentificacao: TStringField;
+    carcardiasmulta: TIntegerField;
+    carcarpercmulta: TFloatField;
+    carcarpercmorames: TFloatField;
+    carcardiasdesc: TIntegerField;
+    carcarpercdesc: TFloatField;
+    tfi: tuniquery;
+    tfitficodigo: TIntegerField;
+    tfitfiidentificacao: TStringField;
+    sen: tuniquery;
+    sensencodigo: TIntegerField;
+    sensenidentificacao: TStringField;
+    etd: tuniquery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    bco: tuniquery;
+    bcobcocodigo: TStringField;
+    bcobconome: TStringField;
+    moe: tuniquery;
+    moemoecodigo: TIntegerField;
+    moemoeidentificacao: TStringField;
+    registroetdidentificacao: TStringField;
+    registrotfiidentificacao: TStringField;
+    registrobconome: TStringField;
+    registrocaridentificacao: TStringField;
+    registrosenprevisao: TStringField;
+    registromoeidentificacao: TStringField;
+    registrotitdiasmulta: TIntegerField;
+    registrotitdiasdesc: TIntegerField;
+    cfgcfgdtinictb: TDateField;
+    cfgcfgdtfinctb: TDateField;
+    mfi: tuniquery;
+    mfimfichave: TIntegerField;
+    mfirfichave: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    mfimoecodigo: TIntegerField;
+    mfimfivalor: TFloatField;
+    mfimfidata: TDateField;
+    mfimfihistorico: TStringField;
+    mfimfivalorori: TFloatField;
+    mfimfiparcela: TIntegerField;
+    rfi: tuniquery;
+    rfirfichave: TIntegerField;
+    rfietdcodigo: TIntegerField;
+    rfitfdcodigo: TIntegerField;
+    rfiflacodigo: TIntegerField;
+    rfitficodigo: TIntegerField;
+    rfibcocodigo: TStringField;
+    rficarcodigo: TIntegerField;
+    rfirfiemissao: TDateField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    rfirfihistorico: TStringField;
+    rfisrfcodigo: TIntegerField;
+    rfifrrcodigo: TIntegerField;
+    rfirfimoradia: TFloatField;
+    rfirfipercmesmora: TFloatField;
+    rfirfirepetir: TIntegerField;
+    rfirfiprevisao: TIntegerField;
+    rfirfivalorparcela: TFloatField;
+    rfimoecodigo: TIntegerField;
+    rfititcodigo: TIntegerField;
+    rfirfidatamulta: TDateField;
+    rfirfivalomulta: TFloatField;
+    rfirfivalodesc: TFloatField;
+    rfirfidatadesc: TDateField;
+    rfirfipercmulta: TFloatField;
+    rfirfidtultbaixa: TDateField;
+    titpercmulta: TDBEdit;
+    fla: tuniquery;
+    flaflacodigo: TIntegerField;
+    flaflaidentificacao: TStringField;
+    registroflaidentificacao: TStringField;
+    mfiflacodigo: TIntegerField;
+    registrotitinclusao: TDateTimeField;
+    registroedrcodigo: TIntegerField;
+    edrcodigo: TDBEdit;
+    rfiedrcodigo: TIntegerField;
+    rfirfiinclusao: TDateTimeField;
+    rfitngcodigo: TIntegerField;
+    rficctchave: TIntegerField;
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure tficodigoExit(Sender: TObject);
+    procedure titparcelasExit(Sender: TObject);
+    procedure titvctoinicialExit(Sender: TObject);
+    procedure BGerarRepeticoesClick(Sender: TObject);
+    procedure titvalorparcelaExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure titmoradiaExit(Sender: TObject);
+    procedure titpercmesmoraExit(Sender: TObject);
+    procedure titpercmultaExit(Sender: TObject);
+    procedure titvalomultaExit(Sender: TObject);
+    procedure titparcelasEnter(Sender: TObject);
+    procedure titvalorExit(Sender: TObject);
+    procedure bcancelaClick(Sender: TObject);
+    procedure titvctoinicialEnter(Sender: TObject);
+  private
+    function registraparcelas(vchave, vvalor, vparcelas: string): string;
+    procedure AjustaTelaPorQtdParc;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    jaajustou: boolean;
+
+    procedure RegistraRFI;
+
+  end;
+
+  tregistraconvenio = function(AOwner: TComponent; Conexao: tuniconnection; vtotal: string; vmeschave: string; ltechave: String; vparcelas: string;
+    situacao: string; Acesso: TAcesso): string;
+
+var
+  frfimlt: Tfrfimlt;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfrfimlt.bcancelaClick(Sender: TObject);
+var
+  smsg: string;
+  F: Integer;
+begin
+  // inherited;
+
+  if psituacao.caption = 'Alterando' then
+    smsg := 'Deseja realmente abandonar as alterações ?'
+  else
+    smsg := 'Deseja realmente abandonar a inclusão do registro ?';
+
+  If Application.MessageBox(Pchar(smsg), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+    If Self.DSRegistro.DataSet.State = dsBrowse Then
+      Self.DSRegistro.DataSet.Edit;
+
+    If Self.DSRegistro.DataSet.State <> dsBrowse Then
+      Self.DSRegistro.DataSet.Cancel;
+
+    If psituacao.caption = 'Incluindo' Then
+    begin
+      If Not registro.IsEmpty Then
+      begin
+        consulta.Close;
+        consulta.sql.text := 'delete from v_rfi where titcodigo=' + titcodigo.Field.AsString;
+
+        consulta.ExecSQL;
+
+        Self.DSRegistro.DataSet.Delete;
+      end;
+    end
+    else
+    begin
+      rfi.Close;
+      rfi.ParamByName('titcodigo').asinteger := registrotitcodigo.asinteger;
+      rfi.open;
+      consulta.Close;
+      consulta.sql.text := 'select CalcMovimentoFinanceiro(' + rfi.FieldByName('rfichave').AsString + ')';
+      consulta.ExecSQL;
+
+    end;
+
+    Self.ModalResult := mrCancel;
+  end
+  else
+
+    Self.ActiveControl := ActiveControlCancela;
+
+end;
+
+procedure Tfrfimlt.bconfirmaClick(Sender: TObject);
+var
+  i: Integer;
+begin
+
+  inherited;
+
+  for i := 0 to Self.registro.FieldCount - 1 do
+    if Self.registro.fields[i].Required then
+      if Self.registro.fields[i].AsString = '' then
+        exit;
+
+  if titnumero.Field.AsString = '' then
+  begin
+    registro.Edit;
+    titnumero.Field.AsString := formatfloat('000000', titcodigo.Field.AsFloat);
+    registro.Post;
+  end;
+
+  if tithistorico.Field.AsString = '' then
+  begin
+    registro.Edit;
+    tithistorico.Field.AsString := formatfloat('000000', titcodigo.Field.AsFloat) + '/' + titparcelas.Field.AsString;
+    registro.Post;
+  end;
+
+  // zcone.Commit;
+  if Self.titparcelas.Field.asinteger = 1 then
+  begin
+    // RegistraRFI;
+
+  end
+  else
+  begin
+    consulta.Close;
+    consulta.sql.text := 'update rfi set carcodigo=' + carcodigo.Field.AsString + ' where titcodigo=' + titcodigo.Field.AsString;
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.sql.text := 'update v_rfi set carcodigo=' + carcodigo.Field.AsString + ' where titcodigo=' + titcodigo.Field.AsString;
+    consulta.ExecSQL;
+
+  end;
+
+end;
+
+procedure Tfrfimlt.BGerarRepeticoesClick(Sender: TObject);
+var
+  vTotParcelas: double;
+  sTotParcelas: string;
+begin
+  inherited;
+
+  if Self.registro.State <> dsBrowse then
+    registro.Post;
+
+  if titnumero.Field.AsString = '' then
+  begin
+    registro.Edit;
+    titnumero.Field.AsString := formatfloat('000000', titcodigo.Field.AsFloat);
+    registro.Post;
+  end;
+
+  if tithistorico.Field.AsString = '' then
+  begin
+    registro.Edit;
+    tithistorico.Field.AsString := formatfloat('000000', titcodigo.Field.AsFloat) + '/' + titparcelas.Field.AsString;
+    registro.Post;
+  end;
+
+  vTotParcelas := Self.registrotitvalor.AsFloat;
+
+  sTotParcelas := format('%12.2f', [vTotParcelas]);
+
+  sTotParcelas := buscatroca(sTotParcelas, '.', '');
+  sTotParcelas := buscatroca(sTotParcelas, '.', '');
+  sTotParcelas := buscatroca(sTotParcelas, '.', '');
+  sTotParcelas := trim(buscatroca(sTotParcelas, '.', ''));
+  sTotParcelas := trim(buscatroca(sTotParcelas, ',', '.'));
+
+  if registraparcelas(Self.registrotitcodigo.AsString, sTotParcelas, Self.registrotitparcelas.AsString) = '999' then
+  begin
+    BGerarRepeticoes.Enabled := false;
+    Self.jaajustou := true;
+    bconfirma.Enabled := true;
+    Self.bconfirma.SetFocus;
+    // bconfirma.Click;
+  end;
+
+end;
+
+procedure Tfrfimlt.FormShow(Sender: TObject);
+begin
+
+  inherited;
+
+  AjustaTelaPorQtdParc;
+
+end;
+
+function Tfrfimlt.registraparcelas(vchave: string; vvalor: string; vparcelas: string): string;
+var
+  registra: tregistraconvenio;
+  vorcchave: string;
+begin
+  pack := LoadPackage('modulos\mdfc.bpl');
+  if pack <> 0 then
+    try
+      @registra := GetProcAddress(pack, Pchar('registraconvenio'));
+
+      if Assigned(registra) then
+        Result := registra(Application, zcone, vvalor, vchave, '0', vparcelas, psituacao.caption, Acesso);
+
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+procedure Tfrfimlt.AjustaTelaPorQtdParc;
+begin
+  if titparcelas.Field.asinteger > 1 then
+  begin
+    Label8.caption := 'Vencimento 1ª Parcela';
+    ltitvalorparcela.caption := 'Valor de cada Parcela R$';
+    titvalor.Visible := true;
+    titvalor.Enabled := true;
+    ltitvalor.Visible := true;
+    titvalor.Field.AsFloat := titparcelas.Field.asinteger * titvalorparcela.Field.AsCurrency;
+  end
+  else
+  begin
+    Label8.caption := 'Vencimento';
+    ltitvalorparcela.caption := 'Valor R$';
+    titvalor.Visible := true;
+    titvalor.Enabled := true;
+    ltitvalor.Visible := true;
+    titvalor.Field.AsFloat := titparcelas.Field.asinteger * titvalorparcela.Field.AsCurrency;
+
+    { titvalor.Visible := false;
+      ltitvalor.Visible := false;
+      titvalor.Field.AsFloat := titvalor.Field.AsFloat;
+      Label8.Caption := 'Vencimento';
+      ltitvalorparcela.Caption := 'Valor R$'; }
+
+  end;
+
+  if Self.psituacao.caption = 'Incluindo' then
+    if titparcelas.Field.asinteger = 1 then
+    begin
+      jaajustou := true;
+      BGerarRepeticoes.Visible := false;
+      bconfirma.Enabled := true;
+    end
+    else
+    begin
+      jaajustou := false;
+      BGerarRepeticoes.caption := 'Gerar Parcelas';
+      BGerarRepeticoes.Visible := true;
+      bconfirma.Enabled := false;
+    end;
+
+  if Self.psituacao.caption = 'Alterando' then
+    if titparcelas.Field.asinteger > 1 then
+    begin
+      jaajustou := false;
+      BGerarRepeticoes.caption := 'Ajustar Parcelas';
+      BGerarRepeticoes.Visible := true;
+      bconfirma.Enabled := false;
+    end;
+
+end;
+
+procedure Tfrfimlt.RegistraRFI;
+begin
+  rfi.Close;
+  rfi.Params[0].asinteger := titcodigo.Field.asinteger;
+  rfi.open;
+  if rfi.IsEmpty then
+    rfi.Append
+  else
+    rfi.Edit;
+
+  {
+    , , , , , , , , , , , , , , , , , , , , , , , , )
+
+  }
+
+  { edrcodigo } rfiedrcodigo.asinteger := Self.registroedrcodigo.asinteger;
+  { titcodigo } rfititcodigo.asinteger := Self.registrotitcodigo.asinteger;
+  { etdcodigo } rfietdcodigo.asinteger := Self.registroetdcodigo.asinteger;
+  { tfdcodigo } rfitfdcodigo.asinteger := registrotfdcodigo.asinteger;
+  { flacodigo } rfiflacodigo.asinteger := registroflacodigo.asinteger;
+  { tficodigo } rfitficodigo.asinteger := registrotficodigo.asinteger;
+  { bcocodigo } rfibcocodigo.AsString := registrobcocodigo.AsString;
+  { carcodigo } rficarcodigo.asinteger := registrocarcodigo.asinteger;
+  { rfiemissao } rfirfiemissao.AsFloat := registrotitemissao.AsFloat;
+  { rfivencimento } rfirfivencimento.AsFloat := Self.registrotitvctoinicial.AsFloat;
+  { rfinumero } rfirfinumero.AsString := registrotitnumero.AsString;
+  { rfivalor } rfirfivalor.AsCurrency := registrotitvalor.AsCurrency;
+  { rfihistorico } rfirfihistorico.AsString := tittithistorico.AsString;
+  { srfcodigo } rfisrfcodigo.asinteger := registrosrfcodigo.asinteger;
+  { frrcodigo } rfifrrcodigo.asinteger := 1;
+  { rfimoradia } rfirfimoradia.AsFloat := registrotitmoradia.AsFloat;
+  { rfipercmesmora } rfirfipercmesmora.AsFloat := registrotitpercmesmora.AsFloat;
+  { rfirepetir } rfirfirepetir.asinteger := 1;
+  { rfiprevisao } rfirfiprevisao.asinteger := registrotitprevisao.asinteger;
+  { rfivalorparcela } rfirfivalorparcela.AsFloat := registrotitvalorparcela.AsFloat;
+  { moecodigo } rfimoecodigo.asinteger := registromoecodigo.asinteger;
+  { rfidatamulta } rfirfidatamulta.AsFloat := registrotitdiasmulta.asinteger + rfirfivencimento.AsFloat;
+  { rfivalomulta } rfirfivalomulta.AsFloat := registrotitvalomulta.AsFloat;
+  { rfivalodesc } rfirfivalodesc.AsFloat := registrotitvalodesc.AsFloat;
+  { rfidatadesc } rfirfidatadesc.AsFloat := rfirfivencimento.AsFloat - registrotitdiasdesc.AsFloat;
+  { rfipercmulta } rfirfipercmulta.AsFloat := registrotitpercmulta.AsFloat;
+  // rfirfipercmulta.AsFloat := registrotitpercmulta.AsFloat;
+  { rfiinclusao } rfirfiinclusao.AsString := hoje(Application, zcone);
+
+  rfi.Post;
+
+  mfi.Close;
+  mfi.Params[0].asinteger := rfirfichave.asinteger;
+  mfi.open;
+  if mfi.IsEmpty then
+    mfi.Append
+  else
+    mfi.Edit;
+  mfirfichave.asinteger := Self.rfirfichave.asinteger;
+  case registrotfdcodigo.asinteger of
+    tfdReceber:
+      mfitmfcodigo.asinteger := tmfAReceber;
+    tfdPagar:
+      mfitmfcodigo.asinteger := tmfAPagar;
+  end;
+  mfimoecodigo.asinteger := registromoecodigo.asinteger;
+  mfimfivalor.AsFloat := Self.rfirfivalor.AsFloat;
+  mfimfidata.AsFloat := Self.rfirfiemissao.AsFloat;
+  mfimfihistorico.AsString := 'Registro Inicial';
+  mfimfivalorori.AsFloat := Self.rfirfivalor.AsFloat;
+  mfiflacodigo.asinteger := Acesso.Filial;
+  mfimfiparcela.asinteger := 1;
+  mfi.Post;
+  consulta.Close;
+  consulta.sql.text := 'update rfi set carcodigo=' + carcodigo.Field.AsString + ' where titcodigo=' + titcodigo.Field.AsString;
+  consulta.ExecSQL;
+  consulta.Close;
+  consulta.sql.text := 'update v_rfi set carcodigo=' + carcodigo.Field.AsString + ' where titcodigo=' + titcodigo.Field.AsString;
+  consulta.ExecSQL;
+end;
+
+procedure Tfrfimlt.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  registrosrfcodigo.asinteger := srfEmAberto;
+  tittithora.AsFloat := Time;
+  titclbcodigo.asinteger := Acesso.Usuario;
+
+  registroflacodigo.asinteger := Acesso.Filial;
+  registrotitprevisao.asinteger := 0;
+  registromoecodigo.asinteger := 1;
+  registrotitmoradia.AsFloat := 0;
+  registrotitpercmesmora.AsFloat := 0;
+  Self.registrotitemissao.AsString := hoje(Application, zcone);
+  registrotitdiasdesc.asinteger := 0;
+  registrotitdiasmulta.asinteger := 0;
+  registrotitvalodesc.AsFloat := 0;
+  registrotitvalomulta.AsFloat := 0;
+  registrotitpercmulta.AsFloat := 0;
+  registrotitparcelas.asinteger := 1;
+  registrotitinclusao.AsString := agora(Application, zcone);
+end;
+
+procedure Tfrfimlt.tficodigoExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+  if ActiveControl = bcancela then
+    exit;
+
+  if Self.registrotfdcodigo.asinteger = tfdReceber then
+  begin
+    if tficodigo.Field.asinteger = tfiboleto then
+    begin
+      ltitdiasdesc.Enabled := true;
+      titdiasdesc.Enabled := true;
+
+      ltitvalodesc.Enabled := true;
+      titvalodesc.Enabled := true;
+
+      ltitdiasmulta.Enabled := true;
+      titdiasmulta.Enabled := true;
+
+      ltitvalomulta.Enabled := true;
+      titvalomulta.Enabled := true;
+
+      titmoradia.Enabled := false;
+      titpercmesmora.Enabled := false;
+      titdiasdesc.Enabled := false;
+      titvalodesc.Enabled := false;
+      titdiasmulta.Enabled := false;
+      titvalomulta.Enabled := false;
+      titpercmulta.Enabled := false;
+
+      titmoradia.Color := PEG_COR_VALORPADRAO;
+      titpercmesmora.Color := PEG_COR_VALORPADRAO;
+      titdiasdesc.Color := PEG_COR_VALORPADRAO;
+      titvalodesc.Color := PEG_COR_VALORPADRAO;
+      titdiasmulta.Color := PEG_COR_VALORPADRAO;
+      titvalomulta.Color := PEG_COR_VALORPADRAO;
+      titpercmulta.Color := PEG_COR_VALORPADRAO;
+
+      titmoradia.Enabled := true;
+      titpercmesmora.Enabled := true;
+      titdiasdesc.Enabled := true;
+      titvalodesc.Enabled := true;
+      titdiasmulta.Enabled := true;
+      titvalomulta.Enabled := true;
+      titpercmulta.Enabled := true;
+
+      ltitmoradia.Enabled := true;
+      ltitpercmesmora.Enabled := true;
+      ltitdiasdesc.Enabled := true;
+      ltitvalodesc.Enabled := true;
+      ltitdiasmulta.Enabled := true;
+      ltitvalomulta.Enabled := true;
+      ltitpercmesmulta.Enabled := true;
+
+      if principal.FindComponent('spcatitdatadesc') <> nil then
+      begin
+        (principal.FindComponent('spcatitdatadesc') as Tspeedbutton).Enabled := true;
+      end;
+
+      if principal.FindComponent('spcatitdatamulta') <> nil then
+      begin
+        (principal.FindComponent('spcatitdatamulta') as Tspeedbutton).Enabled := true;
+      end;
+
+    end
+    else
+    begin
+      ltitdiasdesc.Enabled := false;
+      titdiasdesc.Enabled := false;
+
+      ltitvalodesc.Enabled := false;
+      titvalodesc.Enabled := false;
+
+      ltitdiasmulta.Enabled := false;
+      titdiasmulta.Enabled := false;
+
+      titpercmulta.Enabled := false;
+      ltitpercmesmulta.Enabled := false;
+
+      ltitvalomulta.Enabled := false;
+      titvalomulta.Enabled := false;
+
+      if principal.FindComponent('spcatitdatadesc') <> nil then
+      begin
+        (principal.FindComponent('spcatitdatadesc') as Tspeedbutton).Enabled := false;
+      end;
+
+      if principal.FindComponent('spcatitdatamulta') <> nil then
+      begin
+        (principal.FindComponent('spcatitdatamulta') as Tspeedbutton).Enabled := false;
+      end;
+
+    end;
+
+  end
+  else
+  begin
+
+    { if tficodigo.Field.AsInteger = tfiboleto then
+      begin }
+    ltitdiasdesc.Enabled := true;
+    titdiasdesc.Enabled := true;
+
+    ltitvalodesc.Enabled := true;
+    titvalodesc.Enabled := true;
+
+    ltitdiasmulta.Enabled := true;
+    titdiasmulta.Enabled := true;
+
+    titpercmulta.Enabled := true;
+    ltitpercmesmulta.Enabled := true;
+
+    ltitvalomulta.Enabled := true;
+    titvalomulta.Enabled := true;
+
+    titmoradia.Enabled := true;
+    titpercmesmora.Enabled := true;
+    titdiasdesc.Enabled := true;
+    titvalodesc.Enabled := true;
+    titdiasmulta.Enabled := true;
+    titvalomulta.Enabled := true;
+    titpercmulta.Enabled := true;
+
+    ltitmoradia.Enabled := true;
+    ltitpercmesmora.Enabled := true;
+    ltitdiasdesc.Enabled := true;
+    ltitvalodesc.Enabled := true;
+    ltitdiasmulta.Enabled := true;
+    ltitvalomulta.Enabled := true;
+    ltitpercmesmulta.Enabled := true;
+
+    if principal.FindComponent('spcatitdatadesc') <> nil then
+    begin
+      (principal.FindComponent('spcatitdatadesc') as Tspeedbutton).Enabled := true;
+    end;
+
+    if principal.FindComponent('spcatitdatamulta') <> nil then
+    begin
+      (principal.FindComponent('spcatitdatamulta') as Tspeedbutton).Enabled := true;
+    end;
+
+    { end
+      else
+      begin
+      ltitdiasdesc.enabled := false;
+      titdiasdesc.enabled := false;
+
+      ltitvalodesc.enabled := false;
+      titvalodesc.enabled := false;
+
+      ltitdiasmulta.enabled := false;
+      titdiasmulta.enabled := false;
+
+      titpercmesmulta.enabled := false;
+      ltitpercmesmulta.enabled := false;
+
+      ltitvalomulta.enabled := false;
+      titvalomulta.enabled := false;
+
+      ltitmoradia.enabled := false;
+      titmoradia.enabled := false;
+
+      ltitpercmesmora.enabled := false;
+      titpercmesmora.enabled := false;
+      titdiasdesc.enabled := false;
+      titvalodesc.enabled := false;
+      titdiasmulta.enabled := false;
+      titvalomulta.enabled := false;
+      titpercmesmulta.enabled := false;
+
+      ltitdiasdesc.enabled := false;
+      ltitvalodesc.enabled := false;
+      ltitdiasmulta.enabled := false;
+      ltitvalomulta.enabled := false;
+      ltitpercmesmulta.enabled := false;
+
+      if principal.FindComponent('spcatitdatadesc') <> nil then
+      begin
+      (principal.FindComponent('spcatitdatadesc') as Tspeedbutton).enabled := false;
+      end;
+
+      if principal.FindComponent('spcatitdatamulta') <> nil then
+      begin
+      (principal.FindComponent('spcatitdatamulta') as Tspeedbutton).enabled := false;
+      end;
+
+      end; }
+  end;
+end;
+
+procedure Tfrfimlt.titmoradiaExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+  if ActiveControl = bcancela then
+    exit;
+
+  if titmoradia.Field.AsFloat > 0 then
+  begin
+    if titvalor.Field.AsFloat > 0 then
+    begin
+      titpercmesmora.Field.AsFloat := ((titmoradia.Field.AsCurrency * 30) / titvalor.Field.AsCurrency) * 100;
+    end;
+  end;
+end;
+
+procedure Tfrfimlt.titparcelasEnter(Sender: TObject);
+begin
+  inherited;
+  titparcelas.SelectAll;
+end;
+
+procedure Tfrfimlt.titparcelasExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+  if ActiveControl = bcancela then
+    exit;
+  AjustaTelaPorQtdParc;
+
+end;
+
+procedure Tfrfimlt.titpercmesmoraExit(Sender: TObject);
+begin
+  inherited;
+  if titpercmesmora.Enabled then
+    if titpercmesmora.Field.AsFloat > 0 then
+      if titmoradia.Field.AsFloat = 0 then
+        if titvalor.Field.AsFloat > 0 then
+          titmoradia.Field.AsCurrency := titvalor.Field.AsCurrency * ((titpercmesmora.Field.AsFloat / 100) / 30)
+
+end;
+
+procedure Tfrfimlt.titpercmultaExit(Sender: TObject);
+begin
+  inherited;
+  if titpercmulta.Enabled then
+    if titdiasmulta.Field.AsFloat > 0 then
+      if titpercmulta.Field.AsFloat > 0 then
+        if titvalor.Field.AsFloat > 0 then
+          titvalomulta.Field.AsCurrency := titvalor.Field.AsCurrency * (titpercmulta.Field.AsFloat / 100);
+end;
+
+procedure Tfrfimlt.titvalomultaExit(Sender: TObject);
+begin
+  inherited;
+  if titvalomulta.Enabled then
+    if titvalomulta.Field.AsFloat > 0 then
+      if titpercmulta.Field.AsFloat = 0 then
+        if titvalor.Field.AsFloat > 0 then
+          titpercmulta.Field.AsCurrency := (titvalomulta.Field.AsCurrency / titvalor.Field.AsCurrency) * 100;
+end;
+
+procedure Tfrfimlt.titvalorExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+  if ActiveControl = bcancela then
+    exit;
+  if Self.registro.State = dsBrowse then
+    registro.Edit;
+
+  titvalorparcela.Field.AsCurrency := titvalor.Field.AsCurrency / titparcelas.Field.asinteger;
+
+end;
+
+procedure Tfrfimlt.titvalorparcelaExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+  if ActiveControl = bcancela then
+    exit;
+
+  Self.registrotitvalor.AsFloat := titvalorparcela.Field.AsFloat * titparcelas.Field.asinteger;
+end;
+
+procedure Tfrfimlt.titvctoinicialEnter(Sender: TObject);
+begin
+  inherited;
+  if Self.psituacao.caption = 'Incluindo' then
+  begin
+    titvctoinicial.Field.AsFloat := Self.titemissao.Field.AsFloat + 30;
+  end;
+end;
+
+procedure Tfrfimlt.titvctoinicialExit(Sender: TObject);
+var
+  vlnomeobjeto: string;
+  vlobjeto: TComponent;
+begin
+
+  Self.ValidaSaida(Sender);
+  (* Identifica se usuário está abandonando a tela *)
+
+  if ActiveControl = bcancela then
+    exit;
+
+  vlobjeto := principal.FindComponent('spcatitvctoinicial');
+  if vlobjeto <> nil then
+  begin
+    vlnomeobjeto := vlobjeto.name;
+    if ActiveControl = vlobjeto then
+      exit;
+  end;
+
+  inherited;
+
+  if titvctoinicial.Field.AsString = '' then
+  begin
+    ShowMessage('Atenção: Data de Vencimento precisa ser preenchida!');
+    Self.titvctoinicial.Field.AsString := '';
+    Self.titvctoinicial.SetFocus;
+  end
+  else
+  begin
+    if titvctoinicial.Field.AsFloat < Self.titemissao.Field.AsFloat then
+    begin
+      ShowMessage('Atenção: Data de Vencimento inferior a Emissão!');
+      Self.titvctoinicial.Field.AsString := '';
+      Self.titvctoinicial.SetFocus;
+    end
+  end;
+
+end;
+
+end.

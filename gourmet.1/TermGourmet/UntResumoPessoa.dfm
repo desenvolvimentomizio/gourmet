@@ -1,0 +1,137 @@
+object FrmResumoPessoa: TFrmResumoPessoa
+  Left = 0
+  Top = 0
+  BorderIcons = [biMinimize, biMaximize]
+  BorderStyle = bsToolWindow
+  ClientHeight = 179
+  ClientWidth = 358
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel11: TPanel
+    Left = 0
+    Top = 0
+    Width = 358
+    Height = 50
+    Align = alTop
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 0
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 12
+      Top = 3
+      Width = 339
+      Height = 43
+      Align = alClient
+      Caption = 'Dividir a conta em ?'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -31
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 309
+      ExplicitHeight = 37
+    end
+    object Panel2: TPanel
+      Left = 0
+      Top = 0
+      Width = 9
+      Height = 46
+      Align = alLeft
+      BevelOuter = bvNone
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 0
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 141
+    Width = 358
+    Height = 38
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 2
+    object Panel9: TPanel
+      Left = 219
+      Top = 0
+      Width = 139
+      Height = 38
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Button2: TButton
+        Left = 8
+        Top = 4
+        Width = 120
+        Height = 31
+        Caption = '&Confirmar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = Button2Click
+      end
+    end
+  end
+  object Panel6: TPanel
+    Left = 0
+    Top = 54
+    Width = 358
+    Height = 87
+    Align = alBottom
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 12615680
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 1
+    object Label3: TLabel
+      Left = 134
+      Top = 10
+      Width = 79
+      Height = 24
+      Caption = 'Pessoas'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -20
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object EdtPessoas: TDBEdit
+      Left = 134
+      Top = 39
+      Width = 79
+      Height = 26
+      Ctl3D = True
+      DataField = 'orcpessoas'
+      DataSource = DmDados.dOrc
+      MaxLength = 99
+      ParentCtl3D = False
+      TabOrder = 0
+      OnClick = EdtPessoasEnter
+      OnEnter = EdtPessoasEnter
+      OnExit = EdtPessoasExit
+    end
+  end
+end

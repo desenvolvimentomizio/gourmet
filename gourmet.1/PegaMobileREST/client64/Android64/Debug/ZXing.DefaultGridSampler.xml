@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.DefaultGridSampler" platform="Android">
+  <class name="TDefaultGridSampler" file="ZXing.DefaultGridSampler.pas" line="34">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="GridSampler" type="TDefaultGridSampler" visibility="private" varflags="class" file="ZXing.DefaultGridSampler.pas" line="36" />
+      <function name="get_Instance" visibility="private" procflags="static" file="ZXing.DefaultGridSampler.pas" line="37">
+        <parameters>
+          <retval type="TDefaultGridSampler" />
+        </parameters>
+      </function>
+      <function name="checkAndNudgePoints" visibility="protected" procflags="static" file="ZXing.DefaultGridSampler.pas" line="54">
+        <devnotes>
+           <summary> <p>Checks a set of points that have been transformed to sample points on an image against
+           the image's dimensions to see if the point are even within the image.</p>
+          
+           <p>This method will actually &quot;nudge&quot; the endpoints back onto the image if they are found to be
+           barely (less than 1 pixel) off the image. This accounts for imperfect detection of finder
+           patterns in an image where the QR Code runs all the way to the image border.</p>
+          
+           <p>For efficiency, the method will check points from either end of the line until one is found
+           to be within the image. Because the set of points are assumed to be linear, this is valid.</p>
+          
+           </summary>
+           <param name="image">image into which the points should map
+           </param>
+           <param name="points">actual points in x1,y1,...,xn,yn form
+           </param>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+          <parameter name="points" type="TArray&lt;System.Single&gt;" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="sampleGrid" visibility="public" procflags="static overload" file="ZXing.DefaultGridSampler.pas" line="57">
+        <parameters>
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+          <parameter name="dimensionX" type="Integer" paramflags="const" />
+          <parameter name="dimensionY" type="Integer" paramflags="const" />
+          <parameter name="p1ToX" type="Single" paramflags="const" />
+          <parameter name="p1ToY" type="Single" paramflags="const" />
+          <parameter name="p2ToX" type="Single" paramflags="const" />
+          <parameter name="p2ToY" type="Single" paramflags="const" />
+          <parameter name="p3ToX" type="Single" paramflags="const" />
+          <parameter name="p3ToY" type="Single" paramflags="const" />
+          <parameter name="p4ToX" type="Single" paramflags="const" />
+          <parameter name="p4ToY" type="Single" paramflags="const" />
+          <parameter name="p1FromX" type="Single" paramflags="const" />
+          <parameter name="p1FromY" type="Single" paramflags="const" />
+          <parameter name="p2FromX" type="Single" paramflags="const" />
+          <parameter name="p2FromY" type="Single" paramflags="const" />
+          <parameter name="p3FromX" type="Single" paramflags="const" />
+          <parameter name="p3FromY" type="Single" paramflags="const" />
+          <parameter name="p4FromX" type="Single" paramflags="const" />
+          <parameter name="p4FromY" type="Single" paramflags="const" />
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="sampleGrid" visibility="public" procflags="static overload" file="ZXing.DefaultGridSampler.pas" line="63">
+        <parameters>
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+          <parameter name="dimensionX" type="Integer" paramflags="const" />
+          <parameter name="dimensionY" type="Integer" paramflags="const" />
+          <parameter name="transform" type="TPerspectiveTransform" paramflags="const" />
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="setGridSampler" visibility="public" procflags="static" file="ZXing.DefaultGridSampler.pas" line="67">
+        <parameters>
+          <parameter name="newGridSampler" type="TDefaultGridSampler" />
+        </parameters>
+      </procedure>
+      <property name="Instance" visibility="public" read="get_Instance" type="TDefaultGridSampler" file="ZXing.DefaultGridSampler.pas" line="70" />
+    </members>
+  </class>
+</namespace>

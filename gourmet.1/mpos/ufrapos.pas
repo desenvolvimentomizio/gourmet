@@ -1,0 +1,513 @@
+unit ufrapos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrabase, Data.DB, Xml.xmldom,
+  Xml.XMLIntf, Xml.XMLDoc, System.ImageList, Vcl.ImgList, Vcl.ExtCtrls,
+  VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Actions, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Imaging.pngimage, upegabase, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+  uRecordsTEF,
+  RESTRequest4D,
+  Jsons;
+
+type
+  Tfrapos = class(Tfrabase)
+    uqtabelaposcodigo: TIntegerField;
+    uqtabelaposidentificacao: TStringField;
+    uqtabelaposnumeroserie: TStringField;
+    uqtabelaclbidentificacao: TStringField;
+    pedidos: TFDMemTable;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+  private
+    procedure ConsultaPedidosSmartTEFPendentes;
+    procedure ExecutaCancelamentoStonePendentes;
+    function ExecutaCancelamentoStone(apayment_identifier: String): String;
+    function ExecutaCancelamentoSmartTEF(apayment_identifier: String): String;
+    procedure CarregaDadosConfiguracaoTEF;
+    procedure DadosConfiguracao;
+    { Private declarations }
+  public
+    { Public declarations }
+    Ocp_Apim_Subscription_Key:String;
+    fConfiguracaoTEF: TConfiguracaoTEF;
+  end;
+
+var
+  frapos: Tfrapos;
+
+
+  // Início ID do Módulo frapos
+const
+  vPlIdMd = '00.00.00.000-00';
+  vPlTitMdl = 'SmartPOS';
+
+  // Fim ID do Módulo frapos
+
+
+implementation
+
+uses
+  ufpos, System.DateUtils;
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frapos := Tfrapos.Create(pCargaFrame);
+end;
+
+exports formuFrame;
+
+
+procedure Tfrapos.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfpos, self.uqtabelaposcodigo.AsString, '');
+end;
+
+procedure Tfrapos.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfpos, '', '');
+end;
+
+
+
+procedure Tfrapos.ExecutaCancelamentoStonePendentes;
+var
+  lJson: TJson;
+  lRes: IResponse;
+  vlTentativas:Integer;
+  vlRequest:Boolean;
+  vlLista:TJsonArray;
+
+  i:integer;
+  vlStatus:String;
+  vlIdPagamento:String;
+  vlIdTerminal:String;
+  vlJsonPagamento:TJsonObject;
+  vlListaTermais:TJsonArray;
+begin
+
+
+  lJson := TJson.Create;
+  try
+    lJson.Put('status', 'pending');
+    vlTentativas:=0;
+    while (vlTentativas<=10) do
+    begin
+      try
+        lRes := TRequest.New.BaseURL( 'https://api.pagar.me/core/v5/orders')
+                 .BasicAuthentication(fConfiguracaoTEF.terminalcodempresa , '')
+                 .ContentType('application/json')
+                 .AddBody(lJson.Stringify)
+              .Get;
+
+        vlRequest:=true;
+        break;
+
+      except
+      on E: Exception do
+        begin
+          vlRequest:=False;
+          vlTentativas:=vlTentativas+1;
+          sleep(300);
+        end;
+      end;
+    end;
+
+    if vlRequest then
+    begin
+      if (lRes.StatusCode = 200) and ((lRes.Content) <> '') then
+      begin
+
+        lJson.Parse(lRes.Content);
+
+        vlLista:= lJson.Values['data'].AsArray;
+
+        for I := 0 to vlLista.Count-1  do
+        begin
+          vlStatus := vlLista.Items[i].AsObject.Values['status'].AsString;
+          vlIdPagamento:= vlLista.Items[i].AsObject.Values['id'].AsString;
+
+          vlJsonPagamento:=vlLista.Items[i].AsObject.Values['poi_payment_settings'].AsObject;
+
+          vlListaTermais :=vlJsonPagamento.Values['devices_serial_number'].AsArray;
+
+          vlIdTerminal:=vlListaTermais.Items[0].AsString;
+
+          if (vlStatus='pending') and
+             (vlIdPagamento<>'') and
+             (vlIdTerminal=fConfiguracaoTEF.TerminalCodTerminal) then
+          begin
+            ExecutaCancelamentoStone(vlIdPagamento);
+          end;
+
+        end;
+
+      end ;
+    end;
+  finally
+    lJson.Free;
+  end;
+
+
+//
+end;
+
+function Tfrapos.ExecutaCancelamentoStone(apayment_identifier:String):String;
+var
+  lJson: TJson;
+  lRes: IResponse;
+  vlTentativas:Integer;
+  vlRequest:Boolean;
+begin
+
+  lJson := TJson.Create;
+  try
+    lJson.Put('status', 'canceled');
+    vlTentativas:=0;
+    while (vlTentativas<=10) do
+    begin
+      try
+        lRes := TRequest.New.BaseURL(Format('https://api.pagar.me/core/v5/orders/%s/closed', [apayment_identifier]))
+                 .BasicAuthentication(fConfiguracaoTEF.terminalcodempresa , '')
+                 .ContentType('application/json')
+                 .AddBody(lJson.Stringify)
+              .Patch;
+
+        vlRequest:=true;
+        break;
+
+      except
+      on E: Exception do
+        begin
+
+          vlRequest:=False;
+          vlTentativas:=vlTentativas+1;
+          sleep(300);
+        end;
+      end;
+    end;
+
+    if vlRequest then
+    begin
+      if (lRes.StatusCode = 200) and ((lRes.Content) <> '') then
+      begin
+
+        try
+
+        {  orc.close;
+          orc.sql.Text := 'UPDATE orc SET stocodigo = 2, orcimpressao = 0 WHERE orcchave = ' + OrcChave;
+          orc.ExecSQL;
+
+          rpw.close;
+          rpw.ParamByName('orcchave').AsString:=OrcChave;
+          rpw.ParamByName('rpwstatus').AsString:='EM ABERTO';
+          rpw.ParamByName('ccxchave').AsString:=vpccxchave;
+          rpw.ParamByName('rpwtoken').AsString:=apayment_identifier;
+          rpw.Open;
+
+          if not rpw.IsEmpty then
+          begin
+            rpw.Edit;
+            rpwrpwtoken.AsString:=apayment_identifier;
+            rpwrpwstatus.AsString:='CANCELADO';
+            rpworcchave.AsString:=OrcChave;
+            rpw.Post;
+          end;}
+
+
+        except
+          on E: Exception do
+          begin
+
+          end;
+        end;
+      end ;
+    end;
+  finally
+    lJson.Free;
+  end;
+end;
+
+
+
+///////////////////////////////////
+///
+///  carga de dados de inicialização
+///
+///////////////////////////////////
+
+
+procedure Tfrapos.DadosConfiguracao;
+var
+
+  vltrm:TUniquery;
+  vladc:TUniquery;
+  vlclb:TUniquery;
+
+begin
+
+  vltrm:=TUniquery.Create(nil);
+  vltrm.Connection:=ZCone;
+  vltrm.sql.Text:='SELECT trmcodigo, trmestabelecimentotipotef, trmterminalcodempresa,'+
+                  'trmterminalcodfilial, trmterminalcodterminal,  trmterminalenderecoservidor,'+
+                  'trmterminalportapinpad, trmsmarttef FROM trm  where trmcodigo=:trmcodigo';
+  vltrm.ParamByName('trmcodigo').AsInteger:=acesso.Terminal;
+  vltrm.open;
+
+  fConfiguracaoTEF.EstabelecimentoTipoTEF := vltrm.FieldByName('trmestabelecimentotipotef').AsString;
+  fConfiguracaoTEF.terminalcodempresa := vltrm.FieldByName('trmterminalcodempresa').AsString;
+  fConfiguracaoTEF.terminalcodfilial :=vltrm.FieldByName('trmterminalcodfilial').AsString;
+  fConfiguracaoTEF.terminalcodterminal := vltrm.FieldByName('trmterminalcodterminal').AsString;
+  fConfiguracaoTEF.terminalenderecoservidor := vltrm.FieldByName('trmterminalenderecoservidor').AsString;
+  fConfiguracaoTEF.terminalportapinpad := vltrm.FieldByName('trmterminalportapinpad').AsString;
+
+  vltrm.close;
+  vltrm.Free;
+
+end;
+
+
+procedure Tfrapos.CarregaDadosConfiguracaoTEF;
+begin
+
+  DadosConfiguracao;
+
+end;
+
+
+
+procedure Tfrapos.ConsultaPedidosSmartTEFPendentes;
+var
+  lJson : TJson;
+  vlTentativas:Integer;
+  lRes: IResponse;
+  vlRequest:Boolean;
+  Token_SMATTEF:String;
+  myDate : TDateTime;
+  myYear, myMonth, myDay : Word;
+
+  myHour, myMin, mySec, myMilli : Word;
+
+  vlDiaInicio:TDateTime;
+  vlDiaFinal:TDateTime;
+
+  vlDataInicio:String;
+  vlDataFinal:String;
+  vlStatus:String;
+  vlIdPagamento:String;
+  vldescription:String;
+
+  vlLista:TJsonArray;
+
+
+  i:Integer;
+
+begin
+
+  DadosConfiguracao;
+  Ocp_Apim_Subscription_Key:=fConfiguracaoTEF.TerminalCodEmpresa;
+
+  Token_SMATTEF :='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbnBqIjoiMTQ0Nzc1NDgwM'+
+                  'DAxMzEiLCJjbnBqX2ludGVncmFkb3IiOiIxNDQxNzI4MjAwMDEzMSIsInN0b3Jl'+
+                  'X2lkIjo5OSwic3RvcmVfaWRlbnRpZmllciI6IjAxOTZmZGM1LTAyNWUtN2EwZS05'+
+                  'NzU3LWExOTEwMTZlN2Q0MSIsImlhdCI6MTc0ODAxNDI3MiwiaXNzIjoiYXBwLXd'+
+                  'lYi0wNC1zbXRlZi1hcGktcHJkLmF6dXJld2Vic2l0ZXMubmV0In0.85wpbsk7VI4'+
+                  'oyWWOXaPlILLFaUUJgO79QVz1Xrtug58';
+
+
+  vlRequest:=false;
+  lJson := TJson.Create;
+
+
+  try
+   myDate:=now();
+   DecodeDateTime(myDate, myYear, myMonth, myDay,
+                 myHour, myMin, mySec, myMilli);
+
+   vlDiaInicio:=StartOfaMonth(myYear,myMonth);
+   vlDataInicio:= FormatDateTime('yyyy-mm-dd hh:nn:ss', vlDiaInicio);
+   vlDataInicio:= copy(vlDataInicio,1,8)+formatfloat('00',myDay)+copy(vlDataInicio,11,9);
+
+   vlDiaFinal:=EndOfaMonth(myYear,myMonth);
+   vlDataFinal:= FormatDateTime('yyyy-mm-dd hh:nn:ss', vlDiaFinal);
+   vlDataFinal:= copy(vlDataFinal,1,8)+formatfloat('00',myDay)+copy(vlDataFinal,11,9);
+
+
+    lJson.Put('datetimeInitial',vlDataInicio);
+    lJson.Put('datetimeFinal',vlDataFinal);
+
+
+    vlTentativas:=0;
+    while (vlTentativas<=10) do
+    begin
+      try
+        lRes := TRequest.New.BaseURL('https://api.smarttef.mobi/pooling/order')
+                  .TokenBearer(Token_SMATTEF)
+                  .ContentType('application/json')
+                  .AddHeader('Ocp-Apim-Subscription-Key',Ocp_Apim_Subscription_Key)
+                  .AddBody(lJson.Stringify)
+              .Post;
+
+        vlRequest:=true;
+        break;
+
+      except
+      on E: Exception do
+        begin
+
+          vlRequest:=False;
+          vlTentativas:=vlTentativas+1;
+          sleep(300);
+        end;
+      end;
+    end;
+
+    if vlRequest then
+    begin
+      if ((lRes.StatusCode = 200) or (lRes.StatusCode = 201 ) ) and ((lRes.Content) <> '') then
+      begin
+        lJson.Parse(lRes.Content);
+
+        vlLista:= lJson.Values['pooling'].AsArray;
+
+        for I := 0 to vlLista.Count-1  do
+        begin
+          vlStatus := vlLista.Items[i].AsObject.Values['payment_status'].AsString;
+          vlIdPagamento:= vlLista.Items[i].AsObject.Values['payment_identifier'].AsString;
+          vldescription:= vlLista.Items[i].AsObject.Values['description'].AsString;
+
+          if (vlStatus='PDT') and ( vlIdPagamento<>'') and (pos('entrega',(lowercase(vldescription)))>0 )then
+          begin
+
+
+           // ExecutaCancelamentoSmartTEF(vlIdPagamento);
+          end;
+
+        end;
+
+      end;
+    end;
+  finally
+     lJson.Free;
+  end;
+
+end;
+
+procedure Tfrapos.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+
+  ConsultaPedidosSmartTEFPendentes;
+
+end;
+
+function Tfrapos.ExecutaCancelamentoSmartTEF(apayment_identifier:String):String;
+var
+  lJson: TJson;
+  lRes: IResponse;
+  vlTentativas:Integer;
+  vlRequest:Boolean;
+  Token_SMATTEF:String;
+begin
+  DadosConfiguracao;
+  Ocp_Apim_Subscription_Key:=fConfiguracaoTEF.TerminalCodEmpresa;
+  Token_SMATTEF :='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbnBqIjoiMTQ0Nzc1NDgwM'+
+                  'DAxMzEiLCJjbnBqX2ludGVncmFkb3IiOiIxNDQxNzI4MjAwMDEzMSIsInN0b3Jl'+
+                  'X2lkIjo5OSwic3RvcmVfaWRlbnRpZmllciI6IjAxOTZmZGM1LTAyNWUtN2EwZS05'+
+                  'NzU3LWExOTEwMTZlN2Q0MSIsImlhdCI6MTc0ODAxNDI3MiwiaXNzIjoiYXBwLXd'+
+                  'lYi0wNC1zbXRlZi1hcGktcHJkLmF6dXJld2Vic2l0ZXMubmV0In0.85wpbsk7VI4'+
+                  'oyWWOXaPlILLFaUUJgO79QVz1Xrtug58';
+
+
+  lJson := TJson.Create;
+
+  try
+    lJson.Put('payment_identifier',apayment_identifier);
+
+    vlTentativas:=0;
+    while (vlTentativas<=10) do
+    begin
+      try
+        lRes := TRequest.New.BaseURL('https://api.smarttef.mobi/commands/order/status/cancelar')
+                  .TokenBearer(Token_SMATTEF)
+                  .AddHeader('Ocp-Apim-Subscription-Key',Ocp_Apim_Subscription_Key)
+                  .ContentType('application/json').
+                  AddBody(lJson.Stringify)
+              .Post;
+
+        vlRequest:=true;
+        break;
+
+      except
+      on E: Exception do
+        begin
+
+          vlRequest:=False;
+          vlTentativas:=vlTentativas+1;
+          sleep(300);
+        end;
+      end;
+    end;
+
+    if vlRequest then
+    begin
+      if ((lRes.StatusCode = 200) or (lRes.StatusCode = 201) ) and ((lRes.Content) <> '') then
+      begin
+
+        try
+        {  orc.close;
+          orc.Connection:=ZCone;
+          orc.sql.Text := 'UPDATE orc SET stocodigo = 2, orcimpressao = 0 WHERE orcchave = ' + Orcchave;
+          orc.ExecSQL;
+
+          rpw.close;
+          rpw.Connection:=ZCone;
+
+          rpw.ParamByName('orcchave').AsString:=Orcchave;
+          rpw.ParamByName('rpwstatus').AsString:='EM ABERTO';
+          rpw.ParamByName('ccxchave').AsString:=vpccxchave;
+          rpw.ParamByName('rpwtoken').AsString:=apayment_identifier;
+          rpw.Open;
+
+          if not rpw.IsEmpty then
+          begin
+            rpw.Edit;
+            rpwrpwtoken.AsString:=apayment_identifier;
+            rpwrpwstatus.AsString:='CANCELADO';
+            rpworcchave.AsString:=Orcchave;
+            rpw.Post;
+          end;}
+
+          result:=lRes.Content;
+
+        except
+          on E: Exception do
+          begin
+
+            result:=datetimetostr(now())+ ' '+ 'Erro 1513 ' + e.Message;
+          end;
+        end;
+      end ;
+    end;
+  finally
+    lJson.Free;
+  end;
+end;
+
+
+
+
+end.

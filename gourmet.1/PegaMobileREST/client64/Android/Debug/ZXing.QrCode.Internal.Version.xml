@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.Version" platform="Android">
+  <class name="TVersion" file="ZXing.QrCode.Internal.Version.pas" line="35">
+    <devnotes>
+       <summary>
+       See ISO 18004:2006 Annex D
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <class name="TECB" visibility="public" alias="ZXing.QrCode.Internal.Version.TECB" file="ZXing.QrCode.Internal.Version.pas" line="37">
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+        <members>
+          <field name="count" type="Integer" visibility="public" size="4" offset="4" file="ZXing.QrCode.Internal.Version.pas" line="39" />
+          <field name="dataCodewords" type="Integer" visibility="public" size="4" offset="8" file="ZXing.QrCode.Internal.Version.pas" line="40" />
+          <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="41">
+            <parameters>
+              <parameter name="count" type="Integer" />
+              <parameter name="dataCodewords" type="Integer" />
+            </parameters>
+          </constructor>
+        </members>
+      </class>
+      <class name="TECBlocks" sealed="true" visibility="public" alias="ZXing.QrCode.Internal.Version.TECBlocks" file="ZXing.QrCode.Internal.Version.pas" line="44">
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+        <members>
+          <field name="ecBlocks" type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion.TECB&gt;" visibility="private" size="4" offset="4" file="ZXing.QrCode.Internal.Version.pas" line="46" />
+          <function name="getTotalECCodeWords" visibility="private" file="ZXing.QrCode.Internal.Version.pas" line="48">
+            <parameters>
+              <retval type="Integer" />
+            </parameters>
+          </function>
+          <function name="get_NumBlocks" visibility="private" file="ZXing.QrCode.Internal.Version.pas" line="49">
+            <parameters>
+              <retval type="Integer" />
+            </parameters>
+          </function>
+          <field name="ecCodewordsPerBlock" type="Integer" visibility="public" size="4" offset="8" file="ZXing.QrCode.Internal.Version.pas" line="51" />
+          <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="52">
+            <parameters>
+              <parameter name="ecCodewordsPerBlock" type="Integer" />
+              <parameter name="ecBlocks" type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion.TECB&gt;" />
+            </parameters>
+          </constructor>
+          <destructor name="Destroy" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="53">
+            <parameters>
+            </parameters>
+          </destructor>
+          <function name="getECBlocks" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="54">
+            <parameters>
+              <retval type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion.TECB&gt;" />
+            </parameters>
+          </function>
+          <property name="NumBlocks" visibility="public" read="TECBlocks.get_NumBlocks" type="Integer" file="ZXing.QrCode.Internal.Version.pas" line="59" />
+          <property name="TotalECCodewords" visibility="public" read="TECBlocks.getTotalECCodeWords" type="Integer" file="ZXing.QrCode.Internal.Version.pas" line="60" />
+        </members>
+      </class>
+      <field name="FalignmentPatternCenters" type="TArray&lt;System.Integer&gt;" visibility="private" size="4" offset="4" file="ZXing.QrCode.Internal.Version.pas" line="64" />
+      <field name="FecBlocks" type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion.TECBlocks&gt;" visibility="private" size="4" offset="8" file="ZXing.QrCode.Internal.Version.pas" line="65" />
+      <field name="FTotalCodewords" type="Integer" visibility="private" size="4" offset="12" file="ZXing.QrCode.Internal.Version.pas" line="66" />
+      <field name="FversionNumber" type="Integer" visibility="private" size="4" offset="16" file="ZXing.QrCode.Internal.Version.pas" line="67" />
+      <field name="BuildVersions" type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.Version.pas" line="69" />
+      <field name="VERSION_DECODE_INFO" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.Version.pas" line="73">
+        <devnotes>
+           <summary> See ISO 18004:2006 Annex D.
+           Element i represents the raw version bits that specify version i + 7
+           </summary>
+        </devnotes>
+      </field>
+      <function name="CalcDimensionForVersion" visibility="private" file="ZXing.QrCode.Internal.Version.pas" line="75">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetBuildVersions" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="76">
+        <parameters>
+          <retval type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion&gt;" />
+        </parameters>
+      </function>
+      <procedure name="ClassInit" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="77">
+      </procedure>
+      <procedure name="ClassFinal" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="78">
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="81">
+        <parameters>
+          <parameter name="versionNumber" type="Integer" paramflags="const" />
+          <parameter name="alignmentPatternCenters" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="ecBlocks" type="TArray&lt;ZXing.QrCode.Internal.Version.TVersion.TECBlocks&gt;" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="84">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="decodeVersionInformation" visibility="public" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="86">
+        <parameters>
+          <parameter name="versionBits" type="Integer" />
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               See ISO 18004:2006 Annex D
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="buildFunctionPattern" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="88">
+        <parameters>
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="getECBlocksForLevel" visibility="public" file="ZXing.QrCode.Internal.Version.pas" line="89">
+        <parameters>
+          <parameter name="ecLevel" type="TErrorCorrectionLevel" />
+          <retval type="TVersion.TECBlocks" />
+        </parameters>
+      </function>
+      <function name="getProvisionalVersionForDimension" visibility="public" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="90">
+        <parameters>
+          <parameter name="dimension" type="Integer" paramflags="const" />
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               See ISO 18004:2006 Annex D
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="getVersionForNumber" visibility="public" procflags="static" file="ZXing.QrCode.Internal.Version.pas" line="92">
+        <parameters>
+          <parameter name="versionNumber" type="Integer" paramflags="const" />
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               See ISO 18004:2006 Annex D
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.QrCode.Internal.Version.pas" line="94">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <property name="DimensionForVersion" visibility="public" read="CalcDimensionForVersion" type="Integer" file="ZXing.QrCode.Internal.Version.pas" line="96" />
+      <property name="alignmentPatternCenters" visibility="public" read="FalignmentPatternCenters" type="TArray&lt;System.Integer&gt;" file="ZXing.QrCode.Internal.Version.pas" line="97" />
+      <property name="TotalCodewords" visibility="public" read="FTotalCodewords" type="Integer" file="ZXing.QrCode.Internal.Version.pas" line="100" />
+      <property name="versionNumber" visibility="public" read="FversionNumber" type="Integer" file="ZXing.QrCode.Internal.Version.pas" line="101" />
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

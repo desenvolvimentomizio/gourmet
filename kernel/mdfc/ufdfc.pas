@@ -1,0 +1,1933 @@
+unit ufdfc;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, VirtualTable, Data.DB, DBAccess, Uni, MemDS,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, System.Classes,
+  Vcl.Controls, Vcl.ExtCtrls, Vcl.Graphics, Vcl.Dialogs, System.SysUtils,
+  Winapi.Messages, uFuncoes, uPegaBase, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  Tfdfc = class(TForm)
+    PlTitulo: TPanel;
+    plid: TPanel;
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    bfechar: TBitBtn;
+    pltopo: TPanel;
+    bvalidar: TBitBtn;
+    qtd: TEdit;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    totalemconvenio: TEdit;
+    Panel3: TPanel;
+    rfi: tuniquery;
+    mfi: tuniquery;
+    rfirfichave: TIntegerField;
+    rfietdcodigo: TIntegerField;
+    rfitfdcodigo: TIntegerField;
+    rfiflacodigo: TIntegerField;
+    rfitficodigo: TIntegerField;
+    rfibcocodigo: TStringField;
+    rficarcodigo: TIntegerField;
+    rfirfiemissao: TDateField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    rfirfihistorico: TStringField;
+    rfisrfcodigo: TIntegerField;
+    rfifrrcodigo: TIntegerField;
+    rfirfimoradia: TFloatField;
+    rfirfipercmesmora: TFloatField;
+    rfirfirepetir: TIntegerField;
+    rfirfiprevisao: TIntegerField;
+    rfirfivalorparcela: TFloatField;
+    rfimoecodigo: TIntegerField;
+    DBGLista: TDBGrid;
+    mfimfichave: TIntegerField;
+    mfirfichave: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    mfimoecodigo: TIntegerField;
+    mfimfivalor: TFloatField;
+    mfimfidata: TDateField;
+    mfimfihistorico: TStringField;
+    mfimfivalorori: TFloatField;
+    mfimfiparcela: TIntegerField;
+    Drfi: tunidatasource;
+    rfm: tuniquery;
+    rfmrfmchave: TIntegerField;
+    rfmmeschave: TIntegerField;
+    rfmrfichave: TIntegerField;
+    mes: tuniquery;
+    mesetdcodigo: TIntegerField;
+    mlt: tuniquery;
+    mltmltchave: TIntegerField;
+    mltmfichave: TIntegerField;
+    mltltechave: TIntegerField;
+    tit: tuniquery;
+    tittitcodigo: TIntegerField;
+    titetdcodigo: TIntegerField;
+    tittitnumero: TStringField;
+    tittitvalor: TFloatField;
+    tittitemissao: TDateField;
+    tittitvctoinicial: TDateField;
+    tittfdcodigo: TIntegerField;
+    titsrfcodigo: TIntegerField;
+    tittficodigo: TIntegerField;
+    tittithora: TTimeField;
+    tittithistorico: TStringField;
+    titclbcodigo: TIntegerField;
+    tittitvalorparcela: TFloatField;
+    tittitparcelas: TIntegerField;
+    tittitprevisao: TIntegerField;
+    titmoecodigo: TIntegerField;
+    tittitmoradia: TFloatField;
+    tittitvalomulta: TFloatField;
+    tittitpercmesmora: TFloatField;
+    tittitvalodesc: TFloatField;
+    tittitpercmulta: TFloatField;
+    titflacodigo: TIntegerField;
+    titbcocodigo: TStringField;
+    titcarcodigo: TIntegerField;
+    tittitdiasmulta: TIntegerField;
+    tittitdiasdesc: TIntegerField;
+    rfititcodigo: TIntegerField;
+    mesmeschave: TIntegerField;
+    mesmesnumero: TIntegerField;
+    mesmestotal: TFloatField;
+    mesmesemissao: TDateField;
+    mesclbcodigo: TIntegerField;
+    rfirfidatamulta: TDateField;
+    rfirfivalomulta: TFloatField;
+    rfirfivalodesc: TFloatField;
+    rfirfidatadesc: TDateField;
+    rfirfipercmulta: TFloatField;
+    rfirfidtultbaixa: TDateField;
+    consulta: tuniquery;
+    trfi: TVirtualTable;
+    trfirfichave: TIntegerField;
+    trfietdcodigo: TIntegerField;
+    trfitfdcodigo: TIntegerField;
+    trfiflacodigo: TIntegerField;
+    trfitficodigo: TIntegerField;
+    trfibcocodigo: TStringField;
+    trficarcodigo: TIntegerField;
+    trfirfiemissao: TDateField;
+    trfirfivencimento: TDateField;
+    trfirfinumero: TStringField;
+    trfirfivalor: TFloatField;
+    trfirfihistorico: TStringField;
+    trfisrfcodigo: TIntegerField;
+    trfifrrcodigo: TIntegerField;
+    trfirfimoradia: TFloatField;
+    trfirfipercmesmora: TFloatField;
+    trfirfirepetir: TIntegerField;
+    trfirfiprevisao: TIntegerField;
+    trfirfivalorparcela: TFloatField;
+    trfimoecodigo: TIntegerField;
+    trfirfidatamulta: TDateField;
+    trfirfivalomulta: TFloatField;
+    trfirfivalodesc: TFloatField;
+    trfirfidatadesc: TDateField;
+    trfirfipercmulta: TFloatField;
+    trfirfidtultbaixa: TDateField;
+    trfititcodigo: TIntegerField;
+    rng: tuniquery;
+    rngrngchave: TIntegerField;
+    rngetdcodigo: TIntegerField;
+    rngclbcodigo: TIntegerField;
+    rngltechave: TIntegerField;
+    rngltetotal: TFloatField;
+    rngrngregistro: TDateTimeField;
+    etl: tuniquery;
+    etletlchave: TIntegerField;
+    etletdcodigo: TIntegerField;
+    etletllimitetotal: TFloatField;
+    etletltipo: TIntegerField;
+    etletldias: TIntegerField;
+    mfiflacodigo: TIntegerField;
+    rfmflacodigo: TIntegerField;
+    mltflacodigo: TIntegerField;
+    rfiedrcodigo: TIntegerField;
+    titedrcodigo: TIntegerField;
+    orc: tuniquery;
+    trfiedrcodigo: TIntegerField;
+    Temprfi: TFDMemTable;
+    Temprfirfichave: TIntegerField;
+    Temprfietdcodigo: TIntegerField;
+    Temprfitfdcodigo: TIntegerField;
+    Temprfiflacodigo: TIntegerField;
+    Temprfitficodigo: TIntegerField;
+    Temprfibcocodigo: TStringField;
+    Temprficarcodigo: TIntegerField;
+    Temprfirfiemissao: TDateField;
+    Temprfirfivencimento: TDateField;
+    Temprfirfinumero: TStringField;
+    Temprfirfivalor: TFloatField;
+    Temprfirfihistorico: TStringField;
+    Temprfisrfcodigo: TIntegerField;
+    Temprfifrrcodigo: TIntegerField;
+    Temprfirfimoradia: TFloatField;
+    Temprfirfipercmesmora: TFloatField;
+    Temprfirfirepetir: TIntegerField;
+    Temprfirfiprevisao: TIntegerField;
+    Temprfirfivalorparcela: TFloatField;
+    Temprfimoecodigo: TIntegerField;
+    Temprfirfidatamulta: TDateField;
+    Temprfirfivalomulta: TFloatField;
+    Temprfirfivalodesc: TFloatField;
+    Temprfirfidatadesc: TDateField;
+    Temprfirfipercmulta: TFloatField;
+    Temprfirfidtultbaixa: TDateField;
+    Temprfititcodigo: TIntegerField;
+    Temprfiedrcodigo: TIntegerField;
+    nrfi: tuniquery;
+    procedure bvalidarClick(Sender: TObject);
+    procedure DBGListaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure bcancelaClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGListaKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGListaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGListaColEnter(Sender: TObject);
+    procedure DrfiStateChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    vtitcodigo: string;
+    vvalor: string;
+    vmeschave: string;
+    VLteChave: String;
+    vClbCodigo: string;
+
+    vetdcodigo: string;
+    vretorno: string;
+    visituacao: string;
+    FRenegociacao: Boolean;
+
+    function RecalculaTotais: Boolean;
+    function ValidaTotais: Boolean;
+    function ValidaVencimento: Boolean;
+    procedure SalvaRegistrosAtuais;
+    procedure VoltaRegistrosAtuais;
+
+    procedure AoConfirmar;
+    procedure SetRenegociacao(const Value: Boolean);
+  public
+    { Public declarations }
+    Fzcone: tuniconnection;
+    Acesso: TAcesso;
+    procedure GerarParcelas(vQtdParcelas: Integer; vTotalParcelas: Double);
+
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+    property Renegociacao: Boolean read FRenegociacao write SetRenegociacao default False;
+  end;
+
+var
+  fdfc: Tfdfc;
+
+const
+  vplidmd = '02.02.15.003-01';
+
+implementation
+
+{$R *.dfm}
+
+function registraconvenio(AOwner: TComponent; conexao: tuniconnection; vtotal: string; vchave: string; ltechave: String; parcelas: string;
+  situacao: string; Acesso: TAcesso; vmechave: Integer = 0; vDadosParcelas: string = ''): string;
+var
+  vch: string;
+  hWindow: HWND;
+  vTfiCodigo: Integer;
+  vCarCodigo: Integer;
+
+  vBcoCodigo: string;
+  vCarDiasMulta: Integer;
+  vCarPercMulta: Double;
+  vCarDiasDesc: Integer;
+  vCarPercDesc: Double;
+  vCarPercMoraMes: Double;
+
+  vlInterDias: Integer;
+  vlTipoInter: Integer; // 1 - intervalo de dias 2 - dia fixo
+
+  vlDataVcto: Tdate;
+  myYear, myMonth, myDay: Word;
+
+begin
+  try
+    fdfc := Tfdfc.Create(AOwner);
+    fdfc.zcone := conexao;
+    if fdfc.zcone.TransactionCount = 0 then
+      fdfc.zcone.StartTransaction;
+
+    fdfc.Acesso := Acesso;
+    fdfc.rfi.Connection := fdfc.zcone;
+    fdfc.mfi.Connection := fdfc.zcone;
+    fdfc.rfm.Connection := fdfc.zcone;
+    fdfc.mes.Connection := fdfc.zcone;
+    fdfc.mlt.Connection := fdfc.zcone;
+    fdfc.tit.Connection := fdfc.zcone;
+    fdfc.consulta.Connection := fdfc.zcone;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select cfgcodigo, cfgportadorpadrao, cfgtipodocpadrao from cfgmcre';
+    fdfc.consulta.Open;
+    vCarCodigo := fdfc.consulta.fields[0].AsInteger;
+    vTfiCodigo := fdfc.consulta.fields[2].AsInteger;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select bcocodigo,cardiasmulta, carpercmulta,cardiasdesc, carpercdesc,carpercmorames from car where carcodigo=' +
+      IntToStr(vCarCodigo);
+    fdfc.consulta.Open;
+
+    vBcoCodigo := fdfc.consulta.fields[0].AsString;
+    vCarDiasMulta := fdfc.consulta.fields[1].AsInteger;
+    vCarPercMulta := fdfc.consulta.fields[2].AsFloat;
+    vCarDiasDesc := fdfc.consulta.fields[3].AsInteger;
+    vCarPercDesc := fdfc.consulta.fields[4].AsFloat;
+    vCarPercMoraMes := fdfc.consulta.fields[4].AsFloat;
+
+    fdfc.visituacao := situacao;
+    fdfc.psituacao.Caption := situacao;
+
+    fdfc.tit.Close;
+    fdfc.tit.SQL.Text := 'SELECT tit.titcodigo, tit.etdcodigo, tit.titvalor, tit.titnumero, tit.titemissao, ';
+    fdfc.tit.SQL.Add('tit.titvalorparcela, tit.titparcelas, tit.titvctoinicial, tit.tfdcodigo, tit.srfcodigo,');
+    fdfc.tit.SQL.Add('tit.tficodigo, tit.tithora, tit.clbcodigo, tit.tithistorico, tit.flacodigo, tit.bcocodigo,');
+    fdfc.tit.SQL.Add('tit.carcodigo, tit.titprevisao, tit.moecodigo, tit.titmoradia, tit.titdiasmulta, tit.titvalomulta,');
+    fdfc.tit.SQL.Add('tit.titpercmesmora, tit.titvalodesc, tit.titdiasdesc, tit.titpercmulta, edrcodigo ');
+    fdfc.tit.SQL.Add('FROM tit ');
+
+    if ltechave <> '0' then
+    begin
+
+      fdfc.mes.Close;
+      fdfc.mes.Params[0].AsString := vchave;
+      fdfc.mes.Open;
+
+      fdfc.etl.Connection := conexao;
+      fdfc.etl.Close;
+      fdfc.etl.Params[0].AsString := fdfc.mesetdcodigo.AsString;
+      fdfc.etl.Open;
+
+      // verificado se ha a configuração de vencimento no cadastro de cliente
+      // não havendo ja deixa default como era a forma de calculo antes da alteração
+
+      if not fdfc.etl.IsEmpty then
+      begin
+        vlInterDias := fdfc.etletldias.AsInteger;
+        vlTipoInter := fdfc.etletltipo.AsInteger; // 1 - intervalo de dias 2 - dia fixo
+      end
+      else
+      begin
+        vlInterDias := 30;
+        vlTipoInter := 1; // 1 - intervalo de dias 2 - dia fixo
+      end;
+
+      fdfc.vmeschave := vchave;
+      fdfc.vetdcodigo := fdfc.mesetdcodigo.AsString;
+      fdfc.VLteChave := ltechave;
+      fdfc.tit.SQL.Add('limit 1');
+      fdfc.tit.Open;
+
+      fdfc.tit.Append;
+      fdfc.titflacodigo.AsInteger := Acesso.Filial;
+      fdfc.titetdcodigo.AsInteger := fdfc.mesetdcodigo.AsInteger;
+      fdfc.tittitnumero.AsString := fdfc.mesmeschave.AsString;
+      fdfc.tittitvalor.AsCurrency := fdfc.mesmestotal.AsCurrency;
+      fdfc.tittitemissao.AsFloat := fdfc.mesmesemissao.AsFloat;
+
+      if vlTipoInter = 1 then
+      begin
+        // incrementa o vencimento com base em quantidade de dias
+        fdfc.tittitvctoinicial.AsFloat := fdfc.mesmesemissao.AsFloat + vlInterDias;
+      end
+      else if vlTipoInter = 2 then
+      begin
+        // incrementa o venimento com dia fixo
+        vlDataVcto := IncMonth(fdfc.mesmesemissao.AsFloat, 1);
+        DecodeDate(vlDataVcto, myYear, myMonth, myDay);
+        try
+          if myMonth = 2 then
+          begin
+            if vlInterDias > 28 then
+            begin
+              fdfc.tittitvctoinicial.AsString := FormatFloat('00', 28) + '/' + FormatFloat('00', myMonth) + '/' + FormatFloat('0000', myYear);
+            end
+            else
+            begin
+              fdfc.tittitvctoinicial.AsString := FormatFloat('00', vlInterDias) + '/' + FormatFloat('00', myMonth) + '/' +
+                FormatFloat('0000', myYear);
+            end;
+
+          end
+          else
+          begin
+            fdfc.tittitvctoinicial.AsString := FormatFloat('00', vlInterDias) + '/' + FormatFloat('00', myMonth) + '/' + FormatFloat('0000', myYear);
+          end;
+        except
+
+        end;
+      end;
+
+      fdfc.tittithistorico.AsString := 'Vnd.Chave: ' + fdfc.mesmeschave.AsString;
+      fdfc.titclbcodigo.AsInteger := fdfc.mesclbcodigo.AsInteger;
+      fdfc.tittitvalorparcela.AsCurrency := fdfc.mesmestotal.AsCurrency;
+
+      fdfc.tittfdcodigo.AsInteger := tfdReceber;
+      fdfc.titsrfcodigo.AsInteger := srfEmAberto;
+      fdfc.tittficodigo.AsInteger := vTfiCodigo;
+
+      fdfc.tittithora.AsFloat := Time;
+      fdfc.tittitparcelas.AsInteger := 1; // verificar
+      fdfc.tittitprevisao.AsInteger := senNao;
+      fdfc.titmoecodigo.AsInteger := 1; // moeda 1 - Real
+
+      fdfc.tittitmoradia.AsFloat := fdfc.tittitvalor.AsCurrency * ((vCarPercMoraMes / 100) / 30);
+      fdfc.tittitpercmesmora.AsFloat := vCarPercMoraMes;
+
+      fdfc.tittitdiasmulta.AsInteger := vCarDiasMulta;
+      fdfc.tittitvalomulta.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercMulta / 100);
+      fdfc.tittitpercmulta.AsFloat := vCarPercMulta;
+
+      fdfc.tittitdiasdesc.AsInteger := vCarDiasDesc;
+      fdfc.tittitvalodesc.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercDesc / 100);
+
+      fdfc.titflacodigo.AsInteger := Acesso.Filial;
+      fdfc.titbcocodigo.AsString := vBcoCodigo;
+      fdfc.titcarcodigo.AsInteger := vCarCodigo;
+
+      fdfc.orc.Close;
+      fdfc.orc.Connection := fdfc.zcone;
+      fdfc.orc.ParamByName('meschave').AsString := fdfc.vmeschave;
+      fdfc.orc.Open;
+
+      if not fdfc.orc.IsEmpty then
+      begin
+        fdfc.titedrcodigo.AsInteger := fdfc.orc.FieldByName('edrcodigo').AsInteger;
+      end
+      else
+      begin
+        fdfc.titedrcodigo.AsInteger := 0;
+      end;
+
+      fdfc.orc.Close;
+
+      fdfc.tit.Post;
+
+      fdfc.vtitcodigo := fdfc.tittitcodigo.AsString;
+      fdfc.Caption := 'Registro de Contas a Receber';
+
+    end
+    else
+    begin
+      fdfc.vtitcodigo := vchave;
+      fdfc.tit.SQL.Add('where titcodigo=' + vchave);
+      fdfc.tit.Open;
+      fdfc.qtd.Text := parcelas;
+      fdfc.vmeschave := vmechave.ToString;
+      fdfc.vetdcodigo := fdfc.titetdcodigo.AsString;
+      fdfc.VLteChave := ltechave;
+      fdfc.Caption := 'Registro de Contas a Pagar';
+
+      fdfc.GerarParcelas(parcelas.ToInteger, fdfc.tittitvalor.AsFloat);
+
+    end;
+
+    fdfc.rfi.Open;
+
+    fdfc.vvalor := vtotal;
+    fdfc.totalemconvenio.Text := BuscaTroca(vtotal, '.', ',');
+    fdfc.totalemconvenio.Text := FormatFloat('#,##0.00', StrToFloat(fdfc.totalemconvenio.Text));
+
+    // fdfc.zcone.StartTransaction;
+
+    fdfc.ShowModal;
+    Result := fdfc.vretorno;
+    if fdfc.vretorno = '999' then
+    begin
+      if fdfc.zcone.TransactionCount > 0 then
+        if fdfc.zcone.Transactions[0].Active then
+          fdfc.zcone.Commit
+    end
+    else
+    begin
+      if fdfc.zcone.TransactionCount > 0 then
+        if fdfc.zcone.Transactions[0].Active then
+          fdfc.zcone.Rollback;
+    end;
+
+  finally
+    FreeAndNil(fdfc);
+  end;
+
+end;
+
+function registraconvenioauto(AOwner: TComponent; conexao: tuniconnection; vtotal: string; vchave: string; ltechave: String; parcelas: string;
+  // situacao: string; Acesso: TAcesso; vafaturar: boolean = false): string;
+  situacao: string; Acesso: TAcesso; vmechave: Integer = 0; vDadosParcelas: string = ''): string;
+var
+  vch: string;
+  hWindow: HWND;
+  vTfiCodigo: Integer;
+  vCarCodigo: Integer;
+
+  vBcoCodigo: string;
+  vCarDiasMulta: Integer;
+  vCarPercMulta: Double;
+  vCarDiasDesc: Integer;
+  vCarPercDesc: Double;
+  vCarPercMoraMes: Double;
+  vretorno: string;
+
+begin
+
+  try
+
+    fdfc := Tfdfc.Create(AOwner);
+
+    fdfc.zcone := conexao;
+
+    fdfc.rfi.Connection := fdfc.zcone;
+    fdfc.mfi.Connection := fdfc.zcone;
+    fdfc.rfm.Connection := fdfc.zcone;
+    fdfc.mes.Connection := fdfc.zcone;
+    fdfc.mlt.Connection := fdfc.zcone;
+    fdfc.tit.Connection := fdfc.zcone;
+    fdfc.consulta.Connection := fdfc.zcone;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select cfgcodigo, cfgportadorpadrao, cfgtipodocpadrao from cfgmcre';
+    fdfc.consulta.Open;
+    vCarCodigo := fdfc.consulta.fields[0].AsInteger;
+    vTfiCodigo := fdfc.consulta.fields[2].AsInteger;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select bcocodigo,cardiasmulta, carpercmulta,cardiasdesc, carpercdesc,carpercmorames from car where carcodigo=' +
+      IntToStr(vCarCodigo);
+    fdfc.consulta.Open;
+
+    vBcoCodigo := fdfc.consulta.fields[0].AsString;
+    vCarDiasMulta := fdfc.consulta.fields[1].AsInteger;
+    vCarPercMulta := fdfc.consulta.fields[2].AsFloat;
+    vCarDiasDesc := fdfc.consulta.fields[3].AsInteger;
+    vCarPercDesc := fdfc.consulta.fields[4].AsFloat;
+    vCarPercMoraMes := fdfc.consulta.fields[4].AsFloat;
+
+    fdfc.visituacao := situacao;
+    fdfc.psituacao.Caption := situacao;
+
+    fdfc.tit.Close;
+    fdfc.tit.SQL.Text := 'SELECT tit.titcodigo, tit.etdcodigo, tit.titvalor, tit.titnumero, tit.titemissao, ';
+    fdfc.tit.SQL.Add('tit.titvalorparcela, tit.titparcelas, tit.titvctoinicial, tit.tfdcodigo, tit.srfcodigo,');
+    fdfc.tit.SQL.Add('tit.tficodigo, tit.tithora, tit.clbcodigo, tit.tithistorico, tit.flacodigo, tit.bcocodigo,');
+    fdfc.tit.SQL.Add('tit.carcodigo, tit.titprevisao, tit.moecodigo, tit.titmoradia, tit.titdiasmulta, tit.titvalomulta,');
+    fdfc.tit.SQL.Add('tit.titpercmesmora, tit.titvalodesc, tit.titdiasdesc, tit.titpercmulta, edrcodigo ');
+    fdfc.tit.SQL.Add('FROM tit ');
+
+    if ltechave <> '0' then
+    begin
+      fdfc.mes.Close;
+      fdfc.mes.Params[0].AsString := vchave;
+      fdfc.mes.Open;
+      fdfc.vmeschave := vchave;
+      fdfc.vetdcodigo := fdfc.mesetdcodigo.AsString;
+      fdfc.VLteChave := ltechave;
+      fdfc.tit.SQL.Add('limit 1');
+      fdfc.tit.Open;
+
+      fdfc.tit.Append;
+      fdfc.titflacodigo.AsInteger := Acesso.Filial;
+      fdfc.titetdcodigo.AsInteger := fdfc.mesetdcodigo.AsInteger;
+      fdfc.tittitnumero.AsString := fdfc.mesmeschave.AsString;
+      fdfc.tittitvalor.AsCurrency := fdfc.mesmestotal.AsCurrency;
+      fdfc.tittitemissao.AsFloat := fdfc.mesmesemissao.AsFloat;
+      fdfc.tittitvctoinicial.AsFloat := fdfc.mesmesemissao.AsFloat + 30;
+
+      fdfc.tittfdcodigo.AsInteger := tfdReceber;
+      fdfc.titsrfcodigo.AsInteger := srfEmAberto;
+      fdfc.tittficodigo.AsInteger := vTfiCodigo;
+
+      fdfc.tittithora.AsFloat := Time;
+      fdfc.tittithistorico.AsString := 'Vnd.Chave: ' + fdfc.mesmeschave.AsString;
+      fdfc.titclbcodigo.AsInteger := fdfc.mesclbcodigo.AsInteger;
+      fdfc.tittitvalorparcela.AsCurrency := fdfc.mesmestotal.AsCurrency;
+      fdfc.tittitparcelas.AsInteger := 1; // verificar
+      fdfc.tittitprevisao.AsInteger := senNao;
+      fdfc.titmoecodigo.AsInteger := 1; // moeda 1 - Real
+
+      fdfc.tittitmoradia.AsFloat := fdfc.tittitvalor.AsCurrency * ((vCarPercMoraMes / 100) / 30);
+      fdfc.tittitpercmesmora.AsFloat := vCarPercMoraMes;
+
+      fdfc.tittitdiasmulta.AsInteger := vCarDiasMulta;
+      fdfc.tittitvalomulta.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercMulta / 100);
+      fdfc.tittitpercmulta.AsFloat := vCarPercMulta;
+
+      fdfc.tittitdiasdesc.AsInteger := vCarDiasDesc;
+      fdfc.tittitvalodesc.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercDesc / 100);
+
+      fdfc.titflacodigo.AsInteger := Acesso.Filial;
+      fdfc.titbcocodigo.AsString := vBcoCodigo;
+      fdfc.titcarcodigo.AsInteger := vCarCodigo;
+
+      fdfc.orc.Close;
+      fdfc.orc.Connection := conexao;
+      fdfc.orc.ParamByName('meschave').AsString := fdfc.vmeschave;
+      fdfc.orc.Open;
+
+      if not fdfc.orc.IsEmpty then
+      begin
+        fdfc.titedrcodigo.AsInteger := fdfc.orc.FieldByName('edrcodigo').AsInteger;
+      end
+      else
+      begin
+        fdfc.titedrcodigo.AsInteger := 0;
+      end;
+
+      fdfc.orc.Close;
+
+      fdfc.tit.Post;
+
+    end
+    else
+    begin
+      fdfc.vtitcodigo := vchave;
+      fdfc.tit.SQL.Add('where titcodigo=' + vchave);
+      fdfc.tit.Open;
+      fdfc.qtd.Text := parcelas;
+      fdfc.vmeschave := '0';
+      fdfc.vetdcodigo := fdfc.titetdcodigo.AsString;
+      fdfc.VLteChave := ltechave;
+
+    end;
+
+    fdfc.rfi.Open;
+
+    fdfc.vvalor := vtotal;
+
+    fdfc.totalemconvenio.Text := BuscaTroca(vtotal, '.', ',');
+
+    fdfc.totalemconvenio.Text := FormatFloat('###0.00', StrToFloat(fdfc.totalemconvenio.Text));
+
+    vretorno := FormatFloat('###0.00', StrToFloat(fdfc.totalemconvenio.Text));
+    vretorno := BuscaTroca(vretorno, '.', ',');
+
+    fdfc.GerarParcelas(1, StrToFloat(vretorno));
+
+    fdfc.AoConfirmar;
+    // fdfc.ShowModal;
+
+    Result := vretorno;
+  finally
+    FreeAndNil(fdfc);
+  end;
+
+end;
+
+function GeraParcelasRenegociacao(AOwner: TComponent; conexao: tuniconnection; vtotal: string; vchave: string; ltechave: String; vTfdCodigo: Integer;
+  var titcodigo: Integer; Acesso: TAcesso): Boolean;
+var
+  vch: string;
+  vTfiCodigo: Integer;
+  vCarCodigo: Integer;
+
+  vBcoCodigo: string;
+  vCarDiasMulta: Integer;
+  vCarPercMulta: Double;
+  vCarDiasDesc: Integer;
+  vCarPercDesc: Double;
+  vCarPercMoraMes: Double;
+
+begin
+  (*
+    *
+    *  RENEGOCIAÇÃO DE PARCELAS
+    *
+  *)
+
+  try
+    fdfc := Tfdfc.Create(AOwner);
+    fdfc.Acesso := Acesso;
+    fdfc.Renegociacao := True;
+
+    fdfc.zcone := conexao;
+    if fdfc.zcone.TransactionCount = 0 then
+      fdfc.zcone.StartTransaction;
+
+    fdfc.rfi.Connection := fdfc.zcone;
+    fdfc.mfi.Connection := fdfc.zcone;
+    fdfc.mlt.Connection := fdfc.zcone;
+    fdfc.tit.Connection := fdfc.zcone;
+    fdfc.rng.Connection := fdfc.zcone;
+    fdfc.consulta.Connection := fdfc.zcone;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select cfgcodigo, cfgportadorpadrao, cfgtipodocpadrao from cfgmcre';
+    fdfc.consulta.Open;
+    vCarCodigo := fdfc.consulta.fields[0].AsInteger;
+    vTfiCodigo := fdfc.consulta.fields[2].AsInteger;
+
+    fdfc.consulta.Close;
+    fdfc.consulta.SQL.Text := 'select bcocodigo,cardiasmulta, carpercmulta,cardiasdesc, carpercdesc,carpercmorames from car where carcodigo=' +
+      IntToStr(vCarCodigo);
+    fdfc.consulta.Open;
+
+    vBcoCodigo := fdfc.consulta.fields[0].AsString;
+    vCarDiasMulta := fdfc.consulta.fields[1].AsInteger;
+    vCarPercMulta := fdfc.consulta.fields[2].AsFloat;
+    vCarDiasDesc := fdfc.consulta.fields[3].AsInteger;
+    vCarPercDesc := fdfc.consulta.fields[4].AsFloat;
+    vCarPercMoraMes := fdfc.consulta.fields[4].AsFloat;
+
+    fdfc.visituacao := 'Incluindo';
+    fdfc.psituacao.Caption := 'Incluindo';
+
+    fdfc.tit.Close;
+    fdfc.tit.SQL.Text := 'SELECT tit.titcodigo, tit.etdcodigo, tit.titvalor, tit.titnumero, tit.titemissao, ';
+    fdfc.tit.SQL.Add('tit.titvalorparcela, tit.titparcelas, tit.titvctoinicial, tit.tfdcodigo, tit.srfcodigo,');
+    fdfc.tit.SQL.Add('tit.tficodigo, tit.tithora, tit.clbcodigo, tit.tithistorico, tit.flacodigo, tit.bcocodigo,');
+    fdfc.tit.SQL.Add('tit.carcodigo, tit.titprevisao, tit.moecodigo, tit.titmoradia, tit.titdiasmulta, tit.titvalomulta,');
+    fdfc.tit.SQL.Add('tit.titpercmesmora, tit.titvalodesc, tit.titdiasdesc, tit.titpercmulta, edrcodigo ');
+    fdfc.tit.SQL.Add('FROM tit ');
+
+    fdfc.VLteChave := ltechave;
+    fdfc.tit.SQL.Add('limit 1');
+    fdfc.tit.Open;
+
+    fdfc.rng.Close;
+    fdfc.rng.Params[0].AsString := vchave;
+    fdfc.rng.Open;
+
+    fdfc.vetdcodigo := fdfc.rngetdcodigo.AsString;
+
+    fdfc.tit.Append;
+    fdfc.titetdcodigo.AsInteger := fdfc.rngetdcodigo.AsInteger;
+    fdfc.tittitnumero.AsString := 'R' + fdfc.rngrngchave.AsString;
+    fdfc.tittitvalor.AsCurrency := fdfc.rngltetotal.AsCurrency;
+    fdfc.tittitemissao.AsFloat := fdfc.rngrngregistro.AsFloat;
+    fdfc.tittitvctoinicial.AsFloat := fdfc.rngrngregistro.AsFloat + 30;
+    fdfc.tittithistorico.AsString := 'Renegociação: ' + fdfc.rngrngchave.AsString;
+    fdfc.titclbcodigo.AsInteger := fdfc.rngclbcodigo.AsInteger;
+    fdfc.tittitvalorparcela.AsCurrency := fdfc.rngltetotal.AsCurrency;
+
+    fdfc.tittfdcodigo.AsInteger := vTfdCodigo;
+    fdfc.titsrfcodigo.AsInteger := srfEmAberto;
+    fdfc.tittficodigo.AsInteger := vTfiCodigo;
+
+    fdfc.tittithora.AsFloat := Time;
+    fdfc.tittitparcelas.AsInteger := 1; // verificar
+    fdfc.tittitprevisao.AsInteger := senNao;
+    fdfc.titmoecodigo.AsInteger := 1; // moeda 1 - Real
+
+    fdfc.tittitmoradia.AsFloat := fdfc.tittitvalor.AsCurrency * ((vCarPercMoraMes / 100) / 30);
+    fdfc.tittitpercmesmora.AsFloat := vCarPercMoraMes;
+
+    fdfc.tittitdiasmulta.AsInteger := vCarDiasMulta;
+    fdfc.tittitvalomulta.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercMulta / 100);
+    fdfc.tittitpercmulta.AsFloat := vCarPercMulta;
+
+    fdfc.tittitdiasdesc.AsInteger := vCarDiasDesc;
+    fdfc.tittitvalodesc.AsCurrency := fdfc.tittitvalor.AsCurrency * (vCarPercDesc / 100);
+
+    fdfc.titflacodigo.AsInteger := fdfc.Acesso.Filial;
+    fdfc.titbcocodigo.AsString := vBcoCodigo;
+    fdfc.titcarcodigo.AsInteger := vCarCodigo;
+
+    fdfc.tit.Post;
+    fdfc.Caption := 'Registro de Parcelas de Renegociação';
+
+    fdfc.rfi.Open;
+
+    fdfc.vvalor := vtotal;
+    fdfc.totalemconvenio.Text := BuscaTroca(vtotal, '.', ',');
+    fdfc.totalemconvenio.Text := FormatFloat('#,##0.00', StrToFloat(fdfc.totalemconvenio.Text));
+
+    // fdfc.zcone.StartTransaction;
+
+    fdfc.ShowModal;
+
+    if fdfc.ModalResult = mrOk then
+    begin
+      if fdfc.zcone.TransactionCount > 0 then
+        if fdfc.zcone.Transactions[0].Active then
+          fdfc.zcone.Commit
+    end
+    else
+    begin
+      if fdfc.zcone.TransactionCount > 0 then
+        if fdfc.zcone.Transactions[0].Active then
+          fdfc.zcone.Rollback;
+    end;
+
+  finally
+    Result := fdfc.ModalResult = mrOk;
+
+    if Result = True then
+      titcodigo := fdfc.tittitcodigo.AsInteger;
+
+    FreeAndNil(fdfc);
+  end;
+
+end;
+
+exports registraconvenio, registraconvenioauto, GeraParcelasRenegociacao;
+
+procedure Tfdfc.bcancelaClick(Sender: TObject);
+var
+  f: Integer;
+  vlrfichave: Integer;
+begin
+
+  if psituacao.Caption = 'Incluindo' then
+  begin
+    rfi.First;
+
+    If rfi.RecordCount > 0 Then
+      While Not rfi.Eof Do
+        rfi.Delete;
+  end
+  else
+  begin
+    // VoltaRegistrosAtuais;
+
+    rfi.Close;
+    rfi.SQL.Text := 'SELECT rfi.rfichave, rfi.etdcodigo, rfi.flacodigo,  rfi.tfdcodigo,';
+    rfi.SQL.Add('rfi.tficodigo,  rfi.bcocodigo,  rfi.carcodigo, rfi.rfiemissao, ');
+    rfi.SQL.Add('rfi.rfivencimento,  rfi.rfinumero,  rfi.rfivalor, rfi.rfihistorico, ');
+    rfi.SQL.Add('rfi.srfcodigo,  rfi.frrcodigo,  rfi.rfimoradia,   rfi.rfipercmesmora,');
+    rfi.SQL.Add('rfi.rfirepetir,  rfi.rfiprevisao,  rfi.rfivalorparcela,  rfi.moecodigo,');
+    rfi.SQL.Add('rfi.rfidatamulta,  rfi.rfivalomulta,');
+    rfi.SQL.Add('rfi.rfivalodesc,  rfi.rfidatadesc,  rfi.rfipercmulta,  rfi.rfidtultbaixa,');
+    rfi.SQL.Add('rfi.titcodigo, rfi.edrcodigo FROM rfi ');
+    rfi.SQL.Add('where titcodigo=' + tittitcodigo.AsString);
+    rfi.Open;
+
+    rfi.First;
+    vlrfichave := rfi.FieldByName('rfichave').AsInteger;
+    rfi.next;
+    while rfi.RecordCount > 1 do
+    begin
+      if vlrfichave <> rfi.FieldByName('rfichave').AsInteger then
+      begin
+        rfi.Delete;
+      end;
+
+    end;
+
+    { while not rfi.Eof do
+
+      begin
+      if rfi.Eof then
+      begin
+      break;
+      end
+      else
+      begin
+      rfi.Delete;
+      end;
+      end; }
+
+    nrfi.Close;
+    nrfi.Connection := rfi.Connection;
+    nrfi.SQL.Text := 'SELECT rfi.rfichave, rfi.etdcodigo, rfi.flacodigo,  rfi.tfdcodigo,';
+    nrfi.SQL.Add('rfi.tficodigo,  rfi.bcocodigo,  rfi.carcodigo, rfi.rfiemissao, ');
+    nrfi.SQL.Add('rfi.rfivencimento,  rfi.rfinumero,  rfi.rfivalor, rfi.rfihistorico, ');
+    nrfi.SQL.Add('rfi.srfcodigo,  rfi.frrcodigo,  rfi.rfimoradia,   rfi.rfipercmesmora,');
+    nrfi.SQL.Add('rfi.rfirepetir,  rfi.rfiprevisao,  rfi.rfivalorparcela,  rfi.moecodigo,');
+    nrfi.SQL.Add('rfi.rfidatamulta,  rfi.rfivalomulta,');
+    nrfi.SQL.Add('rfi.rfivalodesc,  rfi.rfidatadesc,  rfi.rfipercmulta,  rfi.rfidtultbaixa,');
+    nrfi.SQL.Add('rfi.titcodigo, rfi.edrcodigo FROM rfi ');
+    nrfi.SQL.Add('where titcodigo=' + tittitcodigo.AsString);
+    nrfi.Open;
+
+    Temprfi.First;
+
+    while not Temprfi.Eof do
+    begin
+      if nrfi.Locate('rfichave', Temprfi.FieldByName('rfichave').AsInteger, []) then
+      begin
+        nrfi.edit;
+      end
+      else
+      begin
+        nrfi.Append;
+      end;
+      for f := 0 to rfi.fields.Count - 1 do
+      begin
+        nrfi.FieldByName(rfi.fields[f].FieldName).AsString := Temprfi.FieldByName(rfi.fields[f].FieldName).AsString;
+
+      end;
+      nrfi.Post;
+
+      Temprfi.next;
+
+    end;
+
+  end;
+
+  { try
+    zcone.Rollback;
+    except
+
+    end; }
+
+  // Close;
+  ModalResult := mrCancel;
+end;
+
+procedure Tfdfc.AoConfirmar;
+var
+  i: Integer;
+begin
+
+  // zcone.Commit;
+  mfi.Params[1].AsInteger := Acesso.Filial;
+  mfi.Open;
+
+  mlt.Open;
+
+  rfi.First;
+
+  rfi.DisableControls;
+  i := 0;
+  while not rfi.Eof do
+  begin
+
+    if (VLteChave <> '0') and not(Renegociacao) then
+    begin
+      if not rfm.Active then
+        rfm.Open;
+
+      rfm.Append;
+      rfmmeschave.AsString := vmeschave;
+      rfmrfichave.AsInteger := Self.rfirfichave.AsInteger;
+      rfmflacodigo.AsInteger := Acesso.Filial;
+      rfm.Post;
+    end
+    else if vmeschave <> '0' then
+    begin
+      if not rfm.Active then
+        rfm.Open;
+
+      rfm.Append;
+      rfmmeschave.AsString := vmeschave;
+      rfmrfichave.AsInteger := Self.rfirfichave.AsInteger;
+      rfmflacodigo.AsInteger := Acesso.Filial;
+      rfm.Post;
+
+    end;
+
+    mfi.Close;
+    mfi.Params[0].AsString := Self.rfirfichave.AsString;
+    mfi.Params[1].AsInteger := Acesso.Filial;
+    mfi.Open;
+
+    if mfi.RecordCount = 0 then
+      mfi.Append
+    else
+      mfi.edit;
+
+    mfirfichave.AsInteger := Self.rfirfichave.AsInteger;
+    case tittfdcodigo.AsInteger of
+      tfdReceber:
+        mfitmfcodigo.AsInteger := tmfAReceber;
+      tfdPagar:
+        mfitmfcodigo.AsInteger := tmfAPagar;
+    end;
+
+    mfiflacodigo.AsInteger := rfiflacodigo.AsInteger;
+    mfimoecodigo.AsInteger := titmoecodigo.AsInteger;
+    mfimfivalor.AsFloat := Self.rfirfivalor.AsFloat;
+    mfimfidata.AsFloat := Self.rfirfiemissao.AsFloat;
+    mfimfihistorico.AsString := 'Registro Inicial';
+    mfimfivalorori.AsFloat := Self.rfirfivalor.AsFloat;
+    i := i + 1;
+    mfimfiparcela.AsInteger := i;
+    mfi.Post;
+
+    if VLteChave <> '0' then
+    begin
+
+      mlt.Append;
+      mltmfichave.AsInteger := mfimfichave.AsInteger;
+      mltltechave.AsString := VLteChave;
+      mltflacodigo.AsInteger := Acesso.Filial;
+      mlt.Post;
+
+    end;
+    rfi.next;
+  end;
+  rfi.First;
+  rfi.EnableControls;
+
+  tit.edit;
+  tittitparcelas.AsString := '1';
+  tittitvctoinicial.AsFloat := Self.rfirfivencimento.AsFloat;
+  tit.Post;
+
+  // fdfc.zcone.Commit;
+  // Close;
+  ModalResult := mrOk;
+  vretorno := '999';
+
+end;
+
+procedure Tfdfc.bconfirmaClick(Sender: TObject);
+var
+  i: Integer;
+begin
+
+  if ValidaTotais and ValidaVencimento then
+  begin
+
+    // zcone.Commit;
+    mfi.Params[1].AsInteger := Acesso.Filial;
+    mfi.Open;
+    mlt.Open;
+
+    rfi.First;
+
+    rfi.DisableControls;
+    i := 0;
+    while not rfi.Eof do
+    begin
+
+      if (VLteChave <> '0') and not(Renegociacao) then
+      begin
+        if not rfm.Active then
+          rfm.Open;
+
+        rfm.Append;
+        rfmmeschave.AsString := vmeschave;
+        rfmrfichave.AsInteger := Self.rfirfichave.AsInteger;
+        rfmflacodigo.AsInteger := Acesso.Filial;
+        rfm.Post;
+      end
+      else if (vmeschave <> '0') and (vmeschave <> '') then
+      begin
+        if not rfm.Active then
+        begin
+          rfm.Connection := zcone;
+          rfm.Open;
+        end;
+
+        rfm.Append;
+        rfmmeschave.AsString := vmeschave;
+        rfmrfichave.AsInteger := Self.rfirfichave.AsInteger;
+        rfmflacodigo.AsInteger := Acesso.Filial;
+        rfm.Post;
+
+      end;
+
+      mfi.Close;
+      mfi.Params[0].AsString := Self.rfirfichave.AsString;
+      mfi.Params[1].AsInteger := Acesso.Filial;
+      mfi.Open;
+
+      if mfi.RecordCount = 0 then
+        mfi.Append
+      else
+        mfi.edit;
+
+      mfirfichave.AsInteger := Self.rfirfichave.AsInteger;
+      case tittfdcodigo.AsInteger of
+        tfdReceber:
+          mfitmfcodigo.AsInteger := tmfAReceber;
+        tfdPagar:
+          mfitmfcodigo.AsInteger := tmfAPagar;
+      end;
+      mfiflacodigo.AsInteger := rfiflacodigo.AsInteger;
+      mfimoecodigo.AsInteger := titmoecodigo.AsInteger;
+      mfimfivalor.AsFloat := Self.rfirfivalor.AsFloat;
+      mfimfidata.AsFloat := Self.rfirfiemissao.AsFloat;
+      mfimfihistorico.AsString := 'Registro Inicial';
+      mfimfivalorori.AsFloat := Self.rfirfivalor.AsFloat;
+      i := i + 1;
+      mfimfiparcela.AsInteger := i;
+      mfi.Post;
+
+      if VLteChave <> '0' then
+      begin
+
+        mlt.Append;
+        mltmfichave.AsInteger := mfimfichave.AsInteger;
+        mltltechave.AsString := VLteChave;
+        mltflacodigo.AsInteger := Acesso.Filial;
+        mlt.Post;
+
+      end;
+
+      rfi.edit;
+      rfirfivalorparcela.AsCurrency := rfirfivalor.AsCurrency;
+      rfititcodigo.AsInteger := tittitcodigo.AsInteger;
+      rfiedrcodigo.AsInteger := titedrcodigo.AsInteger;
+      rfi.Post;
+
+      rfi.next;
+    end;
+    rfi.First;
+    rfi.EnableControls;
+
+    tit.edit;
+    tittitparcelas.AsString := Self.qtd.Text;
+    tittitvctoinicial.AsFloat := Self.rfirfivencimento.AsFloat;
+    try
+      tittitvalorparcela.AsCurrency := fdfc.mesmestotal.AsCurrency / Strtoint(Self.qtd.Text);
+    except
+      tittitvalorparcela.AsCurrency := fdfc.mesmestotal.AsCurrency;
+    end;
+
+    tit.Post;
+
+    // fdfc.zcone.Commit;
+    // Close;
+    ModalResult := mrOk;
+    vretorno := '999';
+  end
+  else
+  begin
+    DBGLista.SetFocus;
+  end;
+
+end;
+
+procedure Tfdfc.GerarParcelas(vQtdParcelas: Integer; vTotalParcelas: Double);
+Var
+  i, f, o: Integer;
+  VParcela: Double;
+  SParcela: string;
+  VTotParcelas: Double;
+  STotParcelas: string;
+  qtdParcelas: Integer;
+Begin
+
+  qtdParcelas := vQtdParcelas;
+
+  if Assigned(Drfi.OnStateChange) then
+    Drfi.OnStateChange := Nil;
+
+  { rfi.First; }
+
+  STotParcelas := floattostr(vTotalParcelas);
+
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+
+  SParcela := Format('%15.2f', [StrToFloat(STotParcelas) / qtdParcelas]);
+
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+
+  VParcela := StrToFloat(SParcela);
+
+  SParcela := trim(BuscaTroca(SParcela, '.', ''));
+
+  rfi.Close;
+  rfi.SQL.Text := 'SELECT rfi.rfichave, rfi.etdcodigo, rfi.flacodigo,  rfi.tfdcodigo,';
+  rfi.SQL.Add('rfi.tficodigo,  rfi.bcocodigo,  rfi.carcodigo, rfi.rfiemissao, ');
+  rfi.SQL.Add('rfi.rfivencimento,  rfi.rfinumero,  rfi.rfivalor, rfi.rfihistorico, ');
+  rfi.SQL.Add('rfi.srfcodigo,  rfi.frrcodigo,  rfi.rfimoradia,   rfi.rfipercmesmora,');
+  rfi.SQL.Add('rfi.rfirepetir,  rfi.rfiprevisao,  rfi.rfivalorparcela,  rfi.moecodigo,');
+  rfi.SQL.Add('rfi.rfidatamulta,  rfi.rfivalomulta,');
+  rfi.SQL.Add('rfi.rfivalodesc,  rfi.rfidatadesc,  rfi.rfipercmulta,  rfi.rfidtultbaixa,');
+  rfi.SQL.Add('rfi.titcodigo, rfi.edrcodigo FROM rfi ');
+  rfi.SQL.Add('where titcodigo=' + tittitcodigo.AsString);
+  rfi.Open;
+
+  Temprfi.Open;
+  while not rfi.Eof do
+  begin
+    Temprfi.Append;
+    for f := 0 to rfi.fields.Count - 1 do
+    begin
+      Temprfi.FieldByName(rfi.fields[f].FieldName).AsString := rfi.FieldByName(rfi.fields[f].FieldName).AsString;
+
+    end;
+    Temprfi.Post;
+    rfi.next;
+  end;
+
+  For i := 1 To qtdParcelas Do
+  Begin
+    if i = 1 then
+    begin
+      rfi.edit;
+
+    end
+    else
+    begin
+
+      rfi.Append;
+    end;
+
+    rfititcodigo.AsInteger := Self.tittitcodigo.AsInteger;
+    rfietdcodigo.AsString := vetdcodigo;
+    rfitfdcodigo.AsInteger := tittfdcodigo.AsInteger;
+    rfiflacodigo.AsInteger := titflacodigo.AsInteger;
+    rfitficodigo.AsInteger := tittficodigo.AsInteger;
+    rfibcocodigo.AsString := titbcocodigo.AsString;
+    rficarcodigo.AsInteger := titcarcodigo.AsInteger;
+    rfirfiemissao.AsFloat := tittitemissao.AsFloat;
+    rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * 30);
+    rfirfinumero.AsString := tittitnumero.AsString + '-' + IntToStr(i);
+
+    rfirfivalor.AsFloat := tbRound((strtocurr(STotParcelas) / qtdParcelas), 2);
+
+    if VLteChave <> '0' then
+      rfirfihistorico.AsString := tittithistorico.AsString
+    else
+      rfirfihistorico.AsString := 'Tit.Chv.: ' + tittitcodigo.AsString + ' - ' + tittithistorico.AsString;
+
+    rfisrfcodigo.AsInteger := titsrfcodigo.AsInteger;
+    rfifrrcodigo.AsInteger := 2;
+    rfirfimoradia.AsFloat := tittitmoradia.AsFloat;
+    rfirfipercmesmora.AsFloat := tittitpercmesmora.AsFloat;
+    rfirfirepetir.AsInteger := qtdParcelas;
+    rfirfiprevisao.AsInteger := tittitprevisao.AsInteger;
+    rfirfivalorparcela.AsFloat := rfirfivalor.AsFloat;
+    rfimoecodigo.AsInteger := titmoecodigo.AsInteger;
+
+    rfirfidatamulta.AsFloat := tittitdiasmulta.AsInteger + rfirfivencimento.AsFloat;
+    rfirfivalomulta.AsFloat := tittitvalomulta.AsFloat;
+    rfirfivalodesc.AsFloat := tittitvalodesc.AsFloat;
+    rfirfidatadesc.AsFloat := rfirfivencimento.AsFloat - tittitdiasdesc.AsFloat;
+    rfirfipercmulta.AsFloat := tittitpercmulta.AsFloat;
+    rfiedrcodigo.AsInteger := titedrcodigo.AsInteger;
+    rfi.Post;
+  End;
+
+  RecalculaTotais;
+end;
+
+procedure Tfdfc.bvalidarClick(Sender: TObject);
+Var
+  i, o: Integer;
+  VParcela: Double;
+  SParcela: string;
+  VTotParcelas: Double;
+  STotParcelas: string;
+  qtdParcelas: Integer;
+
+  vlInterDias: Integer;
+  vlTipoInter: Integer;
+  vlDataVcto: Tdate;
+  myYear, myMonth, myDay: Word;
+Begin
+  if trim(qtd.Text) = '' then
+  begin
+    Application.MessageBox(PChar('Por favor, defina a quantidade de parcelas.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    qtd.SetFocus;
+    Exit;
+  end;
+
+  etl.Connection := zcone;
+  etl.Close;
+  etl.Params[0].AsString := vetdcodigo;
+  etl.Open;
+
+  // verificado se ha a configuração de vencimento no cadastro de cliente
+  // não havendo ja deixa default como era a forma de calculo antes da alteração
+
+  if not etl.IsEmpty then
+  begin
+    vlInterDias := Self.etletldias.AsInteger;
+    vlTipoInter := Self.etletltipo.AsInteger; // 1 - intervalo de dias 2 - dia fixo
+  end
+  else
+  begin
+    vlInterDias := 30;
+    vlTipoInter := 1; // 1 - intervalo de dias 2 - dia fixo
+  end;
+
+  qtdParcelas := Strtoint(Self.qtd.Text);
+
+  if Assigned(Drfi.OnStateChange) then
+    Drfi.OnStateChange := Nil;
+
+  Drfi.DataSet.FieldByName('rfinumero').ReadOnly := False;
+
+  rfi.First;
+  if visituacao = 'Incluindo' then
+    If rfi.RecordCount > 0 Then
+      While Not rfi.Eof Do
+      begin
+
+        consulta.Close;
+        consulta.SQL.Text := 'delete from v_rfi where rfichave=' + rfirfichave.AsString;
+        consulta.ExecSQL;
+
+        rfi.Delete;
+      end;
+
+  STotParcelas := Self.totalemconvenio.Text;
+
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  // STotParcelas := trim(buscatroca(STotParcelas, '.', ''));
+
+  SParcela := Format('%15.2f', [StrToFloat(STotParcelas) / qtdParcelas]);
+
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+
+  VParcela := StrToFloat(SParcela);
+
+  SParcela := trim(BuscaTroca(SParcela, '.', ''));
+
+  rfi.Close;
+  rfi.SQL.Text := 'SELECT rfi.rfichave, rfi.etdcodigo, rfi.flacodigo,  rfi.tfdcodigo,';
+  rfi.SQL.Add('rfi.tficodigo,  rfi.bcocodigo,  rfi.carcodigo, rfi.rfiemissao, ');
+  rfi.SQL.Add('rfi.rfivencimento,  rfi.rfinumero,  rfi.rfivalor, rfi.rfihistorico, ');
+  rfi.SQL.Add('rfi.srfcodigo,  rfi.frrcodigo,  rfi.rfimoradia,   rfi.rfipercmesmora,');
+  rfi.SQL.Add('rfi.rfirepetir,  rfi.rfiprevisao,  rfi.rfivalorparcela,  rfi.moecodigo,');
+  rfi.SQL.Add('rfi.rfidatamulta,  rfi.rfivalomulta,');
+  rfi.SQL.Add('rfi.rfivalodesc,  rfi.rfidatadesc,  rfi.rfipercmulta,  rfi.rfidtultbaixa,');
+  rfi.SQL.Add('rfi.titcodigo, rfi.edrcodigo FROM rfi ');
+
+  if visituacao = 'Incluindo' then
+    rfi.SQL.Add('where rfichave=:rfichave ')
+  else
+    rfi.SQL.Add('where titcodigo=' + vtitcodigo);
+
+  rfi.Open;
+
+  { if visituacao = 'Alterando' then
+    while not rfi.Eof do
+    rfi.Delete; }
+  if visituacao = 'Alterando' then
+  begin
+    SalvaRegistrosAtuais;
+  end
+  else
+  begin
+    For i := 1 To qtdParcelas Do
+    Begin
+      { if visituacao = 'Incluindo' then
+        begin }
+
+      if rfi.Locate('rfinumero', tittitnumero.AsString + '-' + IntToStr(i), []) then
+        rfi.edit
+      else
+        rfi.Append;
+
+      rfititcodigo.AsInteger := Self.tittitcodigo.AsInteger;
+      rfietdcodigo.AsString := vetdcodigo;
+      rfitfdcodigo.AsInteger := tittfdcodigo.AsInteger;
+      rfiflacodigo.AsInteger := titflacodigo.AsInteger;
+      rfitficodigo.AsInteger := tittficodigo.AsInteger;
+      rfibcocodigo.AsString := titbcocodigo.AsString;
+      rficarcodigo.AsInteger := titcarcodigo.AsInteger;
+      rfirfiemissao.AsFloat := tittitemissao.AsFloat;
+
+      { ajustar atomaticamente o vencimento apenas se for inclusao }
+      if rfi.State = dsInsert then
+      begin
+
+        if vlTipoInter = 1 then
+        begin
+          // incrementa o vencimento com base em quantidade de dias
+          try
+            rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * vlInterDias);
+          except
+            try
+              rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * vlInterDias) - 1;
+            except
+              try
+                rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * vlInterDias) - 2;
+              except
+                try
+                  rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * vlInterDias) - 3;
+                except
+                  rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * vlInterDias) - 4;
+                end;
+
+              end;
+            end;
+
+          end;
+        end
+        else if vlTipoInter = 2 then
+        begin
+          // incrementa o vencimento com dia fixo
+          vlDataVcto := IncMonth(Self.tittitvctoinicial.AsFloat, (i - 1));
+
+          DecodeDate(vlDataVcto, myYear, myMonth, myDay);
+
+          try
+            rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vlInterDias) + '/' + FormatFloat('00', myMonth) + '/' +
+              FormatFloat('0000', myYear));
+          except
+            try
+              rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vlInterDias - 1) + '/' + FormatFloat('00', myMonth) + '/' +
+                FormatFloat('0000', myYear));
+            except
+              try
+                rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vlInterDias - 2) + '/' + FormatFloat('00', myMonth) + '/' +
+                  FormatFloat('0000', myYear));
+              except
+                try
+                  rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vlInterDias - 3) + '/' + FormatFloat('00', myMonth) + '/' +
+                    FormatFloat('0000', myYear));
+                except
+                  rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vlInterDias - 4) + '/' + FormatFloat('00', myMonth) + '/' +
+                    FormatFloat('0000', myYear));
+                end;
+              end;
+
+            end;
+
+          end;
+
+        end;
+
+      end;
+      rfirfinumero.AsString := tittitnumero.AsString + '-' + IntToStr(i);
+
+      rfirfivalor.AsFloat := tbRound((strtocurr(STotParcelas) / qtdParcelas), 2);
+
+      if VLteChave <> '0' then
+        rfirfihistorico.AsString := tittithistorico.AsString
+      else
+        rfirfihistorico.AsString := 'Tit.Chv.: ' + tittitcodigo.AsString + ' - ' + tittithistorico.AsString;
+
+      rfisrfcodigo.AsInteger := titsrfcodigo.AsInteger;
+      if Strtoint(Self.qtd.Text) > 1 then
+        rfifrrcodigo.AsInteger := 1
+      else
+        rfifrrcodigo.AsInteger := 2;
+
+      rfirfimoradia.AsFloat := tittitmoradia.AsFloat;
+      rfirfipercmesmora.AsFloat := tittitpercmesmora.AsFloat;
+      rfirfirepetir.AsInteger := qtdParcelas;
+      rfirfiprevisao.AsInteger := tittitprevisao.AsInteger;
+      rfirfivalorparcela.AsFloat := rfirfivalor.AsFloat;
+      rfimoecodigo.AsInteger := titmoecodigo.AsInteger;
+
+      rfirfidatamulta.AsFloat := tittitdiasmulta.AsInteger + rfirfivencimento.AsFloat;
+      rfirfivalomulta.AsFloat := tittitvalomulta.AsFloat;
+      rfirfivalodesc.AsFloat := tittitvalodesc.AsFloat;
+      rfirfidatadesc.AsFloat := rfirfivencimento.AsFloat - tittitdiasdesc.AsFloat;
+      rfirfipercmulta.AsFloat := tittitpercmulta.AsFloat;
+      rfiedrcodigo.AsInteger := titedrcodigo.AsInteger;
+
+      rfi.Post;
+
+      { end
+
+        else
+        begin
+        SalvaRegistrosAtuais;
+        if visituacao = 'Alterando' then
+        rfi.Next;
+        end; }
+
+    End;
+
+  end;
+  Drfi.OnStateChange := DrfiStateChange;
+
+  RecalculaTotais;
+
+  if (rfitfdcodigo.AsInteger = tfdPagar) then
+  begin
+    Drfi.DataSet.FieldByName('rfinumero').ReadOnly := False;
+    DBGLista.SetFocus;
+    DBGLista.SelectedIndex := 0;
+  end
+  else
+  begin
+    Drfi.DataSet.FieldByName('rfinumero').ReadOnly := True;
+    DBGLista.SetFocus;
+    DBGLista.SelectedIndex := 1;
+  end;
+
+  rfi.First;
+
+end;
+
+procedure Tfdfc.SalvaRegistrosAtuais;
+var
+  i: Integer;
+begin
+  trfi.Close;
+
+  trfi.Open;
+  rfi.First;
+  while not rfi.Eof do
+  begin
+    trfi.Append;
+    for i := 0 to rfi.FieldCount - 1 do
+    begin
+      trfi.fields[i].AsString := rfi.fields[i].AsString;
+    end;
+    trfi.Post;
+    rfi.next;
+  end;
+
+end;
+
+procedure Tfdfc.SetRenegociacao(const Value: Boolean);
+begin
+  FRenegociacao := Value;
+end;
+
+procedure Tfdfc.VoltaRegistrosAtuais;
+var
+  i: Integer;
+begin
+  trfi.Close;
+
+  trfi.Open;
+  rfi.First;
+  trfi.First;
+  while not trfi.Eof do
+  begin
+
+    if rfi.Locate('rfichave', Self.trfirfichave.AsInteger, []) then
+    begin
+      rfi.edit;
+      for i := 0 to rfi.FieldCount - 1 do
+      begin
+        if i <> 9 then
+          rfi.fields[i].AsString := trfi.fields[i].AsString;
+      end;
+    end;
+    rfi.Post;
+    trfi.next;
+  end;
+
+end;
+
+procedure Tfdfc.DBGListaColEnter(Sender: TObject);
+begin
+  if (Self.rfitfdcodigo.AsInteger = tfdReceber) then
+    case DBGLista.SelectedIndex of
+      0:
+        DBGLista.SelectedIndex := DBGLista.SelectedIndex + 1;
+    end;
+end;
+
+procedure Tfdfc.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+
+  If odd(Drfi.DataSet.RecNo) Then
+  Begin
+    If Column.ReadOnly Then
+      DBGLista.Canvas.Brush.Color := clBtnFace
+    Else
+      DBGLista.Canvas.Brush.Color := PEG_COR_BASE;
+  End
+  Else If Column.ReadOnly Then
+    DBGLista.Canvas.Brush.Color := clBtnFace
+  Else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  TDBGrid(Sender).Canvas.font.Color := clBlack;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_VALORREQUERIDO;
+      FillRect(Rect);
+      font.Style := [fsBold]
+    End;
+
+  TDBGrid(Sender).DefaultDrawDataCell(Rect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure Tfdfc.DBGListaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+  If (ssCtrl in Shift) And (Key = VK_DELETE) Then
+    Key := 0;
+
+end;
+
+procedure Tfdfc.DBGListaKeyPress(Sender: TObject; var Key: Char);
+Var
+  (* Variáveis para identificar posição das colunas e do Grid *)
+  VTotalColunas: Integer;
+  VColunaAtual: Integer;
+
+Begin
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = '\' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    If (Sender Is TDBGrid) Then
+    Begin
+      Key := #0;
+
+      if Drfi.DataSet.State = dsEdit then
+        Drfi.DataSet.Post;
+
+      if DBGLista.SelectedIndex = 2 then
+      begin
+        if ValidaVencimento then
+          if RecalculaTotais then
+          begin
+            { if (rfitfdcodigo.AsInteger = tfdReceber) then
+              DBGLista.SelectedIndex := 1
+              else
+              DBGLista.SelectedIndex := 0; }
+
+            DBGLista.SelectedIndex := 1;
+            Drfi.DataSet.next;
+          end;
+      end
+      else if ValidaVencimento then
+        // Move cursor para próxima coluna para atender a tecla Enter
+        DBGLista.SelectedIndex := DBGLista.SelectedIndex + 1;
+
+      If DBGLista.DataSource.DataSet.Eof Then
+        bconfirma.SetFocus;
+
+    End
+    Else
+    Begin
+      Key := #0;
+      Perform(WM_NEXTDLGCTL, 0, 0);
+    End;
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    bcancela.Click;
+  End;
+
+end;
+
+procedure Tfdfc.DBGListaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  If Key = VK_DOWN Then
+  Begin
+    If rfi.State = dsInsert Then
+    Begin
+      Key := 0;
+      rfi.Cancel;
+    End;
+  End;
+
+end;
+
+procedure Tfdfc.DrfiStateChange(Sender: TObject);
+begin
+  if Drfi.DataSet.State = dsInsert then
+    Drfi.DataSet.Cancel;
+end;
+
+procedure Tfdfc.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  { bloquer o ctrl+f4 }
+  if ((Shift = [ssAlt]) And ((Key = VK_F4) or (Key = 18))) then
+    Abort;
+
+end;
+
+procedure Tfdfc.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+end;
+
+procedure Tfdfc.FormShow(Sender: TObject);
+begin
+  if fdfc.qtd.Text <> '' then
+  begin
+    bvalidar.Click;
+    pltopo.Visible := False;
+  end
+  else
+  begin
+    pltopo.Visible := True;
+  end;
+end;
+
+function Tfdfc.RecalculaTotais: Boolean;
+var
+
+  VRegistroAtual: Integer; // Armazena posição do grid.
+
+  (* Variáveis para ajuste dos valores das parcelas *)
+  VTotalConvenio: Double;
+  VTotalRegAnteriores: Double;
+  VTotalRestante: Double;
+  VParcelasRestantes: Integer;
+
+  (* Variáveis para ajuste de diferença entre Total das Parcelas e Total em Convênio *)
+  VDiferenca: Double;
+  vTotalParcelas: Double;
+
+  (* *)
+  x: Integer;
+  vdia: Tdate;
+  vtotalemconvenio: string;
+begin
+
+  if totalemconvenio.Text = '' then
+  begin
+    totalemconvenio.Text := tittitvalor.AsString;
+  end;
+
+  VTotalConvenio := 0;
+  VTotalRegAnteriores := 0;
+
+  VRegistroAtual := Drfi.DataSet.RecNo;
+
+  vtotalemconvenio := totalemconvenio.Text;
+
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+
+  VTotalConvenio := StrToFloat(vtotalemconvenio);
+  Drfi.DataSet.DisableControls;
+  vdia := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+
+
+  //
+  // **** ACUMULA TOTAL DAS PARCELAS JA DEFINIDAS OU ALTERADAS ****
+  //
+
+  Drfi.DataSet.First;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+    // Acumula TOTAL dos registros anteriores ao selecionado
+    if Drfi.DataSet.FieldByName('titcodigo').AsString = Self.vtitcodigo then
+    begin
+      VTotalRegAnteriores := VTotalRegAnteriores + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+
+      If Drfi.DataSet.RecNo = VRegistroAtual Then
+      Begin
+        vdia := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+        Drfi.DataSet.next;
+        break;
+      End;
+    end
+    else
+    begin
+      If Drfi.DataSet.RecNo <= VRegistroAtual Then
+      Begin
+        VTotalRegAnteriores := VTotalRegAnteriores + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+      End;
+
+    end;
+    Drfi.DataSet.next;
+  End;
+
+  //
+  // **** ATUALIZA O RESTANTE TOTAL E PARCELAS A DEFINIR ****
+  //
+  Drfi.DataSet.RecNo := VRegistroAtual;
+  VTotalRestante := VTotalConvenio - VTotalRegAnteriores;
+  VParcelasRestantes := { 1 + } ((Drfi.DataSet.RecordCount) - Drfi.DataSet.RecNo);
+
+  if VParcelasRestantes = 0 then
+    VParcelasRestantes := VParcelasRestantes + 1;
+
+  //
+  // **** RATEIA VALOR RESTANTE ENTRE AS DEMAIS PARCELAS ****
+  //
+
+  x := 0;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+
+    x := x + 1;
+    if Drfi.DataSet.RecNo <> VRegistroAtual then
+    begin
+      Drfi.DataSet.edit;
+      Drfi.DataSet.FieldByName('rfivalor').AsFloat := tbRound(VTotalRestante / VParcelasRestantes, 2);
+      Drfi.DataSet.FieldByName('rfivencimento').AsFloat := IncMonth(vdia, (x - 1));
+      Drfi.DataSet.Post;
+    end;
+
+    Drfi.DataSet.next;
+
+    If Drfi.DataSet.RecNo = VRegistroAtual Then
+    Begin
+      break;
+    End;
+  End;
+  Drfi.DataSet.EnableControls;
+
+
+
+  //
+  // **** IDENTIFICA DIFERENÇA NOS TOTAIS (Soma das parcelas e Total do Convênio)****
+  //
+
+  vTotalParcelas := 0;
+  VDiferenca := 0;
+
+  Drfi.DataSet.First;
+  Drfi.DataSet.DisableControls;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+    vTotalParcelas := vTotalParcelas + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+    Drfi.DataSet.next;
+  End;
+
+  VDiferenca := VTotalConvenio - vTotalParcelas;
+  if VDiferenca <> 0 then
+  begin
+    Drfi.DataSet.Last;
+    Drfi.DataSet.edit;
+    Drfi.DataSet.FieldByName('rfivalor').AsFloat := StrToFloat(Format('%15.2f', [Drfi.DataSet.FieldByName('rfivalor').AsFloat + VDiferenca]));
+    Drfi.DataSet.Post;
+  end;
+
+  Result := ValidaTotais;
+
+  Drfi.DataSet.EnableControls;
+
+
+  //
+  // **** VOLTA POSIÇÃO DO GRID *****
+  //
+
+  Drfi.DataSet.RecNo := VRegistroAtual;
+
+end;
+
+function Tfdfc.ValidaTotais: Boolean;
+var
+  VPodeValor: Boolean;
+  vTotalParcelas: Double;
+  VDiferenca: Double;
+  VTotalConvenio: Double;
+  vtotalemconvenio: string;
+begin
+
+  //
+  // **** IDENTIFICA DIVERGÊNCIA DE VALORES ****
+  //
+
+  vtotalemconvenio := totalemconvenio.Text;
+
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+
+  VDiferenca := 0;
+  vTotalParcelas := 0;
+  VTotalConvenio := StrToFloat(vtotalemconvenio);
+
+  VPodeValor := True;
+
+  Drfi.DataSet.DisableControls;
+  try
+    Drfi.DataSet.First;
+    While Not Drfi.DataSet.Eof Do
+    Begin
+      vTotalParcelas := vTotalParcelas + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+      if Drfi.DataSet.FieldByName('rfivalor').AsFloat <= 0 then
+        VPodeValor := False;
+
+      Drfi.DataSet.next;
+    End;
+
+    if not VPodeValor then
+      MessageDlg('Uma ou mais parcelas estão com valor zero ou negativo!!' + #13 + #13 + 'Por favor verifique valor definido na(s) parcela(s).',
+        mtWarning, [mbOK], 0);
+
+    VDiferenca := tbRound(VTotalConvenio - vTotalParcelas, 2);
+    if VDiferenca <> 0 then
+    begin
+      VPodeValor := False;
+      MessageDlg('Total da(s) parcela(s) está diferente do Total a Receber!!' + #13 + #13 + 'Por favor verifique valor definido na(s) parcela(s).',
+        mtWarning, [mbOK], 0);
+    end;
+
+    bconfirma.Enabled := VPodeValor;
+    Result := VPodeValor;
+  finally
+    Drfi.DataSet.EnableControls;
+  end;
+end;
+
+function Tfdfc.ValidaVencimento: Boolean;
+Var
+  VRegistroAtual: Integer;
+  VVctoAtual, VVctoAnterior: TDateTime;
+Begin
+  Result := True;
+
+  VRegistroAtual := Drfi.DataSet.RecNo;
+
+  Drfi.DataSet.DisableControls;
+  try
+    Drfi.DataSet.First;
+
+    while not Drfi.DataSet.Eof do
+    begin
+
+      VVctoAnterior := Drfi.DataSet.FieldByName('rfiemissao').AsFloat;
+      VVctoAtual := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+
+      If Drfi.DataSet.RecNo > 1 Then
+      Begin
+        Drfi.DataSet.Prior;
+        VVctoAnterior := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+        Drfi.DataSet.next;
+      End;
+
+      If Not(VVctoAtual >= Drfi.DataSet.FieldByName('rfiemissao').AsFloat) Then
+      Begin
+        MessageDlg('Vencimento não permitido!!' + #13 + #13 + 'Não pode ser menor que data de emissão.', mtWarning, [mbOK], 0);
+        DBGLista.SelectedIndex := 1;
+        Result := False;
+        break;
+      End
+      Else If Not(VVctoAtual >= VVctoAnterior) Then
+      Begin
+        MessageDlg('Vencimento não permitido!!' + #13 + #13 + 'Deve ser maior que parcela anterior.', mtWarning, [mbOK], 0);
+        DBGLista.SelectedIndex := 1;
+        DBGLista.SetFocus;
+        Result := False;
+        break;
+      End;
+
+      Drfi.DataSet.next;
+    end;
+
+    Drfi.DataSet.RecNo := VRegistroAtual;
+
+    bconfirma.Enabled := Result;
+  finally
+    Drfi.DataSet.EnableControls;
+  end;
+
+end;
+
+end.

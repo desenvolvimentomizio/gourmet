@@ -1,0 +1,14 @@
+{
+	"name": "aiq",
+	"description": "",
+	"version": "1.0.0",
+	"homepage": "",
+	"mainsrc": "./",
+	"projects": [],
+	"dependencies": {
+		"github.com/hashload/horse": "^v2.0.14",
+		"https://github.com/bittencourtthulio/simpleorm": "^2.02.08",
+		"https://github.com/ezequieljuliano/datasetconverter4delphi": ">0.0.0",
+		"https://github.com/gabrielbaltazar/gbswagger": "^2.1.4"
+	}
+}

@@ -1,0 +1,199 @@
+object fproducao: Tfproducao
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Produ'#231#227'o'
+  ClientHeight = 349
+  ClientWidth = 829
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pbotoes: TPanel
+    Left = 0
+    Top = 320
+    Width = 829
+    Height = 29
+    Align = alBottom
+    BevelOuter = bvLowered
+    BorderWidth = 3
+    TabOrder = 0
+    ExplicitTop = 292
+    object psituacao: TPanel
+      Left = 4
+      Top = 4
+      Width = 95
+      Height = 21
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Exibindo'
+      Color = 12615680
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+    end
+    object bfechar: TBitBtn
+      Left = 760
+      Top = 4
+      Width = 65
+      Height = 21
+      Align = alRight
+      Caption = 'Fechar'
+      TabOrder = 1
+      OnClick = bfecharClick
+    end
+    object btTrocarColaborador: TBitBtn
+      Left = 99
+      Top = 4
+      Width = 142
+      Height = 21
+      Align = alLeft
+      Caption = 'TROCAR Colaborador'
+      TabOrder = 2
+    end
+    object btIncluirColaborador: TBitBtn
+      Left = 383
+      Top = 4
+      Width = 142
+      Height = 21
+      Align = alLeft
+      Caption = 'INCLUIR Colaborador'
+      TabOrder = 3
+      ExplicitLeft = 291
+      ExplicitTop = 6
+    end
+    object btExcluirColaborador: TBitBtn
+      Left = 241
+      Top = 4
+      Width = 142
+      Height = 21
+      Align = alLeft
+      Caption = 'EXCLUIR Colaborador'
+      TabOrder = 4
+      ExplicitLeft = 383
+      ExplicitTop = 6
+    end
+  end
+  object DBGridLista: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 829
+    Height = 320
+    Align = alClient
+    Color = 12058623
+    DataSource = dsimp
+    DrawingStyle = gdsGradient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -16
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'pronome'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'clbidentificacao'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'impinicio'
+        Width = 180
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'impfinal'
+        Width = 180
+        Visible = True
+      end>
+  end
+  object imp: TUniQuery
+    Connection = FprinciEntregas.Conexao
+    SQL.Strings = (
+      
+        'SELECT imm.immnumepedido, ito.orcchave, imp.impchave, clbidentif' +
+        'icacao, imp.impinicio, imp.impfinal, pro.pronome FROM imp,ito,cl' +
+        'b,pro,imm   '
+      
+        'WHERE imm.itochave=ito.itochave and ito.itochave=imp.itochave AN' +
+        'D imp.clbcodigo=clb.clbcodigo and ito.procodigo=pro.procodigo an' +
+        'd imm.immnumepedido=:immnumepedido'
+      'and imm.cznchave=:cznchave')
+    Left = 168
+    Top = 72
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'immnumepedido'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'cznchave'
+        Value = nil
+      end>
+    object imporcchave: TIntegerField
+      FieldName = 'orcchave'
+      Required = True
+    end
+    object impimpchave: TIntegerField
+      FieldName = 'impchave'
+      ReadOnly = True
+    end
+    object impclbidentificacao: TStringField
+      DisplayLabel = 'Colaborador'
+      FieldName = 'clbidentificacao'
+      ReadOnly = True
+      Size = 30
+    end
+    object impimpinicio: TDateTimeField
+      DisplayLabel = 'In'#237'cio'
+      FieldName = 'impinicio'
+      ReadOnly = True
+    end
+    object impimpfinal: TDateTimeField
+      DisplayLabel = 'Final'
+      FieldName = 'impfinal'
+      ReadOnly = True
+    end
+    object imppronome: TStringField
+      DisplayLabel = 'Produto'
+      FieldName = 'pronome'
+      ReadOnly = True
+      Required = True
+      Size = 150
+    end
+  end
+  object dsimp: TUniDataSource
+    DataSet = imp
+    Left = 232
+    Top = 72
+  end
+end

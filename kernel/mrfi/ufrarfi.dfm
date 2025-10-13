@@ -1,0 +1,1397 @@
+inherited frarfi: Tfrarfi
+  Width = 1200
+  Height = 609
+  ExplicitWidth = 1200
+  ExplicitHeight = 609
+  inherited PlGeral: TPanel
+    Width = 1200
+    Height = 609
+    ExplicitWidth = 1200
+    ExplicitHeight = 609
+    inherited SplBotoes: TSplitter
+      Height = 589
+      ExplicitHeight = 474
+    end
+    inherited PlBotoes: TPanel
+      Height = 589
+      ExplicitHeight = 589
+      inherited PlInfo: TPanel
+        Top = 569
+        ExplicitTop = 569
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 566
+        ExplicitHeight = 566
+        inherited ImageLogoBase: TImage
+          Top = 510
+          ExplicitTop = 395
+        end
+      end
+    end
+    inherited PlLista: TPanel
+      Width = 1056
+      Height = 589
+      ExplicitWidth = 1056
+      ExplicitHeight = 589
+      inherited SplLista: TSplitter
+        Top = 433
+        Width = 1056
+        Visible = True
+        ExplicitTop = 318
+        ExplicitWidth = 1056
+      end
+      inherited SpFilter: TSplitter
+        Width = 1056
+        ExplicitWidth = 1056
+      end
+      inherited PlRodaPe: TPanel
+        Top = 438
+        Width = 1056
+        Height = 151
+        Visible = True
+        ExplicitTop = 438
+        ExplicitWidth = 1056
+        ExplicitHeight = 151
+        object plDetalhes: TPanel
+          Left = 0
+          Top = 0
+          Width = 396
+          Height = 151
+          Align = alLeft
+          BorderWidth = 2
+          TabOrder = 0
+          object DBGListaMfi: TDBGrid
+            Left = 3
+            Top = 3
+            Width = 390
+            Height = 121
+            Align = alClient
+            Color = clCream
+            DataSource = Dmfi
+            DrawingStyle = gdsGradient
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            OnDrawColumnCell = DBGListaMfiDrawColumnCell
+            OnKeyDown = DBGListaMfiKeyDown
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'mfichave'
+                Width = 60
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'mfidata'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'mfivalor'
+                Width = 60
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'tmfidentificacao'
+                Width = 150
+                Visible = True
+              end>
+          end
+          object plTotaisDetalhes: TPanel
+            Left = 3
+            Top = 124
+            Width = 390
+            Height = 24
+            Align = alBottom
+            TabOrder = 1
+            Visible = False
+            object pltotaldetalhe: TPanel
+              Left = 291
+              Top = 1
+              Width = 98
+              Height = 22
+              Align = alRight
+              Alignment = taRightJustify
+              BevelOuter = bvNone
+              BorderWidth = 2
+              Caption = '0,00'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 0
+            end
+            object plTituloTotalDetalhes: TPanel
+              Left = 179
+              Top = 1
+              Width = 112
+              Height = 22
+              Align = alRight
+              BevelOuter = bvNone
+              Caption = 'Saldo Total R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+        end
+        object plEstorno: TPanel
+          Left = 396
+          Top = 0
+          Width = 432
+          Height = 151
+          Align = alLeft
+          TabOrder = 1
+          Visible = False
+          object Label1: TLabel
+            Left = 6
+            Top = 34
+            Width = 68
+            Height = 13
+            Caption = 'C'#243'digo Motivo'
+            FocusControl = meacodigo
+          end
+          object Label2: TLabel
+            Left = 132
+            Top = 34
+            Width = 23
+            Height = 13
+            Caption = 'Data'
+            FocusControl = erfdata
+          end
+          object Label3: TLabel
+            Left = 240
+            Top = 34
+            Width = 23
+            Height = 13
+            Caption = 'Hora'
+            FocusControl = erfhora
+          end
+          object Label4: TLabel
+            Left = 6
+            Top = 61
+            Width = 32
+            Height = 13
+            Caption = 'Motivo'
+            FocusControl = meacodigo
+          end
+          object Label5: TLabel
+            Left = 6
+            Top = 91
+            Width = 65
+            Height = 13
+            Caption = 'Complemento'
+            FocusControl = meacodigo
+          end
+          object Label6: TLabel
+            Left = 6
+            Top = 121
+            Width = 67
+            Height = 13
+            Caption = 'Valor Total R$'
+            FocusControl = erfvalorlote
+          end
+          object Label7: TLabel
+            Left = 198
+            Top = 121
+            Width = 115
+            Height = 13
+            Caption = 'Valor do Cr'#233'dito Gerado'
+            FocusControl = erfvalorcredito
+          end
+          object plTituloCancelamento: TPanel
+            Left = 1
+            Top = 1
+            Width = 430
+            Height = 22
+            Align = alTop
+            Caption = 'Informa'#231#245'es de Estorno'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object meacodigo: TDBEdit
+            Left = 84
+            Top = 31
+            Width = 45
+            Height = 21
+            TabStop = False
+            Color = 16767152
+            DataField = 'meacodigo'
+            DataSource = Dccm
+            ReadOnly = True
+            TabOrder = 1
+          end
+          object meamotivo: TDBMemo
+            Left = 84
+            Top = 58
+            Width = 341
+            Height = 24
+            TabStop = False
+            Color = 16767152
+            DataField = 'meamotivo'
+            DataSource = Dccm
+            ReadOnly = True
+            TabOrder = 2
+          end
+          object ccmmotivo: TDBMemo
+            Left = 84
+            Top = 88
+            Width = 341
+            Height = 24
+            TabStop = False
+            Color = 16767152
+            DataField = 'ccmmotivo'
+            DataSource = Dccm
+            ReadOnly = True
+            TabOrder = 3
+          end
+          object erfdata: TDBEdit
+            Left = 159
+            Top = 31
+            Width = 72
+            Height = 21
+            TabStop = False
+            Color = 16767152
+            DataField = 'erfdata'
+            DataSource = Derf
+            ReadOnly = True
+            TabOrder = 4
+          end
+          object erfhora: TDBEdit
+            Left = 268
+            Top = 31
+            Width = 61
+            Height = 21
+            TabStop = False
+            Color = 16767152
+            DataField = 'erfhora'
+            DataSource = Derf
+            ReadOnly = True
+            TabOrder = 5
+          end
+          object clbidentificacao: TDBEdit
+            Left = 335
+            Top = 31
+            Width = 90
+            Height = 21
+            Color = 16767152
+            DataField = 'clbidentificacao'
+            DataSource = Derf
+            TabOrder = 6
+          end
+          object erfvalorlote: TDBEdit
+            Left = 84
+            Top = 118
+            Width = 104
+            Height = 21
+            TabStop = False
+            Color = 16767152
+            DataField = 'erfvalorlote'
+            DataSource = Derf
+            ReadOnly = True
+            TabOrder = 7
+          end
+          object erfvalorcredito: TDBEdit
+            Left = 319
+            Top = 118
+            Width = 105
+            Height = 21
+            TabStop = False
+            Color = 16767152
+            DataField = 'erfvalorcredito'
+            DataSource = Derf
+            ReadOnly = True
+            TabOrder = 8
+          end
+        end
+      end
+      inherited PlFiltros: TPanel
+        Width = 1056
+        ExplicitWidth = 1056
+        inherited PlEdTextoBusca: TPanel
+          inherited GrBTextoProcurar: TGroupBox
+            inherited PlGbEdtBusca: TPanel
+              inherited edbusca: TEdit
+                Color = 14284682
+              end
+            end
+          end
+        end
+        inherited PlBotaoFiltroEsp2: TPanel
+          inherited gbFiltroPorDatas: TGroupBox
+            inherited plTipoData: TPanel
+              inherited cbTipoData: TComboBox
+                Text = ''
+              end
+            end
+          end
+        end
+      end
+      inherited PlSelecao: TPanel
+        Width = 1056
+        ExplicitWidth = 1056
+        inherited GBPlSelecao: TGroupBox
+          Width = 1052
+          ExplicitWidth = 1052
+          inherited DBLista: TDBGrid
+            Width = 945
+          end
+        end
+      end
+      inherited PnlGrid: TPanel
+        Width = 1056
+        Height = 304
+        ExplicitWidth = 1056
+        ExplicitHeight = 304
+        inherited DBGLista: TDBGrid
+          Width = 1056
+          Height = 259
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'titcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfichave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'srfidentificacao'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdidentificacao'
+              Width = 198
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tfiidentificacao'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'bconome'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'caridentificacao'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfiemissao'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfivencimento'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfinumero'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfidtultbaixa'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfidias'
+              Width = 58
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfivalor'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfibaixadocapital'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfisaldocapital'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfidesconto'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfimulta'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfijuros'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfisaldogeral'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfihistorico'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfidtprevisao'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'meschave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rngchave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'bolnossonumero'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfibaixatotal'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'flasigla'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rfiprevisao'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tngcodigo'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 259
+          Width = 1056
+          Height = 45
+          BevelOuter = bvNone
+          BorderWidth = 2
+          ExplicitTop = 259
+          ExplicitWidth = 1056
+          ExplicitHeight = 45
+          object PlDetalhe: TPanel
+            Left = 2
+            Top = 2
+            Width = 1052
+            Height = 41
+            Align = alClient
+            BevelOuter = bvLowered
+            BorderWidth = 1
+            TabOrder = 0
+            object GbGeral: TGroupBox
+              Left = 909
+              Top = 0
+              Width = 145
+              Height = 37
+              Caption = 'Total C/Juros R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+              object pltotalGeral: TPanel
+                Left = 2
+                Top = 15
+                Width = 141
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object GBEmAberto: TGroupBox
+              Left = 395
+              Top = 2
+              Width = 120
+              Height = 37
+              Caption = 'Em Aberto R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 1
+              object plemaberto: TPanel
+                Left = 2
+                Top = 15
+                Width = 116
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object GBRecebidos: TGroupBox
+              Left = 275
+              Top = 2
+              Width = 120
+              Height = 37
+              Caption = 'Total Recebido R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 2
+              object plEstaPago: TPanel
+                Left = 2
+                Top = 15
+                Width = 116
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object GBTotal: TGroupBox
+              Left = 151
+              Top = 0
+              Width = 120
+              Height = 37
+              Caption = 'Total R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              object pltotal: TPanel
+                Left = 2
+                Top = 15
+                Width = 116
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object GBVencidos: TGroupBox
+              Left = 511
+              Top = 0
+              Width = 145
+              Height = 37
+              Caption = 'Vencido R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 4
+              object plvencido: TPanel
+                Left = 2
+                Top = 15
+                Width = 141
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = 12385997
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object GBPrincipal: TGroupBox
+              Left = 660
+              Top = 2
+              Width = 145
+              Height = 37
+              Caption = 'Principal Vencido R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 5
+              object plvencidovencido: TPanel
+                Left = 2
+                Top = 15
+                Width = 141
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+            object gbjurosvencido: TGroupBox
+              Left = 805
+              Top = 2
+              Width = 100
+              Height = 37
+              Caption = 'Juros R$'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 6
+              object pljurosvencido: TPanel
+                Left = 2
+                Top = 15
+                Width = 96
+                Height = 20
+                Align = alClient
+                Alignment = taRightJustify
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Caption = '0,00'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+              end
+            end
+          end
+        end
+        inherited plSugestao: TPanel
+          inherited DBGSugestao: TDBGrid
+            OnCellClick = nil
+            OnKeyPress = nil
+          end
+        end
+      end
+    end
+    inherited PlTitulo: TPanel
+      Width = 1200
+      ExplicitWidth = 1200
+      inherited plid: TPanel
+        Left = 750
+        ExplicitLeft = 750
+      end
+      inherited PlSair: TPanel
+        Left = 994
+        ExplicitLeft = 994
+      end
+    end
+  end
+  inherited acoes: TActionList
+    object ActCancelar: TAction [2]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Cancelar'
+      Enabled = False
+    end
+    inherited ActVerFiltros: TAction [6]
+    end
+    inherited ActFiltrar: TAction [7]
+    end
+    object spbTodos: TAction [8]
+      Category = 'Visualizar'
+      Caption = 'Todos'
+      GroupIndex = 15
+      OnExecute = spbTodosExecute
+    end
+    object spbEmAberto: TAction [9]
+      Category = 'Visualizar'
+      Caption = 'Em Aberto'
+      GroupIndex = 15
+      OnExecute = spbEmAbertoExecute
+    end
+    object spbBaixados: TAction [10]
+      Category = 'Visualizar'
+      Caption = 'Baixados'
+      GroupIndex = 15
+      OnExecute = spbBaixadosExecute
+    end
+    object spbVencidos: TAction [11]
+      Category = 'Visualizar'
+      Caption = 'Vencidos'
+      GroupIndex = 15
+      OnExecute = spbVencidosExecute
+    end
+    object spbAVencer: TAction [12]
+      Category = 'Visualizar'
+      Caption = 'A Vencer'
+      GroupIndex = 15
+      OnExecute = spbAVencerExecute
+    end
+    inherited ActRelatorios: TAction [13]
+      Category = 'Relat'#243'rios'
+    end
+    inherited ActConfig: TAction
+      Category = 'Utilit'#225'rios'
+    end
+    inherited ActConfiguracoes: TAction
+      Category = 'Utilit'#225'rios'
+    end
+    inherited ActSair: TAction
+      Category = 'Utilit'#225'rios'
+    end
+  end
+  inherited DSTabela: TUniDataSource
+    Left = 408
+    Top = 268
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT distinct rfi.rfichave'
+      '     , etd.etdcodigo'
+      '     , rfi.tfdcodigo'
+      '     , rfi.flacodigo'
+      '     , rfi.tficodigo'
+      '     , rfi.bcocodigo'
+      '     , rfi.carcodigo'
+      '     , rfi.rfiemissao'
+      '     , rfi.rfivencimento'
+      '     , rfi.rfinumero'
+      '     , rfi.rfivalor'
+      '     , rfi.rfihistorico'
+      '     , rfi.srfidentificacao'
+      '     , rfi.srfcodigo'
+      '     , rfi.frrcodigo'
+      '     , rfi.rfipercmesmora'
+      '     , rfi.rfirepetir'
+      '     , rfi.rfiprevisao'
+      '     , rfi.rfivalorparcela'
+      '     , rfi.moecodigo'
+      '     , rfi.rfidatadesc'
+      '     , rfi.rfivalodesc'
+      '     , rfi.rfidatamulta'
+      '     , rfi.rfipercmulta'
+      '     , rfi.rfivalomulta'
+      '     , rfi.etdidentificacao'
+      '     , rfi.tfiidentificacao'
+      '     , rfi.caridentificacao'
+      '     , rfi.rfidtultbaixa'
+      '     , rfi.rfidias'
+      '     , rfi.rfibaixadocapital'
+      '     , rfi.rfisaldocapital'
+      '     , rfi.rfijuros'
+      '     , rfi.rfimulta'
+      '     , rfi.rfidesconto'
+      '     , rfi.rfisaldogeral'
+      '     , rfi.rfimoradia'
+      '     , rfi.bconome'
+      '     , rfi.titcodigo'
+      '     , rfi.rfidtprevisao'
+      '     , rfi.meschave'
+      '     , rfi.rngchave'
+      '     , rfi.bolnossonumero'
+      
+        '     , if (rfi.srfcodigo=1 OR rfi.srfcodigo=2,  rfi.rfibaixadoca' +
+        'pital+rfi.rfijuros+rfi.rfimulta-rfi.rfidesconto,0) as rfibaixato' +
+        'tal,'
+      '     , rfi.flasigla'
+      '     , rfi.tngcodigo'
+      '     , rfi.edrcodigo'
+      ''
+      'FROM v_rfi rfi'
+      'WHERE rfi.tfdcodigo = :tfdcodigo'
+      
+        'AND rfi.flacodigo in (select flacodigo from fcb where clbcodigo=' +
+        ':clbcodigo )')
+    Left = 360
+    Top = 228
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tfdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'clbcodigo'
+        Value = nil
+      end>
+    object uqtabelarfichave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Chave'
+      FieldName = 'rfichave'
+    end
+    object uqtabelasrfcodigo: TIntegerField
+      DisplayLabel = 'Sit.'
+      FieldName = 'srfcodigo'
+    end
+    object uqtabelasrfidentificacao: TStringField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'srfidentificacao'
+      Size = 25
+    end
+    object uqtabelaetdcodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etdcodigo'
+    end
+    object uqtabelaetdidentificacao: TStringField
+      DisplayLabel = 'Entidade'
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+    object uqtabelatfdcodigo: TIntegerField
+      DisplayLabel = 'T.Reg'
+      FieldName = 'tfdcodigo'
+    end
+    object uqtabelaflacodigo: TIntegerField
+      DisplayLabel = 'Fla'
+      FieldName = 'flacodigo'
+    end
+    object uqtabelatficodigo: TIntegerField
+      DisplayLabel = 'T.Doc'
+      FieldName = 'tficodigo'
+    end
+    object uqtabelatfiidentificacao: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'tfiidentificacao'
+      Size = 35
+    end
+    object uqtabelabcocodigo: TStringField
+      DisplayLabel = 'Por'
+      FieldName = 'bcocodigo'
+      Size = 3
+    end
+    object uqtabelacarcodigo: TIntegerField
+      DisplayLabel = 'Car'
+      FieldName = 'carcodigo'
+    end
+    object uqtabelacaridentificacao: TStringField
+      DisplayLabel = 'Carteira'
+      FieldName = 'caridentificacao'
+      Size = 35
+    end
+    object uqtabelarfiemissao: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'rfiemissao'
+    end
+    object uqtabelarfivencimento: TDateField
+      DisplayLabel = 'Vencimento'
+      FieldName = 'rfivencimento'
+    end
+    object uqtabelarfinumero: TStringField
+      DisplayLabel = 'Nr.Documento'
+      FieldName = 'rfinumero'
+    end
+    object uqtabelarfihistorico: TStringField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'rfihistorico'
+      Size = 150
+    end
+    object uqtabelarfiprevisao: TIntegerField
+      DisplayLabel = 'P'
+      FieldName = 'rfiprevisao'
+    end
+    object uqtabelarfivalor: TFloatField
+      DisplayLabel = 'Original R$'
+      FieldName = 'rfivalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfibaixadocapital: TFloatField
+      DisplayLabel = 'Bx. Capital R$'
+      FieldName = 'rfibaixadocapital'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfisaldocapital: TFloatField
+      DisplayLabel = 'Saldo Capital R$'
+      FieldName = 'rfisaldocapital'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfimulta: TFloatField
+      DisplayLabel = 'Multa R$'
+      FieldName = 'rfimulta'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfijuros: TFloatField
+      DisplayLabel = 'Juros R$'
+      FieldName = 'rfijuros'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfidesconto: TFloatField
+      DisplayLabel = 'Desc. R$'
+      FieldName = 'rfidesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfisaldogeral: TFloatField
+      DisplayLabel = 'Saldo Geral R$'
+      FieldName = 'rfisaldogeral'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelarfidtultbaixa: TDateField
+      DisplayLabel = #218'ltima Baixa'
+      FieldName = 'rfidtultbaixa'
+    end
+    object uqtabelarfipercmulta: TFloatField
+      FieldName = 'rfipercmulta'
+    end
+    object uqtabelabconome: TStringField
+      DisplayLabel = 'Portador'
+      FieldName = 'bconome'
+      Size = 35
+    end
+    object uqtabelatitcodigo: TIntegerField
+      DisplayLabel = 'T'#237'tulo'
+      FieldName = 'titcodigo'
+    end
+    object uqtabelarfidias: TIntegerField
+      DisplayLabel = 'Dias'
+      FieldName = 'rfidias'
+    end
+    object uqtabelarfidtprevisao: TDateField
+      DisplayLabel = 'Previs'#227'o'
+      FieldName = 'rfidtprevisao'
+    end
+    object uqtabelameschave: TIntegerField
+      DisplayLabel = 'Venda'
+      FieldName = 'meschave'
+    end
+    object uqtabelarngchave: TIntegerField
+      DisplayLabel = 'Renegocia'#231#227'o'
+      FieldName = 'rngchave'
+    end
+    object uqtabelabolnossonumero: TStringField
+      DisplayLabel = 'Nosso N'#250'mero'
+      FieldName = 'bolnossonumero'
+      Size = 50
+    end
+    object uqtabelarfibaixatotal: TFloatField
+      DisplayLabel = 'Total Baixado R$'
+      FieldName = 'rfibaixatotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelaflasigla: TStringField
+      DisplayLabel = 'Fla'
+      FieldName = 'flasigla'
+      Size = 3
+    end
+    object uqtabelarfirepetir: TIntegerField
+      FieldName = 'rfirepetir'
+    end
+    object uqtabelatngcodigo: TIntegerField
+      DisplayLabel = 'N'#250'cleo'
+      FieldName = 'tngcodigo'
+    end
+    object uqtabelaedrcodigo: TIntegerField
+      FieldName = 'edrcodigo'
+    end
+  end
+  inherited cpg: TUniQuery
+    Top = 248
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited cpc: TUniQuery
+    Left = 453
+    Top = 345
+  end
+  inherited MenuRelatorios: TPopupMenu
+    Left = 330
+    Top = 148
+  end
+  inherited DSSugestao: TDataSource
+    Top = 212
+  end
+  inherited qrySugestao: TUniQuery
+    Left = 172
+    Top = 260
+  end
+  inherited lou: TUniQuery
+    Left = 384
+    Top = 456
+  end
+  inherited ColorDialog: TColorDialog
+    Left = 1000
+    Top = 525
+  end
+  inherited ImageList1: TImageList
+    Left = 704
+    Top = 541
+  end
+  object extrfi: TUniQuery
+    SQL.Strings = (
+      'CALL ExtratoRFI(:tfdcodigo)')
+    Left = 328
+    Top = 308
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tfdcodigo'
+        Value = nil
+      end>
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT cfgdtinictb'
+      '     , cfgdtfinctb'
+      '     , cfg.cfgusabol'
+      '     , cfg.cfgdatapadrao'
+      'FROM cfg')
+    Left = 324
+    Top = 268
+    object cfgcfgdtinictb: TDateField
+      FieldName = 'cfgdtinictb'
+    end
+    object cfgcfgdtfinctb: TDateField
+      FieldName = 'cfgdtfinctb'
+    end
+    object cfgcfgusabol: TIntegerField
+      FieldName = 'cfgusabol'
+    end
+    object cfgcfgdatapadrao: TDateField
+      FieldName = 'cfgdatapadrao'
+    end
+  end
+  object mfi: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mfi.mfichave,'
+      '  mfihistorico,'
+      '  mfivalor,'
+      '  tmfidentificacao,'
+      '  cedidentificacao,'
+      '  mfidata,'
+      '  tmf.cedcodigo,'
+      '  mfi.tmfcodigo'
+      'FROM mfi'
+      '  JOIN tmf'
+      '    ON mfi.tmfcodigo = tmf.tmfcodigo'
+      '  JOIN ced'
+      '    ON tmf.cedcodigo = ced.cedcodigo'
+      'WHERE (SELECT'
+      '    m1.mfichave'
+      '  FROM mlt m1'
+      '    JOIN lte l'
+      '      ON (m1.ltechave = l.ltechave)'
+      '      AND l.ltesituacao = 1'
+      '  WHERE m1.mfichave = mfi.mfichave) IS NULL'
+      'AND rfichave = :rfichave'
+      'ORDER BY mfichave, mfi.tmfcodigo, mfivalor DESC, mfidata')
+    Left = 724
+    Top = 276
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'rfichave'
+        Value = nil
+      end>
+    object mfimfichave: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'mfichave'
+    end
+    object mfimfihistorico: TStringField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'mfihistorico'
+      Size = 50
+    end
+    object mfimfidata: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'mfidata'
+    end
+    object mfimfivalor: TFloatField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'mfivalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mfitmfidentificacao: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'tmfidentificacao'
+      Size = 35
+    end
+    object mficedidentificacao: TStringField
+      DisplayLabel = 'Natureza'
+      FieldName = 'cedidentificacao'
+      Size = 15
+    end
+    object mficedcodigo: TIntegerField
+      FieldName = 'cedcodigo'
+    end
+    object mfitmfcodigo: TIntegerField
+      FieldName = 'tmfcodigo'
+    end
+  end
+  object Dmfi: TUniDataSource
+    DataSet = mfi
+    Left = 768
+    Top = 276
+  end
+  object uqTotais: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  -- Total Geral'
+      '  SUM(rfi.rfivalor) AS rfivalor,'
+      ''
+      '  -- Baixa do Capital'
+      
+        '  SUM(rfi.rfibaixadocapital + rfi.PgtosMulta + rfi.PgtosJurosMor' +
+        'a - rfi.RegistroDesconto) AS rfibaixadocapital,'
+      '  '
+      '  -- Vencidos'
+      
+        '  SUM(IF(rfi.rfivencimento <= CURDATE(), rfi.rfisaldogeral, 0)) ' +
+        'AS rfivencidos,'
+      ''
+      '  -- Saldo Capital'
+      '  SUM(rfi.rfisaldogeral) AS rfisaldocapital'
+      'FROM v_rfi rfi'
+      'WHERE rfi.tfdcodigo = :tfdcodigo'
+      '   and rfi.flacodigo=:flacodigo')
+    Left = 491
+    Top = 227
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tfdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object uqTotaisrfivalor: TFloatField
+      FieldName = 'rfivalor'
+    end
+    object uqTotaisrfibaixadocapital: TFloatField
+      FieldName = 'rfibaixadocapital'
+    end
+    object uqTotaisrfivencidos: TFloatField
+      FieldName = 'rfivencidos'
+    end
+    object uqTotaisrfisaldocapital: TFloatField
+      FieldName = 'rfisaldocapital'
+    end
+  end
+  object ccm: TUniQuery
+    SQL.Strings = (
+      'SELECT distinct'
+      '  mea.meamotivo,'
+      '  mea.meacodigo,'
+      '  ccm.ccmmotivo,'
+      '  ccm.titcodigo,'
+      '  ccm.ccochave,'
+      '  ccm.erfchave,'
+      '  ccm.ccmchave'
+      'FROM ccm'
+      '  INNER JOIN mea'
+      '  ON ccm.meacodigo = mea.meacodigo'
+      '  INNER JOIN erf '
+      '  ON ccm.erfchave = erf.erfchave'
+      '  INNER JOIN lte '
+      '  ON erf.ltechave = lte.ltechave'
+      '  where ccm.titcodigo=:titcodigo and'
+      '  lte.ltesituacao=0')
+    Left = 824
+    Top = 264
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'titcodigo'
+        Value = nil
+      end>
+    object ccmmeamotivo: TStringField
+      FieldName = 'meamotivo'
+      Size = 250
+    end
+    object ccmmeacodigo: TIntegerField
+      FieldName = 'meacodigo'
+    end
+    object ccmccmmotivo: TStringField
+      FieldName = 'ccmmotivo'
+      Size = 250
+    end
+    object ccmerfchave: TIntegerField
+      FieldName = 'erfchave'
+    end
+    object ccmccmchave: TIntegerField
+      FieldName = 'ccmchave'
+    end
+  end
+  object Dccm: TDataSource
+    DataSet = ccm
+    Left = 907
+    Top = 219
+  end
+  object erf: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  erfchave,'
+      '  erfdata,'
+      '  erfhora,'
+      '  erf.clbcodigo,'
+      '  erfvalorlote,'
+      '  erfvalorcredito,'
+      '  ltechave,'
+      '  erf.etdcodigo,'
+      '  erftipo,'
+      '  c.clbidentificacao'
+      'FROM erf'
+      '  INNER JOIN clb c'
+      '    ON erf.clbcodigo = c.clbcodigo'
+      'WHERE erf.erfchave = :erfchave')
+    Left = 920
+    Top = 264
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'erfchave'
+        Value = nil
+      end>
+    object erferfdata: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'erfdata'
+    end
+    object erferfhora: TTimeField
+      DisplayLabel = 'Hora'
+      FieldName = 'erfhora'
+    end
+    object erfclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      Size = 15
+    end
+    object erferfvalorlote: TFloatField
+      FieldName = 'erfvalorlote'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object erferfvalorcredito: TFloatField
+      FieldName = 'erfvalorcredito'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  object Derf: TDataSource
+    DataSet = erf
+    Left = 955
+    Top = 267
+  end
+end

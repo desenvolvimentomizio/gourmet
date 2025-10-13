@@ -1,0 +1,303 @@
+unit ulbrr;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ulbrf, ufrabase, ufrabrf, ufrabrr, Vcl.StdCtrls,
+  Vcl.Buttons, System.Classes, Vcl.Controls, Vcl.ExtCtrls, System.SysUtils,
+  Uni, Data.DB, uFuncoes, uPegaBase, MemDS, DBAccess;
+
+type
+  Tlbrr = class(Tlbrf)
+    frabrr: Tfrabrr;
+    cri: TUniQuery;
+    procedure bcancelaClick(Sender: TObject);
+    procedure frabrrDvbaixaDataChange(Sender: TObject; Field: TField);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  lbrr: Tlbrr;
+
+  // Fim ID do Módulo frabrr
+const
+  vPlTitMdl = 'Recebimento de Contas';
+
+implementation
+
+{$R *.dfm}
+
+function formu(pCargaFrame: TCargaFrame): string;
+// function formu(pCargaFrame: TCargaFrame; vtfdcodigo: string; vrfichave: string): string;
+begin
+
+  pCargaFrame.Titulo := vPlTitMdl;
+  lbrr := Tlbrr.Create(pCargaFrame);
+  try
+    lbrr.frabrr.IdModulo := vPlIdMd;
+    lbrr.frabrr.Titulo := vPlTitMdl;
+
+    lbrr.frabrr.vtfdcodigo := '2';
+    lbrr.frabrr.edbusca.Tag := 1;
+    lbrr.frabrr.ActAtualizar.Enabled := true;
+
+    (* Limpa filtros existentes *)
+    lbrr.frabrr.RemoverFiltro := true;
+    if lbrr.frabrr.TxtFiltro <> '' then
+    begin
+      lbrr.frabrr.uqtabela.Filter := lbrr.frabrr.TxtFiltro;
+      lbrr.frabrr.uqtabela.Filtered := true;
+
+    end;
+
+    // lbrr.frabrr.ActAtualizar.Execute;
+
+    { if vrfichave <> '' then
+      lbrr.frabrr.tabela.Locate('rfichave', vrfichave, []); }
+
+    lbrr.frabrr.lte.Open;
+    lbrr.frabrr.lte.Append;
+    lbrr.frabrr.ltetfdcodigo.AsString := '2'; // vtfdcodigo;
+    lbrr.frabrr.lte.Post;
+
+    lbrr.frabrr.lte.Edit;
+    lbrr.frabrr.bBuscaClientes.Visible := true;
+    lbrr.frabrr.ActAtualizar.Enabled := true;
+    lbrr.ShowModal;
+  finally
+    FreeAndNil(lbrr);
+  end;
+
+end;
+
+function Receb(pCargaFrame: TCargaFrame; acesso: Tacesso; pEtdCodigo: String): string;
+var
+  lfram: Tfrabrr;
+  vch: string;
+begin
+
+  pCargaFrame.Titulo := vPlTitMdl;
+  lbrr := Tlbrr.Create(pCargaFrame);
+
+  try
+    lbrr.frabrr.IdModulo := vPlIdMd;
+    lbrr.frabrr.Titulo := vPlTitMdl;
+
+    lbrr.frabrr.vtfdcodigo := '2';
+
+    lbrr.frabrr.acesso := acesso;
+    lbrr.frabrr.vtfdcodigo := IntToStr(tfdReceber);
+    lfram := lbrr.frabrr as Tfrabrr;
+    lfram.edbusca.Tag := 1;
+
+    (* Limpa filtros existentes *)
+    lfram.RemoverFiltro := true;
+
+    { if pEtdCodigo <> '' then
+      begin
+      lfram.uqtabela.Filter := 'etdcodigo = ' + pEtdCodigo;
+      lfram.uqtabela.Filtered := True;
+
+      lfram.bBuscaClientes.Visible := True;
+      end }
+
+    // lfram.carregar;
+
+    lbrr.frabrr.lte.Open;
+    lbrr.frabrr.lte.Append;
+    lbrr.frabrr.ltetfdcodigo.asinteger := tfdReceber;
+    lbrr.frabrr.lte.Post;
+
+    lbrr.frabrr.lte.Edit;
+    lbrr.frabrr.ActAtualizar.Enabled := true;
+
+   { lbrr.frabrr.Consulta.Close;
+    lbrr.frabrr.Consulta.SQL.Text := 'DELETE FROM act WHERE actformulario=' + QuotedStr('frabrr');
+    lbrr.frabrr.Consulta.ExecSQL;}
+
+    if lbrr.frabrr.cfgcfgfiltrarrec.asinteger = 1 then
+    begin
+      lfram.uqtabela.FilterSQL := pCargaFrame.Filtro;
+      lbrr.frabrr.ActAtualizar.Execute;
+    end;
+
+    lbrr.ShowModal;
+  finally
+    FreeAndNil(lbrr);
+  end;
+end;
+
+function RecebCaixa(pCargaFrame: TCargaFrame; Conexao: TUniConnection; acesso: Tacesso; pCtaCodigo: Integer; pEtdCodigo: String; pCcxchave: Integer=0): string;
+var
+  lfram: Tlbrr;
+  vch: string;
+begin
+
+  pCargaFrame.Titulo := vPlTitMdl;
+  lbrr := Tlbrr.Create(lfram);
+
+  try
+    lbrr.frabrr.IdModulo := vPlIdMd;
+    lbrr.frabrr.Titulo := vPlTitMdl;
+
+    lbrr.frabrr.acesso := acesso;
+    lbrr.frabrr.vtfdcodigo := IntToStr(tfdReceber);
+    lfram := lbrr as Tlbrr;
+    lfram.frabrr.edbusca.Tag := 1;
+
+    (* Limpa filtros existentes *)
+    lfram.frabrr.RemoverFiltro := true;
+
+    lfram.frabrr.RecebCaixa.Conta := pCtaCodigo;
+
+    { if pEtdCodigo <> '' then
+      begin
+      lfram.uqtabela.Filter := 'etdcodigo = ' + pEtdCodigo;
+      lfram.uqtabela.Filtered := True;
+
+      lfram.bBuscaClientes.Visible := True;
+      end; }
+
+
+   lbrr.frabrr.ZCone:=Conexao;
+
+
+    lbrr.frabrr.carregar;
+
+    lbrr.frabrr.lte.Connection:=lbrr.frabrr.ZCone;
+    lbrr.frabrr.lte.Open;
+    lbrr.frabrr.lte.Append;
+    lbrr.frabrr.ltetfdcodigo.asinteger := tfdReceber;
+    lbrr.frabrr.lteccxchave.asinteger:= pCcxchave;
+
+    lbrr.frabrr.lte.Post;
+    lbrr.frabrr.ActAtualizar.Enabled := true;
+    lbrr.frabrr.lte.Edit;
+
+    lbrr.ShowModal;
+  finally
+    FreeAndNil(lbrr);
+  end;
+end;
+
+
+{
+
+  function formu(AOwner: TComponent; Conexao: TUniConnection; Acesso:Tacesso; vTfdCodigo: string; vRfiChave: string): string;
+  var
+  lfram: Tfrabrr;
+  vch: string;
+  begin
+  lbrr := Tlbrr.Create(AOwner);
+  try
+  lbrr.frabrr.IdModulo := vPlIdMd;
+  lbrr.frabrr.titulo := vPlTitMdl;
+
+  lbrr.frabrr.zcone := Conexao;
+  lbrr.frabrr.Acesso:=Acesso;
+  lbrr.frabrr.vTfdCodigo := vTfdCodigo;
+  lfram := lbrr.frabrr as Tfrabrr;
+  lfram.edbusca.Tag := 1;
+
+  (* Limpa filtros existentes *)
+  lfram.RemoverFiltro := True;
+
+  lfram.carregar;
+
+  if vRfiChave <> '' then
+  lfram.tabela.Locate('rfichave', vRfiChave, []);
+
+  lbrr.frabrr.lte.Open;
+  lbrr.frabrr.lte.Append;
+  lbrr.frabrr.ltetfdcodigo.AsString := vTfdCodigo;
+  lbrr.frabrr.lte.Post;
+
+  lbrr.frabrr.lte.Edit;
+
+  lbrr.ShowModal;
+  finally
+  FreeAndNil(lbrr);
+  end;
+  end;
+
+  function RecebCaixa(AOwner: TComponent; Conexao: TUniConnection; pUsuario: string; pCtaCodigo: Integer; pEtdCodigo: String): string;
+  var
+  lfram: Tfrabrr;
+  vch: string;
+  begin
+  lbrr := Tlbrr.Create(AOwner);
+  try
+  lbrr.frabrr.IdModulo := vPlIdMd;
+  lbrr.frabrr.titulo := vPlTitMdl;
+
+  lbrr.frabrr.zcone := Conexao;
+  lbrr.frabrr.Acesso.Usuario := StrToInt(pUsuario);
+  lbrr.frabrr.vTfdCodigo := IntToStr(tfdReceber);
+  lfram := lbrr.frabrr as Tfrabrr;
+  lfram.edbusca.Tag := 1;
+
+  (* Limpa filtros existentes *)
+  lfram.RemoverFiltro := True;
+
+  lfram.RecebCaixa.Conta := pCtaCodigo;
+
+  if pEtdCodigo <> '' then
+  begin
+  lfram.uqtabela.Filter := 'etdcodigo = ' + pEtdCodigo;
+  lfram.uqtabela.Filtered := True;
+
+  lfram.bBuscaClientes.Visible := True;
+  end;
+
+  lfram.carregar;
+
+  lbrr.frabrr.lte.Open;
+  lbrr.frabrr.lte.Append;
+  lbrr.frabrr.ltetfdcodigo.AsInteger := tfdReceber;
+  lbrr.frabrr.lte.Post;
+
+  lbrr.frabrr.lte.Edit;
+
+  lbrr.ShowModal;
+  finally
+  FreeAndNil(lbrr);
+  end;
+  end;
+
+
+}
+
+exports formu, RecebCaixa, Receb;
+
+procedure Tlbrr.bcancelaClick(Sender: TObject);
+begin
+  if not frabrr.vbaixa.IsEmpty then
+    if Application.MessageBox(PChar('Você realmente deseja cancelar as baixas?'), 'Confirmação', MB_ICONQUESTION + MB_YESNO) = IDNO then
+      Exit;
+
+  frabrr.BRemoverTodos.Click;
+  lbrr.frabrr.LimpaRegistros;
+  inherited;
+end;
+
+procedure Tlbrr.bconfirmaClick(Sender: TObject);
+begin
+
+  if lbrr.frabrr.Finaliza then
+    inherited;
+end;
+
+procedure Tlbrr.frabrrDvbaixaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if Self.frabrr.Dvbaixa.DataSet.RecordCount = 0 then
+    Self.bconfirma.Enabled := False
+  else
+    Self.bconfirma.Enabled := true;
+end;
+
+end.

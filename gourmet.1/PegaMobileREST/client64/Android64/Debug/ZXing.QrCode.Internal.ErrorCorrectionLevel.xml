@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.ErrorCorrectionLevel" platform="Android">
+  <class name="TErrorCorrectionLevel" sealed="true" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="31">
+    <devnotes>
+       <summary>
+       <p>See ISO 18004:2006, 6.5.1. This enum encapsulates the four error correction levels
+       defined by the QR code standard.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="Fbits" type="Integer" visibility="private" size="4" offset="8" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="33" />
+      <field name="Fname" type="string" visibility="private" size="8" offset="16" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="34" />
+      <field name="Fordinal_Renamed_Field" type="Integer" visibility="private" size="4" offset="24" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="35" />
+      <field name="FOR_BITS" type="TArray&lt;ZXing.QrCode.Internal.ErrorCorrectionLevel.TErrorCorrectionLevel&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="36" />
+      <procedure name="InitalizeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="38">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="39">
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="41">
+        <parameters>
+          <parameter name="ordinal" type="Integer" paramflags="const" />
+          <parameter name="bits" type="Integer" paramflags="const" />
+          <parameter name="name" type="string" paramflags="const" />
+        </parameters>
+      </constructor>
+      <function name="forBits" visibility="public" procflags="static" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="50">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'forBits' -->
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="Integer" paramflags="const" />
+          <retval type="TErrorCorrectionLevel">
+            <devnotes>
+               <summary>
+               <p>See ISO 18004:2006, 6.5.1. This enum encapsulates the four error correction levels
+               defined by the QR code standard.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <field name="L" type="TErrorCorrectionLevel" visibility="public" varflags="class" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="53">
+        <devnotes>
+           <summary> L = ~7%% correction</summary>
+        </devnotes>
+      </field>
+      <field name="M" type="TErrorCorrectionLevel" visibility="public" varflags="class" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="56">
+        <devnotes>
+           <summary> M = ~15%% correction</summary>
+        </devnotes>
+      </field>
+      <field name="Q" type="TErrorCorrectionLevel" visibility="public" varflags="class" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="59">
+        <devnotes>
+           <summary> Q = ~25%% correction</summary>
+        </devnotes>
+      </field>
+      <field name="H" type="TErrorCorrectionLevel" visibility="public" varflags="class" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="62">
+        <devnotes>
+           <summary> H = ~30%% correction</summary>
+        </devnotes>
+      </field>
+      <function name="ordinal" visibility="public" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="68">
+        <devnotes>
+           <summary>
+           Ordinals this instance.
+           </summary>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="76">
+        <devnotes>
+           <summary>
+           Returns a <see cref="T:System.string"/> that represents this instance.
+           </summary>
+           <returns>
+           A <see cref="T:System.string"/> that represents this instance.
+           </returns>
+        </devnotes>
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <property name="Bits" visibility="public" read="Fbits" type="Integer" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="81">
+        <devnotes>
+           <summary>
+           Gets the bits.
+           </summary>
+        </devnotes>
+      </property>
+      <property name="Name" visibility="public" read="Fname" type="string" default="0" file="ZXing.QrCode.Internal.ErrorCorrectionLevel.pas" line="86">
+        <devnotes>
+           <summary>
+           Gets the name.
+           </summary>
+        </devnotes>
+      </property>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

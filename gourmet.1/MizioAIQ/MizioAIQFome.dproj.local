@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/03/18 15:37:16.000.607,=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 09:00:55.000.748,=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 09:01:42.000.395,C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\fontes\gourmet.1\MizioAIQ\ufprinciMizioAIQ.pas</Transaction>
+    <Transaction>2023/05/10 09:01:42.000.395,C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\fontes\gourmet.1\MizioAIQ\ufprinciMizioAIQ.dfm</Transaction>
+    <Transaction>2023/05/10 09:02:00.000.792,C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\fontes\gourmet.1\MizioAIQ\MizioAIQFome.dproj</Transaction>
+    <Transaction>2023/05/10 09:49:25.000.778,=C:\fontes\gourmet.1\MizioAIQ\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 09:50:00.000.802,C:\fontes\gourmet.1\MizioAIQ\Unit1.dfm=C:\fontes\gourmet.1\MizioAIQ\udmAIQ.dfm</Transaction>
+    <Transaction>2023/05/10 09:50:00.000.802,C:\fontes\gourmet.1\MizioAIQ\Unit1.pas=C:\fontes\gourmet.1\MizioAIQ\udmAIQ.pas</Transaction>
+    <Transaction>2023/05/10 09:53:31.000.874,=C:\fontes\gourmet.1\MizioAIQ\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 09:54:05.000.759,C:\fontes\gourmet.1\MizioAIQ\Unit1.pas=C:\fontes\gourmet.1\MizioAIQ\ufuncoes.pas</Transaction>
+  </Transactions>
+</BorlandProject>

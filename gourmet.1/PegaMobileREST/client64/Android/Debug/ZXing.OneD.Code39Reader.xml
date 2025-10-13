@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.OneD.Code39Reader" platform="Android">
+  <class name="TCode39Reader" sealed="true" file="ZXing.OneD.Code39Reader.pas" line="37">
+    <ancestor name="TOneDReader" namespace="ZXing.OneD.OneDReader">
+      <interfaces>
+        <implements name="IReader" />
+      </interfaces>
+      <methodref name="doDecode" visibility="private">
+      </methodref>
+      <methodref name="InitializeClass" visibility="private" procflags="static" />
+      <methodref name="patternMatchVariance" visibility="protected" procflags="static">
+      </methodref>
+      <methodref name="RecordPatternInReverse" visibility="protected" procflags="static">
+      </methodref>
+      <methodref name="recordPattern" visibility="protected" procflags="static overload">
+      </methodref>
+      <methodref name="reset" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="decode" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="decode" visibility="public" procflags="overload virtual">
+      </methodref>
+      <methodref name="recordPattern" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="decodeRow" visibility="public" procflags="abstract virtual">
+      </methodref>
+      <ancestor name="TInterfacedObject" namespace="System">
+        <interfaces>
+          <implements name="IInterface" />
+        </interfaces>
+        <methodref name="GetRefCount" visibility="private" procflags="inline">
+        </methodref>
+        <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+        </methodref>
+        <methodref name="QueryInterface" visibility="protected">
+        </methodref>
+        <methodref name="_AddRef" visibility="protected">
+        </methodref>
+        <methodref name="_Release" visibility="protected">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="override">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="override">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class override">
+        </methodref>
+        <propertyref name="RefCount" visibility="public">
+        </propertyref>
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="ALPHABET" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="40" />
+      <function name="decodeExtended" visibility="private" procflags="static" file="ZXing.OneD.Code39Reader.pas" line="41">
+        <parameters>
+          <parameter name="encoded" type="string" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="findAsteriskPattern" visibility="private" file="ZXing.OneD.Code39Reader.pas" line="43">
+        <parameters>
+          <parameter name="row" type="IBitArray" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="patternToChar" visibility="private" procflags="static" file="ZXing.OneD.Code39Reader.pas" line="44">
+        <parameters>
+          <parameter name="pattern" type="Integer" />
+          <parameter name="c" type="Char" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="toNarrowWidePattern" visibility="private" procflags="static" file="ZXing.OneD.Code39Reader.pas" line="46">
+        <parameters>
+          <parameter name="counters" type="TArray&lt;System.Integer&gt;" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <field name="ALPHABET_STRING" type="string" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="50" />
+      <field name="ASTERISK_ENCODING" type="Integer" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="51" />
+      <field name="CHARACTER_ENCODINGS" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="54" />
+      <field name="counters" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="55" />
+      <field name="decodeRowResult" type="TStringBuilder" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="56" />
+      <field name="usingCheckDigit" type="Boolean" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="57" />
+      <field name="extendedMode" type="Boolean" visibility="private" varflags="class" file="ZXing.OneD.Code39Reader.pas" line="58" />
+      <function name="decodeRow" visibility="public" procflags="override" file="ZXing.OneD.Code39Reader.pas" line="60">
+        <parameters>
+          <parameter name="rowNumber" type="Integer" paramflags="const" />
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.OneD.Code39Reader.pas" line="64">
+        <parameters>
+          <parameter name="AUsingCheckDigit" type="Boolean" />
+          <parameter name="AExtendedMode" type="Boolean" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.OneD.Code39Reader.pas" line="65">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

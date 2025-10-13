@@ -1,0 +1,1563 @@
+inherited frardo: Tfrardo
+  Height = 650
+  ExplicitHeight = 650
+  inherited PlGeral: TPanel
+    Height = 650
+    ExplicitHeight = 650
+    inherited SplBotoes: TSplitter
+      Height = 630
+      ExplicitHeight = 604
+    end
+    inherited PlBotoes: TPanel
+      Height = 630
+      ExplicitHeight = 630
+      inherited ImageLogoBase: TImage
+        Top = 551
+        ExplicitTop = 525
+      end
+      inherited PlInfo: TPanel
+        Top = 612
+        ExplicitTop = 612
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 551
+        ExplicitHeight = 551
+      end
+    end
+    inherited PlLista: TPanel
+      Height = 630
+      ExplicitHeight = 630
+      inherited SplLista: TSplitter
+        Top = 477
+        Visible = True
+        ExplicitTop = 451
+      end
+      inherited PlRodaPe: TPanel
+        Top = 482
+        Height = 148
+        Visible = True
+        ExplicitTop = 482
+        ExplicitHeight = 148
+        object SplItens: TSplitter
+          Left = 577
+          Top = 0
+          Width = 5
+          Height = 148
+          ExplicitHeight = 124
+        end
+        object listaitm: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 577
+          Height = 148
+          Align = alLeft
+          BorderStyle = bsNone
+          Color = clCream
+          DataSource = Ditm
+          DrawingStyle = gdsGradient
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          PopupMenu = MenuManutencao
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'itmchave'
+              Width = 55
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmitem'
+              Width = 30
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'procodigo'
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'proncm'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'pronome'
+              Width = 192
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'unisimbolo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmvalor'
+              Title.Caption = 'Vlr Unit.'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmquantidade'
+              Width = 60
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmtotal'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmdesconto'
+              Title.Caption = 'Desc.'
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmtotalliq'
+              Title.Caption = 'Total Liquido'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'cfocfop'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itmaliqipi'
+              Width = 30
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'toecodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'cstcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'cspcodigo'
+              Visible = True
+            end>
+        end
+        object PlResumo: TPanel
+          Left = 582
+          Top = 0
+          Width = 387
+          Height = 148
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 1
+          object pdetalhe: TPanel
+            Left = 0
+            Top = 0
+            Width = 387
+            Height = 148
+            Align = alClient
+            BevelOuter = bvNone
+            BorderWidth = 2
+            TabOrder = 0
+            object Panel3: TPanel
+              Left = 2
+              Top = 2
+              Width = 383
+              Height = 20
+              Align = alTop
+              Alignment = taLeftJustify
+              BevelOuter = bvLowered
+              Caption = '          Finaliza'#231#227'o Financeira da Venda'
+              Color = 4210816
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clYellow
+              Font.Height = -12
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 0
+            end
+            object listapor: TDBGrid
+              Left = 2
+              Top = 42
+              Width = 383
+              Height = 77
+              Align = alClient
+              Color = 13303780
+              DataSource = Ddtl
+              DrawingStyle = gdsGradient
+              Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+              TabOrder = 1
+              TitleFont.Charset = DEFAULT_CHARSET
+              TitleFont.Color = clWindowText
+              TitleFont.Height = -11
+              TitleFont.Name = 'Tahoma'
+              TitleFont.Style = []
+              OnDblClick = listaporDblClick
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'ltechave'
+                  Title.Caption = 'Lote'
+                  Width = 50
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'mdaidentificacao'
+                  Title.Caption = 'Modalidade'
+                  Width = 150
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'dtlvalor'
+                  Title.Caption = 'Valor R$'
+                  Width = 70
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'rdcnrauto'
+                  Width = 80
+                  Visible = True
+                end>
+            end
+            object pvalordetalhe: TPanel
+              Left = 2
+              Top = 22
+              Width = 383
+              Height = 20
+              Align = alTop
+              Alignment = taRightJustify
+              BevelOuter = bvLowered
+              BorderWidth = 2
+              Caption = 'Dinheiro R$ 0,00'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 2
+              Visible = False
+            end
+            object plbotoesmodalidade: TPanel
+              Left = 2
+              Top = 119
+              Width = 383
+              Height = 27
+              Align = alBottom
+              BevelOuter = bvNone
+              TabOrder = 3
+              object btinformardinheiro: TButton
+                AlignWithMargins = True
+                Left = 260
+                Top = 3
+                Width = 120
+                Height = 21
+                Align = alRight
+                Caption = 'INCLUIR Modalidade'
+                TabOrder = 0
+                OnClick = btinformardinheiroClick
+                ExplicitLeft = 254
+              end
+              object btInformaAutorizacao: TButton
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 120
+                Height = 21
+                Align = alLeft
+                Caption = 'Informar Autoriza'#231#227'o'
+                TabOrder = 1
+                OnClick = btInformaAutorizacaoClick
+              end
+              object btExcluiModalidade: TButton
+                AlignWithMargins = True
+                Left = 134
+                Top = 3
+                Width = 120
+                Height = 21
+                Align = alRight
+                Caption = 'EXCLUIR Modalidade'
+                TabOrder = 2
+                OnClick = btExcluiModalidadeClick
+                ExplicitLeft = 128
+              end
+            end
+          end
+        end
+      end
+      inherited PlFiltros: TPanel
+        inherited PlEdTextoBusca: TPanel
+          inherited GrBTextoProcurar: TGroupBox
+            inherited PlGbEdtBusca: TPanel
+              inherited edbusca: TEdit
+                Tag = 1
+              end
+            end
+          end
+        end
+        inherited PlBotaoFiltroEsp2: TPanel
+          Enabled = True
+          Visible = True
+        end
+      end
+      inherited PnlGrid: TPanel
+        Height = 348
+        ExplicitHeight = 348
+        inherited DBGLista: TDBGrid
+          Height = 323
+          Color = 14024703
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'meschave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesregistro'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'sdeidentificacao'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tdfidentificacao'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesnumero'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdidentificacao'
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesvalor'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesdesconto'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mestotal'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'temidentificacao'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'oriidentificacao'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 323
+          ExplicitTop = 323
+        end
+      end
+    end
+  end
+  inherited acoes: TActionList
+    Top = 284
+    inherited ActExcluir: TAction
+      Enabled = False
+      Visible = False
+    end
+    object ActImprimirComprovante: TAction [3]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Imprimir Comprovante'
+      OnExecute = ActImprimirComprovanteExecute
+    end
+    inherited ActSair: TAction [10]
+    end
+    inherited ActConfiguracoes: TAction [11]
+    end
+    object ActIprimeNotaNFe: TAction [12]
+      Category = 'NFe Empresa'
+      Caption = 'Gerar Nota NF-e'
+      OnExecute = ActIprimeNotaNFeExecute
+    end
+    object ActEnviarNFeemail: TAction [13]
+      Category = 'NFe Empresa'
+      Caption = 'Enviar por email'
+      OnExecute = ActEnviarNFeemailExecute
+    end
+    object ActNFeImprimir: TAction [14]
+      Category = 'NFe Empresa'
+      Caption = 'imprimir'
+      OnExecute = ActNFeImprimirExecute
+    end
+    object ActAterarClienteNFe: TAction [15]
+      Category = 'NFe Empresa'
+      Caption = 'Aterar Cliente'
+      OnExecute = ActAterarClienteNFeExecute
+    end
+    object ActGerareImprimirNFCe: TAction
+      Category = 'Notas - NFCe'
+      Caption = 'Nota Simples'
+      OnExecute = ActGerareImprimirNFCeExecute
+    end
+    object ActNFCeRefIdentif: TAction
+      Category = 'Notas - NFCe'
+      Caption = 'Nota Refei'#231#227'o Identificada'
+      Enabled = False
+      Visible = False
+      OnExecute = ActNFCeRefIdentifExecute
+    end
+    object ActNFCeIdentificada: TAction
+      Category = 'Notas - NFCe'
+      Caption = 'Nota Identificada'
+      OnExecute = ActNFCeIdentificadaExecute
+    end
+    object ActImprimirNFCe: TAction
+      Category = 'Notas - NFCe'
+      Caption = 'Imprimir NFCE'
+      OnExecute = ActImprimirNFCeExecute
+    end
+    object ActCancelarNFCe: TAction
+      Category = 'Notas - NFCe'
+      Caption = 'Cancelar NFCe'
+      OnExecute = ActCancelarNFCeExecute
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT '
+      '  mes.meschave, '
+      '  mes.mesregistro, '
+      '  sde.sdeidentificacao, '
+      '  tdf.tdfidentificacao, '
+      '  mes.mesnumero, '
+      '  mes.etdcodigo, '
+      '  etd.etdidentificacao AS etdidentificacao,'
+      '  mes.mesvalor, '
+      '  mes.mesdesconto, '
+      '  mes.mestotal,'
+      '  mes.sdecodigo,'
+      '  mes.temcodigo,'
+      '  mes.mesdatanfe,'
+      '  mes.meshoranfe,'
+      '  mes.mesprotocolo,'
+      '  toe.ttocodigo,'
+      '  mes.flacodigo,'
+      '  tem.temidentificacao,'
+      '  mes.mesrefeicao,'
+      '  mor.orcchave, '
+      '  ori.oriidentificacao'
+      ''
+      'FROM mes, '
+      '     etd, '
+      '     sde, '
+      '     tdf, '
+      '     toe, '
+      '     tte, '
+      '     tem,'
+      '     mor,'
+      '     ori '
+      'WHERE (etd.etdcodigo = mes.etdcodigo '
+      'AND mes.temcodigo = tem.temcodigo '
+      'AND sde.sdecodigo = mes.sdecodigo '
+      'AND tte.ttecodigo = toe.ttecodigo '
+      'AND tdf.tdfcodigo = mes.tdfcodigo '
+      'AND toe.toecodigo = mes.toecodigo '
+      'AND mes.meschave = mor.meschave'
+      'AND mes.oricodigo = ori.oricodigo'
+      'AND toe.ttmcodigo = 0 '
+      'AND toe.ttecodigo = 1'
+      'AND toe.ttocodigo = 2 '
+      'AND mes.tdfcodigo not in ( '#39'RF'#39','#39'AF'#39')) '
+      ''
+      ''
+      '-- Filtros')
+    object uqtabelameschave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'meschave'
+    end
+    object uqtabelamesregistro: TDateField
+      DisplayLabel = 'Registro'
+      FieldName = 'mesregistro'
+    end
+    object uqtabelasdeidentificacao: TStringField
+      DisplayLabel = 'Situa'#231#227'o Documento'
+      FieldName = 'sdeidentificacao'
+      Required = True
+      Size = 50
+    end
+    object uqtabelatdfidentificacao: TStringField
+      DisplayLabel = 'Tipo Documento'
+      FieldName = 'tdfidentificacao'
+      Size = 50
+    end
+    object uqtabelamesnumero: TIntegerField
+      DisplayLabel = 'Nr. Documento'
+      FieldName = 'mesnumero'
+    end
+    object uqtabelaetdcodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etdcodigo'
+    end
+    object uqtabelaetdidentificacao: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+    object uqtabelamesvalor: TFloatField
+      DisplayLabel = 'Total R$'
+      FieldName = 'mesvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelamesdesconto: TFloatField
+      DisplayLabel = 'Desconto R$'
+      FieldName = 'mesdesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelamestotal: TFloatField
+      DisplayLabel = 'Total L'#237'quido R$'
+      FieldName = 'mestotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelasdecodigo: TStringField
+      FieldName = 'sdecodigo'
+      Size = 3
+    end
+    object uqtabelatemcodigo: TIntegerField
+      FieldName = 'temcodigo'
+    end
+    object uqtabelamesdatanfe: TDateField
+      FieldName = 'mesdatanfe'
+    end
+    object uqtabelameshoranfe: TTimeField
+      FieldName = 'meshoranfe'
+    end
+    object uqtabelamesprotocolo: TStringField
+      FieldName = 'mesprotocolo'
+      Size = 50
+    end
+    object uqtabelattocodigo: TIntegerField
+      FieldName = 'ttocodigo'
+    end
+    object uqtabelaflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object uqtabelatemidentificacao: TStringField
+      DisplayLabel = 'Est'#225'gio'
+      FieldName = 'temidentificacao'
+      Size = 50
+    end
+    object uqtabelamesrefeicao: TIntegerField
+      FieldName = 'mesrefeicao'
+    end
+    object uqtabelaorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object uqtabelaoriidentificacao: TStringField
+      DisplayLabel = 'Origem'
+      FieldName = 'oriidentificacao'
+      Size = 30
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited Dsfi: TUniDataSource
+    Left = 280
+    Top = 396
+  end
+  inherited sfi: TUniQuery
+    Left = 316
+    Top = 384
+  end
+  inherited XMLDocument1: TXMLDocument
+    Left = 960
+    Top = 253
+  end
+  inherited stgid: TUniQuery
+    Left = 588
+    Top = 416
+  end
+  inherited consultashema: TUniQuery
+    Left = 636
+    Top = 424
+  end
+  object orc: TUniQuery
+    SQL.Strings = (
+      
+        'select mor.orcchave,meschave, orctotalav, orctotalap from mor, o' +
+        'rc where orc.orcchave=mor.orcchave and meschave=:meschave')
+    Left = 776
+    Top = 349
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object orcorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object orcmeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+    object orcorctotalap: TFloatField
+      FieldName = 'orctotalap'
+    end
+    object orcorctotalav: TFloatField
+      FieldName = 'orctotalav'
+    end
+  end
+  object dorc: TUniDataSource
+    DataSet = orc
+    Left = 720
+    Top = 381
+  end
+  object dtl_old: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mda.mdaidentificacao,'
+      '  dtl.dtlvalor,'
+      '  rfm.rfmchave,'
+      '  mes.meschave,'
+      '  rfi.rfihistorico,'
+      '  mes.flacodigo,'
+      '  rfi.rfichave,'
+      '  mfi.mfichave,'
+      '  mes.mestotal,'
+      '  dtl.dtlchave,'
+      '  dtl.ltechave,'
+      '  mlt.mltchave,'
+      '  dtl.mdacodigo,'
+      '  dtl.flacodigo AS dtlflacodigo,'
+      '  rfm.flacodigo AS rfmflacodigo,'
+      '  rfi.flacodigo AS rfiflacodigo,'
+      '  mfi.flacodigo AS mfiflacodigo,'
+      '  lte.flacodigo AS lteflacodigo,'
+      '  mlt.flacodigo AS mltflacodigo'
+      'FROM rfm'
+      '  INNER JOIN mes'
+      '    ON rfm.meschave = mes.meschave'
+      '    AND rfm.flacodigo = mes.flacodigo'
+      '  INNER JOIN rfi'
+      '    ON rfm.rfichave = rfi.rfichave'
+      '    AND rfi.flacodigo = mes.flacodigo'
+      '  INNER JOIN mfi'
+      '    ON mfi.rfichave = rfi.rfichave'
+      '    AND mfi.flacodigo = mes.flacodigo'
+      '  LEFT JOIN mlt'
+      '    ON mlt.mfichave = mfi.mfichave'
+      '    AND mes.flacodigo = mlt.flacodigo'
+      '  INNER JOIN dtl'
+      '    ON dtl.ltechave = mlt.ltechave'
+      '    AND mlt.flacodigo = dtl.flacodigo'
+      '  LEFT JOIN mda'
+      '    ON dtl.mdacodigo = mda.mdacodigo'
+      '  LEFT JOIN lte'
+      '    ON mlt.ltechave = lte.ltechave'
+      '    AND mes.flacodigo = lte.flacodigo'
+      'WHERE rfi.tfdcodigo IN (2, 32)'
+      'AND IF(rfi.tfdcodigo = 2, mfi.tmfcodigo = 2, mfi.tmfcodigo)'
+      'AND mes.tdfcodigo<>'#39'RF'#39
+      'AND mes.meschave = :meschave'
+      'AND mes.flacodigo = :flacodigo'
+      ''
+      'GROUP BY dtl.mdacodigo')
+    Options.DetailDelay = 50
+    Left = 622
+    Top = 408
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object dtl_oldmdaidentificacao: TStringField
+      FieldName = 'mdaidentificacao'
+      Size = 25
+    end
+    object dtl_olddtlvalor: TFloatField
+      FieldName = 'dtlvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object dtl_olddtlchave: TIntegerField
+      FieldName = 'dtlchave'
+    end
+    object dtl_oldrfihistorico: TStringField
+      FieldName = 'rfihistorico'
+      Size = 50
+    end
+    object dtl_oldltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object dtl_olddtlflacodigo: TIntegerField
+      FieldName = 'dtlflacodigo'
+    end
+    object dtl_oldrfiflacodigo: TIntegerField
+      FieldName = 'rfiflacodigo'
+    end
+    object dtl_oldrfmflacodigo: TIntegerField
+      FieldName = 'rfmflacodigo'
+    end
+    object dtl_oldrfmchave: TIntegerField
+      FieldName = 'rfmchave'
+    end
+    object dtl_oldmfiflacodigo: TIntegerField
+      FieldName = 'mfiflacodigo'
+    end
+    object dtl_oldmfichave: TIntegerField
+      FieldName = 'mfichave'
+    end
+    object dtl_oldlteflacodigo: TIntegerField
+      FieldName = 'lteflacodigo'
+    end
+    object dtl_oldrfichave: TIntegerField
+      DisplayLabel = 'Chave Finan.'
+      FieldName = 'rfichave'
+    end
+    object dtl_oldmltflacodigo: TIntegerField
+      FieldName = 'mltflacodigo'
+    end
+    object dtl_oldmltchave: TIntegerField
+      FieldName = 'mltchave'
+    end
+    object dtl_oldmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+    end
+  end
+  object limite: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  etd.etdcodigo,'
+      '  IFNULL(etl.etllimitetotal, 0) AS etllimitetotal'
+      'FROM etd'
+      '  LEFT JOIN (SELECT'
+      '      etdcodigo,'
+      '      etllimitetotal'
+      '    FROM etl) etl'
+      '    ON etd.etdcodigo = etl.etdcodigo'
+      'WHERE etd.etdcodigo = :etdcodigo')
+    Left = 634
+    Top = 543
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object limiteetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object limiteetllimitetotal: TFloatField
+      FieldName = 'etllimitetotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  object disponivel: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  rfi.etdcodigo,'
+      '  SUM(rfi.rfisaldocapital) AS rfisaldocapital'
+      'FROM v_rfi rfi'
+      'WHERE rfi.tfdcodigo = 2'
+      'AND rfi.srfcodigo NOT IN (2, 9)'
+      'AND rfi.etdcodigo = :etdcodigo'
+      'GROUP BY rfi.etdcodigo'
+      'ORDER BY rfi.etdcodigo')
+    Left = 508
+    Top = 495
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object disponivelrfisaldocapital: TFloatField
+      FieldName = 'rfisaldocapital'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  object Ditm: TUniDataSource
+    DataSet = itm
+    Left = 384
+    Top = 468
+  end
+  object itm: TUniQuery
+    SQL.Strings = (
+      'SELECT itm.itmchave'
+      '     , itm.meschave'
+      '     , itm.itmitem'
+      '     , itm.procodigo'
+      '    , IF(imv.vrpcodigo > 0'
+      '        , (SELECT vv.pronome'
+      '            FROM v_vrp vv'
+      '            WHERE vv.vrpcodigo = imv.vrpcodigo) '
+      '        , IF(tImc.clbidentificacao IS NOT NULL'
+      '           , CONCAT(pro.pronome, '#39' - '#39', tImc.clbidentificacao)'
+      '           , pro.pronome))            AS pronome'
+      ' --    , pro.pronome'
+      '     , uni.unisimbolo'
+      '     , itm.itmquantidade'
+      '     , itm.itmvalor'
+      '     , itm.itmdesconto'
+      '     , itm.itmtotal'
+      '     , (itm.itmtotal - itm.itmdesconto) AS itmtotalliq'
+      '     , itm.cfocfop'
+      '     , itm.itmaliqipi'
+      '     , itm.toecodigo'
+      '     , pro.proncm'
+      '     , itm.cstcodigo'
+      '     , itm.cspcodigo'
+      '     , itm.itmpis'
+      '     , itm.itmcofins'
+      '  FROM      itm'
+      '  LEFT JOIN imv ON itm.itmchave  = imv.itmchave  '
+      '  JOIN      pro ON itm.procodigo = pro.procodigo'
+      '  JOIN      pun ON itm.puncodigo = pun.puncodigo'
+      '  JOIN      uni ON pun.unicodigo = uni.unicodigo'
+      '  '
+      '  -- Identifica o T'#233'cnico da OS'
+      '  LEFT JOIN (SELECT i.itmchave'
+      '                  , c.clbidentificacao'
+      '               FROM imc i'
+      '               JOIN clb c ON i.clbcodigo = c.clbcodigo '
+      
+        '                AND c.fnccodigo = 5) tImc ON itm.itmchave = tImc' +
+        '.itmchave  '
+      ' '
+      ' WHERE itm.meschave = :meschave and itm.flacodigo=:flacodigo')
+    MasterSource = DSTabela
+    MasterFields = 'meschave'
+    DetailFields = 'meschave'
+    Options.DetailDelay = 40
+    Left = 324
+    Top = 484
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object itmitmchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'itmchave'
+      ReadOnly = True
+    end
+    object itmmeschave: TIntegerField
+      FieldName = 'meschave'
+      ReadOnly = True
+      Required = True
+    end
+    object itmitmitem: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'itmitem'
+      ReadOnly = True
+      Required = True
+    end
+    object itmprocodigo: TIntegerField
+      DisplayLabel = 'Produto'
+      FieldName = 'procodigo'
+      ReadOnly = True
+      Required = True
+    end
+    object itmpronome: TStringField
+      DisplayLabel = 'Identifica'#231#227'o do Produto / Servi'#231'o'
+      FieldName = 'pronome'
+      Required = True
+      Size = 150
+    end
+    object itmunisimbolo: TStringField
+      DisplayLabel = 'UN'
+      FieldName = 'unisimbolo'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 6
+    end
+    object itmitmvalor: TFloatField
+      DisplayLabel = 'Vlr Unit R$'
+      FieldName = 'itmvalor'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmitmquantidade: TFloatField
+      DisplayLabel = 'Quant.'
+      FieldName = 'itmquantidade'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmitmdesconto: TFloatField
+      DisplayLabel = 'Desc. R$'
+      FieldName = 'itmdesconto'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmitmtotal: TFloatField
+      DisplayLabel = 'Total Item R$'
+      FieldName = 'itmtotal'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmcfocfop: TStringField
+      DisplayLabel = 'CFOP'
+      FieldName = 'cfocfop'
+      ReadOnly = True
+      Required = True
+      Size = 5
+    end
+    object itmitmaliqipi: TFloatField
+      DisplayLabel = 'IPI'
+      FieldName = 'itmaliqipi'
+      DisplayFormat = '#,#0.0'
+      EditFormat = '#,#0.0'
+    end
+    object itmitmtotalliq: TFloatField
+      DisplayLabel = 'Total'
+      FieldName = 'itmtotalliq'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmtoecodigo: TIntegerField
+      DisplayLabel = 'Opera'#231#227'o'
+      FieldName = 'toecodigo'
+    end
+    object itmproncm: TStringField
+      DisplayLabel = 'NCM'
+      FieldName = 'proncm'
+      Size = 8
+    end
+    object itmcstcodigo: TStringField
+      DisplayLabel = 'CST'
+      FieldName = 'cstcodigo'
+      Size = 4
+    end
+    object itmcspcodigo: TStringField
+      DisplayLabel = 'CSP'
+      FieldName = 'cspcodigo'
+      Size = 4
+    end
+    object itmitmpis: TFloatField
+      FieldName = 'itmpis'
+    end
+    object itmitmcofins: TFloatField
+      FieldName = 'itmcofins'
+    end
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT '
+      '      cfg.cfgusagou,'
+      '      cfgmgou.cfgmgouprorefeicao,'
+      '      cfgservarqnfes,'
+      '     cfgmgouctadelivery'
+      ''
+      '     '
+      '  FROM cfg, cfgmgou,cfgmsai, cfgmspd, cfgmnfe  '
+      ''
+      ' WHERE cfg.flacodigo = :flacodigo'
+      'and cfg.cfgcodigo=cfgmgou.cfgcodigo'
+      'and cfg.cfgcodigo=cfgmsai.cfgcodigo'
+      'and cfg.cfgcodigo=cfgmspd.cfgcodigo'
+      'and cfg.cfgcodigo=cfgmnfe.cfgcodigo')
+    Left = 712
+    Top = 189
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object cfgcfgusagou: TIntegerField
+      FieldName = 'cfgusagou'
+    end
+    object cfgcfgmgouprorefeicao: TIntegerField
+      FieldName = 'cfgmgouprorefeicao'
+    end
+    object cfgcfgservarqnfes: TStringField
+      FieldName = 'cfgservarqnfes'
+      Size = 500
+    end
+    object cfgcfgmgouctadelivery: TIntegerField
+      FieldName = 'cfgmgouctadelivery'
+    end
+  end
+  object refeicoes: TUniStoredProc
+    StoredProcName = 'RegistraRefeicao'
+    SQL.Strings = (
+      
+        'CALL RegistraRefeicao(:pFlaCodigo, :pTipoChave, :pChave, :pClbCo' +
+        'digo, :pValor, :pLteChave, :pChamada, @pConfirma, @pMesChave); S' +
+        'ELECT CAST(@pConfirma AS SIGNED) AS '#39'@pConfirma'#39', CAST(@pMesChav' +
+        'e AS SIGNED) AS '#39'@pMesChave'#39)
+    Options.ReturnParams = True
+    Left = 648
+    Top = 357
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'pFlaCodigo'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pTipoChave'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pChave'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pClbCodigo'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftFloat
+        Name = 'pValor'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pLteChave'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pChamada'
+        ParamType = ptInput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pConfirma'
+        ParamType = ptOutput
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'pMesChave'
+        ParamType = ptOutput
+        Value = nil
+      end>
+    CommandStoredProcName = 'RegistraRefeicao'
+  end
+  object mes: TUniQuery
+    SQL.Strings = (
+      
+        'select mes.meschave, mestotal, mor.orcchave from mes,mor where m' +
+        'es.meschave=mor.meschave   and mes.meschave=:meschave')
+    Left = 776
+    Top = 397
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+  end
+  object dmes: TUniDataSource
+    DataSet = mes
+    Left = 856
+    Top = 381
+  end
+  object dtl: TUniQuery
+    SQL.Strings = (
+      ' SELECT DISTINCT'
+      ''
+      
+        '  concat(mda.mdaidentificacao,'#39'-'#39', ori.oriidentificacao) mdaiden' +
+        'tificacao ,'
+      '  ( dtl.dtlvalor) dtlvalor,'
+      '  dtl.ltechave,'
+      '   mda.mdacodigo,'
+      '  IF(LOCATE('#39'{'#39', dtl.rdcnrauto)>0,'#39#39',  dtl.rdcnrauto) rdcnrauto,'
+      '  dtl.dtlchave'
+      ''
+      'FROM rfm'
+      '  INNER JOIN mes'
+      '    ON rfm.meschave = mes.meschave'
+      ''
+      '  INNER JOIN ori'
+      '    ON ori.oricodigo = mes.oricodigo'
+      '    '
+      '  INNER JOIN rfi'
+      '    ON rfm.rfichave = rfi.rfichave'
+      '    '
+      '  INNER JOIN mfi'
+      '    ON mfi.rfichave = rfi.rfichave'
+      ''
+      '  LEFT JOIN mlt'
+      '    ON mlt.mfichave = mfi.mfichave'
+      ''
+      '  INNER JOIN dtl'
+      '    ON dtl.ltechave = mlt.ltechave'
+      ''
+      '  INNER JOIN mda'
+      '    ON dtl.mdacodigo = mda.mdacodigo'
+      '  INNER JOIN lte'
+      '    ON mlt.ltechave = lte.ltechave'
+      ''
+      'WHERE rfi.tfdcodigo IN (2, 32)'
+      'AND IF(rfi.tfdcodigo = 2, mfi.tmfcodigo = 2, mfi.tmfcodigo)'
+      'AND mes.tdfcodigo <> '#39'RF'#39
+      'AND mes.mesrefeicao = 0'
+      'and mda.mdacodigo<>11'
+      'AND mes.meschave = :meschave'
+      'AND mes.flacodigo = :flacodigo'
+      ''
+      'UNION DISTINCT'
+      ''
+      ''
+      'SELECT DISTINCT'
+      ''
+      '    mda.mdaidentificacao,'
+      '  ( dtl.dtlvalor) dtlvalor,'
+      '  dtl.ltechave,'
+      '   mda.mdacodigo,'
+      '  IF(LOCATE('#39'{'#39', dtl.rdcnrauto)>0,'#39#39',  dtl.rdcnrauto) rdcnrauto,'
+      '  dtl.dtlchave'
+      ''
+      'FROM rfm'
+      '  INNER JOIN mes'
+      '    ON rfm.meschave = mes.meschave'
+      '    AND rfm.flacodigo = mes.flacodigo'
+      '  INNER JOIN rfi'
+      '    ON rfm.rfichave = rfi.rfichave'
+      '    AND rfi.flacodigo = mes.flacodigo'
+      '  INNER JOIN mfi'
+      '    ON mfi.rfichave = rfi.rfichave'
+      '    AND mfi.flacodigo = mes.flacodigo'
+      '  LEFT JOIN mlt'
+      '    ON mlt.mfichave = mfi.mfichave'
+      '    AND mes.flacodigo = mlt.flacodigo'
+      '  INNER JOIN dtl'
+      '    ON dtl.ltechave = mlt.ltechave'
+      '    AND mlt.flacodigo = dtl.flacodigo'
+      '  INNER JOIN mda'
+      '    ON dtl.mdacodigo = mda.mdacodigo'
+      '  INNER JOIN lte'
+      '    ON mlt.ltechave = lte.ltechave'
+      '    AND mes.flacodigo = lte.flacodigo'
+      'WHERE rfi.tfdcodigo IN ( 2)'
+      'AND IF(rfi.tfdcodigo = 2, mfi.tmfcodigo = 2, mfi.tmfcodigo)'
+      'AND mes.tdfcodigo <> '#39'RF'#39
+      'AND mes.mesrefeicao = 0'
+      'AND rfi.tficodigo=10'
+      'AND mes.meschave = :meschave'
+      'and mda.mdacodigo<>11'
+      'AND mes.flacodigo = :flacodigo '
+      '')
+    FetchRows = 50
+    ReadOnly = True
+    UniDirectional = True
+    CachedUpdates = True
+    Options.FlatBuffers = True
+    Options.DetailDelay = 50
+    AutoCalcFields = False
+    Left = 592
+    Top = 372
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object dtlltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object dtlmdaidentificacao: TStringField
+      FieldName = 'mdaidentificacao'
+      Size = 25
+    end
+    object dtldtlvalor: TFloatField
+      FieldName = 'dtlvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object dtlmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+    end
+    object dtlrdcnrauto: TStringField
+      DisplayLabel = 'Nr. Autoriza'#231#227'o'
+      FieldName = 'rdcnrauto'
+      Size = 200
+    end
+    object dtldtlchave: TIntegerField
+      FieldName = 'dtlchave'
+    end
+  end
+  object mesemi: TUniQuery
+    SQL.Strings = (
+      'SELECT '
+      '  mes.meschave, '
+      '  IF((SELECT '
+      '      COUNT(micchave) '
+      '    FROM mic '
+      
+        '    WHERE mic.meschave = mes.meschave) > 0, CONCAT(etd.etdidenti' +
+        'ficacao, '#39' '#39', (SELECT '
+      '      idcnome '
+      '    FROM idc, '
+      '         mic '
+      '    WHERE idc.idccodigo = mic.idccodigo '
+      
+        '    AND mic.meschave = mes.meschave)), etd.etdidentificacao) AS ' +
+        'etdidentificacao, '
+      '  sde.sdeidentificacao, '
+      '  tdf.tdfidentificacao, '
+      '  toe.toeidentificacao, '
+      '  mes.mesemissao, '
+      '  mes.mesnumero, '
+      '  mes.etdcodigo, '
+      '  mes.messerie, '
+      '  meschavenfe, '
+      '  mes.mesregistro, '
+      '  mes.mesvalor, '
+      '  mes.mesdesconto, '
+      '  mes.mestotal, '
+      '  mes.temcodigo, '
+      '  mes.clbcodigo, '
+      '  mes.trmcodigo, '
+      '  mesprotocolo, '
+      '  mes.sdecodigo, '
+      '  mesdatanfe, '
+      '  toeorigem, '
+      '  mes.tdfcodigo, '
+      '  toe.ttecodigo, '
+      '  tte.tteidentificacao, '
+      '  temidentificacao, '
+      '  mesprodutos, '
+      '  messervicos, '
+      '  toe.ttocodigo, '
+      '  mes.mespis, '
+      '  mes.mescofins, '
+      '  mes.mesipi, '
+      '  mes.mesicm, '
+      '  mes.mesicms, '
+      '  mes.flacodigo'
+      'FROM mes, '
+      '     etd, '
+      '     sde, '
+      '     tdf, '
+      '     toe, '
+      '     tte, '
+      '     tem '
+      'WHERE etd.etdcodigo = mes.etdcodigo '
+      'AND mes.temcodigo = tem.temcodigo '
+      'AND sde.sdecodigo = mes.sdecodigo '
+      'AND tte.ttecodigo = toe.ttecodigo '
+      'AND tdf.tdfcodigo = mes.tdfcodigo '
+      'AND toe.toecodigo = mes.toecodigo '
+      'AND toe.ttmcodigo = 0 '
+      'AND toe.ttecodigo = 1 '
+      'and mes.meschave=:meschave'
+      '')
+    Left = 784
+    Top = 229
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object mesemimeschave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'meschave'
+    end
+    object mesemimesemissao: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'mesemissao'
+      EditMask = '!99/99/0000;1;_'
+    end
+    object mesemitdfidentificacao: TStringField
+      DisplayLabel = 'Tipo Documento'
+      FieldName = 'tdfidentificacao'
+      Size = 50
+    end
+    object mesemimesnumero: TIntegerField
+      DisplayLabel = 'Nr. Documento'
+      FieldName = 'mesnumero'
+    end
+    object mesemietdcodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etdcodigo'
+    end
+    object mesemietdidentificacao: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+    object mesemimesvalor: TFloatField
+      DisplayLabel = 'Total R$'
+      FieldName = 'mesvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimesdesconto: TFloatField
+      DisplayLabel = 'Desconto R$'
+      FieldName = 'mesdesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimestotal: TFloatField
+      DisplayLabel = 'Total L'#237'quido R$'
+      FieldName = 'mestotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemisdeidentificacao: TStringField
+      DisplayLabel = 'Situa'#231#227'o Documento'
+      FieldName = 'sdeidentificacao'
+      Required = True
+      Size = 50
+    end
+    object mesemitoeidentificacao: TStringField
+      DisplayLabel = 'Destina'#231#227'o'
+      FieldName = 'toeidentificacao'
+      Required = True
+      Size = 50
+    end
+    object mesemimesserie: TStringField
+      DisplayLabel = 'S'#233'rie'
+      FieldName = 'messerie'
+      Size = 5
+    end
+    object mesemiclbcodigo: TIntegerField
+      DisplayLabel = 'Clb'
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object mesemitrmcodigo: TIntegerField
+      DisplayLabel = 'Trm'
+      FieldName = 'trmcodigo'
+      Required = True
+    end
+    object mesemimesprotocolo: TStringField
+      FieldName = 'mesprotocolo'
+      Size = 50
+    end
+    object mesemisdecodigo: TStringField
+      DisplayLabel = 'C'#243'd. Situa'#231#227'o'
+      FieldName = 'sdecodigo'
+      Size = 2
+    end
+    object mesemimesdatanfe: TDateField
+      DisplayLabel = 'Data NFE'
+      FieldName = 'mesdatanfe'
+    end
+    object mesemitemcodigo: TIntegerField
+      DisplayLabel = 'Cod. Est'#225'gio'
+      FieldName = 'temcodigo'
+    end
+    object mesemitemidentificacao: TStringField
+      DisplayLabel = 'Est'#225'gio'
+      FieldName = 'temidentificacao'
+    end
+    object mesemitoeorigem: TStringField
+      FieldName = 'toeorigem'
+      Size = 1
+    end
+    object mesemitdfcodigo: TStringField
+      FieldName = 'tdfcodigo'
+      Size = 2
+    end
+    object mesemittecodigo: TIntegerField
+      DisplayLabel = 'Cod. Tipo Mov.'
+      FieldName = 'ttecodigo'
+    end
+    object mesemitteidentificacao: TStringField
+      Tag = 999
+      DisplayLabel = 'Tipo Mov.'
+      FieldName = 'tteidentificacao'
+      Size = 35
+    end
+    object mesemimeschavenfe: TStringField
+      FieldName = 'meschavenfe'
+      Size = 100
+    end
+    object mesemimesregistro: TDateField
+      DisplayLabel = 'Registro'
+      FieldName = 'mesregistro'
+    end
+    object mesemimesprodutos: TFloatField
+      DisplayLabel = 'Produtos R$'
+      FieldName = 'mesprodutos'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimesservicos: TFloatField
+      DisplayLabel = 'Servi'#231'os R$'
+      FieldName = 'messervicos'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemittocodigo: TIntegerField
+      FieldName = 'ttocodigo'
+    end
+    object mesemimespis: TFloatField
+      DisplayLabel = 'PIS'
+      FieldName = 'mespis'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimescofins: TFloatField
+      DisplayLabel = 'Cofins'
+      FieldName = 'mescofins'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimesipi: TFloatField
+      DisplayLabel = 'IPI'
+      FieldName = 'mesipi'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimesicm: TFloatField
+      DisplayLabel = 'ICM'
+      FieldName = 'mesicm'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemimesicms: TFloatField
+      DisplayLabel = 'ICM-Subst.'
+      FieldName = 'mesicms'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesemiflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  object Ddtl: TDataSource
+    DataSet = dtl
+    Left = 563
+    Top = 548
+  end
+  object frxUniDACComponents1: TfrxUniDACComponents
+    Left = 864
+    Top = 197
+  end
+  object mic: TUniQuery
+    SQL.Strings = (
+      
+        'select micchave, idccodigo, meschave from mic where mic.meschave' +
+        '=:meschave')
+    Left = 419
+    Top = 536
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object micmicchave: TIntegerField
+      FieldName = 'micchave'
+    end
+    object micidccodigo: TIntegerField
+      FieldName = 'idccodigo'
+    end
+    object micmeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+  end
+  object oic: TUniQuery
+    SQL.Strings = (
+      
+        'select oicchave, idccodigo, orcchave from oic where oic.orcchave' +
+        '=:orcchave')
+    Left = 480
+    Top = 536
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object oicoicchave: TIntegerField
+      FieldName = 'oicchave'
+    end
+    object oicidccodigo: TIntegerField
+      FieldName = 'idccodigo'
+    end
+    object oicorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+  end
+end

@@ -1,0 +1,201 @@
+unit ufratce;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrabase, Data.DB, System.ImageList,
+  Vcl.ImgList, Vcl.ExtCtrls, VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus,
+  System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, uPegabase,
+  Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.Mask, Vcl.DBCtrls, Vcl.Imaging.pngimage,
+  DBGrid2Excel, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, ufuncoes;
+
+type
+  Tfratce = class(Tfrabase)
+    uqtabelatcechave: TIntegerField;
+    uqtabelatceitem: TStringField;
+    uqtabelatcecest: TStringField;
+    uqtabelatcedescricao: TStringField;
+    ActSincronizar: TAction;
+    uqtabelatcencm: TStringField;
+    lcn: TUniQuery;
+    lcnlcnchave: TIntegerField;
+    lcntcecest: TStringField;
+    lcntcgncm: TStringField;
+    tcg: TUniQuery;
+    tcgtcgncm: TStringField;
+    llcn: TUniQuery;
+    llcnlcnchave: TIntegerField;
+    llcntcecest: TStringField;
+    llcntcgncm: TStringField;
+    DBGridlcn: TDBGrid;
+    Dllcn: TDataSource;
+    tce: TUniQuery;
+    tcetcechave: TIntegerField;
+    tcetcecest: TStringField;
+    tcetcencm: TStringField;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActSincronizarExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fratce: Tfratce;
+
+  // Início ID do Módulo fratce
+const
+  vPlIdMd = '00.00.00.000-01';
+  vPlTitMdl = 'Códigos CEST';
+
+  // Fim ID do Módulo fratce
+
+implementation
+
+uses
+  uftce;
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fratce := Tfratce.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fratce := Tfratce.Create(pCargaFrame);
+  try
+    fratce.CriaAcoesDeAcesso;
+  finally
+    fratce.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfratce.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tftce, uqtabelatcechave.AsString, '');
+end;
+
+procedure Tfratce.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tftce, '', '');
+end;
+
+procedure Tfratce.ActSincronizarExecute(Sender: TObject);
+var
+  vlncmparcial: string;
+begin
+  inherited;
+
+  consulta.Close;
+  consulta.SQL.Text := 'delete from lcn';
+  consulta.ExecSQL;
+
+  lcn.Close;
+  lcn.Open;
+
+  tcg.Close;
+  tcg.Open;
+
+  tce.Close;
+  tce.Open;
+  tce.First;
+  while not tce.Eof do
+  begin
+    tce.Edit;
+    tcetcecest.AsString := SoNumeros(tcetcecest.AsString);
+    tcetcencm.AsString := SoNumeros(tcetcencm.AsString);
+    tce.Post;
+    tce.Next;
+  end;
+
+  uqtabela.First;
+
+  while not uqtabela.Eof do
+  begin
+    if Length(uqtabelatcencm.AsString) < 8 then
+    begin
+      vlncmparcial := SoNumeros(uqtabelatcencm.AsString);
+
+      if vlncmparcial <> '' then
+      begin
+        tcg.Close;
+        tcg.SQL.Text := 'select tcgncm from tcg where replace(tcgncm,''.'','''')  like ' + QuotedStr(vlncmparcial + '%');
+        tcg.Open;
+        while not tcg.Eof do
+        begin
+
+          if not lcn.Locate('tcgncm;tcecest', VarArrayOf([SoNumeros(tcgtcgncm.AsString), SoNumeros(uqtabelatcecest.AsString)]), []) then
+          begin
+            lcn.Append;
+            lcntcecest.AsString := SoNumeros(uqtabelatcecest.AsString);
+            lcntcgncm.AsString := SoNumeros(tcgtcgncm.AsString);
+            lcn.Post;
+          end;
+          tcg.Next;
+        end;
+      end;
+    end
+    else
+    begin
+
+      vlncmparcial := SoNumeros(uqtabelatcencm.AsString);
+      tcg.Close;
+      tcg.SQL.Text := 'select tcgncm from tcg where replace(tcgncm,''.'','''')=' + QuotedStr(vlncmparcial);
+      tcg.Open;
+      while not tcg.Eof do
+      begin
+
+        if not lcn.Locate('tcgncm;tcecest', VarArrayOf([SoNumeros(tcgtcgncm.AsString), SoNumeros(uqtabelatcecest.AsString)]), []) then
+        begin
+          lcn.Append;
+          lcntcecest.AsString := SoNumeros(uqtabelatcecest.AsString);
+          lcntcgncm.AsString := SoNumeros(tcgtcgncm.AsString);
+          lcn.Post;
+
+        end;
+
+        tcg.Next;
+      end;
+
+    end;
+
+    uqtabela.Next;
+
+  end;
+
+end;
+
+procedure Tfratce.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if not uqtabela.IsEmpty then
+    if uqtabelatcecest.AsString <> '' then
+    begin
+      llcn.Close;
+      llcn.ParamByName('tcecest').AsString :=SoNumeros(uqtabelatcecest.AsString);
+      llcn.FilterSQL := 'tcgncm like ' + QuotedStr(sonumeros(uqtabelatcencm.AsString) + '%');
+      llcn.Open;
+    end
+    else
+    begin
+      llcn.Close;
+      llcn.ParamByName('tcecest').AsString := '';
+      llcn.Open;
+
+    end;
+end;
+
+end.

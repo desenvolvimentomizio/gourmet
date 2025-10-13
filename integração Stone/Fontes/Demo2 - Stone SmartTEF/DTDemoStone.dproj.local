@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/08/17 18:56:42.000.511,=D:\workspace\delphi\Unit1.pas</Transaction>
+    <Transaction>2022/08/17 19:00:46.000.243,D:\workspace\delphi\Unit1.pas=C:\Users\amade\OneDrive\Delphi\Demos\Diversos\POS Stone\pos-android-deeplink-demo-master\delphi\uPrincipal.pas</Transaction>
+    <Transaction>2022/08/17 19:00:46.000.243,D:\workspace\delphi\Unit1.fmx=C:\Users\amade\OneDrive\Delphi\Demos\Diversos\POS Stone\pos-android-deeplink-demo-master\delphi\uPrincipal.fmx</Transaction>
+    <Transaction>2022/08/17 19:01:21.000.590,D:\workspace\delphi\Project1.dproj=C:\Users\amade\OneDrive\Delphi\Demos\Diversos\POS Stone\pos-android-deeplink-demo-master\delphi\DemoStoneDelphi.dproj</Transaction>
+    <Transaction>2024/07/29 15:59:55.000.237,=D:\Dropbox\FONTES FMX\Integracoes\Stone intent\Unit1.pas</Transaction>
+    <Transaction>2024/07/29 16:00:38.000.275,D:\Dropbox\FONTES FMX\Integracoes\Stone intent\untSTONEIntent.pas=D:\Dropbox\FONTES FMX\Integracoes\Stone intent\Unit1.pas</Transaction>
+    <Transaction>2024/10/14 10:19:48.000.343,D:\Dropbox\FONTES FMX\Integracoes\Stone intent\DTDemoStone.dproj=D:\Dropbox\FONTES FMX\Integracoes\Stone intent\DemoStoneDelphi.dproj</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5" Android64="4AF30419G" Android=""/>
+		<PMacOS iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+	<BT_BuildType>Debug</BT_BuildType>
+</BorlandProject>

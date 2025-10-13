@@ -1,0 +1,81 @@
+
+MP 2100 TH
+
+Conexão Serial
+Retorno Descrição
+0 Erro de comunicação/ “OFFLINE”
+24 Impressora “ONLINE” e/ou Pouco papel
+32 Impressora sem papel
+ 
+Conexão Paralela
+Retorno Descrição
+0 Erro de comunicação
+79 Impressora “OFFLINE”
+144 Impressora “ONLINE” e/ou pouco papel
+
+
+MP 4000 TH
+Conexão USB 
+Retorno Descrição
+24 Impressora “ONLINE” e/ou pouco papel
+32 Impressora sem papel
+68 Erro de comunicação/”OFFLINE”
+ 
+Conexão Paralela
+Retorno Descrição
+0 Impressora com pouco papel
+24 Impressora ONLINE
+40 Erro de comunicação/”OFFLINE”
+ 
+Conexão Serial  
+Retorno Descrição
+0 Erro de comunicação/”OFFLINE”
+5 Impressora com pouco papel
+24 Impressora “ONLINE”
+32 Impressora sem papel
+ 
+Conexão Ethernet
+Retorno Descrição
+0 Erro de comunicação/”OFFLINE”
+24 Impressora “ONLINE” e/ou pouco papel
+32 Impressora sem papel
+
+
+MP-4200 TH
+Conexão Serial
+Retorno Descrição
+0 Erro de comunicação
+5 Impressora com pouco papel
+9 Tampa aberta 
+24 Impressora “ONLINE”
+32 Impressora sem papel
+ 
+Conexão USB
+Retorno Descrição
+0  Erro de comunicação
+5 Impressora com pouco papel
+9 Tampa aberta 
+24 Impressora “ONLINE”
+32 Impressora sem papel
+ 
+Conexão Ethernet
+Retorno Descrição
+0 Erro de comunicação
+5 Impressora com pouco papel
+9 Tampa aberta 
+24 Impressora “ONLINE”
+32 Impressora sem papel
+
+
+
+exemplo delphi :
+//*********** IMPRESSORAS MP 4000 TH CONEXÃO SERIAL **************
+if (i_modelo=5) and (s_stporta=’serial’) then
+   Begin
+    if i_retorno= 24 then lbl_status.Caption:=’24 – IMPRESSORA ON LINE’;
+    if i_retorno= 0 then lbl_status.Caption:=’0 – IMP. OFF LINE/SEM COMUNICAÇÃO’;
+    if i_retorno= 32 then lbl_status.Caption:=’32 – IMP. SEM PAPEL’;
+    if i_retorno= 5 then lbl_status.Caption:=’5 – ON LINE – POUCO PAPEL’;
+    End;
+//************************************************************** 
+E

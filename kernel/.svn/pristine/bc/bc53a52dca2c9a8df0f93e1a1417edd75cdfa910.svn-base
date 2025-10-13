@@ -1,0 +1,29 @@
+program MizioContingencia;
+
+uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
+  Vcl.Forms,
+  ufGerContiNFCe in 'ufGerContiNFCe.pas' {fGerContiNFCe},
+  ufuncoes in '..\funcoes\ufuncoes.pas',
+  uCloudComunicacao in '..\cloud\uCloudComunicacao.pas',
+  uFormComunicacao in '..\cloud\uFormComunicacao.pas' {FormComunicacao},
+  uMizioCloudDAV in '..\cloud\uMizioCloudDAV.pas';
+
+{$R *.res}
+
+begin
+
+  //  ReportMemoryLeaksOnShutdown := true;
+
+
+
+
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfGerContiNFCe, fGerContiNFCe);
+  Application.Run;
+end.

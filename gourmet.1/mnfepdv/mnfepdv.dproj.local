@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/09/05 09:29:26.000.708,=rtl.dcp</Transaction>
+    <Transaction>2024/09/05 09:32:31.000.671,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\Fontes_varejo\16.1\mnfepdv\mnfepdv.dproj</Transaction>
+    <Transaction>2024/09/05 09:34:34.000.813,=C:\Fontes_varejo\16.1\mnfepdv\ufnfcepdv.pas</Transaction>
+    <Transaction>2024/09/05 09:34:34.000.964,=C:\Fontes_varejo\16.1\mnfepdv\ufNFCePDVComprovante.pas</Transaction>
+    <Transaction>2024/09/05 09:34:35.000.290,=C:\Fontes_varejo\16.1\mnfepdv\ufnfepdv.pas</Transaction>
+    <Transaction>2024/09/05 09:34:35.000.383,=C:\Fontes_varejo\16.1\mnfepdv\uknf.pas</Transaction>
+    <Transaction>2024/09/05 09:36:46.000.151,C:\Fontes_varejo\16.1\mnfepdv\uknf.pas=</Transaction>
+    <Transaction>2025/01/29 14:22:45.000.845,=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfce.pas</Transaction>
+    <Transaction>2025/01/29 14:24:05.000.357,C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfce.dfm=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcepdv.dfm</Transaction>
+    <Transaction>2025/01/29 14:24:05.000.357,C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfce.pas=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcepdv.pas</Transaction>
+    <Transaction>2025/01/29 14:24:48.000.757,=C:\fontes_gourmet\gourmet.1\mnfepdv\ufaguarde.pas</Transaction>
+    <Transaction>2025/01/29 14:41:28.000.142,=C:\fontes_gourmet\gourmet.1\mnfepdv\uCloudComunicacao.pas</Transaction>
+    <Transaction>2025/01/29 14:45:16.000.145,=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcejustificativa.pas</Transaction>
+    <Transaction>2025/01/29 18:25:15.000.973,C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcejustificativa.pas=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcejustificativapdv.pas</Transaction>
+    <Transaction>2025/01/29 18:25:15.000.973,C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcejustificativa.dfm=C:\fontes_gourmet\gourmet.1\mnfepdv\ufnfcejustificativapdv.dfm</Transaction>
+    <Transaction>2025/01/29 18:27:04.000.864,C:\fontes_gourmet\gourmet.1\mnfepdv\uCloudComunicacao.pas=C:\fontes_gourmet\gourmet.1\mnfepdv\uCloudComunicacaopdv.pas</Transaction>
+    <Transaction>2025/01/29 18:27:44.000.159,C:\fontes_gourmet\gourmet.1\mnfepdv\ufaguarde.pas=C:\fontes_gourmet\gourmet.1\mnfepdv\ufaguardepdv.pas</Transaction>
+    <Transaction>2025/01/29 18:27:44.000.159,C:\fontes_gourmet\gourmet.1\mnfepdv\ufaguarde.dfm=C:\fontes_gourmet\gourmet.1\mnfepdv\ufaguardepdv.dfm</Transaction>
+    <Transaction>2025/01/29 19:07:51.000.133,=C:\fontes_gourmet\gourmet.1\mnfepdv\uFormComunicacao.pas</Transaction>
+    <Transaction>2025/01/29 19:08:03.000.769,C:\fontes_gourmet\gourmet.1\mnfepdv\uFormComunicacao.dfm=C:\fontes_gourmet\gourmet.1\mnfepdv\uFormComunicacaopdv.dfm</Transaction>
+    <Transaction>2025/01/29 19:08:03.000.769,C:\fontes_gourmet\gourmet.1\mnfepdv\uFormComunicacao.pas=C:\fontes_gourmet\gourmet.1\mnfepdv\uFormComunicacaopdv.pas</Transaction>
+  </Transactions>
+</BorlandProject>

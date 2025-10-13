@@ -1,0 +1,1272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Database Diagram File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DevartDatabaseDiagram>
+  <SchemaVersion>1.2</SchemaVersion>
+  <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+  <Connection>
+    <Name>pega2013.192.168.5.60</Name>
+    <ConnectionString>User Id=root;Host=192.168.5.60;Database=pega2013;Character Set=utf8</ConnectionString>
+  </Connection>
+  <Settings>
+    <DbDiagramOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <FieldDetails>NameAndFullType</FieldDetails>
+      <CustomProperties />
+    </DbDiagramOptions>
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PageOptions">
+      <HorizontalOverlap>0.02</HorizontalOverlap>
+      <VerticalOverlap>0.02</VerticalOverlap>
+      <FooterMargin>13 in/100</FooterMargin>
+      <HeaderMargin>14 in/100</HeaderMargin>
+      <TopLeftMargins>
+        <Width>14 in/100</Width>
+        <Height>14 in/100</Height>
+      </TopLeftMargins>
+      <BottomRightMargins>
+        <Width>15 in/100</Width>
+        <Height>13 in/100</Height>
+      </BottomRightMargins>
+      <PaperSize>
+        <Width>827 in/100</Width>
+        <Height>1169 in/100</Height>
+      </PaperSize>
+      <PaperSourceName>Selecionar automaticame</PaperSourceName>
+    </Options>
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PrintOptions" />
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="ViewOptions">
+      <ShadowOffset>
+        <X>4 px</X>
+        <Y>4 px</Y>
+      </ShadowOffset>
+      <PrintMarkupEnabled>true</PrintMarkupEnabled>
+      <CustomProperties />
+    </Options>
+  </Settings>
+  <VirtualRelations>
+    <RelationCount>0</RelationCount>
+  </VirtualRelations>
+  <Diagram Version="1.10.0.71">
+    <DiagramModel>
+      <Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="RootModel">
+        <CustomProperties>
+          <OID>0</OID>
+        </CustomProperties>
+        <Children>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>1</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1540 px</X>
+              <Y>40 px</Y>
+            </Location>
+            <Size>
+              <Width>340 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>pega2013.etd</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="RelationLinkModel">
+            <CustomProperties>
+              <OID>2</OID>
+              <Comment>3</Comment>
+              <OutModel>4</OutModel>
+              <InModel>1</InModel>
+              <OutPort>5</OutPort>
+              <InPort>6</InPort>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port>
+                <Location>
+                  <X>0 px</X>
+                  <Y>97.5 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Right</Align>
+                <CustomProperties>
+                  <OID>5</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+              <Port>
+                <Location>
+                  <X>0 px</X>
+                  <Y>233.5 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Left</Align>
+                <CustomProperties>
+                  <OID>6</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+            </PortAnchors>
+            <IsManuallyRouted>false</IsManuallyRouted>
+            <DbOid>
+              <Path>pega2013.rfi.rfi_etd</Path>
+              <TypeName>ForeignKey</TypeName>
+            </DbOid>
+          </Model>
+          <Model xsi:type="RelationCommentModel">
+            <CustomProperties>
+              <OID>3</OID>
+              <HolderModel>2</HolderModel>
+              <Port>7</Port>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port xsi:type="LinkPort">
+                <Location>
+                  <X>-442 px</X>
+                  <Y>0 px</Y>
+                </Location>
+                <Anchors>None</Anchors>
+                <Align>Right</Align>
+                <CustomProperties>
+                  <OID>7</OID>
+                  <PortType>FixedAnchor</PortType>
+                </CustomProperties>
+                <LinkPortAnchor>OutPoint</LinkPortAnchor>
+              </Port>
+            </PortAnchors>
+            <CommentOffset>
+              <X>22 px</X>
+              <Y>2 px</Y>
+            </CommentOffset>
+          </Model>
+          <Model xsi:type="DDContainerModel">
+            <CustomProperties>
+              <OID>8</OID>
+              <BackgroundColor>252, 250, 240</BackgroundColor>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Children>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>9</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>30 px</X>
+                  <Y>520 px</Y>
+                </Location>
+                <Size>
+                  <Width>232 px</Width>
+                  <Height>348 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.car</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>4</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>440 px</X>
+                  <Y>120 px</Y>
+                </Location>
+                <Size>
+                  <Width>205 px</Width>
+                  <Height>467 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.rfi</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>10</OID>
+                  <Comment>11</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>9</InModel>
+                  <OutPort>12</OutPort>
+                  <InPort>13</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>433.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>12</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>33.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>13</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_car</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>11</OID>
+                  <HolderModel>10</HolderModel>
+                  <Port>14</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>89 px</X>
+                      <Y>0 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>14</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>15</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>20 px</X>
+                  <Y>140 px</Y>
+                </Location>
+                <Size>
+                  <Width>201 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.fla</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>16</OID>
+                  <Comment>17</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>15</InModel>
+                  <OutPort>18</OutPort>
+                  <InPort>19</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>89.75 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>18</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>69.75 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>19</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_fla</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>17</OID>
+                  <HolderModel>16</HolderModel>
+                  <Port>20</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>109.5 px</X>
+                      <Y>0 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>20</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>21</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>30 px</X>
+                  <Y>20 px</Y>
+                </Location>
+                <Size>
+                  <Width>230 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.tfi</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>22</OID>
+                  <Comment>23</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>21</InModel>
+                  <OutPort>24</OutPort>
+                  <InPort>25</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>112.194841271361 px</X>
+                      <Y>15.3705820113927 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Top</Align>
+                    <CustomProperties>
+                      <OID>24</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>217.358603395801 px</X>
+                      <Y>69.2332054680646 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>25</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>552.19482421875 px</X>
+                    <Y>89.2332077026367 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_tfi</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>23</OID>
+                  <HolderModel>22</HolderModel>
+                  <Port>26</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>146.097429161986 px</X>
+                      <Y>30.7667922973633 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Top</Align>
+                    <CustomProperties>
+                      <OID>26</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>27</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>20 px</X>
+                  <Y>280 px</Y>
+                </Location>
+                <Size>
+                  <Width>211 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.bco</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>28</OID>
+                  <Comment>29</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>27</InModel>
+                  <OutPort>30</OutPort>
+                  <InPort>31</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>1.79469025696903 px</X>
+                      <Y>270.773916447673 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>30</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>97.1852910056963 px</X>
+                      <Y>81.1141743841051 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Bottom</Align>
+                    <CustomProperties>
+                      <OID>31</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>117.185287475586 px</X>
+                    <Y>390.77392578125 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_bco</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>29</OID>
+                  <HolderModel>28</HolderModel>
+                  <Port>32</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>161.407363891602 px</X>
+                      <Y>-9.33357682697533E-06 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>32</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>33</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>30 px</X>
+                  <Y>400 px</Y>
+                </Location>
+                <Size>
+                  <Width>240 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.srf</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>34</OID>
+                  <Comment>35</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>33</InModel>
+                  <OutPort>36</OutPort>
+                  <InPort>37</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>306.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>36</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>46.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>37</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>290 px</X>
+                    <Y>426.5 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>290 px</X>
+                    <Y>446.5 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_srf</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>35</OID>
+                  <HolderModel>34</HolderModel>
+                  <Port>38</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>75 px</X>
+                      <Y>0 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>38</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>39</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>900 px</X>
+                  <Y>500 px</Y>
+                </Location>
+                <Size>
+                  <Width>180 px</Width>
+                  <Height>212 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.mfi</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>40</OID>
+                  <Comment>41</Comment>
+                  <OutModel>39</OutModel>
+                  <InModel>4</InModel>
+                  <OutPort>42</OutPort>
+                  <InPort>43</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>132.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>42</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>322.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>43</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>740 px</X>
+                    <Y>632.5 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>740 px</X>
+                    <Y>442.5 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.mfi.mfi_rfi</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>41</OID>
+                  <HolderModel>40</HolderModel>
+                  <Port>44</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>160 px</X>
+                      <Y>95 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>44</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>45</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>420 px</X>
+                  <Y>630 px</Y>
+                </Location>
+                <Size>
+                  <Width>207 px</Width>
+                  <Height>127 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.tmf</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>46</OID>
+                  <Comment>47</Comment>
+                  <OutModel>39</OutModel>
+                  <InModel>45</InModel>
+                  <OutPort>48</OutPort>
+                  <InPort>49</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>191.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>48</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>61.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>49</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.mfi.mfi_tmf</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>47</OID>
+                  <HolderModel>46</HolderModel>
+                  <Port>50</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>136.5 px</X>
+                      <Y>0 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>50</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>51</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>290 px</X>
+                  <Y>780 px</Y>
+                </Location>
+                <Size>
+                  <Width>207 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.ced</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>52</OID>
+                  <Comment>53</Comment>
+                  <OutModel>45</OutModel>
+                  <InModel>51</InModel>
+                  <OutPort>54</OutPort>
+                  <InPort>55</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>51.75 px</X>
+                      <Y>0 px</Y>
+                    </Location>
+                    <Anchors>Left Right</Anchors>
+                    <Align>Bottom</Align>
+                    <CustomProperties>
+                      <OID>54</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>46.5 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>55</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>471.75 px</X>
+                    <Y>826.5 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.tmf.tmf_ced</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>53</OID>
+                  <HolderModel>52</HolderModel>
+                  <Port>56</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>0 px</X>
+                      <Y>-34.75 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Bottom</Align>
+                    <CustomProperties>
+                      <OID>56</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>57</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>860 px</X>
+                  <Y>290 px</Y>
+                </Location>
+                <Size>
+                  <Width>203 px</Width>
+                  <Height>93 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.tfd</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>58</OID>
+                  <Comment>59</Comment>
+                  <OutModel>4</OutModel>
+                  <InModel>57</InModel>
+                  <OutPort>60</OutPort>
+                  <InPort>61</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>211.060648149921 px</X>
+                      <Y>247.705228176009 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>60</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0.213186730729944 px</X>
+                      <Y>40.5470778233853 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>61</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>665 px</X>
+                    <Y>367.705228176009 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>665 px</X>
+                    <Y>330.547077823385 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.rfi.rfi_tfd</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>59</OID>
+                  <HolderModel>58</HolderModel>
+                  <Port>62</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>-117.5 px</X>
+                      <Y>37.1581395529623 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>62</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="TableModel">
+                <CustomProperties>
+                  <OID>63</OID>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <Location>
+                  <X>1220 px</X>
+                  <Y>350 px</Y>
+                </Location>
+                <Size>
+                  <Width>180 px</Width>
+                  <Height>212 px</Height>
+                </Size>
+                <DbOid>
+                  <Path>pega2013.lte</Path>
+                  <TypeName>Table</TypeName>
+                </DbOid>
+                <Compartments>
+                  <ConstraintsCollapsed>True</ConstraintsCollapsed>
+                  <IndexesCollapsed>True</IndexesCollapsed>
+                  <TriggersCollapsed>True</TriggersCollapsed>
+                </Compartments>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>64</OID>
+                  <Comment>65</Comment>
+                  <OutModel>39</OutModel>
+                  <InModel>63</InModel>
+                  <OutPort>66</OutPort>
+                  <InPort>67</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>101.586952164011 px</X>
+                      <Y>203.789078485154 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Bottom</Align>
+                    <CustomProperties>
+                      <OID>67</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>53 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>66</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>1100 px</X>
+                    <Y>553 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>1100 px</X>
+                    <Y>581 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>1321.5869140625 px</X>
+                    <Y>581 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.mfi.mfi_lte</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>65</OID>
+                  <HolderModel>64</HolderModel>
+                  <Port>68</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>-130.79345703125 px</X>
+                      <Y>-28 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>68</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+              <Model xsi:type="RelationLinkModel">
+                <CustomProperties>
+                  <OID>69</OID>
+                  <Comment>70</Comment>
+                  <OutModel>63</OutModel>
+                  <InModel>57</InModel>
+                  <OutPort>71</OutPort>
+                  <InPort>72</InPort>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>62.25 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>71</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                  <Port>
+                    <Location>
+                      <X>0 px</X>
+                      <Y>72.25 px</Y>
+                    </Location>
+                    <Anchors>Top Bottom</Anchors>
+                    <Align>Right</Align>
+                    <CustomProperties>
+                      <OID>72</OID>
+                      <PortType>FloatAnchor</PortType>
+                    </CustomProperties>
+                  </Port>
+                </PortAnchors>
+                <BendPoints>
+                  <PointD>
+                    <X>1200 px</X>
+                    <Y>412.25 px</Y>
+                  </PointD>
+                  <PointD>
+                    <X>1200 px</X>
+                    <Y>362.25 px</Y>
+                  </PointD>
+                </BendPoints>
+                <IsManuallyRouted>false</IsManuallyRouted>
+                <DbOid>
+                  <Path>pega2013.lte.lte_trf</Path>
+                  <TypeName>ForeignKey</TypeName>
+                </DbOid>
+              </Model>
+              <Model xsi:type="RelationCommentModel">
+                <CustomProperties>
+                  <OID>70</OID>
+                  <HolderModel>69</HolderModel>
+                  <Port>73</Port>
+                  <Parent>8</Parent>
+                </CustomProperties>
+                <PortAnchors>
+                  <Port xsi:type="LinkPort">
+                    <Location>
+                      <X>88.5 px</X>
+                      <Y>50 px</Y>
+                    </Location>
+                    <Anchors>None</Anchors>
+                    <Align>Left</Align>
+                    <CustomProperties>
+                      <OID>73</OID>
+                      <PortType>FixedAnchor</PortType>
+                    </CustomProperties>
+                    <LinkPortAnchor>OutPoint</LinkPortAnchor>
+                  </Port>
+                </PortAnchors>
+                <CommentOffset>
+                  <X>22 px</X>
+                  <Y>2 px</Y>
+                </CommentOffset>
+              </Model>
+            </Children>
+            <Location>
+              <X>10 px</X>
+              <Y>20 px</Y>
+            </Location>
+            <Size>
+              <Width>1460 px</Width>
+              <Height>990 px</Height>
+            </Size>
+            <IsCollapsed>false</IsCollapsed>
+            <Text>Movimento Financeiro</Text>
+            <ScrollState>
+              <ScrollOrigin>
+                <X>0 px</X>
+                <Y>0 px</Y>
+              </ScrollOrigin>
+              <ScrollPosition>
+                <X>0 px</X>
+                <Y>0 px</Y>
+              </ScrollPosition>
+            </ScrollState>
+          </Model>
+        </Children>
+        <ViewPort>
+          <ScaleMode>Free</ScaleMode>
+          <Scale>0.6068832</Scale>
+          <Location>
+            <X>-179.606215829384 px</X>
+            <Y>-148.29871031784 px</Y>
+          </Location>
+        </ViewPort>
+      </Model>
+    </DiagramModel>
+  </Diagram>
+</DevartDatabaseDiagram>

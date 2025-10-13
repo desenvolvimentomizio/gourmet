@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.OneD.EANManufacturerOrgSupport" platform="Android">
+  <class name="TEANManufacturerOrgSupport" sealed="true" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="48">
+    <devnotes>
+       Records EAN prefix to GS1 Member Organization, where the member organization
+       correlates strongly with a country. This is an imperfect means of identifying
+       a country of origin by EAN-13 barcode value. See
+       <a href="http://en.wikipedia.org/wiki/List_of_GS1_country_codes">
+       http://en.wikipedia.org/wiki/List_of_GS1_country_codes</a>.
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="ranges" type="TList&lt;System.TArray&lt;System.Integer&gt;&gt;" visibility="private" size="4" offset="4" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="51" />
+      <field name="countryIdentifiers" type="TStringList" visibility="private" size="4" offset="8" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="52" />
+      <procedure name="add" visibility="private" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="54">
+        <parameters>
+          <parameter name="range" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="id" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="initIfNeeded" visibility="private" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="55">
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="57">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="58">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="lookupCountryIdentifier" visibility="public" file="ZXing.OneD.EANManufacturerOrgSupport.pas" line="60">
+        <parameters>
+          <parameter name="productCode" type="string" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

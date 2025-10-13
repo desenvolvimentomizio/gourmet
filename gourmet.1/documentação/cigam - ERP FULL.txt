@@ -1,0 +1,80 @@
+
+
+Conheça melhor cada módulo:
+
+ÁREA FINANCEIRA
+
+Planejamento Orçamentário
+Orçamento e Verbas
+Gestão Financeira
+Dirf
+Contratos
+Controle de Viagens
+ÁREA RELACIONAMENTO COM CLIENTE
+
+Vendas/CRM
+ÁREA VENDAS E DISTRIBUIÇÃO
+
+Faturamento/Pedidos
+Vendas MOBILE (Automação da Força de Vendas)
+Web Pedidos
+Logística e distribuição
+Comércio Exterior
+Gestão de Lojas
+Loja virtual
+Gestão de Postos
+Sincronizador Offline
+ÁREA COMPRAS E SUPRIMENTOS
+
+Suprimento/Compras
+Planejamento de Materiais
+E-Procurement
+ÁREA MATERIAIS
+
+Gestão de Materiais
+Configurador de Produto
+Planejamento de Materiais
+Expedição e Inventário Mobile
+ÁREA CONTABILIDADE E FISCAL
+
+Auditor Fiscal
+Contabilidade
+Escrita Fiscal
+Controle Patrimonial
+Recebimento
+Gestão Fiscal Municipal
+ÁREA RECURSOS HUMANOS
+
+Gestão de Pessoas
+Administração de Pessoal
+Saúde e Segurança
+ÁREA INDUSTRIAL
+
+Engenharia de Produto
+Planejamento de Materiais
+Controle de Produção
+Carga Máquina
+ÁREA PRESTAÇÃO DE SERVIÇOS
+
+Gestão de Serviços
+Web Serviços
+Manutenção Industrial
+Gestão de Projetos – Empowered by 2014
+ÁREA CONTROLADORIA E CUSTOS
+
+Custo Estrutural
+Custo ABC
+Custo Real
+Estratégia de Preços
+ÁREA BUSINESS INTELLIGENCE
+
+Gestão do Resultado
+BSC – BALANCED SCORE CARD
+ÁREA DE QUALIDADE
+
+Gestão Atividades e Planos de Ação
+Gestão Ambiental
+GESTÃO DE PROCESSOS
+
+Work Flow
+BPM – IBOLT

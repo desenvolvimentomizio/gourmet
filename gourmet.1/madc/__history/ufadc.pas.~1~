@@ -1,0 +1,90 @@
+unit ufadc;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes, System.Actions,
+  Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ExtCtrls, System.ImageList, ufuncoes;
+
+type
+  Tfadc = class(Tfrmbase)
+    registroadccodigo: TIntegerField;
+    registroadcidentificacao: TStringField;
+    registroetdcodigo: TIntegerField;
+    etd: tuniquery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    registroetdidentificacao: TStringField;
+    Label1: TLabel;
+    adccodigo: TDBEdit;
+    Label2: TLabel;
+    adcidentificacao: TDBEdit;
+    Label3: TLabel;
+    etdcodigo: TDBEdit;
+    registroadcliquidaautomatico: TIntegerField;
+    sen: tuniquery;
+    sensencodigo: TIntegerField;
+    sensenidentificacao: TStringField;
+    registrosenadcliquidaauto: TStringField;
+    Label4: TLabel;
+    adcliquidaautomatico: TDBEdit;
+    registroadcencerramento: TDateField;
+    Label5: TLabel;
+    adcencerramento: TDBEdit;
+    registroadcpropria: TIntegerField;
+    registrosenadcpropria: TStringField;
+    Label6: TLabel;
+    adcpropria: TDBEdit;
+    registrobdccodigo: TIntegerField;
+    bdc: tuniquery;
+    bdcbdcidentificacao: TStringField;
+    lbebdccodigo: TLabel;
+    bdccodigo: TDBEdit;
+    bdcbdccodigo: TIntegerField;
+    registrobdcidentificacao: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure DSRegistroDataChange(Sender: TObject; Field: TField);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fadc: Tfadc;
+
+const
+  vPlIdMd = '03.02.81.001-02';
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfadc.DSRegistroDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if adcpropria.Field.AsInteger = 1 then
+  begin
+    lbebdccodigo.Visible := true;
+    bdccodigo.Visible := true;
+    registrobdccodigo.Required := true;
+    bdccodigo.Color := PEG_COR_VALORREQUERIDO;
+  end
+  else
+  begin
+    lbebdccodigo.Visible := false;
+    bdccodigo.Visible := false;
+    registrobdccodigo.Required := false;
+  end;
+end;
+
+procedure Tfadc.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+  inherited;
+
+end;
+
+end.

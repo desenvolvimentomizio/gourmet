@@ -1,0 +1,93 @@
+unit GourmetServer.Controller.aiq.CFGGOU;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  Horse.GBSwagger,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Service.Funcoes,
+  GourmetServer.Model.Entity.aiq.aiqcfg;
+
+procedure Registry(App: THorse);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1Update(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  System.SysUtils;
+
+procedure Registry(App: THorse);
+begin
+  App.Put('/v1/cfgaiq', V1Update);
+  App.Get('/v1/cfgaiq', V1Get);
+end;
+
+procedure V1Update(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TAIQCFG>;
+  FAIQ: TAIQCFG;
+  aObject: TJSONObject;
+  vlValidade: string;
+begin
+  try
+  FDAO := TDAOGeneric<TAIQCFG>.New;
+
+  aObject := TJSONObject.Create;
+
+  aObject := Req.Body<TJSONObject>;
+
+  FAIQ := TAIQCFG.Create;
+
+  FAIQ.cfgcodigo := aObject.getvalue('cfgcodigo', '').ToInteger;
+  FAIQ.cfgmgoutokenaiq := aObject.getvalue('cfgmgoutokenaiq', '');
+  FAIQ.cfgmgourefreshaiq := aObject.getvalue('cfgmgourefreshaiq', '');
+
+  vlValidade := aObject.getvalue('cfgmgouvalidadeaiq', '');
+
+  if pos('-', vlValidade) > 0 then
+  begin
+    vlValidade := datahorasqltotext(vlValidade);
+  end;
+
+  if (vlValidade <> '//') and (vlValidade <> '') then
+  begin
+    FAIQ.cfgmgouvalidadeaiq := strtodatetime(vlValidade);
+  end;
+  FAIQ.cfgmgouidlojaaiq := aObject.getvalue('cfgmgouidlojaaiq', '');
+  FAIQ.cfgmgouemaillojaaiq := aObject.getvalue('cfgmgouemaillojaaiq', '');
+  FAIQ.cfgmgousenhalojaaiq := aObject.getvalue('cfgmgousenhalojaaiq', '');
+  FAIQ.cfgmgousituacaolojaaiq := aObject.getvalue('cfgmgousituacaolojaaiq', '');
+
+  FDAO.DAO.Update(FAIQ);
+
+  finally
+    FAIQ.Destroy;
+  end;
+end;
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TAIQCFG>;
+begin
+  FDAO := TDAOGeneric<TAIQCFG>.New;
+
+  FDAO.DAO.SQL.Fields
+    ('cfgcodigo,cfgmgouvalidadenuc,cfgmgoutokenaiq, cfgmgourefreshaiq,cfgmgouvalidadeaiq,cfgmgouidlojaaiq,cfgmgouemaillojaaiq,cfgmgousenhalojaaiq, cfgmgousituacaolojaaiq')
+    .&End.Find;
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+end;
+
+
+end.

@@ -1,0 +1,1743 @@
+object FprinciWhaGou: TFprinciWhaGou
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Notificador via Whasapp - 22.27.108.5'
+  ClientHeight = 630
+  ClientWidth = 601
+  Color = 3355443
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  DesignSize = (
+    601
+    630)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Image1: TImage
+    Left = 598
+    Top = -151
+    Width = 260
+    Height = 166
+    Anchors = [akLeft, akBottom]
+    Proportional = True
+    Stretch = True
+    ExplicitTop = 8
+  end
+  object CheckBox2: TCheckBox
+    Left = 759
+    Top = 91
+    Width = 338
+    Height = 17
+    Caption = 'Desativar Notifica'#231#227'o ( Desabilita o Popup a cada nova mensagem)'
+    Checked = True
+    State = cbChecked
+    TabOrder = 0
+    Visible = False
+    OnClick = CheckBox2Click
+  end
+  object CheckBox3: TCheckBox
+    Left = 759
+    Top = 117
+    Width = 425
+    Height = 17
+    Caption = 
+      'N'#227'o Usar Interface Padr'#227'o (Desabilita o Icone do Whats no canto ' +
+      'Superior Direito)'
+    Enabled = False
+    TabOrder = 1
+    Visible = False
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 41
+    Width = 601
+    Height = 589
+    Align = alClient
+    Caption = ' Lista de Transmiss'#227'o '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    ExplicitWidth = 460
+    object Memo2: TMemo
+      Left = 2
+      Top = 15
+      Width = 597
+      Height = 469
+      TabStop = False
+      Align = alClient
+      Color = 12615680
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ScrollBars = ssVertical
+      TabOrder = 0
+      ExplicitWidth = 456
+    end
+    object Memo1: TMemo
+      Left = 2
+      Top = 484
+      Width = 597
+      Height = 103
+      TabStop = False
+      Align = alBottom
+      Color = 2763306
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clSilver
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ScrollBars = ssVertical
+      TabOrder = 1
+      Visible = False
+      ExplicitWidth = 456
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 601
+    Height = 41
+    Align = alTop
+    BorderWidth = 4
+    TabOrder = 3
+    ExplicitWidth = 460
+    object Label7: TLabel
+      Left = 295
+      Top = 21
+      Width = 126
+      Height = 13
+      AutoSize = False
+    end
+    object LbStatus: TLabel
+      Left = 289
+      Top = 5
+      Width = 251
+      Height = 31
+      Align = alClient
+      Alignment = taCenter
+      AutoSize = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 344
+      ExplicitWidth = 396
+    end
+    object ImMenu: TImage
+      Left = 5
+      Top = 5
+      Width = 36
+      Height = 31
+      Align = alLeft
+    end
+    object plHora: TPanel
+      Left = 41
+      Top = 5
+      Width = 77
+      Height = 31
+      Align = alLeft
+      BevelOuter = bvLowered
+      Caption = '00:00:00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+    end
+    object Button17: TButton
+      Left = 540
+      Top = 5
+      Width = 56
+      Height = 31
+      Align = alRight
+      Caption = 'Fechar'
+      TabOrder = 1
+      OnClick = Button17Click
+      ExplicitLeft = 399
+    end
+    object Button1: TButton
+      Left = 118
+      Top = 5
+      Width = 59
+      Height = 31
+      Align = alLeft
+      Caption = 'Iniciar'
+      TabOrder = 2
+      OnClick = Button1Click
+    end
+    object Button13: TButton
+      Left = 177
+      Top = 5
+      Width = 56
+      Height = 31
+      Align = alLeft
+      Caption = 'Status'
+      TabOrder = 3
+      OnClick = Button13Click
+    end
+    object bTestar: TButton
+      Left = 233
+      Top = 5
+      Width = 56
+      Height = 31
+      Align = alLeft
+      Caption = 'Testar'
+      TabOrder = 4
+      OnClick = bTestarClick
+    end
+  end
+  object IdHTTP1: TIdHTTP
+    Intercept = IdLogEvent1
+    IOHandler = IdSSLIOHandlerSocketOpenSSL1
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.ContentType = 'application/json'
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 224
+    Top = 408
+  end
+  object IdLogEvent1: TIdLogEvent
+    Left = 56
+    Top = 432
+  end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    Intercept = IdLogEvent1
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 328
+    Top = 392
+  end
+  object DsBroadcast: TDataSource
+    Left = 1264
+    Top = 280
+  end
+  object Conexao: TUniConnection
+    DataTypeMap = <
+      item
+        DBType = 210
+        FieldType = ftInteger
+        IgnoreErrors = True
+      end
+      item
+        DBType = 211
+        FieldType = ftInteger
+        IgnoreErrors = True
+      end>
+    ProviderName = 'mySQL'
+    Database = 'dinhos0809'
+    Options.DisconnectedMode = True
+    Options.LocalFailover = True
+    Pooling = True
+    Username = 'root'
+    Server = '192.168.5.166'
+    LoginPrompt = False
+    Left = 216
+    Top = 152
+    EncryptedPassword = '87FF9BFF9EFFC6FFC8FFCCFF'
+  end
+  object MySQLUniProvider: TMySQLUniProvider
+    Left = 216
+    Top = 96
+  end
+  object tmVerificarPedidos: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmVerificarPedidosTimer
+    Left = 152
+    Top = 200
+  end
+  object inicializar: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = inicializarTimer
+    Left = 151
+    Top = 320
+  end
+  object consulta: TUniQuery
+    Connection = Conexao
+    Left = 392
+    Top = 344
+  end
+  object immpedido: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '       orc.orcchave'
+      '     , orc.foacodigo'
+      '     , orc.stocodigo'
+      ''
+      '     , orc.orcobs'
+      '     , orc.orcgeralav'
+      '     , gri.gricodigo'
+      ''
+      
+        '     , IF(orc.foacodigo = 2,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relcompleto)'
+      
+        '                           ,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relgrupo)) relarquivo'
+      
+        '     , (select grpcodigo from pro where ito.procodigo=pro.procod' +
+        'igo) as grpcodigo'
+      '     ,imm.immchave'
+      '  FROM imm '
+      ' INNER JOIN ito ON imm.itochave = ito.itochave'
+      ' INNER JOIN pro ON pro.procodigo = ito.procodigo'
+      ''
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      
+        ' INNER JOIN gri on imm.tcicodigo = gri.tcicodigo and gri.grpcodi' +
+        'go=pro.grpcodigo'
+      ' inner JOIN  imw ON imw.itochave = ito.itochave'
+      ' '
+      '   '
+      ' WHERE orc.stocodigo NOT IN (1, 88)'
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS null'
+      '--   AND orc.orcdataencerr is null'
+      '   AND imm.cznchave=:cznchave'
+      '   AND imm.immmodo<>9'
+      '   AND orc.foacodigo=2'
+      '   AND gri.griimprimeauto=1'
+      '   AND LENGTH(orc.orctelefone)=11'
+      '   AND imwhoranotificadopedido is null'
+      '  ORDER BY orc.orcchave;'
+      '')
+    Left = 42
+    Top = 138
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cznchave'
+        Value = nil
+      end>
+    object immpedidoorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object immpedidofoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object immpedidostocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object immpedidorelarquivo: TBlobField
+      FieldName = 'relarquivo'
+      ReadOnly = True
+    end
+    object immpedidoorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object immpedidoorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+    end
+    object immpedidogricodigo: TIntegerField
+      FieldName = 'gricodigo'
+    end
+    object immpedidogrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+    end
+    object immpedidoimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+  end
+  object czn: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      
+        'select cznchave from czn where cznfechamento IS null order by cz' +
+        'nchave limit 1')
+    Left = 18
+    Top = 338
+    object czncznchave: TIntegerField
+      FieldName = 'cznchave'
+    end
+  end
+  object itopedido: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SET @orcchave =:orcchave;'
+      ''
+      'DROP TEMPORARY TABLE IF EXISTS tped;'
+      '   '
+      'CREATE TEMPORARY TABLE tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , itochave      INT '
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB DEFAULT charset = latin1;'
+      ''
+      'INSERT INTO tped'
+      '  (SELECT 0 '
+      '        , timm.orcchave'
+      '        , timm.immchave'
+      '        , timm.immnumepedido'
+      '        , timm.tcicodigo'
+      '        , pedidoaux'
+      '        , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88) '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS null'
+      ''
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , 1 pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)  '
+      '           AND ito.stocodigo NOT IN (1, 88)'
+      '  '
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS null'
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo);'
+      ''
+      ''
+      'SELECT timm.orcchave'
+      '     , timm.immnumepedido'
+      '     , timm.tcicodigo'
+      '     , tci.tciporta'
+      '     , mit.mitidentificacao '
+      '     , timm.foacodigo'
+      '     , timm.pedidoaux'
+      '    , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , orc.foacodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS null        '
+      '        '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , orc.foacodigo'
+      '             , 1   pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ''
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS null'
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo'
+      ''
+      '')
+    Left = 34
+    Top = 74
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object itopedidoorcchave: TIntegerField
+      FieldName = 'orcchave'
+      Required = True
+    end
+    object itopedidoimmnumepedido: TIntegerField
+      FieldName = 'immnumepedido'
+    end
+    object itopedidotcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object itopedidotciporta: TStringField
+      FieldName = 'tciporta'
+      ReadOnly = True
+      Size = 50
+    end
+    object itopedidomitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object itopedidofoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object itopedidopedidoaux: TIntegerField
+      FieldName = 'pedidoaux'
+      Required = True
+    end
+    object itopedidoitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+  end
+  object orc: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SELECT orctelefone from orc where orcchave=:orcchave')
+    Left = 240
+    Top = 456
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+  end
+  object IdAntiFreeze1: TIdAntiFreeze
+    OnlyWhenIdle = False
+    Left = 144
+    Top = 408
+  end
+  object cfg: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SELECT'
+      '  cfgcodigo,'
+      '  cfgmgoustatuswhats,'
+      '  cfgmgoumensapedido0,'
+      '  cfgmgoumensasaida0,'
+      '  cfgmgoumensaretorno0,'
+      ''
+      '  cfgmgoumensapedido1,'
+      '  cfgmgoumensasaida1,'
+      '  cfgmgoumensaretorno1,'
+      ''
+      '  cfgmgoumensapedido2,'
+      '  cfgmgoumensasaida2,'
+      '  cfgmgoumensaretorno2,'
+      ''
+      '  cfgmgoumensapedido3,'
+      '  cfgmgoumensasaida3,'
+      '  cfgmgoumensaretorno3,'
+      ''
+      '  cfgmgoumensapedido4,'
+      '  cfgmgoumensasaida4,'
+      '  cfgmgoumensaretorno4,'
+      ''
+      '  cfgmgoumensapedido5,'
+      '  cfgmgoumensasaida5,'
+      '  cfgmgoumensaretorno5,'
+      ''
+      '  cfgmgoumensapedido6,'
+      '  cfgmgoumensasaida6,'
+      '  cfgmgoumensaretorno6,'
+      ''
+      '  cfgmgoumensapedido7,'
+      '  cfgmgoumensasaida7,'
+      '  cfgmgoumensaretorno7,'
+      ''
+      ''
+      '  cfgmgoumensapedido8,'
+      '  cfgmgoumensasaida8,'
+      '  cfgmgoumensaretorno8,'
+      ''
+      ''
+      '  cfgmgoumensapedido9,'
+      '  cfgmgoumensasaida9,'
+      '  cfgmgoumensaretorno9'
+      ''
+      ''
+      ''
+      'FROM cfgmgou ')
+    Left = 144
+    Top = 472
+    object cfgcfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object cfgcfgmgoumensapedido0: TStringField
+      DisplayWidth = 500
+      FieldName = 'cfgmgoumensapedido0'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida0: TStringField
+      FieldName = 'cfgmgoumensasaida0'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno0: TStringField
+      FieldName = 'cfgmgoumensaretorno0'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido1: TStringField
+      FieldName = 'cfgmgoumensapedido1'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida1: TStringField
+      FieldName = 'cfgmgoumensasaida1'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno1: TStringField
+      FieldName = 'cfgmgoumensaretorno1'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido2: TStringField
+      FieldName = 'cfgmgoumensapedido2'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida2: TStringField
+      FieldName = 'cfgmgoumensasaida2'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno2: TStringField
+      FieldName = 'cfgmgoumensaretorno2'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido3: TStringField
+      FieldName = 'cfgmgoumensapedido3'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida3: TStringField
+      FieldName = 'cfgmgoumensasaida3'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno3: TStringField
+      FieldName = 'cfgmgoumensaretorno3'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido4: TStringField
+      FieldName = 'cfgmgoumensapedido4'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida4: TStringField
+      FieldName = 'cfgmgoumensasaida4'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno4: TStringField
+      FieldName = 'cfgmgoumensaretorno4'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido5: TStringField
+      FieldName = 'cfgmgoumensapedido5'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida5: TStringField
+      FieldName = 'cfgmgoumensasaida5'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno5: TStringField
+      FieldName = 'cfgmgoumensaretorno5'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido6: TStringField
+      FieldName = 'cfgmgoumensapedido6'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida6: TStringField
+      FieldName = 'cfgmgoumensasaida6'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno6: TStringField
+      FieldName = 'cfgmgoumensaretorno6'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido7: TStringField
+      FieldName = 'cfgmgoumensapedido7'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida7: TStringField
+      FieldName = 'cfgmgoumensasaida7'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno7: TStringField
+      FieldName = 'cfgmgoumensaretorno7'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido8: TStringField
+      FieldName = 'cfgmgoumensapedido8'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida8: TStringField
+      FieldName = 'cfgmgoumensasaida8'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno8: TStringField
+      FieldName = 'cfgmgoumensaretorno8'
+      Size = 500
+    end
+    object cfgcfgmgoumensapedido9: TStringField
+      FieldName = 'cfgmgoumensapedido9'
+      Size = 500
+    end
+    object cfgcfgmgoumensasaida9: TStringField
+      FieldName = 'cfgmgoumensasaida9'
+      Size = 500
+    end
+    object cfgcfgmgoumensaretorno9: TStringField
+      FieldName = 'cfgmgoumensaretorno9'
+      Size = 500
+    end
+    object cfgcfgmgoustatuswhats: TDateTimeField
+      FieldName = 'cfgmgoustatuswhats'
+    end
+  end
+  object immsaida: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '       orc.orcchave'
+      '     , orc.foacodigo'
+      '     , orc.stocodigo'
+      ''
+      '     , orc.orcobs'
+      '     , orc.orcgeralav'
+      '     , gri.gricodigo'
+      ''
+      
+        '     , IF(orc.foacodigo = 2,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relcompleto)'
+      
+        '                           ,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relgrupo)) relarquivo'
+      
+        '     , (select grpcodigo from pro where ito.procodigo=pro.procod' +
+        'igo) as grpcodigo'
+      '     ,imm.immchave'
+      '  FROM imm '
+      ' INNER JOIN ito ON imm.itochave = ito.itochave'
+      ' INNER JOIN pro ON pro.procodigo = ito.procodigo'
+      ''
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      
+        ' INNER JOIN gri on imm.tcicodigo = gri.tcicodigo and gri.grpcodi' +
+        'go=pro.grpcodigo'
+      ' inner JOIN  imw ON imw.itochave = ito.itochave'
+      ' '
+      '   '
+      ' WHERE orc.stocodigo NOT IN (1, 88)'
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido  IS not null'
+      '   AND imwhorasaidadopedido IS null'
+      ''
+      '--   AND orc.orcdataencerr is null'
+      '   AND imm.cznchave=:cznchave'
+      '   AND imm.immmodo<>9'
+      '   AND orc.foacodigo=2'
+      '   AND LENGTH(orc.orctelefone)=11'
+      '   AND gri.griimprimeauto=1'
+      '  ORDER BY orc.orcchave;'
+      '')
+    Left = 40
+    Top = 200
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cznchave'
+        Value = nil
+      end>
+    object immsaidaorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object immsaidafoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object immsaidastocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object immsaidarelarquivo: TBlobField
+      FieldName = 'relarquivo'
+      ReadOnly = True
+    end
+    object immsaidaorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object immsaidaorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+    end
+    object immsaidagricodigo: TIntegerField
+      FieldName = 'gricodigo'
+    end
+    object immsaidagrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+    end
+    object immsaidaimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+  end
+  object immretorno: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '       orc.orcchave'
+      '     , orc.foacodigo'
+      '     , orc.stocodigo'
+      ''
+      '     , orc.orcobs'
+      '     , orc.orcgeralav'
+      '     , gri.gricodigo'
+      ''
+      
+        '     , IF(orc.foacodigo = 2,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relcompleto)'
+      
+        '                           ,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relgrupo)) relarquivo'
+      
+        '     , (select grpcodigo from pro where ito.procodigo=pro.procod' +
+        'igo) as grpcodigo'
+      '     ,imm.immchave'
+      '  FROM imm '
+      ' INNER JOIN ito ON imm.itochave = ito.itochave'
+      ' INNER JOIN pro ON pro.procodigo = ito.procodigo'
+      ''
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      
+        ' INNER JOIN gri on imm.tcicodigo = gri.tcicodigo and gri.grpcodi' +
+        'go=pro.grpcodigo'
+      ' inner JOIN  imw ON imw.itochave = ito.itochave '
+      '   '
+      ' WHERE orc.stocodigo NOT IN (1, 88)'
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhoraentregadopedido IS null'
+      '   and orc.orcretorno is not null'
+      ''
+      '--   AND orc.orcdataencerr is null'
+      '   AND imm.cznchave=:cznchave'
+      '   AND imm.immmodo<>9'
+      '   AND orc.foacodigo=2'
+      '   AND gri.griimprimeauto=1'
+      '   AND LENGTH(orc.orctelefone)=11'
+      '  ORDER BY orc.orcchave;'
+      '')
+    Left = 88
+    Top = 320
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cznchave'
+        Value = nil
+      end>
+    object immretornoorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object immretornofoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object immretornostocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object immretornorelarquivo: TBlobField
+      FieldName = 'relarquivo'
+      ReadOnly = True
+    end
+    object immretornoorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object immretornoorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+    end
+    object immretornogricodigo: TIntegerField
+      FieldName = 'gricodigo'
+    end
+    object immretornogrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+    end
+    object immretornoimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+  end
+  object itosaida: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SET @orcchave =:orcchave;'
+      ''
+      'DROP TEMPORARY TABLE IF EXISTS tped;'
+      '   '
+      'CREATE TEMPORARY TABLE tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , itochave      INT '
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB DEFAULT charset = latin1;'
+      ''
+      'INSERT INTO tped'
+      '  (SELECT 0 '
+      '        , timm.orcchave'
+      '        , timm.immchave'
+      '        , timm.immnumepedido'
+      '        , timm.tcicodigo'
+      '        , pedidoaux'
+      '        , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88) '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS null'
+      ''
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , 1 pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)  '
+      '           AND ito.stocodigo NOT IN (1, 88)'
+      '  '
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND immhorasaidadopedido IS null'
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo);'
+      ''
+      ''
+      'SELECT timm.orcchave'
+      '     , timm.immnumepedido'
+      '     , timm.tcicodigo'
+      '     , tci.tciporta'
+      '     , mit.mitidentificacao '
+      '     , timm.foacodigo'
+      '     , timm.pedidoaux'
+      '    , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , orc.foacodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS null      '
+      '        '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , orc.foacodigo'
+      '             , 1   pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ''
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS null'
+      ''
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo'
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      '/* SET @orcchave =:orcchave;'
+      ''
+      'DROP TEMPORARY TABLE IF EXISTS tped;'
+      '   '
+      'CREATE TEMPORARY TABLE tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , itochave      INT '
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB DEFAULT charset = latin1;'
+      ''
+      'INSERT INTO tped'
+      '  (SELECT 0 '
+      '        , timm.orcchave'
+      '        , timm.immchave'
+      '        , timm.immnumepedido'
+      '        , timm.tcicodigo'
+      '        , pedidoaux'
+      '        , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88) '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS not null'
+      '   AND immhorasaidadopedido IS null'
+      ''
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , 1 pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)  '
+      '           AND ito.stocodigo NOT IN (1, 88)'
+      '  '
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS not null'
+      '   AND immhorasaidadopedido IS null'
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo);'
+      ''
+      ''
+      'SELECT timm.orcchave'
+      '     , timm.immnumepedido'
+      '     , timm.tcicodigo'
+      '     , tci.tciporta'
+      '     , mit.mitidentificacao '
+      '     , timm.foacodigo'
+      '     , timm.pedidoaux'
+      '    , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , orc.foacodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS not null'
+      '   AND immhorasaidadopedido IS null      '
+      '        '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , orc.foacodigo'
+      '             , 1   pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ''
+      ' AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imm.immhoranotificadopedido IS not null'
+      '   AND immhorasaidadopedido IS null'
+      ''
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo'
+      ''
+      '*/')
+    Left = 40
+    Top = 280
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object itosaidaorcchave: TIntegerField
+      FieldName = 'orcchave'
+      Required = True
+    end
+    object itosaidaimmnumepedido: TIntegerField
+      FieldName = 'immnumepedido'
+    end
+    object itosaidatcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object itosaidatciporta: TStringField
+      FieldName = 'tciporta'
+      ReadOnly = True
+      Size = 50
+    end
+    object itosaidamitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object itosaidafoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object itosaidapedidoaux: TIntegerField
+      FieldName = 'pedidoaux'
+      Required = True
+    end
+    object itosaidaitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+  end
+  object itoretorno: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'SET @orcchave =:orcchave;'
+      ''
+      'DROP TEMPORARY TABLE IF EXISTS tped;'
+      '   '
+      'CREATE TEMPORARY TABLE tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , itochave      INT '
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB DEFAULT charset = latin1;'
+      ''
+      'INSERT INTO tped'
+      '  (SELECT 0 '
+      '        , timm.orcchave'
+      '        , timm.immchave'
+      '        , timm.immnumepedido'
+      '        , timm.tcicodigo'
+      '        , pedidoaux'
+      '        , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88) '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS not null'
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoraentregadopedido is null'
+      '   and orc.orcretorno is not null'
+      ''
+      ''
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , 1 pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)  '
+      '           AND ito.stocodigo NOT IN (1, 88)'
+      '  '
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS not null'
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoraentregadopedido is null'
+      '   and orc.orcretorno is not null'
+      ''
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo);'
+      ''
+      ''
+      'SELECT timm.orcchave'
+      '     , timm.immnumepedido'
+      '     , timm.tcicodigo'
+      '     , tci.tciporta'
+      '     , mit.mitidentificacao '
+      '     , timm.foacodigo'
+      '     , timm.pedidoaux'
+      '    , timm.itochave'
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , orc.foacodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ''
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS not null'
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoraentregadopedido is null'
+      '   and orc.orcretorno is not null'
+      '    '
+      '        '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , orc.foacodigo'
+      '             , 1   pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      'inner JOIN  imw ON imw.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      '           AND ito.stocodigo NOT IN (1, 88) '
+      ''
+      '   AND imm.immhoraimpresso IS NOT NULL '
+      '   AND imwhoranotificadopedido IS not null'
+      '   AND imwhorasaidadopedido IS not null'
+      '   AND imm.immhoraentrega IS NOT NULL '
+      '   AND imwhoraentregadopedido is null'
+      '   and orc.orcretorno is not null'
+      ''
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo')
+    Left = 256
+    Top = 320
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object itoretornoorcchave: TIntegerField
+      FieldName = 'orcchave'
+      Required = True
+    end
+    object itoretornoimmnumepedido: TIntegerField
+      FieldName = 'immnumepedido'
+    end
+    object itoretornotcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object itoretornotciporta: TStringField
+      FieldName = 'tciporta'
+      ReadOnly = True
+      Size = 50
+    end
+    object itoretornomitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object itoretornofoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object itoretornopedidoaux: TIntegerField
+      FieldName = 'pedidoaux'
+      Required = True
+    end
+    object itoretornoitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+  end
+  object tmVerificarSaidas: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmVerificarSaidasTimer
+    Left = 152
+    Top = 256
+  end
+  object tmVerificarRetornos: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmVerificarRetornosTimer
+    Left = 248
+    Top = 256
+  end
+  object ServiceWhtasApp1: TServiceWhtasApp
+    NotUseWindowDefaultQrCode = False
+    NotUseDefaultInterface = False
+    DisableNotification = True
+    HideNotificationAfter = 0
+    SecretKey = 'daniel-556699223319-b5cc17d3a35877ca8b76f0b2e07497039c250696'
+    OnReceiveMessage = ServiceWhtasApp1ReceiveMessage
+    OnContactsVerifyAccount = ServiceWhtasApp1ContactsVerifyAccount
+    OnStatus = ServiceWhtasApp1Status
+    OnStatusPhone = ServiceWhtasApp1StatusPhone
+    OnStarted = ServiceWhtasApp1Started
+    OnQrCodeUpdate = ServiceWhtasApp1QrCodeUpdate
+    OnStatusContact = ServiceWhtasApp1StatusContact
+    ConfigFormWhatsApp.Height = 474
+    ConfigFormWhatsApp.Width = 694
+    ConfigFormWhatsApp.PanelTopColor = 1404727
+    NotifyMySentMessages = False
+    NotShowFormQrCodeAuthentication = False
+    OnError = ServiceWhtasApp1Error
+    OnDeliveryMessage = ServiceWhtasApp1DeliveryMessage
+    NotifyDeliveryMessage = False
+    OnReturnSentMessage = ServiceWhtasApp1ReturnSentMessage
+    Left = 376
+    Top = 96
+  end
+end

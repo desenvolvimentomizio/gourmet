@@ -1,0 +1,16 @@
+program TesteCloud;
+
+uses
+  Vcl.Forms,
+  ufTeasteCloud in 'ufTeasteCloud.pas' {fTeasteCloud},
+  uCloudComunicacao in '..\cloud\uCloudComunicacao.pas',
+  uMizioCloudDAV in '..\cloud\uMizioCloudDAV.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfTeasteCloud, fTeasteCloud);
+  Application.Run;
+end.

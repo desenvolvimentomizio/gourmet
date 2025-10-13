@@ -1,0 +1,44 @@
+package mdev;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeggourmet;
+
+contains
+  ufradev in '..\..\kernel\mdev\ufradev.pas' {fradev: TFrame},
+  ufdevsimples in '..\..\kernel\mdev\ufdevsimples.pas' {fdevsimples},
+  ufdtmdev in '..\..\kernel\mdev\ufdtmdev.pas' {fdtmdev},
+  uftomdev in '..\..\kernel\mdev\uftomdev.pas' {ftomdev},
+  uldev in '..\..\kernel\mdev\uldev.pas' {ldev},
+  ufitmdev in '..\..\kernel\mdev\ufitmdev.pas' {fitmdev},
+  ufdevfaturamento in '..\..\kernel\mdev\ufdevfaturamento.pas' {fdevfaturamento};
+
+end.

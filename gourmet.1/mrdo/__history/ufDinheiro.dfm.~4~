@@ -1,0 +1,108 @@
+object fDinheiro: TfDinheiro
+  Left = 0
+  Top = 0
+  ActiveControl = nbDinheiro
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Registrar Dinheiro'
+  ClientHeight = 94
+  ClientWidth = 260
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pbotoes: TPanel
+    Left = 0
+    Top = 65
+    Width = 260
+    Height = 29
+    Align = alBottom
+    BevelOuter = bvLowered
+    BorderWidth = 3
+    TabOrder = 0
+    ExplicitLeft = -328
+    ExplicitTop = 195
+    ExplicitWidth = 768
+    object psituacao: TPanel
+      Left = 4
+      Top = 4
+      Width = 95
+      Height = 21
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Incluindo'
+      Color = 12615680
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+      ExplicitLeft = 0
+    end
+    object bconfirma: TBitBtn
+      Left = 106
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'ENTER - Confirma o registro '
+      Align = alRight
+      Caption = 'Confirma'
+      TabOrder = 1
+      ExplicitLeft = 614
+    end
+    object bcancela: TBitBtn
+      Left = 181
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'Esc - Cancela'
+      Align = alRight
+      Caption = 'Cancela'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+      ExplicitLeft = 689
+    end
+  end
+  object paginas: TPageControl
+    Left = 0
+    Top = 0
+    Width = 260
+    Height = 65
+    ActivePage = Principal
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = -413
+    ExplicitTop = -274
+    ExplicitWidth = 796
+    ExplicitHeight = 404
+    object Principal: TTabSheet
+      Caption = 'Principal'
+      object Label1: TLabel
+        Left = 3
+        Top = 6
+        Width = 127
+        Height = 13
+        Caption = 'Valor recebido em Dinheiro'
+      end
+      object nbDinheiro: TNumberBox
+        Left = 152
+        Top = 3
+        Width = 81
+        Height = 21
+        Alignment = taRightJustify
+        Mode = nbmCurrency
+        TabOrder = 0
+      end
+    end
+  end
+end

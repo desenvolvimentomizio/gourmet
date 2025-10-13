@@ -1,0 +1,29 @@
+inherited FprinciMonitorProducao_XLgXhdpiTb: TFprinciMonitorProducao_XLgXhdpiTb
+  ClientHeight = 1255
+  ClientWidth = 800
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 800.000000000000000000
+    inherited Label1: TLabel
+      Size.Width = 631.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited lbRelogio: TLabel
+      Position.X = 679.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited ListViewPedidos: TListView
+    Size.Width = 800.000000000000000000
+    Size.Height = 1207.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.VertAlign = Leading
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.PlaceOffset.Y = 24.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.VertAlign = Leading
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.PlaceOffset.Y = 24.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.PlaceOffset.Y = -56.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Font.StyleExt = {00070000000000000004000000}
+  end
+end

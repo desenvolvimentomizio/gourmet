@@ -1,0 +1,61 @@
+unit Service.Connection;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  Data.DB,
+  FireDAC.Phys.MySQLDef,
+  FireDAC.Stan.Intf,
+  FireDAC.Phys,
+  FireDAC.Phys.MySQL,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Error,
+  FireDAC.UI.Intf,
+  FireDAC.Phys.Intf,
+  FireDAC.Stan.Def,
+  FireDAC.Stan.Pool,
+  FireDAC.Stan.Async,
+  FireDAC.ConsoleUI.Wait,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  FireDAC.DatS,
+  FireDAC.DApt.Intf,
+  FireDAC.DApt,
+  FireDAC.Comp.DataSet;
+
+
+function AtivaConexao(aConexao:TFDConnection):TFDConnection;
+
+implementation
+
+function AtivaConexao(aConexao:TFDConnection):TFDConnection;
+begin
+
+  try
+    aConexao.FormatOptions.StrsTrim := True;
+    aConexao.Params.DataBase :='MIZIO';
+    aConexao.Params.Add('Server=172.19.252.222');
+    aConexao.Params.UserName := 'root';
+    aConexao.Params.Add('port=3306');
+    aConexao.Params.Password := 'MizioXda973*';
+    aConexao.Params.Add('characterSet=utf8');
+    aConexao.DriverName := 'MySQL';
+    aConexao.LoginPrompt := false;
+    aConexao.Connected := true;
+
+
+    if aConexao.Connected = True then
+      Result := aConexao
+    else
+      Result := Nil;
+
+
+  except
+    Result := Nil;
+  end;
+
+end;
+
+end.

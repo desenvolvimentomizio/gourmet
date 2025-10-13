@@ -1,0 +1,1493 @@
+unit ufProcessaSaneamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, MemDS, DBAccess,
+  Uni, Vcl.ComCtrls, System.JSON, REST.Types, IPPeerClient, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, ufuncoes,
+  FireDAC.Comp.Client, REST.Client, Data.Bind.Components, Data.Bind.ObjectScope,
+  ACBrBase, ACBrValidador, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TImendes = class(TObject)
+  private
+    fcodigoimendes: string;
+    fcodigointerno: string;
+    feanpesquisa: string;
+    fncm: string;
+    fcest: string;
+    fstatus: String;
+    fdescricao: String;
+    fpercipi: String;
+    fcestipi: String;
+    fcstpiscofinsent: String;
+    fcstpiscofinssai: String;
+    fnatrecisenta: String;
+    flista: String;
+    ftipo: String;
+    fpercpis: String;
+    fperccofins: String;
+    fcfopcompra: String;
+    fcfopvenda: String;
+    fcst: String;
+    fcsosn: String;
+    fmodbc: String;
+    fpercicms: String;
+    ficmspdv: String;
+    fsimbpdv: String;
+    fpercredbcicms: String;
+    fpercredbcicmsst: String;
+    fpercmodbcst: String;
+    fpercicmsst: String;
+    fiva: String;
+    fpautast: String;
+    fpercfcp: String;
+    fantecipado: String;
+    fprocodigo: String;
+  published
+    property codigoimendes: string read fcodigoimendes write fcodigoimendes;
+    property codigointerno: string read fcodigointerno write fcodigointerno;
+    property eanpesquisa: string read feanpesquisa write feanpesquisa;
+    property ncm: string read fncm write fncm;
+    property cest: string read fcest write fcest;
+    property status: String read fstatus write fstatus;
+    property descricao: String read fdescricao write fdescricao;
+    property percipi: String read fpercipi write fpercipi;
+    property cestipi: String read fcestipi write fcestipi;
+    property cstpiscofinsent: String read fcstpiscofinsent write fcstpiscofinsent;
+    property cstpiscofinssai: String read fcstpiscofinssai write fcstpiscofinssai;
+    property natrecisenta: String read fnatrecisenta write fnatrecisenta;
+    property lista: String read flista write flista;
+    property tipo: String read ftipo write ftipo;
+    property percpis: String read fpercpis write fpercpis;
+    property perccofins: String read fperccofins write fperccofins;
+    property cfopcompra: String read fcfopcompra write fcfopcompra;
+    property cfopvenda: String read fcfopvenda write fcfopvenda;
+    property cst: String read fcst write fcst;
+    property csosn: String read fcsosn write fcsosn;
+    property modbc: String read fmodbc write fmodbc;
+    property percicms: String read fpercicms write fpercicms;
+    property icmspdv: String read ficmspdv write ficmspdv;
+    property simbpdv: String read fsimbpdv write fsimbpdv;
+    property percredbcicms: String read fpercredbcicms write fpercredbcicms;
+    property percredbcicmsst: String read fpercredbcicmsst write fpercredbcicmsst;
+    property percmodbcst: String read fpercmodbcst write fpercmodbcst;
+    property percicmsst: String read fpercicmsst write fpercicmsst;
+    property iva: String read fiva write fiva;
+    property pautast: String read fpautast write fpautast;
+    property percfcp: String read fpercfcp write fpercfcp;
+    property antecipado: String read fantecipado write fantecipado;
+    property procodigo: string read fprocodigo write fprocodigo;
+  end;
+
+type
+  TfProcessaSaneamento = class(TForm)
+    uqtabela: TUniQuery;
+    TimerShow: TTimer;
+    uqtabelaprocodigo: TIntegerField;
+    uqtabelaproncm: TStringField;
+    uqtabelapronome: TStringField;
+    uqtabelaprosaldo: TFloatField;
+    uqtabelaprosaldodisp: TFloatField;
+    uqtabelagrpcodigo: TIntegerField;
+    uqtabelagrpidentificacao: TStringField;
+    uqtabelamaridentificacao: TStringField;
+    uqtabelaicmaliquotas: TStringField;
+    uqtabelaproreferencia: TStringField;
+    uqtabelaproobs: TStringField;
+    uqtabelaunisimbolo: TStringField;
+    uqtabelapunprecoav: TFloatField;
+    uqtabelapunprecoap: TFloatField;
+    uqtabelasipcodigo: TIntegerField;
+    uqtabelatpocodigo: TIntegerField;
+    uqtabelatpoidentificacao: TStringField;
+    uqtabelaenpcodigo: TIntegerField;
+    uqtabelaenpendereco: TStringField;
+    uqtabelacpbcodbalanca: TIntegerField;
+    uqtabelagracodigo: TIntegerField;
+    uqtabeladpridentificacao: TStringField;
+    uqtabelaproconsolidado: TIntegerField;
+    uqtabelapunpercav: TFloatField;
+    uqtabelapunpercap: TFloatField;
+    uqtabelapuncusto: TFloatField;
+    uqtabelacstcodigo: TStringField;
+    uqtabelaprocest: TStringField;
+    uqtabelaimecodigo: TStringField;
+    uqtabelaprobalanca: TStringField;
+    uqtabelaimudtrev: TDateField;
+    uqtabelaimudtultcons: TDateField;
+    uqtabelapronatrecisenta: TIntegerField;
+    uqtabelaproabc: TStringField;
+    uqtabelapromargemcontrib: TFloatField;
+    uqtabelaproproducao: TIntegerField;
+    uqtabelacfocfop: TStringField;
+    uqtabelacfocfopfora: TStringField;
+    consulta: TUniQuery;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgrefepro: TIntegerField;
+    cfgcfgdoisprecos: TIntegerField;
+    cfgcfgusagrade: TIntegerField;
+    cfgcfgusaenderecamento: TIntegerField;
+    cfgcfgprodefineicms: TIntegerField;
+    cfgcfgbalanca: TIntegerField;
+    cfgcfgextratosegmentado: TIntegerField;
+    cfgcfgusaprecobase: TIntegerField;
+    cfgcfgtabelasaux: TIntegerField;
+    cfgcfgproinativsaldozero: TIntegerField;
+    cfgcfgtributacaoimendes: TIntegerField;
+    cfgetddoc1: TStringField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcnae: TStringField;
+    cfgtalcodigo: TIntegerField;
+    RESTClientBase: TRESTClient;
+    RESTResponseBase: TRESTResponse;
+    RESTRequestBase: TRESTRequest;
+    RESTRmp: TFDMemTable;
+    RESTRmpchave: TStringField;
+    RESTRmpcodigo: TIntegerField;
+    RESTRmpitem: TStringField;
+    RESTRmpchaveimm: TIntegerField;
+    RESTRmppessoas: TIntegerField;
+    DSRESTRmp: TDataSource;
+    pun: TUniQuery;
+    punpuncodigo: TIntegerField;
+    punprocodigo: TIntegerField;
+    pununisimbolo: TStringField;
+    pununinome: TStringField;
+    punpunidentificacao: TStringField;
+    pundgridentificacao: TStringField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpunbarra: TStringField;
+    puntuncodigo: TIntegerField;
+    pununicodigo: TIntegerField;
+    punpunbarrasistema: TIntegerField;
+    punpunmargemap: TFloatField;
+    Dpun: TUniDataSource;
+    DSTabela: TUniDataSource;
+    ACBrValidador1: TACBrValidador;
+    imu: TUniQuery;
+    imuimuid: TIntegerField;
+    imuimuean: TStringField;
+    imuimucodigointerno: TStringField;
+    imuimucodigoimendes: TStringField;
+    imuimustatus: TStringField;
+    imuimudescricao: TStringField;
+    imuimuncm: TStringField;
+    imuimucest: TStringField;
+    imuimupercipi: TStringField;
+    imuimucestipi: TStringField;
+    imuimucstpiscofinsent: TStringField;
+    imuimucstpiscofinssai: TStringField;
+    imuimunatrecisenta: TStringField;
+    imuimulista: TStringField;
+    imuimutipo: TStringField;
+    imuimupercpis: TStringField;
+    imuimuperccofins: TStringField;
+    imuimucfopcompra: TStringField;
+    imuimucfopvenda: TStringField;
+    imuimucst: TStringField;
+    imuimucsosn: TStringField;
+    imuimumodbc: TStringField;
+    imuimupercicms: TStringField;
+    imuimuicmspdv: TStringField;
+    imuimusimbpdv: TStringField;
+    imuimupercredbcicms: TStringField;
+    imuimupercredbcicmsst: TStringField;
+    imuimupercmodbcst: TStringField;
+    imuimupercicmsst: TStringField;
+    imuimuiva: TStringField;
+    imuimupautast: TStringField;
+    imuimupercfcp: TStringField;
+    imuimuantecipado: TStringField;
+    imuimudtultcons: TDateField;
+    imuimudtrev: TDateField;
+    imuimutipocodigo: TStringField;
+    icm: TUniQuery;
+    icmicmcodigo: TStringField;
+    icmicmaliquotas: TStringField;
+    DBGLista: TDBGrid;
+    Panel2: TPanel;
+    plMostra: TPanel;
+    ProgressBar1: TProgressBar;
+    ProgressBar2: TProgressBar;
+    uqtabelaicmaliquotasfora: TStringField;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    propunbarra: TStringField;
+    propuncodigo: TIntegerField;
+    procedure TimerShowTimer(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure FormShow(Sender: TObject);
+  private
+    procedure Sanear;
+    function EnviaDadosMultiplos: Boolean;
+    function ErroImensdes(aValue: Integer): string;
+    procedure CarregaIMU(vRegiImendes: TImendes);
+    procedure CarregaImendes(vJsonResult: TJSONObject);
+    { Private declarations }
+  public
+    { Public declarations }
+    qtSaneados: Integer;
+    vpImeid: string;
+    vpProcodigo: string;
+    vpProNOme: string;
+    vpListaProdutos: TstringList;
+    vpSanearUm: Boolean;
+    vpPendentes: Boolean;
+  end;
+
+var
+  fProcessaSaneamento: TfProcessaSaneamento;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfProcessaSaneamento.TimerShowTimer(Sender: TObject);
+begin
+  TimerShow.Enabled := false;
+  qtSaneados := 0;
+  Sanear;
+  close;
+end;
+
+procedure TfProcessaSaneamento.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  if (not uqtabela.Executing) and (not uqtabela.Fetching) then
+  begin
+    if self.uqtabelaprocodigo.AsString <> '' then
+    begin
+      pun.close;
+      pun.Params[0].asinteger := self.uqtabelaprocodigo.asinteger;
+      pun.Open;
+    end;
+  end;
+end;
+
+function TrocaCaracterEspecial(aTexto: string; aLimExt: Boolean): string;
+const
+  // Lista de caracteres especiais
+  xCarEsp: array [1 .. 38] of String = ('á', 'à', 'ã', 'â', 'ä', 'Á', 'À', 'Ã', 'Â', 'Ä', 'é', 'è', 'É', 'È', 'í', 'ì', 'Í', 'Ì', 'ó', 'ò', 'ö', 'õ',
+    'ô', 'Ó', 'Ò', 'Ö', 'Õ', 'Ô', 'ú', 'ù', 'ü', 'Ú', 'Ù', 'Ü', 'ç', 'Ç', 'ñ', 'Ñ');
+  // Lista de caracteres para troca
+  xCarTro: array [1 .. 38] of String = ('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A', 'A', 'e', 'e', 'E', 'E', 'i', 'i', 'I', 'I', 'o', 'o', 'o', 'o',
+    'o', 'O', 'O', 'O', 'O', 'O', 'u', 'u', 'u', 'u', 'u', 'u', 'c', 'C', 'n', 'N');
+  // Lista de Caracteres Extras
+  xCarExt: array [1 .. 49] of string = ('<', '>', '!', '@', '#', '$', '%', '¨', '&', '*', '(', ')', '_', '+', '=', '{', '}', '[', ']', '?', ';', ':',
+    ',', '|', '*', '"', '~', '^', '´', '`', '¨', 'æ', 'Æ', 'ø', '£', 'Ø', 'ƒ', 'ª', 'º', '¿', '®', '½', '¼', 'ß', 'µ', 'þ', 'ý', 'Ý', '\');
+var
+  xTexto: string;
+  i: Integer;
+begin
+  xTexto := aTexto;
+  for i := 1 to 38 do
+    xTexto := StringReplace(xTexto, xCarEsp[i], xCarTro[i], [rfreplaceall]);
+  // De acordo com o parâmetro aLimExt, elimina caracteres extras.
+  if (aLimExt) then
+    for i := 1 to 48 do
+      xTexto := StringReplace(xTexto, xCarExt[i], '', [rfreplaceall]);
+  Result := xTexto;
+end;
+
+FUNCTION limpabarra(S: string): string;
+var
+  i, J: Integer;
+begin
+  i := Length(S);
+  while (i > 0) and (S[i] <= ' ') do
+  begin
+    Dec(i);
+  end;
+  J := 1;
+  while (J < i) and ((S[J] <= ' ') or (S[J] = '0')) do
+  begin
+    Inc(J);
+  end;
+  Result := Copy(S, J, (i - J) + 1);
+end;
+
+function TfProcessaSaneamento.ErroImensdes(aValue: Integer): string;
+begin
+
+  case aValue of
+    100:
+      Result := 'Erro ao serializar conteudo. XML mal formado.';
+    101:
+      Result := 'CNPJ Inválido.';
+    102:
+      Result := 'CRT Inválido.';
+    103:
+      Result := 'Campo tpConsulta Inválido. Informe 1 para apenas consultar e 2 para consulta e gravar como pendentes para analise os nao encontrados.';
+    104:
+      Result := 'CNPJ não encontrado na base de dados.';
+    105:
+      Result := 'Consulta impedida. Verifique a situacao do CNPJ.';
+    106:
+      Result := 'Excedido número máximo de consultas diárias.';
+    107:
+      Result := 'Erro ao serializar tabelas. XML mal formado ou incompleto.';
+    108:
+      Result := 'XML sem produto(s).                                         ';
+    109:
+      Result := 'Informações do Cabeçalho Faltando.';
+    110:
+      Result := 'XML Inválido. Tamanho Zero.';
+    111:
+      Result := 'XML Inválido. Fora dos Padrões.';
+    112:
+      Result := 'Cabeçalho não Informado.';
+    113:
+      Result := 'XML com tamanho maior que máximo permitido.';
+    114:
+      Result := 'Erro ao serializar tabelas. XML mal formado ou incompleto.';
+    115:
+      Result := 'UF Inválido.';
+    116:
+      Result := 'Consulta impedida. Validade expirada.';
+    117:
+      Result := 'Conexão em horário não permitido. Servidor em Processamento.';
+    118:
+      Result := 'Número de produtos não permitido.';
+    9999:
+      Result := 'Erro Desconhecido. Verifique!';
+  else
+    Result := '';
+
+  end;
+end;
+
+procedure TfProcessaSaneamento.FormShow(Sender: TObject);
+begin
+  TimerShow.Enabled := true;
+end;
+
+function TfProcessaSaneamento.EnviaDadosMultiplos: Boolean;
+var
+  vlJsonCabecalho: string;
+
+  vlJson: string;
+
+  vlJsonResult: TJSONObject;
+
+  vlJsonPair: TJSONPair;
+  vlJsonValue: TJSONObject;
+
+  vlJsonValueNoo: TJsonValue;
+
+  vlMensageRetorno: String;
+  vlcodigomensage: String;
+  vlpuncodigo: string;
+
+  vltipocodigo: string;
+  vlLog: TstringList;
+
+  q: Integer;
+
+  vlqean: Integer;
+  vlqime: Integer;
+  vldigi1: string;
+  vldigi2: string;
+
+  vlprocodigo: string;
+
+  vlcodigointerno: String;
+  vlcodigoimendes: String;
+  vlTipo: String;
+
+  vlTipoChave: String;
+  vlValorChave: String;
+
+  vlJsonRetorno: string;
+  a: string;
+begin
+
+  try
+
+    cfg.close;
+    cfg.Open;
+    vlLog := TstringList.Create;
+    RESTClientBase.BaseURL := 'http://consultatributos.com.br:8080/api/v1/public/RegrasFiscais';
+    RESTRequestBase.Method := rmPOST;
+
+    q := 0;
+
+    plMostra.Visible := true;
+    plMostra.Caption := '0/' + uqtabela.RecordCount.ToString;
+
+    ProgressBar1.Max := uqtabela.RecordCount;
+
+    if cfgcrtcodigo.asinteger <> 3 then
+    begin
+
+      vlJsonCabecalho := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",' +
+        '"crt":' + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"", "regimeTrib":"S",' + '"contribuinte":1,' + '"amb":2' + '},' + '"uf":["MT"],' +
+        '"produto":[';
+
+    end
+    else
+    begin
+
+      if cfgtalcodigo.asinteger = 1 then // lucro presumido
+      begin
+
+        vlJsonCabecalho := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",'
+          + '"crt":' + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"",' + '"codFaixa":"98",' + '"regimeTrib":"P",' + '"contribuinte":1,' +
+          '"amb":2' + '},' + '"uf":["MT"],' + '"produto":[';
+      end
+      else if cfgtalcodigo.asinteger = 2 then // lucro real
+      begin
+
+        vlJsonCabecalho := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",'
+          + '"crt":' + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"",' + '"codFaixa":"99",' + '"regimeTrib":"R",' + '"contribuinte":1,' +
+          '"amb":2' + '},' + '"uf":["MT"],' + '"produto":[';
+
+      end;
+
+    end;
+
+    if vpImeid <> '' then
+    begin
+
+      vpListaProdutos := TstringList.Create;
+      consulta.close;
+      consulta.SQL.Text := 'select imucodigointerno from imu where imuid=' + vpImeid;
+      consulta.Open;
+
+      vpImeid := consulta.FieldByName('imucodigointerno').AsString;
+
+      { if pos('like', lowercase(uqtabela.SQL.Text)) = 0 then
+        begin }
+
+      if vpProNOme <> '' then
+      begin
+        uqtabela.FilterSQL := 'pro.procodigo=' + vpProcodigo;
+
+      end;
+
+      pun.close;
+      pun.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+      pun.Open;
+
+      if punpuncodigo.AsString <> '' then
+      begin
+        consulta.close;
+        consulta.SQL.Text := 'update pun set imecodigo=' + vpImeid + ' where puncodigo =' + punpuncodigo.AsString + ' and procodigo=' + vpProcodigo;
+        consulta.ExecSQL;
+      end;
+      vpListaProdutos.Add('imucodigointerno=' + vpImeid + '#' + uqtabelaprocodigo.AsString);
+
+    end
+    else if vpImeid = '' then
+    begin
+      vpListaProdutos := TstringList.Create;
+
+      if vpPendentes then
+      begin
+        uqtabela.FilterSQL := 'imecodigo=' + QuotedStr('PENDENTE');
+      end
+      else
+      begin
+        uqtabela.FilterSQL := '( (proproducao<>1) or  (imecodigo is NULL)    ) ';
+      end;
+      a := uqtabela.SQL.Text;
+      while not uqtabela.Eof do
+      begin
+
+        if uqtabelaproproducao.asinteger = 0 then
+        begin
+
+          // try
+          vlJson := vlJsonCabecalho;
+
+          while not uqtabela.Eof do
+          begin
+
+            ProgressBar2.Visible := false;
+            ProgressBar2.Align := alleft;
+
+            ProgressBar1.Visible := true;
+            ProgressBar1.Align := alClient;
+
+            plMostra.Caption := ProgressBar1.Position.ToString + '/' + uqtabela.RecordCount.ToString;
+
+            ProgressBar1.Position := ProgressBar1.Position + 1;
+            application.ProcessMessages;
+
+            pun.First;
+            vltipocodigo := '';
+            while not pun.Eof do
+            begin
+              if vltipocodigo <> '0' then
+              begin
+
+                if (punpunbarrasistema.asinteger = 1) AND (uqtabelaimecodigo.AsString = '') then
+                begin
+                  vlJson := vlJson + '{' + '"codigo":"' + limpabarra(punpuncodigo.AsString) + '"';
+                  vlJson := vlJson + ',"tipoCodigo":"1"';
+                  vltipocodigo := '1';
+                end
+                else if (uqtabelaimecodigo.AsString <> '') and (uqtabelaimecodigo.AsString <> punpunbarra.AsString) and
+                  (uqtabelaimecodigo.AsString = 'PENDENTE') then
+                begin
+                  if uqtabelaimecodigo.AsString = 'PENDENTE' then
+                  begin
+                    vlJson := vlJson + '{' + '"codigo":"' + limpabarra(punpunbarra.AsString) + '"';
+                    vlJson := vlJson + ',"tipoCodigo":"0"';
+                    vltipocodigo := '0';
+                  end
+                  else
+                  begin
+                    vlJson := vlJson + '{' + '"codIMendes":"' + uqtabelaimecodigo.AsString + '"';
+                    vlJson := vlJson + ',"tipoCodigo":"2"';
+                    vltipocodigo := '2';
+                  end;
+                end
+                else if (uqtabelaimecodigo.AsString <> '') and (uqtabelaimecodigo.AsString <> punpunbarra.AsString) and
+                  (uqtabelaimecodigo.AsString <> 'PENDENTE') then
+                begin
+
+                  vlJson := vlJson + '{' + '"codIMendes":"' + limpabarra(uqtabelaimecodigo.AsString) + '"';
+                  vlJson := vlJson + ',"tipoCodigo":"2"';
+                  vltipocodigo := '2';
+
+                  { vlJson := vlJson + '{' + '"codigo":"' + limpabarra(punpunbarra.AsString) + '"';
+                    vlJson := vlJson + ',"tipoCodigo":"0"';
+                    vltipocodigo := '0'; }
+
+                end
+                else
+                begin
+                  if punpunbarra.AsFloat >= 10000000 then
+                  begin
+                    vlJson := vlJson + '{' + '"codigo":"' + limpabarra(punpunbarra.AsString) + '"';
+                    vlJson := vlJson + ',"tipoCodigo":"0"';
+                    vltipocodigo := '0';
+                  end
+                  else
+                  begin
+                    vlJson := vlJson + '{' + '"codigo":"' + limpabarra(punpuncodigo.AsString) + '"';
+                    vlJson := vlJson + ',"tipoCodigo":"0"';
+                    vltipocodigo := '0';
+                  end;
+                end;
+
+                vlJson := vlJson + ',"descricao":"' + semacento(StringReplace(trim(TrocaCaracterEspecial(uqtabelapronome.AsString, true)), '\', '',
+                  [rfreplaceall, rfIgnoreCase])) + '"';
+
+                if (uqtabelaprobalanca.AsString = '1') or (uppercase(uqtabelaunisimbolo.AsString) = 'KG') then
+                begin
+                  vlJson := vlJson + ',"refeicao": "S"';
+                end;
+
+                vlJson := vlJson + '},';
+              end;
+
+              pun.Next;
+
+              q := q + 1;
+              if (q > 300) then
+              begin
+                break;
+              end;
+
+            end;
+
+            if (q > 300) or (uqtabela.Eof) then
+            begin
+              q := 0;
+              break;
+            end
+            else
+            begin
+              uqtabela.Next;
+              if uqtabela.Eof then
+                break;
+            end;
+          end;
+
+          vlJson := Copy(vlJson, 1, Length(vlJson) - 1);
+
+          vlJson := vlJson + ']' + '}';
+
+          with RESTRequestBase.Params.AddItem do
+          begin
+            ContentType := ctAPPLICATION_JSON;
+            name := 'param'; // param name
+            Value := vlJson; // seu json
+            Kind := pkREQUESTBODY;
+          end;
+
+          vlLog.Add('ENVIO: SANEAMENTO');
+          vlLog.Add('json:');
+          vlLog.Add(vlJson);
+          vlLog.Add('=============================================================================');
+
+          try
+            vlJsonResult := NIL;
+            RESTRequestBase.Execute;
+            vlJsonResult := TJSONObject(RESTResponseBase.JSONValue);
+
+            vlJsonRetorno := vlJsonResult.ToString;
+
+          except
+            on e: Exception do
+            begin
+
+              vlLog.Add('Falha primeira tentativa: ' + formatdatetime('dd mm yyyy-hh nn ss', now()) + #13 + e.Message);
+              sleep(10000);
+              try
+                RESTRequestBase.Execute;
+                vlJsonResult := TJSONObject(RESTResponseBase.JSONValue);
+
+              except
+                on e: Exception do
+                begin
+                  vlLog.Add('Falha primeira tentativa: ' + formatdatetime('dd mm yyyy-hh nn ss', now()) + #13 + #13 + e.Message);
+                  sleep(10000);
+                  try
+                    RESTRequestBase.Execute;
+                    vlJsonResult := TJSONObject(RESTResponseBase.JSONValue);
+                    vlJsonRetorno := vlJsonResult.ToString;
+
+                  except
+                    on e: Exception do
+                    begin
+                      vlLog.SaveToFile('C:\imendes\logs\ERRO_SANEAMENTO_' + formatdatetime('dd mm yyyy-hh nn ss', now()) + '.txt');
+                      showmessage('Consulta momentaneamente indisponível.' + #13 + #13 + 'Por favor, aguarde 1 minuto e realize a consulta novamente.'
+                        + #13 + #13 + e.Message);
+                      exit;
+                    end;
+                  end;
+                end;
+              end;
+            end;
+          end;
+
+          vlLog.Add('RETORNO: SANEAMENTO');
+          vlLog.Add('json:');
+
+          vlLog.Add(vlJsonRetorno);
+          vlLog.Add('=============================================================================');
+
+          vlJsonValue := TJSONObject(vlJsonResult.GetValue('cabecalho'));
+
+          vlMensageRetorno := StringReplace(vlJsonValue.GetValue('mensagem').ToString, '"', '', [rfreplaceall, rfIgnoreCase]);
+
+          if uppercase(vlMensageRetorno) <> 'OK' then
+          begin
+            vlcodigomensage := StringReplace(trim(Copy(vlMensageRetorno, pos('|', vlMensageRetorno) + 1, 10)), '"', '', [rfreplaceall, rfIgnoreCase]);
+
+            if ErroImensdes(vlcodigomensage.ToInteger) <> '' then
+            begin
+              showmessage('Erro: ' + vlcodigomensage + ' ' + ErroImensdes(vlcodigomensage.ToInteger));
+              exit;
+            end;
+          end;
+
+          vlLog.SaveToFile('C:\imendes\logs\SANEAMENTO1_' + formatdatetime('dd mm yyyy-hh nn ss', now) + '.txt');
+
+          CarregaImendes(vlJsonResult);
+
+        end;
+
+        if (q > 300) or (uqtabela.Eof) then
+        begin
+          q := 0;
+        end
+        else
+        begin
+          uqtabela.Next;
+          if uqtabela.Eof then
+            break;
+        end;
+      end;
+    end;
+
+    imu.close;
+    imu.Open;
+
+    ProgressBar2.Visible := false;
+    ProgressBar2.Position := 0;
+
+    ProgressBar1.Visible := true;
+
+    ProgressBar1.Max := vpListaProdutos.Count;
+    ProgressBar1.Position := 0;
+
+    plMostra.Visible := true;
+    plMostra.Caption := '0/' + vpListaProdutos.Count.ToString;
+
+    if vpListaProdutos.Count = 0 then
+    begin
+
+      uqtabela.First;
+      while not uqtabela.Eof do
+      begin
+        consulta.close;
+        consulta.SQL.Text := 'update pun set imecodigo=' + QuotedStr('PENDENTE') + ' where procodigo =' + uqtabelaprocodigo.AsString;
+        consulta.ExecSQL;
+        uqtabela.Next;
+      end;
+
+    end;
+
+    for vlqean := 0 to vpListaProdutos.Count - 1 do
+    begin
+
+      ProgressBar1.Position := ProgressBar1.Position + 1;
+      plMostra.Caption := ProgressBar1.Position.ToString + '/' + vpListaProdutos.Count.ToString;
+
+      application.ProcessMessages;
+
+      vlTipoChave := Copy(vpListaProdutos[vlqean], 1, pos('=', vpListaProdutos[vlqean]) - 1);
+
+      if vlTipoChave = 'imuean' then
+      begin
+        if pos('#', vpListaProdutos[vlqean]) > 0 then
+        begin
+          vlValorChave := trim(Copy(vpListaProdutos[vlqean], pos('=', vpListaProdutos[vlqean]) + 1, pos('#', vpListaProdutos[vlqean]) - 1));
+          vlValorChave := trim(Copy(vlValorChave, 1, pos('#', vlValorChave) - 1));
+          vlprocodigo := trim(Copy(vpListaProdutos[vlqean], pos('#', vpListaProdutos[vlqean]) + 1, 200));
+        end
+        else
+          vlValorChave := trim(Copy(vpListaProdutos[vlqean], pos('=', vpListaProdutos[vlqean]) + 1, 20));
+
+        vlValorChave := formatfloat('00000000000000', strtofloat(vlValorChave));
+
+      end
+      else
+      begin
+        if pos('#', vpListaProdutos[vlqean]) > 0 then
+        begin
+          vlValorChave := trim(Copy(vpListaProdutos[vlqean], pos('=', vpListaProdutos[vlqean]) + 1, 200));
+          vlValorChave := trim(Copy(vlValorChave, 1, pos('#', vlValorChave) - 1));
+          vlprocodigo := trim(Copy(vpListaProdutos[vlqean], pos('#', vpListaProdutos[vlqean]) + 1, 200));
+        end
+        else
+          vlValorChave := trim(Copy(vpListaProdutos[vlqean], pos('=', vpListaProdutos[vlqean]) + 1, 20));
+      end;
+
+      vlcodigointerno := '';
+      vlcodigoimendes := '';
+      if vlValorChave <> '' then
+      begin
+        if imu.Locate(vlTipoChave, vlValorChave, []) then
+        begin
+
+          vlTipo := imuimutipocodigo.AsString;
+
+          vlcodigointerno := imuimucodigointerno.AsString;
+          vlcodigoimendes := imuimucodigoimendes.AsString;
+
+          icm.close;
+          icm.Open;
+
+          if not icm.Locate('icmaliquotas', imuimuicmspdv.AsString, []) then
+          begin
+            if imuimuicmspdv.AsString <> '' then
+            begin
+              icm.Append;
+              icmicmcodigo.AsString := SoNumeros(imuimupercicms.AsString);
+              icmicmaliquotas.AsString := imuimupercicms.AsString;
+              icm.Post;
+            end;
+          end;
+
+          if vpProNOme <> '' then
+          begin
+            vlprocodigo := vpProcodigo;
+          end;
+
+          if imuimunatrecisenta.AsString <> '' then
+          begin
+
+            if cfgcrtcodigo.asinteger = 1 then
+            begin
+              consulta.close;
+              consulta.SQL.Text := 'update pro  set pronatrecisenta=' + imuimunatrecisenta.AsString + ',  imuid=' + imuimuid.AsString +
+                '  , csfentrada=' + StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',  cspentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',    cfopentrada=' + imuimucfopcompra.AsString
+                + ',   propercfcp=' + QuotedStr(imuimupercfcp.AsString) + ' , promva=' + QuotedStr(imuimuiva.AsString) + '  ,cfocfop=' +
+                QuotedStr(Copy(imuimucfopvenda.AsString, 1, 1) + '.' + Copy(imuimucfopvenda.AsString, 2, 4)) + ',icmcodigofora=' + QuotedStr('00') +
+                ',  icmcodigo=' + QuotedStr('00') + ',     ' + 'propisaliquota=' + StringReplace(imuimupercpis.AsString, ',', '.', []) + ',  ' +
+                'procofinsaliquota=' + StringReplace(imuimuperccofins.AsString, ',', '.', []) + ',  ' + 'procest=' +
+                QuotedStr(SoNumeros(imuimucest.AsString)) + '  ,' + 'propercreducaobaseicm=' + StringReplace(imuimupercredbcicms.AsString, ',', '.',
+                []) + ',  ' + 'csfcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) + ' , cspcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) +
+                '  ,  cstcodigo=' + QuotedStr(imuimucsosn.AsString) + ',  proncm=' + QuotedStr(imuimuncm.AsString) + ' where procodigo=' +
+                vlprocodigo;
+              consulta.ExecSQL;
+
+            end
+            else
+            begin
+
+              consulta.close;
+              consulta.SQL.Text := 'update pro  set pronatrecisenta=' + imuimunatrecisenta.AsString + ',  imuid=' + imuimuid.AsString +
+                '  , csfentrada=' + StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',  cspentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',    cfopentrada=' + imuimucfopcompra.AsString
+                + ',   propercfcp=' + QuotedStr(imuimupercfcp.AsString) + ' , promva=' + QuotedStr(imuimuiva.AsString) + '  ,cfocfop=' +
+                QuotedStr(Copy(imuimucfopvenda.AsString, 1, 1) + '.' + Copy(imuimucfopvenda.AsString, 2, 4)) + ',  icmcodigo=' +
+                QuotedStr(icmicmcodigo.AsString) + ',     ' + 'propisaliquota=' + StringReplace(imuimupercpis.AsString, ',', '.', []) + ',  ' +
+                'procofinsaliquota=' + StringReplace(imuimuperccofins.AsString, ',', '.', []) + ',  ' + 'procest=' +
+                QuotedStr(SoNumeros(imuimucest.AsString)) + '  ,' + 'propercreducaobaseicm=' + StringReplace(imuimupercredbcicms.AsString, ',', '.',
+                []) + ',  ' + 'csfcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) + ' , cspcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) +
+                '  ,  cstcodigo=' + QuotedStr(imuimucst.AsString) + ',  proncm=' + QuotedStr(imuimuncm.AsString) + ' where procodigo=' + vlprocodigo;
+              consulta.ExecSQL;
+            end;
+
+          end
+          else
+          begin
+
+            if cfgcrtcodigo.asinteger = 1 then
+            begin
+
+              consulta.close;
+              consulta.SQL.Text := 'update pro  set pronatrecisenta=null ,  imuid=' + imuimuid.AsString + '  , csfentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',  cspentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',    cfopentrada=' + imuimucfopcompra.AsString
+                + ',   propercfcp=' + QuotedStr(imuimupercfcp.AsString) + ' , promva=' + QuotedStr(imuimuiva.AsString) + '  ,cfocfop=' +
+                QuotedStr(Copy(imuimucfopvenda.AsString, 1, 1) + '.' + Copy(imuimucfopvenda.AsString, 2, 4)) + ',icmcodigofora=' + QuotedStr('00') +
+                ',    icmcodigo=' + QuotedStr('00') + ',     ' + 'propisaliquota=' + StringReplace(imuimupercpis.AsString, ',', '.', []) + ',  ' +
+                'procofinsaliquota=' + StringReplace(imuimuperccofins.AsString, ',', '.', []) + ',  ' + 'procest=' +
+                QuotedStr(SoNumeros(imuimucest.AsString)) + '  ,' + 'propercreducaobaseicm=' + StringReplace(imuimupercredbcicms.AsString, ',', '.',
+                []) + ',  ' + 'csfcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) + ' , cspcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) +
+                '  ,  cstcodigo=' + QuotedStr(imuimucsosn.AsString) + ',  proncm=' + QuotedStr(imuimuncm.AsString) + ' where procodigo=' +
+                vlprocodigo;
+              consulta.ExecSQL;
+
+            end
+            else
+            begin
+              consulta.close;
+              consulta.SQL.Text := 'update pro  set pronatrecisenta=null ,  imuid=' + imuimuid.AsString + '  , csfentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',  cspentrada=' +
+                StringReplace(imuimucstpiscofinsent.AsString, '"', '', [rfreplaceall, rfIgnoreCase]) + ',    cfopentrada=' + imuimucfopcompra.AsString
+                + ',   propercfcp=' + QuotedStr(imuimupercfcp.AsString) + ' , promva=' + QuotedStr(imuimuiva.AsString) + '  ,cfocfop=' +
+                QuotedStr(Copy(imuimucfopvenda.AsString, 1, 1) + '.' + Copy(imuimucfopvenda.AsString, 2, 4)) + ',  icmcodigo=' +
+                QuotedStr(icmicmcodigo.AsString) + ',     ' + 'propisaliquota=' + StringReplace(imuimupercpis.AsString, ',', '.', []) + ',  ' +
+                'procofinsaliquota=' + StringReplace(imuimuperccofins.AsString, ',', '.', []) + ',  ' + 'procest=' +
+                QuotedStr(SoNumeros(imuimucest.AsString)) + '  ,' + 'propercreducaobaseicm=' + StringReplace(imuimupercredbcicms.AsString, ',', '.',
+                []) + ',  ' + 'csfcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) + ' , cspcodigo=' + QuotedStr(imuimucstpiscofinssai.AsString) +
+                '  ,  cstcodigo=' + QuotedStr(imuimucst.AsString) + ',  proncm=' + QuotedStr(imuimuncm.AsString) + ' where procodigo=' + vlprocodigo;
+              consulta.ExecSQL;
+
+            end;
+          end;
+
+          consulta.close;
+          if (vlTipo = '0') OR (vlTipo = '1') then // EAN OU INTERNO
+          begin
+            consulta.SQL.Text := 'update pun set  imecodigo=' + imuimucodigointerno.AsString + ' where procodigo=' + vlprocodigo;
+          end
+          else if vlTipo = '2' then
+          begin
+            consulta.SQL.Text := 'update pun set imecodigo=' + imuimucodigoimendes.AsString + ' where procodigo=' + vlprocodigo;
+          end;
+
+          consulta.ExecSQL;
+
+          { consulta.close;
+            if vlTipoChave = 'imucodigointerno' then
+            begin
+            consulta.SQL.Text := 'update pun set  imecodigo=' + imuimucodigointerno.AsString + ' where procodigo=' + vlprocodigo;
+            end
+            else if vlTipoChave = 'imucodigoimendes' then
+            begin
+            consulta.SQL.Text := 'update pun set imecodigo=' + imuimucodigoimendes.AsString + ' where procodigo=' + vlprocodigo;
+            end
+            else if vlTipoChave = 'imuean' then
+            begin
+            consulta.SQL.Text := 'update pun set imecodigo=' + imuimucodigointerno.AsString + ' where procodigo=' + vlprocodigo;
+            end;
+            consulta.ExecSQL; }
+
+        end;
+
+      end;
+    end;
+
+    ProgressBar1.Position := 0;
+    application.ProcessMessages;
+    Result := true;
+
+  finally
+
+  end;
+end;
+
+procedure TfProcessaSaneamento.CarregaIMU(vRegiImendes: TImendes);
+var
+  vlqean: Integer;
+  vlpuncodigo: String;
+  vldigi1: string;
+  vldigi2: string;
+  vlRegiImendes: TImendes;
+  vlEAN: Boolean;
+  vlCodigoBarra: string;
+  vlTipo: string;
+
+begin
+  vlEAN := false;
+  vlRegiImendes := vRegiImendes;
+
+  if vpImeid <> '' then
+  begin
+    imu.close;
+    imu.FilterSQL := 'imuid=' + vpImeid;
+    imu.Open;
+  end
+  else
+  begin
+    imu.close;
+    imu.Open;
+  end;
+
+  ACBrValidador1.TipoDocto := docPrefixoGTIN;
+  ACBrValidador1.Documento := Copy(vRegiImendes.eanpesquisa, 1, Length(vRegiImendes.eanpesquisa));
+
+  if ACBrValidador1.Validar then
+  begin
+    vldigi1 := ACBrValidador1.DigitoCalculado;
+    vldigi2 := Copy(vRegiImendes.eanpesquisa, Length(vRegiImendes.eanpesquisa), 1);
+
+    if vldigi1 = vldigi2 then
+    begin
+      vlRegiImendes.tipo := '0';
+    end
+    else
+    begin
+      vlRegiImendes.tipo := '1';
+    end;
+
+  end
+  else
+  begin
+    if vlRegiImendes.codigoimendes <> '' then
+    begin
+      vlRegiImendes.tipo := '2';
+    end
+    else
+    begin
+      vlRegiImendes.tipo := '1';
+    end;
+
+  end;
+
+  vlTipo := vRegiImendes.tipo;
+
+  if vlRegiImendes.feanpesquisa <> '' then
+  begin
+    if pro.Locate('pronome;punbarra', VarArrayOf([lowercase(vlRegiImendes.fdescricao), formatfloat('00000000000000',
+      strtofloat(vlRegiImendes.feanpesquisa))]), [locaseinsensitive]) then
+    begin
+      vlRegiImendes.tipo := '0';
+    end;
+  end;
+
+  vlTipo := vRegiImendes.tipo;
+
+  if vlTipo = '0' then
+  begin
+    vlEAN := true;
+    vlCodigoBarra := formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa));
+
+    if (not imu.Locate('imuean', vlCodigoBarra, [])) then
+    begin
+      imu.Append;
+    end
+    else
+    begin
+      imu.Edit;
+    end;
+  end
+  else if vlTipo = '1' then
+  begin
+
+    if (not imu.Locate('imucodigointerno', vlRegiImendes.eanpesquisa, [])) then
+    begin
+      imu.Append;
+    end
+    else
+    begin
+      imu.Edit;
+    end;
+
+  end
+  else
+  begin
+
+    if (not imu.Locate('imucodigoimendes', vlRegiImendes.codigoimendes, [])) then
+    begin
+      imu.Append;
+    end
+    else
+    begin
+      imu.Edit;
+    end;
+
+  end;
+
+  { if vlRegiImendes.eanpesquisa <> '' then
+    begin
+    vlEAN := true;
+    vlCodigoBarra := formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa));
+
+    if (not imu.Locate('imuean', vlCodigoBarra, [])) then
+    begin
+    imu.Append;
+    end
+    else
+    begin
+    imu.Edit;
+    end;
+    end
+    else
+    begin
+
+    if (not imu.Locate('imucodigoimendes', vlRegiImendes.codigoimendes, [])) then
+    begin
+    imu.Append;
+    end
+    else
+    begin
+    imu.Edit;
+    end;
+
+    end; }
+
+  vlpuncodigo := '';
+
+  if vlRegiImendes.eanpesquisa <> '' then
+  begin
+
+    if formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa)) <> '' then
+    begin
+
+      if vlTipo = '0' then
+      begin
+
+        consulta.close;
+        consulta.SQL.Text := 'select puncodigo from pun where punbarra=' +
+          QuotedStr(formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa)));
+        consulta.Open;
+
+        if not consulta.IsEmpty then
+        begin
+          vlpuncodigo := consulta.FieldByName('puncodigo').AsString;
+        end
+        else
+        begin
+          vlpuncodigo := '';
+        end;
+
+      end
+      else if vlTipo = '1' then
+      begin
+
+        consulta.close;
+        consulta.SQL.Text := 'select puncodigo from pun where puncodigo=' + vlRegiImendes.eanpesquisa;
+        consulta.Open;
+
+        if not consulta.IsEmpty then
+        begin
+          vlpuncodigo := consulta.FieldByName('puncodigo').AsString;
+        end
+        else
+        begin
+
+          consulta.close;
+          consulta.SQL.Text := 'select puncodigo from pun where punbarra=' +
+            QuotedStr(formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa)));
+          consulta.Open;
+
+          if not consulta.IsEmpty then
+          begin
+            vlpuncodigo := consulta.FieldByName('puncodigo').AsString;
+          end
+          else
+          begin
+            vlpuncodigo := '';
+          end;
+        end;
+
+      end;
+    end;
+
+  end
+  else
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select puncodigo from pun,v_pro where pun.procodigo=v_pro.procodigo and  v_pro.imecodigo=' + vlRegiImendes.codigoimendes;
+    consulta.Open;
+
+    vlpuncodigo := consulta.FieldByName('puncodigo').AsString;
+
+  end;
+
+  if vlpuncodigo <> '' then
+  begin
+    consulta.close;
+    consulta.SQL.Text := 'select pronome from pro,pun where pro.procodigo=pun.procodigo and pun.puncodigo=' + vlpuncodigo;
+    consulta.Open;
+
+    if vlRegiImendes.eanpesquisa <> '' then
+      imuimuean.AsString := formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa))
+    else
+      imuimuean.AsString := '';
+
+    imuimucodigointerno.asinteger := vlpuncodigo.ToInteger;
+    imuimucodigoimendes.AsString := vlRegiImendes.codigoimendes;
+
+    imuimudescricao.AsString := StringReplace(consulta.FieldByName('pronome').AsString, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimuncm.AsString := StringReplace(vlRegiImendes.ncm, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucest.AsString := StringReplace(vlRegiImendes.cest, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimupercipi.AsString := StringReplace(vlRegiImendes.percipi, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucestipi.AsString := StringReplace(vlRegiImendes.cestipi, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucstpiscofinsent.AsString := StringReplace(vlRegiImendes.cstpiscofinsent, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucstpiscofinssai.AsString := StringReplace(vlRegiImendes.cstpiscofinssai, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimunatrecisenta.AsString := StringReplace(StringReplace(vlRegiImendes.natrecisenta, '"', '', [rfreplaceall, rfIgnoreCase]), '"', '',
+      [rfreplaceall, rfIgnoreCase]);
+    imuimulista.AsString := StringReplace(vlRegiImendes.lista, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimutipo.AsString := StringReplace(vlRegiImendes.tipo, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimupercpis.AsString := vlRegiImendes.percpis;
+    imuimuperccofins.AsString := vlRegiImendes.perccofins;
+    imuimucfopcompra.AsString := vlRegiImendes.cfopcompra;
+    imuimucfopvenda.AsString := StringReplace(vlRegiImendes.cfopvenda, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucst.AsString := StringReplace(vlRegiImendes.cst, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimucsosn.AsString := StringReplace(vlRegiImendes.csosn, '"', '', [rfreplaceall, rfIgnoreCase]);
+
+    imuimumodbc.AsString := StringReplace(vlRegiImendes.modbc, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimupercicms.AsString := vlRegiImendes.percicms;
+    imuimuicmspdv.AsString := vlRegiImendes.percicms;
+    imuimupercredbcicms.AsString := vlRegiImendes.percredbcicms;
+    imuimupercredbcicmsst.AsString := vlRegiImendes.percredbcicmsst;
+    imuimupercmodbcst.AsString := vlRegiImendes.percmodbcst;
+    imuimupercicmsst.AsString := vlRegiImendes.percicmsst;
+    imuimuiva.AsString := StringReplace(vlRegiImendes.iva, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimupautast.AsString := vlRegiImendes.pautast;
+    imuimupercfcp.AsString := vlRegiImendes.percfcp;
+    imuimuantecipado.AsString := vlRegiImendes.antecipado;
+    imuimustatus.AsString := StringReplace(vlRegiImendes.status, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimusimbpdv.AsString := StringReplace(vlRegiImendes.simbpdv, '"', '', [rfreplaceall, rfIgnoreCase]);
+    imuimutipocodigo.AsString := vlTipo;
+    imuimutipo.AsString := vlTipo;
+    imu.Post;
+  end
+  else
+  begin
+    // showmessage('Não localizou produto: ' + formatfloat('00000000000000', strtofloat(vlRegiImendes.eanpesquisa)));
+  end;
+
+end;
+
+procedure TfProcessaSaneamento.CarregaImendes(vJsonResult: TJSONObject);
+var
+  vlJsonGrupo: TJSONArray;
+  vlqtdGrupos: Integer;
+  vlqtcod: Integer;
+  vlJsonImendes: TJSONArray;
+  vlJsonProduto: TJSONArray;
+  vlRegiImendes: TImendes;
+  i: Integer;
+  vlJsonPisCofins: TJSONObject;
+  vlJsonIpi: TJSONObject;
+  vlJsonRegra: TJSONArray;
+  vlqtdRegras: Integer;
+  vlJsonResultado: String;
+  vlLog: TstringList;
+  vlJsonValue: TJSONObject;
+  vlJsonResult: TJSONObject;
+begin
+
+  vlJsonResult := vJsonResult;
+  vlJsonResultado := vlJsonResult.ToString;
+
+  vlLog := TstringList.Create;
+
+  vlJsonGrupo := TJSONArray(vlJsonResult.GetValue('grupo'));
+  vlJsonResultado := vlJsonGrupo.ToString;
+
+  ProgressBar1.Visible := false;
+  ProgressBar1.Align := alClient;
+  ProgressBar2.Visible := true;
+  ProgressBar2.Align := alClient;
+  ProgressBar2.Max := vlJsonGrupo.Count;
+  ProgressBar2.Position := 0;
+  for vlqtdGrupos := 0 to vlJsonGrupo.Count - 1 do
+  begin
+    vlRegiImendes := TImendes.Create;
+    ProgressBar2.Position := ProgressBar2.Position + 1;
+    application.ProcessMessages;
+    vlJsonGrupo := TJSONArray(vlJsonResult.GetValue('grupo'));
+    vlJsonResultado := vlJsonGrupo.ToString;
+    vlJsonValue := TJSONObject(vlJsonGrupo.get(vlqtdGrupos));
+    vlJsonResultado := vlJsonValue.ToString;
+    vlqtcod := vlJsonValue.Count;
+    vlJsonImendes := TJSONArray(vlJsonValue.GetValue('codIMendes'));
+    if vlJsonImendes <> nil then
+    begin
+      vlJsonResultado := vlJsonImendes.ToString;
+    end;
+
+    vlJsonProduto := TJSONArray(vlJsonValue.GetValue('produto'));
+    if vlJsonProduto <> nil then
+    begin
+      vlJsonResultado := vlJsonProduto.ToString;
+      vlRegiImendes.status := '';
+      for i := 0 to vlJsonProduto.Count - 1 do
+      begin
+        vlRegiImendes.eanpesquisa := SoNumeros(vlJsonProduto.Items[i].ToString);
+        ACBrValidador1.Documento := vlRegiImendes.eanpesquisa;
+        ACBrValidador1.TipoDocto := docGTIN;
+        if ACBrValidador1.Validar then
+        begin
+          consulta.close;
+          consulta.SQL.Text := 'delete from imu where imuean=' + QuotedStr(vlRegiImendes.eanpesquisa);
+          consulta.ExecSQL;
+        end
+        else
+        begin
+          consulta.close;
+          consulta.SQL.Text := 'delete from imu where imucodigointerno=' + vlRegiImendes.eanpesquisa;
+          consulta.ExecSQL;
+        end;
+      end;
+    end;
+    vlRegiImendes.codigoimendes := vlJsonValue.GetValue('codigo').ToString;
+    vlRegiImendes.ncm := SoNumeros(vlJsonValue.GetValue('ncm').ToString);
+    vlRegiImendes.cest := SoNumeros(vlJsonValue.GetValue('cest').ToString);
+    vlJsonPisCofins := TJSONObject(vlJsonValue.GetValue('piscofins'));
+    vlRegiImendes.perccofins := vlJsonPisCofins.GetValue('aliqCOFINS').ToString;
+    vlRegiImendes.percpis := vlJsonPisCofins.GetValue('aliqPIS').ToString;
+    vlRegiImendes.cstpiscofinsent := vlJsonPisCofins.GetValue('cstEnt').ToString;
+    vlRegiImendes.cstpiscofinssai := vlJsonPisCofins.GetValue('cstSai').ToString;
+
+    if cfgcrtcodigo.asinteger = 1 then
+    // simples nacional
+    begin
+      // CST 01 passara a ser CST 49;
+      // CST 06 passara a ser CST 49; (Lembrando que a CST 06 deverá ser tributada no simples nacional.)
+      if (vlRegiImendes.cstpiscofinssai = '"01"') or (vlRegiImendes.cstpiscofinssai = '"06"') then
+      begin
+        vlRegiImendes.cstpiscofinssai := '49';
+      end;
+    end;
+
+    vlRegiImendes.natrecisenta := vlJsonPisCofins.GetValue('nri').ToString;
+    vlJsonIpi := TJSONObject(vlJsonValue.GetValue('ipi'));
+    vlRegiImendes.percipi := vlJsonIpi.GetValue('aliqIPI').ToString;
+    vlRegiImendes.cestipi := vlJsonIpi.GetValue('cstSai').ToString;
+    vlJsonRegra := TJSONArray(vlJsonValue.GetValue('regra'));
+    vlJsonResultado := vlJsonRegra.ToString;
+    for vlqtdRegras := 0 to vlJsonRegra.Count - 1 do
+    begin
+      vlJsonValue := TJSONObject(vlJsonRegra.get(vlqtdRegras));
+      vlJsonResultado := vlJsonValue.ToString;
+      vlRegiImendes.cst := vlJsonValue.GetValue('cst').ToString;
+      vlRegiImendes.csosn := vlJsonValue.GetValue('csosn').ToString;
+      vlRegiImendes.cfopcompra := vlJsonValue.GetValue('cfopCompra').ToString;
+      vlRegiImendes.cfopvenda := vlJsonValue.GetValue('cfopVenda').ToString;
+      vlRegiImendes.descricao := uqtabelapronome.AsString;
+      vlRegiImendes.lista := '';
+      vlRegiImendes.tipo := '';
+      if vlRegiImendes.cfopvenda = '5405' then
+        vlRegiImendes.percicms := floattostr(strtofloat(StringReplace(vlJsonValue.GetValue('pICMSPDV').ToString, '.', ',', [])))
+      else
+        vlRegiImendes.percicms := floattostr(strtofloat(StringReplace(vlJsonValue.GetValue('aliqicms').ToString, '.', ',', [])));
+      vlRegiImendes.simbpdv := vlJsonValue.GetValue('simbPDV').ToString;
+      vlRegiImendes.percredbcicms := vlJsonValue.GetValue('reducaobcicms').ToString;
+      vlRegiImendes.percredbcicmsst := vlJsonValue.GetValue('reducaobcicmsst').ToString;
+      vlRegiImendes.percicmsst := vlJsonValue.GetValue('aliqicmsst').ToString;
+      vlRegiImendes.iva := vlJsonValue.GetValue('iva').ToString;
+      vlRegiImendes.percfcp := vlJsonValue.GetValue('fcp').ToString;
+      if not pro.Active then
+        pro.Open;
+
+      if vlJsonProduto <> nil then
+      begin
+        for i := 0 to vlJsonProduto.Count - 1 do
+        begin
+          vlRegiImendes.codigoimendes := '';
+          vlRegiImendes.eanpesquisa := SoNumeros(vlJsonProduto.Items[i].ToString);
+          CarregaIMU(vlRegiImendes);
+
+          if vlRegiImendes.tipo = '0' then
+          begin
+            if pro.Locate('punbarra', lowercase(imuimuean.AsString), []) then
+            begin
+              if vlRegiImendes.feanpesquisa <> '' then
+              begin
+                if vlRegiImendes.tipo = '0' then
+                  vpListaProdutos.Add('imuean=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString)
+                else if vlRegiImendes.tipo = '1' then
+                  vpListaProdutos.Add('imucodigointerno=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString)
+                else if vlRegiImendes.tipo = '2' then
+                  vpListaProdutos.Add('imucodigoimendees=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+              end
+              else
+              begin
+                vpListaProdutos.Add('imucodigointerno=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+              end;
+
+            end;
+
+          end
+          else
+          begin
+
+            // if pro.Locate('pronome;puncodigo', VarArrayOf([lowercase(imuimudescricao.AsString), vlRegiImendes.feanpesquisa]), [locaseinsensitive]) then
+            if pro.Locate('puncodigo', VarArrayOf([vlRegiImendes.feanpesquisa]), [locaseinsensitive]) then
+            begin
+              if vlRegiImendes.feanpesquisa <> '' then
+              begin
+                if vlRegiImendes.tipo = '0' then
+                  vpListaProdutos.Add('imuean=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString)
+                else if vlRegiImendes.tipo = '1' then
+                  vpListaProdutos.Add('imucodigointerno=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString)
+                else if vlRegiImendes.tipo = '2' then
+                  vpListaProdutos.Add('imucodigoimendees=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+              end
+              else
+              begin
+                vpListaProdutos.Add('imucodigointerno=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+              end;
+            end
+            else if pro.Locate('pronome;punbarra', VarArrayOf([lowercase(imuimudescricao.AsString), formatfloat('00000000000000',
+              strtofloat(vlRegiImendes.feanpesquisa))]), [locaseinsensitive]) then
+            begin
+              if vlRegiImendes.feanpesquisa <> '' then
+              begin
+                vlRegiImendes.tipo := '0';
+                vpListaProdutos.Add('imuean=' + formatfloat('00000000000000', strtofloat(vlRegiImendes.feanpesquisa)) + '#' + proprocodigo.AsString)
+              end
+              else
+              begin
+                vpListaProdutos.Add('imucodigointerno=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+              end;
+            end
+
+          end
+
+        end;
+      end;
+      if vlJsonImendes <> nil then
+      begin
+        for i := 0 to vlJsonImendes.Count - 1 do
+        begin
+          vlRegiImendes.eanpesquisa := '';
+          vlRegiImendes.codigoimendes := SoNumeros(vlJsonImendes.Items[i].ToString);
+          CarregaIMU(vlRegiImendes);
+          if pro.Locate('pronome', trim(lowercase(imuimudescricao.AsString)), [locaseinsensitive]) then
+          begin
+            if vlRegiImendes.feanpesquisa <> '' then
+            begin
+              vpListaProdutos.Add('imuean=' + vlRegiImendes.feanpesquisa + '#' + proprocodigo.AsString);
+            end
+            else
+            begin
+              vpListaProdutos.Add('imucodigoimendes=' + vlRegiImendes.fcodigoimendes + '#' + proprocodigo.AsString);
+
+            end;
+          end;
+
+        end;
+      end;
+
+      vlRegiImendes.Free;
+    end;
+  end;
+end;
+
+procedure TfProcessaSaneamento.Sanear;
+var
+  i: Integer;
+  qtTotal: Integer;
+
+begin
+  pun.Connection := uqtabela.Connection;
+  consulta.Connection := uqtabela.Connection;
+  cfg.Connection := uqtabela.Connection;
+  imu.Connection := uqtabela.Connection;
+  icm.Connection := uqtabela.Connection;
+  pro.Connection := uqtabela.Connection;
+
+  uqtabela.Open;
+  if not DirectoryExists('c:\imendes\logs') then
+  begin
+    ForceDirectories('c:\imendes\logs');
+  end;
+
+  try
+    i := 0;
+
+    if EnviaDadosMultiplos then
+    begin
+      uqtabela.close;
+      uqtabela.Open;
+      i := uqtabela.RecNo;
+      qtTotal := uqtabela.RecordCount;
+      qtSaneados := 0;
+
+      uqtabela.DisableControls;
+      uqtabela.First;
+      qtTotal := 0;
+      while not uqtabela.Eof do
+      begin
+
+        qtTotal := qtTotal + 1;
+
+        if (uqtabelaimecodigo.AsString <> 'PENDENTE') and (uqtabelaimecodigo.AsString <> 'PRODUCAO PROPRIA') then
+        begin
+          qtSaneados := qtSaneados + 1;
+        end;
+
+        if (uqtabelaimecodigo.AsString = 'PENDENTE') and (uqtabelaimecodigo.AsString <> 'PRODUCAO PROPRIA') then
+        begin
+          consulta.close;
+          consulta.SQL.Text := 'update pun set imecodigo=' + QuotedStr('PENDENTE') + ' where procodigo=' + uqtabelaprocodigo.AsString;
+          consulta.ExecSQL;
+        end;
+
+        uqtabela.Next;
+      end;
+
+      uqtabela.EnableControls;
+
+      uqtabela.RecNo := i;
+
+      if (qtSaneados = qtTotal) and (qtSaneados <> 0) then
+      begin
+        showmessage('Saneamento realizado com sucesso!');
+        close;
+      end
+      else
+      begin
+        showmessage('ATENÇÃO:' + #13 + 'Foram enviados para Saneamento Tributário: ' + IntToStr(qtTotal) + ' produtos.' + #13 + #13 +
+          ' Foram saneados  ' + IntToStr(qtSaneados) + ' produtos automaticamente.' + #13 + #13 + #13 + #13 + '* * * * * * IMPORTANTE: * * * *  *' +
+          #13 + #13 + '' + IntToStr(qtTotal - qtSaneados) +
+          ' necessitam ser localizados pela descrição e saneados manualmente pelo menu Imendes:"Busca Por Nome"!');
+        close;
+      end;
+
+    end
+    else
+    begin
+      showmessage('Saneamento indisponível' + #13 + #13 + 'Por favor identificar o produto utilizano a opção:' + #13 + #13'Busca por Nome');
+      close;
+    end;
+
+  finally
+    plMostra.Visible := false;
+  end;
+
+end;
+
+end.

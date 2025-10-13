@@ -1,0 +1,51 @@
+package mpro;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeg,
+  mpun,
+  mpco,
+  mprf,
+  mvrp,
+  ACBr_TCP;
+
+contains
+  ufrapro in 'ufrapro.pas' {frapro: TFrame},
+  ulpro in 'ulpro.pas' {lpro},
+  ufpro in 'ufpro.pas' {fpro},
+  ufncm in 'ufncm.pas' {fncm},
+  ufbarra in 'ufbarra.pas' {fbarra},
+  ufproEtiqueta in 'ufproEtiqueta.pas' {fproEtiqueta},
+  ufimpprolay01 in 'ufimpprolay01.pas' {fimpprolay01},
+  ufproHistorico in 'ufproHistorico.pas' {fproHistorico},
+  uftrocancm in 'uftrocancm.pas' {ftrocancm};
+
+end.

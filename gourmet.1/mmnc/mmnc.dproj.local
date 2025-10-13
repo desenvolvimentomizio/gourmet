@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/04/14 17:54:45.000.634,=C:\fontes_gourmet\gourmet.1\mmnc\ufrdcnrauto.pas</Transaction>
+    <Transaction>2025/04/14 17:54:45.000.113,=C:\fontes_gourmet\gourmet.1\mmnc\ufModalidade.pas</Transaction>
+    <Transaction>2025/04/14 17:55:10.000.964,C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNCFe.pas=C:\fontes_gourmet\gourmet.1\mmnc\ufModalidade.pas</Transaction>
+    <Transaction>2025/04/14 17:55:10.000.964,C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNCFe.dfm=C:\fontes_gourmet\gourmet.1\mmnc\ufModalidade.dfm</Transaction>
+    <Transaction>2025/04/14 17:55:43.000.990,C:\fontes_gourmet\gourmet.1\mmnc\ufrdcnrautoNFCe.dfm=C:\fontes_gourmet\gourmet.1\mmnc\ufrdcnrauto.dfm</Transaction>
+    <Transaction>2025/04/14 17:55:43.000.990,C:\fontes_gourmet\gourmet.1\mmnc\ufrdcnrautoNFCe.pas=C:\fontes_gourmet\gourmet.1\mmnc\ufrdcnrauto.pas</Transaction>
+    <Transaction>2025/04/14 17:58:24.000.973,C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNFCe.pas=C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNCFe.pas</Transaction>
+    <Transaction>2025/04/14 17:58:24.000.973,C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNFCe.dfm=C:\fontes_gourmet\gourmet.1\mmnc\ufModalidadeNCFe.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

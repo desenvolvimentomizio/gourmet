@@ -1,0 +1,129 @@
+unit uUpgrade;
+
+interface
+
+uses
+  Vcl.Forms,
+  inifiles,
+  System.SysUtils,
+  Winapi.Windows,
+  System.Classes,
+  uni,
+  NB30,
+  IdFTP,
+  IdFTPCommon, IdFTPList;
+
+var
+  ConexaoWeb: TUniConnection;
+  ConexaoLocal: TUniConnection;
+  versoes: TUniQuery;
+
+function DownloadArquivo(vPastaOrigem: String; vArquivo: string): boolean;
+
+const
+  vpIpServidorRemoto = 'mysql.pegasussistemas.com.br';
+
+implementation
+
+function VerificaUpgrade(vPastaOrigem: String; vArquivo: string; vconexaoFTP: TIdFTP): boolean;
+var
+  vlarquivo: string;
+  vlAplicativo: string;
+  vlInfoArqWeb: TDateTime;
+  vlInfoArqLocal: TDateTime;
+
+  numFiles, I: Integer;
+
+begin
+  Result := False;
+
+  vlarquivo := vArquivo;
+  vlAplicativo := extractfilepath(application.ExeName);
+  vlAplicativo := Copy(vlAplicativo, 4, 200);
+  vlAplicativo := Copy(vlAplicativo, 1, pos('\', vlAplicativo) - 1);
+
+  vconexaoFTP.List('/home/backups/' + vPastaOrigem + '/' + vlAplicativo, true);
+  numFiles := vconexaoFTP.DirectoryListing.Count;
+
+  for I := 0 to numFiles - 1 do
+  begin
+
+    if vconexaoFTP.DirectoryListing.Items[I].FileName = vlarquivo then
+    begin
+      vlInfoArqWeb := vconexaoFTP.DirectoryListing.Items[I].ModifiedDate;
+    end;
+  end;
+
+  FileAge(extractfilepath(application.ExeName) + vPastaOrigem + '\' + vlarquivo, vlInfoArqLocal);
+
+  if vlInfoArqWeb > vlInfoArqLocal then
+  begin
+    Result := true;
+  end;
+
+end;
+
+function DownloadArquivo(vPastaOrigem: String; vArquivo: string): boolean;
+var
+  vlarquivo: string;
+  vlAplicativo: string;
+  conexaoFTP: TIdFTP;
+  vlTamanho: Integer;
+begin
+  Result := False;
+
+  try
+    try
+      conexaoFTP := TIdFTP.Create(nil);
+      conexaoFTP.Host := vpIpServidorRemoto;
+
+      conexaoFTP.Username := 'backups';
+      conexaoFTP.Password := 'Pegasus973';
+      conexaoFTP.TransferType := ftBinary;
+      conexaoFTP.Passive := true;
+      conexaoFTP.Port := 21;
+      conexaoFTP.Connect;
+
+      vlAplicativo := extractfilepath(application.ExeName);
+      vlAplicativo := Copy(vlAplicativo, 4, 200);
+      vlAplicativo := Copy(vlAplicativo, 1, pos('\', vlAplicativo) - 1);
+
+      if conexaoFTP.Connected then
+      begin
+
+        conexaoFTP.ChangeDir(vPastaOrigem + '/' + vlAplicativo);
+        conexaoFTP.TransferType := ftBinary;
+        vlarquivo := extractfilename(vArquivo);
+
+        vlTamanho := conexaoFTP.Size(vlarquivo);
+        if VerificaUpgrade(vPastaOrigem, vlarquivo, conexaoFTP) then
+        begin
+
+          conexaoFTP.Get(vlarquivo, extractfilepath(application.ExeName) + vPastaOrigem + '\' + vlarquivo + '.new', true);
+          conexaoFTP.VerifyFile(extractfilepath(application.ExeName) + vPastaOrigem + '\' + vlarquivo, vlarquivo, 0, vlTamanho);
+
+          Sleep(500);
+        end;
+
+        conexaoFTP.Disconnect;
+        Result := true;
+
+      end
+      else
+      begin
+        Result := False;
+        exit;
+      end;
+
+    finally
+      if conexaoFTP.Connected then
+        conexaoFTP.Disconnect;
+
+      freeandnil(conexaoFTP);
+    end;
+  except
+    Result := False;
+  end;
+end;
+
+end.

@@ -1,0 +1,198 @@
+unit GourmetServer.Controller.CCX;
+
+interface
+
+Uses
+  FireDAC.Phys.MySQLDef,
+  FireDAC.Phys.MySQL,
+  FireDAC.Phys.Intf,
+  FireDAC.Phys,
+  FireDAC.UI.Intf,
+  FireDAC.ConsoleUI.Wait,
+  Data.DB,
+  FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet,
+
+
+  System.Json,
+  System.SysUtils,
+
+  Horse,
+  Horse.GBSwagger,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CCX;
+
+procedure Registry(App: THorse);
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V2GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+function BuscaCaixaAberto(vTipoCaixa:integer): Integer;
+
+function BuscaChaveCCXclbCodigo(vClbCodigo: Integer): Integer;
+function BuscaCodigoCTAclbCodigo(vClbCodigo: Integer): Integer;
+function v1BuscaCaixaAbertoCCXCtaDelivery(vCfgmGouCtaDelivery:integer): Integer;
+
+function BuscaCodigoCLBCcxchave(vCcxChave: Integer): Integer;
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  GourmetServer.Service.Conexoes;
+
+
+procedure Registry(App: THorse);
+begin
+  App.Get('/v1/situacaocaixa', V1GetID);
+  App.Get('/v2/situacaocaixa', V2GetID);
+
+end;
+
+
+procedure V2GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<Tccx>;
+  VLString: string;
+begin
+
+  FDAO := TDAOGeneric<Tccx>.New;
+
+  VLString := 'ccxfinal IS null order by ccxchave limit 1';
+
+  FDAO.DAO.SQL.fields('ccxchave CCX_ID,ccxfinal CCX_FECHAMENTO').where(VLString).&End.Find;
+
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+
+end;
+
+
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<Tccx>;
+  VLString: string;
+begin
+
+  FDAO := TDAOGeneric<Tccx>.New;
+
+  VLString := 'ccxfinal IS null order by ccxchave limit 1';
+
+  FDAO.DAO.SQL.fields('ccxchave,ccxfinal ').where(VLString).&End.Find;
+
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+
+end;
+
+
+function BuscaCodigoCLBCcxchave(vCcxChave: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TCCX>;
+  vlclbcodigo: Integer;
+begin
+  vlclbcodigo :=0;
+
+  FDAO := TDAOGeneric<TCCX>.New;
+
+  FDAO.DAO.SQL.where('ccxchave=' + vCcxChave.ToString + ' and ccxfinal is null order by ccxchave desc limit 1').&End.Find;
+
+  vlclbcodigo := FDAO.DataSet.FieldByName('clbcodigo').AsInteger;
+  result := vlclbcodigo;
+
+end;
+
+function v1BuscaCaixaAbertoCCXCtaDelivery(vCfgmGouCtaDelivery:integer): Integer;
+var
+  conexao:TFDconnection;
+  ccx:TFDQuery;
+
+  vlccxchave: Integer;
+begin
+  vlccxchave :=0;
+
+  conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+      ccx:=TFDQuery.Create(nil);
+      ccx.Connection:=Conexao;
+      ccx.sql.Text:='select ccxchave from ccx '+
+                    'where ctacodigo='+ vCfgmGouCtaDelivery.ToString +
+                    ' and ccxfinal is null order by ccxchave desc limit 1';
+      ccx.Open;
+
+      if not ccx.IsEmpty then
+       vlccxchave := ccx.FieldByName('ccxchave').asinteger
+      else
+       vlccxchave :=1;
+
+      ccx.close;
+
+      if ccx<>nil then
+      ccx.DisposeOf;
+
+
+  end;
+
+  if conexao<>nil then
+  conexao.DisposeOf;
+
+  result := vlccxchave;
+
+End;
+
+function BuscaCaixaAberto(vTipoCaixa:integer): Integer;
+var
+  FDAO: iDAOGeneric<TCCX>;
+  vlccxchave: Integer;
+begin
+  vlccxchave := 0;
+
+  FDAO := TDAOGeneric<TCCX>.New;
+
+  FDAO.DAO.SQL.where('(ccxtipo=' + vTipoCaixa.ToString + ' or  ccxtipo=0 or  ccxtipo=9) and ccxfinal is null order by  ccxchave desc limit 1').&End.Find;
+
+  vlccxchave := FDAO.DataSet.FieldByName('ccxchave').AsInteger;
+  result := vlccxchave;
+
+end;
+
+function BuscaChaveCCXclbCodigo(vClbCodigo: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TCCX>;
+  vlccxchave: Integer;
+begin
+  vlccxchave := 0;
+
+  FDAO := TDAOGeneric<TCCX>.New;
+
+  FDAO.DAO.SQL.where('clbcodigo=' + vClbCodigo.ToString + ' and ccxfinal is null order by  ccxchave desc limit 1').&End.Find;
+
+  vlccxchave := FDAO.DataSet.FieldByName('ccxchave').AsInteger;
+  result := vlccxchave;
+end;
+
+function BuscaCodigoCTAclbCodigo(vClbCodigo: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TCCX>;
+  vlctacodigo: Integer;
+begin
+  vlctacodigo :=0;
+
+  FDAO := TDAOGeneric<TCCX>.New;
+
+  FDAO.DAO.SQL.where('clbcodigo=' + vClbCodigo.ToString + ' and ccxfinal is null order by  ccxchave desc limit 1').&End.Find;
+
+  vlctacodigo := FDAO.DataSet.FieldByName('ctacodigo').AsInteger;
+  result := vlctacodigo;
+end;
+
+end.

@@ -1,0 +1,3033 @@
+﻿unit GourmetServer.Controller.aiq.PEDIDO;
+
+interface
+
+Uses
+  System.Generics.Collections,
+  math,
+
+  Data.DB,
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Param,
+  FireDAC.Stan.Error,
+  FireDAC.DatS,
+  FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+
+
+  Horse,
+  System.Json,
+
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+  Horse.GBSwagger,
+  idHashMessageDigest,
+  GourmetServer.Service.Funcoes,
+  GourmetServer.Controller.CFGMGOU,
+  GourmetServer.Controller.aiq.AIQMDA,
+  GourmetServer.Controller.V_CFG,
+  GourmetServer.Controller.CCX,
+  GourmetServer.Controller.CZN,
+  GourmetServer.Controller.V_CLI,
+  GourmetServer.Controller.SBR,
+  GourmetServer.Controller.BRG,
+  GourmetServer.Controller.PRO,
+  GourmetServer.Controller.GRI,
+  GourmetServer.Controller.ETD,
+  GourmetServer.Controller.ETF,
+  GourmetServer.Controller.ETE,
+  GourmetServer.Controller.EDR,
+  GourmetServer.Controller.ETV,
+  GourmetServer.Controller.ORC,
+  GourmetServer.Controller.ITO,
+  GourmetServer.Controller.ISI,
+  GourmetServer.Controller.IMM,
+  GourmetServer.Controller.CLB,
+  GourmetServer.Controller.PUN,
+  GourmetServer.Controller.SBI,
+  GourmetServer.Controller.BRI,
+  GourmetServer.Controller.BAI,
+  GourmetServer.Controller.GRP,
+  GourmetServer.Controller.UNI,
+  GourmetServer.Controller.BRD,
+  GourmetServer.Controller.SFN,
+  GourmetServer.Controller.ISA,
+  GourmetServer.Controller.MOR,
+  GourmetServer.Controller.MES,
+  GourmetServer.Controller.VCH,
+  GourmetServer.Controller.V_IGA,
+  GourmetServer.Model.Entity.aiq.aiqcfg,
+  GourmetServer.Controller.aiq.FINALIZAVENDA,
+
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.IMM,
+  GourmetServer.Model.Entity.aiq.PEDIDO;
+
+procedure Registry(App: THorse);
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1Delete(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetIDczn(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetProcessadoIDczn(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure AjustaIMMMumeroPedido(vOrcChave: string; vAIQPedido: string);
+procedure V1StatusPedido(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+const
+  vOrigem: Integer = 8;
+
+implementation
+
+uses
+  System.SysUtils, GourmetServer.Controller.BPR, Vcl.Forms,
+  GourmetServer.Service.Conexoes;
+
+procedure Registry(App: THorse);
+begin
+  App.Post('/v1/pedidoaiq', V1Insert);
+  App.Get('/v1/pedidoaiq/:id', V1GetID);
+  App.Get('/v1/pedidoaiq/', V1Get);
+  App.Delete('/v1/pedidoaiq/:id', V1Delete);
+  App.Post('/v1/pedidoaiq/:id', V1StatusPedido);
+
+  App.Get('/v1/pedidoprocessadoaiqczn/:id', V1GetProcessadoIDczn);
+  App.Get('/v1/pedidoaiqczn/:id', V1GetIDczn);
+
+end;
+
+procedure V1Delete(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  vlNumeroPedido: String;
+  vlOrcchave: Integer;
+  vlMeschave: Integer;
+begin
+
+  vlNumeroPedido := '';
+  vlNumeroPedido := Req.Params.Items['id'];
+  vlNumeroPedido := v1BuscaPedidoNumeroOrigem(vlNumeroPedido, 8);
+
+  if (vlNumeroPedido = '') or (vlNumeroPedido = '0') then
+  begin
+    Res.Status(404);
+    exit
+  end;
+  vlOrcchave := RemoveOrcPedidoNumeroOrigem(vlNumeroPedido, 8);
+  if vlOrcchave <> 0 then
+  begin
+    Res.Status(410);
+    vlMeschave := 0;
+    vlMeschave := BuscaORCchaveMeschave(vlOrcchave);
+
+    if vlMeschave <> 0 then
+    begin
+      RemoveOrcVendaChaveOrigem(vlMeschave, 8);
+    end;
+  end
+  else
+  begin
+    Res.Status(409);
+  end;
+end;
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TPEDIDOAIQ>;
+  a: string;
+begin
+  FDAO := TDAOGeneric<TPEDIDOAIQ>.New;
+  FDAO.dao.sql.Fields('aiqchave, aiqpedido,   aiqstatus, aiqjson ').OrderBy('aiqpedido DESC').&End.Find;
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+end;
+
+procedure AjustaIMMMumeroPedido(vOrcChave: string; vAIQPedido: string);
+var
+  FDAO: iDAOGeneric<Timmnumeropedido>;
+  a: string;
+  vlItem: TJsonObject;
+begin
+
+  FDAO := TDAOGeneric<Timmnumeropedido>.New;
+  FDAO.dao.sql.Fields('imm.immchave, imm.immnumepedido ').Join('INNER JOIN ito ON imm.itochave = ito.itochave').Where('ito.orcchave=' + vOrcChave)
+    .&End.Find;
+
+  if FDAO.DataSet.RecordCount > 0 then
+  begin
+    FDAO.DataSet.First;
+    while not FDAO.DataSet.Eof do
+    begin
+
+      vlItem := TJsonObject.Create;
+      vlItem.AddPair('immchave', FDAO.DataSet.FieldByName('immchave').AsString);
+      vlItem.AddPair('immnumepedido', vAIQPedido);
+
+      FDAO.Update(vlItem);
+      // vlItem.Free;
+
+      FDAO.DataSet.Next;
+    end;
+  end;
+
+
+
+end;
+
+procedure V1GetProcessadoIDczn(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  conexao:TFDconnection;
+  aiq:TFDQuery;
+
+
+begin
+
+   conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    aiq:=TFDQuery.Create(nil);
+    aiq.Connection:=Conexao;
+    aiq.sql.Text:='select '+
+                  'aiqchave, aiqpedido, aiqstatus, orc.orcchave,  etd.etdidentificacao,  '+
+                  'imm.immnumepedido,  MAX(imm.immhoraimpresso) immhoraimpresso, orchoraentrega '+
+                  'from aiq '+
+                  'LEFT JOIN orc ON aiq.aiqpedido = orc.orcpedidointegracao  '+
+                  'INNER JOIN etd ON etd.etdcodigo = orc.etdcodigo  '+
+                  'INNER JOIN ito  ON ito.orcchave = orc.orcchave  '+
+                  'INNER JOIN imm  ON imm.itochave = ito.itochave ' +
+                  'where orc.cznchave=' + Req.Params.Items['id'] +' '+
+                  'Group By aiq.aiqpedido '+
+                  'Order By  MAX(imm.immhorapedido) DESC';
+
+    aiq.open;
+
+    if aiq.RecordCount = 0 then
+    begin
+      Res.Status(204);
+    end
+    else
+    begin
+      Res.Send<TJsonarray>(TConverter.New.DataSet(aiq).AsJSONArray).Status(200);
+    end;
+
+    aiq.close;
+
+    if aiq<>nil then
+      aiq.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+    conexao.DisposeOf;
+
+end;
+
+procedure V1GetIDczn(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TPEDIDOAIQ>;
+  a: string;
+begin
+  FDAO := TDAOGeneric<TPEDIDOAIQ>.New;
+
+  FDAO.dao.sql.Fields('aiqchave, aiqpedido, aiqstatus, 0 orcchave, ' + QuotedStr('') +
+    ' etdidentificacao,  0  immnumepedido,  0 immhoraimpresso , aiqregistro ').Where('cznchave=' + Req.Params.Items['id']).&End.Find;
+
+  if FDAO.DataSet.RecordCount = 0 then
+  begin
+    Res.Status(204);
+  end
+  else
+  begin
+    Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+  end;
+ if IsConsole then
+ begin
+//  writeln('ajuste de status' );
+ end;
+  v1ManutencaoStatusAIQ(1);
+
+end;
+
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TPEDIDOAIQ>;
+  a: string;
+begin
+  FDAO := TDAOGeneric<TPEDIDOAIQ>.New;
+  FDAO.dao.sql.Fields('aiqchave, aiqpedido,   aiqstatus, aiqjson ').Where('aiqpedido=' + Req.Params.Items['id']).&End.Find;
+
+  if FDAO.DataSet.RecordCount = 0 then
+  begin
+    Res.Status(204);
+  end
+  else
+  begin
+    Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+  end;
+end;
+
+
+
+function v1RegistraIMM(vItensPedido: TJsonarray): Integer;
+var
+
+  vImm: TJsonObject;
+  i: Integer;
+  vlQtdItens: Integer;
+  vlCznChave: Integer;
+  vlcfgmgouctadelivery: Integer;
+  vlCcxChave: Integer;
+
+
+begin
+  try
+
+  vlcfgmgouctadelivery := 0;
+  vlcfgmgouctadelivery := v1BuscaCodigoCfgmgouCtaDelivery;
+
+  vlCcxChave := 0;
+  vlCcxChave := v1BuscaCaixaAbertoCCXCtaDelivery(vlcfgmgouctadelivery);
+
+  vlCznChave := 0;
+  vlCznChave := v1BuscaCozinhaAberta;
+
+  vlQtdItens := vItensPedido.Count;
+
+
+  for i := 0 to vlQtdItens - 1 do
+  begin
+
+    vImm := TJsonObject.Create;
+    vImm.AddPair('immchave', '0');
+    vImm.AddPair('itochave', vItensPedido[i].getvalue('itochave', ''));
+    vImm.AddPair('tcicodigo', sonumeros(vItensPedido[i].getvalue('tcicodigo', '')));
+    vImm.AddPair('immhoraimprimir',datahorasqltotext(vItensPedido[i].getvalue('itoinclusao', '')));
+    vImm.AddPair('immhorapedido',datahorasqltotext(vItensPedido[i].getvalue('itoinclusao', '')));
+    vImm.AddPair('immmodo', '0');
+    vImm.AddPair('immmodoimpressao', '0');
+    vImm.AddPair('trmcodigo', '1');
+    vImm.AddPair('cznchave', Inttostr(vlCznChave));
+    vImm.AddPair('ccxchave', vlCcxChave.ToString);
+    vImm.AddPair('etdcodigoent', '0');
+    vImm.AddPair('immnumepedidoint', '0');
+    vImm.AddPair('pdscodigo', vItensPedido[i].getvalue('pdscodigo', ''));
+    vImm.AddPair('clbcodigo', vItensPedido[i].getvalue('clbcodigo', ''));
+    vImm.AddPair('immtemporetardo', '0');
+    vImm.AddPair('immnumepedido','0' );
+
+    ManutencaoIMM(vImm);
+   if IsConsole then
+    writeln(' 323 Registro IMM' );
+
+  end;
+         except
+       on E: Exception do
+         begin
+         if IsConsole then
+            writeln(e.Message)
+         end;
+       end;
+
+end;
+
+Function RegistraTaxaEntrega(vBaiIdentificacao: String; vValorTaxa: String; vOrcChave: Integer; vInclusao: string;
+  vItemTaxa: TJsonObject): TJsonObject;
+var
+
+  vlitovalor: string;
+  vlitototal: string;
+  vlPunCodigo: Integer;
+
+  vlProCodigo: Integer;
+
+  vlGrpCodigo: Integer;
+  vlTciCodigo: Integer;
+  // vlBaiCodigo: Integer;
+
+  vlItoChave: Integer;
+  vlItensTaxa: TJsonarray;
+
+begin
+
+  result := nil;
+
+  if vValorTaxa <> '0.00' then
+  begin
+
+    vItemTaxa := TJsonObject.Create;
+    vItemTaxa.AddPair('itochave', '0');
+    vItemTaxa.AddPair('orcchave', vOrcChave.ToString);
+    vItemTaxa.AddPair('itoquantidade', '1');
+    vItemTaxa.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO'));
+
+    vlitovalor := StringReplace(vValorTaxa, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+    vItemTaxa.AddPair('itovalorav', vlitovalor);
+    vlitototal := vlitovalor;
+    vItemTaxa.AddPair('itopercdescav', '0');
+    vItemTaxa.AddPair('itototalav', vlitototal);
+    vItemTaxa.AddPair('itodescontoav', '0');
+    vItemTaxa.AddPair('itosaldoav', vlitototal);
+    vItemTaxa.AddPair('clbatendente', BuscaCodigoCLBclbNome('CARDAPIO'));
+
+    vlProCodigo := BuscaProdutoBairro(uppercase(vBaiIdentificacao));
+    if vlProCodigo = 0 then
+    begin
+      vlProCodigo := CadastraProdutoBairro(uppercase(vBaiIdentificacao), vValorTaxa, vOrigem);
+    end;
+
+    vItemTaxa.AddPair('procodigo', vlProCodigo.ToString);
+    vlPunCodigo := BuscaCodigoPROProCodigo(vlProCodigo);
+    vItemTaxa.AddPair('puncodigo', vlPunCodigo.ToString);
+
+    // definir impressora de destino do item
+    vlGrpCodigo := BuscaCodigoGRPProCodigo(BuscaCodigoPROpunCodigo(vlPunCodigo.ToString));
+    vlTciCodigo := BuscaCodigoGRIGrpCodigo(vlGrpCodigo);
+    vItemTaxa.AddPair('tcicodigo', vlTciCodigo.ToString);
+    vItemTaxa.AddPair('itoinclusao', vInclusao);
+    vItemTaxa.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlPunCodigo.ToString).ToString);
+    vItemTaxa.AddPair('itoitem', v1BuscaItemITOorcchave(vOrcChave.ToString).ToString);
+    vItemTaxa.AddPair('itoobs', '');
+    vItemTaxa.AddPair('itopercdescap', '0');
+    vItemTaxa.AddPair('itoproservico', '0');
+    vItemTaxa.AddPair('itoinfadprod', '');
+    vItemTaxa.AddPair('itoprocomple', 'TAXA DE ENTREGA');
+    vItemTaxa.AddPair('vrpcodigo', '0');
+    vItemTaxa.AddPair('tdfcodigo', '00');
+    vItemTaxa.AddPair('pmpchave', '0');
+    vItemTaxa.AddPair('flacodigo', '1');
+    vItemTaxa.AddPair('itounidades', '0');
+    vItemTaxa.AddPair('oricodigo', '8');
+    vItemTaxa.AddPair('itocontendo', '1');
+    vItemTaxa.AddPair('tdecodigo', '00');
+    vItemTaxa.AddPair('stocodigo', '1');
+    vItemTaxa.AddPair('itovalorap', '0');
+    vItemTaxa.AddPair('itototalap', '0');
+    vItemTaxa.AddPair('itodescontoap', '0');
+    vItemTaxa.AddPair('itosaldoap', '0');
+    vItemTaxa.AddPair('itoacrescimoav', '0');
+    vItemTaxa.AddPair('pdscodigo', '3');
+
+    vItemTaxa.AddPair('immnumepedido', '0');
+
+    vlItoChave := v1ManutencaoITO(vItemTaxa);
+    if IsConsole then
+    WRITELN('Rwegistro taxa entrega: '+vlItoChave.ToString);
+
+    vItemTaxa.RemovePair('itochave');
+    vItemTaxa.AddPair('itochave', vlItoChave.ToString);
+    vlItensTaxa := TJsonarray.Create;
+    vlItensTaxa.Add(vItemTaxa);
+
+    // RegistraIMM(vlItensTaxa);
+
+    result := vItemTaxa;
+  end;
+
+end;
+
+Function RegistraTaxaAIQFome(vBaiIdentificacao: String; vValorTaxa: String; vOrcChave: Integer; vInclusao: string;
+  vItemTaxa: TJsonObject): TJsonObject;
+var
+
+  vlitovalor: string;
+  vlitototal: string;
+  vlPunCodigo: Integer;
+
+  vlProCodigo: Integer;
+
+  vlGrpCodigo: Integer;
+  vlTciCodigo: Integer;
+  // vlBaiCodigo: Integer;
+
+  vlItoChave: Integer;
+  vlItensTaxa: TJsonarray;
+
+begin
+
+  result := nil;
+
+  if vValorTaxa <> '0.00' then
+  begin
+
+    vItemTaxa := TJsonObject.Create;
+    vItemTaxa.AddPair('itochave', '0');
+    vItemTaxa.AddPair('orcchave', vOrcChave.ToString);
+    vItemTaxa.AddPair('itoquantidade', '1');
+    vItemTaxa.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO'));
+
+    vlitovalor := StringReplace(vValorTaxa, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+    vItemTaxa.AddPair('itovalorav', vlitovalor);
+    vlitototal := vlitovalor;
+    vItemTaxa.AddPair('itopercdescav', '0');
+    vItemTaxa.AddPair('itototalav', vlitototal);
+    vItemTaxa.AddPair('itodescontoav', '0');
+    vItemTaxa.AddPair('itosaldoav', vlitototal);
+    vItemTaxa.AddPair('clbatendente', BuscaCodigoCLBclbNome('CARDAPIO'));
+
+    vlProCodigo := BuscaCodigoPROProNome(uppercase(vBaiIdentificacao));
+
+    vItemTaxa.AddPair('procodigo', vlProCodigo.ToString);
+    vlPunCodigo := BuscaCodigoPROProCodigo(vlProCodigo);
+    vItemTaxa.AddPair('puncodigo', vlPunCodigo.ToString);
+
+    // definir impressora de destino do item
+    vlGrpCodigo := BuscaCodigoGRPProCodigo(BuscaCodigoPROpunCodigo(vlPunCodigo.ToString));
+    vlTciCodigo := BuscaCodigoGRIGrpCodigo(vlGrpCodigo);
+    vItemTaxa.AddPair('tcicodigo', vlTciCodigo.ToString);
+    vItemTaxa.AddPair('itoinclusao', vInclusao);
+    vItemTaxa.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlPunCodigo.ToString).ToString);
+    vItemTaxa.AddPair('itoitem', v1BuscaItemITOorcchave(vOrcChave.ToString).ToString);
+    vItemTaxa.AddPair('itoobs', '');
+    vItemTaxa.AddPair('itopercdescap', '0');
+    vItemTaxa.AddPair('itoproservico', '0');
+    vItemTaxa.AddPair('itoinfadprod', '');
+    vItemTaxa.AddPair('itoprocomple', 'TAXA DE SERVIÇO AIQFOME');
+    vItemTaxa.AddPair('vrpcodigo', '0');
+    vItemTaxa.AddPair('tdfcodigo', '00');
+    vItemTaxa.AddPair('pmpchave', '0');
+    vItemTaxa.AddPair('flacodigo', '1');
+    vItemTaxa.AddPair('itounidades', '0');
+    vItemTaxa.AddPair('oricodigo', '8');
+    vItemTaxa.AddPair('itocontendo', '1');
+    vItemTaxa.AddPair('tdecodigo', '00');
+    vItemTaxa.AddPair('stocodigo', '1');
+    vItemTaxa.AddPair('itovalorap', '0');
+    vItemTaxa.AddPair('itototalap', '0');
+    vItemTaxa.AddPair('itodescontoap', '0');
+    vItemTaxa.AddPair('itosaldoap', '0');
+    vItemTaxa.AddPair('itoacrescimoav', '0');
+    vItemTaxa.AddPair('pdscodigo', '3');
+
+    vItemTaxa.AddPair('immnumepedido', '0');
+
+    vlItoChave := v1ManutencaoITO(vItemTaxa);
+    if IsConsole then
+    WRITELN('Registro taxa serviço: '+vlItoChave.ToString);
+    vItemTaxa.RemovePair('itochave');
+    vItemTaxa.AddPair('itochave', vlItoChave.ToString);
+    vlItensTaxa := TJsonarray.Create;
+    vlItensTaxa.Add(vItemTaxa);
+
+    result := vItemTaxa;
+  end;
+
+end;
+
+function RegistraVolcher(vVlrDescontoTotal: String; vPercDescontoTotal: String; vCodigoVouche: string): Integer;
+var
+  vlCodigoVoucher: String;
+  vlEtdOrigem: Integer;
+  vlVchChave: Integer;
+
+  vlVoucher: TJsonObject;
+  vlAiqFome: TJsonObject;
+
+  vletftelefone: String;
+  vletfcelular: String;
+  vleteemail: String;
+  vletdidentificacao: String;
+  vledrcodigo: Integer;
+  vledritem: Integer;
+  vletdcodigo: Integer;
+
+  vletfcodigocelular: Integer;
+  vletfcodigofixo: Integer;
+  vletecodigo: Integer;
+  vletvcodigo: Integer;
+
+begin
+  vlVoucher := nil;
+  vlAiqFome := nil;
+  try
+
+      vletdidentificacao := 'AIQFOME INTEGRAÇÃO';
+      vletftelefone := '6635555555';
+      vletfcelular := '66911111111';
+      vleteemail := 'integracao@aiqfome.com.br';
+       try
+          vlEtdOrigem := BuscaCodigoETD(vletftelefone, vletfcelular, vleteemail, vletdidentificacao,'09186786000158' );
+       except
+       on E: Exception do
+         begin
+         if IsConsole then
+            writeln(e.Message)
+         end;
+       end;
+      if vlEtdOrigem = 0 then
+      begin
+        vlAiqFome := TJsonObject.Create;
+        vlAiqFome.AddPair('name', vletdidentificacao);
+        vlAiqFome.AddPair('document_receipt', '09186786000158');
+        vlAiqFome.AddPair('mobile_phone', vletftelefone);
+        vlAiqFome.AddPair('phone_number', vletftelefone);
+        vlAiqFome.AddPair('email', vleteemail);
+        vlAiqFome.AddPair('street_name', 'Av. Pintassilgo');
+        vlAiqFome.AddPair('number', '286');
+        vlAiqFome.AddPair('complement', '');
+        vlAiqFome.AddPair('neighborhood_name', 'Parque das Laranjeiras');
+        vlAiqFome.AddPair('state_uf', 'PR');
+        vlAiqFome.AddPair('city_name', 'MARINGÁ');
+
+        vlEtdOrigem := ManutencaoETD(vlEtdOrigem, vlAiqFome);
+
+        if IsConsole then
+          WRITELN('Registro cliente: '+vlEtdOrigem.ToString);
+
+        vledrcodigo := BuscaCodigoEndereco(vlEtdOrigem, vlAiqFome.getvalue('street_name', ''), vlAiqFome.getvalue('number', ''));
+        vledrcodigo := ManutencaoEDR(vlEtdOrigem, vledrcodigo, vlAiqFome);
+        vledritem := BuscaItemEndereco(vlEtdOrigem, vledrcodigo);
+        vletfcodigocelular := ManutencaoETFCELULAR(vlEtdOrigem, vlAiqFome);
+        vletfcodigofixo := ManutencaoETFFIXO(vlEtdOrigem, vlAiqFome);
+        vletecodigo := ManutencaoETE(vlEtdOrigem, vlAiqFome);
+        vletvcodigo := ManutencaoETV(vlEtdOrigem);
+      end;
+
+      vlCodigoVoucher := vCodigoVouche;
+
+      vlVoucher := TJsonObject.Create;
+      vlVoucher.AddPair('vchchave', '0');
+      vlVoucher.AddPair('vchdataemissao', datetostr(now()));
+      vlVoucher.AddPair('vchsituacao', '1');
+      vlVoucher.AddPair('vchvoucher', vlCodigoVoucher);
+      vlVoucher.AddPair('vchtipo', '1');
+      vlVoucher.AddPair('vchmodouso', '1');
+      vlVoucher.AddPair('vchdatavalidade', ('31/12/2050'));
+      vlVoucher.AddPair('vchvalor', vVlrDescontoTotal);;
+      vlVoucher.AddPair('vchpercentual', vPercDescontoTotal);
+      vlVoucher.AddPair('etdcodigo', '0');
+      vlVoucher.AddPair('vchdatauso', datetostr(now()));
+      vlVoucher.AddPair('procodigo', '0');
+      vlVoucher.AddPair('puncodigo', '0');
+      vlVoucher.AddPair('vchetdemissor', vlEtdOrigem.ToString);
+      vlVoucher.AddPair('vchautomatico', '1');
+
+      vlVchChave := ManutencaoVCH(vlVoucher);
+
+
+      result := vlVchChave;
+
+
+  finally
+    vlVoucher.free;
+    vlAiqFome.free;
+  end;
+
+end;
+
+function SituacaoCozinha: String;
+var
+  FDAO: iDAOGeneric<TAIQCFG>;
+begin
+  result := '';
+  FDAO := TDAOGeneric<TAIQCFG>.New;
+
+  FDAO.dao.sql.Fields
+    ('cfgcodigo,cfgmgouvalidadenuc,cfgmgoutokenaiq, cfgmgourefreshaiq,cfgmgouvalidadeaiq,cfgmgouidlojaaiq,cfgmgouemaillojaaiq,cfgmgousenhalojaaiq, cfgmgousituacaolojaaiq')
+    .&End.Find;
+
+  result := FDAO.DataSet.FieldByName('cfgmgousituacaolojaaiq').AsString;
+
+end;
+
+
+procedure AjustaNumeroPedido(vOrcchave:string; vnumeropedido:string);
+var
+  conexao:TFDconnection;
+  vlquery:TFDQuery;
+
+begin
+
+  conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    vlquery:=TFDQuery.Create(nil);
+    vlquery.Connection:=Conexao;
+
+    vlquery.sql.Text:='update orc set orcnumeropedido='+vnumeropedido+' where orcchave='+vOrcchave;
+    vlquery.ExecSQL;
+
+    vlquery.sql.Text:='update imm, ito set immnumepedido='+vnumeropedido+' where imm.itochave=ito.itochave and  ito.orcchave='+vOrcchave;
+    vlquery.ExecSQL;
+
+
+    vlquery.sql.Text:='update mes,mor set mesnumeropedido='+vnumeropedido+' where mes.meschave=mor.meschave and  mor.orcchave='+vOrcchave;
+    vlquery.ExecSQL;
+
+    if vlquery<>nil then
+      vlquery.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+    conexao.DisposeOf;
+
+end;
+
+
+procedure AjustaSatusPedido(vNumeroPedidoAIQ: string; vstatus: String; vOrccghave:string='0');
+var
+  conexao:TFDconnection;
+  aiq:TFDQuery;
+begin
+
+  conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    aiq:=TFDQuery.Create(nil);
+    aiq.Connection:=Conexao;
+    aiq.sql.Text:='select aiqpedido, aiqstatus, aiqregistro, orcchave '+
+                  'from aiq '+
+                  'Where aiqpedido=' +QuotedStr(vNumeroPedidoAIQ);
+
+    aiq.Open;
+    aiq.Edit;
+    aiq.FieldByName('aiqstatus').AsString := vstatus;
+    aiq.FieldByName('aiqregistro').AsString := DateTimeToSTR(now());
+    if vOrccghave<>'0' then
+      aiq.FieldByName('orcchave').AsString:=vOrccghave;
+
+    aiq.Post;
+
+    aiq.Close;
+
+    conexao.Connected:=FALSE;
+
+    if aiq<>nil then
+      aiq.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+    conexao.DisposeOf;
+
+end;
+
+
+
+function InclusaoItemPedido(vItemPedido: TJsonObject; vOrcChave: string; vCategoria: string; vData: String; vHora: String): TJsonObject;
+var
+
+  // vlPedido: TJsonObject;
+
+  vlCodigoVoucher: String;
+  vlVchChave: Integer;
+
+  vlItem: TJsonObject;
+
+  vlItemSabor: TJsonObject;
+  vlItemSabores: TJsonObject;
+  vlItemBordas: TJsonObject;
+  vlItemAdicionais: TJsonObject;
+  vlItemVariacoes: TJsonObject;
+
+  vlUser: TJSONValue;
+  vlAdress: TJSONValue;
+
+  vlQtdItens: Integer;
+
+  vlOrcchave: Integer;
+  vlItoChave: Integer;
+
+  ii: Integer;
+
+  im: Integer;
+  ia: Integer;
+  ib: Integer;
+  ic: Integer;
+  iu: Integer;
+
+  vlitovalor: string;
+  vladicionalborda: Currency;
+  vlValorborda: String;
+
+  vlitovalorpromo: string;
+
+  vlitototal: string;
+  vlitosubtotal: string;
+
+  vlitopercdescav: string;
+  vlitoacrescimoav: string;
+
+  vlitoquantidade: string;
+  vlSkuTamanho: string;
+  vlSkuSabor: string;
+  vlSkuBorda: string;
+
+  vlSkuAdicional: string;
+
+  // itens com um sabor apenas
+  vlSbicodigo: string;
+  vledritem: Integer;
+
+  vlProCodigo: Integer;
+  vlGrpCodigo: Integer;
+  vlBrdCodigo: Integer;
+
+  vlGriCodigo: Integer;
+  vlTciCodigo: Integer;
+
+  vlcfgmgouctadelivery: Integer;
+  vlCcxChave: Integer;
+  vlCznChave: Integer;
+
+  vlNumeroPedido: String;
+
+  vlValorDesconto: Double;
+
+  vlitoitem: string;
+  vlSbiChave: Integer;
+
+  vlItemTaxa: TJsonObject;
+
+  a: string;
+
+  vlPercentualItem: Double;
+  vlValorTotalItens: Double;
+  vlTotalAdicionais: Double;
+
+  vlobs: string;
+
+  vlProCodigoItemAdicional: Integer;
+
+  // auto cadastramento
+  vlGrpIdentificacao: string;
+  vlUniIdentificacao: string;
+  vlSbrIdentificacao: string;
+  vlIsaIdentificacao: string;
+  vlIsaValor: string;
+
+  vlpronome: string;
+  vlIngredientes: string;
+  vlunicodigo: Integer;
+  vlBrdIdentificacao: string;
+  vlSbrCodigo: Integer;
+  vlSfnCodigo: Integer;
+  vlSbrIdentificaca: string;
+
+  // auto cadastro de variação
+
+  vlProCodigoVariacao: Integer;
+  vlPunCodigoVariacao: Integer;
+  vlPronomeVariacao: string;
+  vlGrpCodigoVariacao: Integer;
+  vlGrpIdentificacaoVariacao: String;
+  vlUnicodigoVariacao: Integer;
+  vlPunvalorVariacao: String;
+
+  vlbprchave: Integer;
+
+  vlTamanho: String;
+
+  vlListaIngredientes: TJsonarray;
+  iz: Integer;
+
+  vlRetorno: string;
+
+  vlVlrDescontoItem: Double;
+  vlVlrSaldoItem: Double;
+
+begin
+  try
+  vlVlrDescontoItem := 0;
+  vlVlrSaldoItem := 0;
+
+  vlItem := nil;
+
+  vlcfgmgouctadelivery := 0;
+  vlcfgmgouctadelivery := v1BuscaCodigoCfgmgouCtaDelivery;
+
+  vlCcxChave := 0;
+  vlCcxChave := v1BuscaCaixaAbertoCCXCtaDelivery(vlcfgmgouctadelivery);
+
+  vlCznChave := 0;
+  vlCznChave := v1BuscaCozinhaAberta;
+
+  vlSbicodigo := '';
+  vlSfnCodigo := 0;
+  vlGrpCodigoVariacao := 0;
+
+  vlValorDesconto := 0;
+
+  vlValorTotalItens := 0;
+
+  vlitoquantidade := vItemPedido.getvalue('quantity', '');
+  vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
+  vlitovalor := vItemPedido.getvalue('value', '');
+  vlitovalor := StringReplace(vlitovalor, '.', ',', []);
+  vlValorTotalItens := vlValorTotalItens + (strtofloat(vlitoquantidade) * strtofloat(vlitovalor));
+
+  vlTotalAdicionais := 0;
+
+  vlItem := TJsonObject.Create;
+
+  vlItem.AddPair('itochave', '0');
+
+  vlItem.AddPair('orcchave', vOrcChave);
+
+  vlitoquantidade := vItemPedido.getvalue('quantity', '');
+  vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
+
+  vlItem.AddPair('itoquantidade', vlitoquantidade);
+  vlItem.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO'));
+
+  vlItem.AddPair('immnumepedido', vItemPedido.getvalue('immnumepedido', ''));
+
+  vlSkuTamanho := vItemPedido.getvalue('sku', '');
+
+  if copy(vlSkuTamanho, 1, 1) = '+' then
+  begin
+    vlSkuTamanho := trim(copy(vlSkuTamanho, 2, 10));
+  end;
+
+  // codigounidade_codigoproduto
+  if pos('_', vlSkuTamanho) > 0 then
+  begin
+    vlSbicodigo := trim(copy(vlSkuTamanho, pos('_', vlSkuTamanho) + 1, 20));
+    vlSkuTamanho := copy(vlSkuTamanho, 1, pos('_', vlSkuTamanho) - 1);
+
+  end;
+
+  vlitovalor := vItemPedido.getvalue('value', '');
+  vlitovalor := StringReplace(vlitovalor, '.', ',', []);
+
+  vlGrpIdentificacao := vCategoria;
+
+  vlGrpIdentificacao := StringReplace(vlGrpIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]);
+  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+  if pos('PIZZA', vlGrpIdentificacao) > 0 then
+  begin
+    vlGrpIdentificacao := 'PIZZAS';
+  end;
+
+  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '??', '', []));
+  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '?', '', []));
+
+  vlUniIdentificacao := '';
+  /// verficaar
+
+  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '??', '', [rfReplaceAll, rfIgnoreCase]));
+  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]));
+  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '\', '', [rfReplaceAll, rfIgnoreCase]));
+
+  vlpronome := uppercase(vItemPedido.getvalue('name', ''));
+
+  vlpronome := trim(StringReplace(vlpronome, '|', '', [rfReplaceAll, rfIgnoreCase]));
+  vlpronome := trim(StringReplace(vlpronome, '?', '', [rfReplaceAll, rfIgnoreCase]));
+
+  vlIngredientes := uppercase(vItemPedido.getvalue('description', ''));
+
+  if vlSkuTamanho = '' then
+  begin
+
+    vlGrpCodigo := manutencaoGRPIdentificacao(vlGrpIdentificacao, vOrigem);
+    vlunicodigo := ManutencaoUNINome(vlUniIdentificacao, vOrigem);
+
+    vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
+
+    if vlProCodigo <> 0 then
+    begin
+      vlSfnCodigo := 0;
+      vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+      if vlSfnCodigo <> 0 then
+      begin
+
+        if pos(' + ', vlpronome) = 0 then
+        begin
+          vlSbrCodigo := ManutencaoSBRIdentificacao(vlpronome, vlProCodigo.ToString, vlGrpCodigo.ToString);
+        end
+        else
+        begin
+          vlSbrCodigo := 0;
+        end;
+      end;
+    end;
+
+  end
+  else
+  begin
+
+    vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
+
+    if vlProCodigo <> 0 then
+    begin
+
+      vlSfnCodigo := 0;
+      vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+      if vlSfnCodigo <> 0 then
+      begin
+        vlSbrCodigo := 0;
+      end
+
+      else
+      begin
+        vlSbrCodigo := BuscaCodigoSBRProCodigo(vlProCodigo);
+      end;
+    end;
+
+    if (vlSbicodigo <> '0') and (vlSbicodigo <> '') then
+    begin
+      if vlProCodigo = 0 then
+      begin
+        vlProCodigo := BuscaCodigoPROProCodigo(vlSbicodigo.ToInteger);
+      end;
+
+    end;
+
+    if vlProCodigo = 0 then
+    begin
+      vlProCodigo := BuscaCodigoPROProNome(vlpronome);
+    end;
+
+    if vlProCodigo = 0 then
+    begin
+
+      vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
+
+      if vlProCodigo <> 0 then
+      begin
+        vlSfnCodigo := 0;
+        vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+        if vlSfnCodigo = 0 then
+        begin
+          vlProCodigo := BuscaCodigoPROProNome(vlpronome);
+          if vlProCodigo = 0 then
+          begin
+          end;
+
+        end;
+      end;
+
+    end;
+
+    if ((pos(' + ', vlpronome) = 0) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) = 0)) or (pos('+', vItemPedido.getvalue('sku', '')) > 0) then
+    begin
+
+      if vlIngredientes <> '' then
+      begin
+
+        if vlGrpCodigo = 0 then
+        begin
+          if vlProCodigo <> 0 then
+          begin
+            vlGrpCodigo := BuscaCodigoGRPProCodigo(vlProCodigo);
+          end;
+
+        end;
+
+        if vlSbrCodigo = 0 then
+        begin
+          if vlSbicodigo <> '' then
+          begin
+            if vlSfnCodigo <> 0 then
+            begin
+              vlSbrCodigo := vlSbicodigo.ToInteger; // BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
+            end
+            else
+            begin
+              vlSbrCodigo := BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
+            end;
+          end
+          else
+          begin
+            vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
+          end;
+        end;
+
+      end
+      else
+      begin
+
+        if vlSbicodigo <> '' then
+        begin
+          if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
+          begin
+            vlSbrCodigo := vlSbicodigo.ToInteger;
+          end;
+
+        end;
+        if vlSbrCodigo = 0 then
+        begin
+          vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
+        end;
+      end;
+
+      if (vlIngredientes <> '') and (vlSfnCodigo <> 0) then
+      begin
+
+        if vlSbrCodigo = 0 then
+        begin
+
+        end;
+      end;
+    end
+    else
+    begin
+      if (vlIngredientes <> '') and (vlSfnCodigo = 1) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0) then
+      begin
+
+        if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
+        begin
+          if vlSbicodigo <> '' then
+          begin
+            vlSbrCodigo := vlSbicodigo.ToInteger;
+          end;
+        end;
+
+      end;
+    end;
+
+  end;
+
+  vlitovalorpromo := vItemPedido.getvalue('promotional_value', '0');
+  vlitovalorpromo := StringReplace(vlitovalorpromo, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+  if vlitovalorpromo <> '0' then
+  begin
+    vlItem.AddPair('itovalorav', vlitovalorpromo);
+    vlitototal := floattostr(strtofloat(vlitovalorpromo) * strtofloat(vlitoquantidade));
+  end
+  else
+  begin
+    vlItem.AddPair('itovalorav', vlitovalor);
+    vlitototal := floattostr(strtofloat(vlitovalor) * strtofloat(vlitoquantidade));
+  end;
+  a := vItemPedido.getvalue('unit_value', '');
+
+  if vlitopercdescav = '' then
+    vlitopercdescav := '0';
+
+  vlItem.AddPair('itopercdescav', vlitopercdescav);
+
+  vlitototal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+  vlItem.AddPair('itototalav', vlitototal);
+
+  vlVlrDescontoItem := 0;;
+
+  vlitototal := floattostr(strtofloat(vlitototal) - (strtofloat(vlitototal) * (strtofloat(vlitopercdescav) / 100)));
+
+  vlitosubtotal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+  vlVlrSaldoItem := strtofloat(vlitosubtotal);
+
+  vlItem.AddPair('itodescontoav', floattostr(vlVlrDescontoItem));
+
+  vlItem.AddPair('itosaldoav', floattostr(vlVlrSaldoItem));
+  vlItem.AddPair('clbatendente', BuscaCodigoCLBclbNome('CARDAPIO'));
+  vlItem.AddPair('puncodigo', vlSkuTamanho);
+  vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
+  vlItem.AddPair('procodigo', vlProCodigo.ToString);
+
+  // definir impressora de destino do item
+  vlGrpCodigo := BuscaCodigoGRPProCodigo(BuscaCodigoPROpunCodigo(vlSkuTamanho));
+  vlTciCodigo := BuscaCodigoGRIGrpCodigo(vlGrpCodigo);
+  vlItem.AddPair('tcicodigo', vlTciCodigo.ToString);
+
+  vlItem.AddPair('itoinclusao', vData + ' ' + vHora);
+
+  vlItem.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlSkuTamanho).ToString);
+  vlitoitem := v1BuscaItemITOorcchave(vlOrcchave.ToString).ToString;
+  vlItem.AddPair('itoitem', vlitoitem);
+
+  a := vItemPedido.getvalue('observations', '');
+
+  vlItem.AddPair('itoobs', vItemPedido.getvalue('observations', ''));
+  vlItem.AddPair('itopercdescap', '0');
+  vlItem.AddPair('itoproservico', '0');
+  vlItem.AddPair('itoinfadprod', '');
+  vlItem.AddPair('itoprocomple', '');
+  vlItem.AddPair('vrpcodigo', '0');
+  vlItem.AddPair('tdfcodigo', '00');
+  vlItem.AddPair('pmpchave', '0');
+  vlItem.AddPair('flacodigo', '1');
+  vlItem.AddPair('itounidades', '0');
+  vlItem.AddPair('oricodigo', '8');
+  vlItem.AddPair('itocontendo', '1');
+  vlItem.AddPair('tdecodigo', '00');
+  vlItem.AddPair('stocodigo', '1');
+  vlItem.AddPair('itovalorap', '0');
+  vlItem.AddPair('pdscodigo', '1');
+  vlItem.AddPair('itototalap', '0');
+  vlItem.AddPair('itodescontoap', '0');
+  vlItem.AddPair('itosaldoap', '0');
+  vlItem.AddPair('itoacrescimoav', '0');
+
+  vlItem.AddPair('itooutras', '0');
+
+  a := vlItem.ToString;
+
+  vlItoChave := v1ManutencaoITO(vlItem);
+
+  if IsConsole then
+  WRITELN('Registro cliente: '+vlItoChave.ToString);
+
+  if (vlSbrCodigo <> 0) then
+  begin
+
+    vlItemSabor := TJsonObject.Create;
+    vlItemSabor.AddPair('sbichave', '0');
+    vlItemSabor.AddPair('sbrcodigo', vlSbrCodigo.ToString);
+    vlItemSabor.AddPair('itochave', vlItoChave.ToString);
+    vlitoitem := v1BuscaItemITOorcchave(vlOrcchave.ToString).ToString;
+    vlItemSabor.AddPair('sbiitem', vlitoitem);
+
+    vlSbiChave := ManutencaoSBI(vlItemSabor);
+    vlItemSabor.free;
+
+  end
+  else
+  begin
+    vlSbiChave := 0;
+  end;
+
+  vlItem.AddPair('itochave', vlItoChave.ToString);
+
+  vlItem.RemovePair('itochave');
+  vlItem.AddPair('itochave', vlItoChave.ToString);
+  vlItem.RemovePair('itoacrescimoav');
+
+  vlItem.AddPair('itoacrescimoav', CurrToStr(vladicionalborda + (strtofloat(vlitoquantidade) * vlTotalAdicionais)));
+
+  vlItoChave := v1ManutencaoITO(vlItem);
+
+  result := vlItem;
+  except
+  on E: Exception do
+     begin
+     if IsConsole then
+        writeln('Falha 1215:'+ e.Message)
+     end;
+  end;
+end;
+
+function InclusaoPedido(vPedido: TJsonObject): String;
+var
+  vlCliente: TJsonObject;
+  vlPedido: TJsonObject;
+
+  vlCodigoVoucher: String;
+  vlVchChave: Integer;
+
+  vlItem: TJsonObject;
+
+  vlItemSabor: TJsonObject;
+  vlItemSabores: TJsonObject;
+  vlItemBordas: TJsonObject;
+  vlItemAdicionais: TJsonObject;
+  vladiconarnapizzatoda: Boolean;
+  vlItemVariacoes: TJsonObject;
+
+  vlItemAdicionaisObrigatorios: TJsonObject;
+  vlUser: TJSONValue;
+  vlAdress: TJSONValue;
+
+  vlListaItens: TJsonarray;
+  vlItens: TJsonarray;
+  vlQtdItens: Integer;
+
+  vlorder_mandatory_items: TJsonarray;
+  vlQtdorder_mandatory_items: Integer;
+
+  vlorder_additional_items: TJsonarray;
+  vlQtdorder_additional_items: Integer;
+
+  vlorder_item_subitems: TJsonarray;
+  vlQtdorder_item_subitems: Integer;
+
+  vlpayment_method: TJSONValue;
+
+  vlservice_fee: TJSONValue;
+  vlservice_feetotal: String;
+
+  vletdcodigo: Integer;
+  vletfcelular: String;
+  vletftelefone: String;
+  vleteemail: String;
+  vletdidentificacao: String;
+  vletddoc1:String;
+  vledrcodigo: Integer;
+  vlreference: string;
+  // vletfcodigocelular: Integer;
+  // vletfcodigofixo: Integer;
+  vlOrcchave: Integer;
+  vlItoChave: Integer;
+
+  ii: Integer;
+
+  im: Integer;
+  ia: Integer;
+  ib: Integer;
+  ic: Integer;
+  iu: Integer;
+
+  vlVlrDescontoTotal: String;
+  vlVlrDescontoTotalOnline: String;
+  vlPercDescontoTotal: String;
+  vlPercDescontoItem: String;
+
+  vlVlrDescontoItem: Double;
+  vlVlrSaldoItem: Double;
+
+  vlDataAbert: string;
+  vlHoraAbert: string;
+
+  vlorcgeral: string;
+  vlorctotal: string;
+
+  vlitovalor: string;
+  vladicionalborda: Currency;
+  vlValorborda: String;
+
+  vlitovalorpromo: string;
+
+  vlitototal: string;
+  vlitosubtotal: string;
+
+  vlitopercdescav: string;
+  vlitoacrescimoav: string;
+
+  vlitoquantidade: string;
+  vlSkuTamanho: string;
+  vlSkuSabor: string;
+  vlSkuBorda: string;
+
+  vlSkuAdicional: string;
+
+  // itens com um sabor apenas
+  vlSbicodigo: string;
+  vledritem: Integer;
+
+  vlProCodigo: Integer;
+  vlGrpCodigo: Integer;
+  vlBrdCodigo: Integer;
+
+  vlGriCodigo: Integer;
+  vlTciCodigo: Integer;
+
+  vlcfgmgouctadelivery: Integer;
+  vlCcxChave: Integer;
+  vlCznChave: Integer;
+
+
+  vlNumeroPedidoAiq: String;
+
+  vlValorDesconto: Double;
+
+  vlitoitem: string;
+  vlSbiChave: Integer;
+
+  vlItemTaxa: TJsonObject;
+  vlItemTaxaAIQFome: TJsonObject;
+
+  a: string;
+
+  vlPercentualItem: Double;
+  vlValorTotalItens: Double;
+  vlTotalAdicionais: Double;
+
+  vlobs: string;
+
+  vlProCodigoItemAdicional: Integer;
+
+  // auto cadastramento
+  vlGrpIdentificacao: string;
+  vlUniIdentificacao: string;
+  vlSbrIdentificacao: string;
+  vlNovoSbrIdentificacao: string;
+  vlIsaIdentificacao: string;
+  vlIsaValor: string;
+
+  vlpronome: string;
+  vlIngredientes: string;
+  vlunicodigo: Integer;
+  vlBrdIdentificacao: string;
+  vlSbrCodigo: Integer;
+  vlSfnCodigo: Integer;
+  vlSbrIdentificaca: string;
+
+  // auto cadastro de variação
+
+  vlProCodigoVariacao: Integer;
+  vlPunCodigoVariacao: Integer;
+  vlPronomeVariacao: string;
+  vlGrpCodigoVariacao: Integer;
+  vlGrpIdentificacaoVariacao: String;
+  vlUnicodigoVariacao: Integer;
+  vlPunvalorVariacao: String;
+
+  vlCOdigoBordaVariacao: Integer;
+
+  vlbprchave: Integer;
+
+  vlTamanho: String;
+  vlCodigoVariacao: String;
+
+  vlListaIngredientes: TJsonarray;
+  iz: Integer;
+  vlImmAIQNumeroPedido: Integer;
+
+  vlMeschave: Integer;
+  vlPedidoNoOrc: string;
+  vltaxaentrega: string;
+
+  vltaxaentregaitem: Double;
+  vlRetorno: string;
+
+  vlModalidade: string;
+  vlMdaCodigo: string;
+  vlBaiCodigo: string;
+
+  vlTotaltaxaentregaitem: Double;
+  vlTotalTaxas: Double;
+  vlTotalTaxasTxt: String;
+  vlItoOutrasAtual: String;
+
+  vlNumeroPedido: String;
+
+  vpRetira: Boolean;
+begin
+  try
+
+
+    vlCliente := TJsonObject.Create;
+    vlPedido := TJsonObject.Create;
+
+    vlorder_item_subitems := nil;
+    vlItem := nil;
+
+    vlcfgmgouctadelivery := 0;
+    vlcfgmgouctadelivery := v1BuscaCodigoCfgmgouCtaDelivery;
+
+    vlCcxChave := 0;
+    vlCcxChave := v1BuscaCaixaAbertoCCXCtaDelivery(vlcfgmgouctadelivery);
+
+    vlCznChave := 0;
+    vlCznChave := v1BuscaCozinhaAberta;
+
+    vlSbicodigo := '';
+    vlSfnCodigo := 0;
+    vlGrpCodigoVariacao := 0;
+    vlValorDesconto := 0;
+
+    vlNumeroPedidoAiq := vPedido.getvalue('id', '');
+
+    vlNumeroPedido := v1BuscaPedidoNumeroOrigem(vlNumeroPedidoAiq, vOrigem);
+
+    if (vlNumeroPedido <> '') and (vlNumeroPedido <> '0') then
+    begin
+      exit
+    end;
+
+    vlPedido.AddPair('orcchave', '0');
+
+    vlOrcchave := 0;
+    if vlNumeroPedidoAiq<>'0' then
+    begin
+      vlOrcchave := v1BuscaPedidoNumeroOrigem(vlNumeroPedidoAiq, 8).ToInteger;
+    end;
+
+    vlMeschave := 0;
+    if vlNumeroPedidoAiq<>'0' then
+    begin
+      vlMeschave := v1BuscaVendaNumeroPedidoAIQ(vlNumeroPedidoAiq, 8,vlCznChave );
+    end;
+
+    if (vlOrcchave <> 0) and (vlMeschave <> 0) then
+    begin
+      exit;
+    end;
+
+
+    vlobs := vPedido.getvalue('order_observations', '');
+
+    vlUser := vPedido.getvalue<TJsonObject>('user');
+
+    vlpayment_method := vPedido.getvalue<TJsonObject>('payment_method');
+
+    vlModalidade := '';
+    vlModalidade := vlpayment_method.getvalue('name', '');
+    vlMdaCodigo := BuscaModalidadeAIQMDA(vlModalidade).ToString;
+
+    vlVlrDescontoTotalOnline:='0';
+
+    vlVlrDescontoTotal := vlpayment_method.getvalue('coupon_value', '');
+
+    if vlVlrDescontoTotal = '' then
+    begin
+      vlVlrDescontoTotal := '0';
+    end
+    else
+    begin
+      vlVlrDescontoTotal := StringReplace(vlVlrDescontoTotal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+    end;
+
+
+
+    vlPercDescontoTotal := vlpayment_method.getvalue('discount_tax', '');
+    if vlPercDescontoTotal = '' then
+    begin
+      vlPercDescontoTotal := '0';
+    end
+    else
+    begin
+      vlPercDescontoTotal := StringReplace(vlPercDescontoTotal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+    end;
+
+
+    if vlMdaCodigo='7' then
+    begin
+       if vlPercDescontoTotal = '0' then
+         vlPercDescontoTotal:= '10';
+
+    end;
+
+
+
+    vlservice_fee := vlpayment_method.getvalue<TJsonObject>('service_fee');
+
+    vlservice_feetotal := '0';
+    if vlservice_fee <> nil then
+    begin
+      vlservice_feetotal := StringReplace(vlservice_fee.getvalue('total', ''), '.', ',', []);
+    end;
+
+
+    vlCodigoVoucher := vPedido.getvalue('coupon_hash', '');
+    vlVchChave := 0;
+    if vlCodigoVoucher <> '' then
+    begin
+      try
+        vlVchChave := RegistraVolcher(vlVlrDescontoTotal, vlPercDescontoTotal, vlCodigoVoucher);
+      except
+      end;
+    end;
+
+    try
+      vlAdress := vlUser.getvalue<TJsonObject>('address');
+    except
+      vlAdress := nil;
+    end;
+
+    vletdcodigo := -1;
+    vletdidentificacao := trim(uppercase(vlUser.getvalue('name', '') + ' ' + vlUser.getvalue('surname', '')));
+    vletfcelular := vlUser.getvalue('mobile_phone', '');
+    vletftelefone := vlUser.getvalue('phone_number', '');
+
+    if vletfcelular = '' then
+    begin
+      vletfcelular := vletftelefone;
+    end;
+
+    try
+
+      if vletfcelular = '' then
+      begin
+        vletfcelular := vlUser.getvalue('mobile_phone', '');
+      end;
+
+      if vletfcelular = '' then
+      begin
+        vletfcelular := vlAdress.getvalue('phone', '');
+      end;
+
+    except
+    on E: Exception do
+     begin
+     if IsConsole then
+        writeln('Falha 1539:'+ e.Message)
+     end;
+    end;
+
+    if vletftelefone = '' then
+    begin
+      vletftelefone := vletfcelular;
+    end;
+
+    if vletftelefone = '' then
+    begin
+      vlPedido.AddPair('orctelefone', sonumeros(vletfcelular));
+    end
+    else if vletfcelular = '' then
+    begin
+      vlPedido.AddPair('orctelefone', sonumeros(vletftelefone));
+    end
+    else
+    begin
+      vlPedido.AddPair('orctelefone', sonumeros(vletfcelular));
+    end;
+
+
+    vleteemail := lowercase(vlUser.getvalue('email', ''));
+    vletddoc1:=vlUser.getvalue('document_receipt', '');
+
+    try
+      vletdcodigo := BuscaCodigoETD(vletftelefone, vletfcelular, vleteemail, vletdidentificacao,vletddoc1);
+
+    except
+    on E: Exception do
+      begin
+      if IsConsole then
+        writeln('Falha 1572:'+ e.Message)
+      end;
+    end;
+
+    vlCliente.AddPair('name', trim(uppercase(uppercase(vlUser.getvalue('name', '')) + ' ' + uppercase(vlUser.getvalue('surname', '')))));
+    vlCliente.AddPair('document_receipt', vlUser.getvalue('document_receipt', ''));
+
+
+
+    vlCliente.AddPair('mobile_phone', vletfcelular);
+    vlCliente.AddPair('phone_number', vletftelefone);
+
+    vlCliente.AddPair('email', vlUser.getvalue('email', ''));
+
+    if vlAdress <> nil then
+    begin
+      vlCliente.AddPair('street_name', vlAdress.getvalue('street_name', ''));
+      vlCliente.AddPair('number', vlAdress.getvalue('number', ''));
+      vlCliente.AddPair('complement', vlAdress.getvalue('complement', ''));
+      vlCliente.AddPair('neighborhood_name', uppercase(vlAdress.getvalue('neighborhood_name', '')));
+      vlCliente.AddPair('state_uf', vlAdress.getvalue('state_uf', ''));
+      vlCliente.AddPair('city_name', vlAdress.getvalue('city_name', ''));
+      vlreference := vlAdress.getvalue('reference', '') + ' ' + vlAdress.getvalue('complement', '');
+      vpRetira:=False;
+    end
+    else
+    begin
+      vlCliente.AddPair('street_name', 'BALCÃO');
+      vlCliente.AddPair('number', 'SEM NUMERO');
+      vlCliente.AddPair('complement', 'RETIRA');
+      vlCliente.AddPair('neighborhood_name', 'CENTRO A');
+      vlCliente.AddPair('state_uf', 'MT');
+      vlCliente.AddPair('city_name', 'SORRISO');
+      vlreference := '';
+      vpRetira:=True;
+
+    end;
+
+
+    vlCliente.AddPair('phone_number', vletftelefone);
+
+    if (trim(vletfcelular) = '') and (trim(vletftelefone) = '') then
+    begin
+
+      vlCliente.RemovePair('mobile_phone');
+      vlCliente.RemovePair('phone_number');
+
+      vletfcelular := vlAdress.getvalue('phone', '');
+      vletftelefone := vlAdress.getvalue('phone', '');
+
+      vlCliente.AddPair('mobile_phone', vletfcelular);
+      vlCliente.AddPair('phone_number', vletftelefone);
+
+    end;
+
+    vlBaiCodigo := BuscaCodigoBairro(vlAdress.getvalue('neighborhood_name', '')).ToString;
+
+    vlDataAbert := vPedido.getvalue('created_at', '');
+    vlDataAbert := copy(vlDataAbert, 1, 10);
+
+    vlHoraAbert := vPedido.getvalue('created_at', '');
+    vlHoraAbert := copy(vlHoraAbert, 12, 8);
+
+    // Da manutencao no cadastro do cliente
+    if vletdcodigo = 0 then
+    begin
+      vletdcodigo := ManutencaoETD(vletdcodigo, vlCliente);
+      ManutencaoETE(vletdcodigo, vlCliente);
+      ManutencaoETV(vletdcodigo);
+    end
+    else
+    begin
+      ManutencaoETD(vletdcodigo, vlCliente);
+    end;
+
+    // manutenção do celular
+    ManutencaoETFCELULAR(vletdcodigo, vlCliente);
+
+    // manutenção do telefone fixo
+   // ManutencaoETFFIXO(vletdcodigo, vlCliente);
+
+    // busca endereço
+    vledrcodigo := BuscaCodigoEndereco(vletdcodigo, vlCliente.getvalue('street_name', ''), vlAdress.getvalue('number', ''));
+
+    if vledrcodigo = 0 then
+    begin
+      vledrcodigo := ManutencaoEDR(vletdcodigo, vledrcodigo, vlCliente);
+    end;
+
+    vledritem := BuscaItemEndereco(vletdcodigo, vledrcodigo);
+    vlPedido.AddPair('edritem', vledritem.ToString);
+
+
+    vlPedido.AddPair('neighborhood_name', vlCliente.getvalue('neighborhood_name', ''));
+
+    if vlpayment_method.getvalue('change', '') <> '0' then
+    begin
+      vlPedido.AddPair('orcobs', vlobs + 'Levar troco para R$ ' + StringReplace(vlpayment_method.getvalue('change', ''), '.', ',',
+        [rfReplaceAll, rfIgnoreCase]) + ' ' + vlreference);
+    end
+    else
+    begin
+      vlPedido.AddPair('orcobs', vlobs + ' ' + vlreference);
+    end;
+
+    vlPedido.AddPair('orcdataabert', vlDataAbert);
+    vlPedido.AddPair('orchoraabert', vlHoraAbert);
+    vlPedido.AddPair('orcdatahoraregistro', vlDataAbert + ' ' + vlHoraAbert);
+    vlPedido.AddPair('flacodigo', '1');
+    vlPedido.AddPair('etdcodigo', vletdcodigo.ToString);
+    vlPedido.AddPair('edrcodigo', vledrcodigo.ToString);
+
+    vlPedido.AddPair('baicodigo', vlBaiCodigo);
+
+    vlPedido.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO')); // criar busca do colaborador correto
+    vlPedido.AddPair('fopcodigo', '1');
+
+
+
+
+    vlPedido.AddPair('stocodigo', '1');
+
+    if vlAdress = nil then
+    begin
+      vlPedido.AddPair('moccodigo', '10');
+    end
+    else
+    begin
+      vlPedido.AddPair('moccodigo', '7');
+    end;
+
+    vlPedido.AddPair('puocodigo', '0');
+
+    // vlservice_feetotal:=stringreplace(vlservice_feetotal,'.',',',[]);
+
+    vlorcgeral := vlpayment_method.getvalue('subtotal', '');
+    vlorcgeral := StringReplace(vlorcgeral, '.', ',', []);
+    vlVlrDescontoTotalOnline:='0,00';
+
+    if (vlmdacodigo='7') and (vlPercDescontoTotal<>'0') then
+    begin
+
+      vlVlrDescontoTotalOnline := Floattostr( Strtofloat(vlorcgeral)*(strtofloat(vlPercDescontoTotal)/100) );
+     // vlVlrDescontoTotal := Floattostr( Strtofloat(vlorcgeral)*(strtofloat(vlPercDescontoTotal)/100) );
+
+
+     // vlVlrDescontoTotalOnline := StringReplace(vlVlrDescontoTotalOnline, ',', '.', [rfReplaceAll, rfIgnoreCase]);
+    end;
+
+
+
+
+    if (vlVlrDescontoTotal <> '0.00') or (vlVlrDescontoTotalOnline <> '0,00') then
+    begin
+
+
+      vlPedido.AddPair('tdecodigo', '2');
+      vlPedido.AddPair('orcdescontoav', StringReplace(Floattostr( strtofloat( vlVlrDescontoTotal)+  strtofloat( vlVlrDescontoTotalOnline) ) , '.', ',', [rfReplaceAll, rfIgnoreCase]));
+      vlPedido.AddPair('orcdescontoap', StringReplace(Floattostr( strtofloat( vlVlrDescontoTotal)+  strtofloat( vlVlrDescontoTotalOnline) ) , '.', ',', [rfReplaceAll, rfIgnoreCase]));
+
+      vlorcgeral := StringReplace(vlorcgeral, '.', ',', []);
+    //  vlorcgeral := Floattostr(  Strtofloat(vlorcgeral)-StrTofloat(( StringReplace(vlVlrDescontoTotal, '.', ',', [rfReplaceAll, rfIgnoreCase]) )) );
+
+    end
+    else
+    begin
+      vlPedido.AddPair('tdecodigo', '0');
+      vlPedido.AddPair('orcdescontoav', '0');
+      vlPedido.AddPair('orcdescontoap', '0');
+      vlorcgeral := StringReplace(vlorcgeral, '.', ',', []);
+
+    end;
+
+
+    vlPedido.AddPair('orcgeralav', vlorcgeral);
+    vlPedido.AddPair('orcgeralap', vlorcgeral);
+
+
+    vlorctotal := vlpayment_method.getvalue('total', '');
+    vlorctotal := StringReplace(vlorctotal, '.', ',', []);
+
+    vlorctotal :=Floattostr(  Strtofloat(vlorctotal)-StrTofloat(( StringReplace(vlVlrDescontoTotalOnline, '.', ',', [rfReplaceAll, rfIgnoreCase]) )) );
+
+
+    vlorctotal := floattostr(strtofloat(vlorctotal));
+
+    vlorctotal := StringReplace(vlorctotal, '.', ',', []);
+    vlPedido.AddPair('orctotalav', vlorctotal);
+    vlPedido.AddPair('orctotalap', vlorctotal);
+
+    vltaxaentrega := vlpayment_method.getvalue('delivery_tax', '');
+
+    vlTotalTaxas := strtofloat(StringReplace(vlpayment_method.getvalue('delivery_tax', ''), '.', ',', []));
+
+    vlTotalTaxasTxt := floattostr(vlTotalTaxas);
+
+    // vlPedido.AddPair('orctaxaentrega', vlpayment_method.getvalue('delivery_tax', ''));
+    vlPedido.AddPair('orctaxaentrega', vlTotalTaxasTxt);
+
+    vlPedido.AddPair('orctrocopara', vlpayment_method.getvalue('change', ''));
+
+    // vlpayment_method.getvalue('name', '')
+
+    vlPedido.AddPair('orcmodalidadepagamento', vlpayment_method.getvalue('name', ''));
+    vlPedido.AddPair('orcdestimpre', '0');
+    vlPedido.AddPair('trmcodigo', '1');
+    vlPedido.AddPair('foacodigo', '2');
+    vlPedido.AddPair('tfpcodigo', '0');
+
+    vlPedido.AddPair('ccxchave', vlCcxChave.ToString);
+    vlPedido.AddPair('cznchave', vlCznChave.ToString);
+
+    vlModalidade := '';
+    vlModalidade := vlpayment_method.getvalue('name', '');
+    vlMdaCodigo := BuscaModalidadeAIQMDA(vlModalidade).ToString;
+
+    vlPedido.AddPair('mdacodigo', vlMdaCodigo);
+
+    vlPedido.AddPair('oricodigo', '8');
+
+    vlPedido.AddPair('orcnumeropedido', '0');
+    vlPedido.AddPair('orcpedidointegracao', vPedido.getvalue('id', ''));
+
+    vlPedido.AddPair('orctaxaservico', vlservice_feetotal);
+
+    vlOrcchave := ManutencaoORC(vlPedido);
+
+    if IsConsole then
+      WRITELN('1720 Registro orc: '+vlOrcchave.ToString);
+
+
+    vlPedido.RemovePair('orcchave');
+
+    vlPedido.AddPair('orcchave', Inttostr(vlOrcchave));
+
+
+    vlItens := TJsonarray.Create;
+    vlListaItens := vPedido.getvalue<TJsonarray>('items');
+    vlQtdItens := vlListaItens.Count;
+
+    a := vlListaItens.ToString;
+    vlValorTotalItens := 0;
+
+    vlPercDescontoTotal:= floattostr((strtofloat(vlVlrDescontoTotal)+strtofloat( vlVlrDescontoTotalOnline))/ (strtofloat(vlorcgeral)));
+
+    try
+      for ii := 0 to vlQtdItens - 1 do
+      begin
+        vlitoquantidade := vlListaItens[ii].getvalue('quantity', '');
+        vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
+
+
+        vlitovalor := vlListaItens[ii].getvalue('unit_value', '');
+        vlitovalor := StringReplace(vlitovalor, '.', ',', []);
+
+        if vlPercDescontoTotal<>'0.00' then
+          vlitovalor := Floattostr(StrtoFloat(vlitovalor)- (StrtoFloat(vlitovalor)*Strtofloat(vlPercDescontoTotal)/100));
+
+
+        vlValorTotalItens := vlValorTotalItens + (strtofloat(vlitoquantidade) * strtofloat(vlitovalor));
+      end;
+
+      if IsConsole then
+          writeln('Quantidade de Itens: '+vlQtdItens.ToString+' Valor Total: '+ FormatCurr('0.0000',   vlValorTotalItens));
+
+
+    except
+    on E: Exception do
+      begin
+       if IsConsole then
+          writeln('Falha 1886:'+ e.Message)
+      end;
+    end;
+
+    vlservice_feetotal := StringReplace(vlservice_feetotal, '.', ',', []);
+
+    vlPercDescontoTotal := '0';
+    vlitopercdescav := '0';
+    if vlVlrDescontoTotal <> '0.00' then
+    begin
+      vlValorDesconto := strtofloat(StringReplace(vlVlrDescontoTotal, '.', ',', []));
+      vlitopercdescav := floattostr((strtofloat(StringReplace(vlVlrDescontoTotal, '.', ',', [])) / vlValorTotalItens) * 100);
+    end
+    else
+    begin
+      vlValorDesconto := vlValorTotalItens * (strtofloat((StringReplace(vlPercDescontoTotal, '.', ',', []))) / 100);
+      vlitopercdescav := vlPercDescontoTotal;
+    end;
+
+    for ii := 0 to vlQtdItens - 1 do
+    begin
+      vladiconarnapizzatoda := False;
+      a := vlListaItens[ii].ToString;
+
+      vlTotalAdicionais := 0;
+      vlItem := TJsonObject.Create;
+
+      vlItem.AddPair('itochave', '0');
+      vlItem.AddPair('orcchave', vlOrcchave.ToString);
+
+      vlTamanho := vlListaItens[ii].getvalue('size', '');
+
+      vlitoquantidade := vlListaItens[ii].getvalue('quantity', '');
+      vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
+      vlItem.AddPair('itoquantidade', vlitoquantidade);
+      vlItem.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO'));
+      a := vlPedido.getvalue('immnumepedido', '');
+      vlItem.AddPair('immnumepedido', vlPedido.getvalue('immnumepedido', ''));
+
+      vlSkuTamanho := vlListaItens[ii].getvalue('sku', '');
+
+
+      // se tiver o caracter '_'
+      // codigounidade_codigoproduto
+
+      if vlSkuTamanho = '' then
+      begin
+
+        vlorder_item_subitems := vlListaItens[ii].getvalue<TJsonarray>('order_item_subitems');
+
+        a := vlorder_item_subitems.ToString;
+
+        if vlorder_item_subitems.Count > 0 then
+        begin
+          vlSkuTamanho := vlorder_item_subitems[0].getvalue('sku', '');
+
+          if pos('_', vlSkuTamanho) > 0 then
+            vlSkuTamanho := copy(vlSkuTamanho, 1, pos('_', vlSkuTamanho) - 1);
+        end;
+
+        if (vlSkuTamanho = '0') or (vlSkuTamanho = '') then
+        begin
+
+          vlunicodigo := BuscaUNINome(vlTamanho, vOrigem);
+
+        end;
+
+      end
+      else
+      begin
+        // codigounidade_codigoproduto
+        if pos('_', vlListaItens[ii].getvalue('sku', '')) > 0 then
+        begin
+          vlSkuTamanho := copy(vlListaItens[ii].getvalue('sku', ''), 1, pos('_', vlListaItens[ii].getvalue('sku', '')) - 1);
+          vlSbicodigo := trim(copy(vlListaItens[ii].getvalue('sku', ''), pos('_', vlListaItens[ii].getvalue('sku', '')) + 1, 20));
+        end;
+
+      end;
+
+      vlitovalor := vlListaItens[ii].getvalue('unit_value', '');
+      vlitovalor := StringReplace(vlitovalor, '.', ',', []);
+
+      vlGrpIdentificacao := uppercase(vlListaItens[ii].getvalue('category_name', ''));
+
+      vlGrpIdentificacao := StringReplace(vlGrpIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]);
+      vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+      if pos('PIZZA', vlGrpIdentificacao) > 0 then
+      begin
+        vlGrpIdentificacao := 'PIZZAS';
+      end
+      else if True then
+      begin
+        if pos('_', vlListaItens[ii].getvalue('sku', '')) > 0 then
+        begin
+          vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
+          vlGrpCodigo := BuscaCodigoGRPProCodigo(vlProCodigo);
+          vlGrpIdentificacao := BuscaGRPCodigo(vlGrpCodigo.ToString);
+
+          if pos('PIZZA', vlGrpIdentificacao) > 0 then
+          begin
+            vlGrpIdentificacao := 'PIZZAS';
+          end;
+
+        end;
+      end;
+
+      vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '??', '', []));
+      vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '?', '', []));
+
+      vlUniIdentificacao := uppercase(vlListaItens[ii].getvalue('size', ''));
+
+      vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '??', '', [rfReplaceAll, rfIgnoreCase]));
+      vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]));
+      vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '\', '', [rfReplaceAll, rfIgnoreCase]));
+
+      vlpronome := uppercase(vlListaItens[ii].getvalue('name', ''));
+
+      vlpronome := trim(StringReplace(vlpronome, '|', '', [rfReplaceAll, rfIgnoreCase]));
+      vlpronome := trim(StringReplace(vlpronome, '?', '', [rfReplaceAll, rfIgnoreCase]));
+      vlpronome := trim(StringReplace(vlpronome, '''', '', [rfReplaceAll, rfIgnoreCase]));
+
+
+
+      vlIngredientes := uppercase(vlListaItens[ii].getvalue('description', ''));
+
+      if vlSkuTamanho = '' then
+      begin
+
+        vlGrpCodigo := manutencaoGRPIdentificacao(vlGrpIdentificacao, vOrigem);
+        vlunicodigo := ManutencaoUNINome(vlUniIdentificacao, vOrigem);
+
+        vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
+
+        if vlProCodigo <> 0 then
+        begin
+          vlSfnCodigo := 0;
+          vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+          if vlSfnCodigo <> 0 then
+          begin
+
+            if pos(' + ', vlpronome) = 0 then
+            begin
+              vlSbrCodigo := ManutencaoSBRIdentificacao(vlpronome, vlProCodigo.ToString, vlGrpCodigo.ToString);
+            end
+            else
+            begin
+              vlSbrCodigo := 0;
+            end;
+
+          end;
+
+        end;
+
+      end
+      else
+      begin
+
+        vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
+
+        if vlProCodigo <> 0 then
+        begin
+
+          vlSfnCodigo := 0;
+          vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+          if vlSfnCodigo <> 0 then
+          begin
+            vlSbrCodigo := 0;
+          end
+          else
+          begin
+            vlSbrCodigo := BuscaCodigoSBRProCodigo(vlProCodigo);
+          end;
+        end;
+
+        if (vlSbicodigo <> '0') and (vlSbicodigo <> '') then
+        begin
+          if vlProCodigo = 0 then
+          begin
+            vlProCodigo := BuscaCodigoPROProCodigo(vlSbicodigo.ToInteger);
+          end;
+
+        end;
+
+        if vlProCodigo = 0 then
+        begin
+          vlProCodigo := BuscaCodigoPROProNome(vlpronome);
+        end;
+
+        if vlProCodigo = 0 then
+        begin
+
+          vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
+
+          if vlProCodigo <> 0 then
+          begin
+            vlSfnCodigo := 0;
+            vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
+
+            if vlSfnCodigo = 0 then
+            begin
+              vlProCodigo := BuscaCodigoPROProNome(vlpronome);
+            end;
+          end;
+
+        end;
+
+        if ((pos(' + ', vlpronome) = 0) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) = 0)) then
+        begin
+
+          if vlIngredientes <> '' then
+          begin
+
+            if vlGrpCodigo = 0 then
+            begin
+              if vlProCodigo <> 0 then
+              begin
+                vlGrpCodigo := BuscaCodigoGRPProCodigo(vlProCodigo);
+              end;
+
+            end;
+
+            if vlSbrCodigo = 0 then
+            begin
+              if vlSbicodigo <> '' then
+              begin
+                if vlSfnCodigo <> 0 then
+                begin
+                  vlSbrCodigo := vlSbicodigo.ToInteger; // BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
+                end
+                else
+                begin
+                  vlSbrCodigo := BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
+                end;
+              end
+              else
+              begin
+                vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
+              end;
+            end;
+
+          end
+          else
+          begin
+
+            if vlSbicodigo <> '' then
+            begin
+              if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
+              begin
+                vlSbrCodigo := vlSbicodigo.ToInteger;
+              end;
+
+            end;
+            if vlSbrCodigo = 0 then
+            begin
+              vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
+            end;
+          end;
+
+        end
+        else
+        begin
+          if (vlIngredientes <> '') and (vlSfnCodigo = 1) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0) then
+          begin
+
+            if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
+            begin
+              if vlSbicodigo <> '' then
+              begin
+                vlSbrCodigo := vlSbicodigo.ToInteger;
+              end;
+            end;
+
+          end;
+        end;
+
+      end;
+
+      vlitovalorpromo := vlListaItens[ii].getvalue('promotional_value', '0');
+      vlitovalorpromo := StringReplace(vlitovalorpromo, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+      if vlitovalorpromo <> '0' then
+      begin
+        vlItem.AddPair('itovalorav', vlitovalorpromo);
+        vlitototal := floattostr(strtofloat(vlitovalorpromo) * strtofloat(vlitoquantidade));
+      end
+      else
+      begin
+        vlItem.AddPair('itovalorav', vlitovalor);
+        vlitototal := floattostr(strtofloat(vlitovalor) * strtofloat(vlitoquantidade));
+      end;
+      a := vlListaItens[ii].getvalue('unit_value', '');
+      vlPercentualItem := ((strtofloat(StringReplace(vlListaItens[ii].getvalue('unit_value', ''), '.', ',', []))) * strtofloat(vlitoquantidade)) /
+        strtofloat(StringReplace(vlpayment_method.getvalue('subtotal', ''), '.', ',', [])) * 100;
+
+      vlItem.AddPair('itopercentual', floattostr(vlPercentualItem));
+      vlitopercdescav := vlitopercdescav;
+
+      if vlitopercdescav = '' then
+        vlitopercdescav := '0';
+
+      vlItem.AddPair('itopercdescav', vlitopercdescav);
+
+      vlitototal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+      vlItem.AddPair('itototalav', vlitototal);
+
+      vlVlrDescontoItem := RoundTo(strtofloat(vlitototal) -
+        (strtofloat(vlitototal) - ((strtofloat(vlitototal) * (strtofloat(vlitopercdescav) / 100)))), -2);
+
+      vlitototal := floattostr(strtofloat(vlitototal) - (strtofloat(vlitototal) * (strtofloat(vlitopercdescav) / 100)));
+
+      vlitosubtotal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+      vlVlrSaldoItem := strtofloat(vlitosubtotal);
+
+      vlItem.AddPair('itodescontoav', floattostr(vlVlrDescontoItem));
+
+      vlItem.AddPair('itosaldoav', floattostr(vlVlrSaldoItem));
+      vlItem.AddPair('clbatendente', BuscaCodigoCLBclbNome('CARDAPIO'));
+      vlItem.AddPair('puncodigo', vlSkuTamanho);
+      vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
+      vlItem.AddPair('procodigo', vlProCodigo.ToString);
+
+      // definir impressora de destino do item
+      vlGrpCodigo := BuscaCodigoGRPProCodigo(BuscaCodigoPROpunCodigo(vlSkuTamanho));
+      vlTciCodigo := BuscaCodigoGRIGrpCodigo(vlGrpCodigo);
+      vlItem.AddPair('tcicodigo', vlTciCodigo.ToString);
+
+      vlItem.AddPair('itoinclusao', vlDataAbert + ' ' + vlHoraAbert);
+
+      vlItem.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlSkuTamanho).ToString);
+      vlitoitem :=v1BuscaItemITOorcchave(vlOrcchave.ToString).ToString;
+      vlItem.AddPair('itoitem', vlitoitem);
+      a := vlListaItens[ii].getvalue('observations', '');
+      vlItem.AddPair('itoobs', vlListaItens[ii].getvalue('observations', ''));
+      vlItem.AddPair('itopercdescap', '0');
+      vlItem.AddPair('itoproservico', '0');
+      vlItem.AddPair('itoinfadprod', '');
+      vlItem.AddPair('itoprocomple', '');
+      vlItem.AddPair('vrpcodigo', '0');
+      vlItem.AddPair('tdfcodigo', '00');
+      vlItem.AddPair('pmpchave', '0');
+      vlItem.AddPair('flacodigo', '1');
+      vlItem.AddPair('itounidades', '0');
+      vlItem.AddPair('oricodigo', '8');
+      vlItem.AddPair('itocontendo', '1');
+      vlItem.AddPair('tdecodigo', '00');
+      vlItem.AddPair('stocodigo', '1');
+      vlItem.AddPair('itovalorap', '0');
+      vlItem.AddPair('pdscodigo', '1');
+      vlItem.AddPair('itototalap', '0');
+      vlItem.AddPair('itodescontoap', '0');
+      vlItem.AddPair('itosaldoap', '0');
+      vlItem.AddPair('itoacrescimoav', '0');
+
+      // vltaxaentrega         vlVlrSaldoItem
+
+      if (vltaxaentrega <> '0.00') then
+      begin
+        vltaxaentrega := StringReplace(vltaxaentrega, '.', ',', []);
+
+        vltaxaentregaitem := RoundTo((strtofloat(vltaxaentrega)) * (vlVlrSaldoItem / (vlValorTotalItens - vlValorDesconto)), -2);
+
+        vlTotaltaxaentregaitem := vlTotaltaxaentregaitem + vltaxaentregaitem;
+
+      end;
+
+      vlItem.AddPair('itooutras', floattostr(vltaxaentregaitem));
+
+      a := vlItem.ToString;
+
+      vlItoChave := v1ManutencaoITO(vlItem);
+      vlorder_item_subitems := vlListaItens[ii].getvalue<TJsonarray>('order_item_subitems');
+
+      if ((vlSbrCodigo <> 0)  and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0) and (vlorder_item_subitems.Count = 0)) or
+        (((vlorder_item_subitems = nil)) and (vlSbrCodigo <> 0) or ((vlSbrCodigo <> 0) AND (pos('COMBO', uppercase(vlGrpIdentificacao)) = 0)      ) ) then
+      begin
+
+        vlItemSabor := TJsonObject.Create;
+        vlItemSabor.AddPair('sbichave', '0');
+        vlItemSabor.AddPair('sbrcodigo', vlSbrCodigo.ToString);
+        vlItemSabor.AddPair('itochave', vlItoChave.ToString);
+        vlitoitem := v1BuscaItemITOorcchave(vlOrcchave.ToString).ToString;
+        vlItemSabor.AddPair('sbiitem', vlitoitem);
+
+        vlSbiChave := ManutencaoSBI(vlItemSabor);
+        vlItemSabor.free;
+
+      end
+      else
+      begin
+        vlSbiChave := 0;
+      end;
+
+      vlItem.AddPair('itochave', vlItoChave.ToString);
+
+      vlorder_mandatory_items := vlListaItens[ii].getvalue<TJsonarray>('order_mandatory_items');
+
+      a := vlorder_mandatory_items.ToString;
+      vlQtdorder_mandatory_items := vlorder_mandatory_items.Count;
+
+      // busca código da borda ou tipo de base se for 0 entao temos adicionais
+
+      vlorder_additional_items := vlListaItens[ii].getvalue<TJsonarray>('order_additional_items');
+      a := vlorder_additional_items.ToString;
+      vlQtdorder_additional_items := vlorder_additional_items.Count;
+      vladicionalborda := 0;
+      // if vlQtdorder_mandatory_items=0 then
+      // begin
+      vlBrdCodigo := BuscaCodigoBRGGrpCodigo(vlGrpCodigo);
+      // end;
+
+      if (vlSbiChave = 0) and (vlBrdCodigo = 0) and
+
+      ((pos('COMBO', uppercase(vlGrpIdentificacao)) = 0) AND  ((vlQtdorder_additional_items > 0) or (vlQtdorder_mandatory_items > 0)) ) then
+      begin
+
+        vlSbicodigo := Inttostr(BuscaCodigoSBRProCodigo(vlProCodigo));
+
+        if (vlSbicodigo = '') or (vlSbicodigo = '0') then
+        begin
+          vlSbicodigo := ManutencaoSBRIdentificacao(vlpronome, vlProCodigo.ToString, '').ToString;
+
+          vlIngredientes := vlListaItens[ii].getvalue('description', '');
+
+          while vlIngredientes <> '' do
+          begin
+            if pos(',', vlIngredientes) > 0 then
+            begin
+              vlIsaIdentificacao := trim(copy(vlIngredientes, 1, pos(',', vlIngredientes) - 1));
+              vlIngredientes := trim(copy(vlIngredientes, pos(',', vlIngredientes) + 1, length(vlIngredientes)));
+
+            end
+            else if pos(' e ', vlIngredientes) > 0 then
+            begin
+              vlIsaIdentificacao := trim(copy(vlIngredientes, 1, pos(' e ', vlIngredientes) - 1));
+              vlIngredientes := trim(copy(vlIngredientes, pos(' e ', vlIngredientes) + 1, length(vlIngredientes)));
+
+            end
+            else
+            begin
+              if vlIngredientes <> '' then
+              begin
+                vlIsaIdentificacao := trim(vlIngredientes);
+                vlIngredientes := '';
+              end;
+            end;
+
+            if vlIsaIdentificacao <> '' then
+            begin
+              ManutencaoISAAplicativo(vlGrpCodigo, vlSbicodigo.ToInteger, vlIsaIdentificacao, '0', 8);
+            end;
+
+          end;
+
+        end;
+
+        vlItemSabores := TJsonObject.Create;
+        vlSkuSabor := vlSbicodigo;
+
+        if vlSkuSabor = '' then
+          vlSkuSabor := '0';
+
+        vlItemSabores.AddPair('sbichave', '0');
+        vlItemSabores.AddPair('sbrcodigo', vlSkuSabor);
+        vlItemSabores.AddPair('itochave', vlItoChave.ToString);
+        vlItemSabores.AddPair('sbiitem', vlitoitem);
+
+        vlSbiChave := ManutencaoSBI(vlItemSabores);
+
+        vlListaIngredientes := TJsonarray.Create;
+
+        vlListaIngredientes := BuscaListaIngredientes(vlSkuSabor.ToInteger);
+        if vlListaIngredientes <> nil then
+        begin
+          a := vlListaIngredientes.ToString;
+
+          for iz := 0 to vlListaIngredientes.Count - 1 do
+          begin
+
+            vlItemAdicionais := TJsonObject.Create;
+            vlItemAdicionais.AddPair('isichave', '0');
+            vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+            vlItemAdicionais.AddPair('tsicodigo', '3');
+
+            vlItemAdicionais.AddPair('procodigo', vlListaIngredientes[iz].getvalue('procodigo', ''));
+            vlItemAdicionais.AddPair('isitipo', '0');
+            vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+            vlItemAdicionais.AddPair('isiitem', vlitoitem); // BuscaItemISIItochave(vlItoChave.ToString).ToString);
+            vlItemAdicionais.AddPair('isiquantidade', '1');
+            vlItemAdicionais.AddPair('isiacrescimo', '0');
+            ManutencaoISI(vlItemAdicionais);
+
+          end;
+
+        end;
+
+      end
+      // else if (vlBrdCodigo <> 0) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0 ) {and (vlorder_item_subitems.Count = 0}} ) then
+
+      else if ((vlBrdCodigo <> 0) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0)) or
+        (vlListaItens[ii].getvalue<TJsonarray>('order_mandatory_items') <> nil) then
+      begin
+
+        vlorder_mandatory_items := vlListaItens[ii].getvalue<TJsonarray>('order_mandatory_items');
+
+        a := vlorder_mandatory_items.ToString;
+
+        for iu := 0 to vlorder_mandatory_items.Count - 1 do
+        begin
+          vlItemBordas := TJsonObject.Create;
+
+          vlSkuBorda := vlorder_mandatory_items[iu].getvalue('sku', '');
+
+          if pos('+', vlSkuBorda) > 0 then
+          begin
+
+            TJsonObject(vlorder_mandatory_items[iu]).AddPair('immnumepedido', vlPedido.getvalue('immnumepedido', ''));
+
+            a := TJsonObject(vlorder_mandatory_items[iu]).ToString;
+
+            vlItens.Add(InclusaoItemPedido(TJsonObject(vlorder_mandatory_items[iu]), vlOrcchave.ToString, 'PIZZA', vlDataAbert, vlHoraAbert));
+
+          end
+          else
+          begin
+
+            if (vlSkuBorda <> '') AND (vlGrpIdentificacao='PIZZAS') then
+            begin
+
+              vlBrdIdentificacao := uppercase(vlorder_mandatory_items[iu].getvalue('name', ''));
+
+              vlBrdIdentificacao := trim(StringReplace(vlBrdIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]));
+              vlBrdIdentificacao := trim(StringReplace(vlBrdIdentificacao, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+              if vlSkuBorda = '' then
+              begin
+                vlSkuBorda := ManutencaoBRDAplicativo(vlBrdIdentificacao, CurrToStr(vladicionalborda), vOrigem).ToString;
+              end;
+
+              if pos('_', vlSkuBorda) > 0 then
+                vlSkuBorda := copy(vlSkuBorda, pos('_', vlSkuBorda) + 1);
+
+              vlItemBordas.AddPair('brichave', '0');
+              vlItemBordas.AddPair('brdcodigo', vlSkuBorda);
+              vlItemBordas.AddPair('itochave', vlItoChave.ToString);
+              vlValorborda := vlorder_mandatory_items[iu].getvalue('value', '');
+
+              vlValorborda := StringReplace(vlValorborda, '.', ',', []);
+
+              vladicionalborda := vladicionalborda + StrToCurr(vlValorborda);
+
+              ManutencaoBRI(vlItemBordas);
+              vlBrdCodigo := 0;
+              vlItemBordas.DisposeOf;
+
+            end
+            else
+            begin
+
+              // sabores
+
+              vlItemSabores := TJsonObject.Create;
+              vlItemSabores.AddPair('sbichave', '0');
+
+              vlSkuSabor := vlorder_mandatory_items[iu].getvalue('sku', '');
+              vlNovoSbrIdentificacao:= uppercase(vlorder_mandatory_items[iu].getvalue('name', ''));
+
+              if vlSkuSabor = '' then
+                vlSkuSabor := '0';
+
+              if pos('_', vlSkuSabor) > 0 then
+                vlSkuSabor := copy(vlSkuSabor, pos('_', vlSkuSabor) + 1);
+
+              if (vlSkuSabor <> '0') and (vlSkuSabor <> '') then
+              begin
+
+               { if True then
+                begin
+
+                //
+
+
+                  vlItemAdicionais := TJsonObject.Create;
+                  vlItemAdicionais.AddPair('isichave', '0');
+                  vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+                  vlItemAdicionais.AddPair('tsicodigo', '3');
+                  a := vlorder_mandatory_items[iu].ToString;
+
+                  if vlorder_mandatory_items[iu].getvalue('sku', '') <> '' then
+                  begin
+
+                    vlItemAdicionais.AddPair('procodigo', vlorder_mandatory_items[iu].getvalue('sku', ''));
+
+                    a := vlorder_additional_items[ia].ToString;
+                    a := vlItemAdicionais.ToString;
+
+                    vlItemAdicionais.AddPair('isitipo', '1');
+                    vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+                    vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+                    vlItemAdicionais.AddPair('isiquantidade', StringReplace(vlorder_mandatory_items[iu].getvalue('quantity', ''), '.', ',', []));
+                    vlItemAdicionais.AddPair('isiacrescimo', StringReplace(vlorder_mandatory_items[iu].getvalue('value', ''), '.', ',', []));
+                    vlTotalAdicionais := vlTotalAdicionais + strtofloat(StringReplace(vlorder_mandatory_items[iu].getvalue('value', ''), '.', ',', []));
+
+                    ManutencaoISI(vlItemAdicionais);
+
+                  end;
+                //
+
+
+                end
+                else
+                begin}
+
+                  vlItemSabores.AddPair('sbrcodigo', vlSkuSabor);
+
+                  vlItemSabores.AddPair('sbridentificacao', vlNovoSbrIdentificacao);
+                  vlItemSabores.AddPair('grpcodigo', BuscaGRPNome(vlGrpIdentificacao,8).ToString);
+                  vlItemSabores.AddPair('procodigo',  '');
+
+
+                  vlItemSabores.AddPair('itochave', vlItoChave.ToString);
+                  vlItemSabores.AddPair('sbiitem', Inttostr(BuscaItemSBIitochave(vlItoChave.ToString)));
+
+                  vlSbiChave := ManutencaoSBI(vlItemSabores);
+
+
+                  vlListaIngredientes := TJsonarray.Create;
+
+                  vlListaIngredientes := BuscaListaIngredientes(vlSkuSabor.ToInteger);
+
+
+                  if vlListaIngredientes <> nil then
+                  begin
+                    a := vlListaIngredientes.ToString;
+
+                    for iz := 0 to vlListaIngredientes.Count - 1 do
+                    begin
+
+                      vlItemAdicionais := TJsonObject.Create;
+                      vlItemAdicionais.AddPair('isichave', '0');
+                      vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+                      vlItemAdicionais.AddPair('tsicodigo', '3');
+
+                      vlItemAdicionais.AddPair('procodigo', vlListaIngredientes[iz].getvalue('procodigo', ''));
+                      vlItemAdicionais.AddPair('isitipo', '0');
+                      vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+                      vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+                      vlItemAdicionais.AddPair('isiquantidade', '1');
+                      vlItemAdicionais.AddPair('isiacrescimo', '0');
+                      ManutencaoISI(vlItemAdicionais);
+
+                      vlItemAdicionais.DisposeOf;
+
+                    end;
+
+                  end;
+                {  end;}
+              end;
+
+             //
+
+            end;
+
+
+
+
+          end;
+        end;
+      end;
+
+      for im := 0 to vlQtdorder_mandatory_items - 1 do
+      begin
+        vlSbicodigo := vlorder_mandatory_items[im].getvalue('sku', '');
+      end;
+      try
+        for ia := 0 to vlQtdorder_additional_items - 1 do
+        begin
+
+          if vlBrdCodigo = 0 then
+          begin
+
+            a := vlorder_additional_items.ToString;
+
+            vlItemAdicionais := TJsonObject.Create;
+            vlItemAdicionais.AddPair('isichave', '0');
+            vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+            vlItemAdicionais.AddPair('tsicodigo', '3');
+            a := vlorder_additional_items[ia].ToString;
+
+            if vlorder_additional_items[ia].getvalue('sku', '') <> '' then
+            begin
+
+              vlItemAdicionais.AddPair('procodigo', vlorder_additional_items[ia].getvalue('sku', ''));
+
+              a := vlorder_additional_items[ia].ToString;
+              a := vlItemAdicionais.ToString;
+            end
+            else
+            begin
+              vlSbrIdentificaca := vlorder_additional_items[ia].getvalue('name', '');
+              vlSbrIdentificaca := trim(StringReplace(vlSbrIdentificaca, '?', '', [rfReplaceAll, rfIgnoreCase]));
+              vlSbrIdentificaca := trim(StringReplace(vlSbrIdentificaca, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+              vlSkuSabor := BuscaCodigoIngrediente(vlSbrIdentificaca, vlGrpCodigo).ToString;
+
+              if (vlSkuSabor = '0') or (vlSkuSabor = '') then
+              begin
+                vlSbicodigo := Inttostr(BuscaCodigoSBRProCodigo(vlProCodigo));
+
+                vlSkuSabor := ManutencaoISAAplicativo(vlGrpCodigo, vlSbicodigo.ToInteger, vlSbrIdentificaca,
+                  StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []), 8).ToString;
+
+                vlSkuSabor := BuscaCodigoIngrediente(vlSbrIdentificaca, vlGrpCodigo).ToString;
+              end;
+
+              vlItemAdicionais.AddPair('procodigo', vlSkuSabor);
+            end;
+
+            vlItemAdicionais.AddPair('isitipo', '1');
+            vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+            vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+            vlItemAdicionais.AddPair('isiquantidade', '1');
+            vlItemAdicionais.AddPair('isiacrescimo', StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []));
+            vlTotalAdicionais := vlTotalAdicionais + strtofloat(StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []));
+
+            if ((vlSkuSabor = '0') or (vlSkuSabor = '')) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0) then
+            begin
+              vladiconarnapizzatoda := True;
+              // vlRetorno := vlRetorno + 'Adicional: ' + vlSbrIdentificaca + ' sem SKU';
+
+            end
+            else
+            begin
+              ManutencaoISI(vlItemAdicionais);
+            end;
+
+          end
+          else if vlBrdCodigo <> 0 then
+          begin
+            // bordas e adicionais
+
+            if pos('_', vlorder_additional_items[ia].getvalue('sku', '')) = 0 then
+            begin
+
+              a := vlorder_additional_items.ToString;
+
+              vlItemAdicionais := TJsonObject.Create;
+              vlItemAdicionais.AddPair('isichave', '0');
+              vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+              vlItemAdicionais.AddPair('tsicodigo', '3');
+              a := vlorder_additional_items[ia].ToString;
+
+              if vlorder_additional_items[ia].getvalue('sku', '') <> '' then
+              begin
+
+                vlItemAdicionais.AddPair('procodigo', vlorder_additional_items[ia].getvalue('sku', ''));
+
+                a := vlorder_additional_items[ia].ToString;
+                a := vlItemAdicionais.ToString;
+              end
+              else
+              begin
+                vlSbrIdentificaca := vlorder_additional_items[ia].getvalue('name', '');
+                vlSbrIdentificaca := trim(StringReplace(vlSbrIdentificaca, '?', '', [rfReplaceAll, rfIgnoreCase]));
+                vlSbrIdentificaca := trim(StringReplace(vlSbrIdentificaca, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+                vlSkuSabor := BuscaCodigoIngrediente(vlSbrIdentificaca, vlGrpCodigo).ToString;
+
+                if (vlSkuSabor = '0') or (vlSkuSabor = '') then
+                begin
+                  vlSbicodigo := Inttostr(BuscaCodigoSBRProCodigo(vlProCodigo));
+
+                  // vlSkuSabor := ManutencaoISAAplicativo(vlGrpCodigo, vlSbicodigo.ToInteger, vlSbrIdentificaca,
+                  // StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []), 8).ToString;
+
+                  vlSkuSabor := BuscaCodigoIngrediente(vlSbrIdentificaca, vlGrpCodigo).ToString;
+                end;
+
+                vlItemAdicionais.AddPair('procodigo', vlSkuSabor);
+              end;
+              vlItemAdicionais.AddPair('isitipo', '1');
+              vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+              vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+              vlItemAdicionais.AddPair('isiquantidade', '1');
+              vlItemAdicionais.AddPair('isiacrescimo', StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []));
+              vlTotalAdicionais := vlTotalAdicionais + strtofloat(StringReplace(vlorder_additional_items[ia].getvalue('value', ''), '.', ',', []));
+
+              if (vlSkuSabor = '0') or (vlSkuSabor = '') then
+              begin
+                vladiconarnapizzatoda := True;
+                // vlRetorno := vlRetorno + 'Adicional: ' + vlSbrIdentificaca + ' sem SKU';
+
+              end
+              else
+              begin
+                ManutencaoISI(vlItemAdicionais);
+              end;
+
+            end
+            else
+            begin
+
+              vlItemBordas := TJsonObject.Create;
+              a := vlorder_additional_items[ia].ToString;
+              vlSkuBorda := vlorder_additional_items[ia].getvalue('sku', '');
+              vlBrdIdentificacao := uppercase(vlorder_additional_items[ia].getvalue('name', ''));
+
+              vlBrdIdentificacao := trim(StringReplace(vlBrdIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]));
+              vlBrdIdentificacao := trim(StringReplace(vlBrdIdentificacao, '|', '', [rfReplaceAll, rfIgnoreCase]));
+
+              if vlSkuBorda = '' then
+              begin
+                vlSkuBorda := ManutencaoBRDAplicativo(vlBrdIdentificacao, CurrToStr(vladicionalborda), vOrigem).ToString;
+              end;
+
+              if pos('_', vlSkuBorda) > 0 then
+                vlSkuBorda := copy(vlSkuBorda, pos('_', vlSkuBorda) + 1);
+
+              vlItemBordas.AddPair('brichave', '0');
+              vlItemBordas.AddPair('brdcodigo', vlSkuBorda);
+              vlItemBordas.AddPair('itochave', vlItoChave.ToString);
+              vlValorborda := vlorder_additional_items[ia].getvalue('value', '');
+              vlValorborda := StringReplace(vlValorborda, '.', ',', [rfReplaceAll, rfIgnoreCase]);
+
+              vladicionalborda := vladicionalborda + StrToCurr(vlValorborda);
+
+              ManutencaoBRI(vlItemBordas);
+              vlBrdCodigo := 0;
+            end;
+          end;
+        end;
+      except
+      on E: Exception do
+       begin
+       if IsConsole then
+          writeln('Falha 2740:'+ e.Message)
+       end;
+      end;
+
+      vlItem.RemovePair('itochave');
+      vlItem.AddPair('itochave', vlItoChave.ToString);
+      vlItem.RemovePair('itoacrescimoav');
+
+      vlItem.AddPair('itoacrescimoav', CurrToStr(vladicionalborda + (strtofloat(vlitoquantidade) * vlTotalAdicionais)));
+
+      vlItoChave :=v1ManutencaoITO(vlItem);
+
+
+      // soma de todos acrescimos e adicionais do item
+      // deve acumular ao passar em cada item do json
+
+      vlorder_item_subitems := vlListaItens[ii].getvalue<TJsonarray>('order_item_subitems');
+      a := vlorder_item_subitems.ToString;
+
+      vlQtdorder_item_subitems := vlorder_item_subitems.Count;
+      try
+        for ia := 0 to vlQtdorder_item_subitems - 1 do
+        begin
+
+          // sabores
+
+          vlItemSabores := TJsonObject.Create;
+          vlItemSabores.AddPair('sbichave', '0');
+
+          vlSkuSabor := vlorder_item_subitems[ia].getvalue('sku', '');
+
+          if vlSkuSabor = '' then
+            vlSkuSabor := '0';
+
+          if pos('_', vlSkuSabor) > 0 then
+            vlSkuSabor := copy(vlSkuSabor, pos('_', vlSkuSabor) + 1);
+
+          if (vlSkuSabor <> '0') and (vlSkuSabor <> '') then
+          begin
+
+            vlItemSabores.AddPair('sbrcodigo', vlSkuSabor);
+
+            vlItemSabores.AddPair('itochave', vlItoChave.ToString);
+            vlItemSabores.AddPair('sbiitem', Inttostr(BuscaItemSBIitochave(vlItoChave.ToString)));
+
+            vlSbiChave := ManutencaoSBI(vlItemSabores);
+
+
+            vlListaIngredientes := TJsonarray.Create;
+
+            vlListaIngredientes := BuscaListaIngredientes(vlSkuSabor.ToInteger);
+            if vlListaIngredientes <> nil then
+            begin
+              a := vlListaIngredientes.ToString;
+              try
+                for iz := 0 to vlListaIngredientes.Count - 1 do
+                begin
+
+                  vlItemAdicionais := TJsonObject.Create;
+                  vlItemAdicionais.AddPair('isichave', '0');
+                  vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+                  vlItemAdicionais.AddPair('tsicodigo', '3');
+
+                  vlItemAdicionais.AddPair('procodigo', vlListaIngredientes[iz].getvalue('procodigo', ''));
+                  vlItemAdicionais.AddPair('isitipo', '0');
+                  vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+                  vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+                  vlItemAdicionais.AddPair('isiquantidade', '1');
+                  vlItemAdicionais.AddPair('isiacrescimo', '0');
+
+                  ManutencaoISI(vlItemAdicionais);
+
+                  vlItemAdicionais.DisposeOf;
+
+                end;
+              except
+              on E: Exception do
+               begin
+               if IsConsole then
+                  writeln('Falha 2712:'+ e.Message)
+               end;
+              end;
+
+            end;
+          end;
+        end;
+      except
+      on E: Exception do
+       begin
+       if IsConsole then
+          writeln('Falha 2723:'+ e.Message)
+       end;
+      end;
+      a := vlItem.ToString;
+      try
+        if ii = (vlQtdItens - 1) then
+        begin
+
+          if vlTotaltaxaentregaitem <> 0 then
+          begin
+            if vlTotaltaxaentregaitem <> strtofloat(vltaxaentrega) then
+            begin
+              vlItoOutrasAtual := vlItem.getvalue('itooutras', '');
+
+              vlItoOutrasAtual := floattostr(strtofloat(vlItoOutrasAtual) + (strtofloat(vltaxaentrega) - vlTotaltaxaentregaitem));
+
+              vlItem.RemovePair('itooutras');
+              vlItem.AddPair('itooutras', vlItoOutrasAtual);
+
+              // vlItem.AddPair('itooutras', floattostr(strtofloat(vltaxaentrega) + (vlTotaltaxaentregaitem - strtofloat(vltaxaentrega))));
+            end;
+          end;
+        end;
+      except
+      on E: Exception do
+       begin
+       if IsConsole then
+          writeln('Falha 2736:'+ e.Message)
+       end;
+      end;
+
+      vlItens.Add(vlItem);
+      vlSbicodigo := '';
+    end;
+
+    if IsConsole then
+      writeln(Datetimetostr(Now())+' 2450 conclui Pedido');
+
+
+    vltaxaentrega := vlItem.getvalue('itooutras', '0,00');
+
+    vltaxaentrega := floattostr(strtofloat(vltaxaentrega) + strtofloat(vlservice_feetotal));
+
+    vlItem.RemovePair('itooutras');
+    vlItem.AddPair('itooutras', vltaxaentrega);
+
+    vlMeschave := 0;
+
+    vlMeschave := v1BuscaVendaNumeroPedidoAIQ(vlNumeroPedidoAiq, 8, vlCznChave);
+
+    if vlMeschave = 0 then
+    begin
+
+      // registrar taxa de entrega
+
+      If vlpayment_method.getvalue('delivery_tax', '') <> '0.00' Then
+      begin
+        a := vlAdress.getvalue('neighborhood_name', '');
+        vlItemTaxa := TJsonObject.Create;
+        vlItem := RegistraTaxaEntrega(uppercase(vlAdress.getvalue('neighborhood_name', '')), vlpayment_method.getvalue('delivery_tax', ''), vlOrcchave,
+          vlDataAbert + ' ' + vlHoraAbert,  vlItemTaxa);
+        if vlItem <> nil then
+        begin
+          vlItens.Add(vlItem);
+        end;
+      end;
+
+      if vlservice_feetotal <> '0' then
+      begin
+
+        vlItemTaxaAIQFome := TJsonObject.Create;
+        vlItem := RegistraTaxaAIQFome('TAXA DE SERVIÇO AIQFOME', vlservice_feetotal, vlOrcchave, vlDataAbert + ' ' + vlHoraAbert,
+          vlItemTaxaAIQFome);
+        if vlItem <> nil then
+        begin
+          vlItens.Add(vlItem);
+        end;
+
+
+      end;
+
+      if IsConsole then
+        writeln(Datetimetostr(Now())+' 2494 Grava imm');
+
+
+      // registra imm
+      v1RegistraIMM(vlItens).ToString;
+
+
+
+
+
+
+      if IsConsole then
+        writeln(Datetimetostr(Now())+' 2499 Inicia finalizacao');
+
+      Finaliza(vlPedido, vlItens);
+
+      // definenumeropedido
+      vlNumeroPedido:=NovoNumeroPedidoCFG(vlCznChave).ToString;
+      AjustaNumeroPedido(vlOrcchave.ToString, vlNumeroPedido);
+
+
+      if IsConsole then
+      writeln(Datetimetostr(Now())+' 2543 Número do pedido: '+vlNumeroPedido);
+
+      if IsConsole then
+      writeln(Datetimetostr(Now())+' 2555 pedido finalizado');
+
+      AjustaSatusPedido(vlNumeroPedidoAiq, '1',vlOrcchave.ToString);
+
+      FinalizaLiberaImpressao(vlOrcchave);
+
+      if IsConsole then
+      writeln(Datetimetostr(Now())+' 2562 Pedido liberado para impressão');
+
+      application.ProcessMessages;
+
+    end;
+  except
+  on E: Exception do
+     begin
+     if IsConsole then
+        writeln('Falha 2808: '+ e.Message)
+     end;
+  end;
+end;
+
+procedure V1StatusPedido(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  aObject: TJsonObject;
+  vJSONObject: TJsonObject;
+
+  vlNumeroPedido: string;
+  vlStatus: string;
+
+begin
+  try
+  vJSONObject := TJsonObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Req.Body), 0) as TJsonObject;
+
+  vlStatus := vJSONObject.getvalue('status', '');
+
+  vlNumeroPedido := '';
+  vlNumeroPedido := Req.Params.Items['id'];
+
+  if (vlNumeroPedido <> '0') then
+  begin
+    AjustaSatusPedido(vlNumeroPedido, vlStatus);
+  end;
+ except
+  on E: Exception do
+     begin
+     if IsConsole then
+        writeln('Falha 2838: '+ e.Message)
+     end;
+  end;end;
+
+Function BuscaPedidoNumeroAIQ(vNumeroPedido: String): String;
+var
+  FDAO: iDAOGeneric<TPEDIDOAIQ>;
+  vlorcnumeropedido: string;
+begin
+  try
+  vlorcnumeropedido := '0';
+
+  FDAO := TDAOGeneric<TPEDIDOAIQ>.New;
+
+  FDAO.dao.sql.Where('aiqpedido=' + vNumeroPedido).&End.Find;
+
+  vlorcnumeropedido := FDAO.DataSet.FieldByName('aiqpedido').AsString;
+  if vlorcnumeropedido = '' then
+  begin
+    vlorcnumeropedido := '0';
+  end;
+  result := vlorcnumeropedido;
+ except
+  on E: Exception do
+     begin
+     if IsConsole then
+        writeln('Falha 2864: '+ e.Message)
+     end;
+  end;
+end;
+
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TPEDIDOAIQ>;
+  aObject: TJsonObject;
+  vJSONObject: TJsonObject;
+  vlJsonPedido: string;
+  vlJsonChave: string;
+  vlNumeroPedido: String;
+  vpRetorno: String;
+  a: string;
+begin
+  try
+  FDAO := TDAOGeneric<TPEDIDOAIQ>.New;
+
+  vJSONObject := TJsonObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Req.Body), 0) as TJsonObject;
+
+  a := vJSONObject.ToString;
+
+  vlJsonChave := vJSONObject.getvalue('aiqchave', '');
+
+  vlJsonPedido := vJSONObject.getvalue('aiqpedido', '');
+
+  vlNumeroPedido := '0';
+
+  if (vlNumeroPedido = '0') or (vlNumeroPedido = '') then
+  begin
+
+    vlJsonChave := BuscaPedidoNumeroAIQ(vlJsonPedido);
+
+    if vlJsonChave = '0' then
+    begin
+      Res.Send<TJsonObject>(FDAO.Insert(vJSONObject));
+    end
+    else
+    begin
+      Res.Send<TJsonObject>(vJSONObject);
+    end;
+
+    vlJsonPedido := vJSONObject.getvalue('aiqjson', '');
+
+    if vlJsonPedido <> '' then
+    begin
+      aObject := TJsonObject.Create;
+
+      aObject := TJsonObject.ParseJSONValue(vlJsonPedido) as TJsonObject;
+
+      if vlNumeroPedido = '0' then
+      begin
+        vpRetorno := InclusaoPedido(aObject);
+      end;
+
+    end;
+  end;
+  except
+    on E: Exception do
+       begin
+       if IsConsole then
+          writeln('Falha 2927: '+ e.Message)
+       end;
+  end;
+
+end;
+
+end.

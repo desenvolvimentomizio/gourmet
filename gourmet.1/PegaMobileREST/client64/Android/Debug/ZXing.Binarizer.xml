@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Binarizer" platform="Android">
+  <class name="TBinarizer" file="ZXing.Binarizer.pas" line="37">
+    <devnotes>
+       <summary> This class hierarchy provides a set of methods to convert luminance data to 1 bit data.
+       It allows the algorithm to vary polymorphically, for example allowing a very expensive
+       thresholding technique for servers and a fast one for mobile. It also permits the implementation
+       to vary, e.g. a JNI version for Android and a Java fallback version for other platforms.
+      
+       <author>dswitkin@google.com (Daniel Switkin)</author>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FSource" type="TLuminanceSource" visibility="private" size="4" offset="4" file="ZXing.Binarizer.pas" line="39" />
+      <function name="GetWidth" visibility="private" file="ZXing.Binarizer.pas" line="40">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetHeight" visibility="private" file="ZXing.Binarizer.pas" line="41">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="protected" file="ZXing.Binarizer.pas" line="47">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+          <parameter name="source" type="TLuminanceSource" />
+        </parameters>
+      </constructor>
+      <function name="LuminanceSource" visibility="public" file="ZXing.Binarizer.pas" line="62">
+        <devnotes>
+           <summary> Converts one row of luminance data to 1 bit data. May actually do the conversion, or return
+           cached data. Callers should assume this method is expensive and call it as seldom as possible.
+           This method is intended for decoding 1D barcodes and may choose to apply sharpening.
+           For callers which only examine one row of pixels at a time, the same BitArray should be reused
+           and passed in with each call for performance. However it is legal to keep more than one row
+           at a time if needed.
+           </summary>
+           <param name=>The row to fetch, which must be in [0, bitmap height)</param>
+           <param name=>An optional preallocated array. If null or too small, it will be ignored.
+           If used, the Binarizer will call BitArray.clear(). Always use the returned object.
+           </param>
+           <returns> The array of bits for this row (true means black).</returns>
+        </devnotes>
+        <parameters>
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="GetBlackRow" visibility="public" procflags="abstract virtual" file="ZXing.Binarizer.pas" line="63">
+        <parameters>
+          <parameter name="y" type="Integer" />
+          <parameter name="row" type="IBitArray" />
+          <retval type="IBitArray" />
+        </parameters>
+      </function>
+      <function name="BlackMatrix" visibility="public" procflags="abstract virtual" file="ZXing.Binarizer.pas" line="66">
+        <parameters>
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <destructor name="Destroy" visibility="public" file="ZXing.Binarizer.pas" line="67">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="createBinarizer" visibility="public" procflags="abstract virtual" file="ZXing.Binarizer.pas" line="75">
+        <devnotes>
+           <summary> Creates a new object with the same type as this Binarizer implementation, but with pristine
+           state. This is needed because Binarizer implementations may be stateful, e.g. keeping a cache
+           of 1 bit data. See Effective Java for why we can't use Java's clone() method.
+           </summary>
+           <param name="source">The LuminanceSource this Binarizer will operate on.</param>
+           <returns> A new concrete Binarizer implementation object.</returns>
+        </devnotes>
+        <parameters>
+          <parameter name="source" type="TLuminanceSource" />
+          <retval type="TBinarizer">
+            <devnotes>
+               <summary> This class hierarchy provides a set of methods to convert luminance data to 1 bit data.
+               It allows the algorithm to vary polymorphically, for example allowing a very expensive
+               thresholding technique for servers and a fast one for mobile. It also permits the implementation
+               to vary, e.g. a JNI version for Android and a Java fallback version for other platforms.
+              
+               <author>dswitkin@google.com (Daniel Switkin)</author>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <property name="Width" visibility="public" read="GetWidth" type="Integer" file="ZXing.Binarizer.pas" line="78" />
+      <property name="Height" visibility="public" read="GetHeight" type="Integer" file="ZXing.Binarizer.pas" line="79" />
+    </members>
+  </class>
+</namespace>

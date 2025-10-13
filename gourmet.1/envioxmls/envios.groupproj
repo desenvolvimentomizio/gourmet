@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{08D301BF-B22D-4DAE-B17B-88E89B1F5685}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="EnviarXMLs.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="EnvioXMLs.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="EnviarXMLs">
+        <MSBuild Projects="EnviarXMLs.dproj"/>
+    </Target>
+    <Target Name="EnviarXMLs:Clean">
+        <MSBuild Projects="EnviarXMLs.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnviarXMLs:Make">
+        <MSBuild Projects="EnviarXMLs.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EnvioXMLs">
+        <MSBuild Projects="EnvioXMLs.dproj"/>
+    </Target>
+    <Target Name="EnvioXMLs:Clean">
+        <MSBuild Projects="EnvioXMLs.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnvioXMLs:Make">
+        <MSBuild Projects="EnvioXMLs.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="EnviarXMLs;EnvioXMLs"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="EnviarXMLs:Clean;EnvioXMLs:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="EnviarXMLs:Make;EnvioXMLs:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

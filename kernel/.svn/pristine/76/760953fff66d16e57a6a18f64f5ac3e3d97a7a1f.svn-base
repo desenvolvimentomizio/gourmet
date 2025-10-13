@@ -1,0 +1,232 @@
+unit uCloudComunicacao;
+
+interface
+
+uses
+ // uMizioCloudDAV,
+  uFormComunicacao,
+  System.SysUtils, System.Classes,
+  Forms;
+
+type
+  TFileInfo = class
+    FilePath, FileName, FileSize, FileDate: String;
+    IsFolder: Boolean;
+  end;
+
+type
+  TMizioComunicacao = class(TObject)
+    constructor create;
+    destructor destroy; override;
+  private
+  public
+    //vpMizioCloudDAV: TMizioCloudDAV;
+    vpMizioCloudDAV: TFormComunicacao;
+    procedure carregalistapastasCLOUD(vCaminho: string);
+    function arquivoExisteCLOUD(vCaminho: string; vNomeArquivo: String): Boolean;
+    function pastaExisteCLOUD(vCaminho: string; vPasta: String): Boolean;
+    function pastaCriaCLOUD(vCaminho: string; vPasta: String): Boolean;
+    function arquivoGravaCLOUD(vCaminho: string; vCaminhoArquivo: String): Boolean;
+    function arquivoApagaCLOUD(vNomeArquivo, vCaminho: String): Boolean;
+    function arquivoBaixaCLOUD(vNomeArquivo, vCaminho: String): Boolean;
+    procedure EnviaNotaCloud(vCNPJ: String; vDataEmissao: String; vCaminhoArqXML: String);
+    function carregalistapastasCLOUDXML(vCaminho: string):TStringStream;
+  end;
+
+implementation
+
+
+
+Function SoNumeros(Const Texto: String): String;
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: Integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+procedure TMizioComunicacao.EnviaNotaCloud(vCNPJ: String; vDataEmissao: String; vCaminhoArqXML: String);
+var
+  vlAno: string;
+  vlMes: string;
+  vlNomeXML: string;
+  vlComunicacao: TMizioComunicacao;
+
+  vlCNPJExiste: Boolean;
+  vlANOExiste: Boolean;
+  vlMESExiste: Boolean;
+
+begin
+  vlComunicacao := TMizioComunicacao.create;
+
+  vlComunicacao.carregalistapastasCLOUD('');
+
+  if vlComunicacao.pastaExisteCLOUD('', vCNPJ) then
+  begin
+    vlCNPJExiste := True;
+    vlAno := Copy(vDataEmissao, 7, 4);
+
+    vlComunicacao.carregalistapastasCLOUD(vCNPJ + '/' + vlAno);
+
+    if not vlComunicacao.pastaExisteCLOUD(vCNPJ, vlAno) then
+    begin
+      vlANOExiste := vlComunicacao.pastaCriaCLOUD(vCNPJ, vlAno);
+    end
+    else
+    begin
+      vlANOExiste := True;
+    end;
+
+    vlMes := Copy(vDataEmissao, 4, 2);
+
+    vlComunicacao.carregalistapastasCLOUD(vCNPJ + '/' + vlAno + '/' + vlMes);
+
+    if not vlComunicacao.pastaExisteCLOUD(vCNPJ + '/' + vlAno, vlMes) then
+    begin
+      vlMESExiste := vlComunicacao.pastaCriaCLOUD(vCNPJ + '/' + vlAno + '/', vlMes);
+    end
+    else
+    begin
+      vlMESExiste := True;
+    end;
+  end;
+
+  if vlCNPJExiste and vlANOExiste and vlMESExiste then
+  begin
+
+    vlComunicacao.carregalistapastasCLOUD(vCNPJ + '/' + vlAno + '/' + vlMes + '/');
+
+    vlNomeXML := extractfilename(vCaminhoArqXML);
+
+    if vlComunicacao.arquivoExisteCLOUD(vCNPJ + '/' + vlAno + '/' + vlMes, vlNomeXML) then
+    begin
+      vlComunicacao.arquivoApagaCLOUD(vCNPJ + '/' + vlAno + '/' + vlMes + '/', vlNomeXML);
+    end;
+
+    vlComunicacao.arquivoGravaCLOUD(vCNPJ + '/' + vlAno + '/' + vlMes + '/', vCaminhoArqXML);
+  end;
+
+end;
+
+function TMizioComunicacao.arquivoApagaCLOUD(vNomeArquivo, vCaminho: String): Boolean;
+begin
+  vpMizioCloudDAV.deleteFile(vCaminho + vNomeArquivo);
+end;
+
+function TMizioComunicacao.arquivoGravaCLOUD(vCaminho, vCaminhoArquivo: String): Boolean;
+begin
+
+ result:=vpMizioCloudDAV.uploadFile(vCaminhoArquivo, vCaminho, '');
+end;
+
+function TMizioComunicacao.carregalistapastasCLOUDXML(vCaminho: string):TStringStream;
+begin
+result:=vpMizioCloudDAV.getFileListXML(vCaminho);
+end;
+
+
+procedure TMizioComunicacao.carregalistapastasCLOUD(vCaminho: string);
+begin
+  vpMizioCloudDAV.getFileList(vCaminho);
+end;
+
+function TMizioComunicacao.arquivoBaixaCLOUD(vNomeArquivo, vCaminho: String): Boolean;
+var
+  vlNomeArquivo :String;
+begin
+ vlNomeArquivo :=ExtractFileName(vNomeArquivo);
+  vpMizioCloudDAV.downloadFile( vCaminho+vlNomeArquivo, vNomeArquivo);
+end;
+
+function TMizioComunicacao.arquivoExisteCLOUD(vCaminho: string; vNomeArquivo: String): Boolean;
+var
+  i: Integer;
+  vlNomeArquivo: String;
+  vlPastaExiste: Boolean;
+
+begin
+
+  vlNomeArquivo := '';
+  vlPastaExiste := False;
+
+  for i := 0 to vpMizioCloudDAV.FileDB.Count - 1 do
+  begin
+
+    vlNomeArquivo := vpMizioCloudDAV.FileDB.Items[Inttostr(i)].FileName;
+
+    if vlNomeArquivo = vNomeArquivo then
+    begin
+      vlPastaExiste := True;
+      break;
+    end;
+  end;
+
+  Result := vlPastaExiste;
+end;
+
+function TMizioComunicacao.pastaExisteCLOUD(vCaminho: string; vPasta: String): Boolean;
+var
+  i: Integer;
+  vlNomePasta: String;
+  vlPastaExiste: Boolean;
+
+begin
+
+  vlNomePasta := '';
+  vlPastaExiste := False;
+
+  for i := 0 to vpMizioCloudDAV.FileDB.Count - 1 do
+  begin
+
+    vlNomePasta := vpMizioCloudDAV.FileDB.Items[Inttostr(i)].FileName;
+
+    if vlNomePasta = vPasta then
+    begin
+      vlPastaExiste := True;
+      break;
+    end;
+  end;
+
+  Result := vlPastaExiste;
+end;
+
+function TMizioComunicacao.pastaCriaCLOUD(vCaminho: string; vPasta: String): Boolean;
+begin
+  if vCaminho = '' then
+  begin
+    Result := vpMizioCloudDAV.createFolder(vPasta);
+  end
+  else
+  begin
+  try
+    Result := vpMizioCloudDAV.createFolder(vCaminho + '/' + vPasta);
+  except
+
+
+  end;
+  end;
+end;
+
+constructor TMizioComunicacao.create;
+begin
+  vpMizioCloudDAV := TFormComunicacao.Create(Application);
+end;
+
+destructor TMizioComunicacao.destroy;
+begin
+  vpMizioCloudDAV.Destroy;
+  inherited;
+end;
+
+end.

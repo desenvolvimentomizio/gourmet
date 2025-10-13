@@ -1,0 +1,51 @@
+unit UfrDemo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+    //############ ATENCAO AQUI ####################
+  //units adicionais obrigatorias
+   uTWPPConnect.ConfigCEF, uTWPPConnect,            uTWPPConnect.Constant,      uTWPPConnect.JS,     uWPPConnectDecryptFile,
+   uTWPPConnect.Console,   uTWPPConnect.Diversos,   uTWPPConnect.AdjustNumber,  uTWPPConnect.Config, uTWPPConnect.Classes,
+   uTWPPConnect.Emoticons, Vcl.StdCtrls;
+
+type
+  TfrDemo = class(TForm)
+    WPPConnect1: TWPPConnect;
+    Button1: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frDemo: TfrDemo;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrDemo.Button1Click(Sender: TObject);
+begin
+ if not WPPConnect1.Auth(false) then
+  Begin
+
+    WPPConnect1.FormQrCodeType := TFormQrCodeType.Ft_Desktop;
+    WPPConnect1.FormQrCodeStart;
+  End;
+
+  if not WPPConnect1.FormQrCodeShowing then
+     WPPConnect1.FormQrCodeShowing := True;
+end;
+
+procedure TfrDemo.FormCreate(Sender: TObject);
+begin
+    GlobalCEFApp.LogConsoleActive := true;
+end;
+
+end.

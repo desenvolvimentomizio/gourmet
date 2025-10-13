@@ -1,0 +1,105 @@
+inherited frdcnrautoNFCe: TfrdcnrautoNFCe
+  ActiveControl = rdcnrauto
+  Caption = 'N'#250'mero da Autoriza'#231#227'o'
+  ClientHeight = 124
+  ClientWidth = 401
+  ExplicitWidth = 417
+  ExplicitHeight = 163
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 95
+    Width = 401
+    ExplicitTop = 95
+    ExplicitWidth = 401
+    inherited bconfirma: TBitBtn
+      Left = 247
+      ExplicitLeft = 247
+    end
+    inherited bcancela: TBitBtn
+      Left = 322
+      ExplicitLeft = 322
+    end
+    inherited bfechar: TBitBtn
+      Left = 182
+      ExplicitLeft = 182
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 401
+    Height = 95
+    ExplicitWidth = 401
+    ExplicitHeight = 95
+    inherited Principal: TTabSheet
+      ExplicitWidth = 393
+      ExplicitHeight = 67
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 40
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Registro'
+        FocusControl = dtlchave
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 33
+        Width = 112
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'N'#250'mero da Autoriza'#231#227'o'
+        FocusControl = rdcnrauto
+      end
+      object dtlchave: TDBEdit
+        Left = 128
+        Top = 3
+        Width = 57
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dtlchave'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object rdcnrauto: TDBEdit
+        Tag = 444
+        Left = 128
+        Top = 30
+        Width = 249
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rdcnrauto'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+    end
+  end
+  inherited registro: TUniQuery
+    Tag = 444
+    SQL.Strings = (
+      'SELECT'
+      '  dtlchave,'
+      '  rdcnrauto'
+      'FROM dtl where dtlchave=:dtlchave')
+    AfterEdit = registroAfterEdit
+    Left = 284
+    Top = 24
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'dtlchave'
+        Value = nil
+      end>
+    object registrodtlchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Registro'
+      FieldName = 'dtlchave'
+    end
+    object registrordcnrauto: TStringField
+      Tag = 444
+      DisplayLabel = 'N'#250'mero da Autoriza'#231#227'o'
+      FieldName = 'rdcnrauto'
+      Size = 200
+    end
+  end
+end

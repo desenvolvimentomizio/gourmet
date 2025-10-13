@@ -1,0 +1,1459 @@
+unit ufrardo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrabase, Data.DB, Vcl.ExtCtrls,
+  VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Actions, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Imaging.pngimage, uPegaBase, ufuncoes, System.ImageList,
+  Vcl.ImgList, Vcl.ComCtrls, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, System.Diagnostics,
+  frxClass, frxDACComponents, frxUniDACComponents;
+
+type
+  Tfrardo = class(Tfrabase)
+    uqtabelameschave: TIntegerField;
+    uqtabelatdfidentificacao: TStringField;
+    uqtabelamesnumero: TIntegerField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelamesvalor: TFloatField;
+    uqtabelamesdesconto: TFloatField;
+    uqtabelamestotal: TFloatField;
+    uqtabelasdeidentificacao: TStringField;
+    uqtabelamesregistro: TDateField;
+    ActGerareImprimirNFCe: TAction;
+    ActImprimirComprovante: TAction;
+    orc: TUniQuery;
+    orcorcchave: TIntegerField;
+    dorc: TUniDataSource;
+    dtl_old: TUniQuery;
+    dtl_oldmdaidentificacao: TStringField;
+    dtl_olddtlvalor: TFloatField;
+    dtl_olddtlchave: TIntegerField;
+    dtl_oldrfihistorico: TStringField;
+    dtl_oldltechave: TIntegerField;
+    dtl_olddtlflacodigo: TIntegerField;
+    dtl_oldrfiflacodigo: TIntegerField;
+    dtl_oldrfmflacodigo: TIntegerField;
+    dtl_oldrfmchave: TIntegerField;
+    dtl_oldmfiflacodigo: TIntegerField;
+    dtl_oldmfichave: TIntegerField;
+    dtl_oldlteflacodigo: TIntegerField;
+    dtl_oldrfichave: TIntegerField;
+    dtl_oldmltflacodigo: TIntegerField;
+    dtl_oldmltchave: TIntegerField;
+    dtl_oldmdacodigo: TIntegerField;
+    orcmeschave: TIntegerField;
+    limite: TUniQuery;
+    limiteetdcodigo: TIntegerField;
+    limiteetllimitetotal: TFloatField;
+    disponivel: TUniQuery;
+    disponivelrfisaldocapital: TFloatField;
+    Ditm: TUniDataSource;
+    itm: TUniQuery;
+    itmitmchave: TIntegerField;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmpronome: TStringField;
+    itmunisimbolo: TStringField;
+    itmitmvalor: TFloatField;
+    itmitmquantidade: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmtotal: TFloatField;
+    itmcfocfop: TStringField;
+    itmitmaliqipi: TFloatField;
+    itmitmtotalliq: TFloatField;
+    itmtoecodigo: TIntegerField;
+    itmproncm: TStringField;
+    itmcstcodigo: TStringField;
+    itmcspcodigo: TStringField;
+    itmitmpis: TFloatField;
+    itmitmcofins: TFloatField;
+    listaitm: TDBGrid;
+    cfg: TUniQuery;
+    cfgcfgusagou: TIntegerField;
+    refeicoes: TUniStoredProc;
+    orcorctotalap: TFloatField;
+    orcorctotalav: TFloatField;
+    mes: TUniQuery;
+    dmes: TUniDataSource;
+    dtl: TUniQuery;
+    dtlltechave: TIntegerField;
+    dtlmdaidentificacao: TStringField;
+    dtldtlvalor: TFloatField;
+    dtlmdacodigo: TIntegerField;
+    mesemi: TUniQuery;
+    mesemimeschave: TIntegerField;
+    mesemimesemissao: TDateField;
+    mesemitdfidentificacao: TStringField;
+    mesemimesnumero: TIntegerField;
+    mesemietdcodigo: TIntegerField;
+    mesemietdidentificacao: TStringField;
+    mesemimesvalor: TFloatField;
+    mesemimesdesconto: TFloatField;
+    mesemimestotal: TFloatField;
+    mesemisdeidentificacao: TStringField;
+    mesemitoeidentificacao: TStringField;
+    mesemimesserie: TStringField;
+    mesemiclbcodigo: TIntegerField;
+    mesemitrmcodigo: TIntegerField;
+    mesemimesprotocolo: TStringField;
+    mesemisdecodigo: TStringField;
+    mesemimesdatanfe: TDateField;
+    mesemitemcodigo: TIntegerField;
+    mesemitemidentificacao: TStringField;
+    mesemitoeorigem: TStringField;
+    mesemitdfcodigo: TStringField;
+    mesemittecodigo: TIntegerField;
+    mesemitteidentificacao: TStringField;
+    mesemimeschavenfe: TStringField;
+    mesemimesregistro: TDateField;
+    mesemimesprodutos: TFloatField;
+    mesemimesservicos: TFloatField;
+    mesemittocodigo: TIntegerField;
+    mesemimespis: TFloatField;
+    mesemimescofins: TFloatField;
+    mesemimesipi: TFloatField;
+    mesemimesicm: TFloatField;
+    mesemimesicms: TFloatField;
+    mesemiflacodigo: TIntegerField;
+    SplItens: TSplitter;
+    PlResumo: TPanel;
+    pdetalhe: TPanel;
+    Panel3: TPanel;
+    listapor: TDBGrid;
+    pvalordetalhe: TPanel;
+    Ddtl: TDataSource;
+    ActCancelarNFCe: TAction;
+    uqtabelasdecodigo: TStringField;
+    uqtabelatemcodigo: TIntegerField;
+    uqtabelamesdatanfe: TDateField;
+    uqtabelameshoranfe: TTimeField;
+    frxUniDACComponents1: TfrxUniDACComponents;
+    ActIprimeNotaNFe: TAction;
+    uqtabelamesprotocolo: TStringField;
+    cfgcfgmgouprorefeicao: TIntegerField;
+    uqtabelattocodigo: TIntegerField;
+    uqtabelaflacodigo: TIntegerField;
+    cfgcfgservarqnfes: TStringField;
+    ActEnviarNFeemail: TAction;
+    ActNFeImprimir: TAction;
+    ActAterarClienteNFe: TAction;
+    uqtabelatemidentificacao: TStringField;
+    ActNFCeRefIdentif: TAction;
+    uqtabelamesrefeicao: TIntegerField;
+    uqtabelaorcchave: TIntegerField;
+    mic: TUniQuery;
+    micmicchave: TIntegerField;
+    micidccodigo: TIntegerField;
+    micmeschave: TIntegerField;
+    oic: TUniQuery;
+    oicoicchave: TIntegerField;
+    oicidccodigo: TIntegerField;
+    oicorcchave: TIntegerField;
+    ActNFCeIdentificada: TAction;
+    dtlrdcnrauto: TStringField;
+    uqtabelaoriidentificacao: TStringField;
+    dtldtlchave: TIntegerField;
+    plbotoesmodalidade: TPanel;
+    btinformardinheiro: TButton;
+    btInformaAutorizacao: TButton;
+    cfgcfgmgouctadelivery: TIntegerField;
+    btExcluiModalidade: TButton;
+    uqtabelamesnumeropedido: TStringField;
+    uqtabelameschavenfe: TStringField;
+    ActImprimirNFCe: TAction;
+    procedure ActGerareImprimirNFCeExecute(Sender: TObject);
+    procedure ActImprimirComprovanteExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btLimpaBuscaClick(Sender: TObject);
+    procedure ActCancelarNFCeExecute(Sender: TObject);
+    procedure ActIprimeNotaNFeExecute(Sender: TObject);
+    procedure ActAterarClienteNFeExecute(Sender: TObject);
+    procedure ActNFeImprimirExecute(Sender: TObject);
+    procedure ActEnviarNFeemailExecute(Sender: TObject);
+    procedure ActNFCeRefIdentifExecute(Sender: TObject);
+    procedure ActNFCeIdentificadaExecute(Sender: TObject);
+    procedure listaporDblClick(Sender: TObject);
+    procedure btInformaAutorizacaoClick(Sender: TObject);
+    procedure btinformardinheiroClick(Sender: TObject);
+    procedure btExcluiModalidadeClick(Sender: TObject);
+    procedure ActImprimirNFCeExecute(Sender: TObject);
+  private
+    function ModuloNFCe(vfuncao, vTrmCodigo, vmeschave, vClbCodigo: string): Boolean;
+    function CancelarRFI(vmeschave, motivo, vMeaCodigo: string): string;
+    function RegistroAcessoOperacao(vactcodigo, vMotivo: string): Boolean;
+    function geranomenfe(vmeschave, vflacodigo: String): String;
+    procedure modulonfe(arq: String; Rotina: TRotinasNFe; chave: String);
+    function ajustacliente(vorcchave, vusrcodigo: string): Boolean;
+    function RegistraValorFinalizador(Vchave: String; aValor:Currency; aTeclaFinalizador:Integer): String;
+
+
+
+    { Private declarations }
+  public
+    { Public declarations }
+    vpMicEtdcodigo:String;
+  end;
+
+  Tmodulonfce = function(AOwner: TComponent; Conexao: TUniConnection; vmeschave: string; vfuncao: string; Acesso: TAcesso; vImprimir: Boolean;
+    vConsultouSefaz: Boolean; vemail: string): Boolean;
+
+  TCancelar = function(AOwner: TComponent; conexao: TUniConnection; vLteChave: string; vMotivo: string; vusrcodigo: string; vmeschave: string;
+    vMeaCodigo: string; vtnccodigo: string): string;
+
+  TliberacaoRFI = function(AOwner: TComponent; conexao: TUniConnection; vusuario: string; vactcodigo: string; vMotivo: string;
+    vtdecodigo, vorcchave, vMesChave: String; vltecodigo, vddfcodigo: String; vForcaLogin: Boolean = false): string;
+
+
+var
+  frardo: Tfrardo;
+
+  // Início ID do Módulo frapcb
+const
+  vPlIdMd = '00.00.00.000-01';
+  vPlTitMdl = 'Documentos para Reimpressão';
+
+  // Fim ID do Módulo frapcb
+
+implementation
+
+uses
+  System.DateUtils, ufrdcnrauto, ufModalidade;
+
+{$R *.dfm}
+
+type
+  TFriendly = class(TCustomDBGrid);
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frardo := Tfrardo.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  frardo := Tfrardo.Create(pCargaFrame);
+  try
+    frardo.CriaAcoesDeAcesso;
+  finally
+    frardo.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfrardo.ActAterarClienteNFeExecute(Sender: TObject);
+var
+  vlEtdCodigo: string;
+  vlEndereco: string;
+  vlRetorno: String;
+  vlTxtFiltro: string;
+  vlEdrItem: String;
+
+begin
+  inherited;
+
+  If (Self.uqtabelamesprotocolo.AsString <> '') Then
+  begin
+    ShowMessage('ATENÇÃO: Este registro é de uma NFE, não pode ser alterado!');
+    Exit;
+  end;
+
+  vlEtdCodigo := MostraLista('mcli', '', '');
+  if vlEtdCodigo <> '' then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT edr.edrcodigo FROM edr WHERE edr.tedcodigo IN (1, 3, 4) AND edr.etdcodigo = ' + vlEtdCodigo;
+    consulta.Open;
+
+    if not consulta.Locate('edrcodigo', vlEndereco, []) then
+    begin
+      vlEndereco := consulta.Fields[0].AsString;
+
+      if consulta.RecordCount > 1 then
+      begin
+        vlTxtFiltro := 'etdcodigo = ' + vlEtdCodigo;
+        vlRetorno := MostraLista('medr', vlTxtFiltro, vlEtdCodigo);
+
+        if vlRetorno <> '' then
+          vlEndereco := vlRetorno;
+      end;
+    end;
+
+    If Application.MessageBox(PChar('Confirma a mofificação desta venda para o cliente Selecionado?'), PChar('Mofidicação de Cliente'),
+      MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = idYes Then
+    Begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'select edritem from edr where etdcodigo=' + vlEtdCodigo + ' and edrcodigo=' + vlEndereco;
+      consulta.Open;
+
+      vlEdrItem := consulta.FieldByName('edritem').AsString;
+
+      consulta.Close;
+      consulta.SQL.Text := 'update mes set edritem=' + vlEdrItem + ', etdcodigo=' + vlEtdCodigo + ' where meschave=' + uqtabelameschave.AsString;
+      consulta.ExecSQL;
+
+    End;
+
+  end;
+
+
+end;
+
+procedure Tfrardo.ActAtualizarExecute(Sender: TObject);
+var
+  vlbusca: string;
+  vlLetra: Word;
+  i:integer;
+  s:string;
+begin
+  vlbusca := edbusca.text;
+  if vlbusca <> '' then
+  begin
+    edbusca.text := '';
+    inherited;
+    s:=copy(vlbusca, length(vlbusca), 1);
+    vlLetra := Ord( vlbusca[length(vlbusca)] );
+    vlbusca := copy(vlbusca, 1, length(vlbusca) - 1);
+    edbusca.text := vlbusca+s;
+    edbuscaKeyUp(edbusca, vlLetra, []);
+  end
+  else
+  begin
+    inherited;
+  end;
+end;
+
+function Tfrardo.RegistroAcessoOperacao(vactcodigo: string; vMotivo: string): Boolean;
+var
+  auto: TliberacaoRFI;
+  vRetornoUsr: string;
+  vLiberacao: Boolean;
+  Pack: Cardinal;
+begin
+
+  vLiberacao := True;
+
+  Pack := LoadPackage('modulos\mlia.bpl');
+  if Pack <> 0 then
+    try
+      @auto := GetProcAddress(Pack, PChar('liberacao'));
+
+      if Assigned(auto) then
+      begin
+        vRetornoUsr := auto(Application, Self.zcone, Acesso.Usuario.ToString, vactcodigo, vMotivo, '', '', '', '', '', True);
+
+        if (vRetornoUsr = '0') or (vRetornoUsr = '') then // retornou NÃO AUTORIZADO
+          vLiberacao := false;
+      end;
+    finally
+      DoUnLoadPackage(Application, Pack);
+    end;
+
+  Result := vLiberacao;
+end;
+
+
+procedure Tfrardo.ActCancelarNFCeExecute(Sender: TObject);
+
+var
+  vMotivo: string;
+  vlMeaCodigo: string;
+  vlTempo: double;
+
+  vlItens: TStringList;
+  i: Integer;
+
+  vlAcao :String;
+
+Begin
+
+
+
+
+    cfg.Close;
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+
+
+
+  if uqtabelasdecodigo.AsString = sdeDocCancelado then
+  begin
+    Application.MessageBox(PChar('A NFC-e selecionada já está cancelada.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if uqtabelatemcodigo.AsInteger <> temNFEEmitida then
+  begin
+    Application.MessageBox(PChar('Esta NFC-e não esta autorizada, não permite cancelamento.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+    if uqtabelatemcodigo.AsInteger = temNFEContingencia then
+  begin
+    Application.MessageBox(PChar('Esta NFC-e esta EM CONTIGÊNCIA, precisa ser autorizada, para depois cancelar.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+
+  if uqtabelamesdatanfe.AsString <> '' then
+  begin
+    vlTempo := SecondsBetween(now(), strtodatetime(uqtabelamesdatanfe.AsString + ' ' + uqtabelameshoranfe.AsString));
+    vlTempo := vlTempo / 3600;
+  end
+  else
+  begin
+    ShowMessage('Este nota não esta autorizada !' + #13 + #13 + 'O processo correto é cancelar a venda na tela de Saídas! ');
+
+    Exit;
+  end;
+    vlAcao := IntToStr((Sender as TAction).Tag);
+
+
+  if ModuloNFCe('CancelaNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString) then
+  begin
+
+    vlItens := TStringList.Create;
+    Self.itm.First;
+    while not itm.eof do
+    begin
+      vlItens.Add(itmprocodigo.AsString);
+      itm.Next;
+    end;
+
+    vMotivo := '';
+    vlMeaCodigo := '';
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT enfdescricao FROM mev, enf WHERE enf.enfchave=mev.enfchave and mev.meschave=' + uqtabelameschave.AsString;
+    consulta.Open;
+    vMotivo := consulta.FieldByName('enfdescricao').AsString;
+
+    CancelarRFI(Self.uqtabelameschave.AsString, vMotivo, '1');
+
+  
+
+  end;
+   ActAtualizar.Execute;
+end;
+
+procedure Tfrardo.ActEnviarNFeemailExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  arq := ''; // geranomenfe(vmeschave, self.uqtabelaflacodigo.AsString);
+
+  modulonfe(arq, rnfGerarPrevia, vmeschave);
+  ActAtualizar.Execute;
+
+end;
+
+function Tfrardo.CancelarRFI(vmeschave: string; motivo: string; vMeaCodigo: string): string;
+var
+  registra: TCancelar;
+  Pack: Cardinal;
+  vlRetorno: string;
+begin
+  Pack := LoadPackage('modulos\merf.bpl');
+  if Pack <> 0 then
+    try
+      @registra := GetProcAddress(Pack, PChar('Cancelar'));
+
+      if Assigned(registra) then
+        Result := registra(Application, zcone, '', motivo, Acesso.Usuario.ToString, vmeschave, vMeaCodigo, '1');
+      if Result = '' then
+      begin
+        vlRetorno := '0';
+      end
+      else
+      begin
+        vlRetorno := Result;
+      end;
+
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+
+procedure Tfrardo.ActGerareImprimirNFCeExecute(Sender: TObject);
+var
+  vlMesChave: string;
+  vlConfirma: string;
+  smsg: string;
+begin
+  inherited;
+
+
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  mesemi.Close;
+  mesemi.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+  mesemi.Open;
+
+  If (Self.mesemimesprotocolo.AsString = '') or (mesemitemcodigo.AsInteger = temNFEPendente) Then
+  Begin
+    vlMesChave := uqtabelameschave.AsString;
+
+    cfg.Close;
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    ActAtualizar.Execute;
+
+
+
+    if uqtabela.Locate('meschave', vlMesChave, []) then
+    begin
+
+      //vlMesChave := uqtabelameschave.AsString;
+
+     if ModuloNFCe('EmiteNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString) then
+     begin
+       // ActAtualizar.Execute;
+
+       // uqtabela.Locate('meschave',vlMesChave,[]);
+        ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+
+     end;
+    end;
+    ActAtualizarExecute(ActAtualizar);
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro já é uma NFCe, só pode ser Reimpresso!'+#13+
+                'Protocolo '+Self.mesemimesprotocolo.AsString);
+
+  End;
+
+end;
+
+procedure Tfrardo.ActNFCeIdentificadaExecute(Sender: TObject);
+var
+  vlMesChave: string;
+  vlConfirma: string;
+  smsg: string;
+begin
+  inherited;
+
+      cfg.Close;
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+
+  ActNFCeIdentificada.Enabled := false;
+  if ajustacliente(uqtabelaorcchave.AsString, Acesso.Usuario.ToString) then
+  begin
+
+    If (Self.uqtabelamesprotocolo.AsString = '') or (uqtabelatemcodigo.AsInteger = temNFEPendente) Then
+    Begin
+      vlMesChave := uqtabelameschave.AsString;
+
+      ActAtualizar.Execute;
+      vlMesChave := uqtabelameschave.AsString;
+      ModuloNFCe('EmiteNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+      ActAtualizar.Execute;
+      uqtabela.Locate('meschave',vlMesChave,[]);
+      ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+
+    End
+    Else
+    Begin
+      ShowMessage('ATENÇÃO: Este registro já é uma NFCe, só pode ser Reimpresso!');
+    End;
+
+  end;
+  ActNFCeIdentificada.Enabled := true;
+
+end;
+
+procedure Tfrardo.ActNFCeRefIdentifExecute(Sender: TObject);
+
+var
+  vlMesChave: string;
+  vlConfirma: string;
+  smsg: string;
+begin
+  inherited;
+
+      cfg.Close;
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+
+  ActNFCeRefIdentif.Enabled := false;
+  If (Self.uqtabelamesprotocolo.AsString = '') or (uqtabelatemcodigo.AsInteger = temNFEPendente) Then
+  Begin
+    vlMesChave := uqtabelameschave.AsString;
+
+    if uqtabelamesrefeicao.AsInteger = 0 then
+    begin
+      cfg.Close;
+      cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+      cfg.Open;
+
+      smsg := 'Emitit como REFEIÇÃO ?';
+
+      If Application.MessageBox(PChar(smsg), 'A T E N Ç Ã O:', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idYes Then
+      Begin
+
+        if ajustacliente(uqtabelaorcchave.AsString, Acesso.Usuario.ToString) then
+        begin
+
+          vlMesChave := '';
+
+          refeicoes.Connection := ZCone;
+          refeicoes.Close;
+          refeicoes.ParamByName('pFlacodigo').AsInteger := Acesso.Filial;
+          if uqtabelaorcchave.AsInteger = 0 then
+          begin
+            refeicoes.ParamByName('pTipoChave').AsInteger := 1;
+            refeicoes.ParamByName('pChave').AsInteger := uqtabelameschave.AsInteger;
+          end
+          else
+          begin
+            refeicoes.ParamByName('pTipoChave').AsInteger := 0;
+            refeicoes.ParamByName('pChave').AsInteger := uqtabelaorcchave.AsInteger;
+          end;
+
+        //  refeicoes.ParamByName('pClbCodigo').AsInteger := uqtabelaclbcodigo.AsInteger;
+          refeicoes.ParamByName('pLteChave').AsInteger := dtlltechave.AsInteger;
+          refeicoes.ParamByName('pValor').AsCurrency := uqtabelamestotal.AsCurrency;
+          refeicoes.ParamByName('pChamada').AsInteger := 18;
+          refeicoes.ParamByName('pConfirma').AsString := '0';
+          refeicoes.ParamByName('pMesChave').AsString := '0';
+
+          refeicoes.Open;
+
+          vlMesChave := refeicoes.Fields[1].AsString;
+          vlConfirma := refeicoes.Fields[0].AsString;
+
+          fmd.Edit;
+          fmddtfinal.Field.AsString := hoje(Application, ZCone);
+          fmd.Post;
+
+          mic.Close;
+          mic.ParamByName('meschave').AsString := vlMesChave;
+          mic.Open;
+
+          if mic.RecordCount = 1 then
+            mic.Edit
+          else
+            mic.Append;
+
+          micidccodigo.AsString := vpMicEtdcodigo;
+          micmeschave.AsString := uqtabelameschave.AsString;
+          mic.Post;
+
+          oic.Close;
+          oic.ParamByName('orcchave').AsString := uqtabelaorcchave.AsString;
+          oic.Open;
+
+          if oic.IsEmpty then
+            oic.Append
+          else
+            oic.Edit;
+          oicidccodigo.AsString := vpMicEtdcodigo;
+          oicorcchave.AsString := uqtabelaorcchave.AsString;
+          oic.Post;
+
+          ActAtualizar.Execute;
+          if uqtabela.Locate('meschave', vlMesChave, []) then
+          begin
+            ModuloNFCe('EmiteNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+            ActAtualizar.Execute;
+            ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+
+          end;
+
+        end;
+      End;
+
+    end
+    else
+    begin
+      ActAtualizar.Execute;
+      vlMesChave := uqtabelameschave.AsString;
+      ModuloNFCe('EmiteNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+      ActAtualizar.Execute;
+      uqtabela.Locate('meschave',vlMesChave,[]);
+      ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+
+    end;
+
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro já é uma NFCe, só pode ser Reimpresso!');
+  End;
+
+  ActNFCeRefIdentif.Enabled := true;
+
+
+end;
+
+procedure Tfrardo.ActImprimirComprovanteExecute(Sender: TObject);
+var
+  vlDirRelat: string;
+  vlAssinar: Boolean;
+begin
+
+  inherited;
+  if fileexists(Extractfilepath(Application.ExeName) + '\relat\comprovanteDAV.fr3') then
+  begin
+
+    mesemi.Close;
+    mesemi.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    mesemi.Open;
+
+
+    mes.Close;
+    mes.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    mes.Open;
+
+
+    if limite.Active then
+    begin
+      if (not limite.IsEmpty) and (limiteetllimitetotal.AsCurrency > 0) and (limiteetdcodigo.AsInteger <> 0) then
+      begin
+        vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\ComprovanteDAV-LIMITE.fr3';
+        if not fileexists(vlDirRelat) then
+        begin
+          vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\ComprovanteDAV.fr3';
+        end;
+      end
+      else
+      begin
+        vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\ComprovanteDAV.fr3';
+      end;
+
+    end
+    else
+    begin
+      vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\ComprovanteDAV.fr3';
+      end;
+
+    if vlDirRelat='' then
+      vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\Comprovante.fr3';
+
+    if fileexists(vlDirRelat) then
+    begin
+      mrfrImprimir(Application, ZCone, dmes, vlDirRelat, tiImprimir);
+    end;
+
+  end;
+
+  vlAssinar := false;
+
+  dtl.Close;
+  dtl.ParamByName('flacodigo').AsInteger := mesemiflacodigo.AsInteger;
+  dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+  dtl.Open;
+  dtl.First;
+  while not dtl.Eof do
+  begin
+    if dtlmdacodigo.AsInteger = mdaConvenio then
+    begin
+      vlAssinar := true;
+      break
+    end;
+    dtl.Next;
+  end;
+
+  if vlAssinar then
+  begin
+
+
+    if fileexists(Extractfilepath(Application.ExeName) + '\relat\viaassinar.fr3') then
+    begin
+
+      if limite.Active then
+      begin
+        if not limite.IsEmpty then
+        begin
+          vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\viaassinar-LIMITE.fr3';
+          if not fileexists(vlDirRelat) then
+          begin
+            vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\viaassinar.fr3';
+          end;
+        end
+        else
+        begin
+          vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\viaassinar.fr3';
+        end;
+      end
+      else
+      begin
+        vlDirRelat := Extractfilepath(Application.ExeName) + 'relat\viaassinar.fr3';
+      end;
+
+      mrfrImprimir(Application, ZCone, dmes, vlDirRelat, tiImprimir);
+
+    end;
+
+  end;
+
+end;
+
+procedure Tfrardo.ActImprimirNFCeExecute(Sender: TObject);
+var
+  vlMeschavedanfe:string;
+  vlanomes:string;
+  vlArqNFCe:string;
+begin
+//  inherited;
+
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  { If (Self.uqtabelamesprotocolo.AsString <> '') Then
+    Begin }
+
+   vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+   vlanomes:=copy( vlMeschavedanfe,3,5);
+
+   vlArqNFCe:= extractfilepath(application.ExeName)+'arqnfces\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+   if vlArqNFCe<>'' then
+   begin
+     If not FileExists(vlArqNFCe) Then
+      Begin
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+        begin
+          vlArqNFCe := BaixaXMLServidor(cfgcfgservarqnfes.AsString, vlArqNFCe);
+        end;
+
+      End;
+   end;
+
+
+
+  ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
+  { End
+    Else
+    Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFCe, não pode ser reimpressa!');
+    End; }
+
+
+end;
+
+procedure Tfrardo.ActIprimeNotaNFeExecute(Sender: TObject);
+
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: String;
+  ventcodigo: String;
+  vrec: Integer;
+  vlProcodigo: Integer;
+  vlRefeicao: Integer;
+Begin
+
+  if Self.uqtabelamesprotocolo.AsString <> '' then
+  begin
+    ShowMessage('ATENÇÃO: Este registro já é uma NFE, só pode ser Reimpresso!' + #13 + 'Protocolo Registrado: ' + Self.uqtabelamesprotocolo.AsString);
+    Exit;
+  end;
+
+  if (uqtabelattocodigo.AsInteger = ttoDevolucao) or (uqtabelattocodigo.AsInteger = ttoRemessaRetorno) or (uqtabelattocodigo.AsInteger = ttoOutros) or
+    (uqtabelattocodigo.AsInteger = ttoComplemento) then
+  begin
+
+  end
+  else
+  begin
+
+    { if dtl.IsEmpty then
+      begin
+      ShowMessage('ATENÇÃO: Este registro não possui finalização, favor ir em Venda e gerar finalização!');
+      Exit;
+
+      end; }
+  end;
+
+  vrec := Self.uqtabela.RecNo;
+  vmeschave := Self.uqtabelameschave.AsString;
+  ventcodigo := Self.uqtabelaetdcodigo.AsString;
+
+  inherited;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select procodigo from itm where meschave=' + uqtabelameschave.AsString;
+  consulta.Open;
+
+  while not consulta.Eof do
+  begin
+    vlProcodigo := consulta.FieldByName('procodigo').AsInteger;
+    if cfgcfgmgouprorefeicao.AsInteger = vlProcodigo then
+    begin
+      break;
+    end;
+    consulta.Next;
+  end;
+
+  if cfgcfgmgouprorefeicao.AsInteger = vlProcodigo then
+  begin
+    vlRefeicao := 1;
+  end
+  else
+  begin
+    vlRefeicao := 0;
+  end;
+
+  consulta.Close;
+  consulta.SQL.Text := 'update mes set mesrefeicao=' + vlRefeicao.ToString + ' where meschave=' + vmeschave;
+  consulta.ExecSQL;
+
+  arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+
+  if arq <> '' then
+  begin
+    Self.modulonfe(arq, rnfGerarNFe, vmeschave);
+    ActAtualizar.Execute;
+  end;
+
+
+end;
+
+procedure Tfrardo.ActNFeImprimirExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+    If arq <> '' Then
+    Begin
+      modulonfe(arq, rnfImprimirNFe, vmeschave);
+      ActAtualizar.Execute;
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode ser reimpressa!');
+  End;
+
+end;
+
+procedure Tfrardo.btExcluiModalidadeClick(Sender: TObject);
+begin
+  inherited;
+  if (dtlrdcnrauto.AsString<>'') and (pos('{',dtlrdcnrauto.AsString)=0) then
+  begin
+    ShowMessage('Este registro tem número de autorização válido, não pode ser excluido!');
+    exit;
+  end;
+
+
+  If Application.MessageBox(PChar('Confirma a EXCLUSÃO do registro Selecionado?'), PChar('Exclusão do recebimento'),
+  MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = idYes Then
+  Begin
+
+    if Dtldtlchave.AsString<>'' then
+    begin
+      if Dtldtlchave.AsInteger<>0 then
+      begin
+
+        consulta.Close;
+        consulta.sql.Text:='delete from dtl where dtlchave='+Dtldtlchave.AsString;
+        consulta.ExecSQL;
+
+        consulta.Close;
+        consulta.sql.Text:='delete from cco where ccochave in (select ccochave from clt where clt.dtlchave='+Dtldtlchave.AsString+')';
+        consulta.ExecSQL;
+
+        consulta.Close;
+        consulta.sql.Text:='delete from clt where clt.dtlchave='+Dtldtlchave.AsString;
+        consulta.ExecSQL;
+
+        dtl.Close;
+        dtl.ParamByName('flacodigo').AsInteger := 1;
+        dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+        dtl.Open;
+
+        dtl.First;
+
+      end;
+    end;
+
+  End;
+end;
+
+procedure Tfrardo.btInformaAutorizacaoClick(Sender: TObject);
+var
+ i:Integer;
+ vlrdcnrauto:String;
+begin
+
+  inherited;
+
+  if (uqtabelamesnumero.AsInteger<>0) and (uqtabelatemcodigo.AsInteger=5) then
+  begin
+    ShowMessage('Nota Fiscal já gerada, não pode modificada!');
+    exit;
+  end;
+
+  i:=dtl.RecNo;
+  consulta.Close;
+  consulta.sql.Text:='select rdcnrauto from dtl where dtlchave='+dtldtlchave.AsString;
+  consulta.Open;
+
+  vlrdcnrauto:=consulta.FieldByName('rdcnrauto').AsString;
+
+
+ // if vlrdcnrauto<>'' then
+ // begin
+
+    CriaFormulario(Tfrdcnrauto, dtldtlchave.AsString, '');
+
+    dtl.Close;
+    dtl.ParamByName('flacodigo').AsInteger := 1;
+    dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    dtl.Open;
+
+    dtl.RecNo:=i;
+
+    consulta.close;
+    consulta.sql.Text:='update rdc set rdcnrauto='+QuotedStr(dtlrdcnrauto.AsString)+
+                       ' where rdcnrauto='+QuotedStr(vlrdcnrauto);
+    consulta.ExecSQL;
+
+
+    consulta.close;
+    consulta.sql.Text:='update ltr set rdcnrauto='+QuotedStr(dtlrdcnrauto.AsString)+
+                       ' where dtlchave='+dtldtlchave.AsString;
+    consulta.ExecSQL;
+
+
+    consulta.close;
+    consulta.sql.Text:='update mes set mesretirabalcao=1 '+
+                       ' where meschave='+uqtabelameschave.AsString;
+    consulta.ExecSQL;
+
+ // end;
+
+end;
+
+procedure Tfrardo.btinformardinheiroClick(Sender: TObject);
+var
+ vlValor:Currency;
+ i:Integer;
+begin
+  inherited;
+
+  Application.CreateForm(TfModalidade, fModalidade);
+  vlValor:=0;
+  if fModalidade.ShowModal=mrok then
+  begin
+    vlValor:=fModalidade.nbValoreRecebido.Value;
+
+    if (vlValor<>0) and (fModalidade.cbTipoModalidade.Text='Dinheiro') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 117);
+    end
+    else if (vlValor<>0) and (fModalidade.cbTipoModalidade.Text='Cartão de Crédito') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 114);
+    end
+    else if (vlValor<>0) and (fModalidade.cbTipoModalidade.Text='Cartão de Débito') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 115);
+    end
+    else if (vlValor<>0) and (fModalidade.cbTipoModalidade.Text='PIX') then
+    begin
+      RegistraValorFinalizador(uqtabelameschave.AsString, vlValor, 119);
+    end;
+
+    dtl.First;
+    dtl.Close;
+    dtl.ParamByName('flacodigo').AsInteger := 1;
+    dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    dtl.Open;
+
+  end;
+
+  fModalidade.Free;
+
+end;
+
+
+
+Function Tfrardo.RegistraValorFinalizador(Vchave: String; aValor:Currency; aTeclaFinalizador:Integer): String;
+type
+  Tregistralotedatagourmet = function(AOwner: TComponent; Conexao: TUniConnection; Vchave: string; vTrmCodigo: string; principal: string;
+    multa: string; juros: string; desconto: string; Acesso: TAcesso; vmodo: string; vDia: TDate; vPodeConvenio: Boolean = True;
+    vTeclaFinalizador: Integer = 0; vValorFinalizador: Double = 0; vPodeCartoes: Boolean = True; pCtaCaixa: Integer = 0;
+    vPodeTrocaDoacao: Boolean = True; vControleEntrega: Boolean = False; vCcxChave: Integer = 0; vetdcodigo: Integer = 0; vComplemento:Boolean=false): string;
+
+Var
+  vlRegistra: Tregistralotedatagourmet;
+
+  Vpri: String;
+  Vjur: String;
+  vMulta: String;
+  Vdes: String;
+  vPodeConvenio: Boolean;
+
+  // vConfiguracoesTEF: TConfiguracoesTEF;
+
+  vlPacklte: cardinal;
+
+
+  vlCcxChave: Integer;
+  vldia: TDate;
+  vlTeclaFinalizador: Integer;
+  vlValorFinalizador: Double;
+  vlCtaCodigo: string;
+  Acesso: TAcesso;
+  vlEtdCodigo: Integer;
+  vpValorFinalizador:Currency;
+
+
+Begin
+
+  vlPacklte := LoadPackage('modulos\mlte.bpl');
+
+  If vlPacklte <> 0 Then
+    Try
+      @vlRegistra := GetProcAddress(vlPacklte, PChar('registralotedatagourmet'));
+      If Assigned(vlRegistra) Then
+      Begin
+          vpValorFinalizador:=aValor;
+          Vpri := currtostr(vpValorFinalizador);
+          Vdes := '0';
+          Vjur := '0';
+          vMulta := '0';
+
+        vPodeConvenio := False;
+
+        cfg.Close;
+        cfg.ParamByName('flacodigo').AsInteger:=self.Acesso.Filial;
+        cfg.Open;
+
+        vlCtaCodigo := cfgcfgmgouctadelivery.AsString;
+
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT ccx.ccxchave , ccx.ccxdataber , ccx.ccxhoraaber, clb.clbidentificacao FROM ccx ';
+        consulta.SQL.Add('INNER JOIN clb ON ccx.clbcodigo = clb.clbcodigo ');
+        consulta.SQL.Add('WHERE ccx.ctacodigo = ' + vlCtaCodigo + ' ');
+        consulta.SQL.Add('AND ccx.ccxdatafecha IS NULL order by ccxchave desc limit 1');
+        consulta.Open;
+
+        vlCcxChave := consulta.FieldByName('ccxchave').AsInteger;
+
+        vldia := date();
+        vlTeclaFinalizador := aTeclaFinalizador;
+
+        Result := vlRegistra(Application, zcone, Vchave, '1', Vpri, vMulta, Vjur, Vdes,self.Acesso, inttostr(32), vldia, vPodeConvenio,
+                            vlTeclaFinalizador, vpValorFinalizador, True, StrToInt(vlCtaCodigo), False, True, vlCcxChave, uqtabelaetdcodigo.AsInteger, true  );
+
+      End;
+    Finally
+     // UnLoadPackage(vlPacklte);
+    End;
+
+End;
+
+
+
+
+procedure Tfrardo.btLimpaBuscaClick(Sender: TObject);
+begin
+//  inherited;
+edbusca.Text:='';
+self.ActAtualizar.Execute;
+
+end;
+
+procedure Tfrardo.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+Var
+  bitmap: TBitmap;
+  fixRect: TRect;
+  bmpWidth: Integer;
+  imgIndex: Integer;
+Begin
+  { inherited; }
+
+  fixRect := Rect;
+
+  If Odd(DSTabela.DataSet.RecNo) Then
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      font.Style := [fsbold];
+      // Font.Color := CLWHITE;
+    End;
+
+  If (Self.uqtabelasdecodigo.AsString = '02') Or (Self.uqtabelasdecodigo.AsString = '03') Or (Self.uqtabelasdecodigo.AsString = '04') Then
+    DBGLista.Canvas.font.Color := clRed
+  else
+    DBGLista.Canvas.font.Color := clblack;
+
+  { If (Self.uqtabelamesrefeicao.AsString = '1') then
+    DBGLista.Canvas.font.color := clnavy
+    else
+    DBGLista.Canvas.font.color := clblack; }
+
+  with TFriendly(DBGLista) do
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+      with Canvas do
+      begin
+        Brush.Color := PEG_COR_SELCGRID;
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfrardo.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if (not uqtabela.Executing) and (not uqtabela.Fetching) then
+  begin
+    if uqtabelameschave.AsString <> '' then
+    begin
+      itm.Close;
+      itm.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+      itm.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+      itm.Open;
+
+      dtl.Close;
+      dtl.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+      dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+      dtl.Open;
+
+    end;
+  end;
+end;
+
+procedure Tfrardo.edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  // tempo
+end;
+
+function Tfrardo.ModuloNFCe(vfuncao: string; vTrmCodigo: string; vmeschave: string; vClbCodigo: string): Boolean;
+var
+  ModuloNFCe: Tmodulonfce;
+  vlRetorno: Boolean;
+  vlPackNFCe: Cardinal;
+  webOnLine:boolean;
+begin
+
+  Result := false;
+  vlPackNFCe := 0;
+  vlPackNFCe := LoadPackage('modulos\mnfegourmet.bpl');
+  if vlPackNFCe <> 0 then
+    @ModuloNFCe := GetProcAddress(vlPackNFCe, PChar('modulonfce'));
+
+  if Assigned(ModuloNFCe) then
+  begin
+    webOnLine:=true;
+
+    vlRetorno := ModuloNFCe(Application, Self.ZCone, vmeschave, vfuncao, Acesso, false, false, '');
+
+    Result := vlRetorno;
+
+   { if not Result then
+    begin
+      ShowMessage('Arquivo XML da nota fiscal não foi localizada na pasta!');
+    end; }
+
+  end;
+//  DoUnLoadPackage(Application, vlPackNFCe);
+End;
+
+Function Tfrardo.geranomenfe(vmeschave: String; vflacodigo: String): String;
+Var
+  retorno: String;
+  vaaaammnfe: String;
+  arq: String;
+Begin
+  retorno := '';
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select mesdatanfe,mesregistro, meschavenfe, meschave from mes where meschave=' + vmeschave + ' and flacodigo=' + vflacodigo;
+  consulta.Open;
+
+  If (Self.consulta.RecordCount = 1) And (consulta.Fields[0].AsString <> '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[0].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[2].AsString + '-nfe.XML';
+    retorno := arq;
+  End
+  Else If (Self.consulta.RecordCount = 1) And (consulta.Fields[1].AsString <> '') And (consulta.Fields[2].AsString <> '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[1].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[2].AsString + '-nfe.XML';
+    retorno := arq;
+  End
+  Else If (Self.consulta.RecordCount = 1) And (consulta.Fields[1].AsString <> '') And (consulta.Fields[2].AsString = '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[1].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[3].AsString + '-nfe.XML';
+    retorno := arq;
+  End;
+
+  Result := retorno;
+End;
+
+
+procedure Tfrardo.listaporDblClick(Sender: TObject);
+var
+ i:Integer;
+ vlrdcnrauto:String;
+begin
+  inherited;
+
+  i:=dtl.RecNo;
+  consulta.Close;
+  consulta.sql.Text:='select rdcnrauto from dtl where dtlchave='+dtldtlchave.AsString;
+  consulta.Open;
+
+  vlrdcnrauto:=consulta.FieldByName('rdcnrauto').AsString;
+
+  if vlrdcnrauto<>'' then
+  begin
+
+  CriaFormulario(Tfrdcnrauto, dtldtlchave.AsString, '');
+
+  dtl.Close;
+  dtl.ParamByName('flacodigo').AsInteger := 1;
+  dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+  dtl.Open;
+
+  dtl.RecNo:=i;
+
+  consulta.close;
+  consulta.sql.Text:='update rdc set rdcnrauto='+QuotedStr(dtlrdcnrauto.AsString)+
+                     ' where rdcnrauto='+QuotedStr(vlrdcnrauto);
+  consulta.ExecSQL;
+
+
+  consulta.close;
+  consulta.sql.Text:='update ltr set rdcnrauto='+dtlrdcnrauto.AsString+
+                     ' where dtlchave='+dtldtlchave.AsString;
+  consulta.ExecSQL;
+
+
+  consulta.close;
+  consulta.sql.Text:='update mes set mesretirabalcao=1 '+
+                     ' where meschave='+uqtabelameschave.AsString;
+  consulta.ExecSQL;
+
+
+  end;
+
+end;
+
+Procedure Tfrardo.modulonfe(arq: String; Rotina: TRotinasNFe; chave: String);
+type
+  TModuloNFe = function(AOwner: TComponent; Conexao: TUniConnection; varq: string; vchave: string; vRotinaNFe: TRotinasNFe; Acesso: TAcesso;
+    vConsultouSefaz: Boolean): Boolean;
+var
+  modnfe: TModuloNFe;
+
+  ch: string;
+  vu: string;
+  vpack: cardinal;
+  vpConsultouSEFAZ: Boolean;
+begin
+  vpack := LoadPackage('modulos\mnfegourmet.bpl');
+  if vpack <> 0 then
+    try
+      @modnfe := GetProcAddress(vpack, PChar('ModuloNFe'));
+      if Assigned(modnfe) then
+      begin
+        vpConsultouSEFAZ := false;
+        modnfe(Application, Self.ZCone, arq, chave, Rotina, Acesso, vpConsultouSEFAZ);
+        vpConsultouSEFAZ := true;
+      end;
+    finally
+      // DoUnLoadPackage(application,vpack);
+    end;
+End;
+
+
+function Tfrardo.ajustacliente(vorcchave, vusrcodigo: string): Boolean;
+type
+  TClienteSimples = function(AOwner: TComponent; Conexao: TUniConnection; vmeschave: string; vClbCodigo: string): string;
+var
+  ClienteSimples: TClienteSimples;
+
+  vlPackIDC: cardinal;
+begin
+  vpMicEtdcodigo := '0';
+  vlPackIDC := 0;
+  vlPackIDC := LoadPackage('modulos\midc.bpl');
+  if vlPackIDC <> 0 then
+    @ClienteSimples := GetProcAddress(vlPackIDC, PChar('ClienteSimplesOrc'));
+
+  if Assigned(ClienteSimples) then
+  begin
+    vpMicEtdcodigo := ClienteSimples(Application, Self.ZCone, vorcchave, vusrcodigo);
+  end;
+
+  DoUnLoadPackage(Application, vlPackIDC);
+
+  if (vpMicEtdcodigo = '0') or (vpMicEtdcodigo = '') then
+    Result := false
+  else
+  begin
+    Result := true;
+
+    mic.Close;
+    mic.ParamByName('meschave').AsString := uqtabelameschave.AsString;
+    mic.Open;
+
+    if mic.RecordCount = 1 then
+      mic.Edit
+    else
+      mic.Append;
+
+    micidccodigo.AsString := vpMicEtdcodigo;
+    micmeschave.AsString := uqtabelameschave.AsString;
+    mic.Post;
+  end;
+end;
+
+
+
+
+
+
+
+
+end.

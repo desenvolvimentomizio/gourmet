@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.OneD.UPCEReader" platform="Android">
+  <class name="TUPCEReader" file="ZXing.OneD.UPCEReader.pas" line="42">
+    <ancestor name="TUPCEANReader" namespace="ZXing.OneD.UPCEANReader">
+      <methodref name="findGuardPattern" visibility="private" procflags="class overload">
+      </methodref>
+      <methodref name="checkStandardUPCEANChecksum" visibility="private" procflags="static">
+      </methodref>
+      <methodref name="InitializeClass" visibility="private" procflags="static" />
+      <methodref name="FinalizeClass" visibility="private" procflags="static" />
+      <methodref name="decodeEnd" visibility="protected" procflags="class virtual">
+      </methodref>
+      <methodref name="checkChecksum" visibility="protected" procflags="class virtual">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor override" />
+      <methodref name="DecodeMiddle" visibility="public" procflags="class abstract virtual">
+      </methodref>
+      <methodref name="BarcodeFormat" visibility="public" procflags="abstract virtual">
+      </methodref>
+      <methodref name="findStartGuardPattern" visibility="public" procflags="static" />
+      <methodref name="findGuardPattern" visibility="public" procflags="class overload" />
+      <methodref name="decodeDigit" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="decodeRow" visibility="public" procflags="overload override">
+      </methodref>
+      <methodref name="DoDecodeRow" visibility="public">
+      </methodref>
+      <ancestor name="TOneDReader" namespace="ZXing.OneD.OneDReader">
+        <interfaces>
+          <implements name="IReader" />
+        </interfaces>
+        <methodref name="doDecode" visibility="private">
+        </methodref>
+        <methodref name="InitializeClass" visibility="private" procflags="static" />
+        <methodref name="patternMatchVariance" visibility="protected" procflags="static">
+        </methodref>
+        <methodref name="RecordPatternInReverse" visibility="protected" procflags="static">
+        </methodref>
+        <methodref name="recordPattern" visibility="protected" procflags="static overload">
+        </methodref>
+        <methodref name="reset" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="decode" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="decode" visibility="public" procflags="overload virtual">
+        </methodref>
+        <methodref name="recordPattern" visibility="public" procflags="static overload">
+        </methodref>
+        <methodref name="decodeRow" visibility="public" procflags="abstract virtual">
+        </methodref>
+        <ancestor name="TInterfacedObject" namespace="System">
+          <interfaces>
+            <implements name="IInterface" />
+          </interfaces>
+          <methodref name="GetRefCount" visibility="private" procflags="inline">
+          </methodref>
+          <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+          </methodref>
+          <methodref name="QueryInterface" visibility="protected">
+          </methodref>
+          <methodref name="_AddRef" visibility="protected">
+          </methodref>
+          <methodref name="_Release" visibility="protected">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="override">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="override">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class override">
+          </methodref>
+          <propertyref name="RefCount" visibility="public">
+          </propertyref>
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public" procflags="constructor">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="DisposeOf" visibility="public" procflags="inline">
+            </methodref>
+            <methodref name="InitInstance" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public" procflags="inline">
+            </methodref>
+            <methodref name="ClassName" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="ClassParent" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public" procflags="class inline">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public" procflags="class inline">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public" procflags="class overload">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public" procflags="class overload">
+            </methodref>
+            <methodref name="MethodName" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="QualifiedClassName" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public" procflags="overload">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public" procflags="overload">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+            </methodref>
+            <methodref name="UnitName" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="UnitScope" visibility="public" procflags="class">
+            </methodref>
+            <methodref name="Equals" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="ToString" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="Dispatch" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="NewInstance" visibility="public" procflags="class virtual">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+            </methodref>
+            <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+            </methodref>
+            <methodref name="GetDisposed" visibility="protected" procflags="inline">
+            </methodref>
+            <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+            </methodref>
+            <propertyref name="Disposed" visibility="protected">
+            </propertyref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="decodeMiddleCounters" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.OneD.UPCEReader.pas" line="44" />
+      <field name="MIDDLE_END_PATTERN" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.OneD.UPCEReader.pas" line="45" />
+      <field name="NUMSYS_AND_CHECK_DIGIT_PATTERNS" type="T2DIntArray" visibility="private" varflags="class" file="ZXing.OneD.UPCEReader.pas" line="46" />
+      <procedure name="DoInitialize" visibility="private" procflags="class" file="ZXing.OneD.UPCEReader.pas" line="48">
+      </procedure>
+      <procedure name="DoFinalize" visibility="private" procflags="class" file="ZXing.OneD.UPCEReader.pas" line="49">
+      </procedure>
+      <function name="determineNumSysAndCheckDigit" visibility="private" procflags="static" file="ZXing.OneD.UPCEReader.pas" line="50">
+        <parameters>
+          <parameter name="resultString" type="TStringBuilder" />
+          <parameter name="lgPatternFound" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="checkChecksum" visibility="protected" procflags="class override" file="ZXing.OneD.UPCEReader.pas" line="55">
+        <parameters>
+          <parameter name="s" type="string" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeEnd" visibility="protected" procflags="class override" file="ZXing.OneD.UPCEReader.pas" line="56">
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="endStart" type="Integer" paramflags="const" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="DecodeMiddle" visibility="public" procflags="class override" file="ZXing.OneD.UPCEReader.pas" line="60">
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="startRange" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="convertUPCEtoUPCA" visibility="public" procflags="static" file="ZXing.OneD.UPCEReader.pas" line="65">
+        <parameters>
+          <parameter name="upce" type="string" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="BarcodeFormat" visibility="public" procflags="override" file="ZXing.OneD.UPCEReader.pas" line="67">
+        <parameters>
+          <retval type="TBarcodeFormat" />
+        </parameters>
+      </function>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

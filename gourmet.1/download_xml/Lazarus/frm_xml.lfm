@@ -1,0 +1,961 @@
+object frmxml: Tfrmxml
+  Left = 393
+  Height = 768
+  Top = 163
+  Width = 1024
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsNone
+  BorderWidth = 1
+  Caption = 'Download DFe'
+  ClientHeight = 768
+  ClientWidth = 1024
+  Color = clBlack
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.6.4.0'
+  object PanelLeft: TPanel
+    Left = 1
+    Height = 679
+    Top = 65
+    Width = 254
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 679
+    ClientWidth = 254
+    Color = clBtnFace
+    ParentColor = False
+    TabOrder = 0
+    object Image1: TImage
+      Left = 0
+      Height = 110
+      Top = 569
+      Width = 254
+      Align = alBottom
+      AutoSize = True
+      Picture.Data = {
+        1754506F727461626C654E6574776F726B47726170686963800D000089504E47
+        0D0A1A0A0000000D49484452000000FE0000006E080600000007F0AE12000000
+        017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+        597300001D8600001D86015DA213810000001974455874536F66747761726500
+        41646F626520496D616765526561647971C9653C0000032269545874584D4C3A
+        636F6D2E61646F62652E786D7000000000003C3F787061636B65742062656769
+        6E3D22EFBBBF222069643D2257354D304D7043656869487A7265537A4E54637A
+        6B633964223F3E203C783A786D706D65746120786D6C6E733A783D2261646F62
+        653A6E733A6D6574612F2220783A786D70746B3D2241646F626520584D502043
+        6F726520352E332D633031312036362E3134353636312C20323031322F30322F
+        30362D31343A35363A32372020202020202020223E203C7264663A5244462078
+        6D6C6E733A7264663D22687474703A2F2F7777772E77332E6F72672F31393939
+        2F30322F32322D7264662D73796E7461782D6E7323223E203C7264663A446573
+        6372697074696F6E207264663A61626F75743D222220786D6C6E733A786D703D
+        22687474703A2F2F6E732E61646F62652E636F6D2F7861702F312E302F222078
+        6D6C6E733A786D704D4D3D22687474703A2F2F6E732E61646F62652E636F6D2F
+        7861702F312E302F6D6D2F2220786D6C6E733A73745265663D22687474703A2F
+        2F6E732E61646F62652E636F6D2F7861702F312E302F73547970652F5265736F
+        75726365526566232220786D703A43726561746F72546F6F6C3D2241646F6265
+        2050686F746F73686F7020435336202857696E646F7773292220786D704D4D3A
+        496E7374616E636549443D22786D702E6969643A383935363442354534303936
+        31314532423132453937423837443235313443342220786D704D4D3A446F6375
+        6D656E7449443D22786D702E6469643A38393536344235463430393631314532
+        42313245393742383744323531344334223E203C786D704D4D3A446572697665
+        6446726F6D2073745265663A696E7374616E636549443D22786D702E6969643A
+        3839353634423543343039363131453242313245393742383744323531344334
+        222073745265663A646F63756D656E7449443D22786D702E6469643A38393536
+        34423544343039363131453242313245393742383744323531344334222F3E20
+        3C2F7264663A4465736372697074696F6E3E203C2F7264663A5244463E203C2F
+        783A786D706D6574613E203C3F787061636B657420656E643D2272223F3E7849
+        8868000009C249444154785EED9D3F76EA3A10C6276F2D9022272B302B206952
+        A5BD9D29A14997F276694C095DDA5469AEBD0258414E8AD87BE18D8C6CCBFF85
+        518064BEDF397A97185B1E8FE7936469CCBBDA31040010C57FFA5F008020207C
+        000402E1032010081F008140F8000804C2074020103E000281F0011008840F80
+        40207C000402E1032010081F008140F8000804C2074020103E000281F0011008
+        840F8040207C000402E1032010081F008140F8000804C2074020103E000281F0
+        011008840F8040207C000402E1032010081F008140F8000804C2074020103E00
+        0281F0011008840F8040207C000402E1032010081F008158093F8996349B4C68
+        7275455779E1BF27335A4609257ABFDF4142CB49718DCBDF757127239A4D8C58
+        E1A262E5185F46B35AFCCD22FD1D389C5D1771B0F33DDAA9DDBA8BB70B627DCC
+        8F27DE05F935FFA6EB3A25A60F8DE205FCCD10C29D5FAD8B8B879B3398F61E3F
+        59D264BCA0F556FFADF07CF2FD7DF13CBD2D654B9FB1FE08401BDB37FA37A4D7
+        8FDE69AD3F0237B40A3F7A59B09C352CF830DED16EB3A2D56A5F361BFE7B1753
+        1C7223A07703A08EC71D4516215B5ABC1C3A3EE747AFBF99EC7D0A7828018EA7
+        45F811BDE74DAC47C1EB8AA623FD6789118DA6DC08EC76B49AEA4D0054B8797A
+        66C96AD6EF1C5D0790FCA3B7AC07F21FE85E7F04C7D12CFCE48B3EF447A25BBA
+        6E143D00B64CE9A1503EFD3D6096AF18797207F484DEC51516B3FA1FF4357436
+        369A15B3B07D53B0D1B298B5EDDA378968B99CD16452993556AB0CB325451735
+        0B9FE42B22355BF58A883D09BB485DB7594F7B6977A14B9BEC9916CAE747FD7F
+        6C850DC6C8D37BA4FB433BA0636345CD73E963265963C575CECC7BC03E6BAD47
+        9D7FA6FC6AEC6F7DEE6F8E733DC957A1328BEA877AFB8184BE7D1DBDFBB24D56
+        2B0CC7CEF6BA99D58FF97AF869B4645763F1FCFE73C4815D5D466972A1539B3A
+        69F26179A6DF26A4E2C0ABED6F6E6BBFCF8E62C5F07BBA9F19A34669F4B56167
+        5BF1CE18E7ADCB7935C3BD60171E7A1E87C22FDBE3B1D3825D1086BB5095C0AF
+        39ABEF74ED38107E4380782C26DFDF17AF7663BBCE536984952883FD75073EFB
+        A1F41DDF23ED935A754E6DEAA3D987A57BD87B83CCEBF6F9AF3D36C277162BA6
+        F0BD729DA9DFD26D753FD5B493DAA07DDD73EE53C579C73A7EB985CE8A32C4BA
+        01702D7C15F41D272F396DA8478E157EB577663B1AABA8EED7B2C6DD7B4DA57A
+        5AEC756C533F6D3E34C5DCE35B231E4C819BFEE814BE8B58A9FA43EFDB6576F5
+        98461B636EB4B57FAAA776667B0FDD093CEA0672AF929FC428AAB7E86D001C0A
+        DF8EE65EE2308E137EE867C772E9134E2548EA976DDAD27E3D662034B9CEAD4D
+        36B4FBD0B4A57DA8DA7EBC79ADEDC7DB60112B031AC292AF7B9C1707DC89EACF
+        87717C9CF74CEE8D68BEDA501C06C4438C12DBED9AEEC657E944C3B1F30CBF87
+        EA32E89C3DD8C1684ECF7C07333E6AB3A8317D664B59DE0D8DF5C72AA3EB5BFD
+        A9A90ED7361D87D5245F6909EF99E617B1AAE453B8E9F15DD5D73DAB10A3F99C
+        CEB54E6131ABCF064EE7B4DAEC288EC37A03B05ED0F8EA1C39ED092549425114
+        19C55C863C03039641C7378543ED67BB0FE0D26C9A3E11F7E67BB60B6ACAE731
+        93C7FC0717D270102B1D0D6F8EE9EB21AB108D7C4F9C5B093F63349AA60D003F
+        A3541A802D2DFE9CA2E7574B51D992D698C6E331DDDDDD19C5C8363C07F16771
+        7E9B4061CCDEBA93ED27F7FFCD245F86B4ABCAFE4E9B0631A2FBC72278D6EF55
+        E59B4B78010D5FBA3F43AC98BE3E8AEFB7FD20E1E7E806809FB7F406A6A5F576
+        877A6B8E9D70B7E6C70CBDE9D76391F8922CE9CF227388473736CA3E33A3B999
+        C9F7B7345A4C967FF3BC7CEFF1BE6768DDC605C4CAEDF545DB3E4CF89AD1FCB5
+        18B631F5D6DB1DD16C4C797C7380FB41C88F1EE9E4A4517824A2F7F82D4C57C5
+        356D17E3FDEBADCBFD902F4D0E1917ADBF17BC5EC8F3701F6683B6A5B7FCCD9D
+        885EF29BECD3F3C08BB98858F9F862091FCEA96C3F4AF86AD8F6ADA3C20CEED5
+        F2F734D4A449BCA1D57CCA8F1E7AD325D23134373187E94DBD44342B7AC094ED
+        9A168BFD906FB1DE16A2F7437AED138A239B5C509AE45BBCB0E419F32D3CFF61
+        D8C4D74F8C958C13DA7EA4F0CB785DE3CC812D604AE939D5D5A4C937307D305A
+        62BB54E7389FB66FF05F1A08FBEF3DD5F2D756573CF2D2372763DAAC3840F4D6
+        12AE6D728539C9C7727F8F78889B477DFF8C782BE78C95F10D5BAE19F20AF209
+        6D3F52F8E6F245C3C492AD2338C027FC4C7334A519EC7330A66242DCE215D468
+        46C5657BF458BDD37920A8EF58D87A75A518F26D68B3516F4E764588639B9C51
+        99E4BB3386B8A710EC77C4CAE89E8A4BEAF7B57A676250CEBD0BDB39806AA449
+        083A7BA83561210ECBE9838DC90D662246F33E8DF9E3D5C48752224573524DBD
+        9EF324F0B0F30C1B68A7F2B19BAAE0DEBB6C6F73E64DE9FB434DC97169931596
+        3EAC26C8E8D275DADE041E97B162D66591BC9352F575B30179625CE9FB13C679
+        BBF0CDCA3D23D798CB2179DDA5F442BD6F5657E902D439B2CFB53B5F6940D23A
+        745E7AD0F6F3602E84AF44525C7773A98BA8E63F550F37A4D931E51BC7A523A8
+        E2A061FFAC289F6525CDE96EABC5AD4DFDD8379E75BBBAEF5B7FE69EC3581922
+        FCDAF9555136685F57BE2B87FAE9E2BC51F875B176143532E8F148D892F69B95
+        7D0F64A4213636F99511464351F584B9ED6E84DF5F9A03BBEF9AB3D2D6FB66A8
+        16BEE9B8D6A252A9F5B1555CD9D48FBDF0D9A8F2B97B82A95FF80A47B13248F8
+        0ABB186AF6F369E2BC51F87B588A692BA37A94EAC9FB7B982A6A18B97F9BA9A8
+        276DCDF22AFA84AF503655471CCA3EBEF8785F51111843856F2F907DE9086CB6
+        A96E2F17DD431FF4AE0397BCF5D725506F6BA5BD48C5DEAE203DD6262BCCC057
+        F7466F6EE4804682311BC2EE46C241AC98C26F8DC976B2982F8DA6ACFCFCFD71
+        7EA5FEC315808B23491339B2092F3F8C69D5FCFB677BD40F448CEFF472D87E29
+        E867ACE98373E074390FB8C47C4147A5AEF6A87864CEDE03D00D84FF13B05813
+        4EA297D32E87811F0D86FA174C34BB32D6D419F5FF3578BCA187EB6BBDE18BBE
+        DE3FE96DBD2E123F187E1CC5AF1E834E20FC8B869FF3677FD2D45C3B3C16FD6B
+        F75C00000C84FF1350BFB8FAF24E6F1F1FB4ADBEB2E5792CF75B7A7C7EA27B16
+        3C240F6C80F001100826F7001008840F8040207C000402E1032010081F008140
+        F8000804C2074020103E000281F0011008840F8040207C000402E1032010081F
+        008140F8000804C2074020103E000281F0011008840F8040207C000402E10320
+        10081F008140F8000804C2074020103E000281F0011008840F8040207C000402
+        E1032010081F008140F8000804C2074020103E000281F0011008840F8040207C
+        000402E1032010081F008140F8000804C2074020103E000281F0011008840F80
+        40207C00C441F43FC5BB43FFA7B060030000000049454E44AE426082
+      }
+    end
+    object Button1: TPanel
+      Left = 0
+      Height = 40
+      Top = 80
+      Width = 254
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Atualizar Lista'
+      TabOrder = 1
+      TabStop = True
+      OnClick = Button1Click
+      OnMouseEnter = Button0MouseEnter
+      OnMouseLeave = Button0MouseLeave
+    end
+    object Button2: TPanel
+      Left = 0
+      Height = 40
+      Top = 40
+      Width = 254
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Consultar SEFAZ'
+      TabOrder = 0
+      TabStop = True
+      OnClick = Button2Click
+      OnMouseEnter = Button0MouseEnter
+      OnMouseLeave = Button0MouseLeave
+    end
+    object Button3: TPanel
+      Left = 0
+      Height = 40
+      Top = 120
+      Width = 254
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Distribuição DFe'
+      TabOrder = 2
+      TabStop = True
+      OnClick = Button3Click
+      OnMouseEnter = Button0MouseEnter
+      OnMouseLeave = Button0MouseLeave
+    end
+    object Button4: TPanel
+      Left = 0
+      Height = 40
+      Top = 0
+      Width = 254
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Configurações'
+      Color = 13289984
+      ParentColor = False
+      TabOrder = 3
+      TabStop = True
+      OnClick = Button4Click
+      OnMouseEnter = Button0MouseEnter
+      OnMouseLeave = Button0MouseLeave
+    end
+    object Button5: TPanel
+      Left = 0
+      Height = 40
+      Top = 160
+      Width = 254
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'XMLs Baixados'
+      TabOrder = 4
+      TabStop = True
+      OnClick = Button5Click
+      OnMouseEnter = Button0MouseEnter
+      OnMouseLeave = Button0MouseLeave
+    end
+    object imgCert: TImage
+      Left = 6
+      Height = 17
+      Top = 544
+      Width = 23
+      AutoSize = True
+      Picture.Data = {
+        0954474946496D6167659F04000047494638396117001100F70000000200000E
+        0028287A28287E47477472726E72727B14148A2828902828912828942A2A952F
+        2F9637379033339939399C3F3FA05454AA5F5FAF7272AE7171B87272B97979BC
+        7A7ABD7C7CBE0080000381030B800B1180111B801B208020268326208B20228B
+        222884282984292E892E2D912D2E912E2F902F318D31328F32348F343E853E3E
+        863E3391333590353691363692363892383A943A3A963A3B963B3E963E3F9B3F
+        438643409540429742469346409C40429C42479B47449F444D904D4C944C5093
+        50539553549754539A53559C555A9D5A5C9F5C46A14648A04855A5555AA25A59
+        A55963A56362AA6265AC6569AF696FB16F70B17071B47172B47274B674808008
+        8C8C1C80802887872B8080348484329B9B36B0B034808046808048808053BEBE
+        58EAEA3EFEFE40FEFE57FEFE5FFFFF72FFFF7D8E8E8981A38188AE8884BB848F
+        BB8FB8B89CBDBD9DA1AFA1A1B1A1B5B5A28B8BC59393C99999CCADADD6AEAED7
+        B8B8C9BFBFDFBEC1BEB5D2B5C1C6ADCECEACC6C6BCCFCFB8FFFF87EAEAB2EAEA
+        BEFFFFA3FFFFA9FFFFB0FEFEB2FFFFB4FFFFBBC3C3C3C1C6C1C2C6C2C4C4C4C6
+        C9C6C7C9C7C7CAC7C8C8C8C9C9C9C9CAC8C9CAC9CACBCACBCBCBCBCCCBCECEC9
+        CCCCCCCECECECFCFCFC3DAC3D3D3CBD4D4CAD8D8CBD2D2D2D3D3D3D4D4D4D6D6
+        D6D4D9D4D5D9D5D4DAD4D8D8D8D9D9D9DBDBDBDDDDDDDFDFDFC0C0E0CDCDE6D4
+        D4E9D7D7E9D6D6EBCBE0CBD1E0D1D3E3D3D8E2D8DDE2DDDFE3DFE0E0DBFEFEC4
+        FFFFC5FFFFC7FFFFCCFEFECFFFFFD1FFFFD6FEFED9FFFFDCE0E0E0E6E7E6E7E8
+        E7E9E9E9E9EAE9EAEAEAE9E9F3EAEAF3EAEAF4EFEFF7F5F5E8FFFFE0FFFFE4FF
+        FFE5FFFFE6FFFFEBFFFFEFF6F6F3F0F0F8F4F4F9FFFFF3FFFFF5FFFFF6FFFFF7
+        F9F9FCFBFBFDFFFFFAFFFFFBFCFCFDFDFDFEFFFFFDFEFEFEFEFEFF0000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000002C00000000
+        170011000008FF0033749011C3458C1848481CF431E2200D152F0E7AC8F02643
+        1A61A57A9CD0F389CD0926A7489D3811CC548D139A44E108F041471E4A8D184D
+        A2248991234A951831BA049311A21C2B02EC4005E95BAA387EB61D6AF6EDDB99
+        A67F9AE6E273EA490011A322D54283654B1F6ADABA6973868D5B326CD5AC59A2
+        C522008C167BC268F9E2E50A2B64BE707DC333E7802A33DF308528E2B645A24E
+        59C05869236781840B10EAD8E9E2E041E0C101660093B46C131737C52C486B70
+        271A8508ADEC10C08069D89200284C41DA35ADE93757D19C29FB466755534281
+        530109E0A286A2A681001D3B26C6D8B131D7B6F11AD4149309228513DD7A56A1
+        C20403DD0B40856B2AE89B36438209C38005C95936050A100C802F20017C4E0A
+        1830C3148BB00D508F34A58B2D4D95E14D5385F4D214198179E244001BF090C7
+        27145668E1859F2C92040701A4300B266B80A04428B280000231BF9400C22B99
+        480102149EA89141001C0C41C50F471C31C50D3936218411394611448E556830
+        231C0124A9E4924C3609404000
+      }
+      Visible = False
+    end
+  end
+  object PanelNbk: TPanel
+    Left = 255
+    Height = 679
+    Top = 65
+    Width = 768
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'PanelNbk'
+    ClientHeight = 679
+    ClientWidth = 768
+    Color = 16119285
+    ParentColor = False
+    TabOrder = 1
+    object Notebook1: TNotebook
+      Left = 0
+      Height = 549
+      Top = 0
+      Width = 768
+      PageIndex = 0
+      Align = alClient
+      TabOrder = 0
+      TabStop = True
+      object PageParams: TPage
+        object edtultNSU: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 34
+          Width = 100
+          DataField = 'ultNSU'
+          DataSource = dscfg
+          CharCase = ecNormal
+          MaxLength = 0
+          TabOrder = 0
+        end
+        object Label3: TLabel
+          Left = 121
+          Height = 15
+          Top = 38
+          Width = 68
+          Caption = 'Último NSU :'
+          ParentColor = False
+        end
+        object edtNumeroSerie: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 124
+          Width = 484
+          DataField = 'NumeroSerie'
+          DataSource = dscfg
+          CharCase = ecNormal
+          MaxLength = 0
+          TabOrder = 1
+        end
+        object Label4: TLabel
+          Left = 91
+          Height = 15
+          Top = 68
+          Width = 98
+          Caption = 'UF do Certificado :'
+          ParentColor = False
+        end
+        object Label5: TLabel
+          Left = 30
+          Height = 15
+          Top = 128
+          Width = 159
+          Caption = 'Número de Série (CAPICOM) :'
+          ParentColor = False
+        end
+        object btnCertificado: TToggleBox
+          Left = 678
+          Height = 23
+          Top = 124
+          Width = 32
+          Caption = '. . .'
+          OnClick = btnCertificadoClick
+          TabOrder = 2
+        end
+        object Label6: TLabel
+          Left = 60
+          Height = 15
+          Top = 158
+          Width = 129
+          Caption = 'Arquivo PFX (OpenSSL) :'
+          ParentColor = False
+        end
+        object edtArquivoPFX: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 154
+          Width = 484
+          DataField = 'ArquivoPFX'
+          DataSource = dscfg
+          CharCase = ecNormal
+          Enabled = False
+          MaxLength = 0
+          TabOrder = 3
+        end
+        object btnArquivoPFX: TToggleBox
+          Left = 678
+          Height = 23
+          Top = 154
+          Width = 32
+          Caption = '. . .'
+          Enabled = False
+          OnClick = btnArquivoPFXClick
+          TabOrder = 4
+        end
+        object edtUF: TDBComboBox
+          Left = 192
+          Height = 23
+          Top = 65
+          Width = 55
+          DataField = 'UF'
+          DataSource = dscfg
+          ItemHeight = 15
+          Items.Strings = (
+            'AC'
+            'AL'
+            'AM'
+            'AP'
+            'BA'
+            'CE'
+            'DF'
+            'ES'
+            'GO'
+            'MA'
+            'MG'
+            'MS'
+            'MT'
+            'PA'
+            'PB'
+            'PE'
+            'PI'
+            'PR'
+            'RJ'
+            'RN'
+            'RO'
+            'RR'
+            'RS'
+            'SC'
+            'SE'
+            'SP'
+            'TO'
+          )
+          MaxLength = 0
+          Style = csDropDownList
+          TabOrder = 5
+        end
+        object edtSenha: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 184
+          Width = 250
+          DataField = 'Senha'
+          DataSource = dscfg
+          CharCase = ecNormal
+          MaxLength = 0
+          TabOrder = 6
+        end
+        object Label7: TLabel
+          Left = 151
+          Height = 15
+          Top = 188
+          Width = 38
+          Caption = 'Senha :'
+          ParentColor = False
+        end
+        object edtidDFeAutoInc: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 4
+          Width = 100
+          DataField = 'idDFeAutoInc'
+          DataSource = dscfg
+          CharCase = ecNormal
+          MaxLength = 0
+          TabOrder = 7
+        end
+        object Label8: TLabel
+          Left = 88
+          Height = 15
+          Top = 8
+          Width = 101
+          Caption = 'Último AutoInc ID :'
+          ParentColor = False
+        end
+        object btnPost: TBitBtn
+          Left = 458
+          Height = 30
+          Top = 306
+          Width = 252
+          Caption = 'Salvar'
+          OnClick = btnPostClick
+          TabOrder = 8
+        end
+        object Label9: TLabel
+          Left = 18
+          Height = 15
+          Top = 98
+          Width = 178
+          Caption = 'Usar (01) Capicom/(02) OpenSSL :'
+          ParentColor = False
+        end
+        object edtSSLLib: TDBComboBox
+          Left = 192
+          Height = 23
+          Top = 94
+          Width = 55
+          DataField = 'SSLLib'
+          DataSource = dscfg
+          ItemHeight = 15
+          Items.Strings = (
+            '01'
+            '02'
+          )
+          MaxLength = 0
+          OnChange = edtSSLLibChange
+          Style = csDropDownList
+          TabOrder = 9
+        end
+        object edtAutoExecute: TDBCheckBox
+          Left = 98
+          Height = 23
+          Top = 216
+          Width = 108
+          BiDiMode = bdRightToLeft
+          Caption = ': Auto Executar'
+          DataField = 'AutoExecute'
+          DataSource = dscfg
+          OnChange = edtAutoExecuteChange
+          ParentBiDiMode = False
+          TabOrder = 10
+          ValueChecked = '1'
+          ValueUnchecked = '0'
+        end
+        object edtAutoTimer: TDBEdit
+          Left = 192
+          Height = 23
+          Top = 246
+          Width = 80
+          DataField = 'AutoTimer'
+          DataSource = dscfg
+          CharCase = ecNormal
+          Enabled = False
+          MaxLength = 0
+          TabOrder = 11
+        end
+        object Label10: TLabel
+          Left = 66
+          Height = 15
+          Top = 250
+          Width = 123
+          Caption = 'Minutos para Executar :'
+          ParentColor = False
+        end
+        object Label13: TLabel
+          Left = 192
+          Height = 32
+          Top = 270
+          Width = 518
+          AutoSize = False
+          Caption = 'Não defina intervalo de minutos curtos, isso poderá ocasionar lentidão no computador, use o bom senso, aconselho o tempo ser maior que 30 minutos.'
+          Font.Color = clRed
+          ParentColor = False
+          ParentFont = False
+          WordWrap = True
+        end
+      end
+      object PageDFe: TPage
+        object DBGrid2: TDBGrid
+          Left = 0
+          Height = 547
+          Top = 2
+          Width = 768
+          Align = alClient
+          AutoEdit = False
+          BorderSpacing.Top = 2
+          Color = clWindow
+          Columns = <          
+            item
+              Title.Caption = 'Número NFe'
+              Width = 85
+              FieldName = 'xNumeroNFE'
+            end          
+            item
+              Title.Caption = 'Emissão'
+              Width = 75
+              FieldName = 'dhEmi'
+              DisplayFormat = 'DD/MM/YYYY'
+            end          
+            item
+              Title.Caption = 'Emitente'
+              Width = 260
+              FieldName = 'xNome'
+            end          
+            item
+              Title.Caption = 'Chave'
+              Width = 300
+              FieldName = 'chNFe'
+            end>
+          DataSource = dsres
+          Flat = True
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ReadOnly = True
+          TabOrder = 0
+        end
+      end
+      object PageXML: TPage
+        object DBGrid3: TDBGrid
+          Left = 0
+          Height = 477
+          Top = 72
+          Width = 768
+          Align = alBottom
+          AutoEdit = False
+          BorderSpacing.Top = 2
+          Color = clWindow
+          Columns = <          
+            item
+              Title.Caption = 'Número NFe'
+              Width = 85
+              FieldName = 'xNumeroNFE'
+            end          
+            item
+              Title.Caption = 'Emissão'
+              Width = 75
+              FieldName = 'dhEmi'
+              DisplayFormat = 'DD/MM/YYYY'
+            end          
+            item
+              Title.Caption = 'Emitente'
+              Width = 260
+              FieldName = 'xNome'
+            end          
+            item
+              Title.Caption = 'Chave'
+              Width = 300
+              FieldName = 'chNFe'
+            end>
+          DataSource = dsxml
+          Flat = True
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ReadOnly = True
+          TabOrder = 4
+        end
+        object Button6: TButton
+          Left = 522
+          Height = 25
+          Top = 9
+          Width = 70
+          Caption = 'Pesquisar'
+          OnClick = Button6Click
+          TabOrder = 3
+        end
+        object Label2: TLabel
+          Left = 0
+          Height = 15
+          Top = 15
+          Width = 74
+          Caption = 'Número NFe :'
+          ParentColor = False
+        end
+        object edtNumeroNFe: TSpinEdit
+          Left = 76
+          Height = 23
+          Top = 11
+          Width = 80
+          Anchors = [akTop, akRight]
+          MaxValue = 999999999
+          TabOrder = 0
+        end
+        object Label11: TLabel
+          Left = 162
+          Height = 15
+          Top = 15
+          Width = 64
+          Caption = 'Data Inicial :'
+          ParentColor = False
+        end
+        object edtDataInicial: TDateEdit
+          Left = 230
+          Height = 23
+          Top = 11
+          Width = 110
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          DefaultToday = True
+          DateOrder = doNone
+          ButtonWidth = 23
+          NumGlyphs = 1
+          MaxLength = 0
+          TabOrder = 1
+        end
+        object Label12: TLabel
+          Left = 344
+          Height = 15
+          Top = 15
+          Width = 58
+          Caption = 'Data Final :'
+          ParentColor = False
+        end
+        object edtDataFinal: TDateEdit
+          Left = 406
+          Height = 23
+          Top = 11
+          Width = 110
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          DateOrder = doNone
+          ButtonWidth = 23
+          NumGlyphs = 1
+          MaxLength = 0
+          TabOrder = 2
+        end
+        object btnView: TButton
+          Left = 594
+          Height = 25
+          Top = 9
+          Width = 70
+          Caption = 'Visualizar'
+          OnClick = btnViewClick
+          TabOrder = 5
+        end
+        object btnPrint: TButton
+          Left = 666
+          Height = 25
+          Top = 9
+          Width = 70
+          Caption = 'Imprimir'
+          OnClick = btnPrintClick
+          TabOrder = 6
+        end
+        object btnPDFs: TButton
+          Left = 522
+          Height = 25
+          Top = 38
+          Width = 70
+          Caption = 'Gerar PDFs'
+          OnClick = btnPDFsClick
+          TabOrder = 7
+        end
+      end
+    end
+    object edtERROR: TLabel
+      Left = 0
+      Height = 20
+      Top = 549
+      Width = 768
+      Align = alBottom
+      Caption = 'Lista de mensagens'
+      Color = 14671839
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -16
+      Font.Name = 'Arial Narrow'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object ListBoxError: TListBox
+      Left = 0
+      Height = 110
+      Top = 569
+      Width = 768
+      Align = alBottom
+      ItemHeight = 0
+      TabOrder = 1
+    end
+  end
+  object PanelTitle: TPanel
+    Left = 1
+    Height = 30
+    Top = 1
+    Width = 1022
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 30
+    ClientWidth = 1022
+    Color = 14671839
+    ParentColor = False
+    TabOrder = 2
+    OnMouseDown = PanelTitleMouseDown
+    OnMouseMove = PanelTitleMouseMove
+    OnMouseUp = PanelTitleMouseUp
+    object ButtonClose: TPanel
+      Left = 981
+      Height = 30
+      Top = 0
+      Width = 41
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 30
+      ClientWidth = 41
+      TabOrder = 0
+      OnMouseEnter = ButtonCloseMouseEnter
+      OnMouseLeave = ButtonCloseMouseLeave
+      object ImageClose: TImage
+        Left = 0
+        Height = 30
+        Top = 0
+        Width = 41
+        Align = alClient
+        Center = True
+        OnClick = ImageCloseClick
+        OnMouseEnter = ButtonCloseMouseEnter
+        OnMouseLeave = ButtonCloseMouseLeave
+        Picture.Data = {
+          1754506F727461626C654E6574776F726B477261706869631301000089504E47
+          0D0A1A0A0000000D494844520000001A0000001A0806000000A94A4CCE000000
+          0467414D410000B18F0BFC6105000000097048597300000EC200000EC2011528
+          4A800000001874455874536F667477617265007061696E742E6E657420342E30
+          2E396C337E4E0000009149444154484BBDCD410AC3300C45C11CDD3777EB8541
+          7C26A6812A8B21F0E448D79CF3158C1D183B307660ECC0D881B103631A637C3F
+          CF671563B5166D4F668971AB8B72E169268C95164AFE9718931657F95E184507
+          967C7787517464C9777718930E54F95E182B2D96FC2F316EA785A7993056A745
+          A759624CA745BF1C59183B307660ECC0D881B1036307C6FF9BD70757A0BB26E2
+          D2EBE60000000049454E44AE426082
+        }
+        Transparent = True
+      end
+    end
+    object ButtonMax: TPanel
+      Left = 940
+      Height = 30
+      Top = 0
+      Width = 41
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 30
+      ClientWidth = 41
+      Enabled = False
+      TabOrder = 1
+      OnMouseEnter = ButtonMaxMouseEnter
+      OnMouseLeave = ButtonMaxMouseLeave
+      object ImageMax: TImage
+        Left = 0
+        Height = 30
+        Top = 0
+        Width = 41
+        Align = alClient
+        Center = True
+        OnMouseEnter = ButtonMaxMouseEnter
+        OnMouseLeave = ButtonMaxMouseLeave
+        Picture.Data = {
+          1754506F727461626C654E6574776F726B47726170686963F400000089504E47
+          0D0A1A0A0000000D494844520000001A0000001A0806000000A94A4CCE000000
+          017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+          597300000EC300000EC301C76FA8640000001974455874536F66747761726500
+          5061696E742E4E45542076332E352E343E8DCC760000006449444154484BED96
+          410AC03008047D42FFE207FD7943DA4D4E821A30B4C181052F3B7B953ACC7C3D
+          4702D39D3932D8B1519C8088DC2B41DD872688041A1BAD1C0934365A3912686C
+          C20550433534F9FED06AA0F1A1093C41BDF8235BDFADCCB1D74DD400EAD930E0
+          05735EB60000000049454E44AE426082
+        }
+        Transparent = True
+      end
+    end
+    object ButtonMin: TPanel
+      Left = 899
+      Height = 30
+      Top = 0
+      Width = 41
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 30
+      ClientWidth = 41
+      TabOrder = 2
+      OnMouseEnter = ButtonMinMouseEnter
+      OnMouseLeave = ButtonMinMouseLeave
+      object Image2: TImage
+        Left = 0
+        Height = 30
+        Top = 0
+        Width = 41
+        Align = alClient
+        Center = True
+        OnClick = Image2Click
+        OnMouseEnter = ButtonMinMouseEnter
+        OnMouseLeave = ButtonMinMouseLeave
+        Picture.Data = {
+          1754506F727461626C654E6574776F726B47726170686963E300000089504E47
+          0D0A1A0A0000000D494844520000001A0000001A0806000000A94A4CCE000000
+          017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+          597300000EC300000EC301C76FA8640000001974455874536F66747761726500
+          5061696E742E4E45542076332E352E343E8DCC760000005349444154484B6300
+          0163636301308306006E362D2D81017AD8310A46C1281805A380AEA0A1A1E13F
+          3918AA9D3880CD005230D418C2009B665230D418E200360388C150EDA3602802
+          BA36B7686919C46C06060092199B0DCF0EFE3A0000000049454E44AE426082
+        }
+        Transparent = True
+      end
+    end
+    object Label1: TLabel
+      Left = 0
+      Height = 30
+      Top = 0
+      Width = 118
+      Align = alLeft
+      Caption = ' Download DF-e '
+      Color = clGray
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Layout = tlCenter
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      OnMouseDown = PanelTitleMouseDown
+      OnMouseMove = PanelTitleMouseMove
+      OnMouseUp = PanelTitleMouseUp
+    end
+  end
+  object StatusShow: TStatusBar
+    Left = 1
+    Height = 23
+    Top = 744
+    Width = 1022
+    Panels = <    
+      item
+        Alignment = taCenter
+        Text = 'Certificado :'
+        Width = 75
+      end    
+      item
+        Alignment = taCenter
+        Style = psOwnerDraw
+        Width = 30
+      end    
+      item
+        Text = 'Empresa :'
+        Width = 60
+      end    
+      item
+        Width = 350
+      end    
+      item
+        Text = 'CNPJ :'
+        Width = 50
+      end    
+      item
+        Width = 150
+      end    
+      item
+        Text = 'Validade :'
+        Width = 60
+      end    
+      item
+        Width = 100
+      end>
+    SimplePanel = False
+    SizeGrip = False
+    OnClick = StatusShowClick
+    OnDrawPanel = StatusShowDrawPanel
+  end
+  object Panel5: TPanel
+    Left = 1
+    Height = 34
+    Top = 31
+    Width = 1022
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 14671839
+    ParentColor = False
+    TabOrder = 4
+  end
+  object dscfg: TDataSource
+    DataSet = dtmxml.xmlcfg
+    OnStateChange = dscfgStateChange
+    left = 42
+    top = 348
+  end
+  object dsres: TDataSource
+    AutoEdit = False
+    DataSet = dtmxml.xmldfe
+    left = 108
+    top = 348
+  end
+  object dsxml: TDataSource
+    AutoEdit = False
+    DataSet = dtmxml.xmlnfe
+    left = 172
+    top = 349
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = '.pfx '
+    Filter = 'Arquivo Certificado A1|*.pfx'
+    left = 106
+    top = 404
+  end
+end

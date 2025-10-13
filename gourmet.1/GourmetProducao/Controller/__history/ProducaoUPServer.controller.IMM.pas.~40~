@@ -1,0 +1,146 @@
+unit ProducaoUPServer.controller.IMM;
+
+interface
+
+Uses
+  System.AnsiStrings,
+  Horse,
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+  System.Json,
+  Uni,
+  UniProvider,
+  MySQLUniProvider,
+  ProducaoUP.Services.Connection ;
+
+procedure Registry(App: THorse);
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+function V1GetImm(aValue:string):TJSONObject;
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+
+
+procedure Registry(App: THorse);
+begin
+  App.Get('/v1/imm/:id', V1GetID);
+end;
+
+
+
+
+
+function V1GetImm(aValue:string):TJSONObject;
+var
+  conexao:TUniConnection;
+  IMM:TUniQuery;
+
+begin
+
+  try
+
+    conexao:=TUniConnection.Create(nil);
+
+    if AtivaConexao(conexao) then
+    begin
+
+      IMM:=TUniQuery.Create(nil);
+      IMM.Connection:=conexao;
+
+      IMM.sql.Text:='select chave, identificacao, pedido, tempo, item, destino, '+
+                    'impressora, setor, produto, quantidade, unidade, inicio, situacao, maximo '+
+                    'FROM v_imm '+
+                    'Where item='+aValue+' '+
+                    'order by situacao desc, chave '  ;
+      IMM.Open;
+    end;
+
+
+    if not IMM.IsEmpty then
+    begin
+      result := TConverter.New.DataSet.Source(IMM).AsJSONObject;
+    end
+    else
+    begin
+      result :=nil;
+    end;
+
+   finally
+
+    if conexao.Connected then
+    conexao.Connected:=false;
+
+
+    if IMM<>nil then
+      IMM.DisposeOf;
+
+    if conexao<>nil then
+      conexao.DisposeOf;
+
+  end;
+
+end;
+
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  conexao:TUniConnection;
+  IMM:TUniQuery;
+
+begin
+
+  try
+
+    conexao:=TUniConnection.Create(nil);
+
+    if AtivaConexao(conexao) then
+    begin
+
+      IMM:=TUniQuery.Create(nil);
+      IMM.Connection:=conexao;
+
+      IMM.sql.Text:='select chave, identificacao, pedido, tempo, item, destino, '+
+                    'impressora, setor, produto, quantidade, unidade, inicio, situacao, maximo '+
+                    'FROM v_imm '+
+                    'Where(if('+Req.Params.Items['id']+'=0, setor<>0, setor='+Req.Params.Items['id']+')) ' +
+                    'Order By situacao desc, chave';
+      IMM.Open;
+    end;
+
+
+    if not IMM.IsEmpty then
+    begin
+      Res.Send<TJsonarray>(TConverter.New.DataSet(IMM).AsJSONArray);
+      IMM.close;
+    end
+    else
+    begin
+      res.Status(204);
+    end;
+
+   finally
+
+    if conexao.Connected then
+    conexao.Connected:=false;
+
+
+    if IMM<>nil then
+      IMM.DisposeOf;
+
+    if conexao<>nil then
+      conexao.DisposeOf;
+
+  end;
+
+end;
+
+
+end.

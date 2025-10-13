@@ -1,0 +1,3142 @@
+object FPrinciGou: TFPrinciGou
+  Left = 0
+  Top = 169
+  OnAlignPosition = FormAlignPosition
+  BiDiMode = bdLeftToRight
+  BorderStyle = bsSingle
+  Caption = 'Gourmet - Controle de Mesas'
+  ClientHeight = 821
+  ClientWidth = 1381
+  Color = clNavy
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  ParentBiDiMode = False
+  Position = poDesigned
+  WindowState = wsMaximized
+  OnActivate = FormActivate
+  OnClick = FormClick
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDblClick = FormDblClick
+  OnKeyDown = FormKeyDown
+  OnMouseEnter = FormMouseEnter
+  OnMouseWheel = FormMouseWheel
+  OnPaint = FormPaint
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 1381
+    Height = 682
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clNavy
+    ParentBackground = False
+    TabOrder = 0
+    object Panel3: TPanel
+      Left = 0
+      Top = 0
+      Width = 1381
+      Height = 682
+      Align = alClient
+      BevelOuter = bvNone
+      Color = clMenu
+      ParentBackground = False
+      TabOrder = 0
+      object PnSuperior: TPanel
+        Left = 0
+        Top = 0
+        Width = 1381
+        Height = 47
+        Align = alTop
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Color = clNavy
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+        object PnCozinha: TPanel
+          Left = 0
+          Top = 37
+          Width = 1377
+          Height = 6
+          Align = alClient
+          BevelInner = bvLowered
+          BevelKind = bkFlat
+          BevelOuter = bvNone
+          Color = clRed
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -21
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 0
+          object LbCozinha: TLabel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 1365
+            Height = -3
+            Align = alClient
+            Alignment = taCenter
+            Caption = 'Cozinha Fechada, Aguarde Libera'#231#227'o ...'
+            ExplicitWidth = 411
+            ExplicitHeight = 25
+          end
+        end
+        object pnInfoTopo: TPanel
+          Left = 0
+          Top = 0
+          Width = 1377
+          Height = 37
+          Align = alTop
+          BevelOuter = bvNone
+          Color = clNavy
+          ParentBackground = False
+          TabOrder = 1
+          object GBdescmax: TGroupBox
+            Tag = 1
+            Left = 1038
+            Top = 0
+            Width = 80
+            Height = 37
+            Align = alRight
+            Caption = '% Desc.'
+            Color = clNavy
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentColor = False
+            ParentFont = False
+            TabOrder = 0
+            object LbDescMaximo: TLabel
+              Left = 2
+              Top = 18
+              Width = 76
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitWidth = 4
+              ExplicitHeight = 16
+            end
+          end
+          object pversao: TPanel
+            Left = 1178
+            Top = 0
+            Width = 199
+            Height = 37
+            Align = alRight
+            BevelOuter = bvNone
+            BorderWidth = 2
+            Color = clNavy
+            ParentBackground = False
+            TabOrder = 1
+            object LbVersao: TLabel
+              AlignWithMargins = True
+              Left = 5
+              Top = 19
+              Width = 189
+              Height = 16
+              Align = alBottom
+              Alignment = taRightJustify
+              Caption = '0.0.0'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              OnClick = LbVersaoClick
+              ExplicitLeft = 162
+              ExplicitWidth = 32
+            end
+            object lbtitversao: TLabel
+              Left = 2
+              Top = 2
+              Width = 195
+              Height = 13
+              Align = alTop
+              Alignment = taCenter
+              Caption = 'Vers'#227'o:'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentColor = False
+              ParentFont = False
+              OnDblClick = lbtitversaoDblClick
+              ExplicitWidth = 37
+            end
+          end
+          object GroupBox3: TGroupBox
+            Tag = 1
+            Left = 838
+            Top = 0
+            Width = 200
+            Height = 37
+            Align = alRight
+            Caption = ' Servidor '
+            Color = clNavy
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentColor = False
+            ParentFont = False
+            TabOrder = 2
+            object LbHost: TLabel
+              Left = 2
+              Top = 18
+              Width = 196
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitWidth = 4
+              ExplicitHeight = 16
+            end
+          end
+          object GroupBox7: TGroupBox
+            Tag = 1
+            Left = 10
+            Top = 0
+            Width = 348
+            Height = 37
+            Align = alClient
+            Caption = ' Identifica'#231#227'o '
+            Color = clNavy
+            Ctl3D = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentColor = False
+            ParentCtl3D = False
+            ParentFont = False
+            TabOrder = 3
+            object LbEmpresa: TLabel
+              Left = 2
+              Top = 18
+              Width = 184
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'DADOS DA EMPRESA'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -15
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitLeft = 6
+              ExplicitTop = 17
+              ExplicitWidth = 271
+            end
+            object lbFilial: TLabel
+              Left = 266
+              Top = 18
+              Width = 80
+              Height = 17
+              Align = alRight
+              Alignment = taRightJustify
+              AutoSize = False
+              Caption = 'DADOS DA EMPRESA'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitLeft = 268
+              ExplicitTop = 17
+            end
+            object lbCaixa: TLabel
+              Left = 186
+              Top = 18
+              Width = 80
+              Height = 17
+              Align = alRight
+              Alignment = taRightJustify
+              AutoSize = False
+              Caption = 'DADOS DA EMPRESA'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitTop = 17
+            end
+          end
+          object GroupBox13: TGroupBox
+            Tag = 1
+            Left = 638
+            Top = 0
+            Width = 200
+            Height = 37
+            Align = alRight
+            Caption = ' Dados '
+            Color = clNavy
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentColor = False
+            ParentFont = False
+            TabOrder = 4
+            object LbDados: TLabel
+              Left = 2
+              Top = 18
+              Width = 196
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              AutoSize = False
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitLeft = 0
+              ExplicitTop = 14
+              ExplicitHeight = 20
+            end
+          end
+          object GBTerminal: TGroupBox
+            Tag = 1
+            Left = 1118
+            Top = 0
+            Width = 60
+            Height = 37
+            Align = alRight
+            Caption = ' Trm '
+            Color = clNavy
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentColor = False
+            ParentFont = False
+            TabOrder = 5
+            object LbTerminal: TLabel
+              Tag = 1
+              Left = 2
+              Top = 18
+              Width = 56
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              AutoSize = False
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              StyleElements = []
+              ExplicitTop = 15
+              ExplicitHeight = 41
+            end
+          end
+          object GBModoNFs: TGroupBox
+            Tag = 1
+            Left = 438
+            Top = 0
+            Width = 200
+            Height = 37
+            Align = alRight
+            Caption = ' Modo NFC-e '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            object LbModoNFe: TLabel
+              Left = 2
+              Top = 18
+              Width = 196
+              Height = 17
+              Align = alClient
+              Alignment = taCenter
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitWidth = 4
+              ExplicitHeight = 16
+            end
+          end
+          object GBCaixa: TGroupBox
+            Tag = 1
+            Left = 358
+            Top = 0
+            Width = 80
+            Height = 37
+            Align = alRight
+            Caption = ' Cx.'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 7
+            Visible = False
+            object Label1: TLabel
+              Left = 2
+              Top = 18
+              Width = 76
+              Height = 17
+              Hint = 'N'#250'mero do Atendimento'
+              Margins.Left = 25
+              Margins.Top = 0
+              Margins.Right = 25
+              Align = alClient
+              Alignment = taCenter
+              Caption = '00000'
+              Color = 12615680
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentColor = False
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitWidth = 40
+              ExplicitHeight = 16
+            end
+          end
+          object Panel16: TPanel
+            Left = 0
+            Top = 0
+            Width = 10
+            Height = 37
+            Align = alLeft
+            BevelOuter = bvNone
+            BorderWidth = 2
+            Color = clNavy
+            ParentBackground = False
+            TabOrder = 8
+          end
+        end
+      end
+      object Panel4: TPanel
+        Left = 0
+        Top = 47
+        Width = 1381
+        Height = 635
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clNavy
+        ParentBackground = False
+        TabOrder = 1
+        object Panel6: TPanel
+          Left = 0
+          Top = 0
+          Width = 1381
+          Height = 635
+          Align = alClient
+          BevelOuter = bvNone
+          Color = clNavy
+          ParentBackground = False
+          TabOrder = 0
+          object Panel13: TPanel
+            Left = 327
+            Top = 0
+            Width = 1054
+            Height = 635
+            Align = alClient
+            BevelOuter = bvNone
+            Color = clNavy
+            ParentBackground = False
+            TabOrder = 0
+            object Panel7: TPanel
+              Left = 0
+              Top = 0
+              Width = 1054
+              Height = 33
+              Align = alTop
+              BevelOuter = bvNone
+              Color = clNavy
+              ParentBackground = False
+              TabOrder = 0
+              object LbMesa: TLabel
+                Left = 201
+                Top = 0
+                Width = 543
+                Height = 33
+                Align = alClient
+                Alignment = taCenter
+                AutoSize = False
+                Caption = 'M e s a'
+                Color = clNavy
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -29
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentColor = False
+                ParentFont = False
+                ExplicitLeft = 92
+                ExplicitTop = -2
+                ExplicitWidth = 547
+              end
+              object LbColaborador: TLabel
+                AlignWithMargins = True
+                Left = 867
+                Top = 0
+                Width = 52
+                Height = 33
+                Hint = 'Operador'
+                Margins.Left = 25
+                Margins.Top = 0
+                Margins.Right = 25
+                Align = alRight
+                Alignment = taCenter
+                Caption = 'Admin'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -16
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+                Layout = tlCenter
+                ExplicitHeight = 19
+              end
+              object LbOrcChave: TLabel
+                Left = 10
+                Top = 0
+                Width = 82
+                Height = 33
+                Hint = 'N'#250'mero do Atendimento'
+                Margins.Left = 25
+                Margins.Top = 0
+                Margins.Right = 25
+                Align = alLeft
+                Alignment = taCenter
+                Caption = 'N'#186': 00000'
+                Color = 12615680
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -16
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentColor = False
+                ParentFont = False
+                Layout = tlCenter
+                ExplicitHeight = 19
+              end
+              object Image2: TImage
+                Left = 744
+                Top = 0
+                Width = 98
+                Height = 33
+                Align = alRight
+              end
+              object horario: TLabel
+                Left = 92
+                Top = 0
+                Width = 109
+                Height = 33
+                Hint = 'N'#250'mero do Atendimento'
+                Margins.Left = 25
+                Margins.Top = 0
+                Margins.Right = 25
+                Align = alLeft
+                Alignment = taCenter
+                AutoSize = False
+                Caption = '00:00:00'
+                Color = clNavy
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -16
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentColor = False
+                ParentFont = False
+                Layout = tlCenter
+              end
+              object plAgora: TPanel
+                Left = 944
+                Top = 0
+                Width = 110
+                Height = 33
+                Margins.Left = 25
+                Margins.Top = 0
+                Margins.Right = 25
+                Margins.Bottom = 0
+                Align = alRight
+                BevelOuter = bvNone
+                Color = clNavy
+                Padding.Top = 3
+                ParentBackground = False
+                TabOrder = 0
+                object LbData: TLabel
+                  Left = 0
+                  Top = 19
+                  Width = 110
+                  Height = 14
+                  Margins.Top = 0
+                  Align = alBottom
+                  Alignment = taCenter
+                  AutoSize = False
+                  Caption = '00/00/0000'
+                  Color = 12615680
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWhite
+                  Font.Height = -13
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentColor = False
+                  ParentFont = False
+                  ExplicitLeft = 3
+                  ExplicitTop = 20
+                  ExplicitWidth = 104
+                end
+                object lbmemoria: TLabel
+                  Left = 0
+                  Top = 3
+                  Width = 110
+                  Height = 16
+                  Margins.Top = 0
+                  Align = alClient
+                  Alignment = taCenter
+                  AutoSize = False
+                  Color = 12615680
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWhite
+                  Font.Height = -13
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentColor = False
+                  ParentFont = False
+                  ExplicitLeft = 3
+                  ExplicitWidth = 104
+                  ExplicitHeight = 15
+                end
+              end
+              object Panel17: TPanel
+                Left = 0
+                Top = 0
+                Width = 10
+                Height = 33
+                Align = alLeft
+                BevelOuter = bvNone
+                BorderWidth = 2
+                Color = clNavy
+                ParentBackground = False
+                TabOrder = 1
+              end
+            end
+            object PCMesa: TPageControl
+              Left = 0
+              Top = 33
+              Width = 1054
+              Height = 602
+              ActivePage = TabCardapio
+              Align = alClient
+              TabOrder = 1
+              object TabItens: TTabSheet
+                Caption = ' Itens '
+                OnShow = TabItensShow
+                object DBGrid1: TDBGrid
+                  Left = 0
+                  Top = 0
+                  Width = 1046
+                  Height = 256
+                  Align = alClient
+                  Color = 14286847
+                  DataSource = DmDados.dIto
+                  DrawingStyle = gdsGradient
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -16
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+                  ParentFont = False
+                  TabOrder = 0
+                  TitleFont.Charset = DEFAULT_CHARSET
+                  TitleFont.Color = clWindowText
+                  TitleFont.Height = -11
+                  TitleFont.Name = 'Tahoma'
+                  TitleFont.Style = []
+                  OnCellClick = DBGrid1CellClick
+                  OnDrawColumnCell = DBGrid1DrawColumnCell
+                  OnDblClick = DBGrid1DblClick
+                  OnKeyDown = DBGrid1KeyDown
+                  OnTitleClick = DBGrid1TitleClick
+                  Columns = <
+                    item
+                      Expanded = False
+                      FieldName = 'itoitem'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Caption = 'Item'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 37
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'immnumepedido'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Caption = 'Ped.'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 52
+                      Visible = True
+                    end
+                    item
+                      Alignment = taCenter
+                      Expanded = False
+                      FieldName = 'immhorapedido'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Alignment = taCenter
+                      Title.Caption = 'Hora Pedido'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 80
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'immhoraimpresso'
+                      Title.Alignment = taCenter
+                      Title.Caption = 'Hora Impresso'
+                      Width = 80
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'procodigo'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Caption = 'C'#243'digo'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 47
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'pronome'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Caption = 'Produto'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 280
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'itoquantidade'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Alignment = taCenter
+                      Title.Caption = 'Qtde'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 80
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'unisimbolo'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Alignment = taCenter
+                      Title.Caption = 'Und.'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'itovalorav'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Alignment = taRightJustify
+                      Title.Caption = 'Valor'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 74
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'itodescontoav'
+                      Title.Alignment = taRightJustify
+                      Title.Caption = 'Desc. R$'
+                      Width = 60
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'itototalav'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Alignment = taRightJustify
+                      Title.Caption = 'Total'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 82
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'stoidentificacao'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      Title.Caption = 'Situa'#231#227'o'
+                      Title.Font.Charset = DEFAULT_CHARSET
+                      Title.Font.Color = clWindowText
+                      Title.Font.Height = -13
+                      Title.Font.Name = 'Tahoma'
+                      Title.Font.Style = []
+                      Width = 80
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'clbpediu'
+                      Title.Caption = 'Pedido Por'
+                      Width = 70
+                      Visible = True
+                    end>
+                end
+                object Panel12: TPanel
+                  Left = 0
+                  Top = 400
+                  Width = 1046
+                  Height = 174
+                  Align = alBottom
+                  BevelOuter = bvNone
+                  Color = clNavy
+                  ParentBackground = False
+                  TabOrder = 1
+                  object LbItemGeral: TLabel
+                    Left = 274
+                    Top = 0
+                    Width = 138
+                    Height = 25
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object LbItemQtde: TLabel
+                    AlignWithMargins = True
+                    Left = 5
+                    Top = 0
+                    Width = 63
+                    Height = 114
+                    Hint = 'Quantidade de Itens'
+                    Margins.Left = 5
+                    Margins.Top = 0
+                    Margins.Right = 25
+                    Align = alLeft
+                    Alignment = taCenter
+                    Caption = 'Itens: 0'
+                    Color = 12615680
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWhite
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentColor = False
+                    ParentFont = False
+                    Layout = tlCenter
+                    ExplicitHeight = 19
+                  end
+                  object LbRecebido: TLabel
+                    Left = 887
+                    Top = 59
+                    Width = 106
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object LbItemDesconto: TLabel
+                    Left = 15
+                    Top = 42
+                    Width = 138
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWhite
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object LbItemTotal: TLabel
+                    Left = 197
+                    Top = 0
+                    Width = 138
+                    Height = 25
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Color = clWhite
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clYellow
+                    Font.Height = -21
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentColor = False
+                    ParentFont = False
+                    Transparent = True
+                    Visible = False
+                  end
+                  object LbReceber: TLabel
+                    Left = 384
+                    Top = 28
+                    Width = 145
+                    Height = 28
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Color = clNavy
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clYellow
+                    Font.Height = -21
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentColor = False
+                    ParentFont = False
+                    Transparent = False
+                  end
+                  object Label7: TLabel
+                    Left = -4
+                    Top = 30
+                    Width = 142
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Desconto R$:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWhite
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object Label8: TLabel
+                    Left = 2
+                    Top = 5
+                    Width = 90
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Geral R$:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object Label9: TLabel
+                    Left = 146
+                    Top = 5
+                    Width = 98
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Total R$:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clYellow
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object Label10: TLabel
+                    Left = 618
+                    Top = 59
+                    Width = 220
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Recebido Parcial R$'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Calibri'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object Label11: TLabel
+                    Left = 183
+                    Top = 28
+                    Width = 208
+                    Height = 28
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Falta Receber R$'
+                    Color = clNavy
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clYellow
+                    Font.Height = -21
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentColor = False
+                    ParentFont = False
+                    Transparent = False
+                  end
+                  object Label5: TLabel
+                    Left = 2
+                    Top = 91
+                    Width = 151
+                    Height = 19
+                    Caption = '[F5] Atualiza itens'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindow
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object LbReceberTaxa: TLabel
+                    Left = 397
+                    Top = 59
+                    Width = 132
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 33023
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object LbCapReceberTaxa: TLabel
+                    Left = 210
+                    Top = 59
+                    Width = 181
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Falta Receber+Taxa R$:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 33023
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    Visible = False
+                  end
+                  object LbItemTotalGeral: TLabel
+                    Left = 843
+                    Top = 5
+                    Width = 150
+                    Height = 30
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Color = clWhite
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentColor = False
+                    ParentFont = False
+                    Transparent = True
+                  end
+                  object Label4: TLabel
+                    Left = 577
+                    Top = 6
+                    Width = 260
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'TOTAL GASTO NA MESA R$'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Calibri'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object Label3: TLabel
+                    Left = 618
+                    Top = 31
+                    Width = 219
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Itens j'#225' recebidos R$'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Calibri'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object LbItensRecebido: TLabel
+                    Left = 887
+                    Top = 32
+                    Width = 106
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '0,00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8454143
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object Label6: TLabel
+                    Left = 184
+                    Top = 84
+                    Width = 208
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = 'Atualiza'#231#227'o da Mesa:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 33023
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object lbhoraatualizacao: TLabel
+                    Left = 398
+                    Top = 84
+                    Width = 132
+                    Height = 22
+                    Alignment = taRightJustify
+                    AutoSize = False
+                    Caption = '00:00:00'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 33023
+                    Font.Height = -19
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object plmesasemfechamento: TPanel
+                    Left = 0
+                    Top = 114
+                    Width = 1046
+                    Height = 60
+                    Align = alBottom
+                    BevelOuter = bvNone
+                    Color = clNavy
+                    ParentBackground = False
+                    TabOrder = 0
+                    Visible = False
+                    object imStoneonLine: TImage
+                      Left = 0
+                      Top = 0
+                      Width = 66
+                      Height = 60
+                      Align = alLeft
+                      Center = True
+                      Picture.Data = {
+                        0954506E67496D61676589504E470D0A1A0A0000000D49484452000000300000
+                        003008060000005702F987000000017352474200AECE1CE90000000467414D41
+                        0000B18F0BFC6105000000097048597300000EC300000EC301C76FA864000004
+                        944944415478DAED986D6C535518C7FFB76FACEDB26E5D3746ED685980C158D7
+                        391843C5A891881AE780CDA8739B0908C6CF1A13BF18C8A2B0A9F10366A04363
+                        860309234A3433812F2804E85E18332012BBF7213046BB6EEBBAAD5DCB739A6C
+                        1A69D7DBEED6AE49FF4B93A5F7F4DEF33BF739CFF37F0EA73C5DEE9DF4CC2056
+                        C525FCF85A1C200E10078803C401162780941321539102AFD70BBB7B1263AE49
+                        B8BC9ED801284C598ECFF25F814C24C1F0F4382C6343B838DC05B3B507834E3B
+                        6604808928C0F31939F8A2A01C529178EE3B173D6B70C28AE63BD7D034D08E5E
+                        87151E78630760561E0A2BCBF8100E5BCEF9609C33EED8029815DB178DBD9750
+                        D7FD1BECF47FCC01304D7BDC38DE67C6A737CF62D43D157B004C53332ED45138
+                        D575FD4A40FCE713518067D257E3D0FA372017CB788DB74D3BF07E6713CEDEFD
+                        93F7B60E0B404CF9FDA9B4553028D43839780563015E7BB2548E325D011E4DC9
+                        8451A5838E6A02FBED7C6AB3F6E29DF663189A1A8B0C80081C9EA595ADCEDB8E
+                        04CAEF55E6AFF1BBFD76E007D08785904E9E8C12AD09E5FA22A42724051CCFF6
+                        C3BE6B3FA1B1BF85D75B0809804DA6486D408DA91406A506A32E27DE24802B23
+                        B778FD5E42ABFF64DA4AECCD2986215113709CF97E0FF6B41DC508DD5F300036
+                        F95C9516B57965C8512DF37D172A009388E3B075E95A1CC82B45B24CE1778C9D
+                        EEBBABE55BB4DAFA850358452B56430F2D50EB09860B1B80690985DEDE752FE1
+                        75FDC6B97BFD5BCC3BEDBFD18CAFBA2F040D235E008FC855F8D8B88D366E3638
+                        EE9F07860BC0B449BD02F5859548A28DEE4F3F507278AFF314DC41FC52500035
+                        BDE6EA75C578419BF7500659088046A6C4779B76626D92D6EFF58BC316EC6A6D
+                        C004D58705016CA3897F62224729963C746D21000AB114F51B2AB199D2B13F5D
+                        B50DA0B2E51B7AC6FCF62228C00E4A7DB5F965940A8505908BA43852584100AB
+                        FD5EEF1819A0142D00402ABDEA8F8C25D89A91EBCB204201B0103A5AB493325A
+                        844388693955D003C6ED785CB352B04DBC91B2D991C22AA8A4FE53E9E95B1D78
+                        F76A53D00E8E771A5D9398EE2B6026EAB26611C205905165FE30E74554181EF3
+                        9F46E9AFE6C62F38DC755E9834EA1B481F53B28E0A5929B29332C206F05991A5
+                        D9A83595518653FA1D33EA7662774B032E932F0A3AAF50ADC4664D16F61B7720
+                        53991A32004BC34FA4AEC0BEDC126425A6051CC70CDD5B14FF3621ADC4DC0AD2
+                        1E788EAC40354D8299343E664E22122163890AC55A23AA286C9691B10B24D633
+                        575FFF190D7D97853773B362A66C0B85815E918A63FDAD01EDB44A9A8097A98E
+                        14A4E829FC3269BC9A60E66F6E3A6C7D78BBBD1177272364A7FFBBBAF3ADD2D3
+                        54A40EADAF8042C2AFA1B1BB26F001D987E63B7F44B6A1E1AB505A4AD6077C49
+                        EDE4C1BFCE61CAC3FF84625100B0C99FA450ACBD79867A80D04E26A20EE0A0FD
+                        F37D9F1907A9A1E79375160D003BD8EA71DC437DF779AABA9D412DC3A20160FE
+                        FE6FA70D676E5FC7898136581CC33E9870155100E6773ECF7F953A3031ACD30E
+                        58C6EFF94CDAA5FBDDE89FB00972521D5100E679B2A856B0C35B16DFACD70DE5
+                        D02AEA00FF87E200D1561C20DA8A03445B310FF000E693E0B52966899C000000
+                        0049454E44AE426082}
+                      Visible = False
+                    end
+                  end
+                end
+                object plDBGridItoRec: TPanel
+                  Left = 0
+                  Top = 256
+                  Width = 1046
+                  Height = 144
+                  Align = alBottom
+                  Caption = 'plDBGridItoRec'
+                  TabOrder = 2
+                  Visible = False
+                  object DBGridItoRec: TDBGrid
+                    Left = 1
+                    Top = 25
+                    Width = 1044
+                    Height = 118
+                    Align = alClient
+                    Color = 16772810
+                    DataSource = DmDados.Ditorec
+                    DrawingStyle = gdsGradient
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+                    ParentFont = False
+                    TabOrder = 0
+                    TitleFont.Charset = DEFAULT_CHARSET
+                    TitleFont.Color = clWindowText
+                    TitleFont.Height = -11
+                    TitleFont.Name = 'Tahoma'
+                    TitleFont.Style = []
+                    OnKeyDown = DBGridItoRecKeyDown
+                    Columns = <
+                      item
+                        Expanded = False
+                        FieldName = 'itoitem'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Item'
+                        Width = 37
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'immnumepedido'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Ped.'
+                        Width = 52
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'immhorapedido'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Hora'
+                        Width = 52
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'procodigo'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'C'#243'digo'
+                        Width = 47
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'pronome'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Produto'
+                        Width = 320
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'itoquantidade'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Qtde'
+                        Width = 60
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'itovalorav'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Alignment = taRightJustify
+                        Title.Caption = 'Valor'
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'unisimbolo'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Unid.'
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'itodescontoav'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Width = 75
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'itototalav'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Alignment = taRightJustify
+                        Title.Caption = 'Total'
+                        Width = 82
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'stoidentificacao'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Situa'#231#227'o'
+                        Width = 80
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'clbpediu'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        Title.Caption = 'Pedido Por'
+                        Width = 70
+                        Visible = True
+                      end>
+                  end
+                  object Panel1: TPanel
+                    Left = 1
+                    Top = 1
+                    Width = 1044
+                    Height = 24
+                    Align = alTop
+                    Alignment = taLeftJustify
+                    BevelOuter = bvNone
+                    BorderWidth = 4
+                    Caption = 'Itens j'#225' recebidos nesta mesa:'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                    TabOrder = 1
+                  end
+                end
+              end
+              object TabCardapio: TTabSheet
+                Caption = 'Card'#225'pio'
+                ImageIndex = 1
+                OnShow = TabCardapioShow
+                object Panel5: TPanel
+                  Left = 0
+                  Top = 535
+                  Width = 1046
+                  Height = 39
+                  Align = alBottom
+                  BevelKind = bkFlat
+                  BevelOuter = bvNone
+                  TabOrder = 0
+                  object Panel8: TPanel
+                    Left = 909
+                    Top = 0
+                    Width = 133
+                    Height = 35
+                    Align = alRight
+                    BevelOuter = bvNone
+                    TabOrder = 0
+                    object BtnCardRetornar: TButton
+                      Left = 6
+                      Top = 2
+                      Width = 120
+                      Height = 31
+                      Caption = 'Cancelar'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -15
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                      TabOrder = 0
+                      OnClick = BtnCardRetornarClick
+                    end
+                  end
+                end
+                object Panel9: TPanel
+                  Left = 380
+                  Top = 0
+                  Width = 666
+                  Height = 535
+                  Align = alClient
+                  BevelOuter = bvNone
+                  TabOrder = 1
+                  object Panel10: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 666
+                    Height = 535
+                    Align = alClient
+                    BevelOuter = bvNone
+                    TabOrder = 0
+                    object Panel11: TPanel
+                      Left = 0
+                      Top = 0
+                      Width = 666
+                      Height = 34
+                      Align = alTop
+                      BevelKind = bkFlat
+                      BevelOuter = bvNone
+                      Color = 12615680
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWhite
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = []
+                      ParentBackground = False
+                      ParentFont = False
+                      TabOrder = 0
+                      object LbOpcoes: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 656
+                        Height = 27
+                        Align = alClient
+                        Alignment = taCenter
+                        Caption = 'Op'#231#245'es'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWhite
+                        Font.Height = -17
+                        Font.Name = 'Tahoma'
+                        Font.Style = [fsBold]
+                        ParentFont = False
+                        ExplicitWidth = 63
+                        ExplicitHeight = 21
+                      end
+                    end
+                    object DBGrid3: TDBGrid
+                      Left = 0
+                      Top = 34
+                      Width = 666
+                      Height = 375
+                      Align = alClient
+                      DataSource = dproc
+                      DrawingStyle = gdsGradient
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -16
+                      Font.Name = 'Tahoma'
+                      Font.Style = []
+                      Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+                      ParentFont = False
+                      TabOrder = 1
+                      TitleFont.Charset = DEFAULT_CHARSET
+                      TitleFont.Color = clWindowText
+                      TitleFont.Height = -11
+                      TitleFont.Name = 'Tahoma'
+                      TitleFont.Style = []
+                      OnDblClick = DBGrid3DblClick
+                      OnEnter = DBGrid3Enter
+                      OnExit = DBGrid3Exit
+                      OnKeyDown = DBGrid3KeyDown
+                      OnKeyPress = DBGrid3KeyPress
+                      OnKeyUp = DBGrid3KeyUp
+                      Columns = <
+                        item
+                          Expanded = False
+                          FieldName = 'pronomereduzido'
+                          Font.Charset = DEFAULT_CHARSET
+                          Font.Color = clWindowText
+                          Font.Height = -15
+                          Font.Name = 'Tahoma'
+                          Font.Style = [fsBold]
+                          Title.Font.Charset = DEFAULT_CHARSET
+                          Title.Font.Color = clWindowText
+                          Title.Font.Height = -13
+                          Title.Font.Name = 'Tahoma'
+                          Title.Font.Style = []
+                          Width = 350
+                          Visible = True
+                        end
+                        item
+                          Expanded = False
+                          FieldName = 'punprecoav'
+                          Width = 250
+                          Visible = True
+                        end>
+                    end
+                    object PnSabores: TPanel
+                      Left = 0
+                      Top = 409
+                      Width = 666
+                      Height = 126
+                      Align = alBottom
+                      BevelOuter = bvNone
+                      TabOrder = 2
+                      object Panel14: TPanel
+                        Left = 0
+                        Top = 0
+                        Width = 666
+                        Height = 32
+                        Align = alTop
+                        BevelKind = bkFlat
+                        BevelOuter = bvNone
+                        Color = 12615680
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWhite
+                        Font.Height = -11
+                        Font.Name = 'Tahoma'
+                        Font.Style = []
+                        ParentBackground = False
+                        ParentFont = False
+                        TabOrder = 0
+                        object LbIngredientes: TLabel
+                          AlignWithMargins = True
+                          Left = 3
+                          Top = 3
+                          Width = 656
+                          Height = 25
+                          Align = alClient
+                          Alignment = taCenter
+                          Caption = 'Ingredientes'
+                          Font.Charset = DEFAULT_CHARSET
+                          Font.Color = clWhite
+                          Font.Height = -17
+                          Font.Name = 'Tahoma'
+                          Font.Style = [fsBold]
+                          ParentFont = False
+                          ExplicitWidth = 110
+                          ExplicitHeight = 21
+                        end
+                      end
+                      object Panel15: TPanel
+                        Left = 496
+                        Top = 32
+                        Width = 170
+                        Height = 94
+                        Align = alRight
+                        BevelOuter = bvNone
+                        TabOrder = 1
+                        object DBGrid4: TDBGrid
+                          Left = 0
+                          Top = 0
+                          Width = 170
+                          Height = 94
+                          TabStop = False
+                          Align = alClient
+                          DrawingStyle = gdsGradient
+                          Font.Charset = DEFAULT_CHARSET
+                          Font.Color = clWindowText
+                          Font.Height = -16
+                          Font.Name = 'Tahoma'
+                          Font.Style = []
+                          Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+                          ParentFont = False
+                          ReadOnly = True
+                          TabOrder = 0
+                          TitleFont.Charset = DEFAULT_CHARSET
+                          TitleFont.Color = clWindowText
+                          TitleFont.Height = -11
+                          TitleFont.Name = 'Tahoma'
+                          TitleFont.Style = []
+                          OnKeyDown = DBGrid4KeyDown
+                          Columns = <
+                            item
+                              Expanded = False
+                              FieldName = 'punprecoav'
+                              Font.Charset = DEFAULT_CHARSET
+                              Font.Color = clWindowText
+                              Font.Height = -15
+                              Font.Name = 'Tahoma'
+                              Font.Style = [fsBold]
+                              Title.Font.Charset = DEFAULT_CHARSET
+                              Title.Font.Color = clWindowText
+                              Title.Font.Height = -13
+                              Title.Font.Name = 'Tahoma'
+                              Title.Font.Style = []
+                              Width = 100
+                              Visible = True
+                            end
+                            item
+                              Expanded = False
+                              FieldName = 'unisimbolo'
+                              Width = 30
+                              Visible = True
+                            end>
+                        end
+                      end
+                      object MemIngredientes: TMemo
+                        Left = 0
+                        Top = 32
+                        Width = 496
+                        Height = 94
+                        TabStop = False
+                        Align = alClient
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -13
+                        Font.Name = 'Tahoma'
+                        Font.Style = [fsBold]
+                        ParentFont = False
+                        ReadOnly = True
+                        TabOrder = 2
+                      end
+                    end
+                  end
+                end
+                object Panel26: TPanel
+                  Left = 0
+                  Top = 0
+                  Width = 380
+                  Height = 535
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 2
+                  object Panel27: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 380
+                    Height = 34
+                    Align = alTop
+                    BevelInner = bvLowered
+                    Color = 12615680
+                    ParentBackground = False
+                    TabOrder = 0
+                    object Label12: TLabel
+                      AlignWithMargins = True
+                      Left = 18
+                      Top = 5
+                      Width = 94
+                      Height = 27
+                      Align = alLeft
+                      Alignment = taRightJustify
+                      BiDiMode = bdLeftToRight
+                      Caption = '[F8] C'#243'digo'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWhite
+                      Font.Height = -16
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      ParentBiDiMode = False
+                      ParentFont = False
+                      Layout = tlCenter
+                      ExplicitHeight = 19
+                    end
+                    object Panel28: TPanel
+                      Left = 115
+                      Top = 2
+                      Width = 12
+                      Height = 30
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 0
+                    end
+                    object Panel29: TPanel
+                      Left = 2
+                      Top = 2
+                      Width = 13
+                      Height = 30
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 1
+                    end
+                    object Panel30: TPanel
+                      Left = 127
+                      Top = 2
+                      Width = 93
+                      Height = 30
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 2
+                      object EdtProduto: TEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 87
+                        Height = 24
+                        Align = alClient
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -16
+                        Font.Name = 'Tahoma'
+                        Font.Style = [fsBold]
+                        MaxLength = 6
+                        ParentFont = False
+                        TabOrder = 0
+                        OnEnter = EdtProdutoEnter
+                        OnExit = EdtProdutoExit
+                        OnKeyPress = EdtProdutoKeyPress
+                        OnKeyUp = EdtProdutoKeyUp
+                        ExplicitHeight = 27
+                      end
+                    end
+                    object btBuscaERP: TButton
+                      Left = 226
+                      Top = 3
+                      Width = 119
+                      Height = 25
+                      Caption = 'Busca Avan'#231'ada'
+                      TabOrder = 3
+                      OnClick = btBuscaERPClick
+                    end
+                  end
+                  object DBGrid2: TDBGrid
+                    Left = 0
+                    Top = 34
+                    Width = 380
+                    Height = 501
+                    Align = alClient
+                    DataSource = dGrp
+                    DrawingStyle = gdsGradient
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -16
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+                    ParentFont = False
+                    TabOrder = 1
+                    TitleFont.Charset = DEFAULT_CHARSET
+                    TitleFont.Color = clWindowText
+                    TitleFont.Height = -11
+                    TitleFont.Name = 'Tahoma'
+                    TitleFont.Style = []
+                    OnDblClick = DBGrid2DblClick
+                    OnEnter = DBGrid2Enter
+                    OnExit = DBGrid2Exit
+                    OnKeyDown = DBGrid2KeyDown
+                    OnKeyPress = DBGrid2KeyPress
+                    OnKeyUp = DBGrid2KeyUp
+                    Columns = <
+                      item
+                        Expanded = False
+                        FieldName = 'grpidentificacao'
+                        Font.Charset = DEFAULT_CHARSET
+                        Font.Color = clWindowText
+                        Font.Height = -15
+                        Font.Name = 'Tahoma'
+                        Font.Style = [fsBold]
+                        Title.Font.Charset = DEFAULT_CHARSET
+                        Title.Font.Color = clWindowText
+                        Title.Font.Height = -13
+                        Title.Font.Name = 'Tahoma'
+                        Title.Font.Style = []
+                        Width = 276
+                        Visible = True
+                      end
+                      item
+                        Expanded = False
+                        FieldName = 'grpcodigo'
+                        Visible = False
+                      end>
+                  end
+                end
+              end
+            end
+          end
+          object PnLeft: TPanel
+            Left = 0
+            Top = 0
+            Width = 327
+            Height = 635
+            Align = alLeft
+            BevelOuter = bvNone
+            Color = clNavy
+            ParentBackground = False
+            TabOrder = 1
+            object PnMesas: TPanel
+              Left = 0
+              Top = 33
+              Width = 327
+              Height = 545
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clNavy
+              ParentBackground = False
+              TabOrder = 0
+            end
+            object Panel22: TPanel
+              Left = 0
+              Top = 0
+              Width = 327
+              Height = 33
+              Align = alTop
+              BevelOuter = bvNone
+              Color = clNavy
+              ParentBackground = False
+              TabOrder = 1
+              object LbOperador: TLabel
+                AlignWithMargins = True
+                Left = 47
+                Top = 3
+                Width = 114
+                Height = 30
+                Align = alLeft
+                Alignment = taRightJustify
+                BiDiMode = bdLeftToRight
+                Caption = '[F2] Operador'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -16
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBiDiMode = False
+                ParentFont = False
+                Layout = tlCenter
+                ExplicitHeight = 19
+              end
+              object Image1: TImage
+                Left = 13
+                Top = 0
+                Width = 31
+                Height = 33
+                Align = alLeft
+                Picture.Data = {
+                  0954506E67496D61676589504E470D0A1A0A0000000D49484452000000200000
+                  00200806000000737A7AF4000008FA4944415478DAAD56095495C715FEDEC22A
+                  08C8266B0444010B880504C40569540A1AAB72386E0858170EA4A9684C9BB840
+                  5C5023A6464510A3E24620D84882205551AA842D2EA040FB4410148407CA031F
+                  226FFB7BE71973E202C249E79C7BCEFCF3DF99F9E6CEFDBE3B3CFCC6A66760BE
+                  57A0A11DD8D5D138833E5B863A9F37D409424DDD057C81D041D6DBBD933E878F
+                  F3FD5397ABDF07B894B52BBFFD41CD421A5390F5FCDF00F0C0B3E7C089A92B25
+                  D375F199DBA36768865B574E7F26EB9366FA0445D7B9F907E15E553967ACAC4D
+                  CBFAF6CC69F2AB207BF69B010835B53D6CC64CBCD1D3DDF144DC543D4620D41A
+                  E117BC5AE411B0104567F6B4565ECD5AB3E360CE497167375773F791F0E0C6F9
+                  F878FD2727B2B3B337D2F426326EA800268F18E970B4FB71F3170AF9F3542B07
+                  8F8FC6FE7EE63F9CBD66E1C8E7F3BFEE7DFA38756EF4BE72330B73AEB6F206BE
+                  D91BC3595A59F30F9D2A507EBA6113BFEADA193C78D8FCC4C7C7673EAD554AD6
+                  37240023EDBD52ECC74D5CA552CA519A97EA6266E334CDD16356B2CFAC652838
+                  1EDFB9626140C3AA552BDDB7A79CC7E1D4BD82A2EFD394A3473B0AE8A02A89A4
+                  1B8686067CB6CED8B163B78B44A2BDD4150F0980837B60D2188FC0B87113FF88
+                  DD315E59CECE4E923DC9A7569C2914292F9F4D15D496FF000D4D2DDEA5E24A65
+                  DEF7FF44D2CE04FEDBAEF1E8D1A3D5515151E1D4ADC28BA47C27004D16007D63
+                  DBA839E19F6CB618E38FCBC7D770570B73793ADA3A0889DAAE2C2F38CC1737D7
+                  0F9A355A5A5AAB6532592675258301604616989B7B6E8F9DBDBDE9EACDA704A2
+                  E213AAFABB357C5D5D5D88DB1FAB343404303234E40F16C0BA75EB2E242525FD
+                  85BA2232D5BB005892CD8F8D8D8D494C4C1CF3D1E664CED95288756BE35ED990
+                  4E84F2F27228954A4C9D3A75400062B1B8CFDCDC3C8CBA1731802EBC04A047F6
+                  071E8FB7542E97CF1308042F46B9171EF50DF5282F2BC79D3B77D0D7D7071717
+                  17444646BE75C1B6B656989B8F54F78383838FE5E5E56DC60B4AF60F20282848
+                  909F9FEF4CDD45C9C9C951D1D1D1E66C5C2291202525059D9D9DD0D6D686B7B7
+                  37264F9E8CE1C387BFB208C771A8ACAC4471F18FA8AFBF87888808B8BABAE2CA
+                  952B6D010101A1E452C6023850045833269B6D6B6BBBACB1B171DACBC1F4F474
+                  B8BBBB63FCF8F16F4C66C04A4A4AD4D7F2ECD933585A5A62D2A449F0F0F08050
+                  2854FB8C1A352A81D64B463F94FC0580898989664747872775171616164612F2
+                  61FD85ADB6BA16C525C5A8ABAB539F9E019C32650AACADADDFF03D7428F5D6AA
+                  55ABD97DDDC15B28F93AADACC8E6D1DD2DCFCDCD75FFF50FA9548AD2D2529495
+                  95A2BBFB29898E217C7D7DD5D7C298C29AE86E03ECEDACE9F41AE8EA92402657
+                  A2E2F67D044FF78CA6DF19645DEF02A04D3685E5429B58BCC4CCD4549D8D3939
+                  39EA50AB542A383B3BC3DFDF1F8E8E8EAF4CDC955E02A5A11B1EDF4C87AB9D2E
+                  AA2A6F4173F402983BFA53DDF8126753E35CC8EDBF788D92BCB70072200B5BBB
+                  76EDF2DDBB77DBB14176C7EDEDED6AEAE9E9E9BD11E6E2AB45385BA5034B8709
+                  7874BF060D17E331CCC411EE73B73395C6BF4E6EC6F9D38921E47A19AF55C9B7
+                  291B4BF1195ADADA4B9FF7F6CEC1004DDCDA8212BA96CCCC4CDC6DE363F1FA93
+                  50714AA8941C787C9E7A7169D763E4EC0EA104B54825A1DB1917B78618E2C611
+                  8DEFF7078085FD77EC1A48D3A3885226AF3B545757E35C7E015A342641C0F5E2
+                  41650EACDCE6C1C6C947BD209F74847213F2E7CF881D123CAABB018D9EDA6E09
+                  CF564F434B977FAB38B723EF4482B58585555F7FDA6E4A36C7C9C929A2B6B6D6
+                  9F0D30F5235E531296A14BD289169915BC42FE0AA542A13E0747A1E6F3786812
+                  5D47F1B914E88F1809AFC02510F03548BC7A20270153CA7BD5FE4FDA1FA05B74
+                  766BFEB91F36F6074083CC876C61454545A4A7A7274B4E6CDBB60DC3860D23A5
+                  3343D25787E0E81B0EFB717E30B6A0B4E17168A9AF4252AC979A053ABAFAD037
+                  7D0FA1B1FBC0E7F321271917378BF0887C8AF3D214DE9E1E3388559707AA6E36
+                  640B424343A3B2B2B2D895A86598AA1CC96D1B3E8C8DC1BDE62ECAF22998B9F8
+                  33CA6D0E59FB63517FFD3BB8B9B9C3C8C8084D8D4D18E1140407D7697472392E
+                  642672A21B171915BF0C0B0B4BA4DC910F0480919B559CC524C98B0C0C0C5EF1
+                  ADA9BE83BF6FDA015D1B5F4C08580AB9A20F372F1CC3DA703FF8F84D52834D3F
+                  760457AAFB6064E54A1456A0E2C209E58DA28CB39C4AC574A1BDBF247CD95825
+                  64640FDBB469D3F2848404DB5F36AFA945D6A57BE08CDC29BC941F7219E5881C
+                  EC25151E6806677B7529C177E74B70FEA6143CA582FE29C0D16E0AF22DBB7842
+                  F4C5863FCF0B09995DFDAE07860159109D3E9CA210C406E8A985751FFF0D7601
+                  EBA1AB379C68AEC4D3CE56E8E819D32632C8144AE86BF4910A2A20EDA5F73494
+                  E068735659950C04F9F3047C941766E3E0F668F3770160158549F222CA8348CA
+                  0723B65074F44AD4779BA0A3B5092D0D55443B214222B7517EE8A8D9A25229D5
+                  AA09154585F828EBEDC1856F767013672EE3F1F842E8D3B3FE6256D283967B3F
+                  D90EE689C5E23977C2840911D7AF5F67CC404141013EDDF0395A9A1F102BB430
+                  CAD606D6135740477F84FA09C1E8A822202C2FF874CB6CF3C6FF949609357598
+                  C899924E68CB7AA55F537FCD60006891F9324A922644903668B2327CFC783A15
+                  215630B9BEBCA2EAE7E6CE41062A4E8187776FE0A7C20C188FB4835FD0728A80
+                  0A52493BB2F7C72690EF439A308AD17CF4E8D149544DC5837D64BE47164AAAB8
+                  9CD4D1890DB4B6B52AE2D6C4D566646454B84F099BE91DB8D88AA39397E51FC1
+                  EDD29C1ADD61867DF362BEF210D0F508849AC84EFEF0DFDD1DCD534982F954B6
+                  855BB66C91BD8B05BF6EECA8D3C9963437372F888F8F17A5A5A5FD48DF9564ED
+                  9ED317EF1DE733DBB4BDB90EE74F25C8540AF9FB341EE2F5FEB2952EDE41060C
+                  C0E56F939E37D414EBBCBEF0A000848484F0E97D3096BAC1648C8EF564B7F1A2
+                  BC5A906DB5B073737EDA29B6914A5AE3E99BC20D3F4AB878FF39D1D3EF561609
+                  5A1B6EDFD9BF7F9F2F3D7CA54306F073D3FB79732650629264714F4FCFF3F5EB
+                  D70B77EDDAC592F3033225BD15B65EBB764D7AE0C0017E4C4C4C048DB1D7107B
+                  941EC68B72FC4AFB1FADB2C1A9AD5336340000000049454E44AE426082}
+                OnClick = Image1Click
+                ExplicitLeft = 10
+                ExplicitTop = -2
+              end
+              object Panel23: TPanel
+                Left = 164
+                Top = 0
+                Width = 12
+                Height = 33
+                Align = alLeft
+                BevelOuter = bvNone
+                Color = clNavy
+                ParentBackground = False
+                TabOrder = 0
+              end
+              object Panel24: TPanel
+                Left = 0
+                Top = 0
+                Width = 13
+                Height = 33
+                Align = alLeft
+                BevelOuter = bvNone
+                Color = clNavy
+                ParentBackground = False
+                TabOrder = 1
+              end
+              object Panel25: TPanel
+                Left = 176
+                Top = 0
+                Width = 160
+                Height = 33
+                Align = alLeft
+                BevelOuter = bvNone
+                Color = 12615680
+                ParentBackground = False
+                TabOrder = 2
+                object EdtOperador: TEdit
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 154
+                  Height = 27
+                  Align = alClient
+                  Color = clWhite
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -16
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  MaxLength = 14
+                  ParentFont = False
+                  TabOrder = 0
+                  OnEnter = EdtOperadorEnter
+                  OnExit = EdtOperadorExit
+                  OnKeyPress = EdtOperadorKeyPress
+                end
+              end
+            end
+            object Panel36: TPanel
+              Left = 0
+              Top = 578
+              Width = 327
+              Height = 23
+              Align = alBottom
+              BevelOuter = bvNone
+              Color = clNavy
+              ParentBackground = False
+              TabOrder = 2
+              object Label13: TLabel
+                Left = 18
+                Top = 4
+                Width = 48
+                Height = 13
+                AutoSize = False
+                Caption = 'Livres'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindow
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+              object Label15: TLabel
+                Left = 84
+                Top = 4
+                Width = 53
+                Height = 14
+                Caption = 'Ocupada'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindow
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+              object Label16: TLabel
+                Left = 166
+                Top = 4
+                Width = 50
+                Height = 18
+                AutoSize = False
+                Caption = 'Jun'#231#227'o'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindow
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+              object Label14: TLabel
+                Left = 238
+                Top = 3
+                Width = 74
+                Height = 14
+                Caption = 'Fechamento'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindow
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+              object Panel38: TPanel
+                Left = 0
+                Top = 0
+                Width = 13
+                Height = 23
+                Align = alLeft
+                BevelOuter = bvNone
+                Color = 12615680
+                ParentBackground = False
+                TabOrder = 0
+              end
+              object Panel31: TPanel
+                Left = 2
+                Top = 3
+                Width = 15
+                Height = 15
+                BevelInner = bvLowered
+                Color = clBlack
+                ParentBackground = False
+                TabOrder = 1
+              end
+              object Panel33: TPanel
+                Left = 67
+                Top = 3
+                Width = 15
+                Height = 15
+                BevelInner = bvLowered
+                Color = 16711808
+                ParentBackground = False
+                TabOrder = 2
+              end
+              object Panel34: TPanel
+                Left = 149
+                Top = 3
+                Width = 15
+                Height = 15
+                BevelInner = bvLowered
+                Color = clGreen
+                ParentBackground = False
+                TabOrder = 3
+              end
+              object Panel32: TPanel
+                Left = 220
+                Top = 3
+                Width = 15
+                Height = 15
+                BevelInner = bvLowered
+                Color = clRed
+                ParentBackground = False
+                TabOrder = 4
+              end
+            end
+            object Panel18: TPanel
+              Left = 0
+              Top = 601
+              Width = 327
+              Height = 34
+              Align = alBottom
+              BevelOuter = bvNone
+              Color = clNavy
+              ParentBackground = False
+              TabOrder = 3
+              object Label2: TLabel
+                AlignWithMargins = True
+                Left = 11
+                Top = 3
+                Width = 65
+                Height = 31
+                Align = alLeft
+                Alignment = taRightJustify
+                BiDiMode = bdLeftToRight
+                Caption = 'Produto'
+                Color = clNavy
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -16
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentBiDiMode = False
+                ParentColor = False
+                ParentFont = False
+                Layout = tlCenter
+                ExplicitHeight = 19
+              end
+              object Panel20: TPanel
+                Left = 0
+                Top = 0
+                Width = 8
+                Height = 34
+                Align = alLeft
+                BevelOuter = bvNone
+                Color = clNavy
+                ParentBackground = False
+                TabOrder = 0
+              end
+              object Panel21: TPanel
+                Left = 79
+                Top = 0
+                Width = 248
+                Height = 34
+                Align = alClient
+                BevelOuter = bvNone
+                Color = clNavy
+                ParentBackground = False
+                TabOrder = 1
+                object EdtCodprod: TEdit
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 145
+                  Height = 28
+                  Align = alLeft
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -16
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  MaxLength = 14
+                  ParentFont = False
+                  TabOrder = 0
+                  OnEnter = EdtCodprodEnter
+                  OnExit = EdtCodprodExit
+                  OnKeyPress = EdtCodprodKeyPress
+                  ExplicitHeight = 27
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+  object PnOperacoes: TPanel
+    Left = 0
+    Top = 682
+    Width = 1381
+    Height = 139
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = clNavy
+    Ctl3D = False
+    ParentBackground = False
+    ParentCtl3D = False
+    TabOrder = 1
+    object GBCaixaVar: TGroupBox
+      Tag = 1
+      Left = 264
+      Top = 0
+      Width = 364
+      Height = 139
+      Margins.Left = 0
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = ' Caixa '
+      Color = clNavy
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+      object SBAbertura: TSpeedButton
+        Left = 8
+        Top = 18
+        Width = 125
+        Height = 20
+        Action = ActAbreCaixa
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBRetirada: TSpeedButton
+        Left = 174
+        Top = 18
+        Width = 106
+        Height = 20
+        Action = ActSangria
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindow
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBFechamento: TSpeedButton
+        Left = 8
+        Top = 40
+        Width = 125
+        Height = 20
+        Action = ActFechaCaixa
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindow
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBSuprimento: TSpeedButton
+        Left = 174
+        Top = 40
+        Width = 105
+        Height = 20
+        Action = ActSuprimento
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBImpFechamento: TSpeedButton
+        Left = 8
+        Top = 64
+        Width = 125
+        Height = 20
+        Action = ActImprimeCaixa
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SbVendaRapida: TSpeedButton
+        Left = 174
+        Top = 66
+        Width = 168
+        Height = 20
+        Action = ActVendaRapida
+        Caption = '[F10] Venda R'#225'pida'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SpeedButton5: TSpeedButton
+        Left = 176
+        Top = 92
+        Width = 168
+        Height = 20
+        Action = ActReimprimirComprovantes
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SpeedButton4: TSpeedButton
+        Left = 8
+        Top = 90
+        Width = 168
+        Height = 20
+        Action = ActFechaRefeicao
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+    end
+    object GBUtilitarios: TGroupBox
+      Tag = 1
+      Left = 628
+      Top = 0
+      Width = 387
+      Height = 139
+      Margins.Left = 0
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = ' Utilit'#225'rios '
+      Color = clNavy
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 1
+      object SBTransfMesa: TSpeedButton
+        Left = 3
+        Top = 16
+        Width = 190
+        Height = 20
+        Action = ActTranferirMesas
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBReabreMesa: TSpeedButton
+        Left = 3
+        Top = 42
+        Width = 190
+        Height = 20
+        Action = ActReabirMesa
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBPedido: TSpeedButton
+        Left = 200
+        Top = 65
+        Width = 160
+        Height = 20
+        Caption = 'Reimprimir Pedido'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+        OnClick = SBPedidoClick
+      end
+      object SBJuntarMesas: TSpeedButton
+        Left = 3
+        Top = 65
+        Width = 190
+        Height = 20
+        Action = ActJuntarMesas
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SBImpComanda: TSpeedButton
+        Left = 199
+        Top = 16
+        Width = 160
+        Height = 20
+        Caption = 'Imprimir Resumo'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        OnClick = SBImpComandaClick
+      end
+      object SbRecebimentos: TSpeedButton
+        Left = 200
+        Top = 42
+        Width = 160
+        Height = 20
+        Action = ActReemissaoFechamento
+        BiDiMode = bdLeftToRight
+        Caption = '2'#186' Via Fechamento'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        ParentBiDiMode = False
+        StyleElements = []
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 3
+        Top = 91
+        Width = 190
+        Height = 20
+        Action = ActExcluirJuncao
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+      object SpeedButton3: TSpeedButton
+        Left = 199
+        Top = 91
+        Width = 107
+        Height = 20
+        Action = ActGaveta
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+      end
+    end
+    object GBSalvar: TGroupBox
+      Tag = 10
+      Left = 0
+      Top = 0
+      Width = 264
+      Height = 139
+      Margins.Left = 0
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alClient
+      Caption = ' Situa'#231#227'o das conex'#245'es '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      object plImp: TPanel
+        Left = 1
+        Top = 17
+        Width = 262
+        Height = 121
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clNavy
+        ParentBackground = False
+        TabOrder = 0
+      end
+    end
+    object GBFuncoes: TGroupBox
+      Tag = 1
+      AlignWithMargins = True
+      Left = 1015
+      Top = 0
+      Width = 361
+      Height = 139
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = ' Fun'#231#245'es '
+      Color = clNavy
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 3
+      object SBCancelaItem: TSpeedButton
+        Left = 8
+        Top = 41
+        Width = 160
+        Height = 20
+        Action = ActCancelaItem
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+      end
+      object SBProduto: TSpeedButton
+        Left = 10
+        Top = 18
+        Width = 160
+        Height = 20
+        Caption = '[F8] Produto'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+        OnClick = SBProdutoClick
+      end
+      object SBFechaMesa: TSpeedButton
+        Left = 183
+        Top = 14
+        Width = 175
+        Height = 20
+        Action = ActFechaMesa
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+      end
+      object SBIniciarFechamento: TSpeedButton
+        Left = 183
+        Top = 40
+        Width = 175
+        Height = 20
+        Action = ActIniciaFechamento
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+      end
+      object SBSair: TSpeedButton
+        Left = 183
+        Top = 111
+        Width = 175
+        Height = 20
+        BiDiMode = bdLeftToRight
+        Caption = 'Sair'
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        ParentBiDiMode = False
+        StyleElements = []
+        OnClick = SBSairClick
+      end
+      object SBCancelaPedido: TSpeedButton
+        Left = 8
+        Top = 65
+        Width = 160
+        Height = 20
+        Action = ActCancelaTodos
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+      end
+      object SdReceberConvenio: TSpeedButton
+        Left = 184
+        Top = 66
+        Width = 160
+        Height = 20
+        Action = ActReceberConvenio
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        StyleElements = []
+      end
+      object SpeedButton1: TSpeedButton
+        Left = 8
+        Top = 91
+        Width = 107
+        Height = 20
+        Action = ActDesconto
+        Flat = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Margin = 1
+        ParentFont = False
+        Visible = False
+      end
+    end
+  end
+  object TmCozinha: TTimer
+    Enabled = False
+    Interval = 350
+    OnTimer = TmCozinhaTimer
+    Left = 568
+    Top = 159
+  end
+  object dproc: TUniDataSource
+    DataSet = DmDados.proc
+    OnDataChange = dprocDataChange
+    Left = 568
+    Top = 320
+  end
+  object dGrp: TUniDataSource
+    DataSet = DmDados.grp
+    OnDataChange = dGrpDataChange
+    Left = 400
+    Top = 136
+  end
+  object PUMenuRelatorios: TPopupMenu
+    Left = 780
+    Top = 175
+  end
+  object TmMesa: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = TmMesaTimer
+    Left = 189
+    Top = 352
+  end
+  object Acoes: TActionList
+    OnExecute = AcoesExecute
+    Left = 669
+    Top = 192
+    object ActAbreCaixa: TAction
+      Category = 'Caixa'
+      Caption = 'Abre Caixa'
+      OnExecute = ActAbreCaixaExecute
+    end
+    object ActFechaCaixa: TAction
+      Category = 'Caixa'
+      Caption = 'Fecha Caixa'
+      OnExecute = ActFechaCaixaExecute
+    end
+    object ActSangria: TAction
+      Category = 'Caixa'
+      Caption = 'Sangria'
+      OnExecute = ActSangriaExecute
+    end
+    object ActSuprimento: TAction
+      Category = 'Caixa'
+      Caption = 'Suprimento'
+      OnExecute = ActSuprimentoExecute
+    end
+    object ActImprimeCaixa: TAction
+      Category = 'Caixa'
+      Caption = 'Imprime Caixa'
+      OnExecute = ActImprimeCaixaExecute
+    end
+    object ActFechaMesa: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = '[F6] Fecha Mesa'
+      ShortCut = 117
+      OnExecute = ActFechaMesaExecute
+    end
+    object ActFechaRefeicao: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Nota Refei'#231#227'o'
+      OnExecute = ActFechaRefeicaoExecute
+    end
+    object ActJuntarMesas: TAction
+      Category = 'Utilit'#225'rios'
+      Caption = 'Juntar Mesas'
+      OnExecute = ActJuntarMesasExecute
+    end
+    object ActTranferirMesas: TAction
+      Category = 'Utilit'#225'rios'
+      Caption = '[F4] Transferir Mesas'
+      ShortCut = 115
+      OnExecute = ActTranferirMesasExecute
+    end
+    object ActIniciaFechamento: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Iniciar Fechamento'
+      OnExecute = ActIniciaFechamentoExecute
+    end
+    object ActReemissaoFechamento: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Reemiss'#227'o Fechamento'
+      OnExecute = ActReemissaoFechamentoExecute
+    end
+    object ActReabirMesa: TAction
+      Category = 'Utilit'#225'rios'
+      Caption = 'Reabir Mesa'
+      OnExecute = ActReabirMesaExecute
+    end
+    object ActReceberConvenio: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Receber Conv'#234'nio'
+      OnExecute = ActReceberConvenioExecute
+    end
+    object ActExcluirJuncao: TAction
+      Category = 'Utilit'#225'rios'
+      Caption = 'Excluir Jun'#231#227'o'
+      OnExecute = ActExcluirJuncaoExecute
+    end
+    object ActReceberDelivery: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Receber Delivery'
+      Enabled = False
+      Visible = False
+      OnExecute = ActReceberDeliveryExecute
+    end
+    object ActGaveta: TAction
+      Category = 'Caixa'
+      Caption = 'Abre Gaveta'
+      OnExecute = ActGavetaExecute
+    end
+    object ActCancelaItem: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Cancela Item'
+      OnExecute = ActCancelaItemExecute
+    end
+    object ActCancelaTodos: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Cancela Todos'
+      OnExecute = ActCancelaTodosExecute
+    end
+    object ActVendaRapida: TAction
+      Category = 'Caixa'
+      Caption = 'Venda R'#225'pida'
+      ShortCut = 121
+      OnExecute = ActVendaRapidaExecute
+    end
+    object ActReimprimeNFCe: TAction
+      Category = 'Caixa'
+      Caption = 'Reimprime NFCEs'
+      OnExecute = ActReimprimeNFCeExecute
+    end
+    object ActReimprimirComprovantes: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Comprovantes'
+      OnExecute = ActReimprimirComprovantesExecute
+    end
+    object ActiCancelarDelivery: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Cancelar Delivery'
+      OnExecute = ActiCancelarDeliveryExecute
+    end
+    object ActDesconto: TAction
+      Category = 'Fun'#231#245'es'
+      Caption = 'Desconto R$'
+      OnExecute = ActDescontoExecute
+    end
+  end
+  object ACBrValidador: TACBrValidador
+    TipoDocto = docGTIN
+    IgnorarChar = './-'
+    AjustarTamanho = True
+    PermiteVazio = True
+    Left = 376
+    Top = 200
+  end
+  object ListaImagemMesas: TPngImageList
+    Height = 32
+    Width = 32
+    PngImages = <
+      item
+        Background = clWindow
+        Name = 'restaurant-table-and-chairs (3)'
+        PngImage.Data = {
+          89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+          F40000000473424954080808087C0864880000000970485973000009D8000009
+          D801C7A0B9AD0000001974455874536F667477617265007777772E696E6B7363
+          6170652E6F72679BEE3C1A000002A54944415478DAED96CB4B55511487CFED41
+          56943D21B2AE501114053D2028D2AC49B7614452104A4A83FC072AD1CC8AB47F
+          20E9819104BD8886E9A45207511046528348410B69D02D7B5264DDBEE559FBB2
+          3BEC738F39B80E3A1B3ED63D6BAFB5F6EFECBDCFD2442693F12672246201B180
+          58006C80D9087990D785138932CC2711F016E6C30A440CE469F162CC2B488B80
+          67B0162A11D096270115982BD02B022EC0216841408D23586296C2A47F5CE737
+          BCCE382E1925CF610EC345297E105AE129B1EB1DC17731A971BE6C3B3577396A
+          F660D641950858052FE0171492F035102C5B55314E016DD4AB0CD49B89F90893
+          61B50810DEC31CD841C27D87E2691A678F42CFBFC0321669517BC8EEFF70D4DA
+          8EB907C3306FB40FE06CE76127D4F2DC3496572347047FD0C7B9E40D8F31EF18
+          E60C74909332021A709C8041E809C9FD0CA7887F994B00FE95987A98155247EE
+          5952D623A7D108D88CA30BA644BC403DF1A72304D489D0883A23504ACEC36C2B
+          26B1042347312324A919CE5A0B850910FF11381A52E71BA488EF1E8DB7049462
+          3A55DD132B61392CD0C5B34573DD01E69A54C03BE8B36A6DD45DDE467C5750C0
+          4DCC5EB885AFDC2A66FA441A9630F73D6207E48B79A3A2ABF05FB66ADDC094DB
+          6B983BB098DF03AAAE0C5FA79554A005E5EF453573AD11024C9BFD4BB0CE6DC5
+          74EB2E173337640434E2380ECF795E133C34E69BF55CB3DD32878047984DC123
+          B36A992E7892F906692E533DFFF393665283B3C591249F4DBFE777AF1275D782
+          69B3D2AEE5DB96C6F3D8F3BBEA326A0D3A6A55632E797E134B8A8022DD62799B
+          24495F5C5797C46B987D2212B6C08140C855DDDEF3709D3AFB43EA4CD7E35E28
+          47648E40BAE010BF7BBD90418CDC8F3D7047EFC36EDD3D193FD59F56FF6D6A8D
+          E4A825C75C444CC7C4FF4B160B8805FCF702FE00C7085F1CE7BAE76A00000000
+          49454E44AE426082}
+      end
+      item
+        Background = clWindow
+        Name = 'azul'
+        PngImage.Data = {
+          89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+          F4000000017352474200AECE1CE9000000097048597300000EC300000EC301C7
+          6FA864000001134944415478DAED95DB0E82300C863723A7A889F7FAB07B581F
+          C00B544023B632228CAD3B78C08B2D818CF66FFB510A7036F3E21120024480F9
+          0144DB3E7782FF1646D6FD0380FEC20C80F636B08C3956D67C01505DE8FDDE77
+          69C9A70158C3F9F4658015E42B87003807779298B18C4DDF984AE95CAEF8D157
+          5B3AB0E023A3EF20860EF0A0167F2BD90762A60064B052C804E091CB3DB00BD8
+          C271B400741A7B2E160240B63324975F4B052F184E3FADCFC05EE98AE9F42E43
+          9883EF62017303D6C4B8BF053ABFABCD029080B121837489D5672C1C3FEB634D
+          8AA21D180ED2B0817349066262D3800D7D6680023467A9D9BBFC0DFBB504DD15
+          74F8596E0C1D48C15EC33E81FD8DCC36FA1BCEB822400488000FB221C03E7D27
+          DD3A0000000049454E44AE426082}
+      end
+      item
+        Background = clWindow
+        Name = 'restaurant-table-and-chairs (5)'
+        PngImage.Data = {
+          89504E470D0A1A0A0000000D494844520000002000000020080300000044A48A
+          C6000000E4504C5445000000D60029D70028D90026D80027D60029D80027D900
+          26D70028D80027FF0000D5002BD70028D80027D80027D80027DA0025D80027D1
+          002ED70028D80027D80027DB0024DF0020D3002CD80027D70028DF0020D90026
+          D80027D80027D80027D70028D70028D80027D90026D80027D70028DA0025D700
+          28D80027D80027D80027D80027D80027D80027D70028D80027D90026D70028D9
+          0026D80027CC0033D80027D80027D80027D90026D80027D90026D80027D5002B
+          D70028D70028E3001CD80027D70028D70028BF0040D90026D5002BD60029D900
+          26D80027D60029D80027000000048EF8680000004A74524E53003240E8FB1FD2
+          5E9A96011E2061CFB729FC0BA1EF41070817B879107FE1B0A326397C3DF5873E
+          C8EB88AAECA91A3F623C81D4C905E769B635631BEE0CA76609EA472D04570619
+          6A6F2C54472C9600000001624B47440088051D48000000097048597300000DD7
+          00000DD70142289B780000000774494D4507E00A12172F2C539DD7EC0000017A
+          4944415478DADD92ED2FC25114C7CF612A3F22A55A9E454D88F2B8D02C599B7F
+          B989174593AD9491450FA63CC6A489D85CF7F4BB6BBCC02B9BB92FEE3DE77B3E
+          67E7DC732FC20F0BFF0780F8F64DB8816123E2EB97F126C650B11AA87E0928BD
+          EBA85AD97C225BC28FED3056A1A3D9B3816A77E881ECF6C54FB95B25DADB9682
+          A85908E31DB775F39F809D5BBE69996B1B25696EF786240395C02988322A714D
+          927E3652413039F7CEEB89DD93102FD4BD2E47EC02A167621FC548720218604C
+          6ED59EC8230C9EF944C2514600E611A1F87BB33C7908AD35EFB8521040B764A9
+          292996A6B7B00EFB877801733659EFC162C9F02269DF498A80D181DC2180DA7D
+          5ABC1280416B0E9601C6FB7800C19EF4E51300C6CEFE425C004A2FC1E0E8F2DB
+          F8059CA6CB2815B40DF291CAC0B491CAD1202F623883FA6284BC1685EB1C943A
+          B8ADAAB4E19747925C1D370C1734250CD57A76AB8B5763FC3CE86F2D076BCA32
+          4AF7081EDC902FED455AFC21F90AC8D2DAF3E69FF8D5BF0FBC03494685C87414
+          D65C0000002574455874646174653A63726561746500323031362D31302D3138
+          5432333A34373A34342B30323A30304DF748FF0000002574455874646174653A
+          6D6F6469667900323031362D31302D31385432333A34373A34342B30323A3030
+          3CAAF0430000001974455874536F667477617265007777772E696E6B73636170
+          652E6F72679BEE3C1A0000000049454E44AE426082}
+      end
+      item
+        Background = clWindow
+        Name = 'restaurant-table-and-chairs (4)'
+        PngImage.Data = {
+          89504E470D0A1A0A0000000D494844520000002000000020080300000044A48A
+          C6000000E4504C54450000008FDB5C8FDB5C91DC5A91DC5A94DE5A91DC5A90DC
+          5A92DC5991DB5AFFFF0091DD5E8FDF5891DD5991DD5A91DC5B8FDA5791DC5A8B
+          D15D92DC5A91DC5A91DC5A92DB499FDF6090DE5992DC5A91DB5B8FDF6091DD5A
+          91DC5A91DC5A91DD5B94DD578FDB5992DC5A92DE5C91DC5A91DB5B90DA5A91DD
+          5B91DC5A90DB5A92DD5A91DC5A91DC5B93D85892DB5992DD5B91DD5990DB5B92
+          DC5A91DB5A99CC6691DC5B92DD5A90DC5A90DD5B90DB5A8ED95E91DC5A95D555
+          91DC5A91DC5A8EE35591DC5A90DB5A93DD5B80BF4090DC5B80D5558FE05C90DB
+          5991DD5A91DC5D91DC5A000000683767B90000004A74524E53003240E8FB1FD2
+          5E9A96011E2061CFB729FC0BA1EF41070817B879107FE1B0A326397C3DF5873E
+          C8EB88AAECA91A3F623C81D4C905E769B635631BEE0CA76609EA472D04570619
+          6A6F2C54472C9600000001624B47440088051D48000000097048597300000DD7
+          00000DD70142289B780000000774494D4507E00A12172F252A416F480000017A
+          4944415478DADD92ED2FC25114C7CF612A3F22A55A9E454D88F2B8D02C599B7F
+          B989174593AD9491450FA63CC6A489D85CF7F4BB6BBCC02B9BB92FEE3DE77B3E
+          67E7DC732FC20F0BFF0780F8F64DB8816123E2EB97F126C650B11AA87E0928BD
+          EBA85AD97C225BC28FED3056A1A3D9B3816A77E881ECF6C54FB95B25DADB9682
+          A85908E31DB775F39F809D5BBE69996B1B25696EF786240395C02988322A714D
+          927E3652413039F7CEEB89DD93102FD4BD2E47EC02A167621FC548720218604C
+          6ED59EC8230C9EF944C2514600E611A1F87BB33C7908AD35EFB8521040B764A9
+          292996A6B7B00EFB877801733659EFC162C9F02269DF498A80D181DC2180DA7D
+          5ABC1280416B0E9601C6FB7800C19EF4E51300C6CEFE425C004A2FC1E0E8F2DB
+          F8059CA6CB2815B40DF291CAC0B491CAD1202F623883FA6284BC1685EB1C943A
+          B8ADAAB4E19747925C1D370C1734250CD57A76AB8B5763FC3CE86F2D076BCA32
+          4AF7081EDC902FED455AFC21F90AC8D2DAF3E69FF8D5BF0FBC03494685C87414
+          D65C0000002574455874646174653A63726561746500323031362D31302D3138
+          5432333A34373A33372B30323A303076DA5B7B0000002574455874646174653A
+          6D6F6469667900323031362D31302D31385432333A34373A33372B30323A3030
+          0787E3C70000001974455874536F667477617265007777772E696E6B73636170
+          652E6F72679BEE3C1A0000000049454E44AE426082}
+      end>
+    Left = 435
+    Top = 240
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnActivate = ApplicationEvents1Activate
+    OnMessage = ApplicationEvents1Message
+    Left = 224
+    Top = 408
+  end
+  object verhorario: TUniQuery
+    Connection = DmDados.Conexao
+    Left = 703
+    Top = 251
+  end
+  object ACBrNFeNotas: TACBrNFe
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
+    Left = 792
+    Top = 361
+  end
+end

@@ -1,0 +1,322 @@
+object FrmParcela: TFrmParcela
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  BorderStyle = bsToolWindow
+  Caption = 'Conv'#234'nio'
+  ClientHeight = 472
+  ClientWidth = 348
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel34: TPanel
+    Left = 0
+    Top = 0
+    Width = 348
+    Height = 65
+    Align = alTop
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 0
+    object Label8: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 6
+      Width = 83
+      Height = 23
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'Valor R$:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 7
+      Top = 33
+      Width = 81
+      Height = 23
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'N'#186'. Parc.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+    end
+    object EtdQtdParc: TEdit
+      Left = 89
+      Top = 33
+      Width = 43
+      Height = 23
+      Alignment = taRightJustify
+      AutoSize = False
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      MaxLength = 2
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 1
+      Text = '1'
+      OnChange = EtdQtdParcChange
+      OnExit = EtdQtdParcExit
+      OnKeyDown = EtdQtdParcKeyDown
+      OnKeyPress = EtdQtdParcKeyPress
+    end
+    object EdtVlrReceber: TEdit
+      Left = 89
+      Top = 6
+      Width = 124
+      Height = 23
+      Alignment = taRightJustify
+      AutoSize = False
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      MaxLength = 9
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 0
+      Text = '0,00'
+      OnChange = EdtVlrReceberChange
+      OnExit = EdtVlrReceberExit
+      OnKeyPress = EdtVlrReceberKeyPress
+    end
+    object btnGeral: TButton
+      Left = 222
+      Top = 25
+      Width = 113
+      Height = 31
+      Caption = 'Gerar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      OnClick = btnGeralClick
+      OnKeyPress = btnGeralKeyPress
+    end
+  end
+  object Panel101: TPanel
+    Left = 0
+    Top = 434
+    Width = 348
+    Height = 38
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 1
+    object Panel102: TPanel
+      Left = 95
+      Top = 0
+      Width = 253
+      Height = 38
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Button4: TButton
+        Left = 3
+        Top = 4
+        Width = 120
+        Height = 31
+        Caption = 'Confirmar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = Button4Click
+      end
+      object Button7: TButton
+        Left = 127
+        Top = 4
+        Width = 120
+        Height = 31
+        Caption = 'Cancelar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = Button7Click
+      end
+    end
+  end
+  object DBGLista: TDBGrid
+    Left = 0
+    Top = 65
+    Width = 348
+    Height = 322
+    Align = alClient
+    Color = 13303807
+    DataSource = DmDados.dtrfi
+    DrawingStyle = gdsGradient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = [fsBold]
+    OnKeyDown = DBGListaKeyDown
+    OnKeyPress = DBGListaKeyPress
+    OnKeyUp = DBGListaKeyUp
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'numparc'
+        ReadOnly = True
+        Title.Caption = 'Parc.'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'dtvecto'
+        Title.Caption = 'Dt. Vencto'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'vlrparcela'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Valor Parcela R$'
+        Width = 150
+        Visible = True
+      end>
+  end
+  object Panel103: TPanel
+    Left = 0
+    Top = 387
+    Width = 348
+    Height = 47
+    Align = alBottom
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 3
+    object Label22: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 121
+      Height = 37
+      Align = alLeft
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'Falta R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+      ExplicitHeight = 51
+    end
+    object Panel104: TPanel
+      Left = 306
+      Top = 0
+      Width = 38
+      Height = 43
+      Align = alRight
+      BevelOuter = bvNone
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 0
+    end
+    object Panel105: TPanel
+      Left = 127
+      Top = 0
+      Width = 179
+      Height = 43
+      Align = alClient
+      BevelOuter = bvNone
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 1
+      object EdtFalta: TEdit
+        Left = 0
+        Top = 6
+        Width = 179
+        Height = 32
+        TabStop = False
+        Align = alClient
+        Alignment = taRightJustify
+        AutoSize = False
+        Ctl3D = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+        Text = '0,00'
+      end
+      object Panel106: TPanel
+        Left = 0
+        Top = 0
+        Width = 179
+        Height = 6
+        Align = alTop
+        BevelOuter = bvNone
+        Color = 12615680
+        ParentBackground = False
+        TabOrder = 1
+      end
+      object Panel107: TPanel
+        Left = 0
+        Top = 38
+        Width = 179
+        Height = 5
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = 12615680
+        ParentBackground = False
+        TabOrder = 2
+      end
+    end
+  end
+end

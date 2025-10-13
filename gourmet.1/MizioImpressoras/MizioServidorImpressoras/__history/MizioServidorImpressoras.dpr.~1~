@@ -1,0 +1,21 @@
+program MizioServidorImpressoras;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  ufPrinciMizioServIMpressoras in '..\ufPrinciMizioServIMpressoras.pas' {fPrinciMizioServImpressoras},
+  System.SysUtils,
+  System.Classes {fPrinciMizioServImpressoras};
+
+{$R *.res}
+
+begin
+
+ // ReportMemoryLeaksOnShutdown := True;
+
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrinciMizioServImpressoras, fPrinciMizioServImpressoras);
+  Application.Run;
+
+end.

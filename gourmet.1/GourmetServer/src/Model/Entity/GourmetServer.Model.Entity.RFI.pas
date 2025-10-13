@@ -1,0 +1,251 @@
+unit GourmetServer.Model.Entity.RFI;
+
+interface
+
+{$TYPEINFO ON}
+
+uses
+  System.Json,
+  System.SysUtils,
+  System.Variants,
+  SimpleAttributes;
+
+type
+
+  [Tabela('rfi')]
+  Trfi = class
+  private
+
+    Frfichave: Integer;
+    Fetdcodigo: Integer;
+    Ftitcodigo: Integer;
+    Ftfdcodigo: Integer;
+    Fflacodigo: Integer;
+    Ftficodigo: Integer;
+    Fbcocodigo: String;
+    Fcarcodigo: Integer;
+    Frfiemissao: String;
+    Frfivencimento: String;
+    Frfinumero: String;
+    Frfivalor: String;
+    Frfihistorico: String;
+    Fsrfcodigo: Integer;
+    Ffrrcodigo: Integer;
+    Frfirepetir: Integer;
+    Frfiprevisao: Integer;
+    Frfivalorparcela: String;
+    Fmoecodigo: Integer;
+    Frfisituacao: Integer;
+    Frfiinclusao: String;
+
+    procedure setrfichave(const Value: Integer);
+    procedure setetdcodigo(const Value: Integer);
+    procedure settitcodigo(const Value: Integer);
+    procedure settfdcodigo(const Value: Integer);
+    procedure setflacodigo(const Value: Integer);
+    procedure settficodigo(const Value: Integer);
+    procedure setbcocodigo(const Value: String);
+    procedure setcarcodigo(const Value: Integer);
+    procedure setrfiemissao(const Value: String);
+    procedure setrfivencimento(const Value: String);
+    procedure setrfinumero(const Value: String);
+    procedure setrfivalor(const Value: String);
+    procedure setrfihistorico(const Value: String);
+    procedure setsrfcodigo(const Value: Integer);
+    procedure setfrrcodigo(const Value: Integer);
+    procedure setrfirepetir(const Value: Integer);
+    procedure setrfiprevisao(const Value: Integer);
+    procedure setrfivalorparcela(const Value: String);
+    procedure setmoecodigo(const Value: Integer);
+    procedure setrfisituacao(const Value: Integer);
+    procedure setrfiinclusao(const Value: String);
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+  published
+
+    [campo('rfichave'), PK]
+    property rfichave: Integer read Frfichave write setrfichave;
+
+    [campo('etdcodigo')]
+    property etdcodigo: Integer read Fetdcodigo write setetdcodigo;
+
+    [campo('titcodigo')]
+    property titcodigo: Integer read Ftitcodigo write settitcodigo;
+
+    [campo('tfdcodigo')]
+    property tfdcodigo: Integer read Ftfdcodigo write settfdcodigo;
+
+    [campo('flacodigo')]
+    property flacodigo: Integer read Fflacodigo write setflacodigo;
+
+    [campo('tficodigo')]
+    property tficodigo: Integer read Ftficodigo write settficodigo;
+
+    [campo('bcocodigo')]
+    property bcocodigo: String read Fbcocodigo write setbcocodigo;
+
+    [campo('carcodigo')]
+    property carcodigo: Integer read Fcarcodigo write setcarcodigo;
+
+    [campo('rfiemissao')]
+    property rfiemissao: String read Frfiemissao write setrfiemissao;
+
+    [campo('rfivencimento')]
+    property rfivencimento: String read Frfivencimento write setrfivencimento;
+
+    [campo('rfinumero')]
+    property rfinumero: String read Frfinumero write setrfinumero;
+
+    [campo('rfivalor')]
+    property rfivalor: String read Frfivalor write setrfivalor;
+
+    [campo('rfihistorico')]
+    property rfihistorico: String read Frfihistorico write setrfihistorico;
+
+    [campo('srfcodigo')]
+    property srfcodigo: Integer read Fsrfcodigo write setsrfcodigo;
+
+    [campo('frrcodigo')]
+    property frrcodigo: Integer read Ffrrcodigo write setfrrcodigo;
+
+    [campo('rfirepetir')]
+    property rfirepetir: Integer read Frfirepetir write setrfirepetir;
+
+    [campo('rfiprevisao')]
+    property rfiprevisao: Integer read Frfiprevisao write setrfiprevisao;
+
+    [campo('rfivalorparcela')]
+    property rfivalorparcela: String read Frfivalorparcela write setrfivalorparcela;
+
+    [campo('moecodigo')]
+    property moecodigo: Integer read Fmoecodigo write setmoecodigo;
+
+    [campo('rfisituacao')]
+    property rfisituacao: Integer read Frfisituacao write setrfisituacao;
+
+    [campo('rfiinclusao')]
+    property rfiinclusao: String read Frfiinclusao write setrfiinclusao;
+
+  end;
+
+implementation
+
+constructor Trfi.Create;
+begin
+end;
+
+destructor Trfi.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure Trfi.setbcocodigo(const Value: String);
+begin
+  Fbcocodigo := Value;
+end;
+
+procedure Trfi.setcarcodigo(const Value: Integer);
+begin
+  Fcarcodigo := Value;
+end;
+
+procedure Trfi.setetdcodigo(const Value: Integer);
+begin
+  Fetdcodigo := Value;
+end;
+
+procedure Trfi.setflacodigo(const Value: Integer);
+begin
+  Fflacodigo := Value;
+end;
+
+procedure Trfi.setfrrcodigo(const Value: Integer);
+begin
+  Ffrrcodigo := Value;
+end;
+
+procedure Trfi.setmoecodigo(const Value: Integer);
+begin
+  Fmoecodigo := Value;
+end;
+
+procedure Trfi.setrfichave(const Value: Integer);
+begin
+  Frfichave := Value;
+end;
+
+procedure Trfi.setrfiemissao(const Value: String);
+begin
+  Frfiemissao := Value;
+end;
+
+procedure Trfi.setrfihistorico(const Value: String);
+begin
+  Frfihistorico := Value;
+end;
+
+procedure Trfi.setrfiinclusao(const Value: String);
+begin
+  Frfiinclusao := Value;
+end;
+
+procedure Trfi.setrfinumero(const Value: String);
+begin
+  Frfinumero := Value;
+end;
+
+procedure Trfi.setrfiprevisao(const Value: Integer);
+begin
+  Frfiprevisao := Value;
+end;
+
+procedure Trfi.setrfirepetir(const Value: Integer);
+begin
+  Frfirepetir := Value;
+end;
+
+procedure Trfi.setrfisituacao(const Value: Integer);
+begin
+  Frfisituacao := Value;
+end;
+
+procedure Trfi.setrfivalor(const Value: String);
+begin
+  Frfivalor := Value;
+end;
+
+procedure Trfi.setrfivalorparcela(const Value: String);
+begin
+  Frfivalorparcela := Value;
+end;
+
+procedure Trfi.setrfivencimento(const Value: String);
+begin
+  Frfivencimento := Value;
+end;
+
+procedure Trfi.setsrfcodigo(const Value: Integer);
+begin
+  Fsrfcodigo := Value;
+end;
+
+procedure Trfi.settfdcodigo(const Value: Integer);
+begin
+  Ftfdcodigo := Value;
+end;
+
+procedure Trfi.settficodigo(const Value: Integer);
+begin
+  Ftficodigo := Value;
+end;
+
+procedure Trfi.settitcodigo(const Value: Integer);
+begin
+  Ftitcodigo := Value;
+end;
+
+end.

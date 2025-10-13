@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.OneD.UPCEANReader" platform="Android">
+  <class name="TUPCEANReader" file="ZXing.OneD.UPCEANReader.pas" line="44">
+    <devnotes>
+       <summary>
+       <p>Encapsulates functionality and implementation that is common to UPC and EAN families
+       of one-dimensional barcodes.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TOneDReader" namespace="ZXing.OneD.OneDReader">
+      <interfaces>
+        <implements name="IReader" />
+      </interfaces>
+      <methodref name="doDecode" visibility="private">
+      </methodref>
+      <methodref name="InitializeClass" visibility="private" procflags="static" />
+      <methodref name="patternMatchVariance" visibility="protected" procflags="static">
+      </methodref>
+      <methodref name="RecordPatternInReverse" visibility="protected" procflags="static">
+      </methodref>
+      <methodref name="recordPattern" visibility="protected" procflags="static overload">
+      </methodref>
+      <methodref name="reset" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="decode" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="decode" visibility="public" procflags="overload virtual">
+      </methodref>
+      <methodref name="recordPattern" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="decodeRow" visibility="public" procflags="abstract virtual">
+      </methodref>
+      <ancestor name="TInterfacedObject" namespace="System">
+        <interfaces>
+          <implements name="IInterface" />
+        </interfaces>
+        <methodref name="GetRefCount" visibility="private" procflags="inline">
+        </methodref>
+        <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+        </methodref>
+        <methodref name="QueryInterface" visibility="protected">
+        </methodref>
+        <methodref name="_AddRef" visibility="protected">
+        </methodref>
+        <methodref name="_Release" visibility="protected">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="override">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="override">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class override">
+        </methodref>
+        <propertyref name="RefCount" visibility="public">
+        </propertyref>
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="decodeRowStringBuffer" type="TStringBuilder" visibility="private" size="8" offset="32" file="ZXing.OneD.UPCEANReader.pas" line="46" />
+      <field name="extensionReader" type="TUPCEANExtensionSupport" visibility="private" size="8" offset="40" file="ZXing.OneD.UPCEANReader.pas" line="47" />
+      <field name="eanManSupport" type="TEANManufacturerOrgSupport" visibility="private" size="8" offset="48" file="ZXing.OneD.UPCEANReader.pas" line="48" />
+      <function name="findGuardPattern" visibility="private" procflags="class overload" file="ZXing.OneD.UPCEANReader.pas" line="60">
+        <devnotes>
+           <summary>
+           </summary>
+           <param name="row">row of black/white values to search</param>
+           <param name="rowOffset">position to start search</param>
+           <param name="whiteFirst">if true, indicates that the pattern specifies white/black/white/...</param>
+           pixel counts, otherwise, it is interpreted as black/white/black/...
+           <param name="pattern">pattern of counts of number of black and white pixels that are being</param>
+           searched for as a pattern
+           <param name="counters">array of counters, as long as pattern, to re-use</param>
+           <returns>start/end horizontal offset of guard pattern, as an array of two ints</returns>
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="rowOffset" type="Integer" />
+          <parameter name="whiteFirst" type="Boolean" paramflags="const" />
+          <parameter name="pattern" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="counters" type="TArray&lt;System.Integer&gt;" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="checkStandardUPCEANChecksum" visibility="private" procflags="static" file="ZXing.OneD.UPCEANReader.pas" line="70">
+        <devnotes>
+           <summary>
+           Computes the UPC/EAN checksum on a string of digits, and reports
+           whether the checksum is correct or not.
+           </summary>
+           <param name="s">string of digits to check</param>
+           <returns>true iff string of digits passes the UPC/EAN checksum algorithm</returns>
+        </devnotes>
+        <parameters>
+          <parameter name="s" type="string" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="InitializeClass" visibility="private" procflags="static" file="ZXing.OneD.UPCEANReader.pas" line="73">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="static" file="ZXing.OneD.UPCEANReader.pas" line="74">
+      </procedure>
+      <field name="MAX_AVG_VARIANCE" type="Integer" visibility="protected" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="80" />
+      <field name="MAX_INDIVIDUAL_VARIANCE" type="Integer" visibility="protected" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="81" />
+      <field name="START_END_PATTERN" type="TArray&lt;System.Integer&gt;" visibility="protected" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="86">
+        <devnotes>
+           <summary>
+           Start/end guard pattern.
+           </summary>
+        </devnotes>
+      </field>
+      <field name="MIDDLE_PATTERN" type="TArray&lt;System.Integer&gt;" visibility="protected" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="91">
+        <devnotes>
+           <summary>
+           Pattern marking the middle of a UPC/EAN pattern, separating the two halves.
+           </summary>
+        </devnotes>
+      </field>
+      <field name="L_PATTERNS" type="TArray&lt;System.TArray&lt;System.Integer&gt;&gt;" visibility="protected" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="96">
+        <devnotes>
+           <summary>
+           &quot;Odd&quot;, or &quot;L&quot; patterns used to encode UPC/EAN digits.
+           </summary>
+        </devnotes>
+      </field>
+      <function name="decodeEnd" visibility="protected" procflags="class virtual" file="ZXing.OneD.UPCEANReader.pas" line="104">
+        <devnotes>
+           <summary>
+           Decodes the end.
+           </summary>
+           <param name="row">The row.</param>
+           <param name="endStart">The end start.</param>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="endStart" type="Integer" paramflags="const" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="checkChecksum" visibility="protected" procflags="class virtual" file="ZXing.OneD.UPCEANReader.pas" line="111">
+        <devnotes>
+           <summary>
+           </summary>
+           <param name="s">string of digits to check</param>
+           <returns>see <see cref="M:ZXing.OneD.UPCEANReader.TUPCEANReader.checkStandardUPCEANChecksum(System.string)"/></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="s" type="string" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <field name="L_AND_G_PATTERNS" type="TArray&lt;System.TArray&lt;System.Integer&gt;&gt;" visibility="public" varflags="class" file="ZXing.OneD.UPCEANReader.pas" line="117">
+        <devnotes>
+           <summary>
+           As above but also including the &quot;even&quot;, or &quot;G&quot; patterns used to encode UPC/EAN digits.
+           </summary>
+        </devnotes>
+      </field>
+      <constructor name="Create" visibility="public" file="ZXing.OneD.UPCEANReader.pas" line="122">
+        <devnotes>
+           <summary>
+           Initializes a new instance of the <see cref="T:ZXing.OneD.UPCEANReader.TUPCEANReader"/> class.
+           </summary>
+        </devnotes>
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.OneD.UPCEANReader.pas" line="123">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="DecodeMiddle" visibility="public" procflags="class abstract virtual" file="ZXing.OneD.UPCEANReader.pas" line="133">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'DecodeMiddle' -->
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="startRange" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="resultString" type="TStringBuilder" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="BarcodeFormat" visibility="public" procflags="abstract virtual" file="ZXing.OneD.UPCEANReader.pas" line="141">
+        <devnotes>
+           <summary>
+           Get the format of this decoder.
+           </summary>
+           <returns>The 1D format.</returns>
+        </devnotes>
+        <parameters>
+          <retval type="TBarcodeFormat" />
+        </parameters>
+      </function>
+      <function name="findStartGuardPattern" visibility="public" procflags="static" file="ZXing.OneD.UPCEANReader.pas" line="143">
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="findGuardPattern" visibility="public" procflags="class overload" file="ZXing.OneD.UPCEANReader.pas" line="146">
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="rowOffset" type="Integer" paramflags="const" />
+          <parameter name="whiteFirst" type="Boolean" paramflags="const" />
+          <parameter name="pattern" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="decodeDigit" visibility="public" procflags="class" file="ZXing.OneD.UPCEANReader.pas" line="160">
+        <devnotes>
+           <summary>
+           Attempts to decode a single UPC/EAN-encoded digit.
+           </summary>
+           <param name="row">row of black/white values to decode</param>
+           <param name="counters">the counts of runs of observed black/white/black/... values</param>
+           <param name="rowOffset">horizontal offset to start decoding from</param>
+           <param name="patterns">the set of patterns to use to decode -- sometimes different encodings</param>
+           for the digits 0-9 are used, and this indicates the encodings for 0 to 9 that should
+           be used
+           <returns>horizontal offset of first pixel beyond the decoded digit</returns>
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="counters" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="rowOffset" type="Integer" paramflags="const" />
+          <parameter name="patterns" type="TArray&lt;System.TArray&lt;System.Integer&gt;&gt;" paramflags="const" />
+          <parameter name="digit" type="Integer" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeRow" visibility="public" procflags="overload override" file="ZXing.OneD.UPCEANReader.pas" line="174">
+        <devnotes>
+           <summary>
+           <p>Attempts to decode a one-dimensional barcode format given a single row of
+           an image.</p>
+           </summary>
+           <param name="rowNumber">row number from top of the row</param>
+           <param name="row">the black/white pixel data of the row</param>
+           <param name="hints">decode hints</param>
+           <returns>
+           <see cref="T:ZXing.ReadResult.TReadResult"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="rowNumber" type="Integer" paramflags="const" />
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <function name="DoDecodeRow" visibility="public" file="ZXing.OneD.UPCEANReader.pas" line="188">
+        <devnotes>
+           <summary>
+           <p>Like decodeRow(int, BitArray, java.util.Map), but
+           allows caller to inform method about where the UPC/EAN start pattern is
+           found. This allows this to be computed once and reused across many implementations.</p>
+           </summary>
+           <param name="rowNumber">row index into the image</param>
+           <param name="row">encoding of the row of the barcode image</param>
+           <param name="startGuardRange">start/end column where the opening start pattern was found</param>
+           <param name="hints">optional hints that influence decoding</param>
+           <returns><see cref="T:ZXing.ReadResult.TReadResult"/> encapsulating the result of decoding a barcode in the row</returns>
+        </devnotes>
+        <parameters>
+          <parameter name="rowNumber" type="Integer" paramflags="const" />
+          <parameter name="row" type="IBitArray" paramflags="const" />
+          <parameter name="startGuardRange" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

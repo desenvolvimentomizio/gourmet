@@ -1,0 +1,590 @@
+object fMonitorIntegracao: TfMonitorIntegracao
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Monitor Integra'#231#227'o'
+  ClientHeight = 535
+  ClientWidth = 717
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pltopo: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 711
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    ExplicitLeft = 163
+    ExplicitTop = 187
+    object plCznchave: TPanel
+      AlignWithMargins = True
+      Left = 495
+      Top = 4
+      Width = 119
+      Height = 33
+      Align = alRight
+      Caption = 'Cozinha: FECHADA'
+      TabOrder = 0
+      ExplicitLeft = 480
+    end
+    object plRelogio: TPanel
+      AlignWithMargins = True
+      Left = 620
+      Top = 4
+      Width = 87
+      Height = 33
+      Align = alRight
+      Caption = '00:00:00'
+      TabOrder = 1
+      ExplicitLeft = 512
+    end
+  end
+  object tmInicializar: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tmInicializarTimer
+    Left = 24
+    Top = 8
+  end
+  object conexao: TUniConnection
+    ProviderName = 'MySQL'
+    Port = 3306
+    Database = 'estrela0104'
+    Options.AllowImplicitConnect = False
+    Username = 'root'
+    Server = '192.168.5.159'
+    LoginPrompt = False
+    Left = 773
+    Top = 332
+    EncryptedPassword = '87FF9BFF9EFFC6FFC8FFCCFF'
+  end
+  object MySQLUniProvider: TMySQLUniProvider
+    Left = 765
+    Top = 443
+  end
+  object UniSQLMonitor1: TUniSQLMonitor
+    Left = 760
+    Top = 377
+  end
+  object cfg: TUniQuery
+    Connection = conexao
+    SQL.Strings = (
+      'SELECT'
+      '  /*Principal*/'
+      '  cfgmcfg.cfgcodigo,'
+      '  cfgmcfg.cfgetdempresa,'
+      ''
+      '  /*Entradas*/'
+      '  cfgment.cfgprouso,'
+      '  cfgment.cfgtoeusofora,'
+      '  cfgment.cfgtoeusointe,'
+      ''
+      '  /*Sa'#237'das*/'
+      '  cfgmsai.cfgtoecuffora,'
+      '  cfgmsai.cfgtoecufinte,'
+      ''
+      '  /*Emiss'#227'o NFe*/'
+      '  cfgmnfe.cfgviasnfe,'
+      '  cfgmnfe.cfgnumeronfe,'
+      '  cfgmnfe.cfgserienfe,'
+      '  cfgmnfe.cfgnumeronfce,'
+      '  cfgmnfe.cfgserienfce,'
+      '  cfgmnfe.cfgobs1,'
+      '  cfgmnfe.cfgobs2,'
+      '  cfgmnfe.cfgobs3,'
+      '  cfgmnfe.cfgobs4,'
+      '  cfgmnfe.cfgdescrinfe,'
+      '  cfgmnfe.cfgnumecertif,'
+      '  cfgmnfe.cfgnumecertifa1,'
+      '  cfgmnfe.cfgsenhacertificadoa1,'
+      '  cfgmnfe.cfgidtokennfce,'
+      '  cfgmnfe.cfgtoken1nfce,'
+      '  cfgmnfe.cfgmodonfe,'
+      '  cfgmnfe.cfgmnfegerenciador,'
+      ''
+      ''
+      '  /*Email*/'
+      '  cfgmnfe.cfgemailnfe,'
+      '  cfgmnfe.cfgemailservidornfe,'
+      '  cfgmnfe.cfgemailsenhanfe,'
+      '  cfgmnfe.cfgmailportnfe,'
+      '  cfgmnfe.cfgemailusatls,'
+      '  cfgmnfe.cfgcertificadoa1,'
+      ''
+      ''
+      '  /*SPED*/'
+      '  cfgmcfg.crtcodigo,'
+      '  cfgmspd.cfgcstterceiros,'
+      ''
+      '  /*Dados da Empresa*/'
+      '  etd.etdapelido,'
+      '  etd.etdidentificacao,'
+      ''
+      '  etd.etddoc1,'
+      ''
+      '  edr.ufscodigo,'
+      '  edr.cddcodigo,'
+      '  edr.edrinscest,'
+      '  edr.edrrua,'
+      '  edr.edrnumero,'
+      '  edr.edrbairro,'
+      '  edr.edrcep,'
+      '  cdd.cddnome,'
+      '  ufs.ufssigla,'
+      ''
+      '  etf.etftelefone,'
+      '  '
+      '  /*Box-e - Dom'#237'nio Sistemas*/'
+      '  ctd.ctdboxedominio,'
+      ' cfgmensagempdv,'
+      '  cfgtrmimpfis1,'
+      '  cfgtrmimpfis2,'
+      '  cfgtrmtef1,'
+      '  cfgtrmtef2,'
+      '  cfgimpnfe1,'
+      '  cfgimpnfe2,'
+      '  cfgimpnfc1,'
+      '  cfgimpnfc2,'
+      '  cfgimpnfc3,'
+      '  cfgservarqnfes,'
+      '  cfg.cfgusanfc'
+      'FROM cfgmcfg,'
+      '     ufs,'
+      '     etd,'
+      '     cfgmnfe,'
+      '     cfgment,'
+      '     edr,'
+      '     cfg,'
+      '     cfgmspd,'
+      '     etf,'
+      '     cdd,'
+      '     cfgmsai,'
+      '     ctd'
+      'WHERE cfg.cfgcodigo = ctd.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmsai.cfgcodigo'
+      'AND ufs.ufscodigo = edr.ufscodigo'
+      'AND cfg.cfgcodigo = cfgmcfg.cfgcodigo'
+      'AND etd.etdcodigo = etf.etdcodigo'
+      'AND etf.ttfcodigo = 1'
+      'AND edr.cddcodigo = cdd.cddcodigo'
+      'AND cfg.cfgcodigo = cfgment.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
+      'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND etd.etdcodigo = edr.etdcodigo'
+      'AND edr.tedcodigo = 1'
+      'AND cfg.cfgcodigo = cfgmspd.cfgcodigo'
+      'And cfg.cfgcodigo =:flacodigo')
+    Left = 124
+    Top = 52
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object cfgcfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object cfgcfgmensagempdv: TStringField
+      FieldName = 'cfgmensagempdv'
+      Size = 50
+    end
+    object cfgcfgtrmimpfis1: TIntegerField
+      FieldName = 'cfgtrmimpfis1'
+      Required = True
+    end
+    object cfgcfgtrmimpfis2: TIntegerField
+      FieldName = 'cfgtrmimpfis2'
+      Required = True
+    end
+    object cfgcfgtrmtef1: TIntegerField
+      FieldName = 'cfgtrmtef1'
+      Required = True
+    end
+    object cfgcfgtrmtef2: TIntegerField
+      FieldName = 'cfgtrmtef2'
+      Required = True
+    end
+    object cfgcfgimpnfe1: TIntegerField
+      FieldName = 'cfgimpnfe1'
+      Required = True
+    end
+    object cfgcfgimpnfe2: TIntegerField
+      FieldName = 'cfgimpnfe2'
+      Required = True
+    end
+    object cfgcfgimpnfc1: TIntegerField
+      FieldName = 'cfgimpnfc1'
+      Required = True
+    end
+    object cfgcfgimpnfc2: TIntegerField
+      FieldName = 'cfgimpnfc2'
+      Required = True
+    end
+    object cfgcfgimpnfc3: TIntegerField
+      FieldName = 'cfgimpnfc3'
+      Required = True
+    end
+    object cfgcfgservarqnfes: TStringField
+      FieldName = 'cfgservarqnfes'
+      Size = 100
+    end
+    object cfgcfgnumecertif: TStringField
+      FieldName = 'cfgnumecertif'
+      Size = 100
+    end
+    object cfgcfgetdempresa: TIntegerField
+      FieldName = 'cfgetdempresa'
+    end
+    object cfgcfgprouso: TIntegerField
+      FieldName = 'cfgprouso'
+      Required = True
+    end
+    object cfgcfgtoeusofora: TIntegerField
+      FieldName = 'cfgtoeusofora'
+      Required = True
+    end
+    object cfgcfgtoeusointe: TIntegerField
+      FieldName = 'cfgtoeusointe'
+      Required = True
+    end
+    object cfgcfgtoecuffora: TIntegerField
+      FieldName = 'cfgtoecuffora'
+    end
+    object cfgcfgtoecufinte: TIntegerField
+      FieldName = 'cfgtoecufinte'
+    end
+    object cfgcfgviasnfe: TIntegerField
+      FieldName = 'cfgviasnfe'
+      Required = True
+    end
+    object cfgcfgnumeronfe: TIntegerField
+      FieldName = 'cfgnumeronfe'
+      Required = True
+    end
+    object cfgcfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Size = 5
+    end
+    object cfgcfgnumeronfce: TIntegerField
+      FieldName = 'cfgnumeronfce'
+    end
+    object cfgcfgserienfce: TStringField
+      FieldName = 'cfgserienfce'
+      Size = 5
+    end
+    object cfgcfgobs1: TIntegerField
+      FieldName = 'cfgobs1'
+      Required = True
+    end
+    object cfgcfgobs2: TIntegerField
+      FieldName = 'cfgobs2'
+      Required = True
+    end
+    object cfgcfgobs3: TIntegerField
+      FieldName = 'cfgobs3'
+      Required = True
+    end
+    object cfgcfgobs4: TIntegerField
+      FieldName = 'cfgobs4'
+      Required = True
+    end
+    object cfgcfgdescrinfe: TIntegerField
+      FieldName = 'cfgdescrinfe'
+      Required = True
+    end
+    object cfgcfgemailnfe: TStringField
+      FieldName = 'cfgemailnfe'
+      Size = 50
+    end
+    object cfgcfgemailservidornfe: TStringField
+      FieldName = 'cfgemailservidornfe'
+      Size = 50
+    end
+    object cfgcfgemailsenhanfe: TStringField
+      FieldName = 'cfgemailsenhanfe'
+      Size = 50
+    end
+    object cfgcfgmailportnfe: TStringField
+      FieldName = 'cfgmailportnfe'
+      Required = True
+      Size = 5
+    end
+    object cfgcfgemailusatls: TIntegerField
+      FieldName = 'cfgemailusatls'
+      Required = True
+    end
+    object cfgcrtcodigo: TIntegerField
+      FieldName = 'crtcodigo'
+      Required = True
+    end
+    object cfgcfgcstterceiros: TStringField
+      FieldName = 'cfgcstterceiros'
+      Size = 3
+    end
+    object cfgetdapelido: TStringField
+      FieldName = 'etdapelido'
+      Size = 100
+    end
+    object cfgetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      Required = True
+      Size = 50
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+    end
+    object cfgufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Required = True
+      Size = 10
+    end
+    object cfgcddcodigo: TStringField
+      FieldName = 'cddcodigo'
+      Required = True
+      Size = 10
+    end
+    object cfgedrinscest: TStringField
+      FieldName = 'edrinscest'
+      Required = True
+    end
+    object cfgedrrua: TStringField
+      FieldName = 'edrrua'
+      Required = True
+      Size = 50
+    end
+    object cfgedrnumero: TStringField
+      FieldName = 'edrnumero'
+      Required = True
+      Size = 10
+    end
+    object cfgedrbairro: TStringField
+      FieldName = 'edrbairro'
+      Required = True
+      Size = 60
+    end
+    object cfgedrcep: TStringField
+      FieldName = 'edrcep'
+      Required = True
+      Size = 10
+    end
+    object cfgcddnome: TStringField
+      FieldName = 'cddnome'
+      Required = True
+      Size = 50
+    end
+    object cfgufssigla: TStringField
+      FieldName = 'ufssigla'
+      Required = True
+      Size = 3
+    end
+    object cfgetftelefone: TStringField
+      FieldName = 'etftelefone'
+      Required = True
+    end
+    object cfgctdboxedominio: TStringField
+      FieldName = 'ctdboxedominio'
+      Size = 200
+    end
+    object cfgcfgusanfc: TIntegerField
+      FieldName = 'cfgusanfc'
+    end
+    object cfgcfgmodonfe: TIntegerField
+      FieldName = 'cfgmodonfe'
+    end
+    object cfgcfgnumecertifa1: TStringField
+      FieldName = 'cfgnumecertifa1'
+      Size = 100
+    end
+    object cfgcfgsenhacertificadoa1: TStringField
+      FieldName = 'cfgsenhacertificadoa1'
+      Size = 50
+    end
+    object cfgcfgidtokennfce: TStringField
+      FieldName = 'cfgidtokennfce'
+      Size = 6
+    end
+    object cfgcfgtoken1nfce: TStringField
+      FieldName = 'cfgtoken1nfce'
+      Size = 36
+    end
+    object cfgcfgmnfegerenciador: TStringField
+      FieldName = 'cfgmnfegerenciador'
+      Size = 100
+    end
+    object cfgcfgcertificadoa1: TBlobField
+      FieldName = 'cfgcertificadoa1'
+    end
+  end
+  object consulta: TUniQuery
+    Connection = conexao
+    Left = 80
+    Top = 56
+  end
+  object tmRelogio: TTimer
+    Enabled = False
+    OnTimer = tmRelogioTimer
+    Left = 24
+    Top = 64
+  end
+  object orcs: TUniQuery
+    Connection = conexao
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '  orc.orcchave,'
+      '  LPAD(CONVERT(imm.immnumepedido, char), 4, '#39'0'#39') AS pdgnumero,'
+      ''
+      'FROM orc,'
+      '     etd,'
+      '     clb,'
+      '     edr,'
+      '     ito,'
+      '     imm,'
+      '     pds,'
+      '     tci,'
+      '     mit,'
+      '     czn,'
+      '     ori'
+      'WHERE etd.etdcodigo = orc.etdcodigo'
+      ''
+      'AND orc.clbcodigo = clb.clbcodigo'
+      'AND orc.pdscodigo = pds.pdscodigo'
+      'AND orc.etdcodigo = edr.etdcodigo'
+      'AND orc.edrcodigo = edr.edrcodigo'
+      'AND orc.moccodigo IN (7, 9, 10) /*para entrega*/'
+      'AND orc.orcchave = ito.orcchave'
+      'AND ito.itochave = imm.itochave'
+      'AND imm.clbcodigoent = 0'
+      'AND mit.mitcodigo = tci.mitcodigo'
+      'AND tci.tcicodigo = imm.tcicodigo'
+      'AND orc.etdcodigo <> 0'
+      '-- AND imm.immnumepedido < 5000'
+      'AND orc.moccodigo in (7,9,10) '
+      'AND imm.cznchave = czn.cznchave'
+      'AND cznfechamento IS NULL'
+      'AND ito.procodigo NOT IN (SELECT procodigo FROM bai)'
+      'AND orc.oricodigo = ori.oricodigo'
+      ''
+      'GROUP BY imm.immnumepedido'
+      'ORDER BY imm.immnumepedido'
+      ''
+      ''
+      ''
+      ''
+      '')
+    Left = 240
+    Top = 131
+    object orcsorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object orcspdgnumero: TStringField
+      DisplayLabel = 'N'#250'merp'
+      FieldName = 'pdgnumero'
+      ReadOnly = True
+      Size = 4
+    end
+    object orcspdsidentificacao: TStringField
+      FieldName = 'pdsidentificacao'
+      ReadOnly = True
+      Size = 100
+    end
+    object orcstempo: TStringField
+      DisplayLabel = 'Tempo'
+      FieldName = 'tempo'
+      ReadOnly = True
+      Size = 10
+    end
+    object orcsedrendereco: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'edrendereco'
+      ReadOnly = True
+      Size = 102
+    end
+    object orcsedrbairro: TStringField
+      DisplayLabel = 'Bairro'
+      FieldName = 'edrbairro'
+      Required = True
+      Size = 60
+    end
+    object orcsorctotal: TFloatField
+      DisplayLabel = 'Total R$'
+      FieldName = 'orctotal'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcsetdidentificacao: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'etdidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object orcsmitidentificacao: TStringField
+      DisplayLabel = 'Setor'
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object orcsoriidentificacao: TStringField
+      DisplayLabel = 'Origem'
+      FieldName = 'oriidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object orcsorcnumeropedido: TStringField
+      DisplayLabel = 'Pedido'
+      FieldName = 'orcnumeropedido'
+      ReadOnly = True
+    end
+    object orcsorchoraabert: TTimeField
+      DisplayLabel = 'Hr. Pedido'
+      FieldName = 'orchoraabert'
+      ReadOnly = True
+    end
+    object orcsstocodigo: TIntegerField
+      FieldName = 'stocodigo'
+    end
+    object orcsmarca: TIntegerField
+      FieldName = 'marca'
+      Required = True
+    end
+    object orcsmoccodigo: TIntegerField
+      FieldName = 'moccodigo'
+      Required = True
+    end
+    object orcsorcliberadoentrega: TDateTimeField
+      FieldName = 'orcliberadoentrega'
+    end
+    object orcsorcdataabert: TDateField
+      FieldName = 'orcdataabert'
+      Required = True
+    end
+    object orcsorcpedidointegracao: TStringField
+      DisplayLabel = 'Pedido Original'
+      FieldName = 'orcpedidointegracao'
+    end
+    object orcsorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 5000
+    end
+    object orcsoricodigo: TIntegerField
+      FieldName = 'oricodigo'
+    end
+  end
+end

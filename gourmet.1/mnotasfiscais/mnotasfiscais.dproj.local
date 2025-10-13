@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/08/16 14:01:35.000.598,=rtl.dcp</Transaction>
+    <Transaction>2025/08/16 14:02:59.000.348,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\fontes_gourmet\gourmet.1\mnotasfiscais\mnotasfiscaisdproj.dproj</Transaction>
+    <Transaction>2025/08/16 14:05:32.000.776,C:\fontes_gourmet\gourmet.1\mnotasfiscais\mnotasfiscaisdproj.dproj=C:\fontes_gourmet\gourmet.1\mnotasfiscais\mnotasfiscais.dproj</Transaction>
+    <Transaction>2025/08/16 14:06:06.000.465,=C:\fontes_gourmet\gourmet.1\mnotasfiscais\Unit1.pas</Transaction>
+    <Transaction>2025/08/16 14:06:22.000.714,C:\fontes_gourmet\gourmet.1\mnotasfiscais\Unit1.dfm=C:\fontes_gourmet\gourmet.1\mnotasfiscais\ufnotasfiscais.dfm</Transaction>
+    <Transaction>2025/08/16 14:06:22.000.714,C:\fontes_gourmet\gourmet.1\mnotasfiscais\Unit1.pas=C:\fontes_gourmet\gourmet.1\mnotasfiscais\ufnotasfiscais.pas</Transaction>
+    <Transaction>2025/08/16 16:47:31.000.468,=C:\fontes_gourmet\gourmet.1\mnotasfiscais\Unit1.pas</Transaction>
+    <Transaction>2025/08/16 16:48:11.000.500,C:\fontes_gourmet\gourmet.1\mnotasfiscais\Unit1.pas=C:\fontes_gourmet\gourmet.1\mnotasfiscais\uPagamentos.pas</Transaction>
+  </Transactions>
+</BorlandProject>

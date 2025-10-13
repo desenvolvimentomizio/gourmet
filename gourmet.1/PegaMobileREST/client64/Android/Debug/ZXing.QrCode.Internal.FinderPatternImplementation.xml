@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.FinderPatternImplementation" platform="Android">
+  <function name="NewFinderPattern" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.FinderPatternImplementation.pas" line="141">
+    <parameters>
+      <parameter name="posX" type="Single" paramflags="const" />
+      <parameter name="posY" type="Single" paramflags="const" />
+      <parameter name="estimatedModuleSize" type="Single" paramflags="const" />
+      <parameter name="count" type="Integer" paramflags="const" />
+      <retval type="IFinderPattern">
+        <devnotes>
+           <summary>
+            As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+           of TAligmnentPattern instances
+           the actual implementation of this interface is in unit ZXing.QrCode.Internal.FinderPatternImplementation
+           </summary>
+        </devnotes>
+      </retval>
+    </parameters>
+  </function>
+  <function name="NewFinderPattern" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.FinderPatternImplementation.pas" line="146">
+    <parameters>
+      <parameter name="posX" type="Single" paramflags="const" />
+      <parameter name="posY" type="Single" paramflags="const" />
+      <parameter name="estimatedModuleSize" type="Single" paramflags="const" />
+      <retval type="IFinderPattern">
+        <devnotes>
+           <summary>
+            As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+           of TAligmnentPattern instances
+           the actual implementation of this interface is in unit ZXing.QrCode.Internal.FinderPatternImplementation
+           </summary>
+        </devnotes>
+      </retval>
+    </parameters>
+  </function>
+</namespace>

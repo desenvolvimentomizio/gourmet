@@ -1,0 +1,61 @@
+unit ufAlertaMsn;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, System.ImageList, Vcl.ImgList, Vcl.Imaging.pngimage,ufuncoes;
+
+type
+  TfAlertaMsn = class(TForm)
+    plItulo: TPanel;
+    plFechar: TPanel;
+    plCentro: TPanel;
+    reMensagem: TRichEdit;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    lMensagem: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    ListaImagens: TImageList;
+    imagem: TImage;
+    ImageLogoBase: TImage;
+    plTitulo: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    procedure plFecharClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fAlertaMsn: TfAlertaMsn;
+
+implementation
+
+uses
+  ufprinci;
+
+{$R *.dfm}
+
+procedure TfAlertaMsn.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TfAlertaMsn.plFecharClick(Sender: TObject);
+begin
+  fprincigourmet.rln.Open;
+  fprincigourmet.rln.Append;
+  fprincigourmet.rlnetddoc1.AsString:=fprincigourmet.vpCnpj;
+  fprincigourmet.rlnclbcodigo.AsString:=fprincigourmet.clbclbcodigo.AsString;
+  fprincigourmet.rlnrlnleitura.AsString:=agora(application,fprincigourmet.Conexao);
+  fprincigourmet.rlnmnochave.AsInteger:=fprincigourmet.mnomnochave.AsInteger;
+  fprincigourmet.rln.Post;
+  Close;
+end;
+
+end.

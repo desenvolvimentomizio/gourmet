@@ -1,0 +1,54 @@
+package mbol;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeggourmet,
+  mcre,
+  vclx,
+  frx27,
+  fs27,
+  frxe27,
+  frxDB27,
+  ACBr_TCP,
+  ACBr_Boleto,
+  ACBr_BoletoFR;
+
+contains
+  ufbol in 'ufbol.pas' {fbol},
+  ufbolgeb in 'ufbolgeb.pas' {fbolgeb},
+  ufrabol in 'ufrabol.pas' {frabol: TFrame},
+  ufracrebol in 'ufracrebol.pas' {fracrebol: TFrame},
+  ulcrebol in 'ulcrebol.pas' {lcrebol},
+  ufbolrmb in 'ufbolrmb.pas' {fbolrmb},
+  ufbolEmail in 'ufbolEmail.pas' {fbolEmail},
+  ufbolreb in 'ufbolreb.pas' {fbolreb};
+
+end.

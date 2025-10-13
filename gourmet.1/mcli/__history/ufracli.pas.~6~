@@ -1,0 +1,1185 @@
+unit ufracli;
+
+interface
+
+uses Winapi.Windows, Vcl.Forms, ufrabase, Data.DB,
+  VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Classes, System.Actions,
+  Vcl.ActnList, Vcl.Buttons, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Graphics,
+  Vcl.ExtCtrls, Vcl.Controls, Vcl.Dialogs, ufuncoes, uPegaBase, System.SysUtils, Vcl.DBCtrls,
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Vcl.Mask, System.ImageList,
+  Vcl.ImgList, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
+
+type
+
+  Tfracli = class(Tfrabase)
+    UQTabelaetdcodigo: TIntegerField;
+    UQTabelaetddoc1: TStringField;
+    UQTabelaedrinscest: TStringField;
+    UQTabelaetdidentificacao: TStringField;
+    UQTabelaetdapelido: TStringField;
+    UQTabelatpeidentificacao: TStringField;
+    UQTabelaetddatacad: TDateField;
+    UQTabelaetddataalt: TDateField;
+    UQTabelatsecodigo: TIntegerField;
+    UQTabelaetddescsituacao: TStringField;
+    UQTabelaetdativo: TIntegerField;
+    UQTabelaetdobs: TStringField;
+    cresituacao: tuniquery;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    BloqueioTOTAL1: TMenuItem;
+    BloqueioAPRAZO1: TMenuItem;
+    Desbloquear1: TMenuItem;
+    mDesativar: TMenuItem;
+    mReativar: TMenuItem;
+    MostrarInativos1: TMenuItem;
+    uqtabelatvicodigo: TIntegerField;
+    cfgmcli: tuniquery;
+    cfgcfgmclicodigo: TIntegerField;
+    cfgmclicfgmcliusarefpes: TIntegerField;
+    cfgmclicfgmcliusarefecom: TIntegerField;
+    cfgmclicfgmcliusarefban: TIntegerField;
+    cfgmclicfgmcliusaconemp: TIntegerField;
+    cfgmclicfgmcliusadapefi: TIntegerField;
+    cfg: tuniquery;
+    cfgcfgcodigo: TIntegerField;
+    uqtabelatseidentificacao: TStringField;
+    uqtabelatpecodigo: TIntegerField;
+    GBetddescsituacao: TGroupBox;
+    GBEdr: TGroupBox;
+    edr: tuniquery;
+    GBEmail: TGroupBox;
+    GBTlefone: TGroupBox;
+    DBEdr: TDBGrid;
+    DBetf: TDBGrid;
+    DBete: TDBGrid;
+    Dedr: tunidatasource;
+    Detf: tunidatasource;
+    etf: tuniquery;
+    Dete: tunidatasource;
+    ete: tuniquery;
+    edredrrua: TStringField;
+    edredrbairro: TStringField;
+    edrcddnome: TStringField;
+    edrtedidentificacao: TStringField;
+    etfetftelefone: TStringField;
+    etfetfcontato: TStringField;
+    etfttfidentificacao: TStringField;
+    eteetecontato: TStringField;
+    eteeteenvianfe: TIntegerField;
+    eteeteemail: TStringField;
+    sp2: TSplitter;
+    sp3: TSplitter;
+    sp4: TSplitter;
+    tvi: tuniquery;
+    tvitvicodigo: TIntegerField;
+    tvitviidentificacao: TStringField;
+    ScrollBox1: TScrollBox;
+    ets: tuniquery;
+    etsetscodigo: TIntegerField;
+    etstsecodigo: TIntegerField;
+    etsetdcodigo: TIntegerField;
+    etsetsdata: TDateField;
+    etsetshistorico: TStringField;
+    Dets: tunidatasource;
+    listaets: TDBGrid;
+    tse: tuniquery;
+    tsetsecodigo: TIntegerField;
+    tsetseidentificacao: TStringField;
+    etstseidentificacao: TStringField;
+    ActCreditoeFaturamento: TAction;
+    cfgcfgcontrolalimite: TIntegerField;
+    qrfiSaldo: tuniquery;
+    qrfiSaldorfisaldocapital: TFloatField;
+    ActDesativar: TAction;
+    ActReativar: TAction;
+    gbObservacoes: TGroupBox;
+    etdobs: TDBMemo;
+    ActFichaFinanceira: TAction;
+    FichaFinanceira1: TMenuItem;
+    GBFinanceiro: TGroupBox;
+    plLimiteTotal: TPanel;
+    plDisponivel: TPanel;
+    plVencido: TPanel;
+    fin: tuniquery;
+    limite: tuniquery;
+    limiteetllimitetotal: TFloatField;
+    limiteetdcodigo: TIntegerField;
+    DSLimite: TDataSource;
+    disponivel: tuniquery;
+    vencido: tuniquery;
+    DSDisponivel: TDataSource;
+    disponivelrfisaldocapital: TFloatField;
+    plValorDisponivel: TPanel;
+    plValorVencido: TPanel;
+    plValorLimiteTotal: TPanel;
+    plLegenda: TPanel;
+    plParcial: TPanel;
+    plIdentificacaoParcial: TLabel;
+    Panel1: TPanel;
+    Label1: TLabel;
+    mnUtiliarios: TMenuItem;
+    mnVerificaItensEndereco: TMenuItem;
+    edrtedcodigo: TIntegerField;
+    edredrcodigo: TIntegerField;
+    edredritem: TIntegerField;
+    edredrinscest: TStringField;
+    ActHistoricoCompra: TAction;
+    uqtabelaetftelefone: TStringField;
+    uqtabelaedrrua: TStringField;
+    vce: tuniquery;
+    vcevcechave: TIntegerField;
+    vceetdcodigo: TIntegerField;
+    cfgcfgmclicarteira: TIntegerField;
+    uqtabelagrtidentificacao: TStringField;
+    cfgcfgusaveiculo: TIntegerField;
+    rcc: tuniquery;
+    rccrcrchave: TIntegerField;
+    rcctcridentificacao: TStringField;
+    rcctscidentificacao: TStringField;
+    rccetdidentificacao: TStringField;
+    rccetdcodigo: TIntegerField;
+    rcccedcodigo: TIntegerField;
+    rccrcrdata: TDateField;
+    rccrcrhistorico: TStringField;
+    rccmcechave: TIntegerField;
+    rcctmcidentificacao: TStringField;
+    rcctmccodigo: TIntegerField;
+    rccclbcodigo: TIntegerField;
+    rccclbidentificacao: TStringField;
+    rccrcrvalor: TFloatField;
+    rccmcrvalorbaixa: TFloatField;
+    rccrcrsaldo: TFloatField;
+    rccmcemotivo: TStringField;
+    rccmecregistro: TDateTimeField;
+    rcctcrcodigo: TIntegerField;
+    rcctsccodigo: TIntegerField;
+    rcctnccodigo: TIntegerField;
+    rccrcrhora: TTimeField;
+    plCreditoantecipado: TPanel;
+    plValorCreditoantecipado: TPanel;
+    procedure ActBloqueioTotalExecute(Sender: TObject);
+    procedure ActBloqueioParcialExecute(Sender: TObject);
+    procedure ActDesbloqueioExecute(Sender: TObject);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActConfigExecute(Sender: TObject);
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure ActSairExecute(Sender: TObject);
+    procedure ActExcluirExecute(Sender: TObject);
+    procedure ActCreditoeFaturamentoExecute(Sender: TObject);
+    procedure ActDesativarExecute(Sender: TObject);
+    procedure ActReativarExecute(Sender: TObject);
+    procedure ActFichaFinanceiraExecute(Sender: TObject);
+    procedure edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure mnVerificaItensEnderecoClick(Sender: TObject);
+    procedure ActHistoricoCompraExecute(Sender: TObject);
+    procedure uqtabelaBeforeOpen(DataSet: TDataSet);
+  private
+    procedure Carregar; override;
+    procedure registrasituacao(vetdcodigo, vtsecodigo: Integer; vetshistorico: string);
+  public
+    { Public declarations }
+
+  end;
+
+var
+  fracli: Tfracli;
+
+  // Início ID do Módulo fracli
+const
+  vPlIdMd = '01.01.01.001-01';
+  vPlTitMdl = 'Clientes';
+
+  // Fim ID do Módulo fracli
+
+implementation
+
+{$R *.dfm}
+
+uses ufcfgmcli, ufcli;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracli := Tfracli.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracli := Tfracli.Create(pCargaFrame);
+  try
+    fracli.CriaAcoesDeAcesso;
+  finally
+    fracli.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfracli.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+    CriaFormulario(Tfcli, Self.UQTabelaetdcodigo.asstring, '');
+  end
+  else
+  begin
+    showmessage('Não é possível alterar o cliente: 0 Consumidor !');
+  end;
+end;
+
+procedure Tfracli.ActBloqueioParcialExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: string;
+  pode: boolean;
+  CustIsPressOK: boolean;
+Begin
+  Inherited;
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+        if UQTabelatsecodigo.AsInteger = 2 then
+        begin
+          showmessage('Este cliente já tem bloqueio PARCIAL!');
+          pode := False;
+        end
+        else
+        begin
+
+          if UQTabelatsecodigo.AsInteger = 2 then
+          begin
+            If application.MessageBox(PChar('Confirma já existe o BLOQUEIO TOTAL, deseja tornar o BLOQUEIO  PARCIAL do cliente selecionado ? '),
+              'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) <> idyes Then
+            Begin
+              pode := False;
+            End;
+          end;
+
+          if pode then
+          begin
+            If application.MessageBox(PChar('Confirma o BLOQUEIO para VENDA A PRAZO do cliente  selecionado ? '), ' Atenção ',
+              MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idyes Then
+            Begin
+
+              rg := Self.UQTabelaetdcodigo.AsInteger;
+
+              repeat
+                CustIsPressOK := InputQuery('Bloqueio Parcial !', 'Descreva o motivo para o Bloqueio:  ', motivo);
+
+                if CustIsPressOK then
+                begin
+                  if motivo <> '' then
+                  begin
+                    rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                    consulta.close;
+                    consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=2  where etdcodigo = ' +
+                      Self.UQTabelaetdcodigo.asstring;
+                    consulta.Execsql;
+
+                    registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 2, motivo);
+
+                    Self.actatualizar.Execute;
+
+                    Self.uqtabela.Locate('etdcodigo', rg, []);
+
+                    rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                  end
+                  else
+                  begin
+                    // user is pressed OK button but value is empty string
+                    MessageDlg('Não é possivel confirmar sem informar o motivo!', mtInformation, [mbOk], 0);
+                  end;
+                end;
+              until (CustIsPressOK = False) or (CustIsPressOK and (motivo <> ''));
+
+            End;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfracli.ActBloqueioTotalExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  pode: boolean;
+
+  CustIsPressOK: boolean;
+Begin
+  Inherited;
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+        if UQTabelatsecodigo.AsInteger = 1 then
+        begin
+          showmessage('Este cliente já tem bloqueio TOTAL!');
+          pode := False;
+        end
+        else
+        begin
+
+          if UQTabelatsecodigo.AsInteger = 2 then
+          begin
+            If application.MessageBox(PChar('Confirma já existe o BLOQUEIO PARCIAL, deseja tornar o  BLOQUEIO TOTAL do cliente selecionado ? '),
+              'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) <> idyes Then
+            Begin
+              pode := False;
+            End;
+          end;
+
+          if pode then
+          begin
+            If application.MessageBox(PChar('Confirma o BLOQUEIO TOTAL do cliente selecionado?'), 'Atenção',
+              MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idyes Then
+            Begin
+
+              repeat
+                CustIsPressOK := InputQuery('Bloqueio TOTAL !', 'Descreva o motivo para o Bloqueio:  ', motivo);
+
+                if CustIsPressOK then
+                begin
+                  if motivo <> '' then
+                  begin
+                    rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                    consulta.close;
+                    consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=1  where etdcodigo = ' +
+                      Self.UQTabelaetdcodigo.asstring;
+                    consulta.Execsql;
+                    registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 1, motivo);
+
+                    Self.actatualizar.Execute;
+
+                    Self.uqtabela.Locate('etdcodigo', rg, []);
+
+                    rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                  end
+                  else
+                  begin
+                    // user is pressed OK button but value is empty string
+                    MessageDlg('Não é possivel confirmar sem informar o motivo!', mtInformation, [mbOk], 0);
+                  end;
+                end;
+              until (CustIsPressOK = False) or (CustIsPressOK and (motivo <> ''));
+
+            End;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfracli.registrasituacao(vetdcodigo: Integer; vtsecodigo: Integer; vetshistorico: string);
+begin
+  ets.close;
+
+  if ets.Active = False then
+  begin
+    ets.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+    ets.Open;
+  end;
+  ets.Append;
+  etstsecodigo.AsInteger := vtsecodigo;
+  etsetdcodigo.AsInteger := vetdcodigo;
+  etsetsdata.AsFloat := Self.vdataatual;
+  etsetshistorico.asstring := vetshistorico;
+  ets.Post;
+
+end;
+
+procedure Tfracli.uqtabelaBeforeOpen(DataSet: TDataSet);
+begin
+  inherited;
+
+  uqtabela.sql.Text:=   uqtabela.sql.Text+ ' limit 1';
+
+
+end;
+
+procedure Tfracli.ActConfigExecute(Sender: TObject);
+begin
+  inherited;
+  if not cfg.Active then
+  begin
+    cfg.Open;
+  end;
+  CriaFormulario(Tfcfgmcli, Self.cfgcfgcodigo.asstring, '');
+
+end;
+
+procedure Tfracli.ActCreditoeFaturamentoExecute(Sender: TObject);
+var
+  vlEtlChave: string;
+begin
+  inherited;
+  if (cfgcfgcontrolalimite.AsInteger = 1) then
+  begin
+
+    consulta.close;
+    consulta.sql.Text := 'select etlchave from etl where etdcodigo=' + Self.UQTabelaetdcodigo.asstring;
+    consulta.Open;
+    vlEtlChave := Self.consulta.Fields[0].asstring;
+    consulta.close;
+    if vlEtlChave = '' then
+      vlEtlChave := '0';
+
+    MostraFormu('metl', vlEtlChave, UQTabelaetdcodigo.asstring)
+  end;
+end;
+
+procedure Tfracli.ActDesativarExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  pode: boolean;
+  CustIsPressOK: boolean;
+Begin
+
+  Inherited;
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        if pode then
+        begin
+          { If application.MessageBox(PChar('Confirma a DESATIVAÇÃO do cliente selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idyes Then
+            Begin
+
+            Repeat
+            motivo := InputBox('Desativação !', 'Descreva o motivo para desativar o Cliente: ', '');
+            Until motivo <> ''; }
+
+          repeat
+            CustIsPressOK := InputQuery('Desativação !', 'Descreva o motivo para desativar o Cliente: ', motivo);
+
+            if CustIsPressOK then
+            begin
+              if motivo <> '' then
+              begin
+                rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                consulta.close;
+                consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=9  where etdcodigo = ' +
+                  Self.UQTabelaetdcodigo.asstring;
+                consulta.Execsql;
+
+                consulta.close;
+                consulta.sql.Text := 'update v_rfi set tsecodigo=9  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+                consulta.Execsql;
+
+                registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 9, motivo);
+
+                Self.actatualizar.Execute;
+
+                Self.uqtabela.Locate('etdcodigo', rg, []);
+              end
+              else
+              begin
+                // user is pressed OK button but value is empty string
+                MessageDlg('Não é possivel confirmar sem informar o motivo!', mtInformation, [mbOk], 0);
+              end;
+            end;
+          until (CustIsPressOK = False) or (CustIsPressOK and (motivo <> ''));
+
+        End;
+      end;
+
+    end;
+  end;
+
+end;
+
+procedure Tfracli.ActDesbloqueioExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  CustIsPressOK: boolean;
+Begin
+  Inherited;
+
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        If (Self.UQTabelatsecodigo.AsInteger = 1) or (Self.UQTabelatsecodigo.AsInteger = 2) Then
+        Begin
+          If application.MessageBox(PChar('Confirma o DESBLOQUEIO do cliente selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION)
+            = idyes Then
+          Begin
+
+            repeat
+              CustIsPressOK := InputQuery('DESBLOQUEIO !', 'Descreva o motivo para desbloquear o Cliente: ', motivo);
+
+              if CustIsPressOK then
+              begin
+                if motivo <> '' then
+                begin
+                  rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                  consulta.close;
+                  consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=0  where etdcodigo = ' +
+                    Self.UQTabelaetdcodigo.asstring;
+                  consulta.Execsql;
+
+                  consulta.close;
+                  consulta.sql.Text := 'update v_rfi set tsecodigo=0  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+                  consulta.Execsql;
+
+                  registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 0, motivo);
+
+                  Self.actatualizar.Execute;
+
+                  Self.uqtabela.Locate('etdcodigo', rg, []);
+                end
+                else
+                begin
+                  // user is pressed OK button but value is empty string
+                  MessageDlg('Não é possivel confirmar sem informar o motivo!', mtInformation, [mbOk], 0);
+                end;
+              end;
+            until (CustIsPressOK = False) or (CustIsPressOK and (motivo <> ''));
+
+            { Repeat
+              motivo := InputBox('Desbloqueio!', 'Descreva o motivo para o desbloqueio: ', '');
+              Until motivo <> ''; }
+
+            { rg := Self.UQTabelaetdcodigo.AsInteger;
+              consulta.close;
+              consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ', tsecodigo=0  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+              consulta.Execsql;
+
+              registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 0, motivo);
+
+              Self.actatualizar.Execute;
+
+              Self.uqtabela.Locate('etdcodigo', rg, []); }
+          End;
+        End
+        else
+        begin
+          showmessage('Não esta bloqueado!!');
+        end;
+      end;
+    end;
+
+  end;
+end;
+
+procedure Tfracli.ActExcluirExecute(Sender: TObject);
+begin
+  consulta.close;
+  consulta.sql.Text := 'select meschave from mes where etdcodigo=' + UQTabelaetdcodigo.asstring;
+  consulta.Open;
+  if not consulta.IsEmpty then
+  begin
+    showmessage('Este cliente tem registros válidos.' + #13 + #13 + 'Não pode ser excluido!');
+    exit;
+  end;
+
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender) then
+      if (Sender is TAction) then
+        if (Sender as TAction).Tag > 0 then
+        begin
+          // Exclui registro selecionado
+          if ActExcluir.Enabled = False then
+          begin
+            showmessage('Excluir não autorizada!');
+          end
+          else
+          begin
+            if application.MessageBox(PChar('Confirma a exclusão do registro selecionado?'), PChar('Excluir'),
+              MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = idyes then
+            begin
+              consulta.close;
+              consulta.sql.Text := 'delete from etd where etdcodigo=' + UQTabelaetdcodigo.asstring;
+              consulta.Execsql;
+
+              try
+                Self.actatualizar.Execute;
+              except
+
+              end;
+            end;
+          end;
+        end;
+
+
+
+    // inherited;
+
+  end;
+end;
+
+procedure Tfracli.ActFichaFinanceiraExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('minf', '', Self.UQTabelaetdcodigo.asstring);
+end;
+
+procedure Tfracli.ActHistoricoCompraExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mhit', 'mes.etdcodigo=' + UQTabelaetdcodigo.asstring, '');
+end;
+
+procedure Tfracli.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfcli, '', '');
+
+end;
+
+procedure Tfracli.ActReativarExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  pode: boolean;
+  CustIsPressOK: boolean;
+Begin
+  Inherited;
+  if UQTabelatsecodigo.AsInteger <> 9 then
+  begin
+    showmessage('Não esta desativado para ser Reativado!');
+    exit;
+  end;
+
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        if pode then
+        begin
+          If application.MessageBox(PChar('Confirma a REATIVAÇÃO do cliente selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION)
+            = idyes Then
+          Begin
+
+            repeat
+              CustIsPressOK := InputQuery('Reativação !', 'Descreva o motivo para reativar o Cliente: ', motivo);
+
+              if CustIsPressOK then
+              begin
+                if motivo <> '' then
+                begin
+                  rg := Self.UQTabelaetdcodigo.AsInteger;
+
+                  consulta.close;
+                  consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=0  where etdcodigo = ' +
+                    Self.UQTabelaetdcodigo.asstring;
+                  consulta.Execsql;
+
+                  consulta.close;
+                  consulta.sql.Text := 'update v_rfi set tsecodigo=0  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+                  consulta.Execsql;
+
+                  registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 0, motivo);
+
+                  Self.actatualizar.Execute;
+
+                  Self.uqtabela.Locate('etdcodigo', rg, []);
+                end
+                else
+                begin
+                  // user is pressed OK button but value is empty string
+                  MessageDlg('Não é possivel confirmar sem informar o motivo!', mtInformation, [mbOk], 0);
+                end;
+              end;
+            until (CustIsPressOK = False) or (CustIsPressOK and (motivo <> ''));
+
+          End;
+        end;
+
+      end;
+    end;
+  end;
+
+end;
+
+procedure Tfracli.ActSairExecute(Sender: TObject);
+begin
+
+  SalvarColunas(DBEdr);
+  SalvarColunas(DBetf);
+  SalvarColunas(DBete);
+  SalvarColunas(listaets);
+
+  inherited;
+
+end;
+
+procedure Tfracli.Carregar;
+var
+  i: Integer;
+begin
+
+  MontaFiltroEsp(tvi, IntToStr(tviCliente));
+
+  if (FormaFrame = ffFrame) then
+    PlBotaoFiltroEsp.Visible := False;
+
+  inherited Carregar;
+
+  cfg.close;
+  cfg.Open;
+
+  if cfgcfgcontrolalimite.AsInteger = 1 then
+    ActCreditoeFaturamento.Enabled := True
+  else
+    ActCreditoeFaturamento.Enabled := False;
+
+  CarregarColunas(DBEdr);
+  CarregarColunas(DBetf);
+  CarregarColunas(DBete);
+  CarregarColunas(listaets);
+
+end;
+
+procedure Tfracli.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+Var
+  fixRect: TRect;
+Begin
+
+  // Inherited;
+
+  fixRect := Rect;
+
+  If odd(DStabela.DataSet.RecNo) Then
+  begin
+
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE;
+  end
+  Else
+  begin
+
+    DBGLista.Canvas.Brush.Color := clwhite;
+  end;
+
+  { cast DBGrid to a unit friendly class thus exposing all it private bits! }
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. tmpck against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(Rect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+      FillRect(fixRect);
+      Font.Color := clwhite;
+    End;
+
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. tmpck against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  case UQTabelatsecodigo.AsInteger of
+    0:
+      DBGLista.Canvas.Font.Color := clBlack;
+    1:
+      DBGLista.Canvas.Font.Color := clRed;
+    2:
+      DBGLista.Canvas.Font.Color := clFuchsia;
+    9:
+      DBGLista.Canvas.Font.Color := clgray;
+
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfracli.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+
+  if (not uqtabela.Executing) and (not uqtabela.Fetching) then
+  begin
+
+    vce.close;
+    vce.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+    vce.Open;
+
+    ets.close;
+    ets.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+    ets.Open;
+
+    if etstsecodigo.AsInteger = 0 then
+      GBetddescsituacao.Visible := False
+    else
+      GBetddescsituacao.Visible := True;
+
+    rcc.close;
+    rcc.ParamByName('etdcodigo').AsInteger := UQTabelaetdcodigo.AsInteger;
+    rcc.Open;
+
+    if rccrcrsaldo.AsFloat > 0 then
+    begin
+      plLimiteTotal.Visible := False;
+      plDisponivel.Visible := False;
+      plVencido.Visible := False;
+      plCreditoantecipado.Visible := True;
+      plValorCreditoantecipado.Caption := FormatFloat('##,###,##0.00', rccrcrsaldo.AsFloat);
+    end
+    else
+    begin
+      plCreditoantecipado.Visible := False;
+      plLimiteTotal.Visible := True;
+      plDisponivel.Visible := True;
+      plVencido.Visible := True;
+
+      limite.close;
+      limite.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+      limite.Open;
+
+      plValorLimiteTotal.Caption := FormatFloat('##,###,##0.00', limiteetllimitetotal.AsFloat);
+
+      disponivel.close;
+      disponivel.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+      disponivel.Open;
+
+      plValorDisponivel.Caption := FormatFloat('##,###,##0.00', limiteetllimitetotal.AsFloat - disponivelrfisaldocapital.AsCurrency);
+
+    end;
+
+    if (ets.RecordCount > 0) or (UQTabelaetdobs.asstring <> '') then
+      PnlRodapeGrid.Visible := True
+    else
+      PnlRodapeGrid.Visible := False;
+
+    if uqtabela.Active then
+    begin
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        edr.close;
+        edr.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+        edr.Open;
+
+        ete.close;
+        ete.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+        ete.Open;
+
+        etf.close;
+        etf.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+        etf.Open;
+
+      end;
+    end;
+  end;
+end;
+
+procedure Tfracli.edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+  query: String;
+  filtro: String;
+  linha: String;
+  i: Integer;
+  pala1: String;
+  pala2: String;
+  pala3: String;
+  pala4: String;
+  pala5: String;
+
+  vlsqlbase: string;
+  vlInicio: Integer;
+  vlNomeChave: string;
+  vlCampos: String;
+  vlTabela: String;
+  vlSqlOriginal: string;
+Begin
+  if edbusca.Text = '' then
+  begin
+    uqtabela.FilterSQL := '';
+    actatualizar.Execute;
+    if (Key = 38) then
+    begin
+      if DBGLista.Visible then
+        Self.DBGLista.SetFocus;
+      Self.uqtabela.Prior;
+      exit;
+    end;
+
+    if (Key = 40) or (Key = 39) then
+    begin
+      if DBGLista.Visible then
+        Self.DBGLista.SetFocus;
+      Self.uqtabela.Next;
+      exit;
+    end;
+
+  end
+  else
+  begin
+    if (Self.ModoFrame = modoPesquisa) or (Self.ModoFrame = modoPesqEdicao) then
+    begin
+
+      linha := trim(edbusca.Text);
+      filtro := trim(edbusca.Text);
+      i := pos(' ', linha) - 1;
+      If i > 0 Then
+      Begin
+        pala1 := Copy(linha, 1, i);
+        linha := trim(Copy(linha, i + 1, Length(linha)));
+        i := pos(' ', linha) - 1;
+        If i > 0 Then
+        Begin
+          pala2 := trim(Copy(linha, 1, i));
+          linha := trim(Copy(linha, i + 1, Length(linha)));
+
+          i := pos(' ', linha) - 1;
+          If i > 0 Then
+          Begin
+            pala3 := Copy(linha, 1, i);
+            linha := trim(Copy(linha, i + 1, Length(linha)));
+
+            If i > 0 Then
+            Begin
+              pala4 := Copy(linha, 1, i);
+              linha := trim(Copy(linha, i + 1, Length(linha)));
+
+              If i > 0 Then
+              Begin
+                pala5 := Copy(linha, 1, i);
+                linha := trim(Copy(linha, i + 1, Length(linha)));
+              End
+              Else
+              Begin
+                pala5 := trim(Copy(linha, 1, Length(linha)));
+              End;
+
+            End
+            Else
+            Begin
+              pala4 := trim(Copy(linha, 1, Length(linha)));
+            End;
+
+          End
+          Else
+          Begin
+            pala3 := trim(Copy(linha, 1, Length(linha)));
+          End;
+
+        End
+        Else
+        Begin
+          pala2 := trim(Copy(linha, 1, Length(linha)));
+
+        End;
+
+      End
+      Else
+      Begin
+        filtro := 'lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(linha) + '%' + chr(39);
+      End;
+
+      If pala1 <> '' Then
+      Begin
+        filtro := ' lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala1) + '%' + chr(39);
+      End;
+
+      If pala2 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala2) + '%' + chr(39);
+      End;
+
+      If pala3 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala3) + '%' + chr(39);
+      End;
+
+      If pala4 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala4) + '%' + chr(39);
+      End;
+
+      If pala5 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala5) + '%' + chr(39);
+      End;
+
+      vlsqlbase := lowercase(uqtabela.sql.Text);
+
+      vlNomeChave := trim(Copy(vlsqlbase, pos(' ', vlsqlbase), 50));
+      vlNomeChave := trim(Copy(vlNomeChave, 1, pos(',', vlNomeChave) - 1));
+
+      vlInicio := pos('from', vlsqlbase);
+      vlsqlbase := Copy(vlsqlbase, vlInicio, Length(vlsqlbase));
+
+      if pos('order by', vlsqlbase) > 0 then
+      begin
+        vlInicio := pos('order by', vlsqlbase);
+        vlsqlbase := Copy(vlsqlbase, 1, vlInicio - 1);
+      end;
+
+      if pos('.', vlNomeChave) > 0 then
+      begin
+        vlTabela := Copy(vlNomeChave, 1, pos('.', vlNomeChave) - 1);
+        vlNomeChave := Copy(vlNomeChave, pos('.', vlNomeChave) + 1);
+        if uppercase(trim(vlNomeChave)) = uppercase(trim(vordem)) then
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave;
+          filtro := StringReplace(filtro, vordem, vlCampos, [rfReplaceAll]);
+        end
+        else
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+        end;
+
+      end
+      else
+        vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+
+      if uppercase(trim(vlNomeChave)) <> uppercase(trim(vordem)) then
+      begin
+
+        if pos('where', vlsqlbase) > 0 then
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'and ' + filtro + ' order by ' + vlCampos + ' limit 100'
+        else
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'where ' + filtro + ' order by ' + vlCampos + ' limit 100';
+
+        vlSqlOriginal := uqtabela.sql.Text;
+
+        if filtro <> '' then
+        begin
+
+          if pos(' limit 100', uqtabela.sql.Text) = 0 then
+            uqtabela.sql.Text := uqtabela.sql.Text + ' limit 100';
+
+          If edbusca.Text <> '' Then
+          Begin
+            if pos(' limit 100', uqtabela.sql.Text) = 0 then
+              uqtabela.sql.Text := uqtabela.sql.Text + ' limit 100';
+          End
+          else
+          begin
+            uqtabela.sql.Text := StringReplace(uqtabela.sql.Text, ' limit 100', '', [rfReplaceAll, rfIgnoreCase]);
+          end;
+
+          uqtabela.FilterSQL := filtro;
+
+        end
+        else
+        begin
+
+        end;
+
+        inherited;
+      end
+      else
+      begin
+        inherited;
+      end;
+    end
+    else
+      inherited;
+
+  end;
+
+end;
+
+procedure Tfracli.mnVerificaItensEnderecoClick(Sender: TObject);
+var
+  vlEdrItem: Integer;
+begin
+  inherited;
+  uqtabela.First;
+  while not uqtabela.Eof do
+  begin
+
+    edr.IndexFieldNames := 'tedcodigo';
+    if edr.RecordCount > 1 then
+    begin
+      vlEdrItem := 1;
+      edr.First;
+      while not edr.Eof do
+      begin
+        consulta.close;
+        consulta.sql.Text := 'update edr set edritem=' + IntToStr(vlEdrItem) + ' where edrcodigo=' + edredrcodigo.asstring;
+        consulta.Execsql;
+
+        edr.Next;
+        vlEdrItem := vlEdrItem + 1;
+      end;
+
+    end;
+
+    uqtabela.Next;
+  end;
+  Self.actatualizar.Execute;
+end;
+
+end.

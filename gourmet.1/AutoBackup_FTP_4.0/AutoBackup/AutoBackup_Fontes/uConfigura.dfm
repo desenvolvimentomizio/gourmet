@@ -1,0 +1,314 @@
+object frmConfig: TfrmConfig
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'frmConfig'
+  ClientHeight = 565
+  ClientWidth = 393
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnl_menu: TPanel
+    Left = 0
+    Top = 0
+    Width = 393
+    Height = 565
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitWidth = 401
+    ExplicitHeight = 570
+    object lb_caminho: TLabel
+      Left = 20
+      Top = 80
+      Width = 237
+      Height = 16
+      Caption = 'Caminho para Armazenar ( Obrigatorio  ):'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Franklin Gothic Book'
+      Font.Style = []
+      ParentFont = False
+    end
+    object img_arq1: TImage
+      Left = 356
+      Top = 78
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        0954506E67496D61676589504E470D0A1A0A0000000D49484452000000100000
+        00100803000000282D0F530000000467414D410000B18F0BFC61050000007B50
+        4C5445000000006EF1006DF0006DF10080FF006EF0006DEF006CEF006EEF006D
+        ED0070EF006DF0006FEE006EF1006EEF006CEF006CF0006DF0006CF1006DF100
+        6DF00070F5006CF0006DF0006BF2006FEE006DF10080FF006AEA006EF0006DF0
+        006DEF006FF1006DF0006DF0006DF0006BEF006DF0006EF00074E80000006517
+        3C070000002874524E53004A887C0233736F820E20673C485F925565478F8C19
+        76444C1E8D040C87B96235F396A91F7A7B0BB095990D00000001624B47440088
+        051D48000000097048597300000DD700000DD70142289B780000000774494D45
+        07E10919163B2ACE6FE1CF0000007F4944415478DA5DCE510BC16014C6F1F37F
+        1B4A68792F946461DFFFFB4844BBB0940B175A6DC86B5B9EF15C9C7A7E9D4E07
+        FB0B50CFC717DC2BCC1EE52FD8A0AA5B9FA2853643EE1F18A18B558018B4F30C
+        E0AFEA518CF35C043370913F0BE601C637F505194B4E82C9F4C82A2F04EB83B1
+        D9ABA7EC8C24EBC2D63A3F35790364D91B7131A35EA100000025744558746461
+        74653A63726561746500323031372D30392D32355432323A35393A34322B3032
+        3A3030DA2A90B50000002574455874646174653A6D6F6469667900323031372D
+        30392D32355432323A35393A34322B30323A3030AB7728090000001974455874
+        536F667477617265007777772E696E6B73636170652E6F72679BEE3C1A000000
+        0049454E44AE426082}
+      OnClick = img_arq1Click
+    end
+    object img_base: TImage
+      Left = 355
+      Top = 44
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        0954506E67496D61676589504E470D0A1A0A0000000D49484452000000100000
+        00100803000000282D0F530000000467414D410000B18F0BFC6105000000D550
+        4C54450000000071F1006CEF006DF0006DEF006DEF006DF0006EF0006FEF006A
+        F4006CEE006EEF006EF1006DF0006CF0006CF0006CEF006CF0006EF1006EF100
+        6DF00071F0006DF10066FF006DF1006EEF006CF0006DEF006DF1006CF0006EF0
+        006FF10080FF006DF1006EF0006DF1006CF1006DFF006DEF006CF0006CF1006D
+        F1006EF0006CEF0060FF006DEF0000FF006DF0006CEB006DF0006DEF006DF300
+        6EF0006DF0006DEF0080FF006EF1006DF1006DEF006FEE006DEF006DEE0070EF
+        006EF1006CF1006EF0006DEF006DF1006EF0006DED0000000E84D7BD00000046
+        74524E5300125077919496643E182D8248CA216892A7906B46228F05365F7883
+        6EAE793704387BB0470760997F7E8961085201BE1ABC3F1595695E022559732E
+        2F3D10587D97937C560EBBBB986F00000001624B47440088051D480000000970
+        48597300000DD700000DD70142289B780000000774494D4507E10919163A355A
+        7CDD7B000000BC4944415478DA4D8FCD0B824010C5E76924D926054121218575
+        EC033A4404FDE39D3B7408A2C88B811D22EA1044A261A1DBBA87CD7719DE0CF3
+        7B3320821471290219998E37E5AAF0544B6022A2BFAA1C0C78296F71D1D01543
+        FF729E82C5594B41EF9A0956BF14189D2758438CCFD275E52E8B5D7547099E58
+        E91DF2E988F6791906602E760A31810F663FC266FB3420BF7FB3012F8F9DE163
+        084652E61B11BB08AE8558C711CFA5F3782BDDD43C46098896C07A5CA3D012E1
+        2BFA019F3642E7334514380000002574455874646174653A6372656174650032
+        3031372D30392D32355432323A35383A35332B30323A30305F35F0A100000025
+        74455874646174653A6D6F6469667900323031372D30392D32355432323A3538
+        3A35332B30323A30302E68481D0000001974455874536F667477617265007777
+        772E696E6B73636170652E6F72679BEE3C1A0000000049454E44AE426082}
+      OnClick = img_baseClick
+    end
+    object lb_base: TLabel
+      Left = 19
+      Top = 43
+      Width = 149
+      Height = 16
+      Caption = 'Nome da Base de Dados:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Franklin Gothic Book'
+      Font.Style = []
+      ParentFont = False
+    end
+    object img_arq2: TImage
+      Left = 356
+      Top = 127
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        0954506E67496D61676589504E470D0A1A0A0000000D49484452000000100000
+        00100803000000282D0F530000000467414D410000B18F0BFC61050000007B50
+        4C5445000000006EF1006DF0006DF10080FF006EF0006DEF006CEF006EEF006D
+        ED0070EF006DF0006FEE006EF1006EEF006CEF006CF0006DF0006CF1006DF100
+        6DF00070F5006CF0006DF0006BF2006FEE006DF10080FF006AEA006EF0006DF0
+        006DEF006FF1006DF0006DF0006DF0006BEF006DF0006EF00074E80000006517
+        3C070000002874524E53004A887C0233736F820E20673C485F925565478F8C19
+        76444C1E8D040C87B96235F396A91F7A7B0BB095990D00000001624B47440088
+        051D48000000097048597300000DD700000DD70142289B780000000774494D45
+        07E10919163B2ACE6FE1CF0000007F4944415478DA5DCE510BC16014C6F1F37F
+        1B4A68792F946461DFFFFB4844BBB0940B175A6DC86B5B9EF15C9C7A7E9D4E07
+        FB0B50CFC717DC2BCC1EE52FD8A0AA5B9FA2853643EE1F18A18B558018B4F30C
+        E0AFEA518CF35C043370913F0BE601C637F505194B4E82C9F4C82A2F04EB83B1
+        D9ABA7EC8C24EBC2D63A3F35790364D91B7131A35EA100000025744558746461
+        74653A63726561746500323031372D30392D32355432323A35393A34322B3032
+        3A3030DA2A90B50000002574455874646174653A6D6F6469667900323031372D
+        30392D32355432323A35393A34322B30323A3030AB7728090000001974455874
+        536F667477617265007777772E696E6B73636170652E6F72679BEE3C1A000000
+        0049454E44AE426082}
+      OnClick = img_arq2Click
+    end
+    object lb_caminhoOp: TLabel
+      Left = 20
+      Top = 127
+      Width = 225
+      Height = 16
+      Caption = 'Caminho para Armazenar ( Opcional  ):'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Franklin Gothic Book'
+      Font.Style = []
+      ParentFont = False
+    end
+    object clbHorarios: TCheckListBox
+      Left = 20
+      Top = 174
+      Width = 200
+      Height = 308
+      Columns = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Franklin Gothic Book'
+      Font.Style = []
+      ItemHeight = 14
+      Items.Strings = (
+        '00:00'
+        '01:00'
+        '02:00'
+        '03:00'
+        '04:00'
+        '05:00'
+        '06:00'
+        '07:00'
+        '08:00'
+        '09:00'
+        '10:00'
+        '11:00'
+        '12:00'
+        '13:00'
+        '14:00'
+        '15:00'
+        '16:00'
+        '17:00'
+        '18:00'
+        '19:00'
+        '20:00'
+        '21:00'
+        '22:00'
+        '23:00')
+      ParentFont = False
+      Sorted = True
+      TabOrder = 0
+    end
+    object clbSemana: TCheckListBox
+      Left = 226
+      Top = 174
+      Width = 146
+      Height = 308
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Franklin Gothic Book'
+      Font.Style = []
+      ItemHeight = 14
+      Items.Strings = (
+        'Domingo'
+        'Segunda'
+        'Ter'#231'a'
+        'Quarta'
+        'Quinta'
+        'Sexta'
+        'S'#225'bado')
+      ParentFont = False
+      TabOrder = 1
+    end
+    object pnl_topo: TPanel
+      Left = 0
+      Top = 0
+      Width = 393
+      Height = 25
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Auto Backup'
+      Color = clMenuHighlight
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 2
+      OnMouseDown = pnl_topoMouseDown
+      ExplicitWidth = 819
+      object SpeedButton1: TSpeedButton
+        Left = 370
+        Top = 0
+        Width = 23
+        Height = 25
+        Align = alRight
+        Caption = 'X'
+        Flat = True
+        OnClick = SpeedButton1Click
+        ExplicitLeft = 778
+        ExplicitTop = 1
+        ExplicitHeight = 22
+      end
+    end
+    object pnl_rodape: TPanel
+      Left = 0
+      Top = 488
+      Width = 372
+      Height = 17
+      BevelOuter = bvNone
+      Color = clMenuHighlight
+      ParentBackground = False
+      TabOrder = 3
+    end
+    object eDirBackup: TEdit
+      Left = 20
+      Top = 100
+      Width = 352
+      Height = 21
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      TabOrder = 4
+    end
+    object eBase: TEdit
+      Left = 184
+      Top = 42
+      Width = 165
+      Height = 21
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      TabOrder = 5
+    end
+    object eDirBackup2: TEdit
+      Left = 19
+      Top = 147
+      Width = 352
+      Height = 21
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      TabOrder = 6
+    end
+    object GroupBox1: TGroupBox
+      Left = 270
+      Top = 511
+      Width = 101
+      Height = 39
+      TabOrder = 7
+      object btn_salvar: TSpeedButton
+        Left = 2
+        Top = 15
+        Width = 97
+        Height = 22
+        Align = alClient
+        Caption = 'SALVAR'
+        Flat = True
+        OnClick = btn_salvarClick
+        ExplicitLeft = 1
+        ExplicitTop = 0
+        ExplicitWidth = 100
+        ExplicitHeight = 43
+      end
+    end
+  end
+end

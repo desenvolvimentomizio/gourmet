@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{716CBDC1-B245-474C-850D-C7A33C2292A1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PainelNuc.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\mopm\mopm.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="mintnuc.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PainelNuc">
+        <MSBuild Projects="PainelNuc.dproj"/>
+    </Target>
+    <Target Name="PainelNuc:Clean">
+        <MSBuild Projects="PainelNuc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PainelNuc:Make">
+        <MSBuild Projects="PainelNuc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="mopm">
+        <MSBuild Projects="..\mopm\mopm.dproj"/>
+    </Target>
+    <Target Name="mopm:Clean">
+        <MSBuild Projects="..\mopm\mopm.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mopm:Make">
+        <MSBuild Projects="..\mopm\mopm.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="mintnuc">
+        <MSBuild Projects="mintnuc.dproj"/>
+    </Target>
+    <Target Name="mintnuc:Clean">
+        <MSBuild Projects="mintnuc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mintnuc:Make">
+        <MSBuild Projects="mintnuc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PainelNuc;mopm;mintnuc"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PainelNuc:Clean;mopm:Clean;mintnuc:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PainelNuc:Make;mopm:Make;mintnuc:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

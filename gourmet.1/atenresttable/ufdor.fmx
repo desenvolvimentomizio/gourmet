@@ -1,0 +1,62 @@
+object fdor: Tfdor
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Finaliza'#231#227'o Parcial'
+  ClientHeight = 398
+  ClientWidth = 395
+  Position = poScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [dkDesktop, dkiPhone, dkiPad]
+  DesignerMobile = False
+  DesignerWidth = 0
+  DesignerHeight = 0
+  DesignerDeviceName = ''
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object Panel1: TPanel
+    Align = alBottom
+    Height = 38.000000000000000000
+    Position.Y = 360.000000000000000000
+    Width = 395.000000000000000000
+    TabOrder = 0
+    object btconfirma: TButton
+      Align = alRight
+      Font.Size = 20.000000000000000000
+      Font.Style = [fsBold]
+      StyledSettings = [ssFamily, ssFontColor]
+      Height = 38.000000000000000000
+      Position.X = 137.000000000000000000
+      TabOrder = 0
+      Text = 'Confirma'
+      Width = 129.000000000000000000
+      OnClick = btconfirmaClick
+    end
+    object btcancela: TButton
+      Align = alRight
+      Font.Size = 20.000000000000000000
+      Font.Style = [fsBold]
+      StyledSettings = [ssFamily, ssFontColor]
+      Height = 38.000000000000000000
+      Position.X = 266.000000000000000000
+      TabOrder = 1
+      Text = 'Cancela'
+      Width = 129.000000000000000000
+      OnClick = btcancelaClick
+    end
+  end
+  object ToolBar1: TToolBar
+    Height = 40.000000000000000000
+    TabOrder = 1
+    Width = 395.000000000000000000
+    object Label1: TLabel
+      Align = alClient
+      Font.Size = 25.000000000000000000
+      StyledSettings = [ssFamily, ssStyle, ssFontColor]
+      Height = 40.000000000000000000
+      Text = 'Recebimento Parcial'
+      Width = 395.000000000000000000
+    end
+  end
+end

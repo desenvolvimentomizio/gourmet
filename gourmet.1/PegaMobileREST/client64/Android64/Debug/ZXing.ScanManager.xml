@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.ScanManager" platform="Android">
+  <class name="TScanManager" file="ZXing.ScanManager.pas" line="25">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FEnableInversion" type="Boolean" visibility="private" size="1" offset="8" file="ZXing.ScanManager.pas" line="27" />
+      <field name="FHints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" visibility="private" size="8" offset="16" file="ZXing.ScanManager.pas" line="28" />
+      <field name="FResultPointEvent" type="TResultPointCallback" visibility="private" size="16" offset="24" file="ZXing.ScanManager.pas" line="29" />
+      <field name="FMultiFormatReader" type="TMultiFormatReader" visibility="private" size="8" offset="40" file="ZXing.ScanManager.pas" line="30" />
+      <field name="listFormats" type="TList&lt;ZXing.BarcodeFormat.TBarcodeFormat&gt;" visibility="private" size="8" offset="48" file="ZXing.ScanManager.pas" line="31" />
+      <function name="GetMultiFormatReader" visibility="private" file="ZXing.ScanManager.pas" line="33">
+        <parameters>
+          <parameter name="format" type="TBarcodeFormat" paramflags="const" />
+          <retval type="TMultiFormatReader">
+            <devnotes>
+               <summary>
+               MultiFormatReader is a convenience class and the main entry point into the library for most uses.
+               By default it attempts to decode all barcode formats that the library supports. Optionally, you
+               can provide a hints object to request different behavior, for example only decoding QR codes.
+               </summary>
+               <author>Sean Owen</author>
+               <author>dswitkin@google.com (Daniel Switkin)</author>
+               <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source</author>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="SetResultPointEvent" visibility="private" file="ZXing.ScanManager.pas" line="36">
+        <parameters>
+          <parameter name="AValue" type="TResultPointCallback" paramflags="const" />
+        </parameters>
+      </procedure>
+      <destructor name="Destroy" visibility="public" file="ZXing.ScanManager.pas" line="38">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="Scan" visibility="public" file="ZXing.ScanManager.pas" line="40">
+        <parameters>
+          <parameter name="pBitmapForScan" type="TBitmap" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.ScanManager.pas" line="41">
+        <parameters>
+          <parameter name="format" type="TBarcodeFormat" paramflags="const" />
+          <parameter name="Hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" />
+        </parameters>
+      </constructor>
+      <event name="OnResultPoint" visibility="public" read="FResultPointEvent" write="SetResultPointEvent" type="TResultPointCallback" file="ZXing.ScanManager.pas" line="44" />
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,143 @@
+unit ufrabrr;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabrf, VirtualTable, Data.DB, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Imaging.pngimage, Vcl.Controls, Vcl.ComCtrls, Vcl.Graphics,
+  uPegaBase, System.SysUtils, Vcl.Dialogs, System.ImageList, Vcl.ImgList,
+   Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, PngSpeedButton, ufuncoes;
+
+type
+  Tfrabrr = class(Tfrabrf)
+    cfgcfgfiltrarrec: TIntegerField;
+    ActAlterarDataBaixa: TAction;
+    SpeedButtonAlterardata: TSpeedButton;
+    lteccxchave: TIntegerField;
+    procedure bConfirmaSelecaoClick(Sender: TObject);
+    procedure btLimpaBuscaClick(Sender: TObject);
+    procedure DBGListaTitleClick(Column: TColumn);
+    procedure ActAlterarDataBaixaExecute(Sender: TObject);
+
+  private
+    function RegistroAcessoOperacao(vactcodigo, vMotivo: string): Boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+  TliberacaoRFI = function(AOwner: TComponent; conexao: TUniConnection; vusuario: string; vactcodigo: string; vMotivo: string; vtdecodigo, vorcchave, vMesChave: String;
+    vltecodigo, vddfcodigo: String; vForcaLogin: Boolean = false): string;
+
+var
+  frabrr: Tfrabrr;
+
+  // Início ID do Módulo frabrr
+const
+  vPlIdMd = '02.02.15.006-01';
+  vPlTitMdl = 'Recebimento de Contas';
+
+  // Fim ID do Módulo frabrr
+
+implementation
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frabrr := Tfrabrr.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  frabrr := Tfrabrr.Create(pCargaFrame);
+  try
+    frabrr.CriaAcoesDeAcesso;
+  finally
+    frabrr.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+function Tfrabrr.RegistroAcessoOperacao(vactcodigo: string; vMotivo: string): Boolean;
+var
+  auto: TliberacaoRFI;
+  vRetornoUsr: string;
+  vLiberacao: Boolean;
+  Pack: Cardinal;
+begin
+
+  vLiberacao := True;
+
+  Pack := LoadPackage('modulos\mlia.bpl');
+  if Pack <> 0 then
+    try
+      @auto := GetProcAddress(Pack, PChar('liberacao'));
+
+      if Assigned(auto) then
+      begin
+        vRetornoUsr := auto(Application, Self.zcone, Acesso.Usuario.ToString, vactcodigo, vMotivo, '', '', '', '', '', True);
+
+        if (vRetornoUsr = '0') or (vRetornoUsr = '') then // retornou NÃO AUTORIZADO
+          vLiberacao := false;
+      end;
+    finally
+      DoUnLoadPackage(Application, Pack);
+    end;
+
+  Result := vLiberacao;
+end;
+
+procedure Tfrabrr.ActAlterarDataBaixaExecute(Sender: TObject);
+var
+  vlactcodigo: string;
+begin
+  vlactcodigo := Inttostr(ActAlterarDataBaixa.Tag);
+
+  if RegistroAcessoOperacao(vlactcodigo, 'Alterar a data do recebimento') then
+  begin
+
+    diabaixa.Enabled := True;
+  end
+  else
+  begin
+    diabaixa.Enabled := false;
+  end;
+
+end;
+
+procedure Tfrabrr.bConfirmaSelecaoClick(Sender: TObject);
+begin
+  // inherited;
+  Self.ActAtualizar.Execute;
+end;
+
+procedure Tfrabrr.btLimpaBuscaClick(Sender: TObject);
+begin
+  inherited;
+  tabela.Close;
+  tabela.Clear;
+  tabela.open;
+end;
+
+procedure Tfrabrr.DBGListaTitleClick(Column: TColumn);
+begin
+
+  if uqtabela.IsEmpty then
+  begin
+
+    uqtabela.FilterSQL := '';
+    ActAtualizar.Execute;
+  end;
+
+  inherited;
+
+end;
+
+end.

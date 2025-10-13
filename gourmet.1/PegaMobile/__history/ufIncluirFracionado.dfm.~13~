@@ -1,0 +1,1145 @@
+object fIncluirFracionado: TfIncluirFracionado
+  Left = 0
+  Top = 0
+  ClientHeight = 702
+  ClientWidth = 703
+  Caption = 'Produto Fracionado'
+  BorderIcons = []
+  TitleButtons = <>
+  OnScreenResize = UnimFormScreenResize
+  OnClose = UnimFormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  ScrollPosition = 0
+  ScrollHeight = 47
+  PlatformData = {}
+  object TabPanelIncFracionado: TUnimTabPanel
+    Left = 0
+    Top = 0
+    Width = 703
+    Height = 702
+    Hint = ''
+    ActivePage = TabFraSabores
+    Align = alClient
+    object TabFraGrupo: TUnimTabSheet
+      Left = 4
+      Top = 51
+      Width = 695
+      Height = 647
+      Hint = ''
+      Caption = 'T a m a n h o s'
+      object PnCardapio: TUnimPanel
+        Left = 0
+        Top = 0
+        Width = 695
+        Height = 40
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsFrameLowered
+        object LbCardapio: TUnimLabel
+          AlignWithMargins = True
+          Left = 60
+          Top = 5
+          Width = 630
+          Height = 30
+          Hint = ''
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Card'#225'pio'
+          Align = alClient
+        end
+        object BtTabOpcaoRetorno: TUnimBitBtn
+          Left = 2
+          Top = 2
+          Width = 55
+          Height = 36
+          Hint = ''
+          Align = alLeft
+          IconCls = 'arrow_left'
+          Caption = ''
+          OnClick = BtTabOpcaoRetornoClick
+        end
+      end
+      object UnimDBListGrid3: TUnimDBListGrid
+        Left = 0
+        Top = 40
+        Width = 695
+        Height = 607
+        Hint = ''
+        Align = alClient
+        DataSource = UniMainModule.dsfn
+        ClientEvents.UniEvents.Strings = (
+          
+            'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  var _height' +
+            ' = 70;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height'#13#10'  ' +
+            '  };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _height'#13 +
+            #10'    };'#13#10'      config.itemTpl='#13#10#39'<table style="font-size:18;widt' +
+            'h:100%;white-space:nowrap;vertical-align:left;align-content:stre' +
+            'tch;">'#39'+'#13#10'  '#13#10'  '#39'<tr>'#39'+'#13#10'     '#39'<th style="font-size:18;colspan=2' +
+            ';line-height:100%;font-size: x-large;color:#000000;font-weight:7' +
+            '00;padding-left:5px;">{0}</th>'#39'+'#13#10'  '#39'</tr>'#39'+     '#13#10#13#10'  '#39'<tr>'#39'+  ' +
+            '  '#13#10'     '#39'<td style="line-height:100%;font-size: x-large;width:9' +
+            '0%;color:#000000;padding-left:5px;">{1}</td>'#39'+'#13#10'     '#13#10'  '#39'</tr>'#39 +
+            '+'#13#10#13#10#39'</table>'#39';'#13#10#13#10#13#10#13#10'}')
+        WebOptions.Paged = False
+        OnClick = UnimDBListGrid3Click
+        Columns = <
+          item
+            Title.Caption = 'Tamanho e Pre'#231'o'
+            FieldName = 'pronomereduzido'
+            Width = 1082
+          end
+          item
+            Title.Caption = 'punprecoav'
+            FieldName = 'punprecoav'
+            Width = 334
+          end>
+      end
+    end
+    object TabFraSabores: TUnimTabSheet
+      Left = 4
+      Top = 51
+      Width = 695
+      Height = 647
+      Hint = ''
+      Caption = 'S a b o r e s'
+      object UnimPanel11: TUnimPanel
+        Left = 0
+        Top = 98
+        Width = 695
+        Height = 95
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsNone
+        object UnimPanel12: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object UnimDBListGrid1: TUnimDBListGrid
+          Left = 0
+          Top = 2
+          Width = 695
+          Height = 93
+          Hint = ''
+          Align = alClient
+          DataSource = UniMainModule.dvtpro
+          ClientEvents.UniEvents.Strings = (
+            
+              'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  '#13#10'  var _he' +
+              'ight = 30;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height' +
+              #13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _hei' +
+              'ght'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="font-size:15;wid' +
+              'th:100%;white-space:nowrap;vertical-align:left;">'#39'+'#13#10#39'<tr>'#39'+'#13#10#39'<' +
+              'td style="font-size: x-large;color:#000000;font-weight:700;paddi' +
+              'ng-left:5px;" colspan="2">{0}</td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tab' +
+              'le>'#39';'#13#10'}')
+          Options = [dgColLines, dgRowLines, dgConfirmDelete]
+          WebOptions.Paged = False
+          WebOptions.FetchAll = True
+          Columns = <
+            item
+              Title.Caption = 'pronome'
+              FieldName = 'descricao'
+              Width = 565
+            end>
+        end
+      end
+      object UnimPanel4: TUnimPanel
+        Left = 0
+        Top = 193
+        Width = 695
+        Height = 56
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsNone
+        object UnimPanel5: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object UnimPanel18: TUnimPanel
+          Left = 0
+          Top = 2
+          Width = 417
+          Height = 54
+          Hint = ''
+          Align = alLeft
+          Color = clSkyBlue
+          object UnimLabel7: TUnimLabel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 52
+            Height = 46
+            Hint = ''
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Obs'
+            Align = alLeft
+          end
+          object EdtObsGeral: TUnimDBEdit
+            AlignWithMargins = True
+            Left = 62
+            Top = 4
+            Width = 351
+            Height = 46
+            Hint = ''
+            DataField = 'obs'
+            DataSource = UniMainModule.dVtiItens
+            Align = alClient
+            TabOrder = 2
+            OnExit = EdtObsGeralExit
+          end
+        end
+        object UnimPanel23: TUnimPanel
+          Left = 473
+          Top = 2
+          Width = 222
+          Height = 54
+          Hint = ''
+          Align = alRight
+          Color = clSkyBlue
+          object BtnTabSaborExcluir: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 55
+            Height = 46
+            Hint = ''
+            Align = alLeft
+            IconCls = 'delete'
+            Caption = ''
+            OnClick = BtnTabSaborExcluirClick
+          end
+          object BtnTabSaborAdiciona: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 163
+            Top = 4
+            Width = 55
+            Height = 46
+            Hint = ''
+            Align = alRight
+            IconCls = 'add'
+            Caption = ''
+            OnClick = BtnTabSaborAdicionaClick
+          end
+          object LbFracao: TUnimLabel
+            AlignWithMargins = True
+            Left = 65
+            Top = 4
+            Width = 92
+            Height = 46
+            Hint = ''
+            Alignment = taCenter
+            AutoSize = False
+            Caption = '0 de 0'
+            Align = alClient
+          end
+        end
+      end
+      object PnQtde: TUnimPanel
+        Left = 0
+        Top = 0
+        Width = 695
+        Height = 98
+        Hint = ''
+        Align = alTop
+        BorderStyle = ubsNone
+        ScreenMask.ShowMessage = False
+        object UnimDBEdit2: TUnimDBEdit
+          Left = 576
+          Top = 49
+          Width = 84
+          Height = 49
+          Hint = ''
+          DataField = 'itoquantidade'
+          DataSource = UniMainModule.dVtiItens
+          Align = alRight
+          ClearButton = False
+          ReadOnly = True
+          EmptyText = '1'
+          TabOrder = 1
+        end
+        object UnimBitBtn12: TUnimBitBtn
+          Left = 541
+          Top = 49
+          Width = 35
+          Height = 49
+          Hint = ''
+          Align = alRight
+          Caption = '-'
+          OnClick = UnimBitBtn12Click
+        end
+        object UnimBitBtn13: TUnimBitBtn
+          Left = 660
+          Top = 49
+          Width = 35
+          Height = 49
+          Hint = ''
+          Align = alRight
+          Caption = '+'
+          OnClick = UnimBitBtn13Click
+        end
+        object UnimLabel8: TUnimLabel
+          Left = 426
+          Top = 49
+          Width = 115
+          Height = 49
+          Hint = ''
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Quantidade'
+          Align = alRight
+        end
+        object UnimPanel1: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 49
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          object BtnTabSaborRetorno: TUnimBitBtn
+            Left = 1
+            Top = 3
+            Width = 55
+            Height = 45
+            Hint = ''
+            Align = alLeft
+            IconCls = 'arrow_left'
+            Caption = ''
+            OnClick = BtnTabSaborRetornoClick
+          end
+          object BtnBordas: TUnimBitBtn
+            Left = 56
+            Top = 3
+            Width = 90
+            Height = 45
+            Hint = ''
+            Align = alLeft
+            Caption = 'Bordas'
+            OnClick = BtnBordasClick
+          end
+          object BtnTabSaborIngredientes: TUnimBitBtn
+            Left = 146
+            Top = 3
+            Width = 95
+            Height = 45
+            Hint = ''
+            Align = alLeft
+            Caption = 'Ingred.'
+            OnClick = BtnTabSaborIngredientesClick
+          end
+          object BtnTabSaborConfirmaMais: TUnimBitBtn
+            Left = 584
+            Top = 3
+            Width = 55
+            Height = 45
+            Hint = ''
+            Align = alRight
+            IconCls = 'action'
+            Caption = '+'
+            OnClick = BtnTabSaborConfirmaMaisClick
+          end
+          object BtnTabSaborConfirmar: TUnimBitBtn
+            Left = 639
+            Top = 3
+            Width = 55
+            Height = 45
+            Hint = ''
+            Align = alRight
+            IconCls = 'action'
+            Caption = ''
+            OnClick = BtnTabSaborConfirmarClick
+          end
+          object UnimPanel9: TUnimPanel
+            Left = 1
+            Top = 1
+            Width = 693
+            Height = 2
+            Hint = ''
+            Align = alTop
+            Color = clSkyBlue
+            BorderStyle = ubsNone
+          end
+        end
+      end
+      object UnimPanel29: TUnimPanel
+        Left = 0
+        Top = 249
+        Width = 695
+        Height = 398
+        Hint = ''
+        Align = alClient
+        object painelletra: TUnimPanel
+          Left = 636
+          Top = 1
+          Width = 58
+          Height = 353
+          Hint = ''
+          Align = alRight
+          object UnimDBListGrid2: TUnimDBListGrid
+            Left = 1
+            Top = 1
+            Width = 56
+            Height = 351
+            Hint = ''
+            Align = alClient
+            DataSource = UniMainModule.dsLetras
+            ClientEvents.UniEvents.Strings = (
+              
+                'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  '#13#10'  var _he' +
+                'ight = 40;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height' +
+                #13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _hei' +
+                'ght'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="width:100%;white' +
+                '-space:nowrap;vertical-align:middle;">'#39'+'#13#10#39'<tr>'#39'+'#13#10#39'<td style="c' +
+                'olor:#000000;font-weight:700;padding-left:5px;" colspan="2">{0}<' +
+                '/td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</table>'#39';'#13#10#13#10'}')
+            WebOptions.Paged = False
+            OnClick = UnimDBGridLetrasClick
+            Columns = <
+              item
+                Title.Caption = '?'
+                FieldName = 'letra'
+                Width = 30
+              end>
+          end
+        end
+        object UnimPanel15: TUnimPanel
+          Left = 1
+          Top = 354
+          Width = 693
+          Height = 43
+          Hint = ''
+          Align = alBottom
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+          object UnimPanel16: TUnimPanel
+            Left = 0
+            Top = 0
+            Width = 693
+            Height = 2
+            Hint = ''
+            Align = alTop
+            Color = clSkyBlue
+            BorderStyle = ubsNone
+          end
+          object UnimPanel6: TUnimPanel
+            Left = 0
+            Top = 2
+            Width = 165
+            Height = 41
+            Hint = ''
+            Align = alLeft
+            Color = clSkyBlue
+            object UnimLabel6: TUnimLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 24
+              Height = 33
+              Hint = ''
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'CP'
+              Align = alLeft
+            end
+            object UnimBitBtn5: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 34
+              Top = 4
+              Width = 30
+              Height = 33
+              Hint = ''
+              Align = alLeft
+              Caption = '-'
+              OnClick = UnimBitBtn5Click
+            end
+            object UnimDBEdit5: TUnimDBEdit
+              AlignWithMargins = True
+              Left = 70
+              Top = 4
+              Width = 55
+              Height = 33
+              Hint = ''
+              DataField = 'copos'
+              DataSource = UniMainModule.dVtiItens
+              Align = alClient
+              ClearButton = False
+              TabOrder = 3
+            end
+            object UnimBitBtn6: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 131
+              Top = 4
+              Width = 30
+              Height = 33
+              Hint = ''
+              Align = alRight
+              Caption = '+'
+              OnClick = UnimBitBtn6Click
+            end
+          end
+          object UnimPanel8: TUnimPanel
+            Left = 528
+            Top = 2
+            Width = 165
+            Height = 41
+            Hint = ''
+            Align = alRight
+            Color = clSkyBlue
+            object UnimLabel5: TUnimLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 24
+              Height = 33
+              Hint = ''
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'PT'
+              Align = alLeft
+            end
+            object UnimBitBtn1: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 34
+              Top = 4
+              Width = 30
+              Height = 33
+              Hint = ''
+              Align = alLeft
+              Caption = '-'
+              OnClick = UnimBitBtn1Click
+            end
+            object UnimBitBtn2: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 131
+              Top = 4
+              Width = 30
+              Height = 33
+              Hint = ''
+              Align = alRight
+              Caption = '+'
+              OnClick = UnimBitBtn2Click
+            end
+            object UnimDBEdit4: TUnimDBEdit
+              AlignWithMargins = True
+              Left = 70
+              Top = 4
+              Width = 55
+              Height = 33
+              Hint = ''
+              DataField = 'pratos'
+              DataSource = UniMainModule.dVtiItens
+              Align = alClient
+              ClearButton = False
+              TabOrder = 4
+              OnKeyUp = UnimDBEdit4KeyUp
+            end
+          end
+        end
+        object UnimDBListGrid6: TUnimDBListGrid
+          Left = 1
+          Top = 1
+          Width = 635
+          Height = 353
+          Hint = ''
+          Align = alClient
+          DataSource = UniMainModule.dfsbr
+          ClientEvents.UniEvents.Strings = (
+            
+              'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  var _height' +
+              ' = 50;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height'#13#10'  ' +
+              '  };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _height'#13 +
+              #10'    };'#13#10'      config.itemTpl='#13#10#39'<table style="font-size:18;widt' +
+              'h:100%;white-space:nowrap;vertical-align:left;align-content:stre' +
+              'tch;">'#39'+'#13#10'  '#13#10'  '#39'<tr>'#39'+'#13#10'     '#39'<th style="font-size:18;colspan=2' +
+              ';line-height:100%;font-size: x-large;color:#000000;font-weight:7' +
+              '00;padding-left:5px;">{0}</th>'#39'+'#13#10'  '#39'</tr>'#39'+     '#13#10#13#10'  '#39'<tr>'#39'+  ' +
+              '  '#13#10'     '#39'<td style="line-height:100%;font-size: x-large;width:9' +
+              '0%;color:#000000;padding-left:5px;">{1}</td>'#39'+'#13#10'     '#13#10'  '#39'</tr>'#39 +
+              '+'#13#10#13#10#39'</table>'#39';'#13#10#13#10#13#10#13#10'}')
+          WebOptions.Paged = False
+          Columns = <
+            item
+              Title.Caption = 'Selecione o Sabor'
+              FieldName = 'sbridentificacao'
+              Width = 1104
+            end>
+        end
+      end
+    end
+    object TabFraIngredientes: TUnimTabSheet
+      Left = 4
+      Top = 51
+      Width = 695
+      Height = 647
+      Hint = ''
+      Caption = 'I n g r e d i e n t e s'
+      object UnimPanel13: TUnimPanel
+        Left = 0
+        Top = 0
+        Width = 695
+        Height = 145
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsSolid
+        object UnimPanel14: TUnimPanel
+          Left = 0
+          Top = 51
+          Width = 695
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object UnimPanel7: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 51
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          object BtnTabFraIngRetorna: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 55
+            Height = 43
+            Hint = ''
+            Align = alLeft
+            IconCls = 'arrow_left'
+            Caption = ''
+            OnClick = BtnTabFraIngRetornaClick
+          end
+          object UnimLabel1: TUnimLabel
+            AlignWithMargins = True
+            Left = 65
+            Top = 4
+            Width = 439
+            Height = 43
+            Hint = ''
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Ingredientes'
+            Align = alClient
+          end
+          object UnimBitBtn11: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 636
+            Top = 4
+            Width = 55
+            Height = 43
+            Hint = ''
+            Align = alRight
+            IconCls = 'delete'
+            Caption = ''
+            OnClick = UnimBitBtn11Click
+          end
+          object BtnTabFraIngAdicionais: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 510
+            Top = 4
+            Width = 120
+            Height = 43
+            Hint = ''
+            Align = alRight
+            Caption = 'Adicionais'
+            OnClick = BtnTabFraIngAdicionaisClick
+          end
+        end
+        object UnimPanel22: TUnimPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 56
+          Width = 448
+          Height = 86
+          Hint = ''
+          Align = alClient
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+          object UnimLabel4: TUnimLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 442
+            Height = 27
+            Hint = ''
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Observa'#231#227'o'
+            Align = alTop
+          end
+          object EdtObsIngredientes: TUnimDBEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 36
+            Width = 442
+            Height = 47
+            Hint = ''
+            DataField = 'obs'
+            DataSource = UniMainModule.dvtpro
+            Align = alClient
+            TabOrder = 2
+            OnExit = EdtObsIngredientesExit
+          end
+        end
+        object UnimPanel24: TUnimPanel
+          AlignWithMargins = True
+          Left = 457
+          Top = 56
+          Width = 235
+          Height = 86
+          Hint = ''
+          Align = alRight
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+          object UnimPanel25: TUnimPanel
+            Left = 0
+            Top = 0
+            Width = 235
+            Height = 40
+            Hint = ''
+            Align = alTop
+            Color = clSkyBlue
+            object UnimDBEdit1: TUnimDBEdit
+              AlignWithMargins = True
+              Left = 40
+              Top = 4
+              Width = 155
+              Height = 32
+              Hint = ''
+              DataField = 'tsiidentificacao'
+              DataSource = UniMainModule.dtsi
+              Align = alClient
+              TabOrder = 1
+            end
+            object UnimBitBtn9: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 30
+              Height = 32
+              Hint = ''
+              Align = alLeft
+              Caption = '-'
+              OnClick = UnimBitBtn9Click
+            end
+            object UnimBitBtn10: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 201
+              Top = 4
+              Width = 30
+              Height = 32
+              Hint = ''
+              Align = alRight
+              Caption = '+'
+              OnClick = UnimBitBtn10Click
+            end
+          end
+        end
+      end
+      object UnimDBListGrid4: TUnimDBListGrid
+        AlignWithMargins = True
+        Left = 3
+        Top = 148
+        Width = 689
+        Height = 444
+        Hint = ''
+        Align = alClient
+        DataSource = UniMainModule.dfIngrediente
+        ClientEvents.UniEvents.Strings = (
+          
+            'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  '#13#10'  var _he' +
+            'ight = 40;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height' +
+            #13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _hei' +
+            'ght'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="font-size:15;wid' +
+            'th:100%;white-space:nowrap;vertical-align:left;">'#39'+'#13#10#39'<tr>'#39'+'#13#10#39'<' +
+            'td style="font-size: x-large;color:#000000;font-weight:700;paddi' +
+            'ng-left:5px;" colspan="2">{0}</td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tab' +
+            'le>'#39';'#13#10'}')
+        Options = [dgColLines, dgRowLines, dgConfirmDelete]
+        WebOptions.Paged = False
+        WebOptions.FetchAll = True
+        OnClick = UnimDBListGrid4Click
+        Columns = <
+          item
+            Title.Caption = 'pronome'
+            FieldName = 'pronome'
+            Width = 451
+          end
+          item
+            Title.Caption = 'tsiidentificacao'
+            FieldName = 'tsiidentificacao'
+            Width = 120
+          end>
+      end
+      object UnimPanel2: TUnimPanel
+        Left = 0
+        Top = 595
+        Width = 695
+        Height = 52
+        Hint = ''
+        Align = alBottom
+      end
+    end
+    object TabFraAdicionais: TUnimTabSheet
+      Left = 4
+      Top = 51
+      Width = 695
+      Height = 647
+      Hint = ''
+      Caption = 'A d i c i o n a i s'
+      object UnimPanel3: TUnimPanel
+        Left = 0
+        Top = 0
+        Width = 695
+        Height = 97
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsNone
+        object UnimPanel10: TUnimPanel
+          Left = 0
+          Top = 47
+          Width = 695
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object UnimPanel26: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 47
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          object UnimBitBtn7: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 55
+            Height = 39
+            Hint = ''
+            Align = alLeft
+            IconCls = 'arrow_left'
+            Caption = ''
+            OnClick = UnimBitBtn7Click
+          end
+          object UnimLabel2: TUnimLabel
+            AlignWithMargins = True
+            Left = 65
+            Top = 4
+            Width = 513
+            Height = 39
+            Hint = ''
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Ingredientes'
+            Align = alClient
+          end
+          object btnTabIncAdicConfirma: TUnimBitBtn
+            AlignWithMargins = True
+            Left = 584
+            Top = 4
+            Width = 107
+            Height = 39
+            Hint = ''
+            Align = alRight
+            Caption = 'Confirmar'
+            OnClick = btnTabIncAdicConfirmaClick
+          end
+        end
+        object UnimPanel27: TUnimPanel
+          Left = 439
+          Top = 49
+          Width = 256
+          Height = 48
+          Hint = ''
+          Align = alRight
+          Color = clSkyBlue
+          object UnimPanel28: TUnimPanel
+            Left = 1
+            Top = 1
+            Width = 254
+            Height = 40
+            Hint = ''
+            Align = alTop
+            Color = clSkyBlue
+            BorderStyle = ubsNone
+            object UnimBitBtn3: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 55
+              Height = 34
+              Hint = ''
+              Align = alLeft
+              Caption = '-'
+              OnClick = UnimBitBtn3Click
+            end
+            object UnimDBEdit3: TUnimDBEdit
+              AlignWithMargins = True
+              Left = 64
+              Top = 3
+              Width = 126
+              Height = 34
+              Hint = ''
+              DataField = 'tsiidentificacao'
+              DataSource = UniMainModule.dtsi
+              Align = alClient
+              ReadOnly = True
+              TabOrder = 2
+            end
+            object UnimBitBtn4: TUnimBitBtn
+              AlignWithMargins = True
+              Left = 196
+              Top = 3
+              Width = 55
+              Height = 34
+              Hint = ''
+              Align = alRight
+              Caption = '+'
+              OnClick = UnimBitBtn4Click
+            end
+          end
+        end
+      end
+      object UnimDBListGrid5: TUnimDBListGrid
+        Left = 0
+        Top = 97
+        Width = 695
+        Height = 550
+        Hint = ''
+        Align = alClient
+        DataSource = UniMainModule.dAdc
+        ClientEvents.UniEvents.Strings = (
+          
+            'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  '#13#10'  var _he' +
+            'ight = 40;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height' +
+            #13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _hei' +
+            'ght'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="font-size:18;wid' +
+            'th:100%;white-space:nowrap;vertical-align:left;">'#39'+'#13#10#39'<tr>'#39'+'#13#10#39'<' +
+            'td style="font-size: x-large;color:#000000;font-weight:700;paddi' +
+            'ng-left:5px;" colspan="2">{0}</td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tab' +
+            'le>'#39';'#13#10'}')
+        Options = [dgColLines, dgRowLines, dgConfirmDelete]
+        WebOptions.Paged = False
+        WebOptions.FetchAll = True
+        OnClick = UnimDBListGrid5Click
+        Columns = <
+          item
+            Title.Caption = 'pronome'
+            FieldName = 'pronome'
+            Width = 250
+          end
+          item
+            Title.Caption = 'tsiidentificacao'
+            FieldName = 'isiquantidade'
+            Width = 100
+          end
+          item
+            Title.Caption = 'punprecoav'
+            FieldName = 'punprecoav'
+            Width = 114
+          end>
+      end
+    end
+    object TabFraBordas: TUnimTabSheet
+      Left = 4
+      Top = 51
+      Width = 695
+      Height = 647
+      Hint = ''
+      Caption = 'B o r d a s'
+      object UnimPanel17: TUnimPanel
+        Left = 0
+        Top = 0
+        Width = 695
+        Height = 50
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsSolid
+        object UnimPanel19: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 695
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object UnimLabel3: TUnimLabel
+          AlignWithMargins = True
+          Left = 64
+          Top = 5
+          Width = 628
+          Height = 42
+          Hint = ''
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'B o r d a s'
+          Align = alClient
+        end
+        object BtnBordaRetorno: TUnimBitBtn
+          AlignWithMargins = True
+          Left = 3
+          Top = 5
+          Width = 55
+          Height = 42
+          Hint = ''
+          Align = alLeft
+          IconCls = 'arrow_left'
+          Caption = ''
+          OnClick = BtnBordaRetornoClick
+        end
+      end
+      object UnimDBListGrid7: TUnimDBListGrid
+        Left = 0
+        Top = 292
+        Width = 695
+        Height = 355
+        Hint = ''
+        Align = alClient
+        DataSource = UniMainModule.dbrd
+        ClientEvents.UniEvents.Strings = (
+          
+            'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'    '#13#10'  var _' +
+            'height = 40;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _heig' +
+            'ht'#13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _h' +
+            'eight'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="font-size:18;w' +
+            'idth:100%;white-space:nowrap;vertical-align:middle;">'#39'+'#13#10#39'<tr>'#39'+' +
+            #13#10#39'<td style="font-size: x-large;color:#000000;font-weight:700;p' +
+            'adding-left:5px;" colspan="2">{0}</td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'<' +
+            '/table>'#39';'#13#10'}')
+        Options = [dgColLines, dgRowLines, dgConfirmDelete]
+        WebOptions.Paged = False
+        WebOptions.FetchAll = True
+        OnClick = UnimDBListGrid7Click
+        Columns = <
+          item
+            Title.Caption = 'sel'
+            FieldName = 'sel'
+            Width = 50
+          end
+          item
+            Title.Caption = 'brdidentificacao'
+            FieldName = 'brdidentificacao'
+            Width = 400
+          end>
+      end
+      object UnimDBListGrid8: TUnimDBListGrid
+        Left = 0
+        Top = 50
+        Width = 695
+        Height = 185
+        Hint = ''
+        Align = alTop
+        DataSource = UniMainModule.dvtbrd
+        ClientEvents.UniEvents.Strings = (
+          
+            'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'  '#13#10'  var _he' +
+            'ight = 40;'#13#10#13#10'    config.itemConfig = {'#13#10'        height: _height' +
+            #13#10'    };'#13#10#13#10'    config.headerContainer = {'#13#10'        height: _hei' +
+            'ght'#13#10'    };'#13#10#13#10' config.itemTpl='#13#10#39'<table style="font-size:18;wid' +
+            'th:100%;white-space:nowrap;vertical-align:middle;">'#39'+'#13#10#39'<tr>'#39'+'#13#10 +
+            #39'<td style="font-size: x-large;color:#000000;font-weight:700;pad' +
+            'ding-left:5px;" colspan="2">{0}</td>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</tr>'#39'+'#13#10#39'</t' +
+            'able>'#39';'#13#10'}')
+        Options = [dgColLines, dgRowLines, dgConfirmDelete]
+        WebOptions.Paged = False
+        WebOptions.FetchAll = True
+        Columns = <
+          item
+            Title.Caption = 'sel'
+            FieldName = 'sel'
+            Width = 50
+          end
+          item
+            Title.Caption = 'brdidentificacao'
+            FieldName = 'brdidentificacao'
+            Width = 400
+          end>
+      end
+      object UnimPanel20: TUnimPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 238
+        Width = 689
+        Height = 51
+        Hint = ''
+        Align = alTop
+        Color = clSkyBlue
+        BorderStyle = ubsNone
+        object UnimPanel21: TUnimPanel
+          Left = 0
+          Top = 0
+          Width = 689
+          Height = 2
+          Hint = ''
+          Align = alTop
+          Color = clSkyBlue
+          BorderStyle = ubsNone
+        end
+        object LbBordaFracao: TUnimLabel
+          AlignWithMargins = True
+          Left = 3
+          Top = 5
+          Width = 166
+          Height = 43
+          Hint = ''
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Selecionado 0'
+          Align = alLeft
+        end
+        object UnimBitBtn8: TUnimBitBtn
+          AlignWithMargins = True
+          Left = 175
+          Top = 5
+          Width = 55
+          Height = 43
+          Hint = ''
+          Align = alLeft
+          IconCls = 'delete'
+          Caption = ''
+          OnClick = UnimBitBtn8Click
+        end
+        object BtnBordaIncluir: TUnimBitBtn
+          AlignWithMargins = True
+          Left = 236
+          Top = 5
+          Width = 55
+          Height = 43
+          Hint = ''
+          Align = alLeft
+          IconCls = 'add'
+          Caption = ''
+          OnClick = BtnBordaIncluirClick
+        end
+      end
+    end
+  end
+end

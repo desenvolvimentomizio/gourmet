@@ -1,0 +1,975 @@
+unit uFPrinciUpdate;
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.WinSock,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Xml.XMLDoc,
+  Xml.XMLIntf,
+  System.Generics.Collections,
+
+  Inifiles,
+  IdCoderMIME,
+  IdAuthentication,
+  IdGlobal, IdComponent,
+  Data.Bind.Components,
+  Data.Bind.ObjectScope,
+  REST.Client,
+  REST.Authenticator.Basic,
+  IdIOHandler,
+  IdIOHandlerSocket,
+  IdIOHandlerStack,
+  IdSSL,
+  IdGlobalProtocols,
+  IdSSLOpenSSL,
+  IdZLibCompressorBase,
+  IdCompressorZLib,
+  IdCookieManager, IdIntercept,
+  IdCompressionIntercept,
+  IdBaseComponent,
+  IdTCPConnection,
+  IdTCPClient,
+  IdHTTP,
+  IdWebDAV, Vcl.StdCtrls, Data.DB, MemDS, DBAccess, Uni, UniProvider,
+  MySQLUniProvider, Vcl.ExtCtrls, Vcl.ComCtrls, IdAntiFreezeBase, IdAntiFreeze;
+
+const
+  cpURLBase = 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES';
+
+type
+  TFileInfo = class
+    FileItem, FilePath, FileFolder, FileName, FileSize, FileDate: String;
+    IsFolder: Boolean;
+  end;
+
+type
+  TFPrinciUpdate = class(TForm)
+    IdWebDAV1: TIdWebDAV;
+    IdCompressionIntercept1: TIdCompressionIntercept;
+    IdCookieManager1: TIdCookieManager;
+    IdCompressorZLib1: TIdCompressorZLib;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
+    HTTPBasicAuthenticator1: THTTPBasicAuthenticator;
+    Button1: TButton;
+    ConexaoTelemetria: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    gab: TUniQuery;
+    gabgabchave: TIntegerField;
+    gabgabdoc1: TStringField;
+    gabgabnome: TStringField;
+    gabgabbackup: TDateField;
+    gabgabcontigencias: TIntegerField;
+    gabgabpendentes: TIntegerField;
+    gabgabcontigencia: TDateTimeField;
+    cfg: TUniQuery;
+    cfgetdapelido: TStringField;
+    cfgetddoc1: TStringField;
+    conexao: TUniConnection;
+    TMAtualiza: TTimer;
+    TMRelogio: TTimer;
+    gabgabatualizacao: TDateTimeField;
+    tla: TUniQuery;
+    tlatlachave: TIntegerField;
+    tlagabdoc1: TStringField;
+    tlatlaipmicro: TStringField;
+    tlatlaregistro: TDateTimeField;
+    mostra: TProgressBar;
+    mostraarquivos: TProgressBar;
+    IdAntiFreeze1: TIdAntiFreeze;
+    procedure Button1Click(Sender: TObject);
+    procedure TMAtualizaTimer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TMRelogioTimer(Sender: TObject);
+    procedure IdWebDAV1Authorization(Sender: TObject; Authentication: TIdAuthentication; var Handled: Boolean);
+    procedure IdWebDAV1Connected(Sender: TObject);
+    procedure IdWebDAV1Disconnected(Sender: TObject);
+    procedure IdWebDAV1Status(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+    procedure IdWebDAV1WorkBegin(ASender: TObject; AWorkMode: TWorkMode; AWorkCountMax: Int64);
+    procedure IdWebDAV1WorkEnd(ASender: TObject; AWorkMode: TWorkMode);
+    procedure IdWebDAV1Work(ASender: TObject; AWorkMode: TWorkMode; AWorkCount: Int64);
+  private
+    IdEncoderMIME1: TIdEncoderMIME;
+    procedure VerificaAtualizacoes;
+    function DefineVertical: String;
+    Procedure BuscaInformacoesServidorWEB(vPasta: string);
+    procedure AplicaAtualizacao(vPasta: string);
+    function ConsultaArquivoLocal(vArquivo: string): string;
+    function FormataDataHora(vTexto: String): string;
+    function AjustaMes(vMes: String): string;
+    procedure AtualizaArquivo(vVertical: String; vPasta: String; vArquivo: string; vDestino: String; vTamanho: Int64);
+    procedure CarregaDadosIni;
+    function NotificaExecucaoVerificacao(Cnpj, Apelido: string): Boolean;
+    function LerConfiguracao: Boolean;
+    function BancoConectado: Boolean;
+    procedure CarragaInfo(vPasta: string);
+    function AjustaURL(vVertical: string; vPasta: string): string;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    vpNomeBanco: String;
+    vpIpServidor: String;
+    vpUsuario: String;
+    vpSenha: String;
+    vpTrmcodigo: String;
+    vpFilial: String;
+
+    vpPathAplicativo: String;
+    vpFileDB: TDictionary<String, TFileInfo>;
+  end;
+
+var
+  FPrinciUpdate: TFPrinciUpdate;
+
+implementation
+
+uses
+  uPing2, System.DateUtils;
+
+{$R *.dfm}
+
+procedure ExtractResourceDLL(const SaveToPath: String; const FileName: String);
+var
+  rs: TResourceStream;
+  FS: TFileStream;
+begin
+  rs := TResourceStream.Create(hInstance, FileName, RT_RCDATA);
+  try
+    FS := TFileStream.Create(SaveToPath + FileName + '.DLL', fmCreate);
+    try
+      FS.CopyFrom(rs, 0);
+    finally
+      FS.Free;
+    end;
+  finally
+    rs.Free;
+  end;
+end;
+
+function GetIP: string;
+var
+  WSAData: TWSADATA;
+  HostEnt: PHostEnt;
+  Name: string;
+begin
+  WSAStartup(2, WSAData);
+  SetLength(Name, 255);
+  GetHostName(PAnsiChar(Name), 255);
+  SetLength(Name, StrLen(PChar(Name)));
+  HostEnt := gethostbyname(PAnsiChar(Name));
+  with HostEnt^ do
+  begin
+    Result := Format('%d.%d.%d.%d', [byte(h_addr^[0]), byte(h_addr^[1]), byte(h_addr^[2]), byte(h_addr^[3])]);
+  end;
+  WSACleanup;
+end;
+
+Function SoNumeros(Const Texto: String): String;
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: Integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+procedure doSaveLog(Msg: string);
+var
+  loLista: TStringList;
+begin
+
+  try
+    if DirectoryExists(extractfilepath(application.ExeName) + 'logs') = false then
+      ForceDirectories(extractfilepath(application.ExeName) + 'logs');
+
+    loLista := TStringList.Create;
+    try
+      if fileexists(extractfilepath(application.ExeName) + 'logs\mizioupdate.log') then
+      begin
+        loLista.LoadFromFile(extractfilepath(application.ExeName) + 'logs\mizioupdate.log');
+      end;
+
+      loLista.Add(timetostr(now) + ':' + Msg);
+    except
+      on e: Exception do
+        loLista.Add(timetostr(now) + ': Erro' + Msg);
+    end;
+  finally
+
+    loLista.SaveToFile(extractfilepath(application.ExeName) + 'logs\mizioupdate.log');
+    loLista.Free;
+  end;
+
+end;
+
+Procedure TFPrinciUpdate.BuscaInformacoesServidorWEB(vPasta: string);
+var
+  vlVertical: string;
+  ResponseXML: TStringStream;
+  XMLFile: TXMLDocument;
+  MainNode, ChildNode: IXMLNode;
+  i: Integer;
+  Keys: String;
+
+  FileGet: TFileInfo;
+  vlURL: string;
+  vlPasta: string;
+begin
+  vpFileDB := TDictionary<String, TFileInfo>.Create;
+
+  vlVertical := DefineVertical;
+
+  vlPasta := vPasta;
+  doSaveLog(datetimetostr(now()) + ' Vai ajustar URL com base em : ' + vlVertical + ' ' + vlPasta);
+
+  vlURL := AjustaURL(vlVertical, vlPasta);
+
+  if vlURL = '' then
+  begin
+    doSaveLog(datetimetostr(now()) + ' URL não definida para : ' + vlVertical + ' ' + vlPasta);
+    exit;
+  end;
+
+  doSaveLog(datetimetostr(now()) + ' URL de consulta: ' + vlURL);
+
+  ResponseXML := TStringStream.Create;
+
+  IdWebDAV1.Request.Clear;
+  IdSSLIOHandlerSocketOpenSSL1.SSLOptions.Method := sslvTLSv1_2;
+  IdEncoderMIME1 := TIdEncoderMIME.Create;
+  IdWebDAV1.Request.CustomHeaders.Values['Authorization'] := 'Basic ' + IdEncoderMIME1.EncodeString('admin' + ':' + 'Pegasus973');
+
+  try
+    IdWebDAV1.DAVPropFind(vlURL, nil, ResponseXML, '1');
+    doSaveLog(datetimetostr(now()) + IdWebDAV1.ResponseText);
+    doSaveLog(datetimetostr(now()) + ' Carregar informações com sucesso ' + vlURL);
+  except
+    doSaveLog(datetimetostr(now()) + ' Falha ao carregar informações de ' + vlURL);
+    exit;
+  end;
+
+  XMLFile := TXMLDocument.Create(application);
+  try
+    XMLFile.LoadFromXML(ResponseXML.DataString);
+    XMLFile.Active := True;
+    MainNode := XMLFile.DocumentElement;
+    vpFileDB.Clear;
+
+    for i := 0 to MainNode.ChildNodes.Count - 1 do
+    begin
+      ChildNode := MainNode.ChildNodes.Nodes[i];
+
+      if Trim(ChildNode.ChildNodes['d:href'].Text) = '' then
+      begin
+        continue;
+      end;
+
+      FileGet := TFileInfo.Create;
+      FileGet.FileItem := Inttostr(i);
+      FileGet.FileFolder := vPasta;
+      FileGet.FilePath := ChildNode.ChildNodes['d:href'].Text;
+      FileGet.FileDate := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getlastmodified'].Text;
+      FileGet.FileSize := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getcontentlength'].Text;
+      FileGet.IsFolder := Assigned(ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:resourcetype']
+        .ChildNodes.FindNode('d:collection'));
+
+      if FileGet.IsFolder then
+      begin
+        FileGet.FileName := FileGet.FilePath;
+        Delete(FileGet.FileName, Length(FileGet.FileName), 1);
+        FileGet.FileName := stringreplace(FileGet.FileName, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+      end
+      else
+      begin
+        FileGet.FileName := stringreplace(FileGet.FilePath, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+        vpFileDB.Add(FileGet.FileItem, FileGet);
+      end;
+
+    end;
+  finally
+    ResponseXML.Free;
+    XMLFile.Free;
+  end;
+
+end;
+
+function TFPrinciUpdate.ConsultaArquivoLocal(vArquivo: string): string;
+var
+  vlDataHoraArqLOCAL: String;
+begin
+  vlDataHoraArqLOCAL := '';
+
+  if fileexists(vArquivo) then
+  begin
+    vlDataHoraArqLOCAL := FormatDateTime('dd/mm/yyyy hh:nn:ss', FileDateToDateTime(FileAge(vArquivo)))
+  end;
+  Result := vlDataHoraArqLOCAL;
+
+end;
+
+function TFPrinciUpdate.AjustaMes(vMes: String): string;
+var
+  vlMes: String;
+
+begin
+
+  if vMes = 'Jan' then
+    vlMes := '01'
+  else if (vMes = 'Fev') or (vMes = 'Feb') then
+    vlMes := '02'
+  else if (vMes = 'Mar') then
+    vlMes := '03'
+  else if (vMes = 'Abr') or (vMes = 'Apr') then
+    vlMes := '04'
+  else if (vMes = 'Mai') or (vMes = 'May') then
+    vlMes := '05'
+  else if (vMes = 'Jun') then
+    vlMes := '06'
+  else if (vMes = 'Jul') then
+    vlMes := '07'
+  else if (vMes = 'Ago') or (vMes = 'Aug') then
+    vlMes := '08'
+  else if (vMes = 'Set') or (vMes = 'Sec') then
+    vlMes := '09'
+  else if (vMes = 'Out') or (vMes = 'Oct') then
+    vlMes := '10'
+  else if (vMes = 'Nov') then
+    vlMes := '11'
+  else if (vMes = 'Dez') or (vMes = 'Dec') then
+    vlMes := '12';
+
+  Result := vlMes;
+
+end;
+
+function TFPrinciUpdate.FormataDataHora(vTexto: String): string;
+var
+  vlDataTexto: string;
+  vlDia: String;
+  vlMes: String;
+  vlAno: String;
+  vlHora: String;
+
+begin
+  doSaveLog(datetimetostr(now()) + ' Ajustar data ' + vTexto);
+  vlDataTexto := Trim(Copy(vTexto, pos(',', vTexto) + 1, 30));
+  vlDia := Trim(Copy(vlDataTexto, 1, 2));
+  vlDataTexto := Trim(Copy(vlDataTexto, pos(' ', vlDataTexto) + 1, 30));
+
+  vlMes := Trim(Copy(vlDataTexto, 1, 3));
+  doSaveLog(datetimetostr(now()) + ' Ajustar mes de ' + vlMes);
+
+  vlMes := AjustaMes(vlMes);
+
+  doSaveLog(datetimetostr(now()) + ' Ajustar para' + vlMes);
+
+  vlDataTexto := Trim(Copy(vlDataTexto, pos(' ', vlDataTexto) + 1, 30));
+
+  vlAno := Trim(Copy(vlDataTexto, 1, 4));
+  vlDataTexto := Trim(Copy(vlDataTexto, pos(' ', vlDataTexto) + 1, 30));
+  vlHora := Trim(Copy(vlDataTexto, 1, 8));
+
+  vlHora := timetostr(IncHour(Strtotime(vlHora), -4));
+
+  Result := vlDia + '/' + vlMes + '/' + vlAno + ' ' + vlHora;
+  doSaveLog(datetimetostr(now()) + ' *******************************************');
+  doSaveLog(datetimetostr(now()) + ' Data Ajustada de ' + vTexto + ' para ' + Result);
+  doSaveLog(datetimetostr(now()) + ' *******************************************');
+
+end;
+
+procedure TFPrinciUpdate.FormCreate(Sender: TObject);
+begin
+  CarregaDadosIni;
+  TMAtualiza.Enabled := True;
+  TMRelogio.Enabled := True;
+  doSaveLog(datetimetostr(now()) + ' Inicializado o atualizador');
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1Authorization(Sender: TObject; Authentication: TIdAuthentication; var Handled: Boolean);
+begin
+  doSaveLog(datetimetostr(now()) + ' Autenticacao: ' + Authentication.Username + ' ' + Authentication.Password);
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1Connected(Sender: TObject);
+begin
+  doSaveLog(datetimetostr(now()) + ' Conectado!');
+
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1Disconnected(Sender: TObject);
+begin
+  doSaveLog(datetimetostr(now()) + ' Desconectado!');
+
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1Status(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+begin
+  doSaveLog(datetimetostr(now()) + ' Status: ' + AStatusText);
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1Work(ASender: TObject; AWorkMode: TWorkMode; AWorkCount: Int64);
+begin
+  mostra.Position := AWorkCount;
+  application.ProcessMessages;
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1WorkBegin(ASender: TObject; AWorkMode: TWorkMode; AWorkCountMax: Int64);
+begin
+  doSaveLog(datetimetostr(now()) + ' Iniciou');
+  mostra.Max := AWorkCountMax;
+end;
+
+procedure TFPrinciUpdate.IdWebDAV1WorkEnd(ASender: TObject; AWorkMode: TWorkMode);
+begin
+  doSaveLog(datetimetostr(now()) + ' Concluiu');
+  mostra.Position := 0;
+end;
+
+procedure TFPrinciUpdate.AtualizaArquivo(vVertical: String; vPasta: String; vArquivo: string; vDestino: String; vTamanho: Int64);
+var
+  FileStream: TFileStream;
+  vlArquivo: string;
+  vlTamanhoBaixado: Int64;
+  vlURL: String;
+begin
+  try
+    IdWebDAV1.Request.Clear;
+    IdSSLIOHandlerSocketOpenSSL1.SSLOptions.Method := sslvTLSv1_2;
+    IdEncoderMIME1 := TIdEncoderMIME.Create;
+    IdWebDAV1.Request.CustomHeaders.Values['Authorization'] := 'Basic ' + IdEncoderMIME1.EncodeString('admin' + ':' + 'Pegasus973');
+
+    if fileexists(vDestino) then
+    begin
+      vlArquivo := ChangeFileExt(vDestino, '.bck');
+      if fileexists(vlArquivo) then
+      begin
+        DeleteFile(vlArquivo);
+      end;
+      RenameFile(vDestino, vlArquivo);
+    end;
+
+    FileStream := TFileStream.Create(vDestino, fmCreate);
+
+    doSaveLog(datetimetostr(now()) + ' Inicializado o download: ' + vVertical + '/' + vPasta);
+
+    vlURL := AjustaURL(vVertical, vPasta);
+    if vlURL = '' then
+    begin
+      doSaveLog(datetimetostr(now()) + ' Sem url definida para: ' + vVertical + ' ' + vPasta);
+    end;
+
+    IdWebDAV1.Get(vlURL + vArquivo, FileStream);
+
+    doSaveLog(datetimetostr(now()) + ' Concluido o download: ' + vDestino);
+
+    if fileexists(vDestino) then
+      vlTamanhoBaixado := FileSizeByName(vDestino)
+    else
+      vlTamanhoBaixado := 0;
+
+    if (vTamanho <> vlTamanhoBaixado) or (vlTamanhoBaixado = 0) then
+    begin
+      doSaveLog(datetimetostr(now()) + ' Falha no download: ' + vDestino);
+      doSaveLog(datetimetostr(now()) + ' Tamanho WEB: ' + Inttostr(vlTamanhoBaixado));
+      doSaveLog(datetimetostr(now()) + ' Tamanho Local: ' + Inttostr(vTamanho));
+      DeleteFile(vDestino);
+      vlArquivo := ChangeFileExt(vDestino, '.bpl');
+      RenameFile(vDestino, vlArquivo);
+    end;
+
+  finally
+    FileStream.Free;
+  end;
+
+end;
+
+procedure TFPrinciUpdate.AplicaAtualizacao(vPasta: string);
+var
+  i: Integer;
+  vlTamanhoArq: Int64;
+  vlNomeArq: string;
+  vlDataArq: string;
+  vlOrigemArq: string;
+  vlPastaArq: string;
+  vltxDataHoraArqWEB: string;
+  vltxDataHoraArqLOCAL: string;
+
+  vlDataHoraArqWEB: TDateTime;
+  vlDataHoraArqLOCAL: TDateTime;
+
+  vlDeveAtualizar: Boolean;
+
+  vlOrigem: String;
+  vlDestino: String;
+  vlVertical: string;
+
+begin
+  mostraarquivos.Max := vpFileDB.Count;
+  mostraarquivos.Position := 0;
+
+  for i := 1 to vpFileDB.Count do
+  begin
+    mostraarquivos.Position := mostraarquivos.Position + 1;
+    vltxDataHoraArqWEB := '';
+    vltxDataHoraArqLOCAL := '';
+    vlDeveAtualizar := false;
+
+    vlNomeArq := vpFileDB.Items[Inttostr(i)].FileName;
+    vlOrigemArq := vpFileDB.Items[Inttostr(i)].FilePath;
+    vlPastaArq := vpFileDB.Items[Inttostr(i)].FileFolder;
+    vltxDataHoraArqWEB := vpFileDB.Items[Inttostr(i)].FileDate;
+    vlTamanhoArq := vpFileDB.Items[Inttostr(i)].FileSize.ToInteger;
+
+    doSaveLog(datetimetostr(now()) + ' Arquivo: ' + vlNomeArq);
+    doSaveLog(datetimetostr(now()) + ' Pasta: ' + vlPastaArq);
+    doSaveLog(datetimetostr(now()) + ' Atualização: ' + vltxDataHoraArqWEB);
+    doSaveLog(datetimetostr(now()) + ' Tamanho: ' + vlTamanhoArq.ToString);
+
+    try
+      vlDataHoraArqWEB := Strtodatetime(FormataDataHora(vltxDataHoraArqWEB));
+    except
+      vlDataHoraArqWEB := 0;
+    end;
+
+    vltxDataHoraArqLOCAL := ConsultaArquivoLocal(vpPathAplicativo + '\' + vlPastaArq + '\' + vlNomeArq);
+
+    try
+      vlDataHoraArqLOCAL := Strtodatetime(vltxDataHoraArqLOCAL);
+    except
+      vlDataHoraArqLOCAL := 0;
+    end;
+
+    if vlDataHoraArqLOCAL = 0 then
+    begin
+      vlDeveAtualizar := True;
+    end;
+
+    if vlDataHoraArqWEB > vlDataHoraArqLOCAL then
+    begin
+      vlDeveAtualizar := True;
+    end;
+    vlPastaArq := vPasta;
+
+    vlVertical := DefineVertical;
+
+    vlOrigem := vlVertical + '/' + vPasta + '/' + vlNomeArq;
+    vlDestino := vpPathAplicativo + vlPastaArq + '\' + vlNomeArq;
+
+    doSaveLog(datetimetostr(now()) + ' Origem: ' + vlOrigem);
+    doSaveLog(datetimetostr(now()) + ' Destino: ' + vlDestino);
+
+    if (vlDeveAtualizar) then
+    begin
+      AtualizaArquivo(vlVertical, vPasta, vlNomeArq, vlDestino, vlTamanhoArq);
+    end;
+  end;
+  mostraarquivos.Position := 0;
+end;
+
+procedure TFPrinciUpdate.VerificaAtualizacoes;
+begin
+
+  if PingHost('cloud.miziosistemas.com.br', 500) then // consulta para saber se ha internet
+  begin
+    doSaveLog(datetimetostr(now()) + ' Acesso a conexao cloud.miziosistemas.com.br');
+
+    BuscaInformacoesServidorWEB('modulos');
+    if vpFileDB.Count > 0 then
+    begin
+      AplicaAtualizacao('modulos');
+    end;
+
+    BuscaInformacoesServidorWEB('executaveis');
+    if vpFileDB.Count > 0 then
+    begin
+      AplicaAtualizacao('executaveis');
+    end;
+
+    BuscaInformacoesServidorWEB('bpls');
+    if vpFileDB.Count > 0 then
+    begin
+      AplicaAtualizacao('bpls');
+    end;
+
+    BuscaInformacoesServidorWEB('versoes');
+    if vpFileDB.Count > 0 then
+    begin
+      AplicaAtualizacao('versoes');
+    end;
+
+    if LerConfiguracao then
+    begin
+      NotificaExecucaoVerificacao(cfgetddoc1.AsString, cfgetdapelido.AsString);
+    end;
+
+  end
+  else
+  begin
+    doSaveLog(datetimetostr(now()) + ' Falha de conexao com cloud.miziosistemas.com.br');
+  end;
+end;
+
+procedure TFPrinciUpdate.Button1Click(Sender: TObject);
+begin
+  mostra.visible := True;
+  mostraarquivos.visible := True;
+
+  VerificaAtualizacoes;
+  mostra.visible := false;
+  mostraarquivos.visible := false;
+
+end;
+
+procedure TFPrinciUpdate.CarragaInfo(vPasta: string);
+var
+  ResponseXML: TStringStream;
+  XMLFile: TXMLDocument;
+  MainNode, ChildNode: IXMLNode;
+  i: Integer;
+  Keys: String;
+  FileGet: TFileInfo;
+  vlVertical: String;
+  vlURL: String;
+begin
+  vpFileDB := TDictionary<String, TFileInfo>.Create;
+
+  ResponseXML := TStringStream.Create;
+
+  IdWebDAV1.Request.Clear;
+  IdSSLIOHandlerSocketOpenSSL1.SSLOptions.Method := sslvTLSv1_2;
+  IdEncoderMIME1 := TIdEncoderMIME.Create;
+  IdWebDAV1.Request.CustomHeaders.Values['Authorization'] := 'Basic ' + IdEncoderMIME1.EncodeString('admin' + ':' + 'Pegasus973');
+  vlVertical := DefineVertical;
+  vlURL := AjustaURL(vlVertical, vPasta);
+
+  IdWebDAV1.DAVPropFind(vlURL, nil, ResponseXML, '1');
+
+  XMLFile := TXMLDocument.Create(application);
+  try
+    XMLFile.LoadFromXML(ResponseXML.DataString);
+    XMLFile.Active := True;
+    MainNode := XMLFile.DocumentElement;
+    vpFileDB.Clear;
+
+    for i := 0 to MainNode.ChildNodes.Count - 1 do
+    begin
+      ChildNode := MainNode.ChildNodes.Nodes[i];
+
+      if Trim(ChildNode.ChildNodes['d:href'].Text) = '' then
+      begin
+        continue;
+      end;
+
+      FileGet := TFileInfo.Create;
+      FileGet.FileItem := i.ToString;
+      FileGet.FileFolder := vPasta;
+      FileGet.FilePath := ChildNode.ChildNodes['d:href'].Text;
+      FileGet.FileDate := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getlastmodified'].Text;
+      FileGet.FileSize := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getcontentlength'].Text;
+      FileGet.IsFolder := Assigned(ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:resourcetype']
+        .ChildNodes.FindNode('d:collection'));
+
+      if FileGet.IsFolder then
+      begin
+        FileGet.FileName := FileGet.FilePath;
+        Delete(FileGet.FileName, Length(FileGet.FileName), 1);
+        FileGet.FileName := stringreplace(FileGet.FileName, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+      end
+      else
+      begin
+        FileGet.FileName := stringreplace(FileGet.FilePath, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+
+        vpFileDB.Add(FileGet.FileItem, FileGet);
+
+        doSaveLog(datetimetostr(now()) + ' ' + FileGet.FilePath);
+        doSaveLog(datetimetostr(now()) + ' ' + FileGet.FileItem);
+        doSaveLog(datetimetostr(now()) + ' ' + FileGet.FileName);
+
+      end;
+
+    end;
+  finally
+    ResponseXML.Free;
+    XMLFile.Free;
+  end;
+
+end;
+
+function TFPrinciUpdate.AjustaURL(vVertical: string; vPasta: string): string;
+var
+  vlURL: string;
+begin
+  vlURL := '';
+  doSaveLog(datetimetostr(now()) + ' Ajustando URL para: ' + vVertical + ' ' + vPasta);
+
+  if vVertical = 'Gourmet' then
+  begin
+    if vPasta = 'modulos' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Gourmet/modulos/'
+    else if vPasta = 'bpls' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Gourmet/bpls/'
+    else if vPasta = 'executaveis' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Gourmet/executaveis/'
+    else if vPasta = 'versoes' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Gourmet/versoes/';
+  end;
+
+  if vVertical = 'Mercato' then
+  begin
+    if vPasta = 'modulos' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Mercato/modulos/'
+    else if vPasta = 'bpls' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Mercato/bpls/'
+    else if vPasta = 'executaveis' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Mercato/executaveis/'
+    else if vPasta = 'versoes' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Mercato/versoes/';
+  end;
+
+  if vVertical = 'Boutique' then
+  begin
+    if vPasta = 'modulos' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Boutique/modulos/'
+    else if vPasta = 'bpls' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Boutique/bpls/'
+    else if vPasta = 'executaveis' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Boutique/executaveis/'
+    else if vPasta = 'versoes' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Boutique/versoes/';
+  end;
+
+  if vVertical = 'Varejo' then
+  begin
+    if vPasta = 'modulos' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Varejo/modulos/'
+    else if vPasta = 'bpls' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Varejo/bpls/'
+    else if vPasta = 'executaveis' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Varejo/executaveis/'
+    else if vPasta = 'versoes' then
+      vlURL := 'https://cloud.miziosistemas.com.br/remote.php/dav/files/admin/VERSOES/Producao/Varejo/versoes/';
+  end;
+
+  Result := vlURL;
+end;
+
+function TFPrinciUpdate.DefineVertical: String;
+var
+  vlTipoVertical: string;
+begin
+  vpPathAplicativo := extractfilepath(application.ExeName);
+
+  if fileexists(vpPathAplicativo + 'GourmetERP.exe') then
+    vlTipoVertical := 'Gourmet'
+  else if fileexists(vpPathAplicativo + 'MercatoERP.exe') then
+    vlTipoVertical := 'Mercato'
+  else if fileexists(vpPathAplicativo + 'BoutiqueERP.exe') then
+    vlTipoVertical := 'Botique'
+  else if fileexists(vpPathAplicativo + 'VarejoERP.exe') then
+    vlTipoVertical := 'Varejo';
+
+  doSaveLog(datetimetostr(now()) + ' ' + vlTipoVertical);
+  Result := vlTipoVertical;
+
+end;
+
+Function TFPrinciUpdate.BancoConectado: Boolean;
+Var
+  iTentativas: Integer;
+Begin
+
+  Result := false;
+
+  If conexao.Connected Then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  While True Do
+  Begin
+    Try
+      conexao.Connected := false;
+      conexao.Database := vpNomeBanco;
+      conexao.Username := 'root';
+      conexao.Password := vpSenha;
+      conexao.Server := vpIpServidor;
+      conexao.Connected := True;
+
+      If conexao.Connected Then
+      Begin
+        Result := True;
+        Break;
+      End;
+
+    Except
+      doSaveLog(datetimetostr(now()) + ' Falha de conexao com servidor local:');
+      doSaveLog(datetimetostr(now()) + ' Servidor ' + vpIpServidor);
+      doSaveLog(datetimetostr(now()) + ' Banco de Dados ' + vpNomeBanco);
+
+      sleep(1000);
+
+      Inc(iTentativas);
+
+      if iTentativas > 10 then
+      begin
+        Result := false;
+        exit
+      end;
+
+    End;
+  End;
+
+End;
+
+function TFPrinciUpdate.LerConfiguracao: Boolean;
+Begin
+  if BancoConectado then
+  begin
+    cfg.Close;
+    cfg.ParamByName('flacodigo').AsString := '1';
+    cfg.Open;
+    Result := True;
+  end;
+End;
+
+procedure TFPrinciUpdate.CarregaDadosIni;
+var
+  vlArquIni: TInifile;
+  vlNome: String;
+begin
+  try
+    vlNome := DefineVertical;
+
+    if fileexists(extractfilepath(application.ExeName) + vlNome + '.ini') then
+      vlNome := extractfilepath(application.ExeName) + vlNome + '.ini'
+    else
+      vlNome := extractfilepath(application.ExeName) + 'pegasus.ini';
+
+    vlArquIni := TInifile.Create(vlNome);
+
+    doSaveLog(datetimetostr(now()) + ' Carregando ini de: ' + vlNome);
+    With vlArquIni Do
+    Begin
+      vpNomeBanco := ReadString('posi', 'nomebanco', vlNome);
+      vpIpServidor := ReadString('posi', 'servidor', '127.0.0.1');
+      vpUsuario := ReadString('posi', 'usuario', 'root');
+      vpSenha := ReadString('posi', 'senha', 'xda973');
+      vpTrmcodigo := ReadString('posi', 'terminal', '1');
+      vpFilial := ReadString('posi', 'filial', '1');
+
+      self.Caption := 'Gerenciador de Atualizacao ' + vpNomeBanco;
+    End;
+
+  finally
+    vlArquIni.Free;
+  end;
+end;
+
+function TFPrinciUpdate.NotificaExecucaoVerificacao(Cnpj, Apelido: string): Boolean;
+var
+  vlipmicro: string;
+begin
+  try
+    if PingHost('telemetria.miziosistemas.com.br', 100) then
+    begin
+
+      ConexaoTelemetria.Disconnect;
+      ConexaoTelemetria.Database := 'empresa';
+      ConexaoTelemetria.Server := 'telemetria.miziosistemas.com.br';
+      ConexaoTelemetria.Password := 'SuRiCa973';
+      ConexaoTelemetria.Username := 'root';
+      ConexaoTelemetria.Port := 8369;
+      ConexaoTelemetria.Connect;
+
+      vlipmicro := GetIP;
+
+      tla.Close;
+      tla.Connection := ConexaoTelemetria;
+      tla.ParamByName('gabdoc1').AsString := SoNumeros(Cnpj);
+      tla.ParamByName('tlaipmicro').AsString := vlipmicro;
+      tla.Open;
+
+      if tla.IsEmpty then
+        tla.Append
+      else
+        tla.Edit;
+
+      tlagabdoc1.AsString := SoNumeros(Cnpj);
+      tlatlaipmicro.AsString := vlipmicro;
+      tlatlaregistro.AsDateTime := now();
+      tla.Post;
+
+      gab.Close;
+      gab.Connection := ConexaoTelemetria;
+      gab.Params[0].AsString := SoNumeros(Cnpj);
+      gab.Open;
+
+      if gab.IsEmpty then
+        gab.Append
+      else
+        gab.Edit;
+
+      gabgabdoc1.AsString := SoNumeros(Cnpj);
+      gabgabnome.AsString := Apelido;
+      gabgabatualizacao.AsDateTime := now();
+      gab.Post;
+
+      ConexaoTelemetria.Disconnect;
+
+    end;
+  except
+    doSaveLog(datetimetostr(now()) + ' Falha de conexao com telemetria.');
+  end;
+end;
+
+procedure TFPrinciUpdate.TMAtualizaTimer(Sender: TObject);
+begin
+  try
+    TMAtualiza.Enabled := false;
+    VerificaAtualizacoes;
+  finally
+    TMAtualiza.Enabled := True;
+  end;
+end;
+
+procedure TFPrinciUpdate.TMRelogioTimer(Sender: TObject);
+var
+  vlarq: TStringList;
+begin
+
+  try
+
+    vlarq := TStringList.Create;
+    vlarq.SaveToFile(extractfilepath(application.ExeName) + LowerCase('Gerenciador de Atualizacao ' + vpNomeBanco) + '.key');
+  finally
+    vlarq.Free;
+  end;
+
+end;
+
+end.

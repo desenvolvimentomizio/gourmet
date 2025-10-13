@@ -1,0 +1,56 @@
+package mGerContiNFCe;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeggourmet,
+  soaprtl,
+  inet,
+  ACBr_OpenSSL,
+  ACBr_PCNComum,
+  ACBr_TCP,
+  ACBr_Integrador,
+  ACBr_DFeComum,
+  ACBr_NFe,
+  frx27,
+  fs27,
+  frxe27,
+  frxDB27,
+  ACBr_NFeDanfeFR,
+  myprovider270;
+
+contains
+  ufGerContiNFCe in '..\..\kernel\gercontigencianfce\ufGerContiNFCe.pas' {fGerContiNFCe},
+  uUpgrade in '..\..\kernel\gercontigencianfce\uUpgrade.pas',
+  uMizioCloudDAV in '..\..\kernel\cloud\uMizioCloudDAV.pas',
+  uCloudComunicacao in '..\..\kernel\cloud\uCloudComunicacao.pas',
+  uFormComunicacao in '..\..\kernel\cloud\uFormComunicacao.pas' {FormComunicacao};
+
+end.

@@ -1,0 +1,87 @@
+unit ufcit;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.ExtCtrls, Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes,
+  System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons,
+  Vcl.ComCtrls, ufrafin;
+
+type
+  Tfcit = class(Tfrmbase)
+    registrocitcodigo: TIntegerField;
+    registrotcicodigo: TIntegerField;
+    registrotrmcodigo: TIntegerField;
+    tci: tuniquery;
+    tcitcicodigo: TIntegerField;
+    tcimitidentificacao: TStringField;
+    registromitidentificacao: TStringField;
+    Label1: TLabel;
+    citcodigo: TDBEdit;
+    Label3: TLabel;
+    tcicodigo: TDBEdit;
+    Spt3: TSplitter;
+    PlFin: TPanel;
+    bvalidar: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure bvalidarClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    hfin: THandle;
+
+  end;
+
+var
+  fcit: Tfcit;
+
+  // Início ID do Módulo fracit
+const
+  vPlIdMd = '03.06.86.002-02';
+
+  // Fim ID do Módulo fracit
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfcit.bconfirmaClick(Sender: TObject);
+var
+  fra: Tframe;
+begin
+  inherited;
+  if hfin <> 0 then
+  begin
+    fra := nil;
+    fra := Tfrafin(Application.FindComponent('frafin'));
+
+    if fra <> nil then
+      if (fra is Tfrafin) then
+        (fra as Tfrafin).salvacolunas;
+  end;
+end;
+
+procedure Tfcit.bvalidarClick(Sender: TObject);
+begin
+  inherited;
+
+  hfin := CarregaFrame('mfin', PlFin, 'Finalizadores');
+end;
+
+procedure Tfcit.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+  inherited;
+end;
+
+procedure Tfcit.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  Self.registrotrmcodigo.AsString := Self.vChaveMestre;
+end;
+
+end.

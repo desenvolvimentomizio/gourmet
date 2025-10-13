@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Datamatrix.Internal.DecodedBitStreamParser" platform="Android">
+  <class name="TDecodedBitStreamParser" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="38">
+    <devnotes>
+       <summary>
+       <p>Data Matrix Codes can encode text as bits in one of several modes, and can use multiple modes
+       in one Data Matrix Code. This class decodes the bits back into text.</p>
+      
+       <p>See ISO 16022:2006, 5.2.1 - 5.2.9.2</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <enum name="TMode" visibility="public" alias="ZXing.Datamatrix.Internal.DecodedBitStreamParser.TMode" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="40">
+        <element value="0" name="PAD_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="40" />
+        <element value="1" name="ASCII_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="41" />
+        <element value="2" name="C40_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="41" />
+        <element value="3" name="TEXT_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="41" />
+        <element value="4" name="ANSIX12_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="41" />
+        <element value="5" name="EDIFACT_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="41" />
+        <element value="6" name="BASE256_ENCODE" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="42" />
+      </enum>
+      <field name="C40_BASIC_SET_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="44" />
+      <field name="C40_SHIFT2_SET_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="44" />
+      <field name="TEXT_BASIC_SET_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="44" />
+      <field name="TEXT_SHIFT2_SET_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="45" />
+      <field name="TEXT_SHIFT3_SET_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="45" />
+      <procedure name="InitializeClass" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="47">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="48">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, Annex C Table C.1
+           The C40 Basic Character Set (*'s used for placeholders for the shift values)
+           </summary>
+           <summary>
+           See ISO 16022:2006, Annex C Table C.2
+           The Text Basic Character Set (*'s used for placeholders for the shift values)
+           </summary>
+        </devnotes>
+      </procedure>
+      <function name="decodeC40Segment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="50">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.5 and Annex C, Table C.1
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeTextSegment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="52">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.6 and Annex C, Table C.2
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeAnsiX12Segment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="54">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.7
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeEdifactSegment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="56">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.8 and Annex C Table C.3
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeBase256Segment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="58">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.9 and Annex B, B.2
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <parameter name="byteSegments" type="IByteSegments" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeAsciiSegment" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="60">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, 5.2.3 and Annex C, Table C.2
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" />
+          <parameter name="res" type="TStringBuilder" />
+          <parameter name="resultTrailer" type="TStringBuilder" />
+          <parameter name="mode" type="TDecodedBitStreamParser.TMode" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="parseTwoBytes" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="62">
+        <parameters>
+          <parameter name="firstByte" type="Integer" />
+          <parameter name="secondByte" type="Integer" />
+          <parameter name="result" type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </procedure>
+      <function name="unrandomize255State" visibility="private" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="64">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006, Annex B, B.2
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="randomizedBase256Codeword" type="Integer" />
+          <parameter name="base256CodewordPosition" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="class" file="ZXing.Datamatrix.Internal.DecodedBitStreamParser.pas" line="67">
+        <parameters>
+          <parameter name="bytes" type="TArray&lt;System.Byte&gt;" />
+          <retval type="TDecoderResult" />
+        </parameters>
+      </function>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

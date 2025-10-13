@@ -1,0 +1,86 @@
+unit GourmetServer.Controller.ITM;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.ITM;
+
+Function ManutencaoITM(vItem: TJsonObject): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+Function ManutencaoITM(vItem: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TITM>;
+  FITM: TITM;
+  vlitmchave: Integer;
+  a:string;
+begin
+  FDAO := TDAOGeneric<TITM>.New;
+
+  vlitmchave := 0;
+
+  FITM := TITM.Create;
+  FITM.itmchave := vlitmchave;
+  FITM.meschave := vItem.getvalue('meschave', '').ToInteger;
+  FITM.itmitem := vItem.getvalue('itmitem', '').ToInteger;
+  FITM.procodigo := vItem.getvalue('procodigo', '').ToInteger;
+  FITM.cstcodigo := vItem.getvalue('cstcodigo', '');
+  FITM.itmdesccomple := vItem.getvalue('itmdesccomple', '');
+  FITM.itmquantidade := strtocurr(vItem.getvalue('itmquantidade', ''));
+  FITM.itmvalor := strtocurr(vItem.getvalue('itmvalor', ''));
+  FITM.itmdesconto := strtocurr(vItem.getvalue('itmdesconto', ''));
+  FITM.itmmovifisico := strtocurr(vItem.getvalue('itmmovifisico', ''));
+  FITM.toecodigo := vItem.getvalue('toecodigo', '').ToInteger;
+  FITM.cfocfop := vItem.getvalue('cfocfop', '');
+  FITM.icmcodigo := vItem.getvalue('icmcodigo', '');
+  FITM.csicodigo := vItem.getvalue('csicodigo', '');
+  FITM.ceicodigo := vItem.getvalue('ceicodigo', '');
+  FITM.cspcodigo := vItem.getvalue('cspcodigo', '');
+  FITM.csfcodigo := vItem.getvalue('csfcodigo', '');
+  FITM.itmtotal := strtocurr(vItem.getvalue('itmtotal', ''));
+  FITM.unicodigo := vItem.getvalue('unicodigo', '').ToInteger;
+  FITM.puncodigo := vItem.getvalue('puncodigo', '').ToInteger;
+  FITM.itmcontendo := strtocurr(vItem.getvalue('itmcontendo', ''));
+  FITM.cfocfopdestinacao := vItem.getvalue('cfocfop', '');
+  FITM.itmproservico := vItem.getvalue('itmproservico', '');
+  FITM.flacodigo := vItem.getvalue('flacodigo', '').ToInteger;
+  FITM.tdfcodigo := vItem.getvalue('tdfcodigo', '');
+  FITM.itochave := vItem.getvalue('itochave', '').ToInteger;
+  FITM.itmcest := vItem.getvalue('itmcest', '');
+  FITM.clbatendente := vItem.getvalue('clbatendente', '').ToInteger;
+  FITM.oricodigo := vItem.getvalue('oricodigo', '').ToInteger;
+ a:= FITM.ToString;
+
+  if vlitmchave = 0 then
+  // incluir novo
+  begin
+    FITM.itmchave := 0;
+    FDAO.DAO.Insert(FITM);
+    FDAO.DAO.LastID;
+    vlitmchave := FDAO.DataSet.FieldByName('itmchave').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FITM.itmchave := vlitmchave;
+    FDAO.DAO.Update(FITM);
+  end;
+  result := vlitmchave;
+
+end;
+
+end.

@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.Mode" platform="Android">
+  <class name="TMode" sealed="true" file="ZXing.QrCode.Internal.Mode.pas" line="33">
+    <devnotes>
+       <summary>
+       <p>See ISO 18004:2006, 6.4.1, Tables 2 and 3. This enum encapsulates the various modes in which
+       data can be encoded to bits in the QR code standard.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="Fbits" type="Integer" visibility="private" size="4" offset="4" file="ZXing.QrCode.Internal.Mode.pas" line="35" />
+      <field name="Fname" type="string" visibility="private" size="4" offset="8" file="ZXing.QrCode.Internal.Mode.pas" line="36" />
+      <field name="characterCountBitsForVersions" type="TArray&lt;System.Integer&gt;" visibility="private" size="4" offset="12" file="ZXing.QrCode.Internal.Mode.pas" line="37" />
+      <procedure name="InitializeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Mode.pas" line="39">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Mode.pas" line="40">
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Mode.pas" line="42">
+        <parameters>
+          <parameter name="characterCountBitsForVersions" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="bits" type="Integer" paramflags="const" />
+          <parameter name="name" type="string" paramflags="const" />
+        </parameters>
+      </constructor>
+      <field name="TERMINATOR" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="50">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="NUMERIC" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="55">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="ALPHANUMERIC" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="60">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="STRUCTURED_APPEND" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="65">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="BYTE" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="70">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="ECI" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="75">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="KANJI" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="80">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="FNC1_FIRST_POSITION" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="85">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="FNC1_SECOND_POSITION" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="90">
+        <devnotes>
+           <summary>
+          
+           </summary>
+        </devnotes>
+      </field>
+      <field name="HANZI" type="TMode" visibility="public" varflags="class" file="ZXing.QrCode.Internal.Mode.pas" line="93">
+        <devnotes>
+           <summary>See GBT 18284-2000; &quot;Hanzi&quot; is a transliteration of this mode name.</summary>
+        </devnotes>
+      </field>
+      <function name="forBits" visibility="public" procflags="static" file="ZXing.QrCode.Internal.Mode.pas" line="103">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'forBits' -->
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="Integer" paramflags="const" />
+          <retval type="TMode">
+            <devnotes>
+               <summary>
+               <p>See ISO 18004:2006, 6.4.1, Tables 2 and 3. This enum encapsulates the various modes in which
+               data can be encoded to bits in the QR code standard.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="getCharacterCountBits" visibility="public" file="ZXing.QrCode.Internal.Mode.pas" line="110">
+        <devnotes>
+           <param name="version">version in question
+           </param>
+           <returns> number of bits used, in this QR Code symbol {@link Version}, to encode the
+           count of characters that will follow encoded in this {@link Mode}
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="version" type="TVersion" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.QrCode.Internal.Mode.pas" line="118">
+        <devnotes>
+           <summary>
+           Returns a <see cref="T:System.string"/> that represents this instance.
+           </summary>
+           <returns>
+           A <see cref="T:System.string"/> that represents this instance.
+           </returns>
+        </devnotes>
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <property name="Name" visibility="public" read="Fname" type="string" default="0" file="ZXing.QrCode.Internal.Mode.pas" line="123">
+        <devnotes>
+           <summary>
+           Gets the name.
+           </summary>
+        </devnotes>
+      </property>
+      <property name="Bits" visibility="public" read="Fbits" type="Integer" file="ZXing.QrCode.Internal.Mode.pas" line="128">
+        <devnotes>
+           <summary>
+           Gets the bits.
+           </summary>
+        </devnotes>
+      </property>
+    </members>
+  </class>
+</namespace>

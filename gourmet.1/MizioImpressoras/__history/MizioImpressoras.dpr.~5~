@@ -1,0 +1,17 @@
+program MizioImpressoras;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  ufPrinciMizioImpressoras in 'ufPrinciMizioImpressoras.pas' {fPrinciMizioImpressoras},
+  ufImpressora01 in 'ufImpressora01.pas' {fImpressora01};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrinciMizioImpressoras, fPrinciMizioImpressoras);
+  Application.CreateForm(TfImpressora01, fImpressora01);
+  Application.Run;
+end.

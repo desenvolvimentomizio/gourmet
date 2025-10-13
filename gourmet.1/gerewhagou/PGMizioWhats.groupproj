@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B8051EBE-7246-4E44-A244-B65655366625}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GereWhaGou.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MizioWhats.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GereWhaGou">
+        <MSBuild Projects="GereWhaGou.dproj"/>
+    </Target>
+    <Target Name="GereWhaGou:Clean">
+        <MSBuild Projects="GereWhaGou.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GereWhaGou:Make">
+        <MSBuild Projects="GereWhaGou.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MizioWhats">
+        <MSBuild Projects="MizioWhats.dproj"/>
+    </Target>
+    <Target Name="MizioWhats:Clean">
+        <MSBuild Projects="MizioWhats.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MizioWhats:Make">
+        <MSBuild Projects="MizioWhats.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GereWhaGou;MizioWhats"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GereWhaGou:Clean;MizioWhats:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GereWhaGou:Make;MizioWhats:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

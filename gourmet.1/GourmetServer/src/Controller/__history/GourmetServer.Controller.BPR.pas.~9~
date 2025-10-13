@@ -1,0 +1,79 @@
+unit GourmetServer.Controller.BPR;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  Horse,
+  Horse.GBSwagger,
+  idHashMessageDigest,
+  GourmetServer.Service.Funcoes,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.BPR;
+
+Function ManutencaoBPR(vVariacao: TJsonObject): Integer;
+function BuscaCodigoBRPNomeGrupoValor(vCodigoProduto:Integer; vCodigoPun:Integer;  vCodigoProdutoBorda:Integer): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+function BuscaCodigoBRPNomeGrupoValor(vCodigoProduto:Integer; vCodigoPun:Integer;  vCodigoProdutoBorda:Integer): Integer;
+var
+  FDAO: iDAOGeneric<TBPR>;
+  vlbprchave: Integer;
+begin
+  vlbprchave := 0;
+  FDAO := TDAOGeneric<TBPR>.New;
+
+  FDAO.dao.sql.Where('procodigo=' +vCodigoProduto.ToString+' and puncodigo='+vCodigoPun.ToString +' and procodigoborda='+vCodigoProdutoBorda.ToString ).&End.Find;
+
+  vlbprchave := FDAO.DataSet.FieldByName('bprchave').asInteger;
+  result := vlbprchave;
+
+end;
+
+Function ManutencaoBPR(vVariacao: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TBPR>;
+  FBPR: TBPR;
+  vlbprchave: Integer;
+begin
+
+  FDAO := TDAOGeneric<TBPR>.New;
+  vlbprchave := 0;
+
+  FBPR := TBPR.Create;
+
+  FBPR.bprchave := strtoint(vVariacao.getvalue('bprchave', ''));
+  FBPR.procodigo := strtoint(vVariacao.getvalue('procodigo', ''));
+  FBPR.puncodigo := strtoint(vVariacao.getvalue('puncodigo', ''));
+  FBPR.unicodigo := strtoint(vVariacao.getvalue('unicodigo', ''));
+  FBPR.procodigoborda := strtoint(vVariacao.getvalue('procodigoborda', ''));
+
+  if vlbprchave = 0 then
+  // incluir novo
+  begin
+    FBPR.bprchave := 0;
+    FDAO.dao.Insert(FBPR);
+    FDAO.dao.LastID;
+    vlbprchave := FDAO.DataSet.FieldByName('bprchave').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FBPR.bprchave := vlbprchave;
+    FDAO.dao.Update(FBPR);
+  end;
+  result := vlbprchave;
+
+end;
+
+end.

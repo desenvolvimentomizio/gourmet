@@ -1,0 +1,49 @@
+inherited FprinciMonitorProducao_LgXhdpiPh: TFprinciMonitorProducao_LgXhdpiPh
+  ClientHeight = 695
+  ClientWidth = 450
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 450.000000000000000000
+    inherited Label1: TLabel
+      Size.Width = 281.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited lbRelogio: TLabel
+      Position.X = 329.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited ListViewPedidos: TListView
+    Size.Width = 450.000000000000000000
+    Size.Height = 647.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.Font.Size = 18.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.Height = 25.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.PlaceOffset.X = 160.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.Width = 65.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.PlaceOffset.X = 22.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.Width = 73.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.Height = 25.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.PlaceOffset.X = 86.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Font.Size = 18.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Width = 169.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Height = 25.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.PlaceOffset.X = 214.000000000000000000
+  end
+  inherited ListView1: TListView
+    Position.Y = 695.000000000000000000
+    Size.Width = 450.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
+      item
+        AppearanceObjectName = 'Text1'
+        AppearanceClassName = 'TTextObjectAppearance'
+      end>
+  end
+end

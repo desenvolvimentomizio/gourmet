@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CD1F19A5-173B-4EE5-ABAA-95BF1CEBC020}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GeradorSenha.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Mercado_TV\Tvsenha.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Mercado_Pedirsenha\Pedirsenha.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GeradorSenha">
+        <MSBuild Projects="GeradorSenha.dproj"/>
+    </Target>
+    <Target Name="GeradorSenha:Clean">
+        <MSBuild Projects="GeradorSenha.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GeradorSenha:Make">
+        <MSBuild Projects="GeradorSenha.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Tvsenha">
+        <MSBuild Projects="Mercado_TV\Tvsenha.dproj"/>
+    </Target>
+    <Target Name="Tvsenha:Clean">
+        <MSBuild Projects="Mercado_TV\Tvsenha.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Tvsenha:Make">
+        <MSBuild Projects="Mercado_TV\Tvsenha.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Pedirsenha">
+        <MSBuild Projects="Mercado_Pedirsenha\Pedirsenha.dproj"/>
+    </Target>
+    <Target Name="Pedirsenha:Clean">
+        <MSBuild Projects="Mercado_Pedirsenha\Pedirsenha.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Pedirsenha:Make">
+        <MSBuild Projects="Mercado_Pedirsenha\Pedirsenha.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GeradorSenha;Tvsenha;Pedirsenha"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GeradorSenha:Clean;Tvsenha:Clean;Pedirsenha:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GeradorSenha:Make;Tvsenha:Make;Pedirsenha:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,192 @@
+date/time          : 2025-07-12, 17:46:01, 26ms
+computer name      : DESKTOP-OCRHP1I
+user name          : daniel
+registered owner   : daniel@miziosistemas.com.br
+operating system   : Windows 10 x64 build 19045
+system language    : Portuguese
+system up time     : 3 days 14 hours
+program up time    : 1 minute 30 seconds
+processors         : 8x Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+physical memory    : 4050/16024 MB (free/total)
+free disk space    : (C:) 9,76 GB
+display mode       : 1842x1036, 32 bit
+process id         : $3868
+allocated memory   : 68,97 MB
+largest free block : 836,15 MB
+executable         : Project2.exe
+exec. date/time    : 2025-07-12 17:44
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.1
+callstack crc      : $b6a509c2, $8125a65b, $8125a65b
+exception number   : 1
+exception class    : EAccessViolation
+exception message  : Access violation at address 00899674 in module 'Project2.exe'. Read of address 00000000.
+
+main thread ($7970):
+00899674 +02c Project2.exe IdReplyRFC       254   +2 TIdReplyRFC.SetFormattedReply
+004e47ed +009 Project2.exe System.Classes  9697   +1 TMemoryStream.Clear
+00938b43 +08f Project2.exe Unit2            351  +11 ConsultaEstadoRun
+00938de6 +06a Project2.exe Unit2            385   +7 TForm2.Button11Click
+005e7d23 +073 Project2.exe Vcl.Controls    7596   +9 TControl.Click
+006026a6 +01e Project2.exe Vcl.StdCtrls    5609   +3 TCustomButton.Click
+00603830 +00c Project2.exe Vcl.StdCtrls    6244   +1 TCustomButton.CNCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005e7404 +024 Project2.exe Vcl.Controls    7258  +10 TControl.Perform
+005ec87f +023 Project2.exe Vcl.Controls   10493  +12 DoControlMsg
+005ed48f +00b Project2.exe Vcl.Controls   10770   +1 TWinControl.WMCommand
+00699375 +045 Project2.exe Vcl.Forms       6693   +6 TCustomForm.WMCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00695cf3 +6db Project2.exe Vcl.Forms       4787 +216 TCustomForm.WndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235df8 +048 USER32.dll                             SendMessageW
+76235ad6 +016 USER32.dll                             CallWindowProcW
+005ec82a +0e6 Project2.exe Vcl.Controls   10465  +30 TWinControl.DefaultHandler
+005e8170 +010 Project2.exe Vcl.Controls    7729   +1 TControl.WMLButtonUp
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+005ebc87 +047 Project2.exe Vcl.Controls   10116   +6 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235f4b +00b USER32.dll                             DispatchMessageW
+0069fb7b +0f3 Project2.exe Vcl.Forms      11028  +23 TApplication.ProcessMessage
+0069fbbe +00a Project2.exe Vcl.Forms      11058   +1 TApplication.HandleMessage
+0069fef5 +0c9 Project2.exe Vcl.Forms      11196  +26 TApplication.Run
+0094e259 +049 Project2.exe Project2          14   +4 initialization
+764dfcc7 +017 KERNEL32.DLL                           BaseThreadInitThunk
+
+date/time          : 2025-07-12, 18:13:33, 750ms
+computer name      : DESKTOP-OCRHP1I
+user name          : daniel
+registered owner   : daniel@miziosistemas.com.br
+operating system   : Windows 10 x64 build 19045
+system language    : Portuguese
+system up time     : 3 days 14 hours
+program up time    : 1 minute 14 seconds
+processors         : 8x Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+physical memory    : 4277/16024 MB (free/total)
+free disk space    : (C:) 9,75 GB
+display mode       : 1842x1036, 32 bit
+process id         : $410c
+allocated memory   : 68,94 MB
+largest free block : 836,15 MB
+executable         : Project2.exe
+exec. date/time    : 2025-07-12 18:12
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.1
+callstack crc      : $6760ba7f, $133f19a6, $133f19a6
+exception number   : 1
+exception class    : EIdHTTPProtocolException
+exception message  : HTTP/1.1 400 Bad Request.
+
+main thread ($45ec):
+008e545e +1ba Project2.exe IdHTTP          2840  +43 CheckException
+008e58d9 +2e9 Project2.exe IdHTTP          3045 +155 TIdHTTPProtocol.ProcessResponse
+008e5e54 +1d8 Project2.exe IdHTTP          3186  +43 TIdCustomHTTP.DoRequest
+008e0f1a +082 Project2.exe IdHTTP           812  +19 TIdCustomHTTP.Post
+008e192d +04d Project2.exe IdHTTP          1101   +3 TIdCustomHTTP.Post
+0093dc9a +13a Project2.exe Unit2           1361  +14 TForm2.RodarAssistantComPergunta
+0093bd5f +017 Project2.exe Unit2            929   +3 TForm2.Button6Click
+005e7d23 +073 Project2.exe Vcl.Controls    7596   +9 TControl.Click
+006026a6 +01e Project2.exe Vcl.StdCtrls    5609   +3 TCustomButton.Click
+00603830 +00c Project2.exe Vcl.StdCtrls    6244   +1 TCustomButton.CNCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005e7404 +024 Project2.exe Vcl.Controls    7258  +10 TControl.Perform
+005ec87f +023 Project2.exe Vcl.Controls   10493  +12 DoControlMsg
+005ed48f +00b Project2.exe Vcl.Controls   10770   +1 TWinControl.WMCommand
+00699375 +045 Project2.exe Vcl.Forms       6693   +6 TCustomForm.WMCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00695cf3 +6db Project2.exe Vcl.Forms       4787 +216 TCustomForm.WndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235df8 +048 USER32.dll                             SendMessageW
+76235ad6 +016 USER32.dll                             CallWindowProcW
+005ec82a +0e6 Project2.exe Vcl.Controls   10465  +30 TWinControl.DefaultHandler
+005e8170 +010 Project2.exe Vcl.Controls    7729   +1 TControl.WMLButtonUp
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+005ebc87 +047 Project2.exe Vcl.Controls   10116   +6 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235f4b +00b USER32.dll                             DispatchMessageW
+0069fb7b +0f3 Project2.exe Vcl.Forms      11028  +23 TApplication.ProcessMessage
+0069fbbe +00a Project2.exe Vcl.Forms      11058   +1 TApplication.HandleMessage
+0069fef5 +0c9 Project2.exe Vcl.Forms      11196  +26 TApplication.Run
+0094e259 +049 Project2.exe Project2          14   +4 initialization
+764dfcc7 +017 KERNEL32.DLL                           BaseThreadInitThunk
+
+date/time          : 2025-07-12, 18:29:45, 310ms
+computer name      : DESKTOP-OCRHP1I
+user name          : daniel
+registered owner   : daniel@miziosistemas.com.br
+operating system   : Windows 10 x64 build 19045
+system language    : Portuguese
+system up time     : 3 days 14 hours
+program up time    : 56 seconds
+processors         : 8x Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+physical memory    : 4046/16024 MB (free/total)
+free disk space    : (C:) 9,75 GB
+display mode       : 1842x1036, 32 bit
+process id         : $4958
+allocated memory   : 70,59 MB
+largest free block : 836,15 MB
+executable         : Project2.exe
+exec. date/time    : 2025-07-12 18:28
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.1
+callstack crc      : $5be20ed4, $471804ee, $471804ee
+count              : 2
+exception number   : 2
+exception class    : EJSONException
+exception message  : Value 'id' not found.
+
+main thread ($6450):
+0074c962 +02e Project2.exe System.JSON     1647   +3 TJSONValue.GetValueP
+0093e0da +02e Project2.exe Unit2           1652   +1 TJSONValue.GetValue<System.string>
+0093ccfb +04f Project2.exe Unit2           1231   +3 TForm2.Button9Click
+005e7d23 +073 Project2.exe Vcl.Controls    7596   +9 TControl.Click
+006026a6 +01e Project2.exe Vcl.StdCtrls    5609   +3 TCustomButton.Click
+00603830 +00c Project2.exe Vcl.StdCtrls    6244   +1 TCustomButton.CNCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005e7404 +024 Project2.exe Vcl.Controls    7258  +10 TControl.Perform
+005ec87f +023 Project2.exe Vcl.Controls   10493  +12 DoControlMsg
+005ed48f +00b Project2.exe Vcl.Controls   10770   +1 TWinControl.WMCommand
+00699375 +045 Project2.exe Vcl.Forms       6693   +6 TCustomForm.WMCommand
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00695cf3 +6db Project2.exe Vcl.Forms       4787 +216 TCustomForm.WndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235df8 +048 USER32.dll                             SendMessageW
+76235ad6 +016 USER32.dll                             CallWindowProcW
+005ec82a +0e6 Project2.exe Vcl.Controls   10465  +30 TWinControl.DefaultHandler
+005e8170 +010 Project2.exe Vcl.Controls    7729   +1 TControl.WMLButtonUp
+005e77ca +2be Project2.exe Vcl.Controls    7480  +91 TControl.WndProc
+005ec71f +693 Project2.exe Vcl.Controls   10424 +169 TWinControl.WndProc
+00602300 +06c Project2.exe Vcl.StdCtrls    5439  +13 TButtonControl.WndProc
+005ebc6c +02c Project2.exe Vcl.Controls   10113   +3 TWinControl.MainWndProc
+005ebc87 +047 Project2.exe Vcl.Controls   10116   +6 TWinControl.MainWndProc
+004f81cc +014 Project2.exe System.Classes 18175   +8 StdWndProc
+76235f4b +00b USER32.dll                             DispatchMessageW
+0069fb7b +0f3 Project2.exe Vcl.Forms      11028  +23 TApplication.ProcessMessage
+0069fbbe +00a Project2.exe Vcl.Forms      11058   +1 TApplication.HandleMessage
+0069fef5 +0c9 Project2.exe Vcl.Forms      11196  +26 TApplication.Run
+0094e259 +049 Project2.exe Project2          14   +4 initialization
+764dfcc7 +017 KERNEL32.DLL                           BaseThreadInitThunk
+

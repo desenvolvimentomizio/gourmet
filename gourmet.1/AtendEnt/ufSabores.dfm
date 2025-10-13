@@ -1,0 +1,129 @@
+object fSabores: TfSabores
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Selecionar o Sabor'
+  ClientHeight = 669
+  ClientWidth = 632
+  Color = 8404992
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 19
+  object plRodaPe: TPanel
+    Left = 0
+    Top = 631
+    Width = 632
+    Height = 38
+    Align = alBottom
+    BevelOuter = bvNone
+    BorderWidth = 2
+    TabOrder = 0
+    ExplicitWidth = 494
+    object Panel9: TPanel
+      Left = 368
+      Top = 2
+      Width = 262
+      Height = 34
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitLeft = 230
+      object BtnConfirmar: TButton
+        Left = 142
+        Top = 0
+        Width = 120
+        Height = 34
+        Align = alRight
+        Caption = 'Confirma'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ModalResult = 1
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+  end
+  object DBGSbr: TDBGrid
+    AlignWithMargins = True
+    Left = 3
+    Top = 47
+    Width = 626
+    Height = 581
+    Align = alClient
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataSource = FprinciEnt.Duqsbr
+    DrawingStyle = gdsGradient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Options = [dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -16
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnKeyPress = edPesquisarKeyPress
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'pronome'
+        Width = 450
+        Visible = True
+      end>
+  end
+  object pltopo: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 626
+    Height = 38
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitWidth = 488
+    object Panel1: TPanel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 120
+      Height = 32
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Pesquisar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+    end
+    object edPesquisar: TEdit
+      AlignWithMargins = True
+      Left = 129
+      Top = 3
+      Width = 494
+      Height = 32
+      Align = alClient
+      TabOrder = 1
+      OnKeyPress = edPesquisarKeyPress
+      OnKeyUp = edPesquisarKeyUp
+      ExplicitWidth = 356
+      ExplicitHeight = 27
+    end
+  end
+end

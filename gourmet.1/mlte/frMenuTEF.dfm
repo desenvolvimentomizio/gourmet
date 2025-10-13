@@ -1,0 +1,172 @@
+object FormMenuTEF: TFormMenuTEF
+  Left = 563
+  Top = 293
+  Caption = 'Selecione uma op'#231#227'o'
+  ClientHeight = 563
+  ClientWidth = 653
+  Color = clSilver
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -19
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Padding.Left = 10
+  Padding.Top = 10
+  Padding.Right = 10
+  OldCreateOrder = True
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 24
+  object Splitter1: TSplitter
+    Left = 318
+    Top = 60
+    Width = 5
+    Height = 433
+    Align = alRight
+    Visible = False
+    ExplicitLeft = 273
+    ExplicitHeight = 265
+  end
+  object lbOpcoes: TListBox
+    Left = 10
+    Top = 60
+    Width = 308
+    Height = 433
+    Align = alClient
+    ExtendedSelect = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ItemHeight = 24
+    ParentFont = False
+    TabOrder = 0
+    OnClick = lbOpcoesClick
+    OnKeyPress = lbOpcoesKeyPress
+  end
+  object pTitulo: TPanel
+    Left = 10
+    Top = 10
+    Width = 633
+    Height = 50
+    Align = alTop
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    Caption = 'pTitulo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Panel2: TPanel
+    AlignWithMargins = True
+    Left = 13
+    Top = 496
+    Width = 627
+    Height = 64
+    Align = alBottom
+    BevelOuter = bvNone
+    Padding.Left = 10
+    Padding.Top = 10
+    Padding.Right = 10
+    Padding.Bottom = 10
+    TabOrder = 2
+    object btOK: TBitBtn
+      AlignWithMargins = True
+      Left = 408
+      Top = 13
+      Width = 100
+      Height = 38
+      Align = alRight
+      Caption = 'Confirma'
+      Default = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ModalResult = 1
+      NumGlyphs = 2
+      ParentFont = False
+      TabOrder = 0
+    end
+    object btCancel: TBitBtn
+      AlignWithMargins = True
+      Left = 514
+      Top = 13
+      Width = 100
+      Height = 38
+      Align = alRight
+      Cancel = True
+      Caption = 'Cancelar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ModalResult = 2
+      NumGlyphs = 2
+      ParentFont = False
+      TabOrder = 2
+    end
+    object btVoltar: TBitBtn
+      AlignWithMargins = True
+      Left = 302
+      Top = 13
+      Width = 100
+      Height = 38
+      Align = alRight
+      Caption = 'Voltar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ModalResult = 4
+      NumGlyphs = 2
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
+    end
+    object psituacao: TPanel
+      Left = 10
+      Top = 10
+      Width = 199
+      Height = 44
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Menu ADM TEF'
+      Color = 33023
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -19
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 3
+    end
+  end
+  object mOpcao: TMemo
+    Left = 323
+    Top = 60
+    Width = 320
+    Height = 433
+    Align = alRight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Courier'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    Visible = False
+    WordWrap = False
+  end
+end

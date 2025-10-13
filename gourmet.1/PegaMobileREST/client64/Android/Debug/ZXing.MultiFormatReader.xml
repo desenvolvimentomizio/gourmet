@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.MultiFormatReader" platform="Android">
+  <class name="TMultiFormatReader" file="ZXing.MultiFormatReader.pas" line="62">
+    <devnotes>
+       <summary>
+       MultiFormatReader is a convenience class and the main entry point into the library for most uses.
+       By default it attempts to decode all barcode formats that the library supports. Optionally, you
+       can provide a hints object to request different behavior, for example only decoding QR codes.
+       </summary>
+       <author>Sean Owen</author>
+       <author>dswitkin@google.com (Daniel Switkin)</author>
+       <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source</author>
+    </devnotes>
+    <ancestor name="TInterfacedObject" namespace="System">
+      <interfaces>
+        <implements name="IInterface" />
+      </interfaces>
+      <methodref name="GetRefCount" visibility="private" procflags="inline">
+      </methodref>
+      <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+      </methodref>
+      <methodref name="QueryInterface" visibility="protected">
+      </methodref>
+      <methodref name="_AddRef" visibility="protected">
+      </methodref>
+      <methodref name="_Release" visibility="protected">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class override">
+      </methodref>
+      <propertyref name="RefCount" visibility="public">
+      </propertyref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+    <interfaces>
+      <implements name="IReader" />
+    </interfaces>
+    <members>
+      <field name="FHints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" visibility="private" size="4" offset="12" file="ZXing.MultiFormatReader.pas" line="65" />
+      <field name="readers" type="TList&lt;ZXing.Reader.IReader&gt;" visibility="private" size="4" offset="16" file="ZXing.MultiFormatReader.pas" line="66" />
+      <function name="DecodeInternal" visibility="private" file="ZXing.MultiFormatReader.pas" line="68">
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <procedure name="Set_Hints" visibility="private" file="ZXing.MultiFormatReader.pas" line="69">
+        <parameters>
+          <parameter name="Value" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="Get_Hints" visibility="private" file="ZXing.MultiFormatReader.pas" line="70">
+        <parameters>
+          <retval type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.MultiFormatReader.pas" line="83">
+        <devnotes>
+           <summary> This version of decode honors the intent of Reader.decode(BinaryBitmap) in that it
+           passes null as a hint to the decoders. However, that makes it inefficient to call repeatedly.
+           Use setHints() followed by decodeWithState() for continuous scan applications.
+          
+           </summary>
+           <param name="image">The pixel data to decode
+           </param>
+           <returns> The contents of the image
+           </returns>
+           <throws>  ReaderException Any errors which occurred </throws>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.MultiFormatReader.pas" line="84">
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+          <parameter name="WithHints" type="Boolean" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.MultiFormatReader.pas" line="96">
+        <devnotes>
+           <summary> Decode an image using the hints provided. Does not honor existing state.
+          
+           </summary>
+           <param name="image">The pixel data to decode
+           </param>
+           <param name="hints">The hints to use, clearing the previous state.
+           </param>
+           <returns> The contents of the image
+           </returns>
+           <throws>  ReaderException Any errors which occurred </throws>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <function name="DecodeWithState" visibility="public" file="ZXing.MultiFormatReader.pas" line="108">
+        <devnotes>
+           <summary> Decode an image using the state set up by calling setHints() previously. Continuous scan
+           clients will get a <b>large</b> speed increase by using this instead of decode().
+          
+           </summary>
+           <param name="image">The pixel data to decode
+           </param>
+           <returns> The contents of the image
+           </returns>
+           <throws>  ReaderException Any errors which occurred </throws>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <destructor name="Destroy" visibility="public" file="ZXing.MultiFormatReader.pas" line="109">
+        <parameters>
+        </parameters>
+      </destructor>
+      <property name="hints" visibility="public" read="Get_Hints" write="Set_Hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" file="ZXing.MultiFormatReader.pas" line="118">
+        <devnotes>
+           <summary> This method adds state to the MultiFormatReader. By setting the hints once, subsequent calls
+           to decodeWithState(image) can reuse the same set of readers without reallocating memory. This
+           is important for performance in continuous scan clients.
+          
+           </summary>
+           <param name=>The set of hints to use for subsequent calls to decode(image)
+           </param>
+        </devnotes>
+      </property>
+      <procedure name="Reset" visibility="public" file="ZXing.MultiFormatReader.pas" line="121">
+      </procedure>
+      <procedure name="FreeReaders" visibility="public" file="ZXing.MultiFormatReader.pas" line="122">
+      </procedure>
+    </members>
+  </class>
+</namespace>

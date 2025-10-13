@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8285CCDB-C359-4B29-949B-56E98A64525E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="aiq\GourmetAIQ.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GourmetAIQ">
+        <MSBuild Projects="aiq\GourmetAIQ.dproj"/>
+    </Target>
+    <Target Name="GourmetAIQ:Clean">
+        <MSBuild Projects="aiq\GourmetAIQ.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetAIQ:Make">
+        <MSBuild Projects="aiq\GourmetAIQ.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GourmetAIQ"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GourmetAIQ:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GourmetAIQ:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,256 @@
+object ftransacaoTEFAPI: TftransacaoTEFAPI
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'A G U A R D E   . . .  '
+  ClientHeight = 237
+  ClientWidth = 664
+  Color = clSilver
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 658
+    Height = 231
+    Align = alClient
+    Color = clSilver
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    ExplicitHeight = 380
+    object pMensagem: TPanel
+      Left = 1
+      Top = 33
+      Width = 656
+      Height = 117
+      Align = alTop
+      BevelOuter = bvNone
+      BevelWidth = 2
+      BorderStyle = bsSingle
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      object pMensagemOperador: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 646
+        Height = 107
+        Align = alClient
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        object lMensagemOperador: TLabel
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 640
+          Height = 104
+          Align = alClient
+          Alignment = taCenter
+          Color = 3552822
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -16
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          Layout = tlCenter
+          WordWrap = True
+          ExplicitTop = -2
+        end
+      end
+    end
+    object Panel9: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 650
+      Height = 26
+      Align = alTop
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Caption = 'Mercato - TEF'
+      Color = 8404992
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      Padding.Left = 10
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 1
+      object pStatus: TPanel
+        AlignWithMargins = True
+        Left = 293
+        Top = 3
+        Width = 354
+        Height = 20
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 0
+      end
+    end
+    object StatusBar: TStatusBar
+      Left = 1
+      Top = 207
+      Width = 656
+      Height = 23
+      Panels = <
+        item
+          Width = 100
+        end
+        item
+          Width = 100
+        end
+        item
+          Width = 100
+        end
+        item
+          Width = 50
+        end>
+      ExplicitTop = 356
+    end
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 163
+      Width = 650
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 3
+      ExplicitTop = 312
+      object bCancelarResp: TButton
+        AlignWithMargins = True
+        Left = 483
+        Top = 3
+        Width = 164
+        Height = 35
+        Align = alRight
+        Caption = 'Cancelar Processamento'
+        TabOrder = 0
+        TabStop = False
+      end
+      object mLog: TMemo
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 474
+        Height = 35
+        Align = alClient
+        TabOrder = 1
+        Visible = False
+      end
+    end
+    object pMensagemCliente: TPanel
+      Left = 1
+      Top = 132
+      Width = 656
+      Height = 28
+      Align = alBottom
+      BevelOuter = bvNone
+      BevelWidth = 2
+      BorderStyle = bsSingle
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 4
+      Visible = False
+      ExplicitTop = 272
+      object Panel4: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 646
+        Height = 18
+        Align = alClient
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        ExplicitHeight = 107
+        object lMensagemCliente: TLabel
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 640
+          Height = 15
+          Align = alClient
+          Alignment = taCenter
+          Color = 3552822
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -16
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          Layout = tlCenter
+          WordWrap = True
+          ExplicitWidth = 5
+          ExplicitHeight = 18
+        end
+      end
+    end
+  end
+  object ACBrTEF: TACBrTEFAPI
+    ConfirmarTransacaoAutomaticamente = False
+    DadosAutomacao.AutoAtendimento = False
+    QuandoGravarLog = ACBrTEFQuandoGravarLog
+    QuandoFinalizarOperacao = ACBrTEFQuandoFinalizarOperacao
+    QuandoFinalizarTransacao = ACBrTEFQuandoFinalizarTransacao
+    QuandoDetectarTransacaoPendente = ACBrTEFQuandoDetectarTransacaoPendente
+    QuandoEsperarOperacao = ACBrTEFQuandoEsperarOperacao
+    QuandoExibirMensagem = ACBrTEFQuandoExibirMensagem
+    QuandoPerguntarMenu = ACBrTEFQuandoPerguntarMenu
+    QuandoPerguntarCampo = ACBrTEFQuandoPerguntarCampo
+    QuandoExibirQRCode = ACBrTEFQuandoExibirQRCode
+    Left = 256
+    Top = 96
+  end
+  object TimerProcessaTransacao: TTimer
+    Enabled = False
+    Interval = 150
+    OnTimer = TimerProcessaTransacaoTimer
+    Left = 112
+    Top = 91
+  end
+end

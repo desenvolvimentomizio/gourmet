@@ -1,0 +1,10 @@
+
+TESTEVALOR - 10 reais
+
+TESTEPORCENTAGEM - 10%
+
+então na homologação nós fazemos alguns pedidos teste:
+- pedidos com cupons
+- pedidos envolvendo adicionais e obrigatórios
+- pedidos com pizza (caso haja no cardápio)
+- pedidos com codigo interno

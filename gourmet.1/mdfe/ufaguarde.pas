@@ -1,0 +1,32 @@
+unit ufaguarde;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+
+type
+  Tfaguarde = class(TForm)
+    Panel1: TPanel;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  faguarde: Tfaguarde;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfaguarde.FormShow(Sender: TObject);
+begin
+  Panel1.Repaint;
+  application.ProcessMessages;
+end;
+
+end.

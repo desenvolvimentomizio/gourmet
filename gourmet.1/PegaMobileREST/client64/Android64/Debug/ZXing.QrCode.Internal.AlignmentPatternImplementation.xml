@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.AlignmentPatternImplementation" platform="Android">
+  <function name="NewAlignmentPattern" visibility="public" file="ZXing.QrCode.Internal.AlignmentPatternImplementation.pas" line="107">
+    <parameters>
+      <parameter name="posX" type="Single" paramflags="const" />
+      <parameter name="posY" type="Single" paramflags="const" />
+      <parameter name="estimatedModuleSize" type="Single" paramflags="const" />
+      <retval type="IAlignmentPattern">
+        <devnotes>
+           <summary>
+            As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+           of TAligmnentPattern instances
+           the actual implementation of this interface is in unit ZXing.QrCode.Internal.AlignmentPatternImplementation
+           </summary>
+        </devnotes>
+      </retval>
+    </parameters>
+  </function>
+</namespace>

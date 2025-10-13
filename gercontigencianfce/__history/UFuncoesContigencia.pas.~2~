@@ -1,0 +1,265 @@
+unit UFuncoesContigencia;
+
+interface
+
+uses
+  System.Types,
+  System.SysUtils,
+  System.Net.HttpClient,
+  Winapi.Nb30,
+  Winapi.Windows,
+  Winapi.WinSock,
+  pingsend;
+
+function DV_CPF(CPF_NUM:string):string;
+function Randon(maior_num:integer):integer;
+function CheckInternet: Boolean;
+function GetMACAdress: string;
+procedure TrimAppMemorySize;
+function PingHost(const AHost: string; ATimeoutPing: Integer; ASocksTimeout: Integer): Boolean;
+Function SoNumeros(Const texto: String): String;
+
+implementation
+
+
+
+function PingHost(const AHost: string; ATimeoutPing: Integer; ASocksTimeout: Integer): Boolean;
+var
+  VPing: TPingSend;
+begin
+  Result := false;
+  if (AHost = '') then
+    exit;
+  VPing := TPingSend.Create;
+  try
+    VPing.Sock.CloseSocket;
+    VPing.Sock.Purge;
+    VPing.Sock.SetTimeout(ASocksTimeout);
+    VPing.Sock.SetSendTimeout(ASocksTimeout);
+    VPing.Sock.SetRecvTimeout(ASocksTimeout);
+    VPing.Timeout := ATimeoutPing;
+    try
+      Result := VPing.Ping(AHost);
+      if Result then
+        Result := (VPing.ReplyError = IE_NoError);
+    except
+      Result := false;
+    end;
+    VPing.Sock.CloseSocket;
+  finally
+    VPing.Free;
+  end;
+end;
+
+
+procedure TrimAppMemorySize;
+var
+  MainHandle: THandle;
+begin
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, false, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+  end;
+end;
+
+
+
+function GetMACAdress: string;
+var
+  NCB: PNCB;
+  Adapter: PAdapterStatus;
+
+  URetCode: PChar;
+  RetCode: Ansichar;
+  I: Integer;
+  Lenum: PlanaEnum;
+  _SystemID: string;
+  TMPSTR: string;
+begin
+  Result := '';
+  _SystemID := '';
+  Getmem(NCB, SizeOf(TNCB));
+  Fillchar(NCB^, SizeOf(TNCB), 0);
+
+  Getmem(Lenum, SizeOf(TLanaEnum));
+  Fillchar(Lenum^, SizeOf(TLanaEnum), 0);
+
+  Getmem(Adapter, SizeOf(TAdapterStatus));
+  Fillchar(Adapter^, SizeOf(TAdapterStatus), 0);
+
+  Lenum.Length := chr(0);
+  NCB.ncb_command := chr(NCBENUM);
+  NCB.ncb_buffer := Pointer(Lenum);
+  NCB.ncb_length := SizeOf(Lenum);
+  RetCode := Netbios(NCB);
+
+  I := 0;
+  repeat
+    Fillchar(NCB^, SizeOf(TNCB), 0);
+    NCB.ncb_command := chr(NCBRESET);
+    NCB.ncb_lana_num := Lenum.lana[I];
+    RetCode := Netbios(NCB);
+
+    Fillchar(NCB^, SizeOf(TNCB), 0);
+    NCB.ncb_command := chr(NCBASTAT);
+    NCB.ncb_lana_num := Lenum.lana[I];
+
+    NCB.ncb_callname := '*               ';
+
+    NCB.ncb_buffer := Pointer(Adapter);
+
+    NCB.ncb_length := SizeOf(TAdapterStatus);
+    RetCode := Netbios(NCB);
+    if (RetCode = chr(0)) or (RetCode = chr(6)) then
+    begin
+      _SystemID := IntToHex(Ord(Adapter.adapter_address[0]), 2) + '-' + IntToHex(Ord(Adapter.adapter_address[1]), 2) + '-' +
+        IntToHex(Ord(Adapter.adapter_address[2]), 2) + '-' + IntToHex(Ord(Adapter.adapter_address[3]), 2) + '-' +
+        IntToHex(Ord(Adapter.adapter_address[4]), 2) + '-' + IntToHex(Ord(Adapter.adapter_address[5]), 2);
+    end;
+    Inc(I);
+  until (I >= Ord(Lenum.Length)) or (_SystemID <> '00-00-00-00-00-00');
+  FreeMem(NCB);
+  FreeMem(Adapter);
+  FreeMem(Lenum);
+  GetMACAdress := _SystemID;
+
+end;
+
+
+Function SoNumeros(Const texto: String): String;
+
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  I: Integer;
+  S: String;
+Begin
+  S := '';
+  For I := 1 To Length(texto) Do
+  Begin
+    If (texto[I] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(texto, I, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+function GetIP: string;
+var
+  WSAData: TWSADATA;
+  HostEnt: PHostEnt;
+  Name: string;
+begin
+  WSAStartup(2, WSAData);
+  SetLength(Name, 255);
+  GetHostName(PAnsiChar(Name), 255);
+  SetLength(Name, StrLen(PChar(Name)));
+  HostEnt := gethostbyname(PAnsiChar(Name));
+  with HostEnt^ do
+  begin
+    Result := Format('%d.%d.%d.%d', [byte(h_addr^[0]), byte(h_addr^[1]), byte(h_addr^[2]), byte(h_addr^[3])]);
+  end;
+  WSACleanup;
+end;
+
+Function GetPCName: String;
+var
+  lHostName: array [0 .. 255] of char;
+  lBufferSize: DWORD;
+begin
+  lBufferSize := 256;
+  if GetComputerName(lHostName, lBufferSize) then
+    Result := lHostName
+  else
+    Result := '';
+end;
+
+function GetAppVersionStr(arq: string): string;
+var
+  Exe: string;
+  Size, Handle: DWORD;
+  Buffer: TBytes;
+  FixedPtr: PVSFixedFileInfo;
+begin
+  try
+    Exe := ParamSTR(0);
+    Size := GetFileVersionInfoSize(PChar(arq), Handle);
+    if Size = 0 then
+      RaiseLastOSError;
+    SetLength(Buffer, Size);
+    if not GetFileVersionInfo(PChar(arq), Handle, Size, Buffer) then
+      RaiseLastOSError;
+    if not VerQueryValue(Buffer, '\', Pointer(FixedPtr), Size) then
+      RaiseLastOSError;
+
+    Result := Format('%d.%s.%s.%s', [LongRec(FixedPtr.dwFileVersionMS).Hi, // major
+      formatfloat('0', LongRec(FixedPtr.dwFileVersionMS).Lo), // minor
+      formatfloat('0', LongRec(FixedPtr.dwFileVersionLS).Hi), // release
+      formatfloat('0', LongRec(FixedPtr.dwFileVersionLS).Lo)]); // build
+
+  except
+    Result := '00.00.000.0';
+  end;
+
+end;
+
+
+
+
+function CheckInternet: Boolean;
+var
+  http: THTTPClient;
+begin
+  Result := false;
+
+  try
+    http := THTTPClient.Create;
+
+    try
+      Result := http.Head('https://google.com').StatusCode < 400;
+    except
+    end;
+  finally
+    http.DisposeOf;
+  end;
+end;
+
+
+
+function Randon(maior_num:integer):integer;
+begin
+  randomize;
+  Result:= Round(random(maior_num));
+end;
+
+
+function DV_CPF(CPF_NUM:string):string;
+var
+  CPFa, CPFb, CPFc, CPFd, CPFe, CPFf, CPFg, CPFh:integer;
+  CPFi, CPFj, CPFk, p1, p2:integer;
+begin
+  if length(CPF_NUM)=9 then
+  begin
+    CPFa:=StrToInt(CPF_NUM[1]);
+    CPFb:=StrToInt(CPF_NUM[2]);
+    CPFc:=StrToInt(CPF_NUM[3]);
+    CPFd:=StrToInt(CPF_NUM[4]);
+    CPFe:=StrToInt(CPF_NUM[5]);
+    CPFf:=StrToInt(CPF_NUM[6]);
+    CPFg:=StrToInt(CPF_NUM[7]);
+    CPFh:=StrToInt(CPF_NUM[8]);
+    CPFi:=StrToInt(CPF_NUM[9]);
+    p1:=10*CPFa+9*CPFb+8*CPFc+7*CPFd+6*CPFe+5*CPFf+4*CPFg+3*CPFh+2*CPFi;
+    if (p1 mod 11)<2 then CPFj:=0 else CPFj:= 11-(p1 mod 11);
+    p2:=11*CPFa+10*CPFb+9*CPFc+8*CPFd+7*CPFe+6*CPFf+5*CPFg+4*CPFh+3*CPFi+2*CPFj;
+    if (p2 mod 11)<2 then CPFk:=0 else CPFk:= 11-(p2 mod 11);
+    result:= FloatToStr(CPFj)+FloatToStr(CPFk);
+  end;
+end;
+
+
+end.

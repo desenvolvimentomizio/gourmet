@@ -1,0 +1,175 @@
+inherited fexpbtm: Tfexpbtm
+  Caption = 'Exporta'#231#227'o de Configura'#231#227'o do Menu Principal'
+  ClientHeight = 410
+  ClientWidth = 761
+  ExplicitWidth = 777
+  ExplicitHeight = 449
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 381
+    Width = 761
+    ExplicitTop = 381
+    ExplicitWidth = 761
+    inherited bconfirma: TBitBtn
+      Left = 607
+      Enabled = False
+      ExplicitLeft = 607
+    end
+    inherited bcancela: TBitBtn
+      Left = 682
+      ExplicitLeft = 682
+    end
+    inherited bfechar: TBitBtn
+      Left = 542
+      ExplicitLeft = 542
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 761
+    Height = 381
+    ExplicitWidth = 761
+    ExplicitHeight = 381
+    inherited Principal: TTabSheet
+      ExplicitWidth = 753
+      ExplicitHeight = 353
+      object cbProjetos: TCheckBox
+        Left = 80
+        Top = 20
+        Width = 97
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Projetos'
+        TabOrder = 0
+      end
+      object cbModulos: TCheckBox
+        Left = 80
+        Top = 55
+        Width = 97
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'M'#243'dulos'
+        TabOrder = 1
+      end
+      object cbGrupos: TCheckBox
+        Left = 80
+        Top = 90
+        Width = 97
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Grupos de Menus'
+        TabOrder = 2
+      end
+      object cbBotoes: TCheckBox
+        Left = 80
+        Top = 230
+        Width = 97
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Itens do Menus'
+        TabOrder = 3
+      end
+      object cbBpls: TCheckBox
+        Left = 80
+        Top = 125
+        Width = 97
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Registro de Bpls'
+        TabOrder = 4
+      end
+      object cbCamposRel: TCheckBox
+        Left = 80
+        Top = 265
+        Width = 129
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Campos de Relat'#243'rio'
+        TabOrder = 5
+      end
+      object cbGRAcoes: TCheckBox
+        Left = 80
+        Top = 160
+        Width = 129
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Grupos de Ac'#245'es'
+        TabOrder = 6
+      end
+      object cbAcoes: TCheckBox
+        Left = 80
+        Top = 195
+        Width = 129
+        Height = 17
+        CustomHint = BalloonHint
+        Caption = 'Registro Ac'#245'es'
+        TabOrder = 7
+      end
+      object gbProcesso: TGroupBox
+        Left = 80
+        Top = 296
+        Width = 297
+        Height = 41
+        CustomHint = BalloonHint
+        Caption = ' '
+        TabOrder = 8
+        object mostra: TProgressBar
+          Left = 8
+          Top = 16
+          Width = 280
+          Height = 17
+          CustomHint = BalloonHint
+          MarqueeInterval = 1
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      
+        'select prjcodigo, prjidentificacao from prj where prjcodigo=:prj' +
+        'codigo')
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'prjcodigo'
+        Value = nil
+      end>
+    object registroprjcodigo: TIntegerField
+      FieldName = 'prjcodigo'
+    end
+    object registroprjidentificacao: TStringField
+      FieldName = 'prjidentificacao'
+      Size = 50
+    end
+  end
+  inherited dcp: TUniQuery
+    Left = 352
+    Top = 244
+  end
+  inherited dtb: TUniQuery
+    Left = 308
+    Top = 244
+  end
+  inherited coa: TUniQuery
+    Left = 272
+    Top = 244
+  end
+  inherited cpg: TUniQuery
+    Left = 12
+    Top = 176
+  end
+  inherited cpc: TUniQuery
+    Left = 13
+    Top = 129
+  end
+  inherited lou: TUniQuery
+    Left = 456
+    Top = 288
+  end
+  object consultaweb: TUniQuery
+    Left = 191
+    Top = 96
+  end
+end

@@ -1,0 +1,172 @@
+inherited fraccg: Tfraccg
+  Width = 1120
+  ExplicitWidth = 1120
+  inherited PlGeral: TPanel
+    Width = 1120
+    ExplicitWidth = 1120
+    inherited PlLista: TPanel
+      Width = 976
+      ExplicitWidth = 976
+      inherited SplLista: TSplitter
+        Width = 976
+        ExplicitWidth = 976
+      end
+      inherited SpFilter: TSplitter
+        Width = 976
+        ExplicitWidth = 976
+      end
+      inherited PlRodaPe: TPanel
+        Width = 976
+        ExplicitWidth = 976
+      end
+      inherited PlFiltros: TPanel
+        Width = 976
+        ExplicitWidth = 976
+      end
+      inherited PlSelecao: TPanel
+        Width = 976
+        ExplicitWidth = 976
+        inherited GBPlSelecao: TGroupBox
+          Width = 972
+          ExplicitWidth = 972
+          inherited DBLista: TDBGrid
+            Width = 865
+          end
+        end
+      end
+      inherited PnlGrid: TPanel
+        Width = 976
+        ExplicitWidth = 976
+        object Splitter1: TSplitter [0]
+          Left = 0
+          Top = 0
+          Width = 5
+          Height = 395
+          AutoSnap = False
+          Beveled = True
+          ExplicitHeight = 347
+        end
+        inherited DBGLista: TDBGrid
+          Left = 5
+          Width = 971
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ccgcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ccgestrutural'
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'gccidentificacao'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ccgidentificacao'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Width = 976
+          ExplicitWidth = 976
+          object lbEstrutural: TLabel
+            Left = 512
+            Top = 6
+            Width = 55
+            Height = 13
+            Caption = 'lbEstrutural'
+            Visible = False
+          end
+        end
+      end
+    end
+    inherited PlTitulo: TPanel
+      Width = 1120
+      ExplicitWidth = 1120
+      inherited plid: TPanel
+        Left = 670
+        ExplicitLeft = 670
+      end
+      inherited PlSair: TPanel
+        Left = 914
+        ExplicitLeft = 914
+      end
+    end
+  end
+  inherited acoes: TActionList
+    object ActGrupo: TAction [0]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Grupos'
+      Enabled = False
+      Visible = False
+      OnExecute = ActGrupoExecute
+    end
+    inherited ActIncluir: TAction
+      OnExecute = ActIncluirExecute
+    end
+    inherited ActAlterar: TAction
+      OnExecute = ActAlterarExecute
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ccgcodigo,'
+      '  ccgidentificacao,'
+      '  seacodigo,'
+      '  ccgestrutural,'
+      '  gccidentificacao '
+      ''
+      'FROM ccg, gcc'
+      'where ccg.gcccodigo=gcc.gcccodigo')
+    object uqtabelaccgcodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'ccgcodigo'
+    end
+    object uqtabelagccidentificacao: TStringField
+      DisplayLabel = 'Grupo'
+      FieldName = 'gccidentificacao'
+      Size = 50
+    end
+    object uqtabelaccgestrutural: TStringField
+      DisplayLabel = 'Estrutural'
+      FieldName = 'ccgestrutural'
+      Size = 50
+    end
+    object uqtabelaccgidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'ccgidentificacao'
+      Size = 60
+    end
+    object uqtabelaseacodigo: TIntegerField
+      FieldName = 'seacodigo'
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  object gcc: TUniQuery
+    SQL.Strings = (
+      'select gcccodigo, gccmascara, gccidentificacao from gcc')
+    Left = 384
+    Top = 368
+    object gccgcccodigo: TIntegerField
+      FieldName = 'gcccodigo'
+    end
+    object gccgccmascara: TStringField
+      FieldName = 'gccmascara'
+      Size = 50
+    end
+    object gccgccidentificacao: TStringField
+      FieldName = 'gccidentificacao'
+      Size = 50
+    end
+  end
+end

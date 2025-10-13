@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Datamatrix.Internal.BitMatrixParser" platform="Android">
+  <class name="TBitMatrixParser" sealed="true" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="34">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="mappingBitMatrix" type="TBitMatrix" visibility="private" size="8" offset="8" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="36" />
+      <field name="readMappingMatrix" type="TBitMatrix" visibility="private" size="8" offset="16" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="37" />
+      <field name="Fversion" type="TVersion" visibility="private" size="8" offset="24" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="38" />
+      <function name="readModule" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="49">
+        <devnotes>
+           <summary>
+           <p>Reads a bit of the mapping matrix accounting for boundary wrapping.</p>
+          
+           <param name="row">Row to read in the mapping matrix</param>
+           <param name="column">Column to read in the mapping matrix</param>
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>value of the given bit in the mapping matrix</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="Integer" />
+          <parameter name="column" type="Integer" />
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="readUtah" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="62">
+        <devnotes>
+           <summary>
+           <p>Reads the 8 bits of the standard Utah-shaped pattern.</p>
+          
+           <p>See ISO 16022:2006, 5.8.1 Figure 6</p>
+          
+           <param name="row">Current row in the mapping matrix, anchored at the 8th bit (LSB) of the pattern</param>
+           <param name="column">Current column in the mapping matrix, anchored at the 8th bit (LSB) of the pattern</param>
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>byte from the utah shape</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="row" type="Integer" />
+          <parameter name="column" type="Integer" />
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="readCorner1" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="73">
+        <devnotes>
+           <summary>
+           <p>Reads the 8 bits of the special corner condition 1.</p>
+          
+           <p>See ISO 16022:2006, Figure F.3</p>
+          
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>byte from the Corner condition 1</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="readCorner2" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="84">
+        <devnotes>
+           <summary>
+           <p>Reads the 8 bits of the special corner condition 2.</p>
+          
+           <p>See ISO 16022:2006, Figure F.4</p>
+          
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>byte from the Corner condition 2</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="readCorner3" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="95">
+        <devnotes>
+           <summary>
+           <p>Reads the 8 bits of the special corner condition 3.</p>
+          
+           <p>See ISO 16022:2006, Figure F.5</p>
+          
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>byte from the Corner condition 3</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="readCorner4" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="106">
+        <devnotes>
+           <summary>
+           <p>Reads the 8 bits of the special corner condition 4.</p>
+          
+           <p>See ISO 16022:2006, Figure F.6</p>
+          
+           <param name="numRows">Number of rows in the mapping matrix</param>
+           <param name="numColumns">Number of columns in the mapping matrix</param>
+           <returns>byte from the Corner condition 4</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="readVersion" visibility="private" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="119">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'readVersion' -->
+        </devnotes>
+        <parameters>
+          <parameter name="BitMatrix" type="TBitMatrix" />
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               The Version object encapsulates attributes about a particular
+               size Data Matrix Code.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="123">
+        <devnotes>
+           <param name="BitMatrix">{@link TBitMatrix} to parse</param>
+           <throws>ReaderException if dimension is not &gt;= 21 and 1 mod 4</throws>
+        </devnotes>
+        <parameters>
+          <parameter name="BitMatrix" type="TBitMatrix" paramflags="const" />
+        </parameters>
+      </constructor>
+      <function name="extractDataRegion" visibility="public" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="133">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'extractDataRegion' -->
+        </devnotes>
+        <parameters>
+          <parameter name="BitMatrix" type="TBitMatrix" />
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="readCodewords" visibility="public" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="143">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'readCodewords' -->
+        </devnotes>
+        <parameters>
+          <retval type="TArray&lt;System.Byte&gt;" />
+        </parameters>
+      </function>
+      <destructor name="Destroy" visibility="public" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="144">
+        <parameters>
+        </parameters>
+      </destructor>
+      <property name="Version" visibility="public" read="Fversion" type="TVersion" file="ZXing.Datamatrix.Internal.BitMatrixParser.pas" line="146" />
+    </members>
+  </class>
+</namespace>

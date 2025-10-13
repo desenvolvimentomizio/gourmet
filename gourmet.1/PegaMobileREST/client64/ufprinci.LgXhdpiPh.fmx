@@ -1,0 +1,48 @@
+inherited fprinci_LgXhdpiPh: Tfprinci_LgXhdpiPh
+  ClientHeight = 695
+  ClientWidth = 450
+  Fill.Kind = Solid
+  DesignerMasterStyle = 0
+  inherited Rectangle2: TRectangle
+    Size.Width = 450.000000000000000000
+    inherited btConfiguracao: TButton
+      Position.X = 402.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+    end
+    inherited Label1: TLabel
+      Size.Width = 392.000000000000000000
+      inherited lblScanStatus: TLabel
+        Position.X = 290.000000000000000000
+      end
+    end
+  end
+  inherited RcMensagem: TRoundRect
+    Position.Y = 630.000000000000000000
+    Size.Width = 390.000000000000000000
+    inherited lbMensagem: TLabel
+      Size.Width = 390.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited Layout1: TLayout
+    Size.Width = 450.000000000000000000
+    Size.Height = 565.000000000000000000
+    inherited imgCamera: TImage
+      MultiResBitmap.Height = 117
+      MultiResBitmap.Width = 117
+      MultiResBitmap.LoadSize = 1
+      Size.Width = 450.000000000000000000
+      Size.Height = 565.000000000000000000
+    end
+    inherited ImageControl3: TImageControl
+      Size.Width = 350.000000000000000000
+      Size.Height = 465.000000000000000000
+    end
+  end
+  inherited MediaPlayer1: TMediaPlayer [5]
+  end
+  inherited DSRestConnection1: TDSRestConnection [6]
+  end
+end

@@ -1,0 +1,1245 @@
+inherited frarfh: Tfrarfh
+  inherited PlGeral: TPanel
+    inherited PlLista: TPanel
+      inherited SplLista: TSplitter
+        Top = 411
+        Visible = True
+        ExplicitTop = 411
+      end
+      inherited PlRodaPe: TPanel
+        Top = 416
+        Height = 164
+        Visible = True
+        ExplicitTop = 416
+        ExplicitHeight = 164
+      end
+      inherited PnlGrid: TPanel
+        Height = 282
+        ExplicitHeight = 282
+        inherited DBGLista: TDBGrid
+          Height = 257
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 257
+          ExplicitTop = 257
+        end
+      end
+    end
+  end
+  inherited acoes: TActionList
+    object ActGerarPlanilha: TAction [2]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Gerar Planilha'
+      OnExecute = ActGerarPlanilhaExecute
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      '')
+    Left = 468
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited qrySugestao: TUniQuery
+    Left = 188
+    Top = 324
+  end
+  inherited Dsfi: TUniDataSource
+    Left = 288
+    Top = 380
+  end
+  inherited sfi: TUniQuery
+    Left = 324
+    Top = 384
+  end
+  inherited DBGrid2Excel: TDBGrid2Excel
+    WorksheetName = 'FOLHA'
+    OriginalHeaderColor = False
+    OriginalDetailColor = False
+    DetailBorderStyle = BorderStyleNone
+  end
+  object eva: TUniQuery
+    SQL.Strings = (
+      'DROP TEMPORARY TABLE IF EXISTS trfh;'
+      ''
+      'CREATE TEMPORARY TABLE trfh ('
+      '  etdcodigo int(11) DEFAULT NULL,'
+      '  evfcodigo varchar(50) DEFAULT NULL,'
+      '  evahistorico varchar(5000) DEFAULT NULL,'
+      '  fclcodigo varchar(50) DEFAULT NULL,'
+      '  evavalor decimal(10, 2) DEFAULT NULL,'
+      '  flhchave int(11) DEFAULT 0,'
+      '  cedcodigo int(1) DEFAULT 0,'
+      '  evfordem int(11) DEFAULT 0,'
+      '  rlichave int(11) DEFAULT 0,'
+      '  dtrdataadmissao date DEFAULT NULL,'
+      '  dtrnumeregistro varchar(15),'
+      '  anfidentificacao varchar(50) DEFAULT NULL,'
+      '  pfhsemanal int DEFAULT 0,'
+      '  pfhmensal int DEFAULT 0,'
+      '  evasalariobase decimal(10, 2) DEFAULT 0,'
+      '  evatitulacao decimal(10, 2) DEFAULT 0,'
+      '  evadsrhorasaula decimal(10, 2) DEFAULT 0,'
+      '  evaquinquenio decimal(10, 2) DEFAULT 0,'
+      '  vhfcodigo  varchar(50) DEFAULT NULL,'
+      '  evachave varchar(50) DEFAULT NULL'
+      ')'
+      'ENGINE = INNODB'
+      'AVG_ROW_LENGTH = 1365'
+      'CHARACTER SET latin1'
+      'COLLATE latin1_swedish_ci;'
+      ''
+      'DELETE'
+      '  FROM trfh;'
+      ''
+      'INSERT INTO trfh'
+      '  (SELECT'
+      '    eva.etdcodigo,'
+      '    eva.evfcodigo,'
+      '    CONCAT((SELECT'
+      '        evfidentificacao'
+      '      FROM evf'
+      
+        '      WHERE evf.evfcodigo = eva.evfcodigo), '#39' '#39', evahistorico) e' +
+        'vahistorico,'
+      '    (SELECT'
+      '        fclcodigo'
+      '      FROM vhf v'
+      '      WHERE v.vhfcodigo = eva.vhfcodigo) fclcodigo,'
+      '    SUM(evavalor) evavalor,'
+      '    eva.flhchave,'
+      '    (SELECT'
+      '        cedcodigo'
+      '      FROM evf'
+      '      WHERE evf.evfcodigo = eva.evfcodigo) cedcodigo,'
+      '    (SELECT'
+      '        evfordem'
+      '      FROM evf'
+      '      WHERE evf.evfcodigo = eva.evfcodigo) evfordem,'
+      '    IFNULL((SELECT'
+      '        rlichave'
+      '      FROM rli'
+      '      WHERE rli.etdcodigo = eva.etdcodigo'
+      '      ORDER BY rlichave DESC LIMIT 1), 0) rlichave,'
+      '    (SELECT'
+      '        dtrdataadmissao'
+      '      FROM dtr'
+      '      WHERE dtr.etdcodigo = eva.etdcodigo) dtrdataadmissao,'
+      '    (SELECT'
+      '        dtrnumeregistro'
+      '      FROM dtr'
+      '      WHERE dtr.etdcodigo = eva.etdcodigo) dtrnumeregistro,'
+      '    (SELECT'
+      '        anfidentificacao'
+      '      FROM vhf,'
+      '           anf'
+      '      WHERE vhf.anfcodigo = anf.anfcodigo'
+      '      AND vhf.etdcodigo = eva.etdcodigo'
+      '      AND vhf.fclcodigo = fclcodigo LIMIT 1) anfidentificacao,'
+      '    (SELECT'
+      
+        '        IF(fcl.tthcodigo = 14, pfhhoras, pfhhoras / 5) pfhsemana' +
+        'l'
+      '      FROM pfh,'
+      '           vhf,'
+      '           fcl'
+      '      WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '      AND flhchave = :flhchave'
+      '      AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '      AND pfh.vhfcodigo = eva.vhfcodigo) pfhsemanal,'
+      '    (SELECT'
+      
+        '        IF(fcl.tthcodigo = 15, pfhhoras, pfhhoras * 4.5) pfhmens' +
+        'al'
+      '      FROM pfh,'
+      '           vhf,'
+      '           fcl'
+      '      WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '      AND flhchave = :flhchave'
+      '      AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '      AND pfh.vhfcodigo = eva.vhfcodigo) pfhmensal,'
+      '    ((SELECT'
+      '        IF(fcl.tthcodigo = 15, pfhhoras, pfhhoras) pfhmensal'
+      '      FROM pfh,'
+      '           vhf,'
+      '           fcl'
+      '      WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '      AND flhchave = :flhchave'
+      '      AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '      AND pfh.vhfcodigo = eva.vhfcodigo) * ((valorhora((SELECT'
+      '        tthcodigo'
+      '      FROM vhf v,'
+      '           fcl f'
+      '      WHERE v.fclcodigo = f.fclcodigo'
+      
+        '      AND v.vhfcodigo = eva.vhfcodigo), :FlhChave, eva.vhfcodigo' +
+        ')))) evasalariobase,'
+      '    (SELECT'
+      '        evavalor'
+      '      FROM eva e'
+      '      WHERE e.vhfcodigo = eva.vhfcodigo'
+      '      AND e.flhchave = :flhchave'
+      '      AND e.evfcodigo IN (SELECT DISTINCT'
+      '          evfcodigo'
+      '        FROM anf)) evatitulacao,'
+      '    (((SELECT'
+      '        IF(fcl.tthcodigo = 15, 0, pfhhoras) pfhmensal'
+      '      FROM pfh,'
+      '           vhf,'
+      '           fcl'
+      '      WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '      AND flhchave = :flhchave'
+      '      AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '      AND pfh.vhfcodigo = eva.vhfcodigo) * ((valorhora((SELECT'
+      '        tthcodigo'
+      '      FROM vhf v,'
+      '           fcl f'
+      '      WHERE v.fclcodigo = f.fclcodigo'
+      
+        '      AND v.vhfcodigo = eva.vhfcodigo), :FlhChave, eva.vhfcodigo' +
+        ')))) / 6) evadsrhorasaula,'
+      ''
+      ''
+      ''
+      '    (((valorhora((SELECT'
+      '        tthcodigo'
+      '      FROM vhf v,'
+      '           fcl f'
+      '      WHERE v.fclcodigo = f.fclcodigo'
+      
+        '      AND v.vhfcodigo = eva.vhfcodigo), :flhchave, eva.vhfcodigo' +
+        '))) * ((SELECT'
+      '          IF(fcl.tthcodigo = 15, pfhhoras, pfhhoras) pfhmensal'
+      '        FROM pfh,'
+      '             vhf,'
+      '             fcl'
+      '        WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '        AND flhchave = :flhchave'
+      '        AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '        AND pfh.vhfcodigo = eva.vhfcodigo)) + (((SELECT'
+      '        IF(fcl.tthcodigo = 15, 0, pfhhoras) pfhmensal'
+      '      FROM pfh,'
+      '           vhf,'
+      '           fcl'
+      '      WHERE vhf.fclcodigo = fcl.fclcodigo'
+      '      AND flhchave = :flhchave'
+      '      AND pfh.vhfcodigo = vhf.vhfcodigo'
+      '      AND pfh.vhfcodigo = eva.vhfcodigo) * ((valorhora((SELECT'
+      '        tthcodigo'
+      '      FROM vhf v,'
+      '           fcl f'
+      '      WHERE v.fclcodigo = f.fclcodigo'
+      
+        '      AND v.vhfcodigo = eva.vhfcodigo), :FlhChave, eva.vhfcodigo' +
+        ')))) / 6))'
+      ''
+      '    * ((SELECT'
+      '        atspercentual'
+      '      FROM ats'
+      '      WHERE (PERIOD_DIFF(DATE_FORMAT((SELECT'
+      '          flhdtfinal'
+      '        FROM flh'
+      
+        '        WHERE flhchave = :flhchave), '#39'%Y%m'#39'), DATE_FORMAT((SELEC' +
+        'T'
+      '          dtr.dtrdataadmissao'
+      '        FROM dtr'
+      
+        '        WHERE etdcodigo = eva.etdcodigo), '#39'%Y%m'#39')) BETWEEN atsme' +
+        'sesinicial AND atsmeses)) / 100) evaquinquenio,'
+      '    eva.vhfcodigo,'
+      '    eva.evachave'
+      ''
+      ''
+      ''
+      '  FROM eva, vhf '
+      '  WHERE eva.flhchave = :flhchave'
+      
+        '    AND eva.vhfcodigo=vhf.vhfcodigo -- and vhf.vhfdatafinal IS n' +
+        'ull'
+      '  GROUP BY etdcodigo,'
+      '           IF(evahistorico <> '#39#39', evahistorico, (SELECT'
+      '               evfidentificacao'
+      '             FROM evf'
+      '             WHERE evfcodigo = eva.evfcodigo))'
+      '  ORDER BY evfordem, cedcodigo DESC);'
+      ''
+      ''
+      ''
+      
+        'SET SESSION group_concat_max_len = 15000000; -- replace value wi' +
+        'th an int'
+      ''
+      'SET @sql = NULL;'
+      'SELECT'
+      
+        '  GROUP_CONCAT(DISTINCT CONCAT('#39'GROUP_CONCAT((CASE evfcodigo whe' +
+        'n '#39', evfcodigo, '#39' then evavalor  else NULL END)) AS '#39#39#39', CONCAT(' +
+        '(SELECT'
+      '      evfcodigo'
+      '    FROM evf'
+      
+        '    WHERE evf.evfcodigo = trfh.evfcodigo), '#39' '#39'), '#39#39#39#39')) INTO @sq' +
+        'l'
+      'FROM trfh;'
+      ''
+      ''
+      
+        'SET @sql = CONCAT('#39'SELECT trfh.flhchave, (select flhidentificaca' +
+        'o from flh where flh.flhchave=trfh.flhchave  ) flhidentificacao,' +
+        ' trfh.etdcodigo,etdidentificacao , (select fclidentificacao from' +
+        ' fcl f where   f.fclcodigo=(SELECT fclcodigo FROM vhf  WHERE vhf' +
+        '.vhfcodigo=trfh.vhfcodigo ORDER BY vhfcodigo desc limit 1 )) fcl' +
+        'identificacao, (select tloidentificacao from fcl f, tlo t WHERE ' +
+        'f.tlocodigo=t.tlocodigo  and f.fclcodigo=(SELECT fclcodigo FROM ' +
+        'vhf  WHERE vhf.etdcodigo=trfh.etdcodigo ORDER BY vhfcodigo desc ' +
+        'limit 1 )) tloidentificacao ,fclcodigo,  (select fclcor from fcl' +
+        ' f  WHERE  f.fclcodigo=(SELECT fclcodigo FROM vhf  WHERE vhf.etd' +
+        'codigo=trfh.etdcodigo ORDER BY vhfcodigo desc limit 1 )) fclcor ' +
+        '   ,  trfh.rlichave ,trfh.dtrdataadmissao, trfh.dtrnumeregistro ' +
+        ', trfh.anfidentificacao  , trfh.pfhsemanal,trfh.pfhmensal , trfh' +
+        '.evasalariobase, trfh.evatitulacao,trfh.evadsrhorasaula,evaquinq' +
+        'uenio, vhfcodigo ,evachave  , '#39', @sql, '#39'  FROM trfh,etd where tr' +
+        'fh.etdcodigo=etd.etdcodigo  GROUP BY etdcodigo,concat(evfcodigo,' +
+        'fclcodigo,evahistorico) ORDER BY etdidentificacao, fclcodigo des' +
+        'c  '#39');'
+      ''
+      'PREPARE stmt FROM @sql;'
+      'EXECUTE stmt;'
+      'DEALLOCATE PREPARE stmt;'
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      '')
+    Left = 792
+    Top = 421
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+  end
+  object trfh: TVirtualTable
+    Left = 886
+    Top = 413
+    Data = {04000000000000000000}
+  end
+  object Drfh: TDataSource
+    DataSet = trfh
+    Left = 904
+    Top = 429
+  end
+  object flh: TUniQuery
+    SQL.Strings = (
+      
+        'select flhchave, flhmes, flhano from flh where flhchave=:flhchav' +
+        'e')
+    Left = 752
+    Top = 485
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object flhflhano: TStringField
+      FieldName = 'flhano'
+      Size = 5
+    end
+    object flhflhmes: TStringField
+      FieldName = 'flhmes'
+      Size = 5
+    end
+    object flhflhchave: TIntegerField
+      FieldName = 'flhchave'
+    end
+  end
+  object rfh: TUniQuery
+    Left = 608
+    Top = 469
+  end
+  object fcl: TUniQuery
+    SQL.Strings = (
+      'select fclcodigo, fclcor from fcl')
+    Left = 912
+    Top = 269
+    object fclfclcodigo: TIntegerField
+      FieldName = 'fclcodigo'
+    end
+    object fclfclcor: TStringField
+      FieldName = 'fclcor'
+      Size = 50
+    end
+  end
+  object gfc: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  gfc.gfcidentificacao,'
+      '  gfc.gfccor,'
+      '  gfc.gfccortitulo,'
+      '  tlo.tloidentificacao,'
+      '  fcl.fclidentificacao,'
+      '  gfc.gfcobservacao,'
+      '  fcl.fclvalorbase'
+      'FROM fcl'
+      '  INNER JOIN gfc'
+      '    ON fcl.gfccodigo = gfc.gfccodigo'
+      '  inner JOIN tlo'
+      '    ON fcl.tlocodigo = tlo.tlocodigo'
+      'ORDER BY tlo.tloidentificacao DESC, gfc.gfcidentificacao')
+    Left = 184
+    Top = 396
+    object gfcgfcidentificacao: TStringField
+      FieldName = 'gfcidentificacao'
+      Size = 30
+    end
+    object gfcgfccor: TStringField
+      FieldName = 'gfccor'
+      Size = 50
+    end
+    object gfctloidentificacao: TStringField
+      FieldName = 'tloidentificacao'
+      Size = 50
+    end
+    object gfcfclidentificacao: TStringField
+      FieldName = 'fclidentificacao'
+      Size = 50
+    end
+    object gfcgfcobservacao: TStringField
+      FieldName = 'gfcobservacao'
+      Size = 50
+    end
+    object gfcfclvalorbase: TFloatField
+      FieldName = 'fclvalorbase'
+    end
+    object gfcgfccortitulo: TStringField
+      FieldName = 'gfccortitulo'
+      Size = 10
+    end
+  end
+  object ats: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  atsidentificacao,'
+      '  atspercentual,'
+      '  atscor,'
+      '  atscortitulo'
+      'FROM ats where atspercentual>0 and atsmeses<=99999'
+      'order by atspercentual')
+    Left = 632
+    Top = 532
+    object atsatsidentificacao: TStringField
+      FieldName = 'atsidentificacao'
+      Size = 50
+    end
+    object atsatspercentual: TFloatField
+      FieldName = 'atspercentual'
+    end
+    object atsatscor: TStringField
+      FieldName = 'atscor'
+      Size = 10
+    end
+    object atsatscortitulo: TStringField
+      FieldName = 'atscortitulo'
+      Size = 10
+    end
+  end
+  object anf: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  anfidentificacao,'
+      '  anfpercentual,'
+      '  anfcor,'
+      '  anfcortitulo'
+      'FROM anf where anfpercentual>0'
+      'order by anfpercentual')
+    Left = 672
+    Top = 532
+    object anfanfidentificacao: TStringField
+      FieldName = 'anfidentificacao'
+      Size = 50
+    end
+    object anfanfpercentual: TFloatField
+      FieldName = 'anfpercentual'
+    end
+    object anfanfcor: TStringField
+      FieldName = 'anfcor'
+      Size = 10
+    end
+    object anfanfcortitulo: TStringField
+      FieldName = 'anfcortitulo'
+      Size = 10
+    end
+  end
+  object ofh: TUniQuery
+    SQL.Strings = (
+      'select ofhobservacao, ofhcor from ofh where flhchave=:flhchave')
+    Left = 728
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object ofhofhobservacao: TStringField
+      FieldName = 'ofhobservacao'
+      Size = 500
+    end
+    object ofhofhcor: TStringField
+      FieldName = 'ofhcor'
+      Size = 10
+    end
+  end
+  object ata: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ttaidentificacao,'
+      '  ata.vhfcodigo,'
+      '  SUM(atahoras) atahoras ,'
+      ' SUM( ((valorhora((SELECT'
+      '      tthcodigo'
+      '    FROM vhf v,'
+      '         fcl f'
+      '    WHERE v.fclcodigo = f.fclcodigo'
+      
+        '    AND v.vhfcodigo = ata.vhfcodigo), :flhchave, ata.vhfcodigo))' +
+        ' / 4.5))'
+      ''
+      ''
+      ' atavalorhora'
+      'FROM ata,'
+      '     tta,'
+      '     vhf'
+      'WHERE ata.ttacodigo = tta.ttacodigo'
+      'AND ata.vhfcodigo=vhf.vhfcodigo'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND vhf.fclcodigo = :fclcodigo'
+      'AND ata.ttacodigo = :ttacodigo'
+      ''
+      '  GROUP BY ttaidentificacao')
+    Left = 224
+    Top = 537
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ttacodigo'
+        Value = nil
+      end>
+  end
+  object titata: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ata.ttacodigo,'
+      '  ttaidentificacao'
+      'FROM ata,'
+      '     tta'
+      'WHERE ata.ttacodigo = tta.ttacodigo'
+      'AND flhchave = :flhchave'
+      'GROUP BY ttaidentificacao'
+      'ORDER BY ttaidentificacao;'
+      '')
+    Left = 224
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titatattacodigo: TIntegerField
+      FieldName = 'ttacodigo'
+    end
+    object titatattaidentificacao: TStringField
+      FieldName = 'ttaidentificacao'
+      Size = 50
+    end
+  end
+  object titehf: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ehf.tthcodigo,'
+      '  tthidentificacao'
+      'FROM ehf,'
+      '     tth,'
+      '     evf'
+      'WHERE tth.evfcodigo = evf.evfcodigo'
+      'AND ehf.tthcodigo = tth.tthcodigo'
+      'AND flhchave = :flhchave'
+      'AND evf.cedcodigo = 1'
+      'GROUP BY tthidentificacao'
+      'ORDER BY tthidentificacao;')
+    Left = 192
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titehftthcodigo: TIntegerField
+      FieldName = 'tthcodigo'
+    end
+    object titehftthidentificacao: TStringField
+      FieldName = 'tthidentificacao'
+      Size = 50
+    end
+  end
+  object ehf: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ehfchave,'
+      '  tthidentificacao,'
+      '  ehf.vhfcodigo,'
+      '  ehfhoras,'
+      ''
+      ' (TIME_TO_SEC(ehfhoras) / 3600) * (('
+      '  ((valorhora((SELECT'
+      '      tthcodigo'
+      '    FROM vhf v,'
+      '         fcl f'
+      '    WHERE v.fclcodigo = f.fclcodigo'
+      
+        '    AND ehf.vhfcodigo = v.vhfcodigo), :flhchave, ehf.vhfcodigo))' +
+        ' /'
+      '  IF((SELECT'
+      '      vhfvalor'
+      '    FROM vhf v,'
+      '         pfh p,'
+      '         fcl f'
+      '    WHERE f.fclcodigo = v.fclcodigo'
+      '    AND v.vhfcodigo = p.vhfcodigo'
+      '    AND p.flhchave = :flhchave'
+      '    AND v.vhfcodigo = vhf.vhfcodigo) = 0, 4.5, 1)'
+      ''
+      '  )'
+      ''
+      '  * (IF(tthsomar = 1, 1, 0) + (SELECT'
+      '      tthpercentual'
+      '    FROM tth'
+      '    WHERE tthcodigo = ehf.tthcodigo) / 100))'
+      ''
+      '  )'
+      '  '
+      '  ehfvalorhora'
+      ''
+      ''
+      'FROM ehf,'
+      '     tth,'
+      '     vhf,'
+      '     evf'
+      'WHERE ehf.tthcodigo = tth.tthcodigo'
+      'and tth.evfcodigo=evf.evfcodigo'
+      'AND evf.cedcodigo=1'
+      'AND ehf.vhfcodigo=vhf.vhfcodigo'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND vhf.fclcodigo = :fclcodigo'
+      'AND ehf.tthcodigo = :tthcodigo'
+      'order by tth.tthidentificacao'
+      '')
+    Left = 192
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tthcodigo'
+        Value = nil
+      end>
+  end
+  object titmja: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '   mja.tjacodigo,'
+      '  tjaidentificacao'
+      'FROM mja,'
+      '     tja'
+      'WHERE mja.tjacodigo = tja.tjacodigo'
+      'AND flhchave = :flhchave'
+      'GROUP BY tjaidentificacao'
+      'ORDER BY tjaidentificacao;')
+    Left = 264
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titmjatjacodigo: TIntegerField
+      FieldName = 'tjacodigo'
+    end
+    object titmjatjaidentificacao: TStringField
+      FieldName = 'tjaidentificacao'
+      Size = 50
+    end
+  end
+  object mja: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mja.tjacodigo,'
+      '  tja.tjaidentificacao,'
+      ' '
+      '  SUM(mjatotal) mjavalor'
+      ''
+      'FROM mja,'
+      '     tja'
+      '     '
+      'WHERE '
+      ' tja.tjacodigo=mja.tjacodigo'
+      'AND flhchave = :flhchave'
+      'AND mja.etdcodigo = :etdcodigo'
+      'and mja.tjacodigo = :tjacodigo'
+      'and mja.fclcodigo = :fclcodigo'
+      ''
+      'group by tjaidentificacao, etdcodigo'
+      'order by  tjaidentificacao, etdcodigo')
+    Left = 264
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tjacodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object titscl: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  1 tsccodigo,'
+      '  '#39'SUBSTITUI'#199#213'ES'#39' tscidentificacao'
+      'FROM scl'
+      'WHERE scl.flhchave = :flhchave'
+      '  GROUP BY  scl.flhchave')
+    Left = 304
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titscltsccodigo: TIntegerField
+      FieldName = 'tsccodigo'
+    end
+    object titscltscidentificacao: TStringField
+      FieldName = 'tscidentificacao'
+      Size = 50
+    end
+  end
+  object scl: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '   1 tsccodigo,'
+      '  '#39'SUBSTITUI'#199#213'ES'#39' tscidentificacao,'
+      '   sum(sclhoras) sclhoras,'
+      
+        '   (SELECT evavalor FROM eva WHERE eva.flhchave=:flhchave and ev' +
+        'a.vhfcodigo=scl.vhfsubstituto AND eva.vhfcodigo=scl.vhfsubstitut' +
+        'o AND eva.evfcodigo=39 ) sclvalor'
+      'FROM scl,vhf'
+      'WHERE '
+      ' '
+      ' flhchave = :flhchave'
+      'AND  scl.vhfsubstituto = vhf.vhfcodigo'
+      'and  vhf.etdcodigo=:etdcodigo'
+      'and  vhf.fclcodigo=:fclcodigo'
+      'GROUP BY tscidentificacao'
+      'ORDER BY tscidentificacao')
+    Left = 304
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object titehfd: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ehf.tthcodigo,'
+      '  tthidentificacao'
+      'FROM ehf,'
+      '     tth,'
+      '     evf'
+      'WHERE tth.evfcodigo = evf.evfcodigo'
+      'AND ehf.tthcodigo = tth.tthcodigo'
+      'AND flhchave = :flhchave'
+      'AND evf.cedcodigo = 0'
+      'GROUP BY tthidentificacao'
+      'ORDER BY tthidentificacao;'
+      '')
+    Left = 384
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titehfdtthcodigo: TIntegerField
+      FieldName = 'tthcodigo'
+    end
+    object StringField1: TStringField
+      FieldName = 'tthidentificacao'
+      Size = 50
+    end
+  end
+  object ehfd: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ehfchave,'
+      '  tthidentificacao,'
+      '  ehf.vhfcodigo,'
+      '  ehfhoras,'
+      ''
+      ' (TIME_TO_SEC(ehfhoras) / 3600) * (('
+      '  ((valorhora((SELECT'
+      '      tthcodigo'
+      '    FROM vhf v,'
+      '         fcl f'
+      '    WHERE v.fclcodigo = f.fclcodigo'
+      
+        '    AND ehf.vhfcodigo = v.vhfcodigo), :flhchave, ehf.vhfcodigo))' +
+        ' /'
+      '  IF((SELECT'
+      '      vhfvalor'
+      '    FROM vhf v,'
+      '         pfh p,'
+      '         fcl f'
+      '    WHERE f.fclcodigo = v.fclcodigo'
+      '    AND v.vhfcodigo = p.vhfcodigo'
+      '    AND p.flhchave = :flhchave'
+      '    AND v.vhfcodigo = vhf.vhfcodigo) = 0, 4.5, 1)'
+      ''
+      '  )'
+      ''
+      '  * (IF(tthsomar = 1, 1, 0) + (SELECT'
+      '      tthpercentual'
+      '    FROM tth'
+      '    WHERE tthcodigo = ehf.tthcodigo) / 100))'
+      ''
+      '  )'
+      '  '
+      '  ehfvalor'
+      ''
+      'FROM ehf,'
+      '     tth,'
+      '     vhf,'
+      '     evf'
+      'WHERE ehf.tthcodigo = tth.tthcodigo'
+      'and tth.evfcodigo=evf.evfcodigo'
+      'AND evf.cedcodigo=0'
+      'AND ehf.vhfcodigo=vhf.vhfcodigo'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND vhf.fclcodigo = :fclcodigo'
+      'order by tth.tthidentificacao'
+      '')
+    Left = 392
+    Top = 532
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object titevad: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  evf.evfcodigo,'
+      '  evfidentificacao'
+      'FROM eva,'
+      '     evf'
+      'WHERE evf.cedcodigo = 0'
+      'AND eva.tevcodigo in (1, 2)'
+      'AND evf.evfcodigo = eva.evfcodigo'
+      'AND flhchave = :flhchave'
+      'GROUP BY evfidentificacao'
+      'ORDER BY evfidentificacao;')
+    Left = 344
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titevadevfcodigo: TIntegerField
+      FieldName = 'evfcodigo'
+    end
+    object titevadevfidentificacao: TStringField
+      FieldName = 'evfidentificacao'
+      Size = 50
+    end
+  end
+  object evad: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  evfidentificacao,'
+      '  sum(evavalor) evavalor'
+      'FROM eva,'
+      '     evf,'
+      '     vhf'
+      'WHERE eva.vhfcodigo = vhf.vhfcodigo'
+      'AND eva.tevcodigo IN (1,2)'
+      'AND evf.evfcodigo = eva.evfcodigo'
+      'AND evf.cedcodigo = 0'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND eva.evfcodigo = :evfcodigo'
+      'AND (eva.fclcodigo = :fclcodigo)'
+      'group by vhf.vhfcodigo,evfidentificacao'
+      '')
+    Left = 344
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'evfcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object titins: TUniQuery
+    SQL.Strings = (
+      'select '#39'INSS'#39' tinidentificacao')
+    Left = 456
+    Top = 468
+    object titinstinidentificacao: TStringField
+      FieldName = 'tinidentificacao'
+      Size = 50
+    end
+  end
+  object ins: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT '#39'INSS'#39' tinidentificacao, evavalor FROM eva,vhf WHERE eva.' +
+        'vhfcodigo=vhf.vhfcodigo and  eva.evfcodigo=50 AND flhchave=:flhc' +
+        'have and vhf.etdcodigo=:etdcodigo and vhf.fclcodigo=:fclcodigo')
+    Left = 464
+    Top = 524
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object tli: TUniQuery
+    SQL.Strings = (
+      'select * from tli order by tliidentificacao')
+    Left = 600
+    Top = 524
+    object tlitliidentificacao: TStringField
+      FieldName = 'tliidentificacao'
+      Size = 50
+    end
+    object tlitlicor: TStringField
+      FieldName = 'tlicor'
+      Size = 50
+    end
+  end
+  object titirp: TUniQuery
+    SQL.Strings = (
+      'select '#39'IRPF'#39' tiridentificacao')
+    Left = 560
+    Top = 468
+    object titirptiridentificacao: TStringField
+      FieldName = 'tiridentificacao'
+      Size = 50
+    end
+  end
+  object irp: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT '#39'IRPF'#39' tiridentificacao, evavalor FROM eva,vhf WHERE eva.' +
+        'vhfcodigo=vhf.vhfcodigo and  eva.evfcodigo=51 AND flhchave=:flhc' +
+        'have and vhf.etdcodigo=:etdcodigo and vhf.fclcodigo=:fclcodigo')
+    Left = 560
+    Top = 524
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object tittco: TUniQuery
+    SQL.Strings = (
+      'select '#39'TRABALHOS DE CONCLUS'#195'O'#39' ttbidentificacao ')
+    Left = 520
+    Top = 468
+    object tittcottbidentificacao: TStringField
+      FieldName = 'ttbidentificacao'
+      Size = 50
+    end
+  end
+  object tco: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  evfidentificacao ttbidentificacao,'
+      '  evavalor tcovalor,'
+      '  evabase tcohoras'
+      'FROM eva,'
+      '     evf,'
+      '     vhf'
+      'WHERE eva.vhfcodigo = vhf.vhfcodigo'
+      'AND evf.evfcodigo = eva.evfcodigo'
+      'AND evf.evfcodigo=9'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND vhf.fclcodigo = :fclcodigo')
+    Left = 520
+    Top = 524
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object titevac: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  evf.evfcodigo,  '
+      'evfidentificacao'
+      'FROM eva,'
+      '     evf'
+      'WHERE  evf.cedcodigo = 1'
+      'AND flhchave = :flhchave'
+      'AND eva.tevcodigo in (1, 2)'
+      'AND evf.evfcodigo = eva.evfcodigo'
+      '  GROUP BY evfidentificacao'
+      '')
+    Left = 152
+    Top = 460
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end>
+    object titevacevfcodigo: TIntegerField
+      FieldName = 'evfcodigo'
+    end
+    object titevacevfidentificacao: TStringField
+      FieldName = 'evfidentificacao'
+      Size = 50
+    end
+  end
+  object evac: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  evfidentificacao,'
+      '  sum(evavalor) evavalor'
+      'FROM eva,'
+      '     evf,'
+      '     vhf'
+      'WHERE eva.vhfcodigo = vhf.vhfcodigo'
+      'AND eva.tevcodigo IN (1,2)'
+      'AND evf.evfcodigo = eva.evfcodigo'
+      'AND evf.cedcodigo = 1'
+      'AND flhchave = :flhchave'
+      'AND vhf.etdcodigo = :etdcodigo'
+      'AND eva.evfcodigo = :evfcodigo'
+      'AND (eva.fclcodigo = :fclcodigo)'
+      'group by evfidentificacao')
+    Left = 152
+    Top = 540
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'evfcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object dsr: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  SUM(evavalor) outrosdsr'
+      'FROM eva,'
+      '     evf,'
+      '     fcl'
+      'WHERE (evf.evfcodigo <> 49'
+      'AND evf.evfcodigo <> 25)'
+      'AND eva.evfcodigo = evf.evfcodigo'
+      'AND evahistorico LIKE '#39'%DSR%'#39
+      'AND flhchave = :flhchave'
+      'AND etdcodigo = :etdcodigo'
+      'AND evf.cedcodigo = 1'
+      'AND eva.fclcodigo=fcl.fclcodigo'
+      'AND fcl.fclpagadsr =1'
+      'AND eva.fclcodigo = :fclcodigo'
+      ''
+      ''
+      
+        '/* SELECT SUM(evavalor) outrosdsr  FROM eva,evf  WHERE (evf.evfc' +
+        'odigo<>49 and evf.evfcodigo<>25  )  and eva.evfcodigo=evf.evfcod' +
+        'igo and evahistorico LIKE '#39'%DSR%'#39' AND flhchave=:flhchave AND etd' +
+        'codigo=:etdcodigo AND evf.cedcodigo=1 AND fclcodigo=:fclcodigo *' +
+        '/')
+    Left = 616
+    Top = 365
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flhchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fclcodigo'
+        Value = nil
+      end>
+  end
+  object qpagadsr: TUniQuery
+    Left = 992
+    Top = 524
+  end
+  object evavhf: TUniQuery
+    Left = 888
+    Top = 516
+  end
+  object vhfeva: TUniQuery
+    Left = 832
+    Top = 516
+  end
+end

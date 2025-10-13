@@ -1,0 +1,125 @@
+unit ufraefi;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, VirtualTable, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, Vcl.Dialogs, uPegaBase, Vcl.Mask, Vcl.DBCtrls, Vcl.Graphics,
+  System.ImageList, Vcl.ImgList, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
+
+type
+  Tfraefi = class(Tfrabase)
+    uqtabelaefichave: TIntegerField;
+    uqtabelaevfcodigo: TIntegerField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaefidtinicial: TDateField;
+    uqtabelaefidtfinal: TDateField;
+    uqtabelaefivalor: TFloatField;
+    uqtabelaclbcodigo: TIntegerField;
+    uqtabelaeficriacao: TDateTimeField;
+    uqtabelaevfidentificacao: TStringField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelaphgidentificacao: TStringField;
+    uqtabelatflcodigo: TIntegerField;
+    uqtabelatflidentificacao: TStringField;
+    eva: TUniQuery;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActExcluirExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fraefi: Tfraefi;
+
+  // Início ID do Módulo fraefi
+const
+  vPlIdMd = '02.12.90.002-01';
+  vPlTitMdl = 'Lançamento Fixos';
+
+  // Fim ID do Módulo fraefi
+
+implementation
+
+uses
+  ufefi;
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fraefi := Tfraefi.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fraefi := Tfraefi.Create(pCargaFrame);
+  try
+    fraefi.CriaAcoesDeAcesso;
+  finally
+    fraefi.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfraefi.ActAlterarExecute(Sender: TObject);
+begin
+  { consulta.Close;
+    consulta.SQL.Text := 'SELECT evfcodigo, eflcodigo FROM eva ';
+    consulta.SQL.Add('WHERE evfcodigo = ' + Self.uqtabelaevfcodigo.AsString);
+    consulta.SQL.Add('  AND etdcodigo = ' + Self.uqtabelaetdcodigo.AsString);
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+    begin
+    if not(consulta.FieldByName('eflcodigo').AsInteger in [1, 2]) then
+    begin
+    Application.MessageBox(PChar('Não é permitido Alterar Lançamento, pois a folha já foi Fechada ou Liquidada.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+    end;
+
+    showmessage('Não é permitido alterar eventos que já fazem parte de folha!');
+    end
+    else
+    begin }
+  CriaFormulario(Tfefi, uqtabelaefichave.AsString, '');
+  { end; }
+end;
+
+procedure Tfraefi.ActExcluirExecute(Sender: TObject);
+begin
+  eva.Close;
+  eva.SQL.Text := 'select evfcodigo, flh.eflcodigo from eva,flh WHERE tevcodigo=1 and etdcodigo='+uqtabelaetdcodigo.AsString+' and  eva.flhchave=flh.flhchave  and flh.eflcodigo in (3,4)   and evfcodigo=' + Self.uqtabelaevfcodigo.AsString;
+  eva.Open;
+
+  if eva.RecordCount = 0 then
+  begin
+    inherited;
+    ShowMessage('Favor recalcular (a)s folh(a)s em aberto !');
+
+  end
+  else
+  begin
+
+    Application.MessageBox(PChar('Não é permitido Alterar Lançamento, pois a folha já foi Fechada ou Liquidada.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+
+  end;
+
+end;
+
+procedure Tfraefi.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfefi, '', '');
+end;
+
+end.

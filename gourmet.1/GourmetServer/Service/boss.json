@@ -1,0 +1,20 @@
+{
+	"name": "GourmetServer",
+	"description": "",
+	"version": "1.0.0",
+	"homepage": "",
+	"mainsrc": "./",
+	"projects": [],
+	"dependencies": {
+		"github.com/hashload/handle-exception": "^0.1.4",
+		"github.com/hashload/horse": "^v2.0.14",
+		"github.com/hashload/horse-basic-auth": "^v1.1.5",
+		"github.com/hashload/horse-cors": "^1.0.3",
+		"github.com/hashload/horse-logger": "^2.0.2",
+		"github.com/hashload/horse-octet-stream": "^1.9.5",
+		"github.com/hashload/jhonson": "^1.1.2",
+		"https://github.com/bittencourtthulio/simpleorm": "^2.02.08",
+		"https://github.com/ezequieljuliano/datasetconverter4delphi": ">0.0.0",
+		"https://github.com/gabrielbaltazar/gbswagger": "^2.1.4"
+	}
+}

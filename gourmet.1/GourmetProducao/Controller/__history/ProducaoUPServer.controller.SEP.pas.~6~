@@ -1,0 +1,87 @@
+unit  ProducaoUPServer.controller.SEP;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  idHashMessageDigest,
+  ProducaoUPServer.Model.DAOGeneric,
+  ProducaoUPServer.model.entity.SEP;
+
+procedure Registry(App: THorse);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+type
+ TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+
+implementation
+
+
+procedure Registry(App: THorse);
+begin
+   App.Get('/v1/sep', V1Get);
+   App.Get('/v1/sep/:id', V1GetID);
+
+end;
+
+
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TSEP>;
+begin
+  FDAO := TDaogeneric<TSEP>.New;
+  FDAO.DAO.SQL.Where('sepcodigo='+Req.Params.Items['id']);
+  FDAO.DAO.SQL.&End;
+  FDAO.Find;
+
+  if not FDAO.DataSet.IsEmpty then
+  begin
+    Res.Send(FDAO.DataSetAsJsonObject);
+  end
+  else
+  begin
+    res.Status(204);
+  end;
+end;
+
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TSEP>;
+begin
+  FDAO := TDaogeneric<TSEP>.New;
+
+  FDAO
+    .DAO
+    .SQL
+      .Fields('sep.sepcodigo,  sep.sepidentificacao')
+      .Join('inner join tci on mit.mitcodigo = tci.mitcodigo inner join gri on tci.tcicodigo = gri.tcicodigo INNER JOIN sep on gri.sepcodigo = sep.sepcodigo')
+      .Where('gri.gricontrolaproducao = 1')
+      .OrderBy('sep.sepidentificacao')
+      .GroupBy('sep.sepidentificacao,sep.sepcodigo')
+     .&End
+   .Find;
+
+    if not FDAO.DataSet.IsEmpty then
+    begin
+     Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+    end
+    else
+    begin
+      res.Status(204);
+    end;
+end;
+
+
+
+end.
+

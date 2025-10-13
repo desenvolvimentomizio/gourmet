@@ -1,0 +1,65 @@
+unit ufRefeicao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TfRefeicao = class(TForm)
+    plformulario: TPanel;
+    plCentro: TPanel;
+    plTitulo: TPanel;
+    plModalidade: TLabel;
+    plvalor: TPanel;
+    ltprincipal: TLabel;
+    edValor: TEdit;
+    Panel2: TPanel;
+    btOK: TBitBtn;
+    btCancel: TBitBtn;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vpPodeFechar:Boolean;
+    vpLarguraTela:INteger;
+    vpAlturaTela:INteger;
+  end;
+
+var
+  fRefeicao: TfRefeicao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfRefeicao.FormShow(Sender: TObject);
+   vpPodeFechar:=False;
+  AjustaaoMonitor;
+end;
+
+
+procedure TfRefeicao.AjustaaoMonitor;
+begin
+
+  if vpLarguraTela = 0 then
+    vpLarguraTela := screen.Width;
+
+  if vpAlturaTela = 0 then
+    vpAlturaTela := screen.Height;
+
+  WindowState := wsMaximized;
+
+  scaled := True;
+   Height := Longint(Height) * Longint(screen.Height) DIV vpAlturaTela;
+   Width := Longint(Width) * Longint(screen.Width) DIV vpLarguraTela;
+    scaleBy(screen.Width, vpLarguraTela);
+
+  plCentro.left:=(vpLarguraTela div 2) - (plCentro.Width div 2);
+  plCentro.top:=(vpAlturaTela div 2) - (plCentro.Height div 2);
+
+end;
+
+end.

@@ -1,0 +1,214 @@
+unit ufcfgmgou;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls,
+  Vcl.Mask, Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes,
+  System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons,
+  Vcl.ComCtrls, uPegaBase, System.ImageList, System.SysUtils;
+
+type
+  Tfcfgmgou = class(Tfrmbase)
+    registrocfgcodigo: TIntegerField;
+    registrocfgmgouqtdmesas: TIntegerField;
+    registropropesado: TIntegerField;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    registropronome: TStringField;
+    Label1: TLabel;
+    cfgcodigo: TDBEdit;
+    Label2: TLabel;
+    cfgmgouqtdmesas: TDBEdit;
+    Label3: TLabel;
+    propesado: TDBEdit;
+    Delivery: TTabSheet;
+    registrocfgmgoupedidelivery: TIntegerField;
+    registrocfgmgoupedideliveryaux: TIntegerField;
+    sen: TUniQuery;
+    sensencodigo: TIntegerField;
+    sensenidentificacao: TStringField;
+    registrosenpedideliveriaux: TStringField;
+    Label4: TLabel;
+    cfgmgoupedideliveryaux: TDBEdit;
+    Label5: TLabel;
+    cfgmgoupedidelivery: TDBEdit;
+    cfgmgounumepedint: TDBEdit;
+    Label6: TLabel;
+    registrocfgmgounumepedint: TIntegerField;
+    registrocfgmgoupedidounificado: TIntegerField;
+    registrosencfgmgoupedidounificado: TStringField;
+    registrocfgmgoutaxaatendimento: TFloatField;
+    registrocfgmgoucobraentrega: TIntegerField;
+    registrosencfgmgoucobraentrega: TStringField;
+    Label8: TLabel;
+    cfgmgoutaxaatendimento: TDBEdit;
+    registrocfgmgouproatendimento: TIntegerField;
+    Label9: TLabel;
+    cfgmgoucobraentrega: TDBEdit;
+    registroprocfgmgouproatendimento: TStringField;
+    Label10: TLabel;
+    cfgmgouproatendimento: TDBEdit;
+    registrocfggouentregafutura: TIntegerField;
+    registrosencfggouentregafutura: TStringField;
+    Label11: TLabel;
+    cfggouentregafutura: TDBEdit;
+    registrocfgmgouprorefeicao: TIntegerField;
+    cfgmgouprorefeicao: TDBEdit;
+    Label12: TLabel;
+    registroprocfgmgouprorefeicao: TStringField;
+    registrocfgmgoutoerefeicao: TIntegerField;
+    Label13: TLabel;
+    cfgmgoutoerefeicao: TDBEdit;
+    toe: TUniQuery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    registrotoetoerefeicao: TStringField;
+    registrocfgmgoutoeforarefeicao: TIntegerField;
+    registrotoecfgmgoutoeforarefeicao: TStringField;
+    Label14: TLabel;
+    cfgmgoutoeforarefeicao: TDBEdit;
+    registrocfgmgourelentrecomple: TStringField;
+    registrocfgmgourelentreresumido: TStringField;
+    Label15: TLabel;
+    cfgmgourelentrecomple: TDBEdit;
+    Label16: TLabel;
+    cfgmgourelentreresumido: TDBEdit;
+    rel: TUniQuery;
+    relrelcodigo: TStringField;
+    relreltitulo: TStringField;
+    registrorelcfgmgourelentrecomple: TStringField;
+    registrorelcfgmgourelentreresumido: TStringField;
+    registrocfgmgouttulocomposicao: TStringField;
+    registrocfgmgouproatendimentoparcial: TIntegerField;
+    registroprocfgmgouproatendimentoparcial: TStringField;
+    cfgmgouproatendimentoparcial: TDBEdit;
+    Label18: TLabel;
+    registrocfgmgouhoravirada: TTimeField;
+    Label19: TLabel;
+    cfgmgouhoravirada: TDBEdit;
+    registrocfgmgouviasorc: TIntegerField;
+    registrocfgmgouviasorcdelivery: TIntegerField;
+    Label7: TLabel;
+    cfgmgouviasorc: TDBEdit;
+    Label17: TLabel;
+    cfgmgouviasorcdelivery: TDBEdit;
+    registrocfgmgounomelocal: TStringField;
+    Label20: TLabel;
+    cfgmgounomelocal: TDBComboBox;
+    registrocfgmgoufinalizadelivery: TIntegerField;
+    registrosencfgmgoufinalizadelivery: TStringField;
+    Label21: TLabel;
+    cfgmgoufinalizadelivery: TDBEdit;
+    registrocfgmgouctadelivery: TIntegerField;
+    cta: TUniQuery;
+    ctactacodigo: TIntegerField;
+    ctactaidentificacao: TStringField;
+    registroctaidentificacao: TStringField;
+    Label22: TLabel;
+    cfgmgouctadelivery: TDBEdit;
+    registrocfgmgoutempoatuentrega1: TIntegerField;
+    registrocfgmgoutempoatuentrega2: TIntegerField;
+    registrocfgmgouatualizaentrega: TIntegerField;
+    registrocfgmgoutempoatuproducao: TIntegerField;
+    registrocfgmgouatualizaproducao: TIntegerField;
+    Label23: TLabel;
+    cfgmgoutempoatuentrega1: TDBEdit;
+    Label24: TLabel;
+    cfgmgoutempoatuentrega2: TDBEdit;
+    registrosencfgmgouatualizaentrega: TStringField;
+    Label25: TLabel;
+    cfgmgouatualizaentrega: TDBEdit;
+    Label26: TLabel;
+    cfgmgoutempoatuproducao: TDBEdit;
+    registrosencfgmgouatualizaproducao: TStringField;
+    Label27: TLabel;
+    cfgmgouatualizaproducao: TDBEdit;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    registrocfgmgoutempoentrega: TIntegerField;
+    Label31: TLabel;
+    cfgmgoutempoentrega: TDBEdit;
+    Label32: TLabel;
+    registrocfgmgoucontrolaentrega: TIntegerField;
+    registrosencfgmgoucontrolaentrega: TStringField;
+    Label33: TLabel;
+    cfgmgoucontrolaentrega: TDBEdit;
+    registrocfgmgouretornartodos: TIntegerField;
+    registrosencfgmgouretornartodos: TStringField;
+    Label34: TLabel;
+    cfgmgouretornartodos: TDBEdit;
+    registrocfgmgoutokennuc: TStringField;
+    Integracoes: TTabSheet;
+    Label35: TLabel;
+    cfgmgoutokennuc: TDBEdit;
+    registrocfgmgousenhalojaaiq: TStringField;
+    registrocfgmgouemaillojaaiq: TStringField;
+    Label36: TLabel;
+    cfgmgousenhalojaaiq: TDBEdit;
+    Label37: TLabel;
+    cfgmgouemaillojaaiq: TDBEdit;
+    registrocfgmgoupedideliveryinicial: TIntegerField;
+    registrocfgmgoupadraovenda: TIntegerField;
+    cfgmgoupadraovenda: TDBRadioGroup;
+    procedure FormShow(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vpCfgCodigo: string;
+  end;
+
+var
+  fcfgmgou: Tfcfgmgou;
+
+  // Início ID do Módulo fcfgmgou
+const
+  vPlIdMd = '03.06.81.001-01';
+  vPlTitMdl = 'Configurações do Gourmet';
+
+  // Fim ID do Módulo fcfgmgou
+
+implementation
+
+{$R *.dfm}
+
+function formulario(pCargaFrame: TCargaFrame): string;
+begin
+  fcfgmgou := Tfcfgmgou.Create(pCargaFrame);
+  fcfgmgou.ShowModal;
+  fcfgmgou.Free;
+end;
+
+exports formulario;
+
+procedure Tfcfgmgou.bconfirmaClick(Sender: TObject);
+begin
+  registrocfgmgoupedideliveryinicial.AsInteger := registrocfgmgoupedidelivery.AsInteger;
+  registrosencfgmgoupedidounificado.AsInteger := 0;
+  inherited;
+
+end;
+
+procedure Tfcfgmgou.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+
+  vpCfgCodigo := vChaveMestre;
+
+  // CfgCodigo.Field.AsString := vChaveMestre;
+  registro.Params[0].AsString := vChaveMestre;
+
+  inherited;
+end;
+
+procedure Tfcfgmgou.registroAfterInsert(DataSet: TDataSet);
+begin
+  registrocfgcodigo.AsString := vpCfgCodigo;
+end;
+
+end.

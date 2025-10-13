@@ -1,0 +1,189 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 706
+  ClientWidth = 1035
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Memo1: TMemo
+    Left = 48
+    Top = 83
+    Width = 457
+    Height = 201
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 48
+    Top = 32
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Memo2: TMemo
+    Left = 48
+    Top = 296
+    Width = 457
+    Height = 169
+    Lines.Strings = (
+      'Memo2')
+    TabOrder = 2
+  end
+  object Edit1: TEdit
+    Left = 160
+    Top = 16
+    Width = 121
+    Height = 21
+    TabOrder = 3
+    Text = 'Edit1'
+  end
+  object Memo3: TMemo
+    Left = 40
+    Top = 481
+    Width = 457
+    Height = 89
+    Lines.Strings = (
+      'Memo3')
+    TabOrder = 4
+  end
+  object Memo5: TMemo
+    Left = 40
+    Top = 592
+    Width = 457
+    Height = 89
+    Lines.Strings = (
+      'Memo5')
+    TabOrder = 5
+  end
+  object Button2: TButton
+    Left = 528
+    Top = 81
+    Width = 137
+    Height = 25
+    Caption = '1 Gera e Envia'
+    TabOrder = 6
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 528
+    Top = 112
+    Width = 137
+    Height = 25
+    Caption = '2 - Cria assist'
+    TabOrder = 7
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 672
+    Top = 232
+    Width = 75
+    Height = 25
+    Caption = '3 Cria Thread'
+    TabOrder = 8
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 672
+    Top = 288
+    Width = 75
+    Height = 25
+    Caption = 'Roda Assistente'
+    TabOrder = 9
+    OnClick = Button5Click
+  end
+  object MemoPrompt: TMemo
+    Left = 538
+    Top = 368
+    Width = 185
+    Height = 89
+    TabOrder = 10
+  end
+  object Button6: TButton
+    Left = 528
+    Top = 479
+    Width = 195
+    Height = 25
+    Caption = 'Pergunte sobre produtos'
+    TabOrder = 11
+    OnClick = Button6Click
+  end
+  object MemoResposta: TMemo
+    Left = 552
+    Top = 528
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'MemoResposta')
+    TabOrder = 12
+  end
+  object Button7: TButton
+    Left = 680
+    Top = 112
+    Width = 75
+    Height = 25
+    Caption = 'Button7'
+    TabOrder = 13
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 688
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = 'Button8'
+    TabOrder = 14
+    OnClick = Button8Click
+  end
+  object Button9: TButton
+    Left = 840
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Button9'
+    TabOrder = 15
+    OnClick = Button9Click
+  end
+  object Button10: TButton
+    Left = 840
+    Top = 112
+    Width = 75
+    Height = 25
+    Caption = 'Button10'
+    TabOrder = 16
+    OnClick = Button10Click
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 560
+    Top = 192
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 544
+    Top = 144
+  end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Method = sslvTLSv1_2
+    SSLOptions.SSLVersions = [sslvTLSv1_2]
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 568
+    Top = 296
+  end
+end

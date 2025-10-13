@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.DecodeHintType" platform="Android">
+  <const name="OTHER" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="29">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'OTHER' -->
+    </devnotes>
+    <value>
+      OTHER
+    </value>
+  </const>
+  <const name="PURE_BARCODE" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="35">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'PURE_BARCODE' -->
+    </devnotes>
+    <value>
+      PURE_BARCODE
+    </value>
+  </const>
+  <const name="POSSIBLE_FORMATS" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="41">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'POSSIBLE_FORMATS' -->
+    </devnotes>
+    <value>
+      POSSIBLE_FORMATS
+    </value>
+  </const>
+  <const name="TRY_HARDER" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="47">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'TRY_HARDER' -->
+    </devnotes>
+    <value>
+      TRY_HARDER
+    </value>
+  </const>
+  <const name="CHARACTER_SET" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="52">
+    <devnotes>
+       <summary>
+       Specifies what character encoding to use when decoding, where applicable (type String)
+       </summary>
+    </devnotes>
+    <value>
+      CHARACTER_SET
+    </value>
+  </const>
+  <const name="ALLOWED_LENGTHS" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="57">
+    <devnotes>
+       <summary>
+       Allowed lengths of encoded data -- reject anything else. Maps to an int[].
+       </summary>
+    </devnotes>
+    <value>
+      ALLOWED_LENGTHS
+    </value>
+  </const>
+  <const name="ASSUME_CODE_39_CHECK_DIGIT" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="62">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_CODE_39_CHECK_DIGIT' -->
+    </devnotes>
+    <value>
+      ASSUME_CODE_39_CHECK_DIGIT
+    </value>
+  </const>
+  <const name="NEED_RESULT_POINT_CALLBACK" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="68">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'NEED_RESULT_POINT_CALLBACK' -->
+    </devnotes>
+    <value>
+      NEED_RESULT_POINT_CALLBACK
+    </value>
+  </const>
+  <const name="ASSUME_MSI_CHECK_DIGIT" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="73">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_MSI_CHECK_DIGIT' -->
+    </devnotes>
+    <value>
+      ASSUME_MSI_CHECK_DIGIT
+    </value>
+  </const>
+  <const name="USE_CODE_39_EXTENDED_MODE" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="79">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'USE_CODE_39_EXTENDED_MODE' -->
+    </devnotes>
+    <value>
+      USE_CODE_39_EXTENDED_MODE
+    </value>
+  </const>
+  <const name="RELAXED_CODE_39_EXTENDED_MODE" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="85">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'RELAXED_CODE_39_EXTENDED_MODE' -->
+    </devnotes>
+    <value>
+      RELAXED_CODE_39_EXTENDED_MODE
+    </value>
+  </const>
+  <const name="TRY_HARDER_WITHOUT_ROTATION" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="94">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'TRY_HARDER_WITHOUT_ROTATION' -->
+    </devnotes>
+    <value>
+      TRY_HARDER_WITHOUT_ROTATION
+    </value>
+  </const>
+  <const name="ASSUME_GS1" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="101">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_GS1' -->
+    </devnotes>
+    <value>
+      ASSUME_GS1
+    </value>
+  </const>
+  <const name="RETURN_CODABAR_START_END" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="108">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'RETURN_CODABAR_START_END' -->
+    </devnotes>
+    <value>
+      RETURN_CODABAR_START_END
+    </value>
+  </const>
+  <const name="ALLOWED_EAN_EXTENSIONS" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="117">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'ALLOWED_EAN_EXTENSIONS' -->
+    </devnotes>
+    <value>
+      ALLOWED_EAN_EXTENSIONS
+    </value>
+  </const>
+  <const name="ENABLE_INVERSION" type="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="122">
+    <devnotes>
+       <summary>
+       Allowes for inversion of an image.
+        Add the to invert the image
+       </summary>
+    </devnotes>
+    <value>
+      ENABLE_INVERSION
+    </value>
+  </const>
+  <enum name="TDecodeHintType" file="ZXing.DecodeHintType.pas" line="25">
+    <element value="0" name="OTHER" file="ZXing.DecodeHintType.pas" line="29">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'OTHER' -->
+      </devnotes>
+    </element>
+    <element value="1" name="PURE_BARCODE" file="ZXing.DecodeHintType.pas" line="35">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'PURE_BARCODE' -->
+      </devnotes>
+    </element>
+    <element value="2" name="POSSIBLE_FORMATS" file="ZXing.DecodeHintType.pas" line="41">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'POSSIBLE_FORMATS' -->
+      </devnotes>
+    </element>
+    <element value="3" name="TRY_HARDER" file="ZXing.DecodeHintType.pas" line="47">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'TRY_HARDER' -->
+      </devnotes>
+    </element>
+    <element value="4" name="CHARACTER_SET" file="ZXing.DecodeHintType.pas" line="52">
+      <devnotes>
+         <summary>
+         Specifies what character encoding to use when decoding, where applicable (type String)
+         </summary>
+      </devnotes>
+    </element>
+    <element value="5" name="ALLOWED_LENGTHS" file="ZXing.DecodeHintType.pas" line="57">
+      <devnotes>
+         <summary>
+         Allowed lengths of encoded data -- reject anything else. Maps to an int[].
+         </summary>
+      </devnotes>
+    </element>
+    <element value="6" name="ASSUME_CODE_39_CHECK_DIGIT" file="ZXing.DecodeHintType.pas" line="62">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_CODE_39_CHECK_DIGIT' -->
+      </devnotes>
+    </element>
+    <element value="7" name="NEED_RESULT_POINT_CALLBACK" file="ZXing.DecodeHintType.pas" line="68">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'NEED_RESULT_POINT_CALLBACK' -->
+      </devnotes>
+    </element>
+    <element value="8" name="ASSUME_MSI_CHECK_DIGIT" file="ZXing.DecodeHintType.pas" line="73">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_MSI_CHECK_DIGIT' -->
+      </devnotes>
+    </element>
+    <element value="9" name="USE_CODE_39_EXTENDED_MODE" file="ZXing.DecodeHintType.pas" line="79">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'USE_CODE_39_EXTENDED_MODE' -->
+      </devnotes>
+    </element>
+    <element value="10" name="RELAXED_CODE_39_EXTENDED_MODE" file="ZXing.DecodeHintType.pas" line="85">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'RELAXED_CODE_39_EXTENDED_MODE' -->
+      </devnotes>
+    </element>
+    <element value="11" name="TRY_HARDER_WITHOUT_ROTATION" file="ZXing.DecodeHintType.pas" line="94">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'TRY_HARDER_WITHOUT_ROTATION' -->
+      </devnotes>
+    </element>
+    <element value="12" name="ASSUME_GS1" file="ZXing.DecodeHintType.pas" line="101">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'ASSUME_GS1' -->
+      </devnotes>
+    </element>
+    <element value="13" name="RETURN_CODABAR_START_END" file="ZXing.DecodeHintType.pas" line="108">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'RETURN_CODABAR_START_END' -->
+      </devnotes>
+    </element>
+    <element value="14" name="ALLOWED_EAN_EXTENSIONS" file="ZXing.DecodeHintType.pas" line="117">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'ALLOWED_EAN_EXTENSIONS' -->
+      </devnotes>
+    </element>
+    <element value="15" name="ENABLE_INVERSION" file="ZXing.DecodeHintType.pas" line="122">
+      <devnotes>
+         <summary>
+         Allowes for inversion of an image.
+          Add the to invert the image
+         </summary>
+      </devnotes>
+    </element>
+  </enum>
+</namespace>

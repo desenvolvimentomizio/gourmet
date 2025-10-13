@@ -1,0 +1,59 @@
+package mentregas;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeggourmet,
+  unidacvcl270,
+  dacvcl270,
+  fsDB27,
+  fs27,
+  frxUniDAC27,
+  fqb270,
+  frxDB27,
+  frx27,
+  frxDAC27,
+  myprovider270;
+
+contains
+  ufccevalores in 'ufccevalores.pas' {fccevalores},
+  ufccefecha in 'ufccefecha.pas' {fccefecha},
+  ulcaixaentregadores in 'ulcaixaentregadores.pas' {lcaixaentregadores},
+  ulentregadores in 'ulentregadores.pas' {lentregadores},
+  uforcfpagtoent in 'uforcfpagtoent.pas' {forcfpagtoent},
+  ufproducao in 'ufproducao.pas' {fproducao},
+  ufwhatsapp in 'ufwhatsapp.pas' {fwhatsapp},
+  uFprinciEntregas in 'uFprinciEntregas.pas' {FprinciEntregas},
+  ufcce in 'ufcce.pas' {fcce},
+  ufcxm in 'ufcxm.pas' {fcxm},
+  uftefwifi in 'uftefwifi.pas' {ftefwifi},
+  ugestaoentregas in 'ugestaoentregas.pas';
+
+end.

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.Decoder" platform="Android">
+  <class name="TQRDecoder" file="ZXing.QrCode.Internal.Decoder.pas" line="45">
+    <devnotes>
+       <summary>
+       <p>The main class which implements QR Code decoding -- as opposed to locating and extracting
+       the QR Code from an image.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="rsDecoder" type="TReedSolomonDecoder" visibility="private" size="4" offset="4" file="ZXing.QrCode.Internal.Decoder.pas" line="47" />
+      <function name="correctErrors" visibility="private" file="ZXing.QrCode.Internal.Decoder.pas" line="55">
+        <devnotes>
+           <summary>
+           <p>Given data and error-correction codewords received, possibly corrupted by errors, attempts to
+           correct the errors in-place using Reed-Solomon error correction.</p>
+           </summary>
+           <param name="codewordBytes">data and error correction codewords</param>
+           <param name="numDataCodewords">number of codewords that are data bytes</param>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="codewordBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="numDataCodewords" type="Integer" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="private" procflags="overload" file="ZXing.QrCode.Internal.Decoder.pas" line="58">
+        <parameters>
+          <parameter name="parser" type="TBitMatrixParser" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TDecoderResult" />
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Decoder.pas" line="65">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.QrCode.Internal.Decoder.pas" line="66">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.Decoder.pas" line="77">
+        <devnotes>
+           <summary>
+           <p>Convenience method that can decode a QR Code represented as a 2D array of booleans.
+           &quot;true&quot; is taken to mean a black module.</p>
+           </summary>
+           <param name="image">booleans representing white/black QR Code modules</param>
+           <param name="hints">decoding hints that should be used to influence decoding</param>
+           <returns>
+           text and bytes encoded within the QR Code
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TArray&lt;System.TArray&lt;System.Boolean&gt;&gt;" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TDecoderResult" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.Decoder.pas" line="89">
+        <devnotes>
+           <summary>
+           <p>Decodes a QR Code represented as a {@link BitMatrix}. A 1 or &quot;true&quot; is taken to mean a black module.</p>
+           </summary>
+           <param name="bits">booleans representing white/black QR Code modules</param>
+           <param name="hints">decoding hints that should be used to influence decoding</param>
+           <returns>
+           text and bytes encoded within the QR Code
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitMatrix" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TDecoderResult" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

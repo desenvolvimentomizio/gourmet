@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.ResultMetadataType" platform="Android">
+  <const name="OTHER" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="33">
+    <devnotes>
+       <summary>
+       Unspecified, application-specific metadata. Maps to an unspecified {@link Object}.
+       </summary>
+    </devnotes>
+    <value>
+      OTHER
+    </value>
+  </const>
+  <const name="ORIENTATION" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="42">
+    <devnotes>
+       <summary>
+       Denotes the likely approximate orientation of the barcode in the image. This value
+       is given as degrees rotated clockwise from the normal, upright orientation.
+       For example a 1D barcode which was found by reading top-to-bottom would be
+       said to have orientation &quot;90&quot;. This key maps to an {@link Integer} whose
+       value is in the range [0,360).
+       </summary>
+    </devnotes>
+    <value>
+      ORIENTATION
+    </value>
+  </const>
+  <const name="BYTE_SEGMENTS" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="52">
+    <devnotes>
+       <summary>
+       <p>2D barcode formats typically encode text, but allow for a sort of 'byte mode'
+       which is sometimes used to encode binary data. While {@link Result} makes available
+       the complete raw bytes in the barcode for these formats, it does not offer the bytes
+       from the byte segments alone.</p>
+       <p>This maps to a {@link java.util.List} of byte arrays corresponding to the
+       raw bytes in the byte segments in the barcode, in order.</p>
+       </summary>
+    </devnotes>
+    <value>
+      BYTE_SEGMENTS
+    </value>
+  </const>
+  <const name="ERROR_CORRECTION_LEVEL" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="58">
+    <devnotes>
+       <summary>
+       Error correction level used, if applicable. The value type depends on the
+       format, but is typically a String.
+       </summary>
+    </devnotes>
+    <value>
+      ERROR_CORRECTION_LEVEL
+    </value>
+  </const>
+  <const name="ISSUE_NUMBER" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="63">
+    <devnotes>
+       <summary>
+       For some periodicals, indicates the issue number as an {@link Integer}.
+       </summary>
+    </devnotes>
+    <value>
+      ISSUE_NUMBER
+    </value>
+  </const>
+  <const name="SUGGESTED_PRICE" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="69">
+    <devnotes>
+       <summary>
+       For some products, indicates the suggested retail price in the barcode as a
+       formatted {@link String}.
+       </summary>
+    </devnotes>
+    <value>
+      SUGGESTED_PRICE
+    </value>
+  </const>
+  <const name="POSSIBLE_COUNTRY" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="75">
+    <devnotes>
+       <summary>
+       For some products, the possible country of manufacture as a {@link String} denoting the
+       ISO country code. Some map to multiple possible countries, like &quot;US/CA&quot;.
+       </summary>
+    </devnotes>
+    <value>
+      POSSIBLE_COUNTRY
+    </value>
+  </const>
+  <const name="UPC_EAN_EXTENSION" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="80">
+    <devnotes>
+       <summary>
+       For some products, the extension text
+       </summary>
+    </devnotes>
+    <value>
+      UPC_EAN_EXTENSION
+    </value>
+  </const>
+  <const name="STRUCTURED_APPEND_SEQUENCE" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="87">
+    <devnotes>
+       <summary>
+       If the code format supports structured append and
+       the current scanned code is part of one then the
+       sequence number is given with it.
+       </summary>
+    </devnotes>
+    <value>
+      STRUCTURED_APPEND_SEQUENCE
+    </value>
+  </const>
+  <const name="STRUCTURED_APPEND_PARITY" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="94">
+    <devnotes>
+       <summary>
+       If the code format supports structured append and
+       the current scanned code is part of one then the
+       parity is given with it.
+       </summary>
+    </devnotes>
+    <value>
+      STRUCTURED_APPEND_PARITY
+    </value>
+  </const>
+  <const name="PDF417_EXTRA_METADATA" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="99">
+    <devnotes>
+       <summary>
+       PDF417-specific metadata
+       </summary>
+    </devnotes>
+    <value>
+      PDF417_EXTRA_METADATA
+    </value>
+  </const>
+  <const name="AZTEC_EXTRA_METADATA" type="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="104">
+    <devnotes>
+       <summary>
+       Aztec-specific metadata
+       </summary>
+    </devnotes>
+    <value>
+      AZTEC_EXTRA_METADATA
+    </value>
+  </const>
+  <enum name="TResultMetadataType" file="ZXing.ResultMetadataType.pas" line="29">
+    <devnotes>
+       <summary>
+       Represents some type of metadata about the result of the decoding that the decoder
+       wishes to communicate back to the caller.
+       </summary>
+       <author>Sean Owen</author>
+    </devnotes>
+    <element value="0" name="OTHER" file="ZXing.ResultMetadataType.pas" line="33">
+      <devnotes>
+         <summary>
+         Unspecified, application-specific metadata. Maps to an unspecified {@link Object}.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="1" name="ORIENTATION" file="ZXing.ResultMetadataType.pas" line="42">
+      <devnotes>
+         <summary>
+         Denotes the likely approximate orientation of the barcode in the image. This value
+         is given as degrees rotated clockwise from the normal, upright orientation.
+         For example a 1D barcode which was found by reading top-to-bottom would be
+         said to have orientation &quot;90&quot;. This key maps to an {@link Integer} whose
+         value is in the range [0,360).
+         </summary>
+      </devnotes>
+    </element>
+    <element value="2" name="BYTE_SEGMENTS" file="ZXing.ResultMetadataType.pas" line="52">
+      <devnotes>
+         <summary>
+         <p>2D barcode formats typically encode text, but allow for a sort of 'byte mode'
+         which is sometimes used to encode binary data. While {@link Result} makes available
+         the complete raw bytes in the barcode for these formats, it does not offer the bytes
+         from the byte segments alone.</p>
+         <p>This maps to a {@link java.util.List} of byte arrays corresponding to the
+         raw bytes in the byte segments in the barcode, in order.</p>
+         </summary>
+      </devnotes>
+    </element>
+    <element value="3" name="ERROR_CORRECTION_LEVEL" file="ZXing.ResultMetadataType.pas" line="58">
+      <devnotes>
+         <summary>
+         Error correction level used, if applicable. The value type depends on the
+         format, but is typically a String.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="4" name="ISSUE_NUMBER" file="ZXing.ResultMetadataType.pas" line="63">
+      <devnotes>
+         <summary>
+         For some periodicals, indicates the issue number as an {@link Integer}.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="5" name="SUGGESTED_PRICE" file="ZXing.ResultMetadataType.pas" line="69">
+      <devnotes>
+         <summary>
+         For some products, indicates the suggested retail price in the barcode as a
+         formatted {@link String}.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="6" name="POSSIBLE_COUNTRY" file="ZXing.ResultMetadataType.pas" line="75">
+      <devnotes>
+         <summary>
+         For some products, the possible country of manufacture as a {@link String} denoting the
+         ISO country code. Some map to multiple possible countries, like &quot;US/CA&quot;.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="7" name="UPC_EAN_EXTENSION" file="ZXing.ResultMetadataType.pas" line="80">
+      <devnotes>
+         <summary>
+         For some products, the extension text
+         </summary>
+      </devnotes>
+    </element>
+    <element value="8" name="STRUCTURED_APPEND_SEQUENCE" file="ZXing.ResultMetadataType.pas" line="87">
+      <devnotes>
+         <summary>
+         If the code format supports structured append and
+         the current scanned code is part of one then the
+         sequence number is given with it.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="9" name="STRUCTURED_APPEND_PARITY" file="ZXing.ResultMetadataType.pas" line="94">
+      <devnotes>
+         <summary>
+         If the code format supports structured append and
+         the current scanned code is part of one then the
+         parity is given with it.
+         </summary>
+      </devnotes>
+    </element>
+    <element value="10" name="PDF417_EXTRA_METADATA" file="ZXing.ResultMetadataType.pas" line="99">
+      <devnotes>
+         <summary>
+         PDF417-specific metadata
+         </summary>
+      </devnotes>
+    </element>
+    <element value="11" name="AZTEC_EXTRA_METADATA" file="ZXing.ResultMetadataType.pas" line="104">
+      <devnotes>
+         <summary>
+         Aztec-specific metadata
+         </summary>
+      </devnotes>
+    </element>
+  </enum>
+</namespace>

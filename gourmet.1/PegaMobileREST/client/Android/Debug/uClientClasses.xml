@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uClientClasses" platform="Android">
+  <class name="TServerMethods1Client" file="uClientClasses.pas" line="13">
+    <ancestor name="TDSAdminRestClient" namespace="Datasnap.DSProxyRest">
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor override">
+      </methodref>
+      <methodref name="GetPlatformName" visibility="public">
+      </methodref>
+      <methodref name="ClearResources" visibility="public">
+      </methodref>
+      <methodref name="FindPackages" visibility="public">
+      </methodref>
+      <methodref name="FindClasses" visibility="public">
+      </methodref>
+      <methodref name="FindMethods" visibility="public">
+      </methodref>
+      <methodref name="ListClasses" visibility="public">
+      </methodref>
+      <methodref name="DescribeClass" visibility="public">
+      </methodref>
+      <methodref name="ListMethods" visibility="public">
+      </methodref>
+      <methodref name="DescribeMethod" visibility="public">
+      </methodref>
+      <methodref name="GetServerMethods" visibility="public">
+      </methodref>
+      <methodref name="GetServerMethodParameters" visibility="public">
+      </methodref>
+      <methodref name="GetDatabaseConnectionProperties" visibility="public">
+      </methodref>
+      <methodref name="ConsumeClientChannel" visibility="public">
+      </methodref>
+      <methodref name="ConsumeClientChannelTimeout" visibility="public">
+      </methodref>
+      <methodref name="CloseClientChannel" visibility="public">
+      </methodref>
+      <methodref name="RegisterClientCallbackServer" visibility="public">
+      </methodref>
+      <methodref name="UnregisterClientCallback" visibility="public">
+      </methodref>
+      <methodref name="BroadcastToChannel" visibility="public">
+      </methodref>
+      <methodref name="BroadcastObjectToChannel" visibility="public">
+      </methodref>
+      <methodref name="NotifyCallback" visibility="public">
+      </methodref>
+      <methodref name="NotifyObject" visibility="public">
+      </methodref>
+      <methodref name="ClearSession" visibility="public">
+      </methodref>
+      <ancestor name="TDSRestClient" namespace="Datasnap.DSProxyRest">
+        <methodref name="Create" visibility="public" procflags="constructor overload">
+        </methodref>
+        <methodref name="Create" visibility="public" procflags="constructor overload">
+        </methodref>
+        <propertyref name="InstanceOwner" visibility="public">
+        </propertyref>
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FDataModuleCreateCommand" type="TDSRestCommand" visibility="private" size="4" offset="112" file="uClientClasses.pas" line="15" />
+      <field name="FConectaBancoCommand" type="TDSRestCommand" visibility="private" size="4" offset="116" file="uClientClasses.pas" line="16" />
+      <field name="FEchoStringCommand" type="TDSRestCommand" visibility="private" size="4" offset="120" file="uClientClasses.pas" line="17" />
+      <field name="FReverseStringCommand" type="TDSRestCommand" visibility="private" size="4" offset="124" file="uClientClasses.pas" line="18" />
+      <field name="FRegistraRetornoEntrergaCommand" type="TDSRestCommand" visibility="private" size="4" offset="128" file="uClientClasses.pas" line="19" />
+      <constructor name="Create" visibility="public" file="uClientClasses.pas" line="21">
+        <parameters>
+          <parameter name="ARestConnection" type="TDSRestConnection" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="uClientClasses.pas" line="22">
+        <parameters>
+          <parameter name="ARestConnection" type="TDSRestConnection" />
+          <parameter name="AInstanceOwner" type="Boolean" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="uClientClasses.pas" line="23">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="DataModuleCreate" visibility="public" file="uClientClasses.pas" line="24">
+        <parameters>
+          <parameter name="Sender" type="TObject" />
+        </parameters>
+      </procedure>
+      <function name="ConectaBanco" visibility="public" file="uClientClasses.pas" line="25">
+        <parameters>
+          <parameter name="ARequestFilter" type="string" paramflags="const">
+            <value>
+              
+            </value>
+          </parameter>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="EchoString" visibility="public" file="uClientClasses.pas" line="26">
+        <parameters>
+          <parameter name="Value" type="string" />
+          <parameter name="ARequestFilter" type="string" paramflags="const">
+            <value>
+              
+            </value>
+          </parameter>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="ReverseString" visibility="public" file="uClientClasses.pas" line="27">
+        <parameters>
+          <parameter name="Value" type="string" />
+          <parameter name="ARequestFilter" type="string" paramflags="const">
+            <value>
+              
+            </value>
+          </parameter>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="RegistraRetornoEntrega" visibility="public" file="uClientClasses.pas" line="28">
+        <parameters>
+          <parameter name="Value" type="string" />
+          <parameter name="ARequestFilter" type="string" paramflags="const">
+            <value>
+              
+            </value>
+          </parameter>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="RegistraLiberadoEntrega" visibility="public" file="uClientClasses.pas" line="29">
+        <parameters>
+          <parameter name="Value" type="string" />
+          <parameter name="ARequestFilter" type="string" paramflags="const">
+            <value>
+              
+            </value>
+          </parameter>
+          <retval type="string" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+  <const name="TServerMethods1_DataModuleCreate" type=":2" visibility="public" file="uClientClasses.pas" line="34" />
+  <const name="TServerMethods1_ConectaBanco" type=":3" visibility="public" file="uClientClasses.pas" line="39" />
+  <const name="TServerMethods1_EchoString" type=":4" visibility="public" file="uClientClasses.pas" line="44" />
+  <const name="TServerMethods1_ReverseString" type=":5" visibility="public" file="uClientClasses.pas" line="50" />
+  <const name="TServerMethods1_RegistraRetornoEntrerga" type=":6" visibility="public" file="uClientClasses.pas" line="56" />
+</namespace>

@@ -1,0 +1,15 @@
+program MonitorIntegracao;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  uFprinciMonitorIntegracao in 'uFprinciMonitorIntegracao.pas' {fMonitorIntegracao};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfMonitorIntegracao, fMonitorIntegracao);
+  Application.Run;
+end.

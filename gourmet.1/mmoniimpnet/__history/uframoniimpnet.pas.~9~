@@ -1,0 +1,399 @@
+unit uframoniimpnet;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Uni, Data.DB, MemDS, DateUtils,
+  DBAccess, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, System.Threading, uFuncoes;
+
+type
+  Tframoniimpnet = class(TFrame)
+    gri: TUniQuery;
+    plImpressoras: TPanel;
+    verifica: TTimer;
+    gritcicodigo: TIntegerField;
+    tcisituacao: TUniQuery;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmgoustatusaiq: TDateTimeField;
+    cfgcfgmgoustatusnuc: TDateTimeField;
+    cfgcfgmgoustatusifood: TDateTimeField;
+    cfgcfgmgoustatusproducao: TDateTimeField;
+    cfgcfgmgoustatusentrega: TDateTimeField;
+    cfgcfgmgoustatuscozinha: TDateTimeField;
+    cfgcfgmgoustatuswhats: TDateTimeField;
+    PnIntegracoes: TPanel;
+    PnWhats: TPanel;
+    PnAIQ: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    PnNUC: TPanel;
+    procedure verificaTimer(Sender: TObject);
+  private
+    { Private declarations }
+    Fzcone: tuniconnection;
+    procedure Monitorar;
+    procedure carregar;
+    procedure VerificaEstado(vTciCodigo: string);
+    procedure ajustaPaineisImp(vquery: TUniQuery);
+    procedure aoMostrarFilaClick(Sender: TObject);
+    procedure VerificaIntegracoes;
+
+  public
+    { Public declarations }
+    vpCznChave: string;
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+
+  end;
+
+var
+  framoniimpnet: Tframoniimpnet;
+
+  // Início ID do Módulo framoniimpnet
+const
+  vPlIdMd = '00.00.00.000-01';
+
+
+  // Fim ID do Módulo framoniimpnet
+
+implementation
+
+uses
+  uffilaimp;
+
+{$R *.dfm}
+
+function MoniImp(AOwner: TComponent; Parente: TWinControl; conexao: tuniconnection; vCznChave: string): TFrame;
+begin
+  framoniimpnet := Tframoniimpnet.Create(AOwner);
+  framoniimpnet.zcone := conexao;
+  framoniimpnet.vpCznChave := vCznChave;
+
+  framoniimpnet.carregar;
+
+  framoniimpnet.Align := alClient;
+  Result := framoniimpnet;
+  Result.Parent := Parente;
+end;
+
+exports MoniImp;
+
+procedure Tframoniimpnet.carregar;
+begin
+  verifica.Enabled := True;
+
+  // Monitorar;
+
+end;
+
+procedure Tframoniimpnet.VerificaEstado(vTciCodigo: string);
+var
+  qGri: TUniQuery;
+begin
+  TTask.run(
+    procedure
+    begin
+
+      TThRead.synchronize(TThRead.CurrentThread,
+        procedure
+        var
+          viSituacao: integer;
+          viIdentificacao: string;
+          vigriminuretardo: string;
+        begin
+          try
+            qGri := TUniQuery.Create(self);
+            qGri.Connection := zcone;
+            qGri.Name := 'qGri' + vTciCodigo;
+            qGri.SQL.Text := 'SELECT distinct mit.mitidentificacao,  gri.griminuretardo,  gri.grisituacao ';
+            qGri.SQL.Add('FROM tci ');
+            qGri.SQL.Add('INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo ');
+            qGri.SQL.Add('INNER JOIN gri ON gri.tcicodigo = tci.tcicodigo ');
+            qGri.SQL.Add(' where tci.tcicodigo=' + vTciCodigo + ' GROUP BY gri.tcicodigo');
+            qGri.Open;
+
+            viSituacao := qGri.FieldByName('grisituacao').AsInteger;
+            viIdentificacao := qGri.FieldByName('mitidentificacao').AsString;
+            vigriminuretardo := qGri.FieldByName('griminuretardo').AsString;
+            qGri.Close;
+
+            if self.FindComponent('plimp' + vTciCodigo) <> nil then
+            begin
+              (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := UpperNome(viIdentificacao) + ' (' + vigriminuretardo + ' min)';
+
+              case viSituacao of
+                0:
+                  begin
+
+                    tcisituacao.Close;
+                    tcisituacao.Connection := zcone;
+                    tcisituacao.SQL.Text := 'select tciimprimindo from tci where tcicodigo=' + vTciCodigo;
+                    tcisituacao.Open;
+
+                    if tcisituacao.FieldByName('tciimprimindo').AsString <> '' then
+                    begin
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clnavy;
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clWhite;
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := viIdentificacao + ' ( IMPRIMINDO )';
+                    end
+                    else
+                    begin
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clred;
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clYellow;
+                      (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := viIdentificacao + ' ( FALHA COMUNICAÇÃO' + ' )';
+                    end;
+
+                  end;
+                1:
+                  begin
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clnavy;
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := UpperNome(viIdentificacao) + ' - EM ERRO';
+
+                  end;
+                5:
+                  begin
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clYellow;
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := UpperNome(viIdentificacao) + ' - EM ERRO';
+                  end;
+                9:
+                  begin
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clGray;
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := UpperNome(viIdentificacao) + ' - TAMPA ABERTA';
+                  end;
+                24:
+                  begin
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clgreen;
+                  end;
+                32:
+                  begin
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clMaroon;
+                    (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := UpperNome(viIdentificacao) + ' - POUCO PAPEL';
+
+                  end;
+
+              end;
+
+            end;
+
+          finally
+            freeandnil(qGri)
+          end;
+
+        end);
+    end);
+end;
+
+procedure Tframoniimpnet.verificaTimer(Sender: TObject);
+var
+  viTciCodigo: string;
+begin
+  try
+    verifica.Enabled := false;
+
+    gri.Close;
+    gri.Connection := zcone;
+    gri.Open;
+
+    ajustaPaineisImp(gri);
+
+    gri.First;
+    while not gri.Eof do
+    begin
+      viTciCodigo := gri.FieldByName('tcicodigo').AsString;
+      VerificaEstado(viTciCodigo);
+      gri.Next;
+    end;
+
+ //   VerificaIntegracoes;
+
+  finally
+    verifica.Enabled := True;
+  end;
+
+end;
+
+procedure Tframoniimpnet.VerificaIntegracoes;
+var
+  i: integer;
+
+begin
+
+  cfg.Close;
+  cfg.Connection := self.zcone;
+  cfg.Open;
+
+  i := SecondsBetween(cfgcfgmgoustatusaiq.AsDateTime, now());
+
+  if i <= 30 then
+  begin
+    PnAIQ.Color := clgreen;
+  end
+  else
+  begin
+    PnAIQ.Color := clred;
+  end;
+
+  i := SecondsBetween(cfgcfgmgoustatuswhats.AsDateTime, now());
+
+  if i <= 30 then
+  begin
+    PnWhats.Color := clgreen;
+  end
+  else
+  begin
+    PnWhats.Color := clred;
+  end;
+
+  i := SecondsBetween(cfgcfgmgoustatusnuc.AsDateTime, now());
+
+  if i <= 30 then
+  begin
+    PnNUC.Color := clgreen;
+  end
+  else
+  begin
+    PnNUC.Color := clred;
+  end;
+
+end;
+
+procedure Tframoniimpnet.Monitorar;
+begin
+  TTask.run(
+    procedure
+    begin
+      while True do
+      begin
+        // sleep(1000);
+        TThRead.synchronize(TThRead.CurrentThread,
+          procedure
+          var
+            viTciCodigo: string;
+            i: integer;
+
+          begin
+            gri.Close;
+            gri.Connection := zcone;
+            gri.Open;
+
+            ajustaPaineisImp(gri);
+            gri.First;
+            while not gri.Eof do
+            begin
+              viTciCodigo := gri.FieldByName('tcicodigo').AsString;
+              VerificaEstado(viTciCodigo);
+              gri.Next;
+            end;
+
+            cfg.Close;
+            cfg.Connection := self.zcone;
+            cfg.Open;
+
+            i := SecondsBetween(cfgcfgmgoustatusaiq.AsDateTime, now());
+
+            if i <= 30 then
+            begin
+              PnAIQ.Color := clgreen;
+            end
+            else
+            begin
+              PnAIQ.Color := clred;
+            end;
+
+            i := SecondsBetween(cfgcfgmgoustatuswhats.AsDateTime, now());
+
+            if i <= 30 then
+            begin
+              PnWhats.Color := clgreen;
+            end
+            else
+            begin
+              PnWhats.Color := clred;
+            end;
+
+            i := SecondsBetween(cfgcfgmgoustatusnuc.AsDateTime, now());
+
+            if i <= 30 then
+            begin
+              PnNUC.Color := clgreen;
+            end
+            else
+            begin
+              PnNUC.Color := clred;
+            end;
+
+          end);
+      end;
+    end);
+end;
+
+procedure Tframoniimpnet.ajustaPaineisImp(vquery: TUniQuery);
+var
+  plImp: TPanel;
+  a, e: integer;
+begin
+  vquery.First;
+  a := 0;
+  e := 1;
+
+  while not vquery.Eof do
+  begin
+    if self.FindComponent('plimp' + vquery.FieldByName('tcicodigo').AsString) = nil then
+    begin
+
+      plImp := TPanel.Create(self);
+      plImp.Parent := plImpressoras;
+      plImp.Name := 'plimp' + vquery.FieldByName('tcicodigo').AsString;
+      plImp.Caption := '';
+      plImp.ParentBackground := false;
+      plImp.ParentFont := false;
+      plImp.Align := alNone;
+      plImp.Height := 19;
+      plImp.Width := 110;
+      plImp.top := (21 * a) + 7;
+      plImp.BorderWidth := 3;
+      plImp.Alignment := taLeftJustify;
+      plImp.Left := (115 * e) - plImp.Width;
+      plImp.Font.Color := clWindow;
+      plImp.Font.Size := 9;
+      plImp.Tag := vquery.FieldByName('tcicodigo').AsInteger;
+      plImp.OnClick := aoMostrarFilaClick;
+
+    end;
+
+    vquery.Next;
+    a := a + 1;
+    if a > 5 then
+    begin
+      e := e + 1;
+      a := 0;
+    end;
+  end;
+
+end;
+
+procedure Tframoniimpnet.aoMostrarFilaClick(Sender: TObject);
+var
+  vlTciCodigo: integer;
+  ffilaimp: Tffilaimp;
+
+begin
+  vlTciCodigo := (Sender as TPanel).Tag;
+  try
+    ffilaimp := Tffilaimp.Create(self);
+    ffilaimp.fila.Connection := self.zcone;
+    ffilaimp.filaimpresso.Connection := self.zcone;
+    ffilaimp.vpGriCodigo := inttostr(vlTciCodigo);
+    ffilaimp.vpImpressora := (Sender as TPanel).Caption;
+    ffilaimp.vpCznChave := vpCznChave;
+    ffilaimp.ShowModal;
+
+  finally
+    freeandnil(ffilaimp);
+  end;
+end;
+
+end.

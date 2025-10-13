@@ -1,0 +1,110 @@
+unit MizioUP.Views.uListviewcolaborador;
+
+interface
+
+uses FMX.ListView.Types,
+     FMX.ListView.Appearances,
+     FMX.ListView,
+     FMX.Graphics, System.JSON;
+
+type
+    TListviewColaborador = class
+    private
+
+    public
+        class procedure SetupItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap); static;
+        class function SelecionarItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap;
+                                        MaximoColaboradores:integer):Integer; static;
+        class function SelectedCount(lview: TListView): integer; static;
+        class function SelectedItens(lview: TListView;const  AListaColaboradores:TJsonArray): TJsonArray; static;
+        class procedure AddItem(lv: TListView; codigo, descricao: string; bmp: TBitmap); static;
+
+end;
+
+implementation
+
+uses
+  System.UITypes;
+
+class procedure TListviewColaborador.SetupItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap);
+begin
+  with item do
+  begin
+    if Checked then
+        TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := img_check
+    else
+        TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := img_uncheck;
+  end;
+end;
+
+
+class Function TListviewColaborador.SelecionarItem(lv: TListView; Item: TListViewItem;
+                                      img_uncheck, img_check: TBitmap; MaximoColaboradores:integer):Integer;
+begin
+  if Item.Checked then
+  begin
+    Item.Checked := NOT Item.Checked;
+    SetupItem(lv, item, img_uncheck, img_check);
+    Result:=1;
+  end
+  else
+  begin
+    if SelectedCount(lv)<MaximoColaboradores then
+    begin
+      Item.Checked := NOT Item.Checked;
+      SetupItem(lv, item, img_uncheck, img_check);
+      Result:=1;
+    end
+    else
+      Result:=0;
+  end;
+end;
+
+class function TListviewColaborador.SelectedCount(lview: TListView): integer;
+var
+    x : integer;
+begin
+    Result := 0;
+
+    for x := lview.ItemCount - 1 downto 0 do
+        if lview.Items[x].Checked then
+            Inc(Result);
+end;
+
+class function TListviewColaborador.SelectedItens(lview: TListView;const  AListaColaboradores:TJsonArray): TJsonArray;
+var
+  x : integer;
+  a:String;
+begin
+
+    for x := lview.ItemCount - 1 downto 0 do
+    begin
+        if lview.Items[x].Checked then
+        begin
+          AListaColaboradores.
+              Add(TJsonObject.
+                    Create.AddPair('clbcodigo',lview.Items[x].TagString));
+        end;
+    end;
+    Result:=AListaColaboradores;
+    a:=AListaColaboradores.ToString;
+
+end;
+
+
+class procedure TListviewColaborador.AddItem(lv: TListView; codigo, descricao: string; bmp: TBitmap);
+begin
+    with lv.Items.Add do
+    begin
+        Height := 60;
+        TagString := codigo;
+        Checked := false;
+
+        TListItemText(Objects.FindDrawable('TxtColaborador')).Text := descricao;
+        TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := bmp;
+    end;
+end;
+
+
+end.
+

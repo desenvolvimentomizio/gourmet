@@ -1,0 +1,876 @@
+unit ufdfcPDVTEF;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, VirtualTable, Data.DB, DBAccess, Uni, MemDS,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, System.Classes,
+  Vcl.Controls, Vcl.ExtCtrls, Vcl.Graphics, Vcl.Dialogs, System.SysUtils,
+  Winapi.Messages, uFuncoes, uPegaBase;
+
+type
+  TfdfcPDVTEF = class(TForm)
+    PlTitulo: TPanel;
+    plid: TPanel;
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    bfechar: TBitBtn;
+    pltopo: TPanel;
+    bvalidar: TBitBtn;
+    qtd: TEdit;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    totalemconvenio: TEdit;
+    Panel3: TPanel;
+    DBGLista: TDBGrid;
+    Drfi: tunidatasource;
+    rfi: TVirtualTable;
+    rfirfichave: TIntegerField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    etl: TUniQuery;
+    etletlchave: TIntegerField;
+    etletdcodigo: TIntegerField;
+    etletllimitetotal: TFloatField;
+    etletltipo: TIntegerField;
+    etletldias: TIntegerField;
+    rfirfivalorparcela: TCurrencyField;
+    procedure bvalidarClick(Sender: TObject);
+    procedure DBGListaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure bcancelaClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGListaKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGListaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGListaColEnter(Sender: TObject);
+    procedure DrfiStateChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    vtitcodigo: string;
+
+    vmeschave: string;
+    VLteChave: String;
+    vClbCodigo: string;
+
+    vetdcodigo: string;
+    vretorno: string;
+    visituacao: string;
+    FRenegociacao: Boolean;
+
+    function RecalculaTotais: Boolean;
+    function ValidaTotais: Boolean;
+    function ValidaVencimento: Boolean;
+    procedure GerarParcelas(vQtdParcelas: Integer; vTotalParcelas: Double);
+    procedure AoConfirmar;
+  public
+    { Public declarations }
+    vpParcelas: String;
+    vpValor: string;
+
+    vpInterDias: Integer;
+    vpTipoInter: Integer;
+    vpVctoInicial: Tdate;
+    vpTitNumero:String;
+
+    Fzcone: tuniconnection;
+    Acesso: TAcesso;
+
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+
+  end;
+
+var
+  fdfcPDVTEF: TfdfcPDVTEF;
+
+const
+  vplidmd = '02.02.15.003-01';
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfdfcPDVTEF.bcancelaClick(Sender: TObject);
+begin
+
+  if psituacao.Caption = 'Incluindo' then
+  begin
+    rfi.First;
+
+    If rfi.RecordCount > 0 Then
+      While Not rfi.Eof Do
+        rfi.Delete;
+  end
+  else
+  begin
+  end;
+
+  if vpParcelas <> '' then
+  begin
+    If rfi.RecordCount > 0 Then
+      While Not rfi.Eof Do
+        rfi.Delete;
+
+  end;
+
+  ModalResult := mrCancel;
+end;
+
+procedure TfdfcPDVTEF.AoConfirmar;
+begin
+
+  ModalResult := mrOk;
+  vretorno := '999';
+
+end;
+
+procedure TfdfcPDVTEF.bconfirmaClick(Sender: TObject);
+var
+  i: Integer;
+begin
+    Drfi.DataSet.First;
+    While Not Drfi.DataSet.Eof Do
+    Begin
+    if Drfi.DataSet.FieldByName('rfivalor').AsFloat<=0 then
+    begin
+        MessageDlg('Valor inválido para parcela!' + #13 + #13 + 'Por favor verifique valor definido na(s) parcela(s).',
+        mtWarning, [mbOK], 0);
+     exit;
+    end;
+      Drfi.DataSet.Next;
+    End;
+
+
+  if ValidaTotais and ValidaVencimento then
+  begin
+
+
+    rfi.First;
+
+    rfi.DisableControls;
+
+    i := 0;
+    while not rfi.Eof do
+    begin
+
+      rfi.Edit;
+      rfirfivalorparcela.AsCurrency := rfirfivalor.AsCurrency;
+      rfi.Post;
+
+      rfi.Next;
+    end;
+
+    rfi.First;
+    rfi.EnableControls;
+    ModalResult := mrOk;
+    vretorno := '999';
+  end
+  else
+  begin
+    DBGLista.SetFocus;
+  end;
+
+end;
+
+procedure TfdfcPDVTEF.GerarParcelas(vQtdParcelas: Integer; vTotalParcelas: Double);
+Var
+  i, o: Integer;
+  VParcela: Double;
+  SParcela: string;
+  VTotParcelas: Double;
+  STotParcelas: string;
+  qtdParcelas: Integer;
+Begin
+
+  qtdParcelas := vQtdParcelas;
+
+  if Assigned(Drfi.OnStateChange) then
+    Drfi.OnStateChange := Nil;
+
+  { rfi.First; }
+
+  STotParcelas := floattostr(vTotalParcelas);
+
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+
+  SParcela := Format('%15.2f', [StrToFloat(STotParcelas) / qtdParcelas]);
+
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+
+  VParcela := StrToFloat(SParcela);
+
+  SParcela := trim(BuscaTroca(SParcela, '.', ''));
+
+
+  For i := 1 To qtdParcelas Do
+  Begin
+   { rfi.Append;
+    rfititcodigo.AsInteger := Self.tittitcodigo.AsInteger;
+    rfietdcodigo.AsString := vetdcodigo;
+    rfitfdcodigo.AsInteger := tittfdcodigo.AsInteger;
+    rfiflacodigo.AsInteger := titflacodigo.AsInteger;
+    rfitficodigo.AsInteger := tittficodigo.AsInteger;
+    rfibcocodigo.AsString := titbcocodigo.AsString;
+    rficarcodigo.AsInteger := titcarcodigo.AsInteger;
+    rfirfiemissao.AsFloat := tittitemissao.AsFloat;
+    rfirfivencimento.AsFloat := Self.tittitvctoinicial.AsFloat + ((i - 1) * 30);
+    rfirfinumero.AsString := tittitnumero.AsString + '-' + IntToStr(i);
+
+    rfirfivalor.AsFloat := tbRound((strtocurr(STotParcelas) / qtdParcelas), 2);
+
+    if VLteChave <> '0' then
+      rfirfihistorico.AsString := tittithistorico.AsString
+    else
+      rfirfihistorico.AsString := 'Tit.Chv.: ' + tittitcodigo.AsString + ' - ' + tittithistorico.AsString;
+
+    rfisrfcodigo.AsInteger := titsrfcodigo.AsInteger;
+    rfifrrcodigo.AsInteger := 2;
+    rfirfimoradia.AsFloat := tittitmoradia.AsFloat;
+    rfirfipercmesmora.AsFloat := tittitpercmesmora.AsFloat;
+    rfirfirepetir.AsInteger := qtdParcelas;
+    rfirfiprevisao.AsInteger := tittitprevisao.AsInteger;
+    rfirfivalorparcela.AsFloat := rfirfivalor.AsFloat;
+    rfimoecodigo.AsInteger := titmoecodigo.AsInteger;
+
+    rfirfidatamulta.AsFloat := tittitdiasmulta.AsInteger + rfirfivencimento.AsFloat;
+    rfirfivalomulta.AsFloat := tittitvalomulta.AsFloat;
+    rfirfivalodesc.AsFloat := tittitvalodesc.AsFloat;
+    rfirfidatadesc.AsFloat := rfirfivencimento.AsFloat - tittitdiasdesc.AsFloat;
+    rfirfipercmulta.AsFloat := tittitpercmulta.AsFloat;
+    rfiedrcodigo.AsInteger := titedrcodigo.AsInteger;
+    rfi.Post;
+  }
+  End;
+  RecalculaTotais;
+end;
+
+procedure TfdfcPDVTEF.bvalidarClick(Sender: TObject);
+Var
+  i, o: Integer;
+  VParcela: Double;
+  SParcela: string;
+  VTotParcelas: Double;
+  STotParcelas: string;
+  qtdParcelas: Integer;
+
+  vlDataVcto: Tdate;
+  myYear, myMonth, myDay: Word;
+
+  vlItemparcela: TstringList;
+  vlparcela: String;
+  p: Integer;
+  vlVctoparcela: string;
+  vlnumeroparcela: string;
+  vlvalorparcela: string;
+
+Begin
+
+
+  if trim(qtd.Text) = '' then
+  begin
+    Application.MessageBox(PChar('Por favor, defina a quantidade de parcelas.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    qtd.SetFocus;
+    Exit;
+  end;
+
+
+  qtdParcelas := Strtoint(Self.qtd.Text);
+
+  if Assigned(Drfi.OnStateChange) then
+    Drfi.OnStateChange := Nil;
+
+  Drfi.DataSet.FieldByName('rfinumero').ReadOnly := False;
+
+  rfi.First;
+  if visituacao = 'Incluindo' then
+    If rfi.RecordCount > 0 Then
+      While Not rfi.Eof Do
+      begin
+
+
+        rfi.Delete;
+      end;
+
+  STotParcelas := Self.totalemconvenio.Text;
+
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+  STotParcelas := BuscaTroca(STotParcelas, '.', '');
+
+  SParcela := Format('%15.2f', [StrToFloat(STotParcelas) / qtdParcelas]);
+
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+  SParcela := BuscaTroca(SParcela, '.', '');
+
+  VParcela := StrToFloat(SParcela);
+
+  SParcela := trim(BuscaTroca(SParcela, '.', ''));
+
+
+  if vpParcelas <> '' then
+  begin
+    vlItemparcela := TstringList.Create;
+
+    vlparcela := copy(vpParcelas, 1, pos('&', vpParcelas) - 1);
+
+    while vlparcela <> '' do
+    begin
+      vlItemparcela.Add(vlparcela);
+      vpParcelas := copy(vpParcelas, pos('&', vpParcelas) + 1, length(vpParcelas));
+      vlparcela := copy(vpParcelas, 1, pos('&', vpParcelas) - 1);
+    end;
+
+  end;
+
+  p := 0;
+  For i := 1 To qtdParcelas Do
+  Begin
+
+
+    { if visituacao = 'Incluindo' then
+      begin }
+
+     rfi.Edit ;
+
+
+    { ajustar atomaticamente o vencimento apenas se for inclusao }
+
+
+    if rfi.State = dsInsert then
+    begin
+
+      if vpTipoInter = 1 then
+      begin
+        // incrementa o vencimento com base em quantidade de dias
+        try
+          rfirfivencimento.AsFloat := vpVctoInicial + ((i - 1) * vpInterDias);
+        except
+          try
+            rfirfivencimento.AsFloat := vpVctoInicial + ((i - 1) * vpInterDias) - 1;
+          except
+            try
+              rfirfivencimento.AsFloat := vpVctoInicial + ((i - 1) * vpInterDias) - 2;
+            except
+              try
+                rfirfivencimento.AsFloat := vpVctoInicial + ((i - 1) * vpInterDias) - 3;
+              except
+                rfirfivencimento.AsFloat := vpVctoInicial + ((i - 1) * vpInterDias) - 4;
+              end;
+
+            end;
+          end;
+
+        end;
+      end
+      else if vpTipoInter = 2 then
+      begin
+        // incrementa o vencimento com dia fixo
+        vlDataVcto := IncMonth(vpVctoInicial, (i - 1));
+
+        DecodeDate(vlDataVcto, myYear, myMonth, myDay);
+
+        try
+          rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vpInterDias) + '/' + FormatFloat('00', myMonth) + '/' + FormatFloat('0000',
+            myYear));
+        except
+          try
+            rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vpInterDias - 1) + '/' + FormatFloat('00', myMonth) + '/' +
+              FormatFloat('0000', myYear));
+          except
+            try
+              rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vpInterDias - 2) + '/' + FormatFloat('00', myMonth) + '/' +
+                FormatFloat('0000', myYear));
+            except
+              try
+                rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vpInterDias - 3) + '/' + FormatFloat('00', myMonth) + '/' +
+                  FormatFloat('0000', myYear));
+              except
+                rfirfivencimento.AsFloat := strtodate(FormatFloat('00', vpInterDias - 4) + '/' + FormatFloat('00', myMonth) + '/' +
+                  FormatFloat('0000', myYear));
+              end;
+            end;
+
+          end;
+
+        end;
+
+      end;
+
+    end;
+
+
+    rfirfinumero.AsString := vpTitNumero + '-' + IntToStr(i);
+
+    rfirfivalor.AsFloat := tbRound((strtocurr(STotParcelas) / qtdParcelas), 2);
+
+    if vlItemparcela <> nil then
+    begin
+
+      try
+
+        if p < vlItemparcela.Count then
+        begin
+          vlparcela := vlItemparcela[p];
+        end;
+      except
+
+      end;
+
+
+      if vlparcela <> '' then
+      begin
+
+        vlVctoparcela := copy(vlparcela, 1, pos('_', vlparcela) - 1);
+        vlparcela := copy(vlparcela, pos('_', vlparcela) + 1, length(vlparcela));
+
+        vlnumeroparcela := copy(vlparcela, 1, pos('$', vlparcela) - 1);
+        vlparcela := copy(vlparcela, pos('$', vlparcela) + 1, length(vlparcela));
+
+        vlvalorparcela := vlparcela;
+
+        rfirfivalor.AsString := vlvalorparcela;
+        rfirfinumero.AsString := vlnumeroparcela;
+        rfirfivencimento.AsString := vlVctoparcela;
+      end;
+
+    end;
+
+    rfi.Post;
+
+    p := p + 1;
+
+  End;
+
+  // end;
+  Drfi.OnStateChange := DrfiStateChange;
+
+  RecalculaTotais;
+
+  Drfi.DataSet.FieldByName('rfinumero').ReadOnly := False;
+  DBGLista.SetFocus;
+  DBGLista.SelectedIndex := 0;
+
+  rfi.First;
+
+end;
+
+
+
+procedure TfdfcPDVTEF.DBGListaColEnter(Sender: TObject);
+begin
+  if DBGLista.SelectedIndex = 0 then
+    DBGLista.SelectedIndex := DBGLista.SelectedIndex + 1;
+end;
+
+procedure TfdfcPDVTEF.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+
+  If odd(Drfi.DataSet.RecNo) Then
+  Begin
+    If Column.ReadOnly Then
+      DBGLista.Canvas.Brush.Color := clBtnFace
+    Else
+      DBGLista.Canvas.Brush.Color := PEG_COR_BASE;
+  End
+  Else If Column.ReadOnly Then
+    DBGLista.Canvas.Brush.Color := clBtnFace
+  Else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  TDBGrid(Sender).Canvas.font.Color := clBlack;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_VALORREQUERIDO;
+      FillRect(Rect);
+      font.Style := [fsBold]
+    End;
+
+  TDBGrid(Sender).DefaultDrawDataCell(Rect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure TfdfcPDVTEF.DBGListaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+  If (ssCtrl in Shift) And (Key = VK_DELETE) Then
+    Key := 0;
+
+end;
+
+procedure TfdfcPDVTEF.DBGListaKeyPress(Sender: TObject; var Key: Char);
+Var
+  (* Variáveis para identificar posição das colunas e do Grid *)
+  VTotalColunas: Integer;
+  VColunaAtual: Integer;
+
+Begin
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = '\' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    If (Sender Is TDBGrid) Then
+    Begin
+      Key := #0;
+
+      if Drfi.DataSet.State = dsEdit then
+        Drfi.DataSet.Post;
+
+      if DBGLista.SelectedIndex = 2 then
+      begin
+        if ValidaVencimento then
+          if RecalculaTotais then
+          begin
+            { if (rfitfdcodigo.AsInteger = tfdReceber) then
+              DBGLista.SelectedIndex := 1
+              else
+              DBGLista.SelectedIndex := 0; }
+
+            DBGLista.SelectedIndex := 1;
+            Drfi.DataSet.Next;
+          end;
+      end
+      else if ValidaVencimento then
+        // Move cursor para próxima coluna para atender a tecla Enter
+        DBGLista.SelectedIndex := DBGLista.SelectedIndex + 1;
+
+      If DBGLista.DataSource.DataSet.Eof Then
+        bconfirma.SetFocus;
+
+    End
+    Else
+    Begin
+      Key := #0;
+      Perform(WM_NEXTDLGCTL, 0, 0);
+    End;
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    bcancela.Click;
+  End;
+
+end;
+
+procedure TfdfcPDVTEF.DBGListaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  If Key = VK_DOWN Then
+  Begin
+    If rfi.State = dsInsert Then
+    Begin
+      Key := 0;
+      rfi.Cancel;
+    End;
+  End;
+
+end;
+
+procedure TfdfcPDVTEF.DrfiStateChange(Sender: TObject);
+begin
+  if Drfi.DataSet.State = dsInsert then
+    Drfi.DataSet.Cancel;
+end;
+
+procedure TfdfcPDVTEF.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  { bloquer o ctrl+f4 }
+  if ((Shift = [ssAlt]) And ((Key = VK_F4) or (Key = 18))) then
+    Abort;
+
+end;
+
+procedure TfdfcPDVTEF.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+end;
+
+procedure TfdfcPDVTEF.FormShow(Sender: TObject);
+begin
+
+  fdfcPDVTEF.qtd.Text := vpParcelas;
+  totalemconvenio.Text:= vpValor;
+
+  if fdfcPDVTEF.qtd.Text <> '' then
+  begin
+    bvalidar.Click;
+    pltopo.Visible := False;
+  end
+  else
+  begin
+    pltopo.Visible := True;
+  end;
+end;
+
+function TfdfcPDVTEF.RecalculaTotais: Boolean;
+var
+
+  VRegistroAtual: Integer; // Armazena posição do grid.
+
+  (* Variáveis para ajuste dos valores das parcelas *)
+  VTotalConvenio: Double;
+  VTotalRegAnteriores: Double;
+  VTotalRestante: Double;
+  VParcelasRestantes: Integer;
+
+  (* Variáveis para ajuste de diferença entre Total das Parcelas e Total em Convênio *)
+  VDiferenca: Double;
+  vTotalParcelas: Double;
+
+  (* *)
+  x: Integer;
+  vdia: Tdate;
+  vtotalemconvenio: string;
+begin
+
+  VTotalConvenio := 0;
+  VTotalRegAnteriores := 0;
+
+  VRegistroAtual := Drfi.DataSet.RecNo;
+
+  vtotalemconvenio := totalemconvenio.Text;
+
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+
+  VTotalConvenio := StrToFloat(vtotalemconvenio);
+  Drfi.DataSet.DisableControls;
+  vdia := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+
+
+  //
+  // **** ACUMULA TOTAL DAS PARCELAS JA DEFINIDAS OU ALTERADAS ****
+  //
+
+  Drfi.DataSet.First;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+    // Acumula TOTAL dos registros anteriores ao selecionado
+
+      VTotalRegAnteriores := VTotalRegAnteriores + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+
+      If Drfi.DataSet.RecNo = VRegistroAtual Then
+      Begin
+        vdia := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+        Drfi.DataSet.Next;
+        Break;
+      End;
+
+    Drfi.DataSet.Next;
+  End;
+
+  //
+  // **** ATUALIZA O RESTANTE TOTAL E PARCELAS A DEFINIR ****
+  //
+  Drfi.DataSet.RecNo := VRegistroAtual;
+  VTotalRestante := VTotalConvenio - VTotalRegAnteriores;
+  VParcelasRestantes := { 1 + } ((Drfi.DataSet.RecordCount) - Drfi.DataSet.RecNo);
+
+  if VParcelasRestantes = 0 then
+    VParcelasRestantes := VParcelasRestantes + 1;
+
+  //
+  // **** RATEIA VALOR RESTANTE ENTRE AS DEMAIS PARCELAS ****
+  //
+
+  x := 0;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+
+    x := x + 1;
+    if Drfi.DataSet.RecNo <> VRegistroAtual then
+    begin
+      Drfi.DataSet.Edit;
+      Drfi.DataSet.FieldByName('rfivalor').AsFloat := tbRound(VTotalRestante / VParcelasRestantes, 2);
+      Drfi.DataSet.FieldByName('rfivencimento').AsFloat := IncMonth(vdia, (x - 1));
+      Drfi.DataSet.Post;
+    end;
+
+    Drfi.DataSet.Next;
+
+    If Drfi.DataSet.RecNo = VRegistroAtual Then
+    Begin
+      Break;
+    End;
+  End;
+  Drfi.DataSet.EnableControls;
+
+
+
+  //
+  // **** IDENTIFICA DIFERENÇA NOS TOTAIS (Soma das parcelas e Total do Convênio)****
+  //
+
+  vTotalParcelas := 0;
+  VDiferenca := 0;
+
+  Drfi.DataSet.First;
+  Drfi.DataSet.DisableControls;
+  While Not Drfi.DataSet.Eof Do
+  Begin
+    vTotalParcelas := vTotalParcelas + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+    Drfi.DataSet.Next;
+  End;
+
+  VDiferenca := VTotalConvenio - vTotalParcelas;
+  if VDiferenca <> 0 then
+  begin
+    Drfi.DataSet.Last;
+    Drfi.DataSet.Edit;
+    Drfi.DataSet.FieldByName('rfivalor').AsFloat := StrToFloat(Format('%15.2f', [Drfi.DataSet.FieldByName('rfivalor').AsFloat + VDiferenca]));
+    Drfi.DataSet.Post;
+  end;
+
+  Result := ValidaTotais;
+
+  Drfi.DataSet.EnableControls;
+
+
+  //
+  // **** VOLTA POSIÇÃO DO GRID *****
+  //
+
+  Drfi.DataSet.RecNo := VRegistroAtual;
+
+end;
+
+function TfdfcPDVTEF.ValidaTotais: Boolean;
+var
+  VPodeValor: Boolean;
+  vTotalParcelas: Double;
+  VDiferenca: Double;
+  VTotalConvenio: Double;
+  vtotalemconvenio: string;
+begin
+
+  //
+  // **** IDENTIFICA DIVERGÊNCIA DE VALORES ****
+  //
+
+  vtotalemconvenio := totalemconvenio.Text;
+
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+  vtotalemconvenio := BuscaTroca(vtotalemconvenio, '.', '');
+
+  VDiferenca := 0;
+  vTotalParcelas := 0;
+  VTotalConvenio := StrToFloat(vtotalemconvenio);
+
+  VPodeValor := True;
+
+  Drfi.DataSet.DisableControls;
+  try
+    Drfi.DataSet.First;
+    While Not Drfi.DataSet.Eof Do
+    Begin
+      vTotalParcelas := vTotalParcelas + Drfi.DataSet.FieldByName('rfivalor').AsFloat;
+
+      Drfi.DataSet.Next;
+    End;
+  {
+    if not VPodeValor then
+      MessageDlg('Uma ou mais parcelas estão com valor zero ou negativo!!' + #13 + #13 + 'Por favor verifique valor definido na(s) parcela(s).',
+        mtWarning, [mbOK], 0);
+    }
+
+    VDiferenca := tbRound(VTotalConvenio - vTotalParcelas, 2);
+    if VDiferenca <> 0 then
+    begin
+      VPodeValor := False;
+      MessageDlg('Total da(s) parcela(s) está diferente do Total do Documento!!' + #13 + #13 + 'Por favor verifique valor definido na(s) parcela(s).',
+        mtWarning, [mbOK], 0);
+    end;
+
+    bconfirma.Enabled := VPodeValor;
+    Result := VPodeValor;
+  finally
+    Drfi.DataSet.EnableControls;
+  end;
+end;
+
+function TfdfcPDVTEF.ValidaVencimento: Boolean;
+Var
+  VRegistroAtual: Integer;
+  VVctoAtual, VVctoAnterior: TDateTime;
+Begin
+  Result := True;
+
+  VRegistroAtual := Drfi.DataSet.RecNo;
+
+  Drfi.DataSet.DisableControls;
+  try
+    Drfi.DataSet.First;
+
+    while not Drfi.DataSet.Eof do
+    begin
+
+      VVctoAnterior := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+      VVctoAtual := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+
+      If Drfi.DataSet.RecNo > 1 Then
+      Begin
+        Drfi.DataSet.Prior;
+        VVctoAnterior := Drfi.DataSet.FieldByName('rfivencimento').AsFloat;
+        Drfi.DataSet.Next;
+      End;
+
+      If (VVctoAtual>strtodate('30/12/1899'))  and   Not(VVctoAtual >= Drfi.DataSet.FieldByName('rfivencimento').AsFloat) Then
+      Begin
+        MessageDlg('Vencimento não permitido!!' + #13 + #13 + 'Não pode ser menor que data de emissão.', mtWarning, [mbOK], 0);
+        DBGLista.SelectedIndex := 1;
+        Result := False;
+        Break;
+      End
+      Else If  (Drfi.DataSet.RecNo = 1) and   (VVctoAtual>strtodate('30/12/1899'))  and (Not(VVctoAtual >= VVctoAnterior) ) Then
+      Begin
+        MessageDlg('Vencimento não permitido!!' + #13 + #13 + 'Deve ser maior que parcela anterior.', mtWarning, [mbOK], 0);
+        DBGLista.SelectedIndex := 1;
+        DBGLista.SetFocus;
+        Result := False;
+        Break;
+      End;
+
+      Drfi.DataSet.Next;
+    end;
+
+    Drfi.DataSet.RecNo := VRegistroAtual;
+
+    bconfirma.Enabled := Result;
+  finally
+    Drfi.DataSet.EnableControls;
+  end;
+
+end;
+
+end.

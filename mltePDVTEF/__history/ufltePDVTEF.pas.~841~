@@ -1,0 +1,5428 @@
+unit ufltePDVTEF;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.DateUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, uni, upegabase, Data.DB, MemDS,
+  DBAccess, ufuncoes, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, uRecordsTEF,
+  uflteModalidade, uftransacaoLTETEFAPI, Vcl.Imaging.pngimage,pingsend,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,System.Math,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin;
+
+
+type
+  TfltePDTVTEF = class(TForm)
+    acoes: TActionList;
+    ActDinheiro: TAction;
+    ActConvenio: TAction;
+    ActCartaoDebito: TAction;
+    ActCartaoCredito: TAction;
+    ActChequeTerceiros: TAction;
+    ActPIX: TAction;
+    ActDoacao: TAction;
+    mda: TUniQuery;
+    mdamdacodigo: TIntegerField;
+    mdamdaidentificacao: TStringField;
+    dtl: TUniQuery;
+    dtldtlchave: TIntegerField;
+    dtlltechave: TIntegerField;
+    dtlcedcodigo: TIntegerField;
+    dtlmdacodigo: TIntegerField;
+    dtldtlvalor: TFloatField;
+    dtldtlvalorinfo: TFloatField;
+    dtlflacodigo: TIntegerField;
+    dtlccxchave: TIntegerField;
+    dtldtlregistro: TDateTimeField;
+    lte: TUniQuery;
+    lteltechave: TIntegerField;
+    ltetfdcodigo: TIntegerField;
+    lteltedata: TDateField;
+    ltelteprincipal: TFloatField;
+    lteltemulta: TFloatField;
+    lteltejuros: TFloatField;
+    lteltedesconto: TFloatField;
+    lteltetotal: TFloatField;
+    ltelteextenso: TStringField;
+    lteclbcodigo: TIntegerField;
+    ltectacodigo: TIntegerField;
+    lteltetroco: TFloatField;
+    lteflacodigo: TIntegerField;
+    lteccxchave: TIntegerField;
+    che: TUniQuery;
+    chechechave: TIntegerField;
+    checheemissao: TDateField;
+    chechevencimento: TDateField;
+    chechenumero: TStringField;
+    checheconta: TStringField;
+    checheagencia: TStringField;
+    chebcocodigo: TStringField;
+    chechenome: TStringField;
+    chechedocumento: TStringField;
+    chechetelefone: TStringField;
+    chechevalor: TFloatField;
+    clt: TUniQuery;
+    DSdtl: TDataSource;
+    dtlmdaidentificacao: TStringField;
+    cco: TUniQuery;
+    ccoccochave: TIntegerField;
+    ccoctacodigo: TIntegerField;
+    ccotoccodigo: TIntegerField;
+    ccocedcodigo: TIntegerField;
+    ccoclbcodigo: TIntegerField;
+    ccotficodigo: TIntegerField;
+    ccoccoemissao: TDateField;
+    ccoccovencimento: TDateField;
+    ccocconumero: TStringField;
+    ccoccohistorico: TStringField;
+    ccoccovalor: TFloatField;
+    ccoccochaveorig: TIntegerField;
+    ccoccochavedest: TIntegerField;
+    ccoccoconciliado: TIntegerField;
+    ccomoecodigo: TIntegerField;
+    ccoccoextenso: TStringField;
+    ccoetdcodigo: TIntegerField;
+    ccoccofavorecido: TStringField;
+    ccoccodatamov: TDateField;
+    ccoccodataregistro: TDateField;
+    ccoccohoraregistro: TTimeField;
+    ccoflacodigo: TIntegerField;
+    mes: TUniQuery;
+    tit: TUniQuery;
+    tittitcodigo: TIntegerField;
+    titetdcodigo: TIntegerField;
+    tittitnumero: TStringField;
+    tittitvalor: TFloatField;
+    tittitemissao: TDateField;
+    tittitvctoinicial: TDateField;
+    tittfdcodigo: TIntegerField;
+    titsrfcodigo: TIntegerField;
+    tittficodigo: TIntegerField;
+    tittithora: TTimeField;
+    tittithistorico: TStringField;
+    titclbcodigo: TIntegerField;
+    tittitvalorparcela: TFloatField;
+    tittitparcelas: TIntegerField;
+    tittitprevisao: TIntegerField;
+    titmoecodigo: TIntegerField;
+    tittitmoradia: TFloatField;
+    tittitvalomulta: TFloatField;
+    tittitpercmesmora: TFloatField;
+    tittitvalodesc: TFloatField;
+    tittitpercmulta: TFloatField;
+    titflacodigo: TIntegerField;
+    titbcocodigo: TStringField;
+    titcarcodigo: TIntegerField;
+    tittitdiasmulta: TIntegerField;
+    tittitdiasdesc: TIntegerField;
+    titedrcodigo: TIntegerField;
+    rfi: TUniQuery;
+    rfirfichave: TIntegerField;
+    rfietdcodigo: TIntegerField;
+    rfitfdcodigo: TIntegerField;
+    rfiflacodigo: TIntegerField;
+    rfitficodigo: TIntegerField;
+    rfibcocodigo: TStringField;
+    rficarcodigo: TIntegerField;
+    rfirfiemissao: TDateField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    rfirfihistorico: TStringField;
+    rfisrfcodigo: TIntegerField;
+    rfifrrcodigo: TIntegerField;
+    rfirfimoradia: TFloatField;
+    rfirfipercmesmora: TFloatField;
+    rfirfirepetir: TIntegerField;
+    rfirfiprevisao: TIntegerField;
+    rfirfivalorparcela: TFloatField;
+    rfimoecodigo: TIntegerField;
+    rfititcodigo: TIntegerField;
+    rfiedrcodigo: TIntegerField;
+    rfm: TUniQuery;
+    rfmrfmchave: TIntegerField;
+    rfmrfichave: TIntegerField;
+    rfmmeschave: TIntegerField;
+    rfmflacodigo: TIntegerField;
+    mfi: TUniQuery;
+    mfimfichave: TIntegerField;
+    mfirfichave: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    mfimoecodigo: TIntegerField;
+    mfimfivalor: TFloatField;
+    mfimfidata: TDateField;
+    mfimfihistorico: TStringField;
+    mfimfivalorori: TFloatField;
+    mfimfiparcela: TIntegerField;
+    mfiflacodigo: TIntegerField;
+    mlt: TUniQuery;
+    mltmltchave: TIntegerField;
+    mltmfichave: TIntegerField;
+    mltltechave: TIntegerField;
+    mltflacodigo: TIntegerField;
+    rdc: TUniQuery;
+    rdcrdcchave: TIntegerField;
+    rdcrdcvalor: TFloatField;
+    rdcrdcnrauto: TStringField;
+    rdcrdcdata: TDateField;
+    rdcadccodigo: TIntegerField;
+    rdcrdcparcelas: TIntegerField;
+    rdcbdccodigo: TIntegerField;
+    ltr: TUniQuery;
+    ltrltrchave: TIntegerField;
+    ltrrdcchave: TIntegerField;
+    ltrdtlchave: TIntegerField;
+    bdc: TUniQuery;
+    bdcbdccodigo: TIntegerField;
+    bdcbdcidentificacao: TStringField;
+    rdcrdccomprovante1via: TStringField;
+    rdcrdccomprovante2via: TStringField;
+    mDtl: TFDMemTable;
+    mDtldtlchave: TIntegerField;
+    mDtlltechave: TIntegerField;
+    mDtlcedcodigo: TIntegerField;
+    mDtlmdacodigo: TIntegerField;
+    mDtldtlvalor: TFloatField;
+    mDtldtlvalorinfo: TFloatField;
+    mDtlflacodigo: TIntegerField;
+    mDtlccxchave: TIntegerField;
+    mDtldtlregistro: TDateTimeField;
+    mDtlmdaidentificacao: TStringField;
+    mDtltextoexcluir: TStringField;
+    mLte: TFDMemTable;
+    mLteltechave: TIntegerField;
+    mLtetfdcodigo: TIntegerField;
+    mLteltedata: TDateField;
+    mLtelteprincipal: TFloatField;
+    mLteltemulta: TFloatField;
+    mLteltejuros: TFloatField;
+    mLteltedesconto: TFloatField;
+    mLteltetotal: TFloatField;
+    mLtelteextenso: TStringField;
+    mLteclbcodigo: TIntegerField;
+    mLtectacodigo: TIntegerField;
+    mLteltetroco: TFloatField;
+    mLteflacodigo: TIntegerField;
+    mLteccxchave: TIntegerField;
+    mRdc: TFDMemTable;
+    mRdcrdcchave: TIntegerField;
+    mRdcrdcvalor: TFloatField;
+    mRdcrdcnrauto: TStringField;
+    mRdcrdcdata: TDateField;
+    mRdcadccodigo: TIntegerField;
+    mRdcrdcparcelas: TIntegerField;
+    mRdcbdccodigo: TIntegerField;
+    mRdcrdccomprovante1via: TStringField;
+    mRdcrdccomprovante2via: TStringField;
+    mTit: TFDMemTable;
+    mTittitcodigo: TIntegerField;
+    mTitetdcodigo: TIntegerField;
+    mTittitnumero: TStringField;
+    mTittitvalor: TFloatField;
+    mTittitemissao: TDateField;
+    mTittitvctoinicial: TDateField;
+    mTittfdcodigo: TIntegerField;
+    mTitsrfcodigo: TIntegerField;
+    mTittficodigo: TIntegerField;
+    mTittithora: TTimeField;
+    mTittithistorico: TStringField;
+    mTitclbcodigo: TIntegerField;
+    mTittitvalorparcela: TFloatField;
+    mTittitparcelas: TIntegerField;
+    mTittitprevisao: TIntegerField;
+    mTitmoecodigo: TIntegerField;
+    mTittitmoradia: TFloatField;
+    mTittitvalomulta: TFloatField;
+    mTittitpercmesmora: TFloatField;
+    mTittitvalodesc: TFloatField;
+    mTittitpercmulta: TFloatField;
+    mTitflacodigo: TIntegerField;
+    mTitbcocodigo: TStringField;
+    mTitcarcodigo: TIntegerField;
+    mTittitdiasmulta: TIntegerField;
+    mTittitdiasdesc: TIntegerField;
+    mTitedrcodigo: TIntegerField;
+    mRfi: TFDMemTable;
+    mRfirfichave: TIntegerField;
+    mRfietdcodigo: TIntegerField;
+    mRfitfdcodigo: TIntegerField;
+    mRfiflacodigo: TIntegerField;
+    mRfitficodigo: TIntegerField;
+    mRfibcocodigo: TStringField;
+    mRficarcodigo: TIntegerField;
+    mRfirfiemissao: TDateField;
+    mRfirfivencimento: TDateField;
+    mRfirfinumero: TStringField;
+    mRfirfivalor: TFloatField;
+    mRfirfihistorico: TStringField;
+    mRfisrfcodigo: TIntegerField;
+    mRfifrrcodigo: TIntegerField;
+    mRfirfimoradia: TFloatField;
+    mRfirfipercmesmora: TFloatField;
+    mRfirfirepetir: TIntegerField;
+    mRfirfiprevisao: TIntegerField;
+    mRfirfivalorparcela: TFloatField;
+    mRfimoecodigo: TIntegerField;
+    mRfititcodigo: TIntegerField;
+    mRfiedrcodigo: TIntegerField;
+    mCco: TFDMemTable;
+    mCcoccochave: TIntegerField;
+    mCcoctacodigo: TIntegerField;
+    mCcotoccodigo: TIntegerField;
+    mCcocedcodigo: TIntegerField;
+    mCcoclbcodigo: TIntegerField;
+    mCcotficodigo: TIntegerField;
+    mCcoccoemissao: TDateField;
+    mCcoccovencimento: TDateField;
+    mCcocconumero: TStringField;
+    mCcoccohistorico: TStringField;
+    mCcoccovalor: TFloatField;
+    mCcoccochaveorig: TIntegerField;
+    mCcoccochavedest: TIntegerField;
+    mCcoccoconciliado: TIntegerField;
+    mCcomoecodigo: TIntegerField;
+    mCcoccoextenso: TStringField;
+    mCcoetdcodigo: TIntegerField;
+    mCcoccofavorecido: TStringField;
+    mCcoccodatamov: TDateField;
+    mCcoccodataregistro: TDateField;
+    mCcoccohoraregistro: TTimeField;
+    mCcoflacodigo: TIntegerField;
+    mRfidtlchave: TIntegerField;
+    mRdcdtlchave: TIntegerField;
+    mCcodtlchave: TIntegerField;
+    mTitdtlchave: TIntegerField;
+    rct: TUniQuery;
+    rctrctvalor: TCurrencyField;
+    rctrctchave: TIntegerField;
+    rctrctnrauto: TStringField;
+    rctorcchave: TIntegerField;
+    rctadccodigo: TIntegerField;
+    rctbdccodigo: TIntegerField;
+    RemoveRct: TUniQuery;
+    rctrctparcelas: TIntegerField;
+    rctrcthora: TTimeField;
+    rctrctcomprovante1via: TStringField;
+    rctrctcomprovante2via: TStringField;
+    rctrctstatus: TStringField;
+    bdcid: TUniQuery;
+    ltrrdcnrauto: TStringField;
+    mDtlrdcnrauto: TStringField;
+    dtlrdcnrauto: TStringField;
+    mic: TUniQuery;
+    micmicchave: TIntegerField;
+    micidccodigo: TIntegerField;
+    micmeschave: TIntegerField;
+    idc: TUniQuery;
+    idcidccodigo: TIntegerField;
+    idcidcnome: TStringField;
+    idcidcdoc: TStringField;
+    mDtldtlrede: TStringField;
+    rdcrdchora: TTimeField;
+    mDtldtlpodeexcluir: TIntegerField;
+    orc: TUniQuery;
+    orcorcchave: TIntegerField;
+    orcetdcodigo: TIntegerField;
+    orcedritem: TIntegerField;
+    orcedrcodigo: TIntegerField;
+    edr: TUniQuery;
+    edredrcodigo: TIntegerField;
+    edredritem: TIntegerField;
+    ActVale: TAction;
+    cltcltchave: TIntegerField;
+    cltccochave: TIntegerField;
+    cltltechave: TIntegerField;
+    cltdtlchave: TIntegerField;
+    limite: TUniQuery;
+    limiteetdcodigo: TIntegerField;
+    limiteetllimitetotal: TFloatField;
+    limiteetldescontopadrao: TFloatField;
+    rfiemaberto: TUniQuery;
+    rfiemabertorfisaldocapital: TFloatField;
+    rdcdtlchave: TIntegerField;
+    rctrctrede: TStringField;
+    ActCNPJ: TAction;
+    oic: TUniQuery;
+    oicoicchave: TIntegerField;
+    oicidccodigo: TIntegerField;
+    oicorcchave: TIntegerField;
+    idcoic: TUniQuery;
+    mestem: TUniQuery;
+    etl: TUniQuery;
+    etletlchave: TIntegerField;
+    etletdcodigo: TIntegerField;
+    etletllimitetotal: TFloatField;
+    etletltipo: TIntegerField;
+    etletldias: TIntegerField;
+    dfcrfi: TFDMemTable;
+    dfcrfirfichave: TIntegerField;
+    dfcrfirfinumero: TStringField;
+    dfcrfirfivencimento: TDateField;
+    dfcrfirfivalor: TFloatField;
+    dfcrfirfivalorparcela: TCurrencyField;
+    car: TUniQuery;
+    carcarpercmorames: TFloatField;
+    carcarcodigo: TIntegerField;
+    carcardiasjuros: TIntegerField;
+    mRfirfidatamulta: TDateField;
+    mRfirfivalomulta: TCurrencyField;
+    rfirfidatamulta: TDateField;
+    rfirfivalomulta: TCurrencyField;
+    ActTroca: TAction;
+    idt: TUniQuery;
+    idtidtchave: TIntegerField;
+    idtmdtchave: TIntegerField;
+    idtitmchave: TIntegerField;
+    idtmeschave: TIntegerField;
+    idtflacodigo: TIntegerField;
+    idtidtquantidade: TFloatField;
+    idtidtmotivo: TStringField;
+    idtunicodigo: TIntegerField;
+    idtidtvalor: TFloatField;
+    idtidtdesconto: TFloatField;
+    idtidttotal: TFloatField;
+    lcv: TUniQuery;
+    lcvlcvchave: TIntegerField;
+    lcvltechave: TIntegerField;
+    lcvmcrchave: TIntegerField;
+    lcvmcrvalor: TFloatField;
+    dfcrfitfdcodigo: TIntegerField;
+    dfcrfitficodigo: TIntegerField;
+    mLteltegui: TStringField;
+    mce: TUniQuery;
+    mcemcechave: TIntegerField;
+    mceltechave: TIntegerField;
+    mceltechavegui: TStringField;
+    plFormulario: TPanel;
+    plCentro: TPanel;
+    plRodaPe: TPanel;
+    plRecebido: TPanel;
+    lbValorRecebi: TLabel;
+    plValorRecebido: TPanel;
+    plFaltaReceber: TPanel;
+    lbFaltaReceber: TLabel;
+    plValorFaltaReceber: TPanel;
+    plTroco: TPanel;
+    lbTroco: TLabel;
+    plValorTroco: TPanel;
+    plTeclas: TPanel;
+    pllinha01botoes: TPanel;
+    sbCartaoDebito: TSpeedButton;
+    sbCartaoCredito: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    pllinha02botoes: TPanel;
+    SpeedButton8: TSpeedButton;
+    sbCNPJ: TSpeedButton;
+    sbTroca: TSpeedButton;
+    plTopo: TPanel;
+    pane: TPanel;
+    ltprincipal: TLabel;
+    plValorTotalCompra: TPanel;
+    plDesconto: TPanel;
+    lltdesconto: TLabel;
+    plValorDesconto: TPanel;
+    plTotalLiquido: TPanel;
+    lltTotalLiquido: TLabel;
+    plValorTotalLiquido: TPanel;
+    plDetalhe: TPanel;
+    DBListaPagamentos: TDBGrid;
+    plMensagem: TPanel;
+    etd: TUniQuery;
+    etdetdidentificacao: TStringField;
+    etdetddoc1: TStringField;
+    etdetdcodigo: TIntegerField;
+    etdedrcodigo: TIntegerField;
+    sbCartaoVoucher: TSpeedButton;
+    SpeedButton5: TSpeedButton;
+    sbPIX: TSpeedButton;
+    SBCheques: TSpeedButton;
+    mesetd: TUniQuery;
+    etdedr: TUniQuery;
+    procedure ActDinheiroExecute(Sender: TObject);
+    procedure ActConvenioExecute(Sender: TObject);
+    procedure ActCartaoDebitoExecute(Sender: TObject);
+    procedure ActCartaoCreditoExecute(Sender: TObject);
+    procedure ActChequeTerceirosExecute(Sender: TObject);
+    procedure ActPIXExecute(Sender: TObject);
+    procedure ActDoacaoExecute(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure DBListaPagamentosDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure DBListaPagamentosCellClick(Column: TColumn);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure ActValeExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure ActCNPJExecute(Sender: TObject);
+    procedure ActTrocaExecute(Sender: TObject);
+
+  private
+    { Private declarations }
+
+    FWebOnLine: Boolean;
+    vpPOdeFechar: Boolean;
+
+    fDocumentoFiscal: String;
+    fOperador: String;
+
+    vpLarguraTela: Integer;
+    vpAlturaTela: Integer;
+
+    fTeclaFinalizador: Integer;
+    fValorFinalizador: Currency;
+
+    fMdaCodigo: Integer;
+    fMdaIdentificacao: String;
+
+    fEtdCodigo:Integer;
+    fEtdCodigoConvenio:Integer;
+    fEdritem:Integer;
+    fEdrCodigo:Integer;
+
+    fEtdIdenticicacao: String;
+
+    fMesChave:String;
+    fOrcChave:String;
+
+    fCcoChave:String;
+
+    fAcesso: TAcesso;
+    Fzcone: tuniconnection;
+    FDataAtual: TDate;
+    FContaCaixa: Integer;
+    FContaPIX: Integer;
+    FCcxchave: Integer;
+    fusacre: Integer;
+    FUsaAdc: Integer;
+    fTEFAtivo: Boolean;
+    fcontrolalimite: Integer;
+
+    FCodigoADC: Integer;
+    FAdquirenteADC: String;
+    FContaADC: Integer;
+    FEntidadeADC: Integer;
+
+    festabelecimentotipotef:string;
+    festabelecimentocnpj:string;
+    festabelecimentorazaosocial:string;
+    fterminalcodempresa:string;
+    fterminalcodfilial:string;
+    fterminalcodterminal:string;
+    fterminalenderecoservidor:string;
+    fterminalportapinpad:string;
+
+    flteChave:string;
+    flteprincipal: currency;
+    fltedesconto: currency;
+    flteliquido: currency;
+    fltetroco: currency;
+    flterecebido: currency;
+
+    fdtlChave:Integer;
+    fTdfCodigo:String;
+
+    fConfiguracaoTEF: TConfiguracaoTEF;
+
+
+    fCPFnaNota: String;
+    fStatusVenda: TStatusVenda;
+
+    Function MostraLista(pModulo: String; pFiltro: string = ''; pChaveMestre: string = ''): string;
+    function GetHoraAtual: TTime;
+    procedure IniciaProcesso;
+    procedure AjustaPaineisValores;
+    procedure CarregaModalidade;
+    procedure IncluiRegistroLTE;
+    procedure DadosCaixa;
+    procedure DadosConfiguracao;
+    procedure DadosEntidadeVenda;
+    procedure AjustaaoMonitor;
+    function RegistraModalidade(aTeclaFinalizador: String): Currency;
+    Function registraDTL(aTeclaFinalizador: Integer; aValorFinalizador: Currency):Integer;
+    function RegistraCCO(avalor: Double; aCtaCodigo: String;  adoacao: Integer = 0; aTfiCodigo:Integer=0): string;
+    function RegistraTit(aetdcodigo: Integer; atitvalor:Currency; aVencimento:TDate): Integer;
+    function RegistraRfi(atitcodigo: Integer; aVencimento: TDate; aParcela: Integer; avalor: Double): Integer;
+    function EstornaCCO(avalor: Double; aCtaCodigo: String; aTfiCodigo:Integer): string;
+    function RegistraCheques(aDtlChave:Integer; aValor: Currency): string;
+
+    // funcoes tef
+    function RegistraCartao(aDtlchave: Integer; aValor: Currency; aQuantidadeParcelas:String='1'): TOperacaoTEF;
+    procedure ChamaMenuADMTEF;
+    function loteAtivaTEF:boolean;
+    function loteDesaAtivaTEF:boolean;
+    procedure CarregaDadosConfiguracaoTEF;
+    function PedeCPFTEF: String;
+    procedure RegistraRDC(avalor: Double; aLteChave: Integer; aDtlChave: Integer);
+    procedure EmiteNotasTEF;
+
+   // function ModuloNFCe: Boolean;
+   // function ModuloNFe: Boolean;
+
+    function ValorInvalido: Boolean;
+    procedure ExibirMensagem(const Mensagem: string;
+      MilissegundosExibicao: Integer);
+    procedure AtualizaPaineisValores;
+    procedure RemoveRegistros(aDtlChave: String);
+
+    procedure SalvaRegistroFinalizacaoFinanceira;
+    function SalvaRegistroTITVENDA(aLteChave:String; aQuitado:Boolean):String;
+
+    procedure ProcessaOrcamento;
+    function RemoveCartao(aDtlchave: Integer): TOperacaoTEF;
+    function CancelaCartao(aDtlchave: Integer; aValor: Currency;aRede:String ; aNSU: String): TOperacaoTEF;
+    function LimiteAutorizado(vetdcodigo: String; vValorVenda, vlLimiteSolic, vlLimiteDisponivel: Double; vpOrcChave: Integer): Boolean;
+    function AutorizaAcimaLimte(aValor: Currency; aEtdCodigo: String; aLimiteSolic, aLimiteDisponivel: Double; aOrcChave: Integer): Currency;
+    procedure AtribuiEventosQuery;
+    procedure VerificaConexaoAntesdeExecutar(Sender: TObject);
+    procedure VerificaconexaoantesdeAplicar(DataSet: TDataSet);
+    function GeraSequencial: String;
+    procedure AjustaEntidadeEndereco;
+    function SalvaRegistroLote: String;
+    function SalvaRegistroDetalheLote(aLteChave:String):String;
+    function SalvaRegistroCartaoCredito(aDtlChave: String): String;
+    procedure SalvaRegistroRFIVENDA(aTitCodigo,mtitcodigo, aLtechave: String; aSituacao:Boolean);
+    procedure SalvaRegistroRFMVENDA(arfichave: String);
+    procedure SalvaRegistroMFIVENDA(arfiChave: String; aRfiValor: Currency;  atmfCodigo: Integer; aLteChave:String);
+    procedure SalvaRegistroMLTVENDA(aMfiChave, aLteChave: String);
+    function SalvaRegistroTIT(aLteChave: String): string;
+    procedure SalvaRegistroRFI(aTitCodigo,mTitCodigo, aLtechave: String; aSituacao: Boolean);
+    procedure SalvaRegistroCCO(aLteChave: String; mccoChave:String);
+    procedure SalvaRegistroCLT(aCcoChave, aLteChave: String);
+    procedure SalvaRegistroMLT(aMfiChave, aLteChave: String);
+    procedure ExibirMensagemPorTempo(const Mensagem: string; MilissegundosExibicao: Integer);
+
+    function RegistraCredito(vdtlchave: string; vTotal: Double; vtnccodigo: string): string;
+    function RegistraTrocaDevolucao(vdtlchave: string; vTotal: Double; vtnccodigo: string): string;
+    function mostralistacreditos(modulo, vusuario, vfiltro, vmodo, vtnccodigo, vrcrcodigo: string): string;
+    function mostralistatrocadevolucaos(pModulo, pFiltro: string): string;
+
+    function RegistraModalidadeValor(aTeclaFinalizador: String; aValor:Currency): Currency;
+    procedure SalvaRegistroMce(altegui, altechave: string);
+    procedure RemoveRegistroMce(altegui: String);
+    procedure AjustaEntidadeVenda;
+    function SelecionarEndereco(vetdcodigo: string): string;
+    function CNPJCPFInformado: Boolean;
+
+  public
+    { Public declarations }
+
+    fOperacaoTEF: TOperacaoTEF;
+
+  published
+
+    property CodigoADC: Integer read FCodigoADC write FCodigoADC;
+    property AdquirenteADC: String read FAdquirenteADC write FAdquirenteADC;
+    property ContaADC: Integer read FContaADC write FContaADC;
+    property EntidadeADC: Integer read FEntidadeADC write FEntidadeADC;
+
+    property ZCone: tuniconnection read Fzcone write Fzcone;
+    property DataAtual: TDate read FDataAtual write fDataAtual;
+    property HoraAtual: TTime read GetHoraAtual;
+    property ContaCaixa: Integer read FContaCaixa write FContaCaixa;
+    property ContaPIX: Integer read FContaPIX write FContaPIX;
+
+
+    property UsaCre: Integer read FUsaCre write FUsaCre;
+    property UsaAdc: Integer read FUsaAdc write FUsaAdc;
+    property ControlaLimite: Integer read FControlaLimite write FControlaLimite;
+
+    property estabelecimentocnpj: String read festabelecimentocnpj write festabelecimentocnpj;
+    property estabelecimentorazaosocial: String read festabelecimentorazaosocial write festabelecimentorazaosocial;
+
+    property estabelecimentotipotef:string read festabelecimentotipotef write festabelecimentotipotef;
+    property terminalcodempresa:string read fterminalcodempresa write fterminalcodempresa;
+    property terminalcodfilial:string read fterminalcodfilial write fterminalcodfilial;
+    property terminalcodterminal:string read fterminalcodterminal write fterminalcodterminal;
+    property terminalenderecoservidor:string read fterminalenderecoservidor write fterminalenderecoservidor;
+    property terminalportapinpad:string read fterminalportapinpad write fterminalportapinpad;
+
+    property lteprincipal: currency  read flteprincipal write flteprincipal;
+    property ltedesconto: currency  read fltedesconto write fltedesconto;
+    property lteliquido: currency  read flteliquido write flteliquido;
+    property ltetroco: currency  read fltetroco write fltetroco;
+    property lterecebido: currency  read flterecebido write flterecebido;
+
+    property DtlChave: Integer read fDtlChave write fDtlChave;
+    property TdfCodigo: String read fTdfCodigo write fTdfCodigo;
+
+    property CPFnaNota: String read fCPFnaNota write fCPFnaNota;
+    property StatusVenda: TStatusVenda read fStatusVenda write fStatusVenda;
+    property DocumentoFiscal: String read fDocumentoFiscal write fDocumentoFiscal;
+    property Operador: String read fOperador write fOperador;
+
+    property WebOnLine: Boolean read FWebOnLine write FWebOnLine;
+
+
+
+  end;
+
+  TProcessaOrc = function(AOwner: TComponent; Conexao: TUniConnection; pChave: string; pAcesso: TAcesso; AFaturar: Boolean = False): string;
+
+  TClienteSimples = function(AOwner: TComponent; conexao: TUniConnection; vmeschave: string; vClbCodigo: string): string;
+
+  TFormuSelecionaCreditos = function(AOwner: TComponent; Conexao: tuniconnection; vusuario: string; vtipolista: Integer; vmodulo: string;
+    vfiltro: string; vmodo: string; vtnccodigo: string; vrcrcodigo: string; vvalor: string; vLote: string; vLoteguid:String=''): string;
+
+
+var
+  fltePDTVTEF: TfltePDTVTEF;
+  ftransacaoTEF: TftransacaoTEFAPI;
+
+implementation
+
+uses
+  frExibeMensagem, frMenuTEF, frObtemCampo, ACBrTEFAPIPayGoWeb,ACBrTEFAPICLISitef, ACBrTEFComum,
+  uflteComprovante, frExibeMensagemPorTempo, ufdfcPDVTEF;
+
+
+{$R *.dfm}
+
+function ConsultaAtivaPDVTEF(AOwner: TComponent;aZcone:tuniconnection; aAcesso: TAcesso; altePDTVTEF : TfltePDTVTEF ): Boolean;
+begin
+
+
+  fltePDTVTEF := TfltePDTVTEF.create(AOwner);
+  fltePDTVTEF.AtribuiEventosQuery;
+
+
+  fltePDTVTEF.ZCone:=aZcone;
+  fltePDTVTEF.fAcesso:=aAcesso;
+  fltePDTVTEF.DadosConfiguracao;
+
+  fltePDTVTEF.CarregaDadosConfiguracaoTEF;
+
+  if PingHost('google.com')>0 then
+    fltePDTVTEF.WebOnLine :=true
+  else
+    fltePDTVTEF.WebOnLine :=False;
+
+
+  Result:=altePDTVTEF.LoteAtivaTEF;
+
+end;
+
+
+procedure ChamaMenuPDVTEF(AOwner: TComponent;aZcone:tuniconnection; aAcesso: TAcesso; altePDTVTEF : TfltePDTVTEF);
+begin
+
+  if fltePDTVTEF=nil then
+    fltePDTVTEF := TfltePDTVTEF.create(AOwner);
+
+  fltePDTVTEF.DadosConfiguracao;
+
+  fltePDTVTEF.CarregaDadosConfiguracaoTEF;
+
+  fltePDTVTEF.ChamaMenuADMTEF;
+
+end;
+
+
+function registralotePDVTEF(AOwner: TComponent; Conexao: tuniconnection; vchave: string; principal: currency; desconto: currency;
+  Acesso: TAcesso; altePDTVTEF : TfltePDTVTEF; vTeclaFinalizador: Integer = 0; vValorFinalizador: currency = 0; vContaCodigo: String = ''; vetpcodigo:string='0'; vedrcodigo:string='1'): string;
+begin
+
+  fltePDTVTEF :=altePDTVTEF;
+  fltePDTVTEF.AtribuiEventosQuery;
+
+  if PingHost('google.com')>0 then
+    fltePDTVTEF.WebOnLine :=true
+  else
+    fltePDTVTEF.WebOnLine :=False;
+
+
+  fltePDTVTEF.ZCone := Conexao;
+  fltePDTVTEF.fAcesso := Acesso;
+  fltePDTVTEF.lteprincipal := principal;
+  fltePDTVTEF.ltedesconto := desconto;
+  fltePDTVTEF.fTeclaFinalizador := vTeclaFinalizador;
+  fltePDTVTEF.fValorFinalizador := vValorFinalizador;
+  fltePDTVTEF.fOrcChave := vchave;
+  fltePDTVTEF.ContaCaixa := vContaCodigo.ToInteger;
+
+
+  fltePDTVTEF.fEtdCodigo:=vetpcodigo.ToInteger;
+
+  if vedrcodigo<>'' then
+   fltePDTVTEF.fEdrCodigo:=vedrcodigo.ToInteger
+  else
+    fltePDTVTEF.fEdrCodigo:=0;
+
+  fltePDTVTEF.edr.close;
+  fltePDTVTEF.edr.ParamByName('etdcodigo').AsString:=vetpcodigo;
+  fltePDTVTEF.edr.Open;
+
+  if fltePDTVTEF.edr.Locate('edrcodigo', vedrcodigo,[] ) then
+  begin
+    fltePDTVTEF.fEdritem:=fltePDTVTEF.edr.FieldByName('edritem').AsInteger;
+  end;
+
+  fltePDTVTEF.IniciaProcesso;
+
+
+  if fltePDTVTEF.flterecebido=0 then
+  begin
+    if (fltePDTVTEF.flteChave<>'') and (fltePDTVTEF.flteChave<>'0')  then
+    begin
+
+      if not fltePDTVTEF.mlte.IsEmpty then
+      begin
+        fltePDTVTEF.mlte.Delete;
+      end;
+
+    end;
+
+  end;
+
+  if vetpcodigo<>'' then
+  begin
+    fltePDTVTEF.etd.close;
+    fltePDTVTEF.etd.Connection:=fltePDTVTEF.ZCone;
+    fltePDTVTEF.etd.ParamByName('etdcodigo').AsString:=vetpcodigo;
+    fltePDTVTEF.etd.Open;
+
+    fltePDTVTEF.plMensagem.Visible:=true;
+    fltePDTVTEF.plMensagem.Color:=clYellow;
+    fltePDTVTEF.plMensagem.Caption:='Cliente: '+fltePDTVTEF.etdetdidentificacao.AsString +' CNPJ: '+fltePDTVTEF.etdetddoc1.AsString;
+
+  end;
+
+  Result := Trim(CurrToStr(fltePDTVTEF.fltetroco +  fltePDTVTEF.flterecebido));
+
+end;
+
+exports registralotePDVTEF, ConsultaAtivaPDVTEF, ChamaMenuPDVTEF;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+
+function ForceForegroundWindow(hwnd: THandle): Boolean;
+const
+  SPI_GETFOREGROUNDLOCKTIMEOUT = $2000;
+  SPI_SETFOREGROUNDLOCKTIMEOUT = $2001;
+var
+  ForegroundThreadID: DWORD;
+  ThisThreadID: DWORD;
+  timeout: DWORD;
+begin
+  if IsIconic(hwnd) then ShowWindow(hwnd, SW_RESTORE);
+
+  if GetForegroundWindow = hwnd then Result := True
+  else
+  begin
+    // Windows 98/2000 doesn't want to foreground a window when some other
+    // window has keyboard focus
+
+    if ((Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4)) or
+      ((Win32Platform = VER_PLATFORM_WIN32_WINDOWS) and
+      ((Win32MajorVersion > 4) or ((Win32MajorVersion = 4) and
+      (Win32MinorVersion > 0)))) then
+    begin
+      // Code from Karl E. Peterson, www.mvps.org/vb/sample.htm
+      // Converted to Delphi by Ray Lischner
+      // Published in The Delphi Magazine 55, page 16
+
+      Result := False;
+      ForegroundThreadID := GetWindowThreadProcessID(GetForegroundWindow, nil);
+      ThisThreadID := GetWindowThreadPRocessId(hwnd, nil);
+      if AttachThreadInput(ThisThreadID, ForegroundThreadID, True) then
+      begin
+        BringWindowToTop(hwnd); // IE 5.5 related hack
+        SetForegroundWindow(hwnd);
+        AttachThreadInput(ThisThreadID, ForegroundThreadID, False);
+        Result := (GetForegroundWindow = hwnd);
+      end;
+      if not Result then
+      begin
+        // Code by Daniel P. Stasinski
+        SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT, 0, @timeout, 0);
+        SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT, 0, TObject(0),
+          SPIF_SENDCHANGE);
+        BringWindowToTop(hwnd); // IE 5.5 related hack
+        SetForegroundWindow(hWnd);
+        SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT, 0, TObject(timeout), SPIF_SENDCHANGE);
+      end;
+    end
+    else
+    begin
+      BringWindowToTop(hwnd); // IE 5.5 related hack
+      SetForegroundWindow(hwnd);
+    end;
+
+    Result := (GetForegroundWindow = hwnd);
+  end;
+end; { ForceForegroundWindow }
+
+procedure TfltePDTVTEF.ProcessaOrcamento;
+var
+  vlPackopm: cardinal;
+  Processa: TProcessaOrc;
+begin
+
+  vlPackopm := LoadPackage('modulos\mopm.bpl');
+  if vlPackopm <> 0 then
+    try
+      @Processa := GetProcAddress(vlPackopm, PChar('ProcessaOrc'));
+      if Assigned(Processa) then
+      begin
+
+        fmeschave := Processa(Application, ZCone, fOrcChave, fAcesso);
+
+        if (fmeschave<>'') and (fmeschave<>'0') then
+        begin
+          mestem.Close;
+          mestem.Connection:=ZCone;
+          mestem.SQL.Text := 'update mes set temcodigo=2 where meschave=' + fmeschave;
+          mestem.ExecSQL;
+        end;
+
+      end;
+    finally
+    end;
+end;
+
+
+
+
+procedure TfltePDTVTEF.IniciaProcesso;
+begin
+  dfcrfi.close;
+  mdtl.close;
+  mtit.Close;
+  mrfi.Close;
+  mrdc.Close;
+  mlte.Close;
+  mcco.close;
+
+  mlte.Open;
+  mdtl.Open;
+  mrdc.Open;
+  mcco.Open;
+  mtit.Open;
+  mrfi.Open;
+
+
+  vpLarguraTela := 0;
+  vpAlturaTela := 0;
+
+  fltetroco:=0;
+  flterecebido:=0;
+  flteliquido:=fltePDTVTEF.flteprincipal-fltePDTVTEF.fltedesconto;
+
+  AjustaaoMonitor;
+
+  AjustaPaineisValores;
+
+  DadosConfiguracao;
+
+  DadosCaixa;
+
+  IncluiRegistroLTE;
+
+  Self.ShowModal;
+
+end;
+
+
+procedure TfltePDTVTEF.ExibirMensagemPorTempo(const Mensagem: string; MilissegundosExibicao: Integer);
+var
+  FormExibeMensagem: TFormExibeMensagemPortempo;
+begin
+  if (MilissegundosExibicao >= 0) then
+  begin
+    FormExibeMensagem := TFormExibeMensagemPortempo.Create(Self);
+    try
+      FormExibeMensagem.Mensagem := Mensagem;
+      FormExibeMensagem.TempoEspera := MilissegundosExibicao;
+      FormExibeMensagem.ShowModal;
+    finally
+      FormExibeMensagem.Free;
+    end;
+  end;
+
+end;
+
+
+procedure TfltePDTVTEF.ExibirMensagem(const Mensagem: string; MilissegundosExibicao: Integer);
+var
+  FormExibeMensagem: TFormExibeMensagem;
+begin
+  if (MilissegundosExibicao >= 0) then
+  begin
+    FormExibeMensagem := TFormExibeMensagem.Create(Self);
+    try
+      FormExibeMensagem.Mensagem := Mensagem;
+      FormExibeMensagem.TempoEspera := MilissegundosExibicao;
+      FormExibeMensagem.ShowModal;
+    finally
+      FormExibeMensagem.Free;
+    end;
+  end;
+
+end;
+
+procedure TfltePDTVTEF.AtualizaPaineisValores;
+begin
+
+  if not mdtl.Active then
+    exit;
+
+  mdtl.DisableControls;
+  mdtl.First;
+  flterecebido := 0;
+  while not mdtl.Eof do
+  begin
+    flterecebido := flterecebido + mdtldtlvalor.AsCurrency;
+    mdtl.Next;
+  end;
+
+  mdtl.EnableControls;
+  plValorRecebido.Caption := formatfloat('#0.00', flterecebido);
+
+  if flteliquido - flterecebido < 0 then
+    plValorFaltaReceber.Caption := formatfloat('#0.00', 0)
+  else
+    plValorFaltaReceber.Caption := formatfloat('#0.00', flteliquido - flterecebido);
+
+  plValorTroco.Caption := formatfloat('#0.00', fltetroco);
+
+  mdtl.EnableControls;
+
+end;
+
+
+{function TfltePDTVTEF.ModuloNFe: Boolean;
+begin
+  Result:=True;
+end;
+}
+
+{
+
+function TfltePDTVTEF.ModuloNFCe: Boolean;
+type
+  Tmodulonfce = function(AOwner: TComponent; Conexao: tuniconnection; vmeschave: string; vfuncao: string; Acesso: TAcesso; vImprimir: Boolean;
+    vConsultouSefaz: Boolean; vEmail: string; vWebOnline:Boolean=True): Boolean;
+
+var
+  ModuloNFCe: Tmodulonfce;
+  vlRetorno: Boolean;
+  vlPackNFCe: cardinal;
+  vlTentativas:Integer;
+  vlE:String;
+begin
+
+  try
+
+  Result := True;
+  vlPackNFCe := 0;
+  vlPackNFCe := LoadPackage('modulos\mnfepdv.bpl');
+  if vlPackNFCe <> 0 then
+    @ModuloNFCe := GetProcAddress(vlPackNFCe, PChar('modulonfce'));
+
+  if Assigned(ModuloNFCe) then
+  begin
+
+    if PingHost('google.com')>0 then
+      fltePDTVTEF.WebOnLine :=true
+    else
+      fltePDTVTEF.WebOnLine :=False;
+
+    vlRetorno := ModuloNFCe(Application, ZCone, fmeschave,  'EmiteNFCe', fAcesso, true, True, '', WebOnline);
+
+    Result := vlRetorno;
+
+  end;
+
+  except
+  on E: Exception do
+    begin
+      vlE := E.Message;
+      vlTentativas:=0;
+
+      while true do
+      begin
+
+        if  vlTentativas<60 then
+        begin
+
+          vlTentativas:=vlTentativas+1;
+
+          sleep(1000);
+
+          try
+
+
+            vlRetorno := ModuloNFCe(Application, ZCone, fmeschave,  'EmiteNFCe', fAcesso, true, False, '');
+
+
+
+          except
+
+          end;
+          if vlRetorno then
+            break;
+
+        end
+        else
+          break;
+
+      end;
+
+    Result := false;
+    end;
+  end;
+  // DoUnLoadPackage(Application, vlPackNFCe);
+End;
+}
+
+procedure TfltePDTVTEF.EmiteNotasTEF;
+var
+  vlTentativas:integer;
+begin
+
+  if CPFnaNota<>'' then
+  begin
+    vlTentativas := 0;
+    while True do
+    begin
+
+
+      try
+
+        idc.Close;
+        idc.Connection:=ZCone;
+        idc.ParamByName('idcdoc').AsString:=fltePDTVTEF.CPFnaNota;
+        idc.Open;
+
+
+        if idc.IsEmpty then
+         idc.append
+        else
+         idc.Edit;
+
+        idcidcnome.AsString:='CONSUMIDOR IDENTIFICADO';
+        idcidcdoc.AsString:=fltePDTVTEF.CPFnaNota;
+        idc.Post;
+
+        mic.Close;
+        mic.Connection:=ZCone;
+        mic.ParamByName('idccodigo').AsInteger:=idcidccodigo.AsInteger;
+        mic.ParamByName('meschave').AsString:= fmeschave;
+        mic.Open;
+
+        if mic.IsEmpty then
+          mic.Append
+        else
+          mic.Edit;
+
+        micidccodigo.AsInteger:=idcidccodigo.AsInteger;
+        micmeschave.AsString:=fmeschave;
+        mic.Post;
+        break
+      except
+        vlTentativas := vlTentativas+1;
+        if vlTentativas>60 then
+          break
+        else
+          Sleep(1000);
+
+      end;
+    end;
+  end;
+  TdfCodigo:=DocumentoFiscal;
+
+
+  {
+  IF TdfCodigo = '55' then
+  begin
+    ModuloNFe;
+  end
+  else IF TdfCodigo = '65' then
+  begin
+    ModuloNFCe;
+  end;
+  }
+
+end;
+
+
+
+procedure TfltePDTVTEF.CarregaDadosConfiguracaoTEF;
+begin
+
+  DadosConfiguracao;
+
+  fConfiguracaoTEF.EstabelecimentoTipoTEF := fltePDTVTEF.estabelecimentotipotef;
+  fConfiguracaoTEF.EstabelecimentoCNPJ := fltePDTVTEF.EstabelecimentoCNPJ;
+  fConfiguracaoTEF.EstabelecimentoRazaoSocial := fltePDTVTEF.EstabelecimentoRazaoSocial;
+  fConfiguracaoTEF.terminalcodempresa := fltePDTVTEF.terminalcodempresa;
+  fConfiguracaoTEF.terminalcodfilial := fltePDTVTEF.terminalcodfilial;
+  fConfiguracaoTEF.terminalcodterminal := fltePDTVTEF.terminalcodterminal;
+  fConfiguracaoTEF.terminalenderecoservidor := fltePDTVTEF.terminalenderecoservidor;
+  fConfiguracaoTEF.terminalportapinpad := fltePDTVTEF.terminalportapinpad;
+  fConfiguracaoTEF.TerminalOperador := fltePDTVTEF.Operador;
+
+end;
+
+
+Function TfltePDTVTEF.MostraLista(pModulo: String; pFiltro: string = ''; pChaveMestre: string = ''): string;
+var
+  ExecForm: function(CargaFrame: TCargaFrame): String;
+  vlCargaFrame: TCargaFrame;
+  vlPack: NativeUInt;
+begin
+
+  Result := '';
+  vlPack := LoadPackage('modulos\' + pModulo + '.bpl');
+  if vlPack <> 0 then
+    try
+      @ExecForm := GetProcAddress(vlPack, PChar('formu'));
+      if Assigned(ExecForm) then
+      begin
+        vlCargaFrame := CargaFrameFormu(application, vlPack, ZCone, fAcesso, pFiltro, pChaveMestre);
+        Result := ExecForm(vlCargaFrame);
+      end;
+    finally
+      // DoUnLoadPackage(application, vlPack);
+    end;
+End;
+
+
+
+
+procedure TfltePDTVTEF.AjustaaoMonitor;
+begin
+
+  if vpLarguraTela = 0 then
+    vpLarguraTela := screen.Width;
+
+  if vpAlturaTela = 0 then
+    vpAlturaTela := screen.Height;
+
+  WindowState := wsMaximized;
+
+  scaled := True;
+   Height := Longint(Height) * Longint(screen.Height) DIV vpAlturaTela;
+   Width := Longint(Width) * Longint(screen.Width) DIV vpLarguraTela;
+    scaleBy(screen.Width, vpLarguraTela);
+
+  plCentro.left:=(vpLarguraTela div 2) - (plCentro.Width div 2);
+  plCentro.top:=(vpAlturaTela div 2) - (plCentro.Height div 2);
+
+end;
+
+
+
+procedure TfltePDTVTEF.ActCartaoCreditoExecute(Sender: TObject);
+var
+ vlDtlChave:Integer;
+ vlValor:Currency;
+ vlTitCodigo:Integer;
+ VlQuantidadeParcelas:String;
+
+begin
+ if not ActCartaoCredito.Enabled then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  VlQuantidadeParcelas:='1';
+
+  if ValorInvalido then
+    exit;
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+
+
+  RegistraCartao(DtlChave, vlValor, vlquantidadeParcelas);
+
+  vlValor:= fOperacaoTEF.Valor;
+
+  if vlValor>0 then
+  begin
+
+     AdquirenteADC:=fOperacaoTEF.Rede;
+
+     RegistraRDC(vlValor, 1, dtlchave);
+
+     if mtit.RecordCount=0 then
+     begin
+
+       vlTitCodigo:=RegistraTit(EntidadeADC, fltePDTVTEF.flteliquido, DataAtual);
+
+       mtit.Edit;
+       mtittficodigo.AsInteger:=tfiCartao;
+       mtit.Post;
+
+       if dfcrfi.Active=false then
+       begin
+
+         dfcrfi.Open;
+
+         dfcrfi.Append;
+         dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+         dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+         dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+         dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+         dfcrfitfdcodigo.AsInteger:=tfdVenda;
+         dfcrfitficodigo.AsInteger:=tfiOutros;
+         dfcrfi.Post;
+
+         RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+
+       end;
+
+     end;
+
+     RegistraCCO(vlValor, ContaAdc.ToString,0,tfiCartao);
+
+     if DocumentoFiscal='' then
+     begin
+      DocumentoFiscal:='65';
+      TdfCodigo:=DocumentoFiscal;
+     end;
+
+  end
+  else
+  begin
+
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+
+
+    loteDesaAtivaTEF;
+    vpPOdeFechar := True;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+end;
+
+procedure TfltePDTVTEF.ActCartaoDebitoExecute(Sender: TObject);
+var
+ vlDtlChave:Integer;
+ vlValor:Currency;
+ vlTitCodigo:Integer;
+ VlQuantidadeParcelas:String;
+
+
+begin
+
+ if not ActCartaoDebito.Enabled then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+ VlQuantidadeParcelas:='1';
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+  RegistraCartao( DtlChave, vlValor);
+
+  vlValor:= fOperacaoTEF.Valor;
+
+  if vlValor>0 then
+  begin
+
+
+     AdquirenteADC:=fOperacaoTEF.Rede;
+
+     RegistraRDC(vlValor, 1, dtlchave);
+
+     if mtit.RecordCount=0 then
+     begin
+
+       vlTitCodigo:=RegistraTit(EntidadeADC, fltePDTVTEF.flteliquido, DataAtual);
+
+       mtit.Edit;
+       mtittficodigo.AsInteger:=tficartao;
+       mtit.Post;
+
+       if dfcrfi.Active=false then
+       begin
+
+         dfcrfi.Open;
+
+         dfcrfi.Append;
+         dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+         dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+         dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+         dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+         dfcrfitfdcodigo.AsInteger:=tfdVenda;
+         dfcrfitficodigo.AsInteger:=tfiOutros;
+         dfcrfi.Post;
+
+
+         RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+       end;
+     end;
+
+     RegistraCCO(vlValor, ContaAdc.ToString,0,tfiCartao);
+
+     if DocumentoFiscal='' then
+     begin
+      DocumentoFiscal:='65';
+      TdfCodigo:=DocumentoFiscal;
+     end;
+
+
+  end
+  else
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    vpPOdeFechar := True;
+
+    LoteDesaAtivaTEF;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+end;
+
+procedure TfltePDTVTEF.ActValeExecute(Sender: TObject);
+var
+ vlDtlChave:Integer;
+ vlValor:Currency;
+ vlTitCodigo:Integer;
+ vlRetorno:String;
+ vlTtitCodigoVenda:Integer;
+
+begin
+
+ if not ActVale.Enabled then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  vlRetorno:=RegistraCredito(DtlChave.ToString, fValorFinalizador, '1');
+
+  if vlRetorno<>'0' then
+    vlValor:=RegistraModalidadeValor((Sender as taction).tag.ToString,strtocurr(vlRetorno))
+  else
+    vlValor:=0;
+
+
+  if  vlValor>0 then
+  begin
+    vlTtitCodigoVenda:=0;
+
+    mtit.First;
+    while not mtit.Eof do
+    begin
+      if mtitsrfcodigo.AsInteger = srfQuitado then
+      begin
+        vlTtitCodigoVenda:=mTittitcodigo.AsInteger;
+        break;
+      end;
+      mtit.Next;
+    end;
+
+    if vlTtitCodigoVenda=0 then
+    begin
+
+      vlTitCodigo:=RegistraTit(fEtdCodigo, fltePDTVTEF.flteliquido, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:=tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=TfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+
+      end;
+
+    end;
+
+  end;
+
+
+  if vlValor=0 then
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+        RemoveRegistroMce(mLteltegui.AsString);
+      end;
+
+    end;
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    vpPOdeFechar := True;
+
+    LoteDesaAtivaTEF;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+
+end;
+
+procedure TfltePDTVTEF.ActChequeTerceirosExecute(Sender: TObject);
+var
+ vlDtlChave:Integer;
+ vlValor:Currency;
+ vlTitCodigo:Integer;
+
+ begin
+  if SBCheques.Visible=false then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+
+  if ValorInvalido then
+    exit;
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+
+  if vlValor>0 then
+  begin
+
+
+    RegistraCCO(vlValor, ContaCaixa.ToString,0,tfiOutros);
+
+   { if RegistraCheques(DtlChave, vlValor)='0' then
+    begin
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+        exit;
+      end;
+    end;}
+
+
+    if mtit.RecordCount=0 then
+    begin
+      vlTitCodigo:=RegistraTit(fEtdCodigo, vlValor, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:= tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=tfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,vlValor );
+
+      end;
+    end;
+
+  end
+  else
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    LoteDesaAtivaTEF;
+
+    vpPOdeFechar :=True;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+end;
+
+
+procedure TfltePDTVTEF.ActCNPJExecute(Sender: TObject);
+var
+  ClienteSimples: TClienteSimples;
+  vlRetorno: string;
+  vlPackIDC: Cardinal;
+begin
+  vlRetorno := '0';
+  vlPackIDC := 0;
+  vlPackIDC := LoadPackage('modulos\midc.bpl');
+  if vlPackIDC <> 0 then
+    @ClienteSimples := GetProcAddress(vlPackIDC, PChar('ClienteSimplesOrc'));
+
+  if Assigned(ClienteSimples) then
+  begin
+    vlRetorno := ClienteSimples(Application, Self.zcone, orcorcchave.AsString,  fAcesso.Usuario.ToString);
+  end;
+  // DoUnLoadPackage(Application, vlPackIDC);
+
+  if (vlRetorno <> '0') and (vlRetorno <> '') then
+  begin
+
+    oic.Close;
+    oic.Connection:=ZCone;
+    oic.Params[0].AsString := fOrcChave;
+    oic.Open;
+
+    if oic.RecordCount = 1 then
+      oic.Edit
+    else
+      oic.Append;
+
+    oicidccodigo.AsString := vlRetorno;
+    oicorcchave.AsString := fOrcChave;
+    oic.Post;
+
+  end;
+
+  idcoic.close;
+  idcoic.Connection:=ZCone;
+  idcoic.ParamByName('orcchave').AsString:=fOrcChave;
+  idcoic.Open;
+
+  if not idcoic.IsEmpty then
+  begin
+
+    CPFnaNota:=idcoic.FieldByName('idcdoc').AsString;
+
+    if CPFnaNota<>'' then
+    begin
+      plMensagem.Visible:=true;
+      plMensagem.Color:=clYellow;
+      plMensagem.Caption:='CNPJ: '+CPFnaNota;
+      plMensagem.Caption:='Cliente: Consumidor  CNPJ: '+CPFnaNota;
+
+    end;
+
+  end;
+
+
+
+  inherited;
+
+
+end;
+
+function TfltePDTVTEF.LimiteAutorizado(vetdcodigo: String; vValorVenda: Double; vlLimiteSolic: Double; vlLimiteDisponivel: Double; vpOrcChave: Integer): Boolean;
+type
+  TAutorizacaoAtenLimite = function(AOwner: TComponent; Conexao: tuniconnection; vusuario: string; vLimiteSolic: Double; vorcchave: String): string;
+
+var
+  auto: TAutorizacaoAtenLimite;
+  ru: string;
+  vactcodigo: string;
+  vlPackLia: Cardinal;
+begin
+
+  Result := True;
+
+
+    Application.MessageBox(PChar('Autorização de venda.' + #13 + #13 + 'Limite Disponível: ' + format('%2.2n', [vlLimiteDisponivel]) + #13 +
+      'Valor Solicitado: ' + format('%2.2n', [vValorVenda])), 'Atenção', MB_ICONWARNING + MB_OK);
+
+  if ControlaLimite = 1 then
+  begin
+
+    vlPackLia := LoadPackage('modulos\mlia.bpl');
+    if vlPackLia <> 0 then
+      try
+        @auto := GetProcAddress(vlPackLia, PChar('liberacaoAtenLimiteCred'));
+
+        if not Assigned(auto) then
+          Exit;
+
+        ru := auto(Application, ZCone, fAcesso.Usuario.ToString, vlLimiteSolic, IntToStr(vpOrcChave));
+
+        if (ru = '0') or (ru = '') then // retornou NÃO AUTORIZADO
+          Result := false;
+      finally
+        // DoUnLoadPackage(Application, vlPackLia);
+      end;
+  end
+  else
+  begin
+    Result := True;
+  end;
+end;
+
+function TfltePDTVTEF.AutorizaAcimaLimte(aValor:Currency; aEtdCodigo:String;aLimiteSolic: Double; aLimiteDisponivel: Double; aOrcChave: Integer):Currency;
+begin
+
+  if LimiteAutorizado(aEtdCodigo, aValor, aLimiteSolic, aLimiteDisponivel, aOrcChave) = false then
+    Result:=0
+  else
+    Result:=aValor;
+
+end;
+
+
+
+procedure TfltePDTVTEF.ActConvenioExecute(Sender: TObject);
+var
+  vlValor:Currency;
+  vlTitCodigo:Integer;
+  vlEtdCodigo:String;
+
+  vlSaldoDisponivel:Currency;
+begin
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  if etd.Active then
+  begin
+    if not etd.IsEmpty then
+    begin
+      fEtdCodigo:=etd.FieldByName('etdcodigo').AsInteger;
+      fEdrCodigo:=etd.FieldByName('edrcodigo').AsInteger;
+
+    end;
+  end;
+
+  if (fEtdCodigo<>0)  and (fEdrCodigo<>0)  then
+  begin
+    vlEtdCodigo:=fEtdCodigo.ToString;
+  end
+  else
+  begin
+    vlEtdCodigo:='';
+    vlEtdCodigo:=MostraLista('mcli', 'etd.etdcodigo<>0');
+  end;
+
+  if (vlEtdCodigo='') then
+  begin
+    vlEtdCodigo:='';
+    vlEtdCodigo:=MostraLista('mcli','etd.etdcodigo<>0');
+  end;
+
+
+  if (vlEtdCodigo<>'') and (vlEtdCodigo<>'0') then
+  begin
+
+    fEtdCodigoConvenio:=vlEtdCodigo.ToInteger;
+
+
+
+
+
+    if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+    begin
+      if CNPJCPFInformado=false then
+      begin
+        ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+        vlValor:=0;
+      end
+      else
+        vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+    if ControlaLimite=1 then
+    begin
+
+      limite.Close;
+      limite.Connection:=ZCone;
+      limite.ParamByName('etdcodigo').AsString := vlEtdCodigo;
+      limite.Open;
+
+      rfiemaberto.Close;
+      rfiemaberto.Connection:=ZCone;
+      rfiemaberto.ParamByName('etdcodigo').AsString := vlEtdCodigo;
+      rfiemaberto.Open;
+
+      vlSaldoDisponivel := limiteetllimitetotal.AsCurrency-rfiemabertorfisaldocapital.AsCurrency;
+
+      if vlSaldoDisponivel<vlValor then
+        vlValor:= AutorizaAcimaLimte(vlValor,vlEtdCodigo, vlValor, vlSaldoDisponivel,  fOrcChave.ToInteger);
+
+    end;
+
+
+    if vlValor>0 then
+    begin
+
+      fEtdCodigo :=vlEtdCodigo.ToInteger;
+
+      if mtit.RecordCount=0 then
+      begin
+      vlTitCodigo:=RegistraTit(fEtdCodigo, vlValor, DataAtual);
+      end;
+
+      mtit.Edit;
+      mTittficodigo.AsInteger:= tfiOutros;
+      mTitetdcodigo.AsInteger:= fEtdCodigo;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:= mTittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:= mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=tfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,vlValor );
+
+      end;
+
+      dfcrfi.First;
+      while not dfcrfi.Eof do
+      begin
+        dfcrfi.Delete;
+      end;
+
+
+      fdfcPDVTEF:=TfdfcPDVTEF.Create(self);
+      fdfcPDVTEF.vpValor:=CurrToStrF(vlValor,ffFixed,2);
+
+      fdfcPDVTEF.vpParcelas:='1';
+
+      etl.Connection := zcone;
+      etl.Close;
+      etl.Params[0].AsString := vlEtdCodigo;
+      etl.Open;
+
+      if not etl.IsEmpty then
+      begin
+        fdfcPDVTEF.vpInterDias := Self.etletldias.AsInteger;
+        fdfcPDVTEF.vpTipoInter := Self.etletltipo.AsInteger;
+      end
+      else
+      begin
+        fdfcPDVTEF.vpInterDias := 30;
+        fdfcPDVTEF.vpTipoInter := 1;
+      end;
+      fdfcPDVTEF.rfi.active:=true;
+      fdfcPDVTEF.vpVctoInicial:=IncDay(mTittitvctoinicial.asfloat,30);
+      fdfcPDVTEF.vpTitNumero:=mTittitnumero.asstring;
+
+
+      if fdfcPDVTEF.ShowModal = mrok then
+      begin
+        dfcrfi.Close;
+        dfcrfi.Open;
+
+        fdfcPDVTEF.rfi.First;
+        while not fdfcPDVTEF.rfi.Eof do
+        begin
+
+          dfcrfi.Append;
+          dfcrfirfinumero.AsString:=fdfcPDVTEF.rfirfinumero.AsString;
+          dfcrfirfivencimento.asfloat:=fdfcPDVTEF.rfirfivencimento.asfloat;
+          dfcrfirfivalor.AsCurrency:=fdfcPDVTEF.rfirfivalor.AsCurrency;
+          dfcrfirfivalorparcela.ascurrency:=fdfcPDVTEF.rfirfivalorparcela.ascurrency;
+          dfcrfitfdcodigo.AsInteger:=2;
+          dfcrfitficodigo.AsInteger:=tfiDuplicata;
+          dfcrfi.Post;
+
+          fdfcPDVTEF.rfi.Next;
+        end;
+
+        RegistraRfi(vlTitCodigo, IncDay(DataAtual, 30),1,vlValor );
+
+
+      end
+      else
+      begin
+
+        mtit.Delete;
+
+        if mdtl.Locate('dtlchave',DtlChave,[]) then
+        begin
+          mdtl.Delete;
+          AtualizaPaineisValores;
+        end;
+
+      end;
+    end
+    else
+    begin
+      if (DtlChave<>0) and (vlValor=0)  then
+      begin
+
+        if mdtl.Locate('dtlchave',DtlChave,[]) then
+        begin
+          mdtl.Delete;
+          AtualizaPaineisValores;
+        end;
+      end;
+
+  end;
+
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    vpPOdeFechar := True;
+    LoteDesaAtivaTEF;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+
+
+end;
+
+
+Function TfltePDTVTEF.CNPJCPFInformado:Boolean;
+var
+  ClienteSimples: TClienteSimples;
+  vlRetorno: string;
+  vlPackIDC: Cardinal;
+begin
+  vlRetorno := '0';
+  vlPackIDC := 0;
+  vlPackIDC := LoadPackage('modulos\midc.bpl');
+  if vlPackIDC <> 0 then
+    @ClienteSimples := GetProcAddress(vlPackIDC, PChar('ClienteSimplesOrc'));
+
+  if Assigned(ClienteSimples) then
+  begin
+    vlRetorno := ClienteSimples(Application, Self.zcone, orcorcchave.AsString,  fAcesso.Usuario.ToString);
+  end;
+  // DoUnLoadPackage(Application, vlPackIDC);
+
+  if (vlRetorno <> '0') and (vlRetorno <> '') then
+  begin
+
+    oic.Close;
+    oic.Connection:=ZCone;
+    oic.Params[0].AsString := fOrcChave;
+    oic.Open;
+
+    if oic.RecordCount = 1 then
+      oic.Edit
+    else
+      oic.Append;
+
+    oicidccodigo.AsString := vlRetorno;
+    oicorcchave.AsString := fOrcChave;
+    oic.Post;
+
+  end;
+
+  idcoic.close;
+  idcoic.Connection:=ZCone;
+  idcoic.ParamByName('orcchave').AsString:=fOrcChave;
+  idcoic.Open;
+
+  if not idcoic.IsEmpty then
+  begin
+
+    CPFnaNota:=idcoic.FieldByName('idcdoc').AsString;
+
+    if CPFnaNota<>'' then
+    begin
+      plMensagem.Visible:=true;
+      plMensagem.Color:=clYellow;
+      plMensagem.Caption:='CNPJ: '+CPFnaNota;
+    end;
+
+    Result:=true;
+  end
+  else
+    Result := False;
+
+
+  inherited;
+
+end;
+
+
+
+
+procedure TfltePDTVTEF.ActDinheiroExecute(Sender: TObject);
+var
+  vlValor:Currency;
+  vlTitCodigo:Integer;
+  vlTtitCodigoVenda:integer;
+begin
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0') then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+  if vlValor>0 then
+  begin
+
+    vlTtitCodigoVenda:=0;
+
+    mtit.First;
+    while not mtit.Eof do
+    begin
+      if mtitsrfcodigo.AsInteger = srfQuitado then
+      begin
+        vlTtitCodigoVenda:=mTittitcodigo.AsInteger;
+        break;
+      end;
+      mtit.Next;
+    end;
+
+    if vlTtitCodigoVenda=0 then
+    begin
+
+      vlTitCodigo:=RegistraTit(fEtdCodigo, fltePDTVTEF.flteliquido, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:=tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=TfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+
+      end;
+    end;
+
+
+    RegistraCCO(vlValor, ContaCaixa.ToString,0,tfiOutros);
+
+  end
+  else
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    vpPOdeFechar := True;
+    LoteDesaAtivaTEF;
+
+    if fltetroco>=0 then
+    begin
+
+    
+
+      ModalResult:=mrok;
+    end;
+  end
+  else
+    vpPOdeFechar :=False;
+
+end;
+
+procedure TfltePDTVTEF.ActDoacaoExecute(Sender: TObject);
+var
+  vlValor:Currency;
+  vlTitCodigo:Integer;
+begin
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+
+  if ValorInvalido then
+    exit;
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+
+  if vlValor>0 then
+  begin
+
+
+    RegistraCCO(vlValor, ContaCaixa.ToString,0,tfiOutros);
+
+    EstornaCCO( vlValor, ContaCaixa.ToString,tfiOutros);
+
+    if mtit.RecordCount=0 then
+    begin
+
+      vlTitCodigo:=RegistraTit(fEtdCodigo, vlValor, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:=tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=TfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,vlValor );
+
+      end;
+
+    end;
+
+  end
+  else
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+         mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+
+  if flteliquido-flterecebido<=0 then
+  begin
+
+    LoteDesaAtivaTEF;
+
+    vpPOdeFechar :=True;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+
+
+end;
+
+procedure TfltePDTVTEF.ActPIXExecute(Sender: TObject);
+var
+  vlValor:Currency;
+  vlTitCodigo:Integer;
+  vlCtaCodigo:String;
+
+begin
+
+ if not ActPix.Enabled then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  if (flteliquido>999.99) and (fEtdCodigo=0) and (SoNumeros(plMensagem.Caption)='0')  then
+  begin
+    if CNPJCPFInformado=false then
+    begin
+      ExibirMensagemPorTempo('Vendas com valor superior a R$ 999,99'+#13+'necessita CPF ou CNPJ',3000);
+      vlValor:=0;
+    end
+    else
+      vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+  end
+  else
+    vlValor:= RegistraModalidade((Sender as taction).tag.ToString);
+
+
+  RegistraCartao( DtlChave, vlValor);
+
+  vlValor:=fOperacaoTEF.valor;
+
+  if vlValor>0 then
+  begin
+
+
+
+    if (ContaPIX.ToString='') or  (ContaPIX.ToString='0') then
+      vlCtaCodigo:=ContaCaixa.ToString
+    else
+      vlCtaCodigo:=ContaPIX.ToString;
+
+    RegistraCCO(vlValor, vlCtaCodigo,0,tfiOutros);
+
+    if mtit.RecordCount=0 then
+    begin
+
+      vlTitCodigo:=RegistraTit(fEtdCodigo, fltePDTVTEF.flteliquido, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:=tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=TfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+
+      end;
+
+    end;
+    RegistraRDC(vlValor, 1, dtlchave);
+
+    if DocumentoFiscal='' then
+    begin
+      DocumentoFiscal:='65';
+      TdfCodigo:=DocumentoFiscal;
+    end;
+
+  end
+  else
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+
+  if flteliquido-flterecebido<=0 then
+  begin
+
+    LoteDesaAtivaTEF;
+
+    vpPOdeFechar :=True;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+end;
+
+procedure TfltePDTVTEF.ActTrocaExecute(Sender: TObject);
+var
+ vlDtlChave:Integer;
+ vlValor:Currency;
+ vlValorTroco:Currency;
+ vlTitCodigo:Integer;
+ vlRetorno:String;
+ vlTtitCodigoVenda:Integer;
+begin
+
+ if not ActVale.Enabled then
+   exit;
+
+
+  if fltetroco>0 then
+  begin
+    Showmessage('Valor recebido já é superior ao total da compra!');
+    exit;
+  end;
+
+  if ValorInvalido then
+    exit;
+
+
+
+  if flteliquido - flterecebido > 0 then
+    fValorFinalizador := flteliquido - flterecebido;
+
+  vlValorTroco:=0;
+
+  vlRetorno:=RegistraTrocaDevolucao(DtlChave.ToString, fValorFinalizador, '1');
+
+  if vlValor>fValorFinalizador then
+  begin
+    vlValorTroco:=vlValor-fValorFinalizador;
+    vlValor:=fValorFinalizador;
+  end;
+
+
+  if vlValor>flteliquido then
+  begin
+    vlValorTroco:=vlValor-flteliquido;
+    vlValor:=flteliquido;
+  end;
+
+  if StrToCurr(vlRetorno)>flteliquido then
+  begin
+    vlValorTroco:=StrToCurr(vlRetorno)-flteliquido;
+    vlValor:=flteliquido;
+  end
+  else
+  begin
+    vlValorTroco:=0;
+    vlValor:=StrToCurr(vlRetorno)
+  end;
+
+
+  if vlValor>0 then
+    vlValor:=RegistraModalidadeValor((Sender as taction).tag.ToString,vlValor)
+  else
+    vlValor:=0;
+
+
+
+  if  vlValor>0 then
+  begin
+    vlTtitCodigoVenda:=0;
+
+    mtit.First;
+    while not mtit.Eof do
+    begin
+      if mtitsrfcodigo.AsInteger = srfQuitado then
+      begin
+        vlTtitCodigoVenda:=mTittitcodigo.AsInteger;
+        break;
+      end;
+      mtit.Next;
+    end;
+
+    if vlTtitCodigoVenda=0 then
+    begin
+
+      vlTitCodigo:=RegistraTit(fEtdCodigo, fltePDTVTEF.flteliquido, DataAtual);
+
+      mtit.Edit;
+      mtittficodigo.AsInteger:=tfiOutros;
+      mtit.Post;
+
+      if dfcrfi.Active=false then
+      begin
+
+        dfcrfi.Open;
+
+        dfcrfi.Append;
+        dfcrfirfinumero.AsString:=mtittitnumero.AsString;
+        dfcrfirfivencimento.asfloat:=mTittitvctoinicial.asfloat;
+        dfcrfirfivalor.AsCurrency:=mTittitvalor.AsCurrency;
+        dfcrfirfivalorparcela.ascurrency:=mTittitvalor.AsCurrency;
+        dfcrfitfdcodigo.AsInteger:=TfdVenda;
+        dfcrfitficodigo.AsInteger:=tfiOutros;
+        dfcrfi.Post;
+
+        RegistraRfi(vlTitCodigo, DataAtual,1,fltePDTVTEF.flteliquido );
+
+      end;
+
+    end;
+
+  end;
+
+  if vlValor=0 then
+  begin
+    if (DtlChave<>0) and (vlValor=0)  then
+    begin
+
+      if mdtl.Locate('dtlchave',DtlChave,[]) then
+      begin
+        mdtl.Delete;
+        AtualizaPaineisValores;
+      end;
+    end;
+
+  end;
+
+  if flteliquido-flterecebido<=0 then
+  begin
+    vpPOdeFechar := True;
+
+    LoteDesaAtivaTEF;
+
+    if fltetroco=0 then
+      ModalResult:=mrok;
+
+  end
+  else
+    vpPOdeFechar :=False;
+
+
+end;
+
+procedure TfltePDTVTEF.AjustaPaineisValores;
+begin
+  plValorTotalCompra.Caption := formatFloat('#0.00', fltePDTVTEF.flteprincipal);
+  plValorDesconto.Caption := formatFloat('#0.00', fltePDTVTEF.fltedesconto);
+  plValorTotalLiquido.Caption := formatFloat('#0.00', fltePDTVTEF.flteliquido);
+  plValorRecebido.Caption := formatFloat('#0.00', flterecebido);
+  plValorFaltaReceber.Caption := formatFloat('#0.00', fltePDTVTEF.flteliquido);
+  plValorTroco.Caption := formatFloat('#0.00', fltetroco);
+end;
+
+
+
+procedure TfltePDTVTEF.CarregaModalidade;
+var
+  vlMdaCodigo:String;
+begin
+
+  case fTeclaFinalizador of
+    117:vlMdaCodigo:='1';   // dinheiro
+    122:vlMdaCodigo:='8';   // vale
+    114:vlMdaCodigo:='4';   // cartao credito
+    115:vlMdaCodigo:='5';   // cartao debito
+    116:vlMdaCodigo:='3';   // cheque
+    118:vlMdaCodigo:='16';  // doacao
+    119:vlMdaCodigo:='6';   // pix
+    120:vlMdaCodigo:='7';   // convenio
+    121:vlMdaCodigo:='15';  // Credito
+
+    else
+        vlMdaCodigo:='0';
+  end;
+
+  mda.Close;
+  mda.Connection:=ZCone;
+  mda.ParamByName('mdacodigo').AsString:=vlMdaCodigo;
+  mda.Open;
+
+  fMdaIdentificacao:=mda.FieldByName('mdaidentificacao').AsString;
+  fMdaCodigo:=vlMdaCodigo.ToInteger;
+
+  mda.close;
+
+end;
+
+Function TfltePDTVTEF.RegistraModalidadeValor(aTeclaFinalizador:String; aValor:Currency):Currency;
+begin
+
+
+  fTeclaFinalizador := aTeclaFinalizador.ToInteger;
+
+  CarregaModalidade;
+
+  fValorFinalizador:=aValor;
+
+  if fValorFinalizador>0 then
+  begin
+    DtlChave:= registraDTL(fTeclaFinalizador, fValorFinalizador);
+    Result := fValorFinalizador;
+  end;
+
+end;
+
+
+
+
+Function TfltePDTVTEF.RegistraModalidade(aTeclaFinalizador:String):Currency;
+var
+  vlFormModalidade:TflteModalidade;
+begin
+
+  vlFormModalidade:=TflteModalidade.Create(self);
+
+  fTeclaFinalizador := aTeclaFinalizador.ToInteger;
+
+  CarregaModalidade;
+
+  if flteliquido-flterecebido>0 then
+    fValorFinalizador:=flteliquido-flterecebido;
+
+  vlFormModalidade.ValorFinalizador:=self.fValorFinalizador;
+
+  vlFormModalidade.edValor.Text:=formatfloat('#0.00', self.fValorFinalizador);
+  vlFormModalidade.plModalidade.Caption:= fMdaIdentificacao;
+
+  if vlFormModalidade.ShowModal = mrok then
+  begin
+
+   if (aTeclaFinalizador.ToInteger=114)  or
+      (aTeclaFinalizador.ToInteger=115)  or
+      (aTeclaFinalizador.ToInteger=119)
+
+      then
+      begin
+        ExibirMensagemPorTempo('Por favor aguarde, processando ... ',3000);
+      end;
+
+    fValorFinalizador := vlFormModalidade.ValorFinalizador;
+
+    if fValorFinalizador>(flteliquido - flterecebido) then
+    begin
+      fltetroco:=fValorFinalizador-(flteliquido - flterecebido);
+
+      fValorFinalizador :=flteliquido - flterecebido;
+    end;
+
+
+
+    if fValorFinalizador>0 then
+    begin
+      DtlChave:= registraDTL(fTeclaFinalizador, fValorFinalizador);
+      Result := fValorFinalizador;
+    end;
+
+  end
+  else
+  begin
+    ExibirMensagemPorTempo('Por favor aguarde, processando ... ',3000);
+
+    DtlChave := 0;
+    Result := 0;
+  end;
+
+  vlFormModalidade.free;
+
+end;
+
+
+procedure TfltePDTVTEF.FormActivate(Sender: TObject);
+begin
+  ForceForegroundWindow(self.Handle);
+end;
+
+procedure TfltePDTVTEF.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+
+  if mdtl.RecordCount>0 then
+  begin
+
+    SalvaRegistroFinalizacaoFinanceira;
+
+    EmiteNotasTEF;
+  end;
+
+  fetdcodigo := 0;
+  CPFnaNota := '';
+
+end;
+
+procedure TfltePDTVTEF.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+ smsg:String;
+ vlConfirmaComprovante:Boolean;
+ vlNrAuto:String;
+
+begin
+
+  vlConfirmaComprovante := True;
+
+  if mdtl.Active then
+  begin
+
+    mdtl.First;
+
+    while not mdtl.Eof do
+    begin
+
+      if (mdtlmdacodigo.AsInteger=mdaCartaoDebito) or
+         (mdtlmdacodigo.AsInteger=mdaCartaoCredito) or
+         (mdtlmdacodigo.AsInteger=mdaVoucher) or
+         (mdtlmdacodigo.AsInteger=mdaPix) then
+           begin
+            vlConfirmaComprovante :=False;
+           end;
+
+      mdtl.Next;
+    end;
+
+  end;
+
+
+  if ((flteliquido - flterecebido)<=0) or (flterecebido=0) then
+  begin
+
+    if mdtl.Active then
+    begin
+
+      mdtl.First;
+
+      while not mdtl.Eof do
+      begin
+        if (mdtlmdacodigo.AsInteger=mdaCartaoDebito) or
+           (mdtlmdacodigo.AsInteger=mdaCartaoCredito) or
+           (mdtlmdacodigo.AsInteger=mdaVoucher) or
+           (mdtlmdacodigo.AsInteger=mdaPix) then
+        begin
+
+          if WebOnLine then
+          begin
+
+            fOperacaoTEF.numero:=GeraSequencial.ToInteger;
+            fOperacaoTEF.Hora:=timetostr(now());
+            fOperacaoTEF.Valor:=mDtldtlvalor.AsCurrency;
+            fOperacaoTEF.Modalidade:=0;
+            fOperacaoTEF.Identificacao:='';
+            fOperacaoTEF.Bandeira:='';
+            fOperacaoTEF.DocumentoRetorno:='';
+            fOperacaoTEF.ImagemComprovante1aVia:='';
+            fOperacaoTEF.ImagemComprovante2aVia:='';
+            fOperacaoTEF.QuantidadeParcela:='';
+            fOperacaoTEF.TipoFinanciador:='';
+            fOperacaoTEF.TipoCartao:='';
+            fOperacaoTEF.Dia:=DateToStr(now());
+            fOperacaoTEF.Rede:=mDtldtlrede.AsString;
+            fOperacaoTEF.AutorizacaoRetorno:=mDtlrdcnrauto.AsString;
+            ftransacaoTEF.OperacaoTEF:=fOperacaoTEF;
+
+            ftransacaoTEF.VerificaTransacaoPendente;
+
+          end;
+
+          rct.Close;
+          rct.ParamByName('rctnrauto').AsString:=mDtlrdcnrauto.AsString;
+          rct.Open;
+
+          if not rct.IsEmpty then
+          begin
+            rct.Edit;
+            rctrctstatus.AsString:='PROCESSADA';
+            rct.Post;
+          end;
+
+
+        end;
+
+        mdtl.Next;
+      end;
+
+    end;
+
+    vpPOdeFechar:=True
+  end
+  else
+    vpPOdeFechar:=False;
+
+
+
+  if vpPOdeFechar then
+  begin
+
+    if mdtl.Active then
+    begin
+
+      if mdtl.RecordCount>0 then
+      begin
+
+
+        {
+        if (self.DocumentoFiscal<>'55') then
+        begin
+
+          if vlConfirmaComprovante then
+          begin
+
+            if flteComprovante<>nil then
+             flteComprovante.Free;
+
+            flteComprovante := TflteComprovante.Create(Self);
+            try
+             flteComprovante.plMensagem.caption:= 'Gerar NFC-e ?';
+
+             if flteComprovante.ShowModal=mrok then
+             begin
+              self.DocumentoFiscal:='65';
+             end
+             else
+             begin
+              self.DocumentoFiscal:='00';
+             end;
+            finally
+             // flteComprovante.Free;
+            end;
+
+          end
+          else
+          begin
+            self.DocumentoFiscal:='65';
+          end;
+
+          TdfCodigo:=self.DocumentoFiscal;
+
+        end
+        else
+          self.DocumentoFiscal:='55';
+        }
+
+      end;
+
+    end;
+
+  end;
+
+  CanClose:=vpPOdeFechar
+
+end;
+
+procedure TfltePDTVTEF.FormCreate(Sender: TObject);
+begin
+  fOperacaoTEF:=TOperacaoTEF.Create;
+end;
+
+procedure TfltePDTVTEF.FormKeyDown(Sender: TObject; var Key: Word;  Shift: TShiftState);
+begin
+
+  if (((Shift = [ssCtrl]) And (Key = VK_DELETE))) or ((ssCtrl in Shift) and (Key = VK_DELETE)) then
+    Abort;
+
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+  if key=27 then
+  begin
+
+    Key := 0;
+
+    if fltetroco>0 then
+      exit;
+
+    if mdtl.RecordCount>0 then
+    begin
+      Application.MessageBox(('Para voltar a tela principal deve'+#13+' excluir todos registro de pagamento!'),'Atenção:',  MB_OK + MB_ICONEXCLAMATION);
+      vpPodeFechar:=False;
+    end;
+
+    if mdtl.RecordCount=0 then
+    begin
+
+      fltePDTVTEF.fltetroco:=0;
+      fltePDTVTEF.flterecebido:=0;
+
+      if mlte.RecordCount>0 then
+        mlte.Delete;
+
+      vpPodeFechar:=True;
+      ModalResult:=mrCancel;
+    end;
+  end
+  else if key=13 then
+  begin
+
+    Key := 0;
+
+    if mdtl.RecordCount>0 then
+    begin
+      vpPodeFechar:=True;
+      ModalResult:=mrOk;
+    end;
+
+  end
+  else
+  begin
+    case Key of
+      110:ActCNPJExecute(ActCNPJ); { N - CNPJ NA NOTA}
+      78:ActCNPJExecute(ActCNPJ); { N - CNPJ NA NOTA}
+
+      122:ActValeExecute(ActVale); { F3 cartao credito }
+      114:ActCartaoCreditoExecute(ActCartaoCredito); { F3 cartao credito }
+      115:ActCartaoDebitoExecute(ActCartaoDebito); { F4 cartao debido}
+      116:ActChequeTerceirosExecute(ActChequeTerceiros); { F5 cartao debido}
+      117:ActDinheiroExecute(ActDinheiro); { F6 Dinheiro}
+      118:ActDoacaoExecute(ActDoacao); { F7 Doacao}
+      119:ActPIXExecute(ActPIX); { F8 PIX}
+      120:ActConvenioExecute(ActConvenio); { F9 Convenico}
+      121:ActTrocaExecute(ActTroca); { F10 Convenico}
+
+      else
+      begin
+        AtualizaPaineisValores;
+      end;
+    end;
+  end;
+
+end;
+
+
+
+procedure TfltePDTVTEF.FormShow(Sender: TObject);
+begin
+
+  fEtdIdenticicacao:='';
+  fEtdCodigoConvenio:=0;
+
+  if self.DocumentoFiscal<>'55' then
+    DocumentoFiscal:='';
+
+  if self.DocumentoFiscal='55' then
+  begin
+
+    plMensagem.Caption:='';
+    plMensagem.Visible:=False;
+  end
+  else
+  begin
+    if fltePDTVTEF.flteliquido>999.99 then
+    begin
+      plMensagem.Visible:=True;
+      plMensagem.Caption:='Valor acima de R$ 999,99 é necessário o CPF ou CNPJ!';
+    end
+    else
+    begin
+      plMensagem.Caption:='';
+      plMensagem.Visible:=False;
+    end;
+  end;
+
+
+  vpPOdeFechar:= False;
+
+  if WebOnLine then
+  begin
+
+    ActCartaoDebito.Enabled:=True;
+    ActCartaoCredito.Enabled:=True;
+    ActPIX.Enabled:=True;
+
+
+  end
+  else
+  begin
+
+    ActCartaoDebito.Enabled:=false;
+    ActCartaoCredito.Enabled:=false;
+    ActPIX.Enabled:=false;
+
+
+  end;
+
+  ActVale.Enabled:=True;
+  sbCartaoVoucher.Enabled:=ActVale.Enabled;
+  sbCartaoCredito.Enabled:= ActCartaoCredito.Enabled;
+  sbCartaoDebito.Enabled:= ActCartaoDebito.Enabled;
+  sbPIX.Enabled:=ActPIX.Enabled;
+
+  etd.close;
+  etd.Connection:=fltePDTVTEF.ZCone;
+  etd.ParamByName('etdcodigo').AsInteger:=fetdcodigo;
+  etd.Open;
+
+  plMensagem.Visible:=true;
+  plMensagem.Color:=clYellow;
+  plMensagem.Caption:='Cliente: '+fltePDTVTEF.etdetdidentificacao.AsString +' CNPJ: '+fltePDTVTEF.etdetddoc1.AsString;
+
+
+  SetForegroundWindow(fltePDTVTEF.Handle);
+
+end;
+
+
+procedure TfltePDTVTEF.IncluiRegistroLTE;
+var
+  ID: TGUID;
+begin
+
+  mlte.Append;
+  mltetfdcodigo.AsInteger := tfdVenda;
+  mlteltedata.AsFloat := DataAtual;
+  mltelteprincipal.ascurrency := Self.flteprincipal;
+  mlteltedesconto.ascurrency := Self.fltedesconto;
+  mlteltetotal.ascurrency := self.flteliquido;
+  mlteflacodigo.AsInteger := fAcesso.Filial;
+  mlteccxchave.AsInteger := self.fCcxchave;
+  mLteclbcodigo.AsInteger:=fAcesso.usuario;
+  mLtectacodigo.AsInteger:=ContaCaixa;
+
+    System.SysUtils.CreateGUID(ID);
+    mLteltegui.AsString:=GUIDToString(ID);
+
+  mlte.Post;
+
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroRFMVENDA(aRfichave:String);
+var
+  vlTentativas : Integer;
+begin
+
+        vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        rfm.Close;
+        rfm.Connection:=ZCone;
+        rfm.ParamByName('rfichave').AsString :=aRfichave;
+        rfm.ParamByName('meschave').AsString :=fmeschave;
+        rfm.Open;
+
+        if rfm.IsEmpty then
+        begin
+          rfm.Append;
+          rfmrfichave.AsString := aRfichave;
+          rfmflacodigo.AsInteger := fAcesso.Filial;
+          rfmmeschave.Asstring := fmeschave;
+          rfm.Post;
+        end;
+
+        rfm.Close;
+        break;
+
+      Except
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+      end;
+    end;
+
+end;
+
+procedure TfltePDTVTEF.SalvaRegistroMLT(aMfiChave:String; aLteChave:String);
+var
+  vlTentativas : Integer;
+begin
+    vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        mlt.Close;
+        mlt.Connection:=ZCone;
+        mlt.ParamByName('mfichave').AsString := aMfiChave;
+        mlt.ParamByName('ltechave').AsString := aLteChave;
+        mlt.Open;
+
+        if mlt.IsEmpty then
+        begin
+
+          mlt.Append;
+          mltmfichave.AsString := aMfiChave;
+          mltltechave.AsString := aLteChave;
+          mltflacodigo.AsInteger := fAcesso.Filial;
+          mlt.Post;
+
+        end;
+
+        mlt.Close;
+        break;
+
+      Except
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+      end;
+    end;
+end;
+
+
+
+procedure TfltePDTVTEF.SalvaRegistroMLTVENDA(aMfiChave:String; aLteChave:String);
+var
+  vlTentativas : Integer;
+begin
+    vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        mlt.Close;
+        mlt.Connection:=ZCone;
+        mlt.ParamByName('mfichave').AsString := aMfiChave;
+        mlt.ParamByName('ltechave').AsString := aLteChave;
+        mlt.Open;
+
+        if mlt.IsEmpty then
+        begin
+
+          mlt.Append;
+          mltmfichave.AsString := aMfiChave;
+          mltltechave.AsString := aLteChave;
+          mltflacodigo.AsInteger := fAcesso.Filial;
+          mlt.Post;
+
+        end;
+
+        mlt.Close;
+        break;
+
+      Except
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+      end;
+    end;
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroMFIVENDA(arfiChave:String; aRfiValor:Currency; atmfCodigo:Integer; aLteChave:String);
+var
+  vlmfiChave: String;
+  vlTentativas : Integer;
+begin
+    vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        mfi.Close;
+        mfi.Connection:=ZCone;
+        mfi.ParamByName('rfichave').AsString := arfiChave;
+        mfi.ParamByName('tmfcodigo').AsInteger := atmfCodigo;
+        mfi.Open;
+
+        if mfi.IsEmpty then
+        begin
+
+          mfi.Append;
+          mfirfichave.AsString := arfiChave;
+          mfitmfcodigo.AsInteger := atmfCodigo;
+          mfimoecodigo.AsInteger := 1;
+          mfimfivalor.AsFloat :=aRfiValor;
+          mfimfidata.AsFloat := DataAtual;
+          mfimfihistorico.AsString := '';
+          mfimfivalorori.AsFloat :=aRfiValor;
+          mfimfiparcela.AsInteger := 0;
+          mfi.Post;
+
+
+        end;
+
+        vlmfiChave := mfimfichave.AsString;
+
+        mfi.Close;
+
+        if atmfCodigo=21 then
+          SalvaRegistroMLTVENDA(vlmfiChave,aLteChave);
+
+        break;
+
+      Except
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+      end;
+    end;
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroRFI(aTitCodigo:String;mTitCodigo:String; aLtechave:String; aSituacao:Boolean);
+var
+  vlRfiChave:String;
+  vlRfiValor:Currency;
+  vlTentativas:Integer;
+  i:integer;
+begin
+    vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        rfi.Close;
+        rfi.Connection:=ZCone;
+        rfi.ParamByName('titcodigo').AsString := aTitCodigo;
+        rfi.Open;
+
+        mrfi.First;
+        i:=mrfi.RecordCount;
+        while not mrfi.Eof do
+        begin
+
+          if (mRfititcodigo.AsString=mTitCodigo)  then
+          begin
+
+            rfi.Append;
+            rfititcodigo.AsString := aTitCodigo ;
+            rfietdcodigo.AsInteger := fEtdCodigoConvenio;
+            rfitfdcodigo.AsInteger := mrfitfdcodigo.AsInteger;
+            rfiflacodigo.AsInteger := mrfiflacodigo.AsInteger;
+            rfitficodigo.AsInteger := mrfitficodigo.AsInteger;
+            rfibcocodigo.AsString := mrfibcocodigo.AsString;
+            rficarcodigo.AsInteger := mrficarcodigo.AsInteger;
+            rfirfiemissao.AsDateTime := mRfirfiemissao.AsDateTime;
+            rfirfivencimento.AsFloat :=mrfirfivencimento.AsFloat;
+            rfirfinumero.AsString := 'Venda: '+fMesChave ;
+
+            if (aSituacao) or (mrfitfdcodigo.AsInteger=tfdVenda)  then
+              rfisrfcodigo.AsInteger := srfQuitado
+            else
+              rfisrfcodigo.AsInteger := srfEmAberto;
+
+            rfirfivalor.AsFloat := mrfirfivalor.AsFloat;
+
+            rfirfihistorico.AsString := mrfirfihistorico.AsString;
+            rfifrrcodigo.AsInteger :=  mrfifrrcodigo.AsInteger;
+            rfirfimoradia.AsFloat := mrfirfimoradia.AsFloat;
+            rfirfipercmesmora.AsFloat := mrfirfipercmesmora.AsFloat;
+            rfirfirepetir.AsInteger := mrfirfirepetir.AsInteger;
+            rfirfiprevisao.AsInteger := mrfirfiprevisao.AsInteger;
+            rfirfivalorparcela.AsFloat := mrfirfivalorparcela.AsFloat;
+            rfimoecodigo.AsInteger := mrfimoecodigo.AsInteger;
+
+            rfirfidatamulta.AsFloat := mrfirfidatamulta.AsFloat;
+            rfirfivalomulta.AsFloat := mrfirfivalomulta.AsFloat;
+
+
+            rfi.Post;
+
+            vlRfiValor:=rfirfivalor.AsFloat;
+            vlRfiChave:=rfirfichave.AsString;
+
+
+           // mrfi.Delete;
+
+            SalvaRegistroRFMVENDA(vlRfiChave);
+
+            SalvaRegistroMFIVENDA(vlrfiChave, vlRfiValor, tmfAReceber,aLtechave );
+
+            if (aSituacao) or (mrfitfdcodigo.AsInteger=tfdVenda)  then
+            begin
+
+              SalvaRegistroMFIVENDA(vlrfiChave, vlRfiValor, tmfRecebimento, aLtechave);
+
+            end;
+
+          end;
+          mrfi.Next;
+        end;
+        break;
+      Except
+        on E: Exception do
+        begin
+          showmessage('Erro '+e.Message);
+
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+        end;
+      end;
+    end;
+end;
+
+
+
+procedure TfltePDTVTEF.SalvaRegistroRFIVENDA(aTitCodigo:String;mtitcodigo:String; aLtechave:String; aSituacao:Boolean);
+var
+  vlRfiChave:String;
+  vlRfiValor:Currency;
+  vlTentativas:Integer;
+  i:integer;
+begin
+
+    vlTentativas := 0;
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        rfi.Close;
+        rfi.Connection:=ZCone;
+        rfi.ParamByName('titcodigo').AsString := aTitCodigo;
+        rfi.Open;
+
+        mrfi.First;
+        i:=mrfi.RecordCount;
+        while not mrfi.Eof do
+        begin
+
+          // if (mRfititcodigo.AsString=mtitcodigo)  then
+          // begin
+
+
+            rfi.Append;
+            rfititcodigo.AsString := aTitCodigo ;
+            if (fEtdCodigoConvenio<>0)  then
+              rfietdcodigo.AsInteger := fEtdCodigoConvenio
+            else
+              rfietdcodigo.AsInteger := mtitetdcodigo.AsInteger;
+
+            rfiflacodigo.AsInteger := mrfiflacodigo.AsInteger;
+            rfibcocodigo.AsString := mrfibcocodigo.AsString;
+            rficarcodigo.AsInteger := mrficarcodigo.AsInteger;
+            rfitfdcodigo.AsInteger := mrfitfdcodigo.AsInteger;
+            rfirfiemissao.AsDateTime := mRfirfiemissao.AsDateTime;
+            rfirfivencimento.AsFloat :=mrfirfivencimento.AsFloat;
+            rfirfinumero.AsString := 'Venda: '+fMesChave ;
+
+            if (mrfitfdcodigo.AsInteger=tfdVenda)  then
+            begin
+
+              rfitfdcodigo.AsInteger := tfdVenda;
+              rfisrfcodigo.AsInteger := srfQuitado
+
+            end
+            else
+            begin
+              rfitfdcodigo.AsInteger := tfdReceber;
+              rfisrfcodigo.AsInteger := srfEmAberto;
+            end;
+
+            rfitficodigo.AsInteger := mrfitficodigo.AsInteger;
+
+            rfirfivalor.AsFloat := mrfirfivalor.AsFloat;
+
+            rfirfihistorico.AsString := mrfirfihistorico.AsString;
+            rfifrrcodigo.AsInteger :=  mrfifrrcodigo.AsInteger;
+            rfirfimoradia.AsFloat := mrfirfimoradia.AsFloat;
+            rfirfipercmesmora.AsFloat := mrfirfipercmesmora.AsFloat;
+            rfirfirepetir.AsInteger := mrfirfirepetir.AsInteger;
+            rfirfiprevisao.AsInteger := mrfirfiprevisao.AsInteger;
+            rfirfivalorparcela.AsFloat := mrfirfivalorparcela.AsFloat;
+            rfimoecodigo.AsInteger := mrfimoecodigo.AsInteger;
+            rfirfidatamulta.AsFloat := mrfirfidatamulta.AsFloat;
+            rfirfivalomulta.AsFloat := mrfirfivalomulta.AsFloat;
+
+            rfi.Post;
+
+            vlRfiValor:=rfirfivalor.AsFloat;
+            vlRfiChave:=rfirfichave.AsString;
+
+
+           // if rfirfiemissao.AsFloat = rfirfivencimento.AsFloat then
+           //   mrfi.Delete;
+
+            SalvaRegistroRFMVENDA(vlRfiChave);
+
+            SalvaRegistroMFIVENDA(vlrfiChave, vlRfiValor, tmfAReceber,aLtechave );
+
+
+
+            if  (mrfitfdcodigo.AsInteger=tfdVenda)  then
+            begin
+
+              SalvaRegistroMFIVENDA(vlrfiChave, vlRfiValor, tmfRecebimento, aLtechave);
+
+            end;
+          //  rfi.close;
+          // end;
+
+
+
+          mrfi.Next;
+        end;
+        break;
+      Except
+        sleep(1000);
+        vlTentativas := vlTentativas + 1;
+      end;
+    end;
+end;
+
+function TfltePDTVTEF.SalvaRegistroTIT(aLteChave:String):string;
+var
+ vlQuitado:Boolean;
+ vlTentativas:Integer;
+begin
+
+  if not mtit.IsEmpty then
+  begin
+
+    vlTentativas :=0;
+
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        tit.Close;
+        tit.Connection:=ZCone;
+        tit.FilterSQL:='titnumero='+QuotedStr('Venda: '+fMesChave);
+        tit.Open;
+
+        mtit.first;
+
+        tit.Append;
+          tittithora.AsFloat := mtittithora.AsFloat;
+          titclbcodigo.AsInteger := mtitclbcodigo.AsInteger;
+          tittitprevisao.AsInteger := mtittitprevisao.AsInteger;
+          titflacodigo.AsInteger := mtitflacodigo.AsInteger;
+          titmoecodigo.AsInteger := mtitmoecodigo.AsInteger;
+          tittitvctoinicial.AsFloat := mtittitvctoinicial.AsFloat;
+          tittitnumero.AsString := 'Venda: '+fMesChave ;
+
+          if mTittitvctoinicial.AsDateTime<>mTittitemissao.AsDateTime then
+          begin
+            tittfdcodigo.AsInteger :=  2;
+            titsrfcodigo.AsInteger := srfEmAberto;
+            vlQuitado:=False;
+          end
+          else
+          begin
+            tittfdcodigo.AsInteger :=  32;
+            titsrfcodigo.AsInteger := srfQuitado;
+            vlQuitado:=True;
+          end;
+
+          titetdcodigo.AsInteger := mtitetdcodigo.AsInteger;
+          tittitvalor.AsFloat := mtittitvalor.AsFloat;
+          tittitemissao.AsFloat := mtittitemissao.AsFloat;
+
+          tittficodigo.AsInteger := mTittficodigo.AsInteger;
+
+          tittithistorico.AsString := mtittithistorico.AsString;
+          tittitvalorparcela.AsFloat := mtittitvalorparcela.AsFloat;
+          tittitparcelas.AsInteger := mtittitparcelas.AsInteger;
+          tittitmoradia.AsFloat := mtittitmoradia.AsFloat;
+          tittitvalomulta.AsFloat := mtittitvalomulta.AsFloat;
+          tittitpercmesmora.AsFloat := mtittitpercmesmora.AsFloat;
+          tittitvalodesc.AsFloat := mtittitvalodesc.AsFloat;
+          tittitpercmulta.AsFloat := mtittitpercmulta.AsFloat;
+          titbcocodigo.AsString := mtitbcocodigo.AsString;
+          titcarcodigo.AsInteger := mtitcarcodigo.AsInteger;
+          tittitdiasmulta.AsInteger :=mtittitdiasmulta.AsInteger;
+          tittitdiasdesc.AsInteger := mtittitdiasdesc.AsInteger;
+          tit.Post;
+
+          SalvaRegistroRFI(tittitcodigo.AsString,mtittitcodigo.AsString ,aLteChave,vlQuitado);
+
+          mtit.Delete;
+
+        Result := tittitcodigo.AsString;
+
+        Break;
+
+      except
+        vlTentativas := vlTentativas + 1;
+        Sleep(1000);
+      end;
+
+    end;
+
+  end;
+
+end;
+
+
+
+function TfltePDTVTEF.SalvaRegistroTITVENDA(aLteChave:String; aQuitado:Boolean):string;
+var
+ vlQuitado:Boolean;
+ vlTentativas:Integer;
+begin
+
+  if not mtit.IsEmpty then
+  begin
+
+    vlTentativas :=0;
+
+    while vlTentativas<60 do
+    begin
+
+      try
+
+        tit.Close;
+        tit.Connection:=ZCone;
+        tit.Open;
+
+        mtit.first;
+
+        tit.Append;
+        tittithora.AsFloat := mtittithora.AsFloat;
+        titclbcodigo.AsInteger := mtitclbcodigo.AsInteger;
+        tittitprevisao.AsInteger := mtittitprevisao.AsInteger;
+        titflacodigo.AsInteger := mtitflacodigo.AsInteger;
+        titmoecodigo.AsInteger := mtitmoecodigo.AsInteger;
+        tittitvctoinicial.AsFloat := mtittitvctoinicial.AsFloat;
+        tittitnumero.AsString := 'Venda: '+fMesChave ;
+
+        if aQuitado then
+        begin
+          tittfdcodigo.AsInteger :=32;
+          titsrfcodigo.AsInteger := srfQuitado;
+          vlQuitado:=True;
+          tittficodigo.AsInteger := tfiOutros;
+
+        end
+        else
+        begin
+          tittfdcodigo.AsInteger :=2;
+          titsrfcodigo.AsInteger := srfEmAberto;
+          vlQuitado:=False;
+          tittficodigo.AsInteger := tfiDuplicata;
+        end;
+
+
+        titetdcodigo.AsInteger := mtitetdcodigo.AsInteger;
+        tittitvalor.AsFloat := mtittitvalor.AsFloat;
+        tittitemissao.AsFloat := mtittitemissao.AsFloat;
+
+        tittithistorico.AsString := mtittithistorico.AsString;
+        tittitvalorparcela.AsFloat := mtittitvalorparcela.AsFloat;
+        tittitparcelas.AsInteger := mtittitparcelas.AsInteger;
+        tittitmoradia.AsFloat := mtittitmoradia.AsFloat;
+        tittitvalomulta.AsFloat := mtittitvalomulta.AsFloat;
+        tittitpercmesmora.AsFloat := mtittitpercmesmora.AsFloat;
+        tittitvalodesc.AsFloat := mtittitvalodesc.AsFloat;
+        tittitpercmulta.AsFloat := mtittitpercmulta.AsFloat;
+        titbcocodigo.AsString := '000';
+        titcarcodigo.AsInteger := 1;
+        tittitdiasmulta.AsInteger :=mtittitdiasmulta.AsInteger;
+        tittitdiasdesc.AsInteger := mtittitdiasdesc.AsInteger;
+        tit.Post;
+
+        SalvaRegistroRFIVENDA(tittitcodigo.AsString, mtittitcodigo.AsString,aLteChave,vlQuitado);
+
+
+        if mtittitvctoinicial.AsFloat<=mtittitemissao.AsFloat then
+        begin
+          mtit.Delete;
+        end;
+
+        Result := tittitcodigo.AsString;
+
+        Break;
+
+      except
+        vlTentativas := vlTentativas + 1;
+        Sleep(1000);
+      end;
+
+    end;
+
+  end;
+
+end;
+
+procedure TfltePDTVTEF.VerificaconexaoantesdeAplicar(DataSet: TDataSet);
+var
+  i: Integer;
+
+begin
+  if DataSet <> nil then
+  begin
+    if (DataSet is TUniQuery) then
+    begin
+
+      if (DataSet as TUniQuery).Connection=nil then
+        (DataSet as TUniQuery).Connection:=self.ZCone;
+
+      if (DataSet as TUniQuery).Connection.Connected = False then
+      begin
+        i := 0;
+        while i <= 30 do
+        begin
+          try
+
+            sleep(1000);
+            (DataSet as TUniQuery).Connection.Connected := True;
+            exit;
+          except
+            i := i + 1;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+end;
+
+
+procedure TfltePDTVTEF.VerificaConexaoAntesdeExecutar(Sender: TObject);
+var
+  i: Integer;
+begin
+  if (Sender is TUniQuery) then
+  begin
+    if (Sender as TUniQuery).Connection.Connected = False then
+    begin
+      i := 0;
+      while i <= 60 do
+      begin
+        try
+          sleep(1000);
+
+          (Sender as TUniQuery).Connection.Connected := True;
+          Break;
+        except
+          i := i + 1;
+        end;
+      end;
+    end;
+  end;
+end;
+
+
+procedure TfltePDTVTEF.AtribuiEventosQuery;
+var
+  i:Integer;
+begin
+ for i := 0 to Self.ComponentCount - 1 do
+    begin
+      if Self.Components[i] is TUniQuery then
+      begin
+        (Self.Components[i] as TUniQuery).Connection :=ZCone;
+        (Self.Components[i] as TUniQuery).BeforeExecute := VerificaConexaoAntesdeExecutar;
+        (Self.Components[i] as TUniQuery).BeforeOpen := VerificaconexaoantesdeAplicar;
+        (Self.Components[i] as TUniQuery).BeforePost := VerificaconexaoantesdeAplicar;
+        (Self.Components[i] as TUniQuery).BeforeEdit := VerificaconexaoantesdeAplicar;
+        (Self.Components[i] as TUniQuery).BeforeDelete := VerificaconexaoantesdeAplicar;
+      end;
+
+    end;
+end;
+
+
+
+
+
+
+procedure TfltePDTVTEF.AjustaEntidadeEndereco;
+var
+  vlTentativas:Integer;
+begin
+
+  if fEtdCodigo=0 then
+    exit;
+
+  vlTentativas :=0;
+  while vlTentativas<60 do
+  begin
+
+    try
+
+      if fEtdCodigo<>0 then
+      begin
+
+        orc.Close;
+        orc.Connection:=ZCone;
+        orc.ParamByName('orcchave').AsString:=fOrcChave;
+        orc.Open;
+
+        edr.Close;
+        edr.Connection:=ZCone;
+        edr.ParamByName('etdcodigo').AsInteger:=fEtdCodigo;
+        edr.Open;
+
+        if edr.RecordCount>=1 then
+        begin
+
+          orc.Edit;
+          orcetdcodigo.AsInteger:=fEtdCodigo;
+          orcedritem.AsInteger:=edredritem.AsInteger;
+          orcedrcodigo.AsInteger:=edredrcodigo.AsInteger;
+          orc.Post;
+
+          Break;
+
+        end;
+
+      end;
+
+    Except
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+
+Function  TfltePDTVTEF.SalvaRegistroLote:String;
+var
+  vlTentativas:Integer;
+begin
+
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+      lte.Close;
+      lte.Connection:=ZCone;
+      lte.ParamByName('ltechave').AsInteger:=-1;
+      lte.Open;
+
+      lte.Append;
+      ltetfdcodigo.AsInteger := tfdVenda;
+      lteltedata.AsFloat := DataAtual;
+      ltelteprincipal.ascurrency := Self.flteprincipal;
+      lteltedesconto.ascurrency := Self.fltedesconto;
+      lteltetotal.ascurrency := self.flteliquido;
+      lteflacodigo.AsInteger := fAcesso.Filial;
+      lteccxchave.AsInteger := self.fCcxchave;
+      lteclbcodigo.AsInteger:=mLteclbcodigo.AsInteger;
+      ltectacodigo.AsInteger:=mltectacodigo.AsInteger;
+      lteltetroco.AsCurrency:=mLteltetroco.AsCurrency;
+      lte.Post;
+
+      Result := lteltechave.AsString;
+
+      Break;
+
+      lte.Close;
+    Except
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+
+end;
+
+
+function TfltePDTVTEF.SalvaRegistroDetalheLote(aLteChave:String):String;
+var
+  vlTentativas:Integer;
+  vlccoChave:Integer;
+begin
+
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+      dtl.Close;
+      dtl.Connection:=ZCone;
+      dtl.ParamByName('ltechave').AsString :=flteChave;
+      dtl.Open;
+
+      dtl.Append;
+      dtlltechave.AsString:=aLteChave;
+      dtlcedcodigo.AsInteger:=mdtlcedcodigo.AsInteger;
+      dtlmdacodigo.AsInteger:=mdtlmdacodigo.AsInteger;
+      dtldtlvalor.AsCurrency:=mdtldtlvalor.AsCurrency;
+      dtldtlvalorinfo.AsCurrency:=mdtldtlvalorinfo.AsCurrency;
+      dtlflacodigo.AsInteger:=mdtlflacodigo.AsInteger;
+      dtlccxchave.AsInteger:=mdtlccxchave.AsInteger;
+      dtldtlregistro.AsDateTime:=mdtldtlregistro.AsDateTime;
+      dtlmdaidentificacao.AsString:=mdtlmdaidentificacao.AsString;
+
+      if (dtlmdacodigo.AsInteger=mdaCartaoDebito) or
+         (dtlmdacodigo.AsInteger=mdaCartaoCredito)  or
+         (dtlmdacodigo.AsInteger=mdaPIX)  then
+        dtlrdcnrauto.AsString:=mdtlrdcnrauto.AsString
+      else
+        dtlrdcnrauto.AsString:='';
+
+      dtl.Post;
+
+      dtlchave :=dtldtlchave.AsInteger;
+
+      if mcco.Locate('dtlchave', mDtldtlchave.AsInteger,[]) then
+      begin
+        mcco.Edit;
+        mccodtlchave.AsString:=dtldtlchave.AsString;
+        mcco.Post;
+      end;
+
+      if mcco.Locate('dtlchave', mDtldtlchave.AsInteger,[]) then
+      begin
+        mcco.Edit;
+        mccodtlchave.AsString:=dtldtlchave.AsString;
+        mcco.Post;
+      end;
+
+
+
+      if mrdc.Locate('dtlchave', mDtldtlchave.AsInteger,[]) then
+      begin
+        mrdc.Edit;
+        mRdcrdcnrauto.AsString:=dtlrdcnrauto.AsString;
+        mRdcadccodigo.AsInteger:=CodigoADC;
+        mrdc.Post;
+      end;
+
+      if (dtlmdacodigo.AsInteger=mdaCartaoDebito) or
+         (dtlmdacodigo.AsInteger=mdaCartaoCredito) or
+         (dtlmdacodigo.AsInteger=mdaPIX) then
+      begin
+
+        if not mrdc.IsEmpty then
+        begin
+
+          mrdc.First;
+
+          while not mrdc.Eof do
+          begin
+
+            if mdtlrdcnrauto.AsString=mRdcrdcnrauto.AsString then
+            begin
+              SalvaRegistroCartaoCredito(DtlDtlChave.AsString);
+            end;
+
+           mrdc.Next;
+
+          end;
+
+        end;
+
+      end;
+
+      Result := dtldtlchave.AsString;
+
+      Break;
+    Except
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+
+function TfltePDTVTEF.SalvaRegistroCartaoCredito(aDtlChave:String):String;
+var
+  vlTentativas:Integer;
+begin
+
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+      rdc.close;
+      rdc.Connection:=ZCone;
+      rdc.ParamByName('rdcnrauto').AsString:=dtlrdcnrauto.AsString;
+      rdc.ParamByName('dtlchave').AsString:=aDtlChave;
+      rdc.ParamByName('rdcdata').AsDate:=mrdcrdcdata.AsDateTime;
+      rdc.ParamByName('adccodigo').AsInteger:=mrdcadccodigo.AsInteger;
+      rdc.Open;
+
+      if rdc.IsEmpty then
+        rdc.Append
+      else
+        rdc.Edit;
+
+      rdcrdcvalor.AsCurrency:=dtldtlvalor.AsCurrency;
+      rdcrdcnrauto.AsString:=dtlrdcnrauto.AsString;
+      rdcrdcdata.AsDateTime:=mrdcrdcdata.AsDateTime;
+      rdcadccodigo.AsInteger:= mrdcadccodigo.AsInteger;
+      rdcrdccomprovante1via.asstring:=mrdcrdccomprovante1via.asstring;
+      rdcrdccomprovante2via.asstring:=mrdcrdccomprovante2via.asstring;
+      rdcrdcparcelas.AsInteger:=mrdcrdcparcelas.AsInteger;
+      rdcbdccodigo.AsInteger:= mrdcbdccodigo.AsInteger;
+      rdcrdchora.asdatetime:=now();
+      rdcdtlchave.AsString:=aDtlChave;
+      Rdcadccodigo.AsInteger:=CodigoADC;
+      rdc.Post;
+
+
+      ltr.close;
+      ltr.Connection:=ZCone;
+      ltr.ParamByName('rdcchave').AsInteger:= rdc.FieldByName('rdcchave').AsInteger;
+      ltr.ParamByName('rdcnrauto').AsString:= dtlrdcnrauto.AsString;
+      ltr.Open;
+
+      if ltr.IsEmpty then
+      begin
+        ltr.Append;
+        ltr.FieldByName('dtlchave').AsString:=aDtlChave;
+        ltr.FieldByName('rdcchave').AsInteger:= rdc.FieldByName('rdcchave').AsInteger;
+        ltr.FieldByName('rdcnrauto').AsString:= dtlrdcnrauto.AsString;
+        ltr.Post;
+      end;
+
+      Break;
+    Except
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+procedure TfltePDTVTEF.SalvaRegistroCLT(aCcoChave:String;aLteChave:String);
+var
+  vlTentativas:Integer;
+begin
+
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+      clt.Close;
+      clt.Connection:=ZCone;
+      clt.ParamByName('ccochave').AsString := aCcoChave ;
+      clt.ParamByName('ltechave').AsString := aLteChave ;
+      clt.ParamByName('dtlchave').AsString := mCcodtlchave.AsString ;
+      clt.Open;
+
+      if clt.IsEmpty then
+        clt.Append
+      else
+         clt.Edit;
+      cltccochave.AsString := aCcoChave;
+      cltltechave.AsString := aLteChave;
+      cltdtlchave.AsString := mccoDtlChave.AsString ;
+      clt.Post;
+
+      Break;
+
+    Except
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroCCO(aLteChave:String; mccoChave:String);
+var
+  vlCcoChave : String;
+  vlTentativas:Integer;
+begin
+
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+
+      mcco.First;
+
+      while not mcco.Eof do
+      begin
+
+
+
+        cco.close;
+        cco.Connection:=ZCone;
+        cco.ParamByName('ccohistorico').AsString:='Venda: '+fMesChave;
+        cco.Open;
+
+       // if cco.IsEmpty then
+          cco.Append;
+       // else
+       //   cco.Edit;
+
+        ccoctacodigo.AsString := mccoctacodigo.AsString;
+        ccotoccodigo.AsInteger := mccotoccodigo.AsInteger;
+        ccocedcodigo.AsInteger := mccocedcodigo.AsInteger;
+        ccoclbcodigo.AsInteger := mccoclbcodigo.AsInteger;
+        ccotficodigo.AsInteger := mccotficodigo.AsInteger;
+        ccoccoemissao.AsFloat := mccoccoemissao.AsFloat;
+        ccoccovencimento.AsFloat := mccoccovencimento.AsFloat;
+        ccocconumero.AsString := mccocconumero.AsString;
+        ccoccohistorico.AsString := 'Venda: '+fMesChave  ;
+        ccoccovalor.AsFloat := mccoccovalor.AsFloat ;
+        ccoetdcodigo.AsInteger := mccoetdcodigo.AsInteger;
+        ccoccofavorecido.AsString := mccoccofavorecido.AsString;
+        ccoccochaveorig.AsInteger := mccoccochaveorig.AsInteger;
+        ccoccochavedest.AsInteger := mccoccochavedest.AsInteger;
+        ccoccodatamov.AsFloat := mccoccodatamov.AsFloat ;
+        ccoccodataregistro.AsFloat := mccoccodataregistro.AsFloat;
+        ccoccohoraregistro.AsFloat := mccoccohoraregistro.AsFloat ;
+        ccoccoconciliado.AsInteger := mccoccoconciliado.AsInteger;
+        ccomoecodigo.AsInteger := mccomoecodigo.AsInteger;
+        ccoccoextenso.AsString := mccoccoextenso.AsString;
+        ccoflacodigo.AsInteger := mccoflacodigo.AsInteger ;
+        cco.Post;
+
+
+        vlCcoChave := ccoccochave.AsString;
+
+        SalvaRegistroCLT(vlCcoChave,aLteChave);
+
+        mcco.Next;
+
+      end;
+
+      Break;
+
+    Except
+      mcco.First;
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroMce(altegui: String; altechave:string);
+var
+  vlTentativas:Integer;
+begin
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+
+      mce.close;
+      mce.Connection:=ZCone;
+      mce.ParamByName('ltechavegui').AsString:=altegui;
+      mce.Open;
+
+      mce.First;
+      while not mce.Eof do
+      begin
+        mce.Edit;
+        mce.FieldByName('ltechave').AsString:=altechave;
+        mce.Post;
+
+        mce.Next;
+      end;
+
+      exit;
+
+    Except
+      mcco.First;
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+procedure TfltePDTVTEF.RemoveRegistroMce(altegui: String);
+var
+  vlTentativas:Integer;
+begin
+  vlTentativas :=0;
+
+  while vlTentativas<60 do
+  begin
+
+    try
+
+
+      mce.close;
+      mce.Connection:=ZCone;
+      mce.ParamByName('ltechavegui').AsString:=altegui;
+      mce.Open;
+
+      mce.First;
+      while not mce.Eof do
+      begin
+
+        mce.delete;
+      end;
+
+      exit;
+
+    Except
+      mcco.First;
+      vlTentativas := vlTentativas +1;
+      Sleep(1000);
+    end;
+
+  end;
+
+end;
+
+
+procedure TfltePDTVTEF.SalvaRegistroFinalizacaoFinanceira;
+begin
+
+  AjustaEntidadeEndereco;
+
+  ProcessaOrcamento;
+
+  AjustaEntidadeVenda;
+
+  DadosEntidadeVenda;
+
+
+
+  flteChave := SalvaRegistroLote;
+
+  mdtl.First;
+  while not mdtl.Eof do
+  begin
+
+    SalvaRegistroDetalheLote(flteChave);
+
+    mdtl.Next;
+  end;
+
+
+  if mLteltegui.asstring<>'' then
+  begin
+    SalvaRegistroMce(mLteltegui.asstring, fltechave);
+  end;
+
+
+
+  mtit.First;
+  mtit.Edit;
+  mTittitvalor.AsCurrency:=lteliquido;
+  mTittitvalorparcela.AsCurrency:=lteliquido;
+  mTit.Post;
+
+
+  SalvaRegistroTITVENDA(flteChave, true );
+
+  if not mtit.IsEmpty then
+  begin
+
+    mtit.first;
+
+    while not mtit.Eof do
+    begin
+
+      SalvaRegistroTIT(flteChave);
+
+      mtit.Next;
+
+    end;
+  end;
+
+
+  if not mcco.Eof then
+  begin
+
+    SalvaRegistroCCO(flteChave, mccoccochave.AsString);
+    mcco.Delete;
+
+  end;
+
+
+  mdtl.close;
+  mtit.Close;
+  mrfi.Close;
+  mrdc.Close;
+  mlte.Close;
+  mcco.close;
+  dfcrfi.close;
+
+end;
+
+
+
+
+
+Function TfltePDTVTEF.registraDTL(aTeclaFinalizador:Integer; aValorFinalizador:Currency):Integer;
+var
+  vlNovo: Boolean;
+  vlretorno: string;
+begin
+
+  if mdtl.active then
+  begin
+
+    mdtl.first;
+    while not mdtl.eof do
+    begin
+
+      if (mdtlmdacodigo.AsInteger=mdaCartaoDebito) or
+       (mdtlmdacodigo.AsInteger=mdaCartaoCredito) or
+       (mdtlmdacodigo.AsInteger=mdaPix) then
+      begin
+       if (fMdaCodigo=mdaCartaoDebito) or
+         (fMdaCodigo=mdaCartaoCredito) or
+         (fMdaCodigo=mdaPix) then
+        begin
+           mdtl.edit;
+           mDtltextoexcluir.asstring:='';
+           mdtl.post;
+        end;
+      end;
+
+      mdtl.next;
+    end;
+
+  end;
+
+  Result:=0;
+
+  mdtl.Append;
+  mdtldtlchave.AsInteger:=mdtl.RecordCount+1;
+  mdtldtlvalorinfo.AsCurrency := aValorFinalizador;
+  mdtlltechave.AsString :=  flteChave;
+  mdtlcedcodigo.AsInteger := 1;
+  mdtlmdacodigo.AsInteger := fMdaCodigo;
+  mdtldtlvalor.AsCurrency := aValorFinalizador;
+  mdtlflacodigo.AsInteger := fAcesso.Filial;
+  mdtldtlregistro.AsString := agora(application, ZCone);
+  mdtlccxchave.AsInteger := fCcxchave;
+  mdtlrdcnrauto.asstring:=fOperacaoTEF.AutorizacaoRetorno;
+  mDtltextoexcluir.asstring:='Excluir';
+
+  mda.Close;
+  mda.ParamByName('mdacodigo').AsInteger:=fMdaCodigo;
+  mda.Open;
+
+  mdtlmdaidentificacao.AsString:=mda.FieldByName('mdaidentificacao').AsString;
+  mdtl.Post;
+
+  DtlChave:=mdtldtlchave.AsInteger;
+  Result:=mdtldtlchave.AsInteger;
+
+  AtualizaPaineisValores;
+
+end;
+
+
+
+function TfltePDTVTEF.RegistraCheques(aDtlChave: Integer; aValor: Currency): string;
+type
+  TRegistraCheques = function(AOwner: TComponent; Conexao: tuniconnection; vusrcodigo: String; vTotal: string; vdtlchave: string;
+    vetdcodigo: String = ''): string;
+var
+  registra: TRegistraCheques;
+  pack:THandle;
+begin
+
+  pack := LoadPackage('modulos\mche.bpl');
+  if pack <> 0 then
+    try
+      @registra := GetProcAddress(pack, PChar('RegistraCheques'));
+
+      if Assigned(registra) then
+        Result := registra(application, ZCone, fAcesso.Usuario.ToString, CurrToStr(aValor), aDtlChave.ToString,  fEtdCodigo.ToString);
+
+    finally
+       DoUnLoadPackage(Application,pack);
+    end;
+end;
+
+////////////////////////////////////////
+///
+///  remoção de registros
+///
+//////////////////////////////////////////
+
+procedure TfltePDTVTEF.RemoveRegistros(aDtlChave:String);
+var
+  vlPodeRemover:Boolean;
+begin
+
+  vlPodeRemover := False;
+
+  if (mDtlmdacodigo.AsInteger=mdaCartaoDebito) or  (mDtlmdacodigo.AsInteger=mdaCartaoCredito) then
+  begin
+    // desfazer registro de cartão ou piX
+
+    CancelaCartao(mDtldtlchave.AsInteger, mDtldtlvalor.AsCurrency, mDtldtlrede.AsString, mDtlrdcnrauto.AsString);
+
+    vlPodeRemover := True
+  end
+  else
+    vlPodeRemover := True;
+
+  if  vlPodeRemover then
+  begin
+
+    if mcco.Locate('dtlchave',aDtlChave,[]) then
+    begin
+      mcco.delete;
+    end;
+
+    if mrdc.Locate('dtlchave',aDtlChave,[]) then
+    begin
+      mrdc.delete;
+    end;
+
+    if mrfi.Locate('dtlchave',aDtlChave,[]) then
+    begin
+      mrfi.delete;
+    end;
+
+    if mtit.Locate('dtlchave',aDtlChave,[]) then
+    begin
+      mtit.delete;
+    end;
+
+    if mdtl.Locate('dtlchave',aDtlChave,[]) then
+    begin
+      mdtl.delete;
+    end;
+
+  end;
+
+  AtualizaPaineisValores;
+
+end;
+
+
+
+
+
+
+///////////////////////////////////
+///
+///  carga de dados de inicialização
+///
+///////////////////////////////////
+
+
+procedure TfltePDTVTEF.DadosConfiguracao;
+var
+  vlcfg:TUniquery;
+  vltrm:TUniquery;
+  vladc:TUniquery;
+  vlclb:TUniquery;
+
+begin
+
+  vlcfg:=TUniquery.Create(nil);
+
+  vlcfg.Close;
+  vlcfg.Connection := ZCone;
+  vlcfg.SQL.Text:='SELECT cfgusacre, cfgcontrolalimite, cfgctacodigopix,  cfgusaadc, '+
+                  'etddoc1, etdidentificacao,cfgdatapadrao '+
+                  'FROM cfg, etd, cfgmsai, cfgmcre, cfgmcfg '+
+                  'WHERE cfg.cfgcodigo=cfgmsai.cfgcodigo '+
+                  'AND cfg.cfgcodigo=cfgmcfg.cfgcodigo '+
+                  'AND cfg.cfgcodigo=cfgmcre.cfgcodigo '+
+                  'AND cfgmcfg.cfgetdempresa=etd.etdcodigo  limit 1';
+  vlcfg.Open;
+
+  estabelecimentocnpj:=SoNumeros(vlcfg.FieldByName('etddoc1').AsString);
+  estabelecimentorazaosocial:=trim(uppercase(vlcfg.FieldByName('etdidentificacao').AsString));
+  DataAtual:=vlcfg.FieldByName('cfgdatapadrao').AsDateTime;
+
+  ContaPIX:=vlcfg.FieldByName('cfgctacodigopix').AsInteger;
+  UsaCre:=vlcfg.FieldByName('cfgusacre').AsInteger;
+  UsaAdc:=vlcfg.FieldByName('cfgusaadc').AsInteger;
+  ControlaLimite:=vlcfg.FieldByName('cfgcontrolalimite').AsInteger;
+
+  vlcfg.close;
+  vlcfg.Free;
+
+  vltrm:=TUniquery.Create(nil);
+  vltrm.Connection:=ZCone;
+  vltrm.sql.Text:='SELECT trmcodigo, trmestabelecimentotipotef, trmterminalcodempresa,'+
+                  'trmterminalcodfilial, trmterminalcodterminal,  trmterminalenderecoservidor,'+
+                  'trmterminalportapinpad FROM trm  where trmcodigo=:trmcodigo';
+  vltrm.ParamByName('trmcodigo').AsInteger:=facesso.Terminal;
+  vltrm.open;
+
+  estabelecimentotipotef:=vltrm.FieldByName('trmestabelecimentotipotef').AsString;
+
+  terminalcodempresa:=vltrm.FieldByName('trmterminalcodempresa').AsString;
+  terminalcodfilial:=vltrm.FieldByName('trmterminalcodfilial').AsString;
+  terminalcodterminal:=vltrm.FieldByName('trmterminalcodterminal').AsString;
+  terminalenderecoservidor:=vltrm.FieldByName('trmterminalenderecoservidor').AsString;
+  terminalportapinpad:=vltrm.FieldByName('trmterminalportapinpad').AsString;
+
+  vltrm.close;
+  vltrm.Free;
+
+  vladc:=TUniquery.Create(nil);
+
+  vladc.Close;
+  vladc.Connection := ZCone;
+  vladc.SQL.Text:='SELECT adccodigo, adcidentificacao, etdcodigo, adcpropria, '+
+                  'bdccodigo, ctacodigo FROM adc  where ctacodigo<>0 and  adcencerramento is null  order by adccodigo desc limit 1';
+  vladc.Open;
+
+  CodigoADC:=vladc.FieldByName('adccodigo').AsInteger;
+  AdquirenteADC:=vladc.FieldByName('adcidentificacao').AsString;
+  EntidadeADC:=vladc.FieldByName('etdcodigo').AsInteger;
+  ContaAdc:=vladc.FieldByName('ctacodigo').AsInteger;
+
+  vladc.close;
+
+  vlclb:=TUniquery.Create(nil);
+  vlclb.Close;
+  vlclb.Connection:=ZCone;
+  vlclb.sql.Text :='SELECT clbcodigo, clbidentificacao from clb where clbcodigo=:clbcodigo ';
+  vlclb.ParamByName('clbcodigo').AsInteger:=facesso.usuario;
+  vlclb.Open;
+
+  if not vlclb.IsEmpty then
+    Operador :=vlclb.FieldByName('clbidentificacao').AsString
+  else
+    Operador := 'Operado';
+  vlclb.close;
+
+end;
+
+
+function TfltePDTVTEF.SelecionarEndereco(vetdcodigo: string): string;
+var
+  vlEndereco: Integer;
+  vlTxtFiltro: string;
+  vlRetorno: string;
+
+begin
+  etdedr.Close;
+  etdedr.Connection:=ZCone;
+  etdedr.SQL.Text := 'SELECT edr.edrcodigo, edritem FROM edr WHERE sipcodigo=1 and edr.tedcodigo IN (1,2, 3, 4,5,6) AND edr.etdcodigo = ' + vetdcodigo;
+  etdedr.Open;
+
+  vlEndereco := etdedr.FieldByName('edritem').AsInteger;
+
+
+  if etdedr.RecordCount > 1 then
+  begin
+    vlTxtFiltro := 'etdcodigo = ' + vetdcodigo + ' and sipcodigo=1';
+    vlRetorno := MostraLista('medr', vlTxtFiltro, vetdcodigo);
+
+    if vlRetorno <> '' then
+    begin
+
+      etdedr.Close;
+      etdedr.Connection:=ZCone;
+      etdedr.SQL.Text := 'SELECT edr.edrcodigo, edritem FROM edr WHERE edrcodigo = ' + vlRetorno;
+      etdedr.Open;
+
+      vlEndereco := etdedr.FieldByName('edritem').AsInteger;
+    end;
+
+  end;
+
+  if (etdedr.IsEmpty) then
+  begin
+    vlEndereco := 1;
+  end;
+
+  Result := vlEndereco.ToString;
+end;
+
+
+procedure TfltePDTVTEF.AjustaEntidadeVenda;
+var
+ vledritem:Integer;
+begin
+
+  vledritem:= StrToInt(SelecionarEndereco(fEtdCodigo.ToString));
+
+
+  mesetd.Close;
+  mesetd.Connection:=ZCone;
+  mesetd.SQL.Text := 'update mes set etdcodigo='+fEtdCodigo.ToString+', edritem='+vledritem.ToString+' where meschave=' + fmeschave;
+  mesetd.ExecSQL;
+
+end;
+
+
+
+procedure TfltePDTVTEF.DadosEntidadeVenda;
+begin
+
+  mes.close;
+  mes.Connection:=ZCone;
+  mes.ParamByName('meschave').AsString:=fMesChave;
+  mes.Open;
+
+
+  fEtdCodigo:=mes.FieldByName('etdcodigo').AsInteger;
+  fEtdIdenticicacao:=mes.FieldByName('etdidentificacao').AsString;
+
+  mes.Close;
+
+  if fEtdCodigo=0 then
+   fEtdIdenticicacao:='';
+
+
+
+end;
+
+
+procedure TfltePDTVTEF.DBListaPagamentosCellClick(Column: TColumn);
+var
+  Confirma:Integer;
+
+begin
+
+  if not mdtl.IsEmpty then
+  begin
+
+    if DBListaPagamentos.SelectedField.FieldName = 'textoexcluir' then
+    begin
+
+      if (DBListaPagamentos.DataSource.DataSet.FieldByName('textoexcluir').AsString='Excluir') then
+      begin
+
+
+        Confirma := Application.MessageBox(PChar('Confirma o cancelamento do recebimento ?'), 'CANCELAMENTO',  MB_YESNO + MB_DEFBUTTON2 + MB_ICONQUESTION);
+
+        if Confirma=ID_YES then
+        begin
+          RemoveRegistros(mdtldtlchave.AsString);
+          AtualizaPaineisValores;
+
+        end
+        else
+          AtualizaPaineisValores;
+
+      end;
+
+    end;
+  end;
+
+end;
+
+procedure TfltePDTVTEF.DBListaPagamentosDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+  tmpck: Integer;
+  R: TRect;
+  I: Integer;
+
+var
+  BUTTON: Integer;
+  bcolor: TColor;
+  vlTexto:String;
+begin
+
+
+ if (Column.FieldName = 'textoexcluir') and (DBListaPagamentos.DataSource.DataSet.FieldByName('textoexcluir').AsString='Excluir') then
+  begin
+    DBListaPagamentos.Canvas.FillRect(Rect);
+    BUTTON := 0;
+    R:=Rect;
+    InflateRect(R,-1,-1); //Diminue o tamanho do Botão
+    DrawFrameControl(DBListaPagamentos.Canvas.Handle,R,BUTTON, BUTTON or BUTTON);
+    DBListaPagamentos.Canvas.Brush.Color := clBtnFace; // muda a cor de fundo
+    DrawText(DBListaPagamentos.Canvas.Handle,  'Excluir',7,R,DT_VCENTER or DT_CENTER);
+    DBListaPagamentos.Canvas.Font.Color:=clred;
+    column.Font.Color:=clMaroon;
+
+  end;
+
+
+end;
+
+procedure TfltePDTVTEF.DadosCaixa;
+var
+  qccx: tuniquery;
+begin
+
+  qccx := tuniquery.Create(application);
+
+  try
+    qccx.Connection := ZCone;
+    qccx.SQL.Text := 'SELECT CURRENT_TIME();';
+
+    qccx.SQL.Text := 'SELECT ccxchave FROM ccx  WHERE (ccx.trmcodigo=' + facesso.Terminal.ToString + ' OR  ccx.trmcodigo IS null ) and ccx.clbcodigo=' +
+      fAcesso.Usuario.ToString + ' AND ccx.ccxdatafecha is NULL order by ccxchave desc limit 1';
+
+    qccx.Open;
+
+    if not qccx.IsEmpty then
+    begin
+      fCcxchave := qccx.FieldByName('ccxchave').AsInteger;
+    end
+    else
+    begin
+      FCcxchave := 0;
+    end;
+
+  finally
+    qccx.Close;
+    qccx.Free;
+  end;
+
+end;
+
+
+function TfltePDTVTEF.GetHoraAtual: TTime;
+var
+  qHora: tuniquery;
+begin
+  qHora := tuniquery.Create(application);
+  try
+    qHora.Connection := ZCone;
+    qHora.SQL.Text := 'SELECT CURRENT_TIME();';
+    qHora.Open;
+
+    Result := qHora.Fields[0].AsDateTime;
+  finally
+    qHora.Free;
+  end;
+end;
+
+
+function TfltePDTVTEF.loteDesaAtivaTEF:Boolean;
+begin
+
+end;
+
+function TfltePDTVTEF.LoteAtivaTEF:boolean;
+begin
+
+  ftransacaoTEF:=TftransacaoTEFAPI.Create(self);
+
+  ftransacaoTEF.ZCone:=self.ZCone;
+
+  CarregaDadosConfiguracaoTEF;
+
+  try
+    fTEFAtivo:=ftransacaoTEF.AtivaTEF(fConfiguracaoTEF);
+    Result := True;
+  except
+    Result := False;
+  end;
+
+end;
+
+
+function TfltePDTVTEF.PedeCPFTEF:String;
+begin
+
+ // CarregaDadosConfiguracaoTEF;
+
+  CPFnaNota:=ftransacaoTEF.ObtemCPF(fConfiguracaoTEF);
+
+  if CPFnaNota<>'' then
+  begin
+    plMensagem.Visible:=true;
+    plMensagem.Color:=clYellow;
+    plMensagem.Caption:='CPF: '+CPFnaNota;
+  end;
+
+  result:=CPFnaNota;
+
+end;
+
+
+function TfltePDTVTEF.RemoveCartao(aDtlchave: Integer): TOperacaoTEF;
+var
+  OperacaoTEF: TOperacaoTEF;
+  vlRctChave:Integer;
+begin
+
+  CarregaDadosConfiguracaoTEF;
+
+
+  OperacaoTEF.numero :=GeraSequencial.ToInteger;
+  OperacaoTEF.Identificacao := aDtlchave.ToString;
+  OperacaoTEF.QuantidadeParcela := '1';
+  OperacaoTEF.TipoFinanciador := '0'; // parcelado a vista
+  OperacaoTEF.TipoCartao := '1'; // Cartão chipado
+  OperacaoTEF.rede:='';
+  fConfiguracaoTEF.TerminalOperador := Operador;
+
+
+  fTransacaoTEF.fConfiguracaoTEF:=fConfiguracaoTEF;
+  fTransacaoTEF.TipoProcessamento:=2;
+  fTransacaoTEF.OperacaoTEF:=OperacaoTEF;
+
+  fTransacaoTEF.ZCone:=ZCone;
+  fTransacaoTEF.OrcChave:=fOrcChave;
+
+  if fTransacaoTEF.showmodal=mrok then
+  begin
+    result:=fTransacaoTEF.OperacaoTEF;
+  end
+  else
+  begin
+    fTransacaoTEF.OperacaoTEF.Valor:=0;
+    result:=fTransacaoTEF.OperacaoTEF;
+  end;
+
+
+
+end;
+
+
+
+
+
+procedure TfltePDTVTEF.ChamaMenuADMTEF;
+var
+   vlTextoRetorno1:String;
+   vlTextoRetorno2:String;
+
+   vltrm:TUniquery;
+begin
+
+ 
+  CarregaDadosConfiguracaoTEF;
+
+
+  vlTextoRetorno1:=trim(ftransacaoTEF.ChamaMenuADM(fConfiguracaoTEF));
+  vlTextoRetorno2:=trim(copy(vlTextoRetorno1,pos('_',vlTextoRetorno1)+1,length(vlTextoRetorno1)));
+  vlTextoRetorno1:=trim(copy(vlTextoRetorno1,1,pos('_',vlTextoRetorno1)-1));
+
+
+  vltrm:=TUniquery.Create(nil);
+  vltrm.Connection:=ZCone;
+  vltrm.sql.Text:='SELECT trmcodigo, trmterminalcomprovante1via, '+
+                  'trmterminalcomprovante2via '+
+                  'FROM trm where trmcodigo=:trmcodigo';
+  vltrm.ParamByName('trmcodigo').AsInteger:=facesso.Terminal;
+  vltrm.open;
+
+  vltrm.Edit;
+  vltrm.FieldByName('trmterminalcomprovante1via').AsString:='';
+  vltrm.FieldByName('trmterminalcomprovante2via').AsString:='';
+  vltrm.Post;
+
+  if length(trim(vlTextoRetorno1))<10 then
+   vlTextoRetorno1:='';
+
+  if length(trim(vlTextoRetorno2))<10 then
+   vlTextoRetorno2:='';
+
+  if (vlTextoRetorno1<>'') or (vlTextoRetorno2<>'') then
+  begin
+
+    vltrm.Edit;
+    vltrm.FieldByName('trmterminalcomprovante1via').AsString:=trim(vlTextoRetorno1);
+    vltrm.FieldByName('trmterminalcomprovante2via').AsString:=Trim(vlTextoRetorno2);
+    vltrm.Post;
+
+  end;
+
+  vltrm.close;
+  vltrm.Free;
+
+end;
+
+
+
+function TfltePDTVTEF.RegistraCartao(aDtlchave: Integer; aValor: Currency; aQuantidadeParcelas:String='1'): TOperacaoTEF;
+var
+  vlRctChave:Integer;
+  vlclb:TUniquery;
+  vlResultado:Integer;
+begin
+
+  vlclb:=TUniquery.Create(nil);
+  vlclb.Close;
+  vlclb.Connection:=ZCone;
+  vlclb.sql.Text :='SELECT clbcodigo, clbidentificacao from clb where clbcodigo=:clbcodigo ';
+  vlclb.ParamByName('clbcodigo').AsInteger:=facesso.usuario;
+  vlclb.Open;
+
+  if not vlclb.IsEmpty then
+    Operador :=vlclb.FieldByName('clbidentificacao').AsString
+  else
+    Operador := 'Operado';
+  vlclb.close;
+  vlclb.Free;
+
+  fConfiguracaoTEF.TerminalOperador := Operador;
+
+ // CarregaDadosConfiguracaoTEF;
+
+  fOperacaoTEF.numero:=GeraSequencial.ToInteger;
+  fOperacaoTEF.Bandeira:='';
+  fOperacaoTEF.AutorizacaoRetorno:='';
+  fOperacaoTEF.DocumentoRetorno:='';
+  fOperacaoTEF.ImagemComprovante1aVia:='';
+  fOperacaoTEF.ImagemComprovante2aVia:='';
+  fOperacaoTEF.Rede:='';
+  fOperacaoTEF.Dia:='';
+
+  fOperacaoTEF.Valor := aValor;
+  fOperacaoTEF.Identificacao := vlRctChave.ToString;
+  fOperacaoTEF.TipoFinanciador := '0'; // parcelado a vista
+  fOperacaoTEF.TipoCartao := '1'; // Cartão chipado
+
+  case fTeclaFinalizador of
+    114:
+      begin
+        fOperacaoTEF.Modalidade := 3; // tcDebito,
+        fOperacaoTEF.TipoOperacao := '1';
+      end;
+
+    115:
+      begin
+        fOperacaoTEF.Modalidade := 4; // credito
+        fOperacaoTEF.TipoOperacao := '1';
+      end;
+    119:
+      begin
+        fOperacaoTEF.Modalidade := 5;// TACBrTEFModalidadePagamento.tefmpCarteiraVirtual;
+        fOperacaoTEF.TipoOperacao := '0';
+      end;
+
+  end;
+
+  fOperacaoTEF.QuantidadeParcela:=aQuantidadeParcelas;
+  fConfiguracaoTEF.TerminalOperador := Operador;
+
+  fTransacaoTEF.fConfiguracaoTEF:=fConfiguracaoTEF;
+  fTransacaoTEF.TipoProcessamento:=1;
+  fTransacaoTEF.OperacaoTEF:=fOperacaoTEF;
+  fTransacaoTEF.ZCone:=ZCone;
+  fTransacaoTEF.OrcChave:=fOrcChave;
+
+  vlResultado:=fTransacaoTEF.ShowModal;
+
+  if vlResultado=mrok then
+  begin
+    result:=fTransacaoTEF.OperacaoTEF;
+  end
+  else
+  begin
+    fTransacaoTEF.OperacaoTEF.Valor:=0;
+    result:=fTransacaoTEF.OperacaoTEF;
+  end;
+
+
+end;
+
+
+function TfltePDTVTEF.ValorInvalido:Boolean;
+begin
+
+  if fValorFinalizador>99999.99 then
+  begin
+    ExibirMensagem('Valor inválido: Limite de transação 9.999,99 !',10000);
+    result:=True;
+  end
+  else
+    Result:=False;
+
+end;
+
+
+function TfltePDTVTEF.EstornaCCO(avalor: Double; aCtaCodigo: String; aTfiCodigo:Integer): string;
+var
+  vlCcoChave:Integer;
+begin
+
+
+  mcco.Append;
+  mccoctacodigo.AsString := aCtaCodigo;
+  mccotoccodigo.AsInteger := tocNormal;
+  mccocedcodigo.AsInteger := ceddebito;
+  mccoclbcodigo.AsInteger := fAcesso.Usuario;
+
+
+  mccotficodigo.AsInteger := tfiOutros;
+
+
+  mccoccoemissao.AsFloat := DataAtual;
+  mccoccovencimento.AsFloat := DataAtual;
+  mccocconumero.AsString := '';
+  mccoccohistorico.AsString := 'Estorno de Venda Nr.: ' +fMesChave ;
+  mccoccovalor.AsFloat := avalor ;
+  mccoetdcodigo.AsInteger := fEtdCodigo;
+  mccoccofavorecido.AsString := fEtdIdenticicacao;
+  mccoccochaveorig.AsInteger := 0;
+  mccoccochavedest.AsInteger := 0;
+  mccoccodatamov.AsFloat := DataAtual;
+  mccoccodataregistro.AsFloat := DataAtual;
+  mccoccohoraregistro.AsFloat := HoraAtual;
+  mccoccoconciliado.AsInteger := senNao;
+  mccomoecodigo.AsInteger := 1;
+  mccoccoextenso.AsString := '';
+  mccoflacodigo.AsInteger := fAcesso.Filial;
+  mccodtlchave.AsInteger := dtlchave;
+  mcco.Post;
+
+end;
+
+
+procedure TfltePDTVTEF.RegistraRDC(avalor: Double; aLteChave:Integer; aDtlChave:Integer);
+var
+
+  Rede:String;
+  Autorizacao:String;
+  Documento:String;
+  Identificacao:String;
+  NSU:String;
+
+begin
+
+
+
+  Rede:=fOperacaoTEF.Rede;
+  NSU:=fOperacaoTEF.AutorizacaoRetorno;
+
+  Identificacao:=fOperacaoTEF.Identificacao;
+
+
+  if (NSU <> '')  then // retornou AUTORIZADO
+  begin
+
+    mrdc.Append;
+    mrdcrdcchave.AsInteger:=mrdc.RecordCount+1;
+    mrdcrdcvalor.AsCurrency:=avalor;
+    mrdcrdcnrauto.AsString:=NSU;
+    mrdcrdcdata.AsDateTime:=FDataAtual;
+    mrdcadccodigo.AsInteger:= CodigoADC;
+    mrdcrdccomprovante1via.asstring:=fOperacaoTEF.ImagemComprovante1aVia;
+    mrdcrdccomprovante2via.asstring:=fOperacaoTEF.ImagemComprovante2aVia;
+    mrdcrdcparcelas.AsString:=fOperacaoTEF.quantidadeParcela ;
+
+    if fOperacaoTEF.bandeira='' then
+      mrdcbdccodigo.AsInteger:=99
+    else
+      mrdcbdccodigo.AsInteger:=fOperacaoTEF.bandeira.ToInteger;
+
+    mrdcdtlchave.AsInteger:=dtlchave;
+    mRdcadccodigo.AsInteger:=CodigoADC;
+    mrdc.Post;
+
+    mdtl.edit;
+    mDtlrdcnrauto.AsString:=NSU;
+    mDtldtlrede.AsString:= Rede;
+    mdtl.Post;
+
+    rct.close;
+    rct.Connection:=ZCone;
+    rct.ParamByName('orcchave').AsString:=fOrcChave;
+    rct.ParamByName('rctnrauto').AsString:=fOperacaoTEF.AutorizacaoRetorno;
+    rct.Open;
+
+    try
+    if rct.IsEmpty then
+      rct.Append
+    else
+      rct.Edit;
+
+    rctrctvalor.AsCurrency:=mrdcrdcvalor.AsCurrency;
+    rctrctnrauto.AsString:=mrdcrdcnrauto.AsString;
+
+
+    if (mrdcadccodigo.AsString='') or (mrdcadccodigo.AsString='0') then
+      rctadccodigo.AsInteger:=1
+    else
+      rctadccodigo.AsInteger:=mrdcadccodigo.AsInteger;
+
+
+    if (mrdcrdcparcelas.AsString='') or (mrdcrdcparcelas.AsString='0')  then
+      rctrctparcelas.AsInteger:=1
+    else
+      rctrctparcelas.AsInteger:=mrdcrdcparcelas.AsInteger;
+
+    if (mrdcbdccodigo.AsString='') or (mrdcbdccodigo.AsString='0') then
+      rctbdccodigo.AsInteger:=1
+    else
+      rctbdccodigo.AsInteger:=mrdcbdccodigo.AsInteger;
+
+    rctrctcomprovante1via.AsString:=mrdcrdccomprovante1via.asstring;
+    rctrctcomprovante2via.AsString:=mrdcrdccomprovante2via.asstring;
+    rctorcchave.AsString:=fOrcChave;
+
+    try
+      rctrcthora.AsDateTime:=Strtotime(fOperacaoTEF.Hora);
+    except
+      rctrcthora.AsDateTime:=now();
+    end;
+
+    rct.post;
+    except
+      on E: Exception do
+
+    end;
+  end;
+
+end;
+
+
+function TfltePDTVTEF.RegistraCCO(avalor: Double; aCtaCodigo: String;  adoacao: Integer = 0; aTfiCodigo:Integer=0): string;
+var
+  vlCcoChave:Integer;
+begin
+
+  mcco.Append;
+  mccoccochave.AsInteger := mcco.RecordCount+1;
+  mccoctacodigo.AsString := aCtaCodigo;
+  mccotoccodigo.AsInteger := tocNormal;
+  mccocedcodigo.AsInteger := cedCredito;
+  mccoclbcodigo.AsInteger := fAcesso.Usuario;
+  mccotficodigo.AsInteger := aTfiCodigo;
+  mccoccoemissao.AsFloat := DataAtual;
+  mccoccovencimento.AsFloat := DataAtual;
+  mccocconumero.AsString := '';
+  mccoccohistorico.AsString := 'Venda : ' + fMesChave ;
+  mccoccovalor.AsFloat := avalor ;
+  mccoetdcodigo.AsInteger := fEtdCodigo;
+  mccoccofavorecido.AsString := fEtdIdenticicacao;
+  mccoccochaveorig.AsInteger := 0;
+  mccoccochavedest.AsInteger := 0;
+  mccoccodatamov.AsFloat := DataAtual;
+  mccoccodataregistro.AsFloat := DataAtual;
+  mccoccohoraregistro.AsFloat := HoraAtual;
+  mccoccoconciliado.AsInteger := senNao;
+  mccomoecodigo.AsInteger := 1;
+  mccoccoextenso.AsString := '';
+  mccoflacodigo.AsInteger := fAcesso.Filial;
+  mCcodtlchave.AsInteger := dtlchave;
+  mcco.Post;
+
+  vlCcoChave := mccoccochave.AsInteger;
+
+
+end;
+
+
+function TfltePDTVTEF.RegistraTit(aetdcodigo: Integer; atitvalor:Currency; aVencimento:TDate): Integer;
+begin
+
+  car.Close;
+  car.Open;
+
+  mtit.Append;
+  mtittitcodigo.AsInteger := mtit.RecordCount+1;
+  mtittithora.AsFloat := HoraAtual;
+  mtitclbcodigo.AsInteger := fAcesso.Usuario;
+  mTitbcocodigo.AsString :='000';
+  mtittitprevisao.AsInteger := 0;
+  mtitflacodigo.AsInteger := fAcesso.Filial;
+
+  mtitmoecodigo.AsInteger := 1;
+
+  if (aVencimento=DataAtual) then
+  begin
+    mtittitnumero.AsString := 'Venda: '+fMesChave ;
+    mtitsrfcodigo.AsInteger := srfQuitado;
+    mtittfdcodigo.AsInteger :=  tfdVenda;
+    // mtittficodigo.AsInteger := tfiOutros;
+  end
+  else
+  begin
+    mtittitnumero.AsString := 'Venda: '+fMesChave ;
+    mtitsrfcodigo.AsInteger := srfEmAberto;
+    mtittfdcodigo.AsInteger :=  tfdReceber;
+    // mtittficodigo.AsInteger := tfiDuplicata;
+  end;
+
+  mtitetdcodigo.AsInteger := aetdcodigo;
+  mtittitvalor.AsFloat := atitvalor;
+  mtittitemissao.AsFloat := DataAtual;
+  mtittitvctoinicial.AsFloat := aVencimento;
+
+  mtittithistorico.AsString := '';
+  mtittitvalorparcela.AsFloat := atitvalor;
+  mtittitparcelas.AsInteger := 1;
+  mtittitmoradia.AsFloat := 0;
+  mtittitvalomulta.AsFloat := 0;
+  mtittitpercmesmora.AsFloat := 0;
+  mtittitvalodesc.AsFloat := 0;
+  mtittitpercmulta.AsFloat := 0;
+  mtitcarcodigo.AsInteger := carcarcodigo.AsInteger;
+  mtittitdiasmulta.AsInteger :=0;
+  mtittitdiasdesc.AsInteger := 0;
+  mtitdtlchave.AsInteger:=dtlchave;
+  mtit.Post;
+
+  Result := mtittitcodigo.AsInteger;
+
+end;
+
+
+function TfltePDTVTEF.RegistraRfi(atitcodigo: Integer; aVencimento: TDate; aParcela: Integer; avalor: Double): Integer;
+var
+  vlRfiChave:Integer;
+  vlRfiValor:Currency;
+  vlMfiChave:Integer;
+  i:Integer;
+begin
+
+  if not mtit.IsEmpty then
+  begin
+
+    dfcrfi.First;
+    i:=dfcrfi.RecordCount;
+    while not dfcrfi.Eof do
+    begin
+
+
+      mrfi.Append;
+      mrfirfichave.AsInteger:=mrfi.RecordCount+1;
+      mrfititcodigo.AsInteger := atitcodigo;
+      mrfietdcodigo.AsInteger := mtitetdcodigo.AsInteger;
+      mrfitfdcodigo.AsInteger := dfcrfitfdcodigo.AsInteger;
+      mrfiflacodigo.AsInteger := mtitflacodigo.AsInteger;
+      mrfitficodigo.AsInteger := dfcrfitficodigo.AsInteger;
+      mrfibcocodigo.AsString := mtitbcocodigo.AsString;
+      mrficarcodigo.AsInteger := mtitcarcodigo.AsInteger;
+      mrfirfiemissao.AsDateTime := now();
+      mrfirfivencimento.AsFloat := dfcrfirfivencimento.AsFloat;
+      mrfirfinumero.AsString := mtittitnumero.AsString + '-' + IntToStr(aParcela);
+
+      if mrfirfichave.AsInteger=1 then
+      begin
+        mrfirfivalor.AsFloat := mTittitvalor.AsCurrency;
+        mrfirfivalorparcela.AsFloat :=mTittitvalor.AsCurrency;
+      end
+      else
+      begin
+        mrfirfivalor.AsFloat :=  dfcrfirfivalorparcela.AsCurrency;
+        mrfirfivalorparcela.AsFloat :=dfcrfirfivalorparcela.AsCurrency;
+      end;
+
+      mrfirfihistorico.AsString := mtittithistorico.AsString;
+      mrfisrfcodigo.AsInteger := mtitsrfcodigo.AsInteger;
+      mrfirfiprevisao.AsInteger := 0;
+      mrfidtlchave.AsInteger := dtlchave;
+
+      mrfimoecodigo.AsInteger := 1;
+      mrfirfirepetir.AsInteger := dfcrfi.RecordCount;
+
+      if dfcrfi.RecordCount>1 then
+        mrfifrrcodigo.AsInteger := 2
+      else
+        mrfifrrcodigo.AsInteger := 1;
+
+      mrfirfipercmesmora.AsFloat :=carcarpercmorames.AsFloat;
+      mrfirfidatamulta.asfloat:=0;
+      mrfirfivalomulta.asfloat:=0;
+
+
+      if mrfirfipercmesmora.AsFloat<>0 then
+        mrfirfimoradia.AsFloat :=  roundto(((mrfirfivalorparcela.AsFloat* carcarpercmorames.AsFloat)/30), -2 );
+
+      mrfi.Post;
+
+      vlRfiChave:=mrfirfichave.AsInteger;
+      vlRfiValor:=mrfirfivalor.AsCurrency;
+
+      Result := vlRfiChave;
+
+      dfcrfi.Next;
+
+    end;
+
+  end;
+
+end;
+
+function TfltePDTVTEF.CancelaCartao(aDtlchave: Integer; aValor: Currency;aRede:String ;aNSU:String): TOperacaoTEF;
+var
+  vlNrAuto:String;
+begin
+
+
+  CarregaDadosConfiguracaoTEF;
+
+  fOperacaoTEF.rede:= aRede;
+  fOperacaoTEF.DocumentoRetorno:=aNSU;
+
+  fOperacaoTEF.numero := GeraSequencial.ToInteger;
+
+  fOperacaoTEF.Valor := aValor;
+  fOperacaoTEF.Identificacao := aDtlchave.ToString;
+  fOperacaoTEF.QuantidadeParcela := '1';
+  fOperacaoTEF.TipoFinanciador := '0'; // parcelado a vista
+  fOperacaoTEF.TipoCartao := '1'; // Cartão chipado
+  fConfiguracaoTEF.TerminalOperador := Operador;
+
+  fTransacaoTEF.fConfiguracaoTEF:=fConfiguracaoTEF;
+  fTransacaoTEF.TipoProcessamento:=1;
+  fTransacaoTEF.OperacaoTEF:=fOperacaoTEF;
+  fTransacaoTEF.ZCone:=ZCone;
+  fTransacaoTEF.OrcChave:=fOrcChave;
+  fTransacaoTEF.TipoProcessamento:= ConstProcesTEFCancelamento;
+
+  if fTransacaoTEF.showmodal=mrok then
+  begin
+    result:=fTransacaoTEF.OperacaoTEF;
+  end
+  else
+  begin
+    fTransacaoTEF.OperacaoTEF.Valor:=0;
+    result:=fTransacaoTEF.OperacaoTEF;
+  end;
+
+
+end;
+
+Function  TfltePDTVTEF.GeraSequencial:String;
+var
+  vlSequencial: String;
+  vlData:String;
+
+  vlValorData:Double;
+  vlyyyy:String;
+  vlmm:String;
+  vldd:String;
+  vlhh:String;
+  vlnn:String;
+  vlss:String;
+
+
+  Function SoNumeros(Const Texto: String): String;
+  Var
+    i: Integer;
+    S: String;
+  Begin
+    S := '';
+    For i := 1 To length(Texto) Do
+    Begin
+      If (Texto[i] In ['0' .. '9']) Then
+      Begin
+        S := S + Copy(Texto, i, 1);
+      End;
+    End;
+    result := S;
+  End;
+
+begin
+
+  vlData := FormatDateTime('yyyymmddhhnnss', Now());
+
+  vlyyyy:=copy(vlData,1,4);
+  vlmm:=copy(vlData,5,2);
+  vldd:=copy(vlData,7,2);
+  vlhh:=copy(vlData,9,2);
+  vlnn:=copy(vlData,11,2);
+  vlss:=copy(vlData,13,2);
+
+
+  vlValorData:= StrToInt(vlyyyy)+StrToInt(vlmm)+StrToInt(vldd)+StrToInt(vlhh)+StrToInt(vlnn)+StrToInt(vlss);
+  vlData:=Floattostr(vlValorData);
+
+  vlSequencial:=sonumeros(vlData);
+  Result := vlSequencial;
+end;
+
+
+function TfltePDTVTEF.RegistraTrocaDevolucao(vdtlchave: string; vTotal: Double; vtnccodigo: string): string;
+var
+  vlRetorno: string;
+  vlTotalTrocaDevolucao: Double;
+begin
+
+  vlRetorno := '';
+  vlRetorno := mostralistatrocadevolucaos('mtdv', '');
+
+  if vlRetorno = '' then
+  begin
+    vlTotalTrocaDevolucao := 0;
+  end
+  else
+  begin
+
+    idt.Close;
+    idt.Params[0].AsString := vlRetorno;
+    idt.Open;
+
+    vlTotalTrocaDevolucao := 0;
+    while not idt.Eof do
+    begin
+
+      vlTotalTrocaDevolucao := vlTotalTrocaDevolucao + idtidttotal.AsCurrency;
+      idt.Next;
+
+    end;
+
+  end;
+
+  Result:=vlTotalTrocaDevolucao.ToString;
+
+end;
+
+function TfltePDTVTEF.RegistraCredito(vdtlchave: string; vTotal: Double; vtnccodigo: string): string;
+var
+  vlRetorno: string;
+  vlTotalMcr: Double;
+begin
+  vlRetorno := '';
+  vlRetorno := mostralistacreditos('mscr', FAcesso.Usuario.ToString, FloatToStr(vTotal), '1', vtnccodigo, '0');
+
+  if vlRetorno = '' then
+  begin
+    vlTotalMcr := 0;
+  end
+  else
+  begin
+    lcv.Close;
+    lcv.Params[0].AsString := mLteltegui.AsString;
+    lcv.Open;
+    vlTotalMcr := 0;
+    while not lcv.Eof do
+    begin
+
+      vlTotalMcr := vlTotalMcr + lcvmcrvalor.AsCurrency;
+      lcv.Next;
+
+    end;
+  end;
+
+  Result := vlTotalMcr.ToString;
+
+end;
+
+
+
+function TfltePDTVTEF.mostralistatrocadevolucaos(pModulo: string; pFiltro: string): string;
+var
+  ExecForm: function(CargaFrame: TCargaFrame): String;
+  vlCargaFrame: TCargaFrame;
+  pack:THandle;
+begin
+  Result := '';
+  pack := LoadPackage('modulos\' + pModulo + '.bpl');
+  if pack <> 0 then
+    try
+      @ExecForm := GetProcAddress(pack, PChar('formu'));
+      if Assigned(ExecForm) then
+      begin
+        vlCargaFrame := CargaFrameFormu(Application, pack, ZCone, fAcesso, pFiltro);
+        Result := ExecForm(vlCargaFrame);
+
+      end;
+    finally
+    end;
+end;
+
+function TfltePDTVTEF.mostralistacreditos(modulo: string; vusuario: string; vfiltro: string; vmodo: string; vtnccodigo: string; vrcrcodigo: string): string;
+var
+  execf: TFormuSelecionaCreditos;
+
+  ch: string;
+  vu: string;
+  pack:THandle;
+begin
+  pack := LoadPackage('modulos\' + modulo + '.bpl');
+  if pack <> 0 then
+    try
+      @execf := GetProcAddress(pack, PChar('FormuSelecionaCreditos'));
+      if Assigned(execf) then
+      begin
+        vu := vusuario;
+//      ch := execf(Application, Self.ZCone, vu, 1, '', vfiltro, vmodo, vtnccodigo, vrcrcodigo, tmpmdaCredito.AsString, lteltechave.AsString);
+        ch := execf(Application, Self.ZCone, vu, 1, '', vfiltro, vmodo, vtnccodigo, vrcrcodigo,trim(plValorFaltaReceber.Caption), '', mLteltegui.AsString);
+        Result := ch;
+      end;
+    finally
+    end;
+end;
+
+
+
+
+end.

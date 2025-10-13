@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/09/16 16:43:11.000.665,=rtl.dcp</Transaction>
+    <Transaction>2024/09/16 16:43:42.000.204,C:\fontes_gourmet\gourmet.1\mstone\mstone.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2024/09/16 16:45:28.000.752,=C:\fontes_gourmet\gourmet.1\mstone\Unit1.pas</Transaction>
+    <Transaction>2024/09/16 16:47:08.000.291,C:\fontes_gourmet\gourmet.1\mstone\ufstone.dfm=C:\fontes_gourmet\gourmet.1\mstone\Unit1.dfm</Transaction>
+    <Transaction>2024/09/16 16:47:08.000.291,C:\fontes_gourmet\gourmet.1\mstone\ufstone.pas=C:\fontes_gourmet\gourmet.1\mstone\Unit1.pas</Transaction>
+    <Transaction>2024/09/21 12:05:11.000.584,=bindcomp.dcp</Transaction>
+    <Transaction>2024/09/21 12:05:11.000.634,=RESTComponents.dcp</Transaction>
+    <Transaction>2024/09/24 09:39:02.000.845,=RESTComponents.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

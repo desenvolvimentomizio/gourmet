@@ -1,0 +1,1820 @@
+unit GourmetServer.Model.Entity.MES;
+
+interface
+
+uses
+  System.Json, System.SysUtils, System.Variants, SimpleAttributes;
+
+type
+
+  [Tabela('mes')]
+  TmesPedido = class
+  private
+    Fmeschave: Integer;
+    Fmesnumeropedido: String;
+    Foricodigo: Integer;
+    procedure Setmeschave(const Value: Integer);
+    function Getmeschave: Integer;
+
+    procedure Setoricodigo(const Value: Integer);
+    function Getoricodigo: Integer;
+    procedure Setmesnumeropedido(const Value: String);
+    function Getmesnumeropedido: String;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Limpar;
+    [Campo('meschave'), PK]
+    property meschave: Integer read Getmeschave write Setmeschave;
+    [Campo('oricodigo')]
+    property oricodigo: Integer read Getoricodigo write Setoricodigo;
+    [Campo('mesnumeropedido')]
+    property mesnumeropedido: String read Getmesnumeropedido write Setmesnumeropedido;
+
+  end;
+
+  [Tabela('mes')]
+  Tmes = class
+  private
+    FCOUNT: Integer;
+    Fmeschave: Integer;
+    Fetdcodigo: Integer;
+    Fmesemissao: TDate;
+    Fmesregistro: TDate;
+    Ftdfcodigo: String;
+    Fsdecodigo: String;
+    Fmesserie: String;
+    Fmesnumero: Integer;
+    Fmeschavenfe: String;
+    Ftoecodigo: Integer;
+    Fmesvalor: Currency;
+    Fmesdesconto: Currency;
+    Fmesprodutos: Currency;
+    Fmesservicos: Currency;
+    Fmestotal: Currency;
+    Ftfpcodigo: Integer;
+    Frefcodigo: Integer;
+    Ftrfcodigo: String;
+    Fmesfrete: Currency;
+    Fmesseguro: Currency;
+    Fmesoutras: Currency;
+    Fmesbicm: Currency;
+    Fmesicm: Currency;
+    Fmesbicms: Currency;
+    Fmesicms: Currency;
+    Fmesipi: Currency;
+    Fmespis: Currency;
+    Fmescofins: Currency;
+    Fmespiss: Currency;
+    Fmescofinss: Currency;
+    Fmesretirou: String;
+    Fclbcodigo: Integer;
+    Ftrmcodigo: Integer;
+    Fmesacrescimo: Currency;
+    Fmesemitente: Currency;
+    Fmesprotocolo: String;
+    Fmessped: String;
+    Ftemcodigo: Integer;
+    Fmesobs: String;
+    Fedritem: Integer;
+    Fmescoocupom: Integer;
+    Fmesccfcupom: Integer;
+    Ftdecodigo: Integer;
+    Fmesinclusao: TDateTime;
+    Fclbvendedor: Integer;
+    Feqpcodigo: Integer;
+    Fmeschaverecla: Integer;
+    Fmesrefeicao: Integer;
+    Fflacodigo: Integer;
+    Fmesreclassicacao: Integer;
+    Fmestipocomissao: Integer;
+    Fmesoutroscustos: Currency;
+    Ffopcodigo: Integer;
+    Fmescomplementanota: Integer;
+    Fmescomplementapor: Integer;
+    Fmescomplementadapor: Integer;
+    Fccxmes: Integer;
+    Fccxano: Integer;
+    Fccxchave: Integer;
+    Fmoccodigo: Integer;
+    Fmestelefone: String;
+    Fclbcodigoent: Integer;
+    Foricodigo: Integer;
+    Fbaicodigo: Integer;
+    Fmesnumeropedido: String;
+    Fmesretirabalcao: Integer;
+    Fmespararevenda: Integer;
+    Fmescodigonota: Integer;
+    Fcznchave: Integer;
+    Fmdacodigo: Integer;
+
+    procedure Setmeschave(const Value: Integer);
+    function Getmeschave: Integer;
+    procedure Setetdcodigo(const Value: Integer);
+    function Getetdcodigo: Integer;
+    procedure Setmesemissao(const Value: TDate);
+    function Getmesemissao: TDate;
+    procedure Setmesregistro(const Value: TDate);
+    function Getmesregistro: TDate;
+    procedure Settdfcodigo(const Value: String);
+    function Gettdfcodigo: String;
+    procedure Setsdecodigo(const Value: String);
+    function Getsdecodigo: String;
+    procedure Setmesserie(const Value: String);
+    function Getmesserie: String;
+    procedure Setmesnumero(const Value: Integer);
+    function Getmesnumero: Integer;
+    procedure Setmeschavenfe(const Value: String);
+    function Getmeschavenfe: String;
+    procedure Settoecodigo(const Value: Integer);
+    function Gettoecodigo: Integer;
+    procedure Setmesvalor(const Value: Currency);
+    function Getmesvalor: Currency;
+    procedure Setmesdesconto(const Value: Currency);
+    function Getmesdesconto: Currency;
+    procedure Setmesprodutos(const Value: Currency);
+    function Getmesprodutos: Currency;
+    procedure Setmesservicos(const Value: Currency);
+    function Getmesservicos: Currency;
+    procedure Setmestotal(const Value: Currency);
+    function Getmestotal: Currency;
+    procedure Settfpcodigo(const Value: Integer);
+    function Gettfpcodigo: Integer;
+    procedure Setrefcodigo(const Value: Integer);
+    function Getrefcodigo: Integer;
+    procedure Settrfcodigo(const Value: String);
+    function Gettrfcodigo: String;
+    procedure Setmesfrete(const Value: Currency);
+    function Getmesfrete: Currency;
+    procedure Setmesseguro(const Value: Currency);
+    function Getmesseguro: Currency;
+    procedure Setmesoutras(const Value: Currency);
+    function Getmesoutras: Currency;
+    procedure Setmesbicm(const Value: Currency);
+    function Getmesbicm: Currency;
+    procedure Setmesicm(const Value: Currency);
+    function Getmesicm: Currency;
+    procedure Setmesbicms(const Value: Currency);
+    function Getmesbicms: Currency;
+    procedure Setmesicms(const Value: Currency);
+    function Getmesicms: Currency;
+    procedure Setmesipi(const Value: Currency);
+    function Getmesipi: Currency;
+    procedure Setmespis(const Value: Currency);
+    function Getmespis: Currency;
+    procedure Setmescofins(const Value: Currency);
+    function Getmescofins: Currency;
+    procedure Setmespiss(const Value: Currency);
+    function Getmespiss: Currency;
+    procedure Setmescofinss(const Value: Currency);
+    function Getmescofinss: Currency;
+    procedure Setmesretirou(const Value: String);
+    function Getmesretirou: String;
+    procedure Setclbcodigo(const Value: Integer);
+    function Getclbcodigo: Integer;
+    procedure Settrmcodigo(const Value: Integer);
+    function Gettrmcodigo: Integer;
+    procedure Setmesacrescimo(const Value: Currency);
+    function Getmesacrescimo: Currency;
+    procedure Setmesemitente(const Value: Currency);
+    function Getmesemitente: Currency;
+    procedure Setmesprotocolo(const Value: String);
+    function Getmesprotocolo: String;
+    procedure Setmessped(const Value: String);
+    function Getmessped: String;
+    procedure Settemcodigo(const Value: Integer);
+    function Gettemcodigo: Integer;
+    procedure Setmesobs(const Value: String);
+    function Getmesobs: String;
+    procedure Setedritem(const Value: Integer);
+    function Getedritem: Integer;
+    procedure Setmescoocupom(const Value: Integer);
+    function Getmescoocupom: Integer;
+    procedure Setmesccfcupom(const Value: Integer);
+    function Getmesccfcupom: Integer;
+    procedure Settdecodigo(const Value: Integer);
+    function Gettdecodigo: Integer;
+    procedure Setmesinclusao(const Value: TDateTime);
+    function Getmesinclusao: TDateTime;
+    procedure Setclbvendedor(const Value: Integer);
+    function Getclbvendedor: Integer;
+    procedure Seteqpcodigo(const Value: Integer);
+    function Geteqpcodigo: Integer;
+    procedure Setmeschaverecla(const Value: Integer);
+    function Getmeschaverecla: Integer;
+    procedure Setmesrefeicao(const Value: Integer);
+    function Getmesrefeicao: Integer;
+    procedure Setflacodigo(const Value: Integer);
+    function Getflacodigo: Integer;
+    procedure Setmesreclassicacao(const Value: Integer);
+    function Getmesreclassicacao: Integer;
+    procedure Setmestipocomissao(const Value: Integer);
+    function Getmestipocomissao: Integer;
+    procedure Setmesoutroscustos(const Value: Currency);
+    function Getmesoutroscustos: Currency;
+    procedure Setfopcodigo(const Value: Integer);
+    function Getfopcodigo: Integer;
+    procedure Setmescomplementanota(const Value: Integer);
+    function Getmescomplementanota: Integer;
+    procedure Setmescomplementapor(const Value: Integer);
+    function Getmescomplementapor: Integer;
+    procedure Setmescomplementadapor(const Value: Integer);
+    function Getmescomplementadapor: Integer;
+    procedure Setccxmes(const Value: Integer);
+    function Getccxmes: Integer;
+    procedure Setccxano(const Value: Integer);
+    function Getccxano: Integer;
+    procedure Setccxchave(const Value: Integer);
+    function Getccxchave: Integer;
+    procedure Setmoccodigo(const Value: Integer);
+    function Getmoccodigo: Integer;
+    procedure Setmestelefone(const Value: String);
+    function Getmestelefone: String;
+    procedure Setclbcodigoent(const Value: Integer);
+    function Getclbcodigoent: Integer;
+    procedure Setoricodigo(const Value: Integer);
+    function Getoricodigo: Integer;
+    procedure Setbaicodigo(const Value: Integer);
+    function Getbaicodigo: Integer;
+    procedure Setmesnumeropedido(const Value: String);
+    function Getmesnumeropedido: String;
+    procedure Setmesretirabalcao(const Value: Integer);
+    function Getmesretirabalcao: Integer;
+    procedure Setmespararevenda(const Value: Integer);
+    function Getmespararevenda: Integer;
+    procedure Setmescodigonota(const Value: Integer);
+    function Getmescodigonota: Integer;
+    procedure Setcznchave(const Value: Integer);
+    function Getcznchave: Integer;
+
+    procedure Setmdacodigo(const Value: Integer);
+    function Getmdacodigo: Integer;
+
+    procedure SetCOUNT(const Value: Integer);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Limpar;
+    function ToJson(pFields: String = '*'): TJSonObject;
+    function JsonToClass(obj: TJSonObject): Tmes;
+    [Campo('meschave'), PK]
+    property meschave: Integer read Getmeschave write Setmeschave;
+    [Campo('etdcodigo')]
+    /// <summary>
+    /// Entidade
+    /// </summary>
+    property etdcodigo: Integer read Getetdcodigo write Setetdcodigo;
+    [Campo('mesemissao')]
+    /// <summary>
+    /// data de emissão
+    /// </summary>
+    property mesemissao: TDate read Getmesemissao write Setmesemissao;
+    [Campo('mesregistro')]
+    /// <summary>
+    /// Data de Entrada ou Saida
+    /// </summary>
+    property mesregistro: TDate read Getmesregistro write Setmesregistro;
+    [Campo('tdfcodigo')]
+    /// <summary>
+    /// Tipo de Documento , NFE , Cupom Fiscal, etc
+    /// </summary>
+    property tdfcodigo: String read Gettdfcodigo write Settdfcodigo;
+    [Campo('sdecodigo')]
+    /// <summary>
+    /// Situação, Normal, cancelada, etc..
+    /// </summary>
+    property sdecodigo: String read Getsdecodigo write Setsdecodigo;
+    [Campo('messerie')]
+    /// <summary>
+    /// Serie
+    /// </summary>
+    property messerie: String read Getmesserie write Setmesserie;
+    [Campo('mesnumero')]
+    /// <summary>
+    /// Número
+    /// </summary>
+    property mesnumero: Integer read Getmesnumero write Setmesnumero;
+    [Campo('meschavenfe')]
+    /// <summary>
+    /// Chave NFE
+    /// </summary>
+    property meschavenfe: String read Getmeschavenfe write Setmeschavenfe;
+    [Campo('toecodigo')]
+    /// <summary>
+    /// Tipo de Operação
+    /// </summary>
+    property toecodigo: Integer read Gettoecodigo write Settoecodigo;
+    [Campo('mesvalor')]
+    /// <summary>
+    /// Total Bruto dos Produtos
+    /// </summary>
+    property mesvalor: Currency read Getmesvalor write Setmesvalor;
+    [Campo('mesdesconto')]
+    /// <summary>
+    /// Desconto total dos Produtos
+    /// </summary>
+    property mesdesconto: Currency read Getmesdesconto write Setmesdesconto;
+    [Campo('mesprodutos')]
+    /// <summary>
+    /// Total Liquido dos Produtos - Será utilizado como total da NFe.
+    /// </summary>
+    property mesprodutos: Currency read Getmesprodutos write Setmesprodutos;
+    [Campo('messervicos')]
+    /// <summary>
+    /// Total líquido dos Serviços - Este mais mesprodutos e (outros) formam o total Liquido da Venda
+    /// </summary>
+    property messervicos: Currency read Getmesservicos write Setmesservicos;
+    [Campo('mestotal')]
+    /// <summary>
+    /// Total de Mercadorias e Serviços
+    /// </summary>
+    property mestotal: Currency read Getmestotal write Setmestotal;
+    [Campo('tfpcodigo')]
+    /// <summary>
+    /// Forma de Pagto, 0 A Vista. 1 - A Prazo - 9 - Sem Pagamento
+    /// </summary>
+    property tfpcodigo: Integer read Gettfpcodigo write Settfpcodigo;
+    [Campo('refcodigo')]
+    /// <summary>
+    /// Responsavel pelo Frete 0- Por conta do emitente; 1- Por conta do destinatário/remetente;2- Por conta de terceiros;9- Sem cobrança de frete
+    /// </summary>
+    property refcodigo: Integer read Getrefcodigo write Setrefcodigo;
+    [Campo('trfcodigo')]
+    /// <summary>
+    /// 0-Não Ratear, 1-Pela Quantidade de Itens, 2-Proporcional aos Valores;9-Outros
+    /// </summary>
+    property trfcodigo: String read Gettrfcodigo write Settrfcodigo;
+    [Campo('mesfrete')]
+    /// <summary>
+    /// Valor do frete indicado no documento fiscal
+    /// </summary>
+    property mesfrete: Currency read Getmesfrete write Setmesfrete;
+    [Campo('messeguro')]
+    /// <summary>
+    /// Valor do seguro indicado no documento fiscal
+    /// </summary>
+    property messeguro: Currency read Getmesseguro write Setmesseguro;
+    [Campo('mesoutras')]
+    /// <summary>
+    /// Valor de outras despesas acessórias
+    /// </summary>
+    property mesoutras: Currency read Getmesoutras write Setmesoutras;
+    [Campo('mesbicm')]
+    /// <summary>
+    /// Valor da base de cálculo do ICMS
+    /// </summary>
+    property mesbicm: Currency read Getmesbicm write Setmesbicm;
+    [Campo('mesicm')]
+    /// <summary>
+    /// Valor do ICMS
+    /// </summary>
+    property mesicm: Currency read Getmesicm write Setmesicm;
+    [Campo('mesbicms')]
+    /// <summary>
+    /// Valor da base de cálculo do ICMS substituição
+    /// </summary>
+    property mesbicms: Currency read Getmesbicms write Setmesbicms;
+    [Campo('mesicms')]
+    /// <summary>
+    /// Valor do ICMS retido por substituição tributári
+    /// </summary>
+    property mesicms: Currency read Getmesicms write Setmesicms;
+    [Campo('mesipi')]
+    /// <summary>
+    /// Valor total do IPI
+    /// </summary>
+    property mesipi: Currency read Getmesipi write Setmesipi;
+    [Campo('mespis')]
+    /// <summary>
+    /// Valor total do PIS
+    /// </summary>
+    property mespis: Currency read Getmespis write Setmespis;
+    [Campo('mescofins')]
+    /// <summary>
+    /// Valor total da COFINS
+    /// </summary>
+    property mescofins: Currency read Getmescofins write Setmescofins;
+    [Campo('mespiss')]
+    /// <summary>
+    /// Valor total do PIS retido por substituição
+    /// </summary>
+    property mespiss: Currency read Getmespiss write Setmespiss;
+    [Campo('mescofinss')]
+    /// <summary>
+    /// Valor total da COFINS retido por substituição
+    /// </summary>
+    property mescofinss: Currency read Getmescofinss write Setmescofinss;
+    [Campo('mesretirou')]
+    /// <summary>
+    /// Quem retirou a mercadoria
+    /// </summary>
+    property mesretirou: String read Getmesretirou write Setmesretirou;
+    [Campo('clbcodigo')]
+    /// <summary>
+    /// Colaborador que efetuou o lançamento
+    /// </summary>
+    property clbcodigo: Integer read Getclbcodigo write Setclbcodigo;
+    [Campo('trmcodigo')]
+    /// <summary>
+    /// Terminal que o movimentação foi feita
+    /// </summary>
+    property trmcodigo: Integer read Gettrmcodigo write Settrmcodigo;
+    [Campo('mesacrescimo')]
+    property mesacrescimo: Currency read Getmesacrescimo write Setmesacrescimo;
+    [Campo('mesemitente')]
+    property mesemitente: Currency read Getmesemitente write Setmesemitente;
+    [Campo('mesprotocolo')]
+    /// <summary>
+    /// protoclo da nfe
+    /// </summary>
+    property mesprotocolo: String read Getmesprotocolo write Setmesprotocolo;
+    [Campo('messped')]
+    /// <summary>
+    /// 0 - Normal - 1 Registrada no SPED
+    /// </summary>
+    property messped: String read Getmessped write Setmessped;
+    [Campo('temcodigo')]
+    /// <summary>
+    /// 1-Em Digitação;2-Digita Manual;3-Importada;4 - NFE Gerada - 5 - NFE Emitida 90-Excluida
+    /// </summary>
+    property temcodigo: Integer read Gettemcodigo write Settemcodigo;
+    [Campo('mesobs')]
+    /// <summary>
+    /// Complemento das observações da nota
+    /// </summary>
+    property mesobs: String read Getmesobs write Setmesobs;
+    [Campo('edritem')]
+    /// <summary>
+    /// Endreço utilizado
+    /// </summary>
+    property edritem: Integer read Getedritem write Setedritem;
+    [Campo('mescoocupom')]
+    /// <summary>
+    /// Registro do Contador de Operação do Cupom Fiscal
+    /// </summary>
+    property mescoocupom: Integer read Getmescoocupom write Setmescoocupom;
+    [Campo('mesccfcupom')]
+    /// <summary>
+    /// Registro do Contador de Cupom Fiscal
+    /// </summary>
+    property mesccfcupom: Integer read Getmesccfcupom write Setmesccfcupom;
+    [Campo('tdecodigo')]
+    /// <summary>
+    /// Tipo de Desconto
+    /// </summary>
+    property tdecodigo: Integer read Gettdecodigo write Settdecodigo;
+    [Campo('mesinclusao')]
+    /// <summary>
+    /// Date e hora de inclusão do registro.
+    /// </summary>
+    property mesinclusao: TDateTime read Getmesinclusao write Setmesinclusao;
+    [Campo('clbvendedor')]
+    /// <summary>
+    /// Colaborador responsável pela venda.
+    /// </summary>
+    property clbvendedor: Integer read Getclbvendedor write Setclbvendedor;
+    [Campo('eqpcodigo')]
+    /// <summary>
+    /// Equipamento da OS
+    /// </summary>
+    property eqpcodigo: Integer read Geteqpcodigo write Seteqpcodigo;
+    [Campo('meschaverecla')]
+    /// <summary>
+    /// Chave do Mov. de Estoque de Entrada de Reclassificação.
+    /// </summary>
+    property meschaverecla: Integer read Getmeschaverecla write Setmeschaverecla;
+    [Campo('mesrefeicao')]
+    property mesrefeicao: Integer read Getmesrefeicao write Setmesrefeicao;
+    [Campo('flacodigo')]
+    /// <summary>
+    /// CÃ³digo da filial
+    /// </summary>
+    property flacodigo: Integer read Getflacodigo write Setflacodigo;
+    [Campo('mesreclassicacao')]
+    /// <summary>
+    /// 0-NÃ£o Reclassificar, 1-Reclassificar, 9- Reclassificada
+    /// </summary>
+    property mesreclassicacao: Integer read Getmesreclassicacao write Setmesreclassicacao;
+    [Campo('mestipocomissao')]
+    /// <summary>
+    /// 1 - Normal, 0 - NÃƒÂ£o considerar
+    /// </summary>
+    property mestipocomissao: Integer read Getmestipocomissao write Setmestipocomissao;
+    [Campo('mesoutroscustos')]
+    /// <summary>
+    /// somatorio de outros custos como frete, desgarca, etc
+    /// </summary>
+    property mesoutroscustos: Currency read Getmesoutroscustos write Setmesoutroscustos;
+    [Campo('fopcodigo')]
+    /// <summary>
+    /// Forma de faturamento
+    /// </summary>
+    property fopcodigo: Integer read Getfopcodigo write Setfopcodigo;
+    [Campo('mescomplementanota')]
+    property mescomplementanota: Integer read Getmescomplementanota write Setmescomplementanota;
+    [Campo('mescomplementapor')]
+    property mescomplementapor: Integer read Getmescomplementapor write Setmescomplementapor;
+    [Campo('mescomplementadapor')]
+    property mescomplementadapor: Integer read Getmescomplementadapor write Setmescomplementadapor;
+    [Campo('ccxmes')]
+    property ccxmes: Integer read Getccxmes write Setccxmes;
+    [Campo('ccxano')]
+    property ccxano: Integer read Getccxano write Setccxano;
+    [Campo('ccxchave')]
+    property ccxchave: Integer read Getccxchave write Setccxchave;
+    [Campo('moccodigo')]
+    property moccodigo: Integer read Getmoccodigo write Setmoccodigo;
+    [Campo('mestelefone')]
+    property mestelefone: String read Getmestelefone write Setmestelefone;
+    [Campo('clbcodigoent')]
+    property clbcodigoent: Integer read Getclbcodigoent write Setclbcodigoent;
+    [Campo('oricodigo')]
+    property oricodigo: Integer read Getoricodigo write Setoricodigo;
+    [Campo('baicodigo')]
+    property baicodigo: Integer read Getbaicodigo write Setbaicodigo;
+    [Campo('mesnumeropedido')]
+    property mesnumeropedido: String read Getmesnumeropedido write Setmesnumeropedido;
+    [Campo('mesretirabalcao')]
+    property mesretirabalcao: Integer read Getmesretirabalcao write Setmesretirabalcao;
+    [Campo('mespararevenda')]
+    property mespararevenda: Integer read Getmespararevenda write Setmespararevenda;
+    [Campo('mescodigonota')]
+    property mescodigonota: Integer read Getmescodigonota write Setmescodigonota;
+    [Campo('cznchave')]
+    property cznchave: Integer read Getcznchave write Setcznchave;
+
+    [Campo('mdacodigo')]
+    property mdacodigo: Integer read Getmdacodigo write Setmdacodigo;
+
+    [Campo('COUNT'), Ignore]
+    property COUNT: Integer read FCOUNT write SetCOUNT;
+  end;
+
+implementation
+
+constructor Tmes.Create;
+begin
+  Limpar;
+end;
+
+destructor Tmes.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure Tmes.Setmeschave(const Value: Integer);
+begin
+  Fmeschave := Value;
+end;
+
+function Tmes.Getmeschave: Integer;
+begin
+  Result := Fmeschave;
+end;
+
+procedure Tmes.Setetdcodigo(const Value: Integer);
+begin
+  Fetdcodigo := Value;
+end;
+
+function Tmes.Getetdcodigo: Integer;
+begin
+  Result := Fetdcodigo;
+end;
+
+procedure Tmes.Setmesemissao(const Value: TDate);
+begin
+  Fmesemissao := Value;
+end;
+
+function Tmes.Getmesemissao: TDate;
+begin
+  Result := Fmesemissao;
+end;
+
+procedure Tmes.Setmesregistro(const Value: TDate);
+begin
+  Fmesregistro := Value;
+end;
+
+function Tmes.Getmesregistro: TDate;
+begin
+  Result := Fmesregistro;
+end;
+
+procedure Tmes.Settdfcodigo(const Value: String);
+begin
+  Ftdfcodigo := Value;
+end;
+
+function Tmes.Gettdfcodigo: String;
+begin
+  Result := Ftdfcodigo;
+end;
+
+procedure Tmes.Setsdecodigo(const Value: String);
+begin
+  Fsdecodigo := Value;
+end;
+
+function Tmes.Getsdecodigo: String;
+begin
+  Result := Fsdecodigo;
+end;
+
+procedure Tmes.Setmesserie(const Value: String);
+begin
+  Fmesserie := Value;
+end;
+
+function Tmes.Getmesserie: String;
+begin
+  Result := Fmesserie;
+end;
+
+procedure Tmes.Setmesnumero(const Value: Integer);
+begin
+  Fmesnumero := Value;
+end;
+
+function Tmes.Getmesnumero: Integer;
+begin
+  Result := Fmesnumero;
+end;
+
+procedure Tmes.Setmeschavenfe(const Value: String);
+begin
+  Fmeschavenfe := Value;
+end;
+
+function Tmes.Getmeschavenfe: String;
+begin
+  Result := Fmeschavenfe;
+end;
+
+procedure Tmes.Settoecodigo(const Value: Integer);
+begin
+  Ftoecodigo := Value;
+end;
+
+function Tmes.Gettoecodigo: Integer;
+begin
+  Result := Ftoecodigo;
+end;
+
+procedure Tmes.Setmesvalor(const Value: Currency);
+begin
+  Fmesvalor := Value;
+end;
+
+function Tmes.Getmesvalor: Currency;
+begin
+  Result := Fmesvalor;
+end;
+
+procedure Tmes.Setmesdesconto(const Value: Currency);
+begin
+  Fmesdesconto := Value;
+end;
+
+function Tmes.Getmesdesconto: Currency;
+begin
+  Result := Fmesdesconto;
+end;
+
+procedure Tmes.Setmesprodutos(const Value: Currency);
+begin
+  Fmesprodutos := Value;
+end;
+
+function Tmes.Getmesprodutos: Currency;
+begin
+  Result := Fmesprodutos;
+end;
+
+procedure Tmes.Setmesservicos(const Value: Currency);
+begin
+  Fmesservicos := Value;
+end;
+
+function Tmes.Getmesservicos: Currency;
+begin
+  Result := Fmesservicos;
+end;
+
+procedure Tmes.Setmestotal(const Value: Currency);
+begin
+  Fmestotal := Value;
+end;
+
+function Tmes.Getmestotal: Currency;
+begin
+  Result := Fmestotal;
+end;
+
+procedure Tmes.Settfpcodigo(const Value: Integer);
+begin
+  Ftfpcodigo := Value;
+end;
+
+function Tmes.Gettfpcodigo: Integer;
+begin
+  Result := Ftfpcodigo;
+end;
+
+procedure Tmes.Setrefcodigo(const Value: Integer);
+begin
+  Frefcodigo := Value;
+end;
+
+function Tmes.Getrefcodigo: Integer;
+begin
+  Result := Frefcodigo;
+end;
+
+procedure Tmes.Settrfcodigo(const Value: String);
+begin
+  Ftrfcodigo := Value;
+end;
+
+function Tmes.Gettrfcodigo: String;
+begin
+  Result := Ftrfcodigo;
+end;
+
+procedure Tmes.Setmesfrete(const Value: Currency);
+begin
+  Fmesfrete := Value;
+end;
+
+function Tmes.Getmesfrete: Currency;
+begin
+  Result := Fmesfrete;
+end;
+
+procedure Tmes.Setmesseguro(const Value: Currency);
+begin
+  Fmesseguro := Value;
+end;
+
+function Tmes.Getmesseguro: Currency;
+begin
+  Result := Fmesseguro;
+end;
+
+procedure Tmes.Setmesoutras(const Value: Currency);
+begin
+  Fmesoutras := Value;
+end;
+
+function Tmes.Getmesoutras: Currency;
+begin
+  Result := Fmesoutras;
+end;
+
+procedure Tmes.Setmesbicm(const Value: Currency);
+begin
+  Fmesbicm := Value;
+end;
+
+function Tmes.Getmesbicm: Currency;
+begin
+  Result := Fmesbicm;
+end;
+
+procedure Tmes.Setmesicm(const Value: Currency);
+begin
+  Fmesicm := Value;
+end;
+
+function Tmes.Getmesicm: Currency;
+begin
+  Result := Fmesicm;
+end;
+
+procedure Tmes.Setmesbicms(const Value: Currency);
+begin
+  Fmesbicms := Value;
+end;
+
+function Tmes.Getmesbicms: Currency;
+begin
+  Result := Fmesbicms;
+end;
+
+procedure Tmes.Setmesicms(const Value: Currency);
+begin
+  Fmesicms := Value;
+end;
+
+function Tmes.Getmesicms: Currency;
+begin
+  Result := Fmesicms;
+end;
+
+procedure Tmes.Setmesipi(const Value: Currency);
+begin
+  Fmesipi := Value;
+end;
+
+function Tmes.Getmesipi: Currency;
+begin
+  Result := Fmesipi;
+end;
+
+procedure Tmes.Setmespis(const Value: Currency);
+begin
+  Fmespis := Value;
+end;
+
+function Tmes.Getmespis: Currency;
+begin
+  Result := Fmespis;
+end;
+
+procedure Tmes.Setmescofins(const Value: Currency);
+begin
+  Fmescofins := Value;
+end;
+
+function Tmes.Getmescofins: Currency;
+begin
+  Result := Fmescofins;
+end;
+
+procedure Tmes.Setmespiss(const Value: Currency);
+begin
+  Fmespiss := Value;
+end;
+
+function Tmes.Getmespiss: Currency;
+begin
+  Result := Fmespiss;
+end;
+
+procedure Tmes.Setmescofinss(const Value: Currency);
+begin
+  Fmescofinss := Value;
+end;
+
+function Tmes.Getmescofinss: Currency;
+begin
+  Result := Fmescofinss;
+end;
+
+procedure Tmes.Setmesretirou(const Value: String);
+begin
+  Fmesretirou := Value;
+end;
+
+function Tmes.Getmesretirou: String;
+begin
+  Result := Fmesretirou;
+end;
+
+procedure Tmes.Setclbcodigo(const Value: Integer);
+begin
+  Fclbcodigo := Value;
+end;
+
+function Tmes.Getclbcodigo: Integer;
+begin
+  Result := Fclbcodigo;
+end;
+
+procedure Tmes.Settrmcodigo(const Value: Integer);
+begin
+  Ftrmcodigo := Value;
+end;
+
+function Tmes.Gettrmcodigo: Integer;
+begin
+  Result := Ftrmcodigo;
+end;
+
+procedure Tmes.Setmdacodigo(const Value: Integer);
+begin
+    Fmdacodigo:=value;
+end;
+
+procedure Tmes.Setmesacrescimo(const Value: Currency);
+begin
+  Fmesacrescimo := Value;
+end;
+
+function Tmes.Getmdacodigo: Integer;
+begin
+  result:=fmdacodigo;
+end;
+
+function Tmes.Getmesacrescimo: Currency;
+begin
+  Result := Fmesacrescimo;
+end;
+
+procedure Tmes.Setmesemitente(const Value: Currency);
+begin
+  Fmesemitente := Value;
+end;
+
+function Tmes.Getmesemitente: Currency;
+begin
+  Result := Fmesemitente;
+end;
+
+procedure Tmes.Setmesprotocolo(const Value: String);
+begin
+  Fmesprotocolo := Value;
+end;
+
+function Tmes.Getmesprotocolo: String;
+begin
+  Result := Fmesprotocolo;
+end;
+
+procedure Tmes.Setmessped(const Value: String);
+begin
+  Fmessped := Value;
+end;
+
+function Tmes.Getmessped: String;
+begin
+  Result := Fmessped;
+end;
+
+procedure Tmes.Settemcodigo(const Value: Integer);
+begin
+  Ftemcodigo := Value;
+end;
+
+function Tmes.Gettemcodigo: Integer;
+begin
+  Result := Ftemcodigo;
+end;
+
+procedure Tmes.Setmesobs(const Value: String);
+begin
+  Fmesobs := Value;
+end;
+
+function Tmes.Getmesobs: String;
+begin
+  Result := Fmesobs;
+end;
+
+procedure Tmes.Setedritem(const Value: Integer);
+begin
+  Fedritem := Value;
+end;
+
+function Tmes.Getedritem: Integer;
+begin
+  Result := Fedritem;
+end;
+
+procedure Tmes.Setmescoocupom(const Value: Integer);
+begin
+  Fmescoocupom := Value;
+end;
+
+function Tmes.Getmescoocupom: Integer;
+begin
+  Result := Fmescoocupom;
+end;
+
+procedure Tmes.Setmesccfcupom(const Value: Integer);
+begin
+  Fmesccfcupom := Value;
+end;
+
+function Tmes.Getmesccfcupom: Integer;
+begin
+  Result := Fmesccfcupom;
+end;
+
+procedure Tmes.Settdecodigo(const Value: Integer);
+begin
+  Ftdecodigo := Value;
+end;
+
+function Tmes.Gettdecodigo: Integer;
+begin
+  Result := Ftdecodigo;
+end;
+
+procedure Tmes.Setmesinclusao(const Value: TDateTime);
+begin
+  Fmesinclusao := Value;
+end;
+
+function Tmes.Getmesinclusao: TDateTime;
+begin
+  Result := Fmesinclusao;
+end;
+
+procedure Tmes.Setclbvendedor(const Value: Integer);
+begin
+  Fclbvendedor := Value;
+end;
+
+function Tmes.Getclbvendedor: Integer;
+begin
+  Result := Fclbvendedor;
+end;
+
+procedure Tmes.Seteqpcodigo(const Value: Integer);
+begin
+  Feqpcodigo := Value;
+end;
+
+function Tmes.Geteqpcodigo: Integer;
+begin
+  Result := Feqpcodigo;
+end;
+
+procedure Tmes.Setmeschaverecla(const Value: Integer);
+begin
+  Fmeschaverecla := Value;
+end;
+
+function Tmes.Getmeschaverecla: Integer;
+begin
+  Result := Fmeschaverecla;
+end;
+
+procedure Tmes.Setmesrefeicao(const Value: Integer);
+begin
+  Fmesrefeicao := Value;
+end;
+
+function Tmes.Getmesrefeicao: Integer;
+begin
+  Result := Fmesrefeicao;
+end;
+
+procedure Tmes.Setflacodigo(const Value: Integer);
+begin
+  Fflacodigo := Value;
+end;
+
+function Tmes.Getflacodigo: Integer;
+begin
+  Result := Fflacodigo;
+end;
+
+procedure Tmes.Setmesreclassicacao(const Value: Integer);
+begin
+  Fmesreclassicacao := Value;
+end;
+
+function Tmes.Getmesreclassicacao: Integer;
+begin
+  Result := Fmesreclassicacao;
+end;
+
+procedure Tmes.Setmestipocomissao(const Value: Integer);
+begin
+  Fmestipocomissao := Value;
+end;
+
+function Tmes.Getmestipocomissao: Integer;
+begin
+  Result := Fmestipocomissao;
+end;
+
+procedure Tmes.Setmesoutroscustos(const Value: Currency);
+begin
+  Fmesoutroscustos := Value;
+end;
+
+function Tmes.Getmesoutroscustos: Currency;
+begin
+  Result := Fmesoutroscustos;
+end;
+
+procedure Tmes.Setfopcodigo(const Value: Integer);
+begin
+  Ffopcodigo := Value;
+end;
+
+function Tmes.Getfopcodigo: Integer;
+begin
+  Result := Ffopcodigo;
+end;
+
+procedure Tmes.Setmescomplementanota(const Value: Integer);
+begin
+  Fmescomplementanota := Value;
+end;
+
+function Tmes.Getmescomplementanota: Integer;
+begin
+  Result := Fmescomplementanota;
+end;
+
+procedure Tmes.Setmescomplementapor(const Value: Integer);
+begin
+  Fmescomplementapor := Value;
+end;
+
+function Tmes.Getmescomplementapor: Integer;
+begin
+  Result := Fmescomplementapor;
+end;
+
+procedure Tmes.Setmescomplementadapor(const Value: Integer);
+begin
+  Fmescomplementadapor := Value;
+end;
+
+function Tmes.Getmescomplementadapor: Integer;
+begin
+  Result := Fmescomplementadapor;
+end;
+
+procedure Tmes.Setccxmes(const Value: Integer);
+begin
+  Fccxmes := Value;
+end;
+
+function Tmes.Getccxmes: Integer;
+begin
+  Result := Fccxmes;
+end;
+
+procedure Tmes.Setccxano(const Value: Integer);
+begin
+  Fccxano := Value;
+end;
+
+function Tmes.Getccxano: Integer;
+begin
+  Result := Fccxano;
+end;
+
+procedure Tmes.Setccxchave(const Value: Integer);
+begin
+  Fccxchave := Value;
+end;
+
+function Tmes.Getccxchave: Integer;
+begin
+  Result := Fccxchave;
+end;
+
+procedure Tmes.Setmoccodigo(const Value: Integer);
+begin
+  Fmoccodigo := Value;
+end;
+
+function Tmes.Getmoccodigo: Integer;
+begin
+  Result := Fmoccodigo;
+end;
+
+procedure Tmes.Setmestelefone(const Value: String);
+begin
+  Fmestelefone := Value;
+end;
+
+function Tmes.Getmestelefone: String;
+begin
+  Result := Fmestelefone;
+end;
+
+procedure Tmes.Setclbcodigoent(const Value: Integer);
+begin
+  Fclbcodigoent := Value;
+end;
+
+function Tmes.Getclbcodigoent: Integer;
+begin
+  Result := Fclbcodigoent;
+end;
+
+procedure Tmes.Setoricodigo(const Value: Integer);
+begin
+  Foricodigo := Value;
+end;
+
+function Tmes.Getoricodigo: Integer;
+begin
+  Result := Foricodigo;
+end;
+
+procedure Tmes.Setbaicodigo(const Value: Integer);
+begin
+  Fbaicodigo := Value;
+end;
+
+function Tmes.Getbaicodigo: Integer;
+begin
+  Result := Fbaicodigo;
+end;
+
+procedure Tmes.Setmesnumeropedido(const Value: String);
+begin
+  Fmesnumeropedido := Value;
+end;
+
+function Tmes.Getmesnumeropedido: String;
+begin
+  Result := Fmesnumeropedido;
+end;
+
+procedure Tmes.Setmesretirabalcao(const Value: Integer);
+begin
+  Fmesretirabalcao := Value;
+end;
+
+function Tmes.Getmesretirabalcao: Integer;
+begin
+  Result := Fmesretirabalcao;
+end;
+
+procedure Tmes.Setmespararevenda(const Value: Integer);
+begin
+  Fmespararevenda := Value;
+end;
+
+function Tmes.Getmespararevenda: Integer;
+begin
+  Result := Fmespararevenda;
+end;
+
+procedure Tmes.Setmescodigonota(const Value: Integer);
+begin
+  Fmescodigonota := Value;
+end;
+
+function Tmes.Getmescodigonota: Integer;
+begin
+  Result := Fmescodigonota;
+end;
+
+procedure Tmes.Setcznchave(const Value: Integer);
+begin
+  Fcznchave := Value;
+end;
+
+function Tmes.Getcznchave: Integer;
+begin
+  Result := Fcznchave;
+end;
+
+procedure Tmes.Limpar;
+begin
+  Self.meschave := 0;
+  Self.etdcodigo := 0;
+  Self.mesemissao := 0;
+  Self.mesregistro := 0;
+  Self.tdfcodigo := '';
+  Self.sdecodigo := '';
+  Self.messerie := '';
+  Self.mesnumero := 0;
+  Self.meschavenfe := '';
+  Self.toecodigo := 0;
+  Self.mesvalor := 0;
+  Self.mesdesconto := 0;
+  Self.mesprodutos := 0;
+  Self.messervicos := 0;
+  Self.mestotal := 0;
+  Self.tfpcodigo := 0;
+  Self.refcodigo := 0;
+  Self.trfcodigo := '';
+  Self.mesfrete := 0;
+  Self.messeguro := 0;
+  Self.mesoutras := 0;
+  Self.mesbicm := 0;
+  Self.mesicm := 0;
+  Self.mesbicms := 0;
+  Self.mesicms := 0;
+  Self.mesipi := 0;
+  Self.mespis := 0;
+  Self.mescofins := 0;
+  Self.mespiss := 0;
+  Self.mescofinss := 0;
+  Self.mesretirou := '';
+  Self.clbcodigo := 0;
+  Self.trmcodigo := 0;
+  Self.mesacrescimo := 0;
+  Self.mesprotocolo := '';
+
+  Self.temcodigo := 0;
+  Self.mesobs := '';
+  Self.edritem := 0;
+  Self.mescoocupom := 0;
+  Self.mesccfcupom := 0;
+  Self.tdecodigo := 0;
+  Self.mesinclusao := 0;
+  Self.clbvendedor := 0;
+  Self.eqpcodigo := 0;
+  Self.meschaverecla := 0;
+  Self.mesrefeicao := 0;
+  Self.flacodigo := 0;
+  Self.mesreclassicacao := 0;
+  Self.mestipocomissao := 0;
+  Self.mesoutroscustos := 0;
+  Self.fopcodigo := 0;
+  Self.mescomplementanota := 0;
+  Self.mescomplementapor := 0;
+  Self.mescomplementadapor := 0;
+  Self.ccxmes := 0;
+  Self.ccxano := 0;
+  Self.ccxchave := 0;
+  Self.moccodigo := 0;
+  Self.mestelefone := '';
+  Self.clbcodigoent := 0;
+  Self.oricodigo := 0;
+  Self.baicodigo := 0;
+  Self.mesnumeropedido := '';
+  Self.mesretirabalcao := 0;
+  Self.mespararevenda := 0;
+  Self.mescodigonota := 0;
+  Self.cznchave := 0;
+
+end;
+
+procedure Tmes.SetCOUNT(const Value: Integer);
+begin
+  FCOUNT := Value;
+end;
+
+function Tmes.ToJson(pFields: String = '*'): TJSonObject;
+begin
+  pFields := ' ' + StringReplace(pFields, ',', ' ', [rfReplaceAll]);
+  Result := TJSonObject.Create;
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' meschave ')) then
+    Result.addPair('meschave', IntToStr(Self.meschave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' etdcodigo ')) then
+    Result.addPair('etdcodigo', IntToStr(Self.etdcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesemissao ')) then
+    Result.addPair('mesemissao', DateTimeToStr(Self.mesemissao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesregistro ')) then
+    Result.addPair('mesregistro', DateTimeToStr(Self.mesregistro));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tdfcodigo ')) then
+    Result.addPair('tdfcodigo', Self.tdfcodigo);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' sdecodigo ')) then
+    Result.addPair('sdecodigo', Self.sdecodigo);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' messerie ')) then
+    Result.addPair('messerie', Self.messerie);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesnumero ')) then
+    Result.addPair('mesnumero', IntToStr(Self.mesnumero));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' meschavenfe ')) then
+    Result.addPair('meschavenfe', Self.meschavenfe);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' toecodigo ')) then
+    Result.addPair('toecodigo', IntToStr(Self.toecodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesvalor ')) then
+    Result.addPair('mesvalor', FloatToStr(Self.mesvalor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesdesconto ')) then
+    Result.addPair('mesdesconto', FloatToStr(Self.mesdesconto));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesprodutos ')) then
+    Result.addPair('mesprodutos', FloatToStr(Self.mesprodutos));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' messervicos ')) then
+    Result.addPair('messervicos', FloatToStr(Self.messervicos));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mestotal ')) then
+    Result.addPair('mestotal', FloatToStr(Self.mestotal));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tfpcodigo ')) then
+    Result.addPair('tfpcodigo', IntToStr(Self.tfpcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' refcodigo ')) then
+    Result.addPair('refcodigo', IntToStr(Self.refcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' trfcodigo ')) then
+    Result.addPair('trfcodigo', Self.trfcodigo);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesfrete ')) then
+    Result.addPair('mesfrete', FloatToStr(Self.mesfrete));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' messeguro ')) then
+    Result.addPair('messeguro', FloatToStr(Self.messeguro));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesoutras ')) then
+    Result.addPair('mesoutras', FloatToStr(Self.mesoutras));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesbicm ')) then
+    Result.addPair('mesbicm', FloatToStr(Self.mesbicm));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesicm ')) then
+    Result.addPair('mesicm', FloatToStr(Self.mesicm));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesbicms ')) then
+    Result.addPair('mesbicms', FloatToStr(Self.mesbicms));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesicms ')) then
+    Result.addPair('mesicms', FloatToStr(Self.mesicms));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesipi ')) then
+    Result.addPair('mesipi', FloatToStr(Self.mesipi));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mespis ')) then
+    Result.addPair('mespis', FloatToStr(Self.mespis));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescofins ')) then
+    Result.addPair('mescofins', FloatToStr(Self.mescofins));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mespiss ')) then
+    Result.addPair('mespiss', FloatToStr(Self.mespiss));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescofinss ')) then
+    Result.addPair('mescofinss', FloatToStr(Self.mescofinss));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesretirou ')) then
+    Result.addPair('mesretirou', Self.mesretirou);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' clbcodigo ')) then
+    Result.addPair('clbcodigo', IntToStr(Self.clbcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' trmcodigo ')) then
+    Result.addPair('trmcodigo', IntToStr(Self.trmcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesacrescimo ')) then
+    Result.addPair('mesacrescimo', FloatToStr(Self.mesacrescimo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesprotocolo ')) then
+    Result.addPair('mesprotocolo', Self.mesprotocolo);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' temcodigo ')) then
+    Result.addPair('temcodigo', IntToStr(Self.temcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesobs ')) then
+    Result.addPair('mesobs', Self.mesobs);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' edritem ')) then
+    Result.addPair('edritem', IntToStr(Self.edritem));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescoocupom ')) then
+    Result.addPair('mescoocupom', IntToStr(Self.mescoocupom));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesccfcupom ')) then
+    Result.addPair('mesccfcupom', IntToStr(Self.mesccfcupom));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tdecodigo ')) then
+    Result.addPair('tdecodigo', IntToStr(Self.tdecodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesinclusao ')) then
+    Result.addPair('mesinclusao', DateTimeToStr(Self.mesinclusao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' clbvendedor ')) then
+    Result.addPair('clbvendedor', IntToStr(Self.clbvendedor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' eqpcodigo ')) then
+    Result.addPair('eqpcodigo', IntToStr(Self.eqpcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' meschaverecla ')) then
+    Result.addPair('meschaverecla', IntToStr(Self.meschaverecla));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesrefeicao ')) then
+    Result.addPair('mesrefeicao', IntToStr(Self.mesrefeicao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' flacodigo ')) then
+    Result.addPair('flacodigo', IntToStr(Self.flacodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesreclassicacao ')) then
+    Result.addPair('mesreclassicacao', IntToStr(Self.mesreclassicacao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mestipocomissao ')) then
+    Result.addPair('mestipocomissao', IntToStr(Self.mestipocomissao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesoutroscustos ')) then
+    Result.addPair('mesoutroscustos', FloatToStr(Self.mesoutroscustos));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' fopcodigo ')) then
+    Result.addPair('fopcodigo', IntToStr(Self.fopcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescomplementanota ')) then
+    Result.addPair('mescomplementanota', IntToStr(Self.mescomplementanota));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescomplementapor ')) then
+    Result.addPair('mescomplementapor', IntToStr(Self.mescomplementapor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescomplementadapor ')) then
+    Result.addPair('mescomplementadapor', IntToStr(Self.mescomplementadapor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' ccxmes ')) then
+    Result.addPair('ccxmes', IntToStr(Self.ccxmes));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' ccxano ')) then
+    Result.addPair('ccxano', IntToStr(Self.ccxano));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' ccxchave ')) then
+    Result.addPair('ccxchave', IntToStr(Self.ccxchave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' moccodigo ')) then
+    Result.addPair('moccodigo', IntToStr(Self.moccodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mestelefone ')) then
+    Result.addPair('mestelefone', Self.mestelefone);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' clbcodigoent ')) then
+    Result.addPair('clbcodigoent', IntToStr(Self.clbcodigoent));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' oricodigo ')) then
+    Result.addPair('oricodigo', IntToStr(Self.oricodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' baicodigo ')) then
+    Result.addPair('baicodigo', IntToStr(Self.baicodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesnumeropedido ')) then
+    Result.addPair('mesnumeropedido', Self.mesnumeropedido);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mesretirabalcao ')) then
+    Result.addPair('mesretirabalcao', IntToStr(Self.mesretirabalcao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mespararevenda ')) then
+    Result.addPair('mespararevenda', IntToStr(Self.mespararevenda));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' mescodigonota ')) then
+    Result.addPair('mescodigonota', IntToStr(Self.mescodigonota));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' cznchave ')) then
+    Result.addPair('cznchave', IntToStr(Self.cznchave));
+
+end;
+
+function Tmes.JsonToClass(obj: TJSonObject): Tmes;
+begin
+  Result := Tmes.Create;
+  if (assigned(obj)) then
+  begin
+    Try
+      Try
+        Result.meschave := StrToInt(obj.get('meschave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.etdcodigo := StrToInt(obj.get('etdcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesemissao := StrToDateTime(obj.get('mesemissao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesregistro := StrToDateTime(obj.get('mesregistro').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tdfcodigo := obj.get('tdfcodigo').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.sdecodigo := obj.get('sdecodigo').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.messerie := obj.get('messerie').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.mesnumero := StrToInt(obj.get('mesnumero').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.meschavenfe := obj.get('meschavenfe').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.toecodigo := StrToInt(obj.get('toecodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesvalor := StrToFloat(obj.get('mesvalor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesdesconto := StrToFloat(obj.get('mesdesconto').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesprodutos := StrToFloat(obj.get('mesprodutos').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.messervicos := StrToFloat(obj.get('messervicos').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mestotal := StrToFloat(obj.get('mestotal').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tfpcodigo := StrToInt(obj.get('tfpcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.refcodigo := StrToInt(obj.get('refcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.trfcodigo := obj.get('trfcodigo').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.mesfrete := StrToFloat(obj.get('mesfrete').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.messeguro := StrToFloat(obj.get('messeguro').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesoutras := StrToFloat(obj.get('mesoutras').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesbicm := StrToFloat(obj.get('mesbicm').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesicm := StrToFloat(obj.get('mesicm').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesbicms := StrToFloat(obj.get('mesbicms').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesicms := StrToFloat(obj.get('mesicms').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesipi := StrToFloat(obj.get('mesipi').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mespis := StrToFloat(obj.get('mespis').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescofins := StrToFloat(obj.get('mescofins').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mespiss := StrToFloat(obj.get('mespiss').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescofinss := StrToFloat(obj.get('mescofinss').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesretirou := obj.get('mesretirou').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.clbcodigo := StrToInt(obj.get('clbcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.trmcodigo := StrToInt(obj.get('trmcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesacrescimo := StrToFloat(obj.get('mesacrescimo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesprotocolo := obj.get('mesprotocolo').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.temcodigo := StrToInt(obj.get('temcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesobs := obj.get('mesobs').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.edritem := StrToInt(obj.get('edritem').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescoocupom := StrToInt(obj.get('mescoocupom').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesccfcupom := StrToInt(obj.get('mesccfcupom').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tdecodigo := StrToInt(obj.get('tdecodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesinclusao := StrToDateTime(obj.get('mesinclusao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.clbvendedor := StrToInt(obj.get('clbvendedor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.eqpcodigo := StrToInt(obj.get('eqpcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.meschaverecla := StrToInt(obj.get('meschaverecla').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesrefeicao := StrToInt(obj.get('mesrefeicao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.flacodigo := StrToInt(obj.get('flacodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesreclassicacao := StrToInt(obj.get('mesreclassicacao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mestipocomissao := StrToInt(obj.get('mestipocomissao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesoutroscustos := StrToFloat(obj.get('mesoutroscustos').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.fopcodigo := StrToInt(obj.get('fopcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescomplementanota := StrToInt(obj.get('mescomplementanota').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescomplementapor := StrToInt(obj.get('mescomplementapor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescomplementadapor := StrToInt(obj.get('mescomplementadapor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.ccxmes := StrToInt(obj.get('ccxmes').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.ccxano := StrToInt(obj.get('ccxano').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.ccxchave := StrToInt(obj.get('ccxchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.moccodigo := StrToInt(obj.get('moccodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mestelefone := obj.get('mestelefone').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.clbcodigoent := StrToInt(obj.get('clbcodigoent').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.oricodigo := StrToInt(obj.get('oricodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.baicodigo := StrToInt(obj.get('baicodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mesnumeropedido := obj.get('mesnumeropedido').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.mesretirabalcao := StrToInt(obj.get('mesretirabalcao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mespararevenda := StrToInt(obj.get('mespararevenda').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.mescodigonota := StrToInt(obj.get('mescodigonota').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.cznchave := StrToInt(obj.get('cznchave').JsonValue.Value);
+      Except
+      End;
+
+    Except
+      on E: Exception do
+      begin
+        Result.Free;
+        raise Exception.Create(E.Message);
+      end;
+    End;
+  end;
+end;
+
+{ TmesPedido }
+
+constructor TmesPedido.Create;
+begin
+  Limpar;
+end;
+
+destructor TmesPedido.Destroy;
+begin
+
+  inherited;
+end;
+
+function TmesPedido.Getmeschave: Integer;
+begin
+  Result := Fmeschave;
+end;
+
+function TmesPedido.Getmesnumeropedido: String;
+begin
+  Result := Fmesnumeropedido;
+end;
+
+function TmesPedido.Getoricodigo: Integer;
+begin
+  Result := Foricodigo;
+end;
+
+procedure TmesPedido.Limpar;
+begin
+  Self.meschave := 0;
+  Self.oricodigo := 0;
+  Self.mesnumeropedido := '';
+end;
+
+procedure TmesPedido.Setmeschave(const Value: Integer);
+begin
+  Fmeschave := Value;
+end;
+
+procedure TmesPedido.Setmesnumeropedido(const Value: String);
+begin
+  Fmesnumeropedido := Value;
+end;
+
+procedure TmesPedido.Setoricodigo(const Value: Integer);
+begin
+  Foricodigo := Value;
+end;
+
+end.

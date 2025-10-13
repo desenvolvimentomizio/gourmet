@@ -1,0 +1,938 @@
+object fccx: Tfccx
+  Left = 0
+  Top = 0
+  ActiveControl = valor
+  BorderIcons = []
+  Caption = 'Abertura de Caixa'
+  ClientHeight = 603
+  ClientWidth = 1043
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lvalor: TLabel
+    Left = 8
+    Top = 152
+    Width = 103
+    Height = 13
+    Caption = 'Saldo de Abertura R$'
+    FocusControl = valor
+  end
+  object Label2: TLabel
+    Left = 11
+    Top = 43
+    Width = 36
+    Height = 13
+    Caption = 'Usu'#225'rio'
+    FocusControl = clbcodigo
+  end
+  object Label3: TLabel
+    Left = 11
+    Top = 70
+    Width = 40
+    Height = 13
+    Caption = 'Terminal'
+    FocusControl = trmcodigo
+  end
+  object lccxdataber: TLabel
+    Left = 11
+    Top = 97
+    Width = 84
+    Height = 13
+    Caption = 'Data de Abertura'
+    FocusControl = ccxdataber
+  end
+  object lccxhoraaber: TLabel
+    Left = 263
+    Top = 97
+    Width = 84
+    Height = 13
+    Caption = 'Hora de Abertura'
+    FocusControl = ccxhoraaber
+  end
+  object lccxhistorico: TLabel
+    Left = 11
+    Top = 124
+    Width = 97
+    Height = 13
+    Caption = 'Hist'#243'rico / Descri'#231#227'o'
+    FocusControl = ccxhistorico
+  end
+  object pbotoes: TPanel
+    Left = 0
+    Top = 574
+    Width = 1043
+    Height = 29
+    Align = alBottom
+    BevelOuter = bvLowered
+    BorderWidth = 3
+    TabOrder = 9
+    object psituacao: TPanel
+      Left = 4
+      Top = 4
+      Width = 95
+      Height = 21
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Incluindo'
+      Color = 12615680
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+    end
+    object bconfirma: TBitBtn
+      Left = 889
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'ENTER - Confirma o registro '
+      Align = alRight
+      Caption = 'Confirma'
+      TabOrder = 1
+      OnClick = bconfirmaClick
+    end
+    object bcancela: TBitBtn
+      Left = 964
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'Esc - Cancela'
+      Align = alRight
+      Caption = 'Cancela'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+      OnClick = bcancelaClick
+    end
+    object bfechar: TBitBtn
+      Left = 824
+      Top = 4
+      Width = 65
+      Height = 21
+      Align = alRight
+      Caption = 'Fechar'
+      TabOrder = 3
+      Visible = False
+    end
+    object plccx: TPanel
+      Left = 99
+      Top = 4
+      Width = 94
+      Height = 21
+      Align = alLeft
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      BorderWidth = 4
+      Caption = 'Caixa: '
+      TabOrder = 4
+    end
+  end
+  object valor: TDBEdit
+    Left = 139
+    Top = 149
+    Width = 97
+    Height = 21
+    Color = clYellow
+    DataField = 'valor'
+    DataSource = Dvalor
+    TabOrder = 8
+    OnKeyPress = FormKeyPress
+  end
+  object clbcodigo: TDBEdit
+    Left = 139
+    Top = 40
+    Width = 41
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'clbcodigo'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 1
+    OnKeyPress = FormKeyPress
+  end
+  object clbidentificacao: TDBEdit
+    Left = 186
+    Top = 40
+    Width = 272
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'clbidentificacao'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 2
+    OnKeyPress = FormKeyPress
+  end
+  object trmcodigo: TDBEdit
+    Left = 139
+    Top = 67
+    Width = 41
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'trmcodigo'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 3
+    OnKeyPress = FormKeyPress
+  end
+  object trmidentificacao: TDBEdit
+    Left = 186
+    Top = 67
+    Width = 272
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'trmidentificacao'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 4
+    OnKeyPress = FormKeyPress
+  end
+  object ccxdataber: TDBEdit
+    Left = 139
+    Top = 94
+    Width = 97
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'ccxdataber'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 5
+    OnKeyPress = FormKeyPress
+  end
+  object ccxhoraaber: TDBEdit
+    Left = 363
+    Top = 94
+    Width = 95
+    Height = 21
+    TabStop = False
+    Color = clYellow
+    DataField = 'ccxhoraaber'
+    DataSource = Dccx
+    ReadOnly = True
+    TabOrder = 6
+    OnKeyPress = FormKeyPress
+  end
+  object PlTitulo: TPanel
+    Left = 0
+    Top = 0
+    Width = 1043
+    Height = 30
+    Align = alTop
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    BorderWidth = 4
+    Caption = 'ABERTURA DE CAIXA'
+    Color = 12615680
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+  end
+  object ccxhistorico: TDBEdit
+    Left = 139
+    Top = 121
+    Width = 319
+    Height = 21
+    DataField = 'ccxhistorico'
+    DataSource = Dccx
+    TabOrder = 7
+    OnKeyPress = FormKeyPress
+  end
+  object Dcta: TUniDataSource
+    DataSet = cta
+    Left = 628
+    Top = 156
+  end
+  object cta: TUniQuery
+    SQL.Strings = (
+      'select ctacodigo, ctaidentificacao from cta ')
+    Left = 624
+    Top = 104
+    object ctactacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object ctactaidentificacao: TStringField
+      FieldName = 'ctaidentificacao'
+      Size = 50
+    end
+  end
+  object clb: TUniQuery
+    SQL.Strings = (
+      'select clbcodigo, clbidentificacao from clb')
+    Left = 832
+    Top = 64
+    object clbclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object clbclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      Size = 50
+    end
+  end
+  object ccx: TUniQuery
+    SQL.Strings = (
+      'SELECT ccx.ccxchave'
+      '     , ccx.clbcodigo'
+      '     , ccx.ctacodigo'
+      '     , ccx.ccxturno'
+      '     , ccx.ccxdataber'
+      '     , ccx.ccxhoraaber'
+      '     , ccx.ccxsaldoaber'
+      '     , ccx.ccxdatafecha'
+      '     , ccx.ccxhorafecha'
+      '     , ccx.ccxsaldofecha'
+      '     , ccx.ccxsangrias'
+      '     , ccx.ccxsuprimentos'
+      '     , ccx.trmcodigo'
+      '     , ccx.ccxhistorico'
+      '     , ccx.ccxinicio'
+      '     , ccx.ccxfinal'
+      '  FROM ccx'
+      '  WHERE ccx.clbcodigo = :clbcodigo'
+      '    AND ccx.ctacodigo = :ctacodigo'
+      '    AND ccx.ccxchave = :ccxchave'
+      '    AND ccx.ccxdatafecha IS NULL')
+    Left = 716
+    Top = 44
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'clbcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ctacodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ccxchave'
+        Value = nil
+      end>
+    object ccxccxchave: TIntegerField
+      FieldName = 'ccxchave'
+    end
+    object ccxclbcodigo: TIntegerField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'clbcodigo'
+    end
+    object ccxclbidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'clbidentificacao'
+      LookupDataSet = clb
+      LookupKeyFields = 'clbcodigo'
+      LookupResultField = 'clbidentificacao'
+      KeyFields = 'clbcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object ccxctacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object ccxctaidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ctaidentificacao'
+      LookupDataSet = cta
+      LookupKeyFields = 'ctacodigo'
+      LookupResultField = 'ctaidentificacao'
+      KeyFields = 'ctacodigo'
+      Size = 50
+      Lookup = True
+    end
+    object ccxccxturno: TIntegerField
+      FieldName = 'ccxturno'
+    end
+    object ccxccxdataber: TDateField
+      DisplayLabel = 'Data de Abertura'
+      FieldName = 'ccxdataber'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object ccxccxhoraaber: TTimeField
+      DisplayLabel = 'Hora de Abertura'
+      FieldName = 'ccxhoraaber'
+      EditMask = '!90:00:00>LL;1;_'
+    end
+    object ccxccxsaldoaber: TFloatField
+      DisplayLabel = 'Saldo de Abertura R$'
+      FieldName = 'ccxsaldoaber'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ccxccxdatafecha: TDateField
+      FieldName = 'ccxdatafecha'
+    end
+    object ccxccxhorafecha: TTimeField
+      FieldName = 'ccxhorafecha'
+    end
+    object ccxccxsaldofecha: TFloatField
+      FieldName = 'ccxsaldofecha'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ccxccxsangrias: TFloatField
+      FieldName = 'ccxsangrias'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ccxccxsuprimentos: TFloatField
+      FieldName = 'ccxsuprimentos'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ccxtrmcodigo: TIntegerField
+      FieldName = 'trmcodigo'
+    end
+    object ccxtrmidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'trmidentificacao'
+      LookupDataSet = trm
+      LookupKeyFields = 'trmcodigo'
+      LookupResultField = 'trmidentificacao'
+      KeyFields = 'trmcodigo'
+      Lookup = True
+    end
+    object ccxccxhistorico: TStringField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'ccxhistorico'
+      Size = 250
+    end
+    object ccxccxinicio: TDateTimeField
+      FieldName = 'ccxinicio'
+    end
+    object ccxccxfinal: TDateTimeField
+      FieldName = 'ccxfinal'
+    end
+  end
+  object cco: TUniQuery
+    SQL.Strings = (
+      'SELECT cco.ccochave'
+      '     , cco.ctacodigo'
+      '     , cco.toccodigo'
+      '     , cco.cedcodigo'
+      '     , cco.clbcodigo'
+      '     , cco.tficodigo'
+      '     , cco.moecodigo'
+      '     , cco.ccoemissao'
+      '     , cco.ccovencimento'
+      '     , cco.cconumero'
+      '     , cco.ccohistorico'
+      '     , cco.ccovalor'
+      '     , cco.ccochaveorig'
+      '     , cco.ccochavedest'
+      '     , cco.ccoconciliado'
+      '     , cco.ccoextenso'
+      '     , cco.etdcodigo'
+      '     , cco.ccodatamov'
+      '     , cco.ccohoraregistro'
+      '     , cco.ccodataregistro'
+      '     , cco.ccofavorecido'
+      '  FROM cco'
+      ' WHERE cco.ccochave = :ccochave')
+    Left = 760
+    Top = 104
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ccochave'
+        Value = nil
+      end>
+    object ccoccochave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Registro'
+      FieldName = 'ccochave'
+    end
+    object ccoctacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+      Required = True
+    end
+    object ccoccoemissao: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'ccoemissao'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object ccoccovencimento: TDateField
+      FieldName = 'ccovencimento'
+      Required = True
+    end
+    object ccotoccodigo: TIntegerField
+      DisplayLabel = 'OP'
+      FieldName = 'toccodigo'
+    end
+    object ccocedcodigo: TIntegerField
+      DisplayLabel = 'N'
+      FieldName = 'cedcodigo'
+      Required = True
+    end
+    object ccoclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object ccotficodigo: TIntegerField
+      DisplayLabel = 'TFI'
+      FieldName = 'tficodigo'
+    end
+    object ccomoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+    end
+    object ccocconumero: TStringField
+      FieldName = 'cconumero'
+      Size = 15
+    end
+    object ccoccohistorico: TStringField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'ccohistorico'
+      Size = 250
+    end
+    object ccoccovalor: TFloatField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'ccovalor'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ccoccochaveorig: TIntegerField
+      FieldName = 'ccochaveorig'
+    end
+    object ccoccochavedest: TIntegerField
+      FieldName = 'ccochavedest'
+    end
+    object ccoccoconciliado: TIntegerField
+      DisplayLabel = 'C'
+      FieldName = 'ccoconciliado'
+    end
+    object ccoccoextenso: TStringField
+      FieldName = 'ccoextenso'
+      Size = 2000
+    end
+    object ccoetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object ccoccodatamov: TDateField
+      FieldName = 'ccodatamov'
+    end
+    object ccoccodataregistro: TDateField
+      FieldName = 'ccodataregistro'
+    end
+    object ccoccohoraregistro: TTimeField
+      FieldName = 'ccohoraregistro'
+    end
+    object ccoccofavorecido: TStringField
+      FieldName = 'ccofavorecido'
+      Size = 80
+    end
+    object ccoctaidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ctaidentificacao'
+      LookupDataSet = cta
+      LookupKeyFields = 'ctacodigo'
+      LookupResultField = 'ctaidentificacao'
+      KeyFields = 'ctacodigo'
+      Size = 50
+      Lookup = True
+    end
+  end
+  object Dccx: TUniDataSource
+    DataSet = ccx
+    Left = 768
+    Top = 40
+  end
+  object trm: TUniQuery
+    SQL.Strings = (
+      'SELECT trmcodigo'
+      '     , trmidentificacao'
+      '  FROM trm')
+    Left = 828
+    Top = 112
+    object trmtrmcodigo: TIntegerField
+      DisplayLabel = 'Terminal'
+      FieldName = 'trmcodigo'
+    end
+    object trmtrmidentificacao: TStringField
+      FieldName = 'trmidentificacao'
+      Size = 50
+    end
+  end
+  object lte: TUniQuery
+    SQL.Strings = (
+      'SELECT lte.ltechave'
+      '     , lte.tfdcodigo'
+      '     , lte.ltedata'
+      '     , lte.lteprincipal'
+      '     , lte.ltemulta'
+      '     , lte.ltejuros'
+      '     , lte.ltedesconto'
+      '     , lte.ltetotal'
+      '     , lte.lteextenso'
+      '     , lte.clbcodigo'
+      '     , lte.ctacodigo'
+      '     , lte.lteregistro'
+      '     , lte.ccxchave'
+      '  FROM lte'
+      '  WHERE lte.ltechave = :ltechave')
+    Left = 915
+    Top = 55
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object lteltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object ltetfdcodigo: TIntegerField
+      FieldName = 'tfdcodigo'
+    end
+    object lteltedata: TDateField
+      DisplayLabel = 'Data do Registro'
+      FieldName = 'ltedata'
+    end
+    object ltelteprincipal: TFloatField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'lteprincipal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object lteltemulta: TFloatField
+      DisplayLabel = 'Valor da Multa R$'
+      FieldName = 'ltemulta'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object lteltejuros: TFloatField
+      DisplayLabel = 'Valor do Juros R$'
+      FieldName = 'ltejuros'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object lteltedesconto: TFloatField
+      DisplayLabel = 'Valor do Desconto R$'
+      FieldName = 'ltedesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object lteltetotal: TFloatField
+      DisplayLabel = 'Total L'#237'quido R$'
+      FieldName = 'ltetotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object ltelteextenso: TStringField
+      FieldName = 'lteextenso'
+      Size = 2000
+    end
+    object lteclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object ltectacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object ltelteregistro: TDateTimeField
+      FieldName = 'lteregistro'
+    end
+    object lteccxchave: TIntegerField
+      FieldName = 'ccxchave'
+    end
+  end
+  object registro: TUniQuery
+    SQL.Strings = (
+      'SELECT cco.ccochave'
+      '     , cco.ctacodigo'
+      '     , cco.toccodigo'
+      '     , cco.cedcodigo'
+      '     , cco.clbcodigo'
+      '     , cco.tficodigo'
+      '     , cco.moecodigo'
+      '     , cco.ccoemissao'
+      '     , cco.ccovencimento'
+      '     , cco.cconumero'
+      '     , cco.ccohistorico'
+      '     , cco.ccovalor'
+      '     , cco.ccochaveorig'
+      '     , cco.ccochavedest'
+      '     , cco.ccoconciliado'
+      '     , cco.ccoextenso'
+      '     , cco.etdcodigo'
+      '     , cco.ccodatamov'
+      '     , cco.ccohoraregistro'
+      '     , cco.ccodataregistro'
+      '     , cco.ccofavorecido'
+      '  FROM cco'
+      ' WHERE cco.ccochave = :ccochave'
+      '   AND cco.ctacodigo = :ctacodigo')
+    Left = 712
+    Top = 103
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ccochave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ctacodigo'
+        Value = nil
+      end>
+    object registroccochave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Registro'
+      FieldName = 'ccochave'
+    end
+    object registroctacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object registroccoemissao: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'ccoemissao'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object registroccovencimento: TDateField
+      FieldName = 'ccovencimento'
+      Required = True
+    end
+    object registrotoccodigo: TIntegerField
+      DisplayLabel = 'OP'
+      FieldName = 'toccodigo'
+    end
+    object registrocedcodigo: TIntegerField
+      DisplayLabel = 'N'
+      FieldName = 'cedcodigo'
+      Required = True
+    end
+    object registroclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object registrotficodigo: TIntegerField
+      DisplayLabel = 'TFI'
+      FieldName = 'tficodigo'
+    end
+    object registromoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+    end
+    object registrocconumero: TStringField
+      FieldName = 'cconumero'
+      Size = 15
+    end
+    object registroccohistorico: TStringField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'ccohistorico'
+      Size = 50
+    end
+    object registroccovalor: TFloatField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'ccovalor'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroccochaveorig: TIntegerField
+      FieldName = 'ccochaveorig'
+    end
+    object registroccochavedest: TIntegerField
+      FieldName = 'ccochavedest'
+    end
+    object registroccoconciliado: TIntegerField
+      DisplayLabel = 'C'
+      FieldName = 'ccoconciliado'
+    end
+    object registroccoextenso: TStringField
+      FieldName = 'ccoextenso'
+      Size = 2000
+    end
+    object registroetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object registroccodatamov: TDateField
+      FieldName = 'ccodatamov'
+    end
+    object registroccodataregistro: TDateField
+      FieldName = 'ccodataregistro'
+    end
+    object registroccohoraregistro: TTimeField
+      FieldName = 'ccohoraregistro'
+    end
+    object registroccofavorecido: TStringField
+      FieldName = 'ccofavorecido'
+      Size = 80
+    end
+  end
+  object consulta: TUniQuery
+    Left = 532
+    Top = 48
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'select cfgctacaixa,cfgusagou from cfg')
+    Left = 547
+    Top = 136
+    object cfgcfgctacaixa: TIntegerField
+      FieldName = 'cfgctacaixa'
+    end
+    object cfgcfgusagou: TIntegerField
+      FieldName = 'cfgusagou'
+    end
+  end
+  object clt: TUniQuery
+    SQL.Strings = (
+      
+        'select  ccochave , ltechave from clt where ccochave=:ccochave  a' +
+        'nd ltechave=:ltechave')
+    Left = 939
+    Top = 103
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ccochave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object cltccochave: TIntegerField
+      FieldName = 'ccochave'
+    end
+    object cltltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+  end
+  object vlr: TVirtualTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'valor'
+        DataType = ftFloat
+      end>
+    Left = 640
+    Top = 44
+    Data = {04000100050076616C6F720600000000000000000000000000}
+    object vlrvalor: TFloatField
+      FieldName = 'valor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  object Dvalor: TUniDataSource
+    DataSet = vlr
+    Left = 572
+    Top = 124
+  end
+  object dtl: TUniQuery
+    SQL.Strings = (
+      'select '
+      ' dtlchave,'
+      ' ltechave,'
+      ' cedcodigo,'
+      ' dtlvalor,'
+      ' mdacodigo,'
+      ' ccxchave'
+      ' from dtl'
+      ' where ltechave=:ltechave')
+    Left = 896
+    Top = 104
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object dtldtlchave: TIntegerField
+      FieldName = 'dtlchave'
+    end
+    object dtlltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object dtlcedcodigo: TIntegerField
+      FieldName = 'cedcodigo'
+    end
+    object dtldtlvalor: TFloatField
+      FieldName = 'dtlvalor'
+    end
+    object dtlmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+    end
+    object dtlccxchave: TIntegerField
+      FieldName = 'ccxchave'
+    end
+  end
+  object ccd: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ccdchave,'
+      '  dtlchave,'
+      '  ccochave'
+      'FROM ccd limit 0')
+    Left = 568
+    Top = 81
+    object ccdccdchave: TIntegerField
+      FieldName = 'ccdchave'
+    end
+    object ccddtlchave: TIntegerField
+      FieldName = 'dtlchave'
+    end
+    object ccdccochave: TIntegerField
+      FieldName = 'ccochave'
+    end
+  end
+  object qagora: TUniQuery
+    Left = 296
+    Top = 48
+    object qagoraqagora: TDateField
+      FieldName = 'qagora'
+    end
+  end
+  object ajulte: TUniQuery
+    Left = 376
+    Top = 224
+  end
+  object ajustacaixas: TUniQuery
+    SQL.Strings = (
+      
+        'UPDATE ccx SET ccxinicio=(CONCAT(ccxdataber,'#39' '#39', ccxhoraaber)) W' +
+        'HERE ccxinicio is NULL;'
+      
+        'selECT CONCAT('#39'update mes set ccxmes='#39', (SELECT MONTH(ccxdataber' +
+        ') FROM ccx WHERE ccxfinal>=mes.mesinclusao AND ccxinicio<=mes.me' +
+        'sinclusao   ORDER BY ccxchave DESC LIMIT 1), '#39',ccxano='#39',(SELECT ' +
+        'year(ccxdataber) FROM ccx WHERE ccxfinal>=mes.mesinclusao AND cc' +
+        'xinicio<=mes.mesinclusao LIMIT 1),'#39'  where meschave='#39', meschave,' +
+        #39';'#39') linha  FROM mes WHERE CONCAT('#39'update mes set ccxmes='#39', (SEL' +
+        'ECT MONTH(ccxdataber) FROM ccx WHERE ccxfinal>=mes.mesinclusao A' +
+        'ND ccxinicio<=mes.mesinclusao   ORDER BY ccxchave DESC LIMIT 1),' +
+        ' '#39',ccxano='#39',(SELECT year(ccxdataber) FROM ccx WHERE ccxfinal>=me' +
+        's.mesinclusao AND ccxinicio<=mes.mesinclusao LIMIT 1),'#39'  where m' +
+        'eschave='#39', meschave,'#39';'#39') IS NOT NULL and ccxano=0 AND ccxmes=0;')
+    Left = 96
+    Top = 40
+  end
+  object linhas: TUniQuery
+    Left = 96
+    Top = 88
+  end
+end

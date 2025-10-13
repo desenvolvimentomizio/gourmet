@@ -1,0 +1,15 @@
+program MizioUpdate;
+
+uses
+  Vcl.Forms,
+  uFPrinciUpdate in 'uFPrinciUpdate.pas' {FPrinciUpdate},
+  uPing2 in 'uPing2.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFPrinciUpdate, FPrinciUpdate);
+  Application.Run;
+end.

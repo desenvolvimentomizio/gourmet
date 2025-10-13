@@ -1,0 +1,3 @@
+PngImage_1 RCDATA "images\\collapse.png"
+PngImage_2 RCDATA "images\\expand.png"
+libmysql RCDATA "C:\\mysql\\lib\\libmysql.dll"

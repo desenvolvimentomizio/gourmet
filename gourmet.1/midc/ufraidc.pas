@@ -1,0 +1,54 @@
+unit ufraidc;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, VirtualTable, Data.DB, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.Graphics, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, System.ImageList,
+  Vcl.ImgList;
+
+type
+  Tfraidc = class(Tfrabase)
+    uqtabelaidccodigo: TIntegerField;
+    uqtabelaidcnome: TStringField;
+    uqtabelaidcdoc: TStringField;
+    uqtabelaidcemail: TStringField;
+    uqtabelaidccelular: TStringField;
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActAlterarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fraidc: Tfraidc;
+
+  // Início ID do Módulo fraidc
+const
+  vPlIdMd = '01.01.01.010-01';
+  vPlTitMdl = 'Clientes - Emissão de NFCe';
+
+  // Fim ID do Módulo fraidc
+
+implementation
+
+{$R *.dfm}
+
+uses ufidc;
+
+procedure Tfraidc.ActAlterarExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfidc, uqtabelaidccodigo.AsString, '');
+end;
+
+procedure Tfraidc.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfidc, '', '');
+end;
+
+end.

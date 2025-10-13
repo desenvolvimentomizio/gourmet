@@ -1,0 +1,25 @@
+unit UfrDemo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTWPPConnect;
+
+type
+  TfrDemo = class(TForm)
+    WPPConnect1: TWPPConnect;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frDemo: TfrDemo;
+
+implementation
+
+{$R *.dfm}
+
+end.

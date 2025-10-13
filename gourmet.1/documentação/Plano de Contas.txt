@@ -1,0 +1,461 @@
+ T    CLASSIFICAÇÄO     NOME DA CONTA
+ T    1                 ATIVO
+ T    1.1                   ATIVO CIRCULANTE
+ T    1.1.1                     DISPONIBILIDADES
+ T    1.1.1.01                      DISPONIBILIDADE LIQ IMEDIATA
+ T    1.1.1.01.01                       NUMERARIOS
+      1.1.1.01.01.001                       CAIXA
+ T    1.1.1.01.02                       NUMERARIOS EM TRANSITO
+      1.1.1.01.02.001                       CAIXA - TRANSF EFETUADAS
+      1.1.1.01.02.002                       CAIXA - TRANSF RECEBIDAS
+ T    1.1.1.02                      NUMERARIOS EM BANCOS
+ T    1.1.1.02.01                       BANCO C/ MOVIMENTO
+      1.1.1.02.01.001                       BANCO (CONTAS BANCARIAS)
+ T    1.1.1.02.02                       APLIC FINANC LIQ IMEDIATA
+      1.1.1.02.02.001                       BANCO (Contas Bancarias)
+      1.1.1.02.02.007                       OURO
+      1.1.1.02.02.008                       DOLAR
+ T    1.1.1.02.03                       DEPOSITOS NAO IDENTIFICADOS
+      1.1.1.02.03.001                       DEPOSITOS NAO IDENTIFICADOS
+ T    1.1.2                     REALIZÁVEL
+ T    1.1.2.01                      DIREITOS
+ T    1.1.2.01.01                       CLIENTES
+      1.1.2.01.01.001                       DUPLICATAS A RECEBER
+      1.1.2.01.01.002                       (-) DUPLICATAS DESCONTADAS
+      1.1.2.01.01.003                       (-) PDD
+      1.1.2.01.01.004                       (-) PDD PERDAS
+ T    1.1.2.01.02                       CHEQUES A RECEBER
+      1.1.2.01.02.001                       CHEQUES PRE-DATADOS
+ T    1.1.2.01.05                       ADIANTAMENTOS DIVERSOS
+      1.1.2.01.05.001                       ADIANTAMENTO FORNECEDORES
+      1.1.2.01.05.002                       ADIANTAMENTOS A FUNCIONARIOS
+      1.1.2.01.05.003                       ADIANTAMENTOS PRO LABORE
+      1.1.2.01.05.004                       ADIANTAMENTOS P/ VIAGENS
+      1.1.2.01.05.005                       ADIANTAMENTOS PREST.SERVIÇOS
+      1.1.2.01.05.007                       CONSORCIO
+      1.1.2.01.05.009                       ADIANTAMENTOS ALUGUEL
+      1.1.2.01.05.012                       ADIANTAMENTOS (Gerais)
+      1.1.2.01.05.014                       ADIANTAMENTO CURSOS E TREINAMENTOS
+      1.1.2.01.05.015                       FERIAS PROPORCIONAL - PROVISAO
+ T    1.1.2.02                      CONTRATOS
+ T    1.1.2.02.01                       CONTRATOS (COMODETES)
+      1.1.2.02.01.001                       CONTRATOS (A)
+ T    1.1.2.02.02                       CONTRATOS EQUIPAMENTOS (ALUGUEIS)
+      1.1.2.02.02.001                       CONTRATOS DIVERSOS
+ T    1.1.2.02.05                       CONTRATOS DE EMPRESTIMOS
+      1.1.2.02.05.001                       EMPRESTIMOS A TERCEIROS
+ T    1.1.2.02.06                       EMPRESTIMOS A COLIGADAS
+      1.1.2.02.06.001                       EMPRESA (A)
+      1.1.2.02.06.002                       EMPRESA (B)
+ T    1.1.2.04                      ESTOQUE
+ T    1.1.2.04.01                       BENS
+      1.1.2.04.01.001                       ESTOQUE INICIAL
+      1.1.2.04.01.002                       COMPRAS
+      1.1.2.04.01.003                       DEVOLUÇOES
+      1.1.2.04.01.004                       CUSTO DA MERCADORIA
+      1.1.2.04.01.005                       ICMS
+      1.1.2.04.01.006                       FRETES
+      1.1.2.04.01.007                       ICMS GARANTIDO INTEGRAL
+      1.1.2.04.01.008   (VERIFICAR)         ESTOQUE FINAL
+      1.1.2.04.01.009                       MAQ e PECAS DETERIORADAS/OBSOLETAS
+      1.1.2.04.01.010                       TRANSFERENCIAS DE MERCADORIAS
+      1.1.2.04.01.011                       AJUSTES ESTOQUES
+ T    1.1.2.06                      IMPOSTOS A RECUPERAR
+ T    1.1.2.06.01                       IMPOSTOS
+      1.1.2.06.01.001                       IRRF
+      1.1.2.06.01.002                       IRPJ
+      1.1.2.06.01.003                       CSLL
+      1.1.2.06.01.004                       PIS
+      1.1.2.06.01.005                       COFINS
+      1.1.2.06.01.006                       ICMS
+      1.1.2.06.01.007                       PIS/ COFINS/ CSLL - NF
+      1.1.2.06.01.008                       PIS/COFINS - COMERCIAL
+ T    1.1.2.07                      OUTROS CREDITOS
+ T    1.1.2.07.01                       OUTROS CREDITOS
+      1.1.2.07.01.001                       JUROS A APROPRIAR S/ EMPRESTIMOS
+      1.1.2.07.01.002                       DIVERSOS
+      1.1.2.07.01.003                       PREMIOS DE SEGURO A APROPRIAR
+      1.1.2.07.01.004                       MERCADORIA EM CONSIGNAÇAO
+ T    1.2                   ATIVO NAO CIRCULANTE
+ T    1.2.1                     DIREITOS
+ T    1.2.1.01                      CREDITOS E VALORES A REALIZAR
+ T    1.2.1.01.01                       APLICAÇOES FINANCEIRAS
+      1.2.1.01.01.001                       BANCO - APLICAÇOES
+      1.2.1.01.01.002                       BANCO - FUNDO RESERVA
+      1.2.1.01.01.003                       FUNDO CAPITALIZAÇAO
+      1.2.1.01.01.004                       BANCO - INT.CAPITAL
+      1.2.1.01.01.005                       BANCO - TIT. CAPITALIZAÇAO
+      1.2.1.01.01.006                       FUNDO CAPITALIZACAO GRUPO BAGGIO
+ T    1.2.1.01.04                       CONTRATOS
+      1.2.1.01.04.001                       CONTRATOS (COMODETES)
+ T    1.2.1.01.05                       CONTRATOS EQUIPAMENTOS (ALUGUEL)
+      1.2.1.01.05.001                       CONTRATOS DIVERSOS
+ T    1.2.1.01.06                       EMPRESTIMOS
+      1.2.1.01.06.001                       EMPRESTIMOS TERCEIROS
+      1.2.1.01.06.002                       ADIANTAMENTOS TERCEIROS
+ T    1.2.1.01.07                       EMPRESTIMOS A COLIGADAS
+      1.2.1.01.07.001                       EMPRESA (A)
+      1.2.1.01.07.002                       EMPRESA (B)
+ T    1.3                   PERMANENTE
+ T    1.3.1                     ATIVO FIXO
+ T    1.3.1.01                      PARTICIPAÇOES SOCIETARIAS
+ T    1.3.1.01.01                       PARTICIPAÇOES
+      1.3.1.01.01.001                       EMPRESA (A)
+      1.3.1.01.01.002                       EMPRESA (B)
+ T    1.3.2                     IMOBILIZADO
+ T    1.3.2.01                      IMOBILIZADO OPERACIONAL
+ T    1.3.2.01.01                       IMOBILIZADO VALOR AQUISIÇAO
+      1.3.2.01.01.001                       VEICULOS
+      1.3.2.01.01.002        (VERIFICAR)    PREDIOS E CONSTRUÇOES
+      1.3.2.01.01.003                       MAQUINAS E EQUIPAMENTOS
+      1.3.2.01.01.004                       FERRAMENTAL
+      1.3.2.01.01.005                       EQUIPAMENTOS INFORMATICA E ELETROELETRONICO
+      1.3.2.01.01.006                       EQUIPAMENTOS COMUNICAÇOES
+      1.3.2.01.01.007                       MOVEIS E UTENSILIOS
+      1.3.2.01.01.008                       TERRENOS
+      1.3.2.01.01.009                       VEICULOS DVS
+      1.3.2.01.01.010                       BANDEIRA
+      1.3.2.01.01.011                       CARRETAS/CAMINHOES/CARROS
+      1.3.2.01.01.012                       VEICULOS (LEASING)
+      1.3.2.01.01.013                       TORRE
+      1.3.2.01.01.014                       SOFTWARE
+ T    1.3.2.01.02                       (-) DEPRECIAÇOES
+      1.3.2.01.02.001                       DEP VEICULOS
+      1.3.2.01.02.002                       DEP PREDIOS E CONSTRUÇOES
+      1.3.2.01.02.003                       DEP MAQUINAS E EQUIPAMENTOS
+      1.3.2.01.02.004                       DEP FERRAMENTAL
+      1.3.2.01.02.005                       DEP EQUIP DE INFORMATICA E ESCRITORIO
+      1.3.2.01.02.006                       DEP EQUIPAMENTOS DE COMUNICAÇAO
+      1.3.2.01.02.007                       DEP MOVEIS E UTENSILIOS
+      1.3.2.01.02.011                       DEP CARRETA/CAMIN/CARROS
+      1.3.2.01.02.012                       DEP VEICULOS (LEASING)
+      1.3.2.01.02.013                       DEP TORRE
+      1.3.2.01.02.014                       DEP SOFTWARE
+ T    1.3.3                     IMOBILIZAÇOES EM CURSO
+ T    1.3.3.01                      IMOBILIZAÇOES - OPERACIONAIS
+ T    1.3.3.01.01                       OBRAS EM ANDAMENTO
+      1.3.3.01.01.001                       MAO DE OBRA
+      1.3.3.01.01.002                       MATERIAIS
+      1.3.3.01.01.003                       PROJETOS
+ T    1.3.4                     IMOBILIZADO NAO OPERACIONAL
+ T    1.3.4.01                      IMOBILIZADO NAO OPERACIONAL
+ T    1.3.4.01.01                       IMOVEIS URBANOS
+      1.3.4.01.01.001                       LOTES INDUSTRIAL
+      1.3.4.01.01.002                       LOTES COMERCIAL
+      1.3.4.01.01.008                       OUTROS IMOVEIS
+ T    1.3.4.01.02                       CHACARAS
+      1.3.4.01.02.001                       CHACARA (A)
+      1.3.4.01.02.002                       CHACARA (B)
+ T    1.3.4.01.03                       FAZENDAS
+      1.3.4.01.03.001                       FAZENDA (A)
+      1.3.4.01.03.002                       FAZENDA (B)
+ T    1.3.4.01.04                       OUTROS IMOVEIS
+      1.3.4.01.04.001                       APARTAMENTO (A)
+      1.3.4.01.04.002                       APARTAMENTO (B)
+      1.3.4.01.04.003                       IMOVEL COLONIA DE FERIAS
+      1.3.4.01.04.006      (VERIFICAR)      PREDIO E BENFEITORIAS - SJRC
+      1.3.4.01.04.007                       FERRAMENTAL
+      1.3.4.01.04.008                       MOVEIS E UTENSILIOS
+      1.3.4.01.04.009                       TERRENO E PREDIO BOA ESPERANÇA
+      
+ T    2                  PASSIVO
+ T    2.1                   PASSIVO CIRCULANTE
+ T    2.1.1                     EXIGIBILIDADES
+ T    2.1.1.01                      FORNECEDORES
+ T    2.1.1.01.01                       FORNECEDORES
+      2.1.1.01.01.001                       FORNECEDOR (A)
+      2.1.1.01.01.002                       FORNECEDOR (V)
+      2.1.1.01.01.003                       DIVERSOS
+ T    2.1.1.01.02                       CONTAS DIVERSAS A PAGAR
+      2.1.1.01.02.001                       CONTAS DIVERSAS
+      2.1.1.01.02.002                       HONORARIOS ADVOCATICIOS
+      2.1.1.01.02.003                       HONORARIOS CONTABEIS
+      2.1.1.01.02.004                       CHEQUES A COMPENSAR
+      2.1.1.01.02.005                       CREDITOS A RECLASSIFICAR
+ T    2.1.1.01.07                       CONTRATOS
+      2.1.1.01.07.001                       CONTRATOS (COMODETES)
+ T    2.1.1.01.08                       CONTRATOS EQUIPAMENTOS
+      2.1.1.01.08.001                       CONTRATOS DIVERSOS
+ T    2.1.1.02                      EMPRESTIMOS E FINANCIAMENTOS
+ T    2.1.1.02.01                       EMPRESTIMOS E FINANCIAMENTOS
+      2.1.1.02.01.001                       BANCO (A)
+      2.1.1.02.01.002                       BANCO (B)
+ T    2.1.1.02.04                       CONSORCIOS CONTEMPLADOS
+      2.1.1.02.04.001                       CONSORCIO
+ T    2.1.1.02.05                       EMPRESTIMOS DE COLIGADAS
+      2.1.1.02.05.001                       EMPRESA (A)
+      2.1.1.02.05.002                       EMPRESA (B)
+ T    2.1.1.03                      OBRIGAÇOES LEGAIS
+ T    2.1.1.03.01                       OBRIGAÇOES TRABALHISTAS
+      2.1.1.03.01.001                       SALARIOS A PAGAR
+      2.1.1.03.01.002                       13º SALARIOS A PAGAR
+      2.1.1.03.01.003                       FERIAS A PAGAR
+      2.1.1.03.01.004                       COMISSOES A PAGAR
+      2.1.1.03.01.005                       RESCISOES A PAGAR
+      2.1.1.03.01.006                       PRO LABORE A PAGAR
+      2.1.1.03.01.007                       PENSAO ALIMENTICIA A PAGAR
+ T    2.1.1.03.02                       OBRIGAÇOES PREV E SOCIAIS
+      2.1.1.03.02.001                       INSS A RECOLHER
+      2.1.1.03.02.002                       FGTS A RECOLHER
+      2.1.1.03.02.002                       IRRF
+      2.1.1.03.02.003                       CONTRIBUIÇAO SINDICAL A PAGAR
+      2.1.1.03.02.007                       CONTRIBUIÇAO SINDICAL
+ T    2.1.1.03.03                       IMPOSTOS, TRIBUTOS E CONTRIB
+      2.1.1.03.03.001                       IRPJ
+      2.1.1.03.03.003                       PIS
+      2.1.1.03.03.004                       COFINS
+      2.1.1.03.03.005                       ISSQN
+      2.1.1.03.03.006                       CONTRIBUIÇAO SOCIAL
+      2.1.1.03.03.008                       ICMS
+ T    2.1.1.03.04                       COMISSOES A PAGAR
+      2.1.1.03.04.001                       VENDEDOR (A)
+      2.1.1.03.04.002                       VENDEDOR (B)
+ T    2.1.1.04                      OBRIGAÇOES PARCELADAS
+ T    2.1.1.04.01                       PARCELAMENTOS
+      2.1.1.04.01.001                       ICMS
+      2.1.1.04.01.002                       PARCELAMENTO DE TRIBUTOS FEDERAIS
+      2.1.1.04.01.003                       ICMS ESTOQUE
+      2.1.1.04.01.004   (VERIFICAR)         PARCELAMENTO
+ T    2.1.1.05                      PROVISOES
+ T    2.1.1.05.01                       PROVISOES
+      2.1.1.05.01.001                       PROVISOES DE FERIAS
+      2.1.1.05.01.002                       INSS S/PROVISAO DE FERIAS
+      2.1.1.05.01.003                       FGTS S/PROVISAO FERIAS
+      2.1.1.05.01.004                       PROVISAO 13º SALARIO
+      2.1.1.05.01.005                       INSS S/ PROV 13º SALARIO
+      2.1.1.05.01.006                       FGTS S/ PROV 13º SALARIO
+ T    2.2                   PASSIVO NAO CIRCULANTE
+ T    2.2.1                     PASSIVOS OPERACIONAIS
+ T    2.2.1.01                      EMPRESTIMOS E FINANCIAMENTOS
+ T    2.2.1.01.01                       EMPRESTIMOS E FINANCIAMENTOS
+      2.2.1.01.01.001                       BANCO BRASIL
+      2.2.1.01.01.002                       BANCO JOHN DEERE
+      2.2.1.01.01.003                       PESA - BANCO BRASIL
+      2.2.1.01.01.004                       SECURITIZAÇAO - BANCO BRASIL
+ T    2.2.1.02                      CREDORES
+ T    2.2.1.02.01                       CONTRATOS
+      2.2.1.02.01.001                       CONTRATO (COMODETES)
+ T    2.2.1.02.02                       CONTRATOS EQUIPAMENTOS
+      2.2.1.02.02.001                       CONTRATOS DIVERSOS
+ T    2.2.1.02.03                       EMPRESTIMOS DE COLIGADAS
+      2.2.1.02.03.001                       EMPRESA (A)
+      2.2.1.02.03.002                       EMPRESA (B)
+ T    2.2.1.03                      OBRIGAÇOES LEGAIS PARCELADAS
+ T    2.2.1.03.01                       PARCELAMENTOS
+      2.2.1.03.01.001                       PARCELAMENTO (PROCESSO - A)
+      2.2.1.03.01.002                       PARCELAMENTO (PROCESSO - B)
+ T    2.2.1.04                      CONTAS DIVERSAS
+ T    2.2.1.04.01                       CONTAS DIVERSAS A PAGAR
+      2.2.1.04.01.002       (VERIFICAR)     PROVISAO PEÇAS OBSOLETAS
+      2.2.1.04.01.004                       COMISSÕES A PAGAR LP
+      2.2.1.04.01.005                       CONTAS DIVERSAS - TERRENOS
+      2.2.1.04.01.006       (VERIFICAR)     IRPJ DIFERIDO - VALOR JUSTO
+      2.2.1.04.01.007       (VERIFICAR)     CSLL DIFERIDO - VALOR JUSTO
+ T    2.2.1.05                      EXERCICIOS FUTUROS
+ T    2.2.1.05.01                       REC. EXERCICIOS FUTUROS
+      2.2.1.05.01.001                       FUNDO DE RESERVA
+      2.2.1.05.01.002                       FUNDO DE CAPITALIZACAO
+ T    2.5                   PATRIMONIO LIQUIDO
+ T    2.5.1                     CAPITAL SOCIAL
+ T    2.5.1.01                      CAPITAL INTEGRALIZADO
+ T    2.5.1.01.01                       CAPITAL SUBSCRITO
+      2.5.1.01.01.001                       CAPITAL
+ T    2.5.1.01.02                       CAPITAL A INTEGRALIZAR
+      2.5.1.01.02.001                       CAPITAL A INTEGRALIZAR
+ T    2.5.2                     RESERVAS
+ T    2.5.2.01                      RESERVAS DE CAPITAL
+ T    2.5.2.01.01                       RESERVAS CONSTITUIDAS
+      2.5.2.01.01.001                       EQUIVALENCIA PATRIMONIAL
+      2.5.2.01.01.002                       REAVALIAÇAO DO ATIVO
+      2.5.2.01.01.003                       CTA TRANSF. AP RESULTADO
+      2.5.2.01.01.004                       LUCROS/PREJUIZOS ACUMULADOS
+      2.5.2.01.01.005                       LUCROS A DISTRIBUIR
+ T    2.5.3                     RESULTADOS
+ T    2.5.3.01                      RESULTADO DO EXERCICIO
+ T    2.5.3.01.01                       RESULTADO DO EXERCICIO
+      2.5.3.01.01.001                       DESPESAS DO EXERCICIO
+      2.5.3.01.01.002                       TRANSFERENCIA RES. EXERCICIO
+ T    2.5.3.02                      PREJUIZOS ACUMULADOS
+ T    2.5.3.02.01                       PREJUIZOS ACUMULADOS
+      2.5.3.02.01.001                       PREJUIZOS DO EXERCICIO
+      2.5.3.02.01.002                       PREJUIZOS EXERC ANTERIORES
+ T    2.5.4                     AJUSTES
+ T    2.5.4.01                      AJUSTES EXERCICIOS ANTERIORES
+ T    2.5.4.01.01                       AJUSTES DEVEDORES
+      2.5.4.01.01.001                       CUSTOS E DESPESAS
+ T    2.5.4.01.02                       AJUSTES CREDORES
+      2.5.4.01.02.001                       RECEITAS AJUSTADAS
+      
+ T    4                 CENTRO DE RESULTADOS
+ T    4.1                   CENTRO DE RESULTADOS
+ T    4.1.1                     RECEITAS E DESPESAS
+ T    4.1.1.01                      RECEITAS OPERACIONAIS
+ T    4.1.1.01.01                       RECEITAS
+      4.1.1.01.01.001                       VENDA DE PEÇAS - BALCAO
+      4.1.1.01.01.002                       VENDA DE PEÇAS - OFICINA
+      4.1.1.01.01.003                       RECEITA COM KM
+      4.1.1.01.01.004                       RECEITA COM MÃO DE OBRA
+      4.1.1.01.01.005                       RECEITA COM BALANCEADOR
+      4.1.1.01.01.006                       RECEITA COM REVISOES TECNICAS
+      4.1.1.01.01.007                       RECEITA COM TERCEIROS
+      4.1.1.01.01.008                       RECEITA COM TORNO
+      4.1.1.01.01.012                       VENDA DE IMPLEMENTOS
+      4.1.1.01.01.013                       VENDA DE SEGURO
+      4.1.1.01.01.014                       VENDA COTAS CONSORCIO
+      4.1.1.01.01.015                       RECEITAS DIVERSAS
+      4.1.1.01.01.016                       RECEITA COM GARANTIA
+      4.1.1.01.01.017                       VENDA DIUVERSAS
+ T    4.1.1.02                      DEDUÇOES DA RECEITA
+ T    4.1.1.02.01                       DEDUÇOES
+      4.1.1.02.01.002                       DEVOLUÇOES
+      4.1.1.02.01.003                       DESCONTOS CONCEDIDOS
+      4.1.1.02.01.004                       ENCARGOS TRIBUTARIOS - PIS/COFINS
+      4.1.1.02.01.005                       ICMS S/ VENDA
+      4.1.1.02.01.006                       ISSQN
+ T    4.1.1.03                      CUSTOS
+ T    4.1.1.03.01                       CUSTOS DE MERCADORIAS
+      4.1.1.03.01.001                       CUSTO DA MERCADORIA
+ T    4.1.1.04                      GASTOS COM PESSOAL
+ T    4.1.1.04.01                       PESSOAL
+      4.1.1.04.01.001                       AJUDA DE CUSTO
+      4.1.1.04.01.002                       PLANO SAUDE/MEDIC. E SEGURANCA TRABALHO
+      4.1.1.04.01.003                       COMISSOES
+      4.1.1.04.01.004                       ENCARGOS SOCIAIS
+      4.1.1.04.01.005                       FERIAS
+      4.1.1.04.01.006                       13º SALARIO
+      4.1.1.04.01.007                       INCENTIVO EDUCACIONAL
+      4.1.1.04.01.008                       INDENIZAÇOES/ACORDOS TRABALHISTAS
+      4.1.1.04.01.009                       PREMIAÇOES
+      4.1.1.04.01.010                       RESCISOES
+      4.1.1.04.01.011                       SALARIOS
+      4.1.1.04.01.012                       UNIFORMES
+      4.1.1.04.01.013                       PRO LABORE
+      4.1.1.04.01.014                       COMISSÕES PAGAS A TERCEIROS
+      4.1.1.04.01.015                       COMISSAO CONSORCIO
+ T    4.1.1.05                      DESPESAS GERAIS
+ T    4.1.1.05.01                       DESPESAS
+      4.1.1.05.01.001                       AGUA
+      4.1.1.05.01.002                       ALUGUEL
+      4.1.1.05.01.003                       ASSINATURAS REVISTAS/JORNAIS
+      4.1.1.05.01.004                       BRINDES/DOAÇOES
+      4.1.1.05.01.005                       CAMPANHAS SOCIAIS
+      4.1.1.05.01.006                       CANTINA E REFEITORIO
+      4.1.1.05.01.007                       COMBUSTIVEL
+      4.1.1.05.01.008                       CORREIO E POSTAIS
+      4.1.1.05.01.009                       CONFRATERNIZAÇOES
+      4.1.1.05.01.010                       CONSERVAÇAO DO IMOBILIZADO
+      4.1.1.05.01.011                       CONTRATO E LOCAÇAO DE SISTEMAS
+      4.1.1.05.01.012                       CONTRIBUIÇAO ASSOCIAÇAO COMERCIAL
+      4.1.1.05.01.013                       CONTRIBUIÇAO ASSODEERE
+      4.1.1.05.01.014                       CONTRIBUIÇAO SINDICAL
+      4.1.1.05.01.015                       CURSOS E TREINAMENTOS
+      4.1.1.05.01.016                       DECORAÇAO E JARDINAGEM
+      4.1.1.05.01.017                       DESPESAS CARTORÁRIAS
+      4.1.1.05.01.018                       DESPESAS COM CHACARA
+      4.1.1.05.01.019                       DESPESAS COM REUNIOES
+      4.1.1.05.01.020                       CONDOMINIO
+      4.1.1.05.01.021                       ENERGIA
+      4.1.1.05.01.022                       EXPOSIÇOES/DEMONSTRAÇOES
+      4.1.1.05.01.023                       FRETES
+      4.1.1.05.01.024                       HONORARIOS
+      4.1.1.05.01.025                       IPVA/LICENCIAMENTO/EMPLACAMENTO
+      4.1.1.05.01.026                       LEGALIZAÇAO DE DOCUMENTOS
+      4.1.1.05.01.027                       ALUGUEL VEICULOS
+      4.1.1.05.01.028                       MANUTENÇAO DE VEICULOS
+      4.1.1.05.01.029                       MATERIAL DE HIGIENE/LIMPEZA
+      4.1.1.05.01.030                       MATERIAL DE CONSUMO/EXPEDIENTE
+      4.1.1.05.01.031                       MATERIAL PARA USO
+      4.1.1.05.01.032                       PEÇAS/SERV MONTAGEM/REVISAO
+      4.1.1.05.01.033                       PROPAGANDA E PUBLICIDADE
+      4.1.1.05.01.034                       RATEIO ADMINISTRATIVO
+      4.1.1.05.01.035                       SEGURO
+      4.1.1.05.01.036                       SERVICE ADVISOR
+      4.1.1.05.01.037                       SERVIÇOS PRESTADOS PF
+      4.1.1.05.01.038                       SERVIÇOS PRESTADOS PJ
+      4.1.1.05.01.040                       TAXAS E MULTAS
+      4.1.1.05.01.041                       TELEFONE E COMUNICAÇÕES
+      4.1.1.05.01.042                       VIAGENS E ESTADIAS
+      4.1.1.05.01.043                       COPIAS DE DOCUMENTOS (XEROX)
+      4.1.1.05.01.046                       ICMS (COMPRA)
+      4.1.1.05.01.047                       SEGURANÇA
+      4.1.1.05.01.048                       CONTRIBUIÇAO SINDICAL PATRONAL
+      4.1.1.05.01.049                       RATEIO FINANCEIRO - RECEITA
+      4.1.1.05.01.050     (VERIFICAR)       DEPRECIAÇAO PREDIO
+      4.1.1.05.01.051                       RATEIOS DIVERSOS
+      4.1.1.05.01.052                       ENCARGOS TRIBUTARIOS - IR/CSLL
+      4.1.1.05.01.053                       MANUTENCAO VEICULOS LOCADOS
+      4.1.1.05.01.054     (VERIFICAR)       PROVISAO DEVEDORES DUVIDOSOS
+      4.1.1.05.01.055     (VERIFICAR)       QUEBRA DE ESTOQUE
+      4.1.1.05.01.056                       RATEIO FINANCEIRO - DESPESA
+ T    4.1.1.06                      DESPESAS TRIBUTARIAS
+ T    4.1.1.06.01                       DESPESAS
+      4.1.1.06.01.001                       MULTAS
+      4.1.1.06.01.002                       ALVARAS E TAXAS
+      4.1.1.06.01.003                       ATUALIZAÇOES DE TRIBUTOS
+      4.1.1.06.01.004                       JUROS TRIBUTOS
+      4.1.1.06.01.005                       CPMF
+      4.1.1.06.01.006                       IPTU, ITR, CCIR E IMPOSTOS DIV
+      4.1.1.06.01.007                       IMPOSTOS DIVERSOS
+      4.1.1.06.01.008                       PARCELAMENTOS
+ T    4.1.1.07                      RECEITAS/DESPESAS FINANCEIRAS
+ T    4.1.1.07.01                       RECEITAS FINANCEIRAS
+      4.1.1.07.01.001                       JUROS RECEBIDOS
+      4.1.1.07.01.002                       DESCONTOS OBTIDOS
+      4.1.1.07.01.003                       RECUPERAÇAO DE DESPESA
+      4.1.1.07.01.004                       RENDIMENTO DE APLICAÇOES
+ T    4.1.1.07.02                       DESPESAS FINANCEIRAS
+      4.1.1.07.02.001                       JUROS PAGOS
+      4.1.1.07.02.002                       DESCONTOS CONCEDIDOS
+      4.1.1.07.02.003                       JUROS S/ EMPREST OU FINANC
+      4.1.1.07.02.004                       DESP E TAXAS BANCARIAS
+      4.1.1.07.02.005                       MULTAS FINANCEIRAS
+      4.1.1.07.02.006                       TAXAS DIVERSAS
+      4.1.1.07.02.007                       DESPESAS COM COBRANÇAS
+ T    4.1.1.08                      DEPRECIAÇOES
+ T    4.1.1.08.01                       DEPRECIAÇOES
+      4.1.1.08.01.001                       DEPRECIAÇAO MAQUINAS EQUIPAMENTOS
+      4.1.1.08.01.002                       DEPRECIAÇAO INSTALAÇOES
+      4.1.1.08.01.003                       DEPRECIAÇAO MOVEIS E UTENSILIOS
+      4.1.1.08.01.004                       DEPRECIAÇAO EQUIP INFORMATICA
+      4.1.1.08.01.005                       DEPRECIAÇAO DE VEICULOS
+      4.1.1.08.01.006                       DEPRECIAÇAO DE PREDIOS
+ T    4.1.1.09                      DESPESAS E RECEITAS NAO OPERACIONAIS
+ T    4.1.1.09.01                       DESPESAS NAO OPERACIONAIS
+      4.1.1.09.01.001                       BAIXA MERC DETERIORADOS/OBSOLETAS
+      4.1.1.09.01.002                       BAIXA EM PERDAS
+      4.1.1.09.01.003                       AJUSTE - DESPESA
+      4.1.1.09.01.004                       DESPESAS EXERCICIOS ANTERIORES
+ T    4.1.1.09.02                       RECEITAS NAO OPERACIONAIS
+      4.1.1.09.02.001                       REVERSAO DE PERDAS
+      4.1.1.09.02.002                       AJUSTE RECEITA
+      4.1.1.09.02.003                       VENDA/ALUGUEL DE ATIVO IMOBILIZADO
+      4.1.1.09.02.004                       RECEITAS EXERCICIOS ANTERIORES
+      4.1.1.09.02.005                       RENDIMENTO (APLICACAO JD)
+      4.1.1.09.02.006                       ALUGUEL PREDIO BLUMENAU/PGTO CASEIRO
+ T    4.1.1.10                      TRANSFERENCIAS PARA RATEIO
+ T    4.1.1.10.01                       TRANSFERENCIA PARA RATEIO
+      4.1.1.10.01.001                       RATEIO DESPESAS ADMINISTRATIVAS
+      4.1.1.10.01.002                       RATEIO DESPESAS GRUPO
+      4.1.1.10.01.003                       RATEIO DESP E REC FINANCEIRAS
+ T    4.1.1.11                      TRANSFERECIA DO RESULTADO DO EXERCICIO
+ T    4.1.1.11.01                       TRANSFERENCIA DO RESULTADO
+      4.1.1.11.01.001                       TRANSFERENCIA
+
+17  T  8        CENTRO DE CUSTOS
+16  T  8.01         GERAL
+ 1     8.01.01          Peças John Deere
+ 2     8.01.02          Veículos - Oficina
+ 3     8.01.03          Maquinas e Equip Novos - VE
+ 4     8.01.04          Maquinas e Equip Usados
+ 5     8.01.05          Representação Comercial - VD
+ 6     8.01.06          Oficina Vanguarda
+ 7     8.01.07          Oficina
+ 8     8.01.08          Transporte - Scania
+ 9     8.01.09          Transporte - Volvo
+10     8.01.10          Transporte - Volkswagem
+11     8.01.11          Transporte - CP Algodão
+20     8.01.20          Administrativo
+21     8.01.21          Financeiro
+22     8.01.22          xxxxxx
+23     8.01.23          Grupo
+5078   8.01.24          TRANSFERENCIA DE RESULTADO

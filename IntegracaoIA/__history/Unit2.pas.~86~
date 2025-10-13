@@ -1,0 +1,1415 @@
+unit Unit2;
+
+interface
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  System.Net.HttpClient, System.Net.HttpClientComponent, System.JSON,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Comp.Client, FireDAC.DApt,FireDAC.Stan.Def,FireDAC.Stan.Async,
+  IdHTTP, IdMultipartFormData,  IdSSLOpenSSL, IdSSLOpenSSLHeaders,
+  IdSSL, FireDAC.Phys.MySQLDef, FireDAC.Phys, FireDAC.Phys.MySQL,
+  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI, IdBaseComponent,
+  IdComponent, IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, Vcl.ExtCtrls;
+
+type
+ TSSLHelper = class
+  // This helper class is neccessary to set ssl true
+  // as it defaults to false on non standard ssl ports
+    procedure QuerySSLPort(APort: Word; var VUseSSL: boolean);
+  end;
+
+
+type
+  TForm2 = class(TForm)
+    Memo1: TMemo;
+    Button1: TButton;
+    Memo2: TMemo;
+    Edit1: TEdit;
+    Memo3: TMemo;
+    Memo5: TMemo;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
+    MemoPrompt: TMemo;
+    Button6: TButton;
+    MemoResposta: TMemo;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
+    Button7: TButton;
+    Button8: TButton;
+    Button9: TButton;
+    Button10: TButton;
+    Button11: TButton;
+    mmstatus: TMemo;
+    Timer1: TTimer;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
+    procedure Button10Click(Sender: TObject);
+    procedure Button11Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure mmstatusClick(Sender: TObject);
+  private
+    procedure EnviarComFerramentas;
+    procedure InterpretarToolCall(const JsonStr: string);
+    function obter_clima(const cidade: string): string;
+    procedure InterpretarRespostaTexto(const JsonStr: string);
+    procedure ExecutarRespostaFinal;
+    function ExtrairTextoFinal(const JsonStr: string): string;
+    function listar_produtos: string;
+    procedure GerarArquivoProdutos;
+    procedure EnviarArquivoParaOpenAI;
+    procedure CriarAssistant;
+    procedure CriarThreadComMensagem;
+    procedure RodarAssistantNaThread;
+    procedure EnviarPerguntaParaThread;
+    procedure RodarAssistantComPergunta;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+const
+  API_KEY = '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'; // Substitua pela sua chave
+  ORG_ID = 'org-wAC3Ivqt6QjSCJlsAelquwkR'; // Pode deixar vazio se não usar
+
+var
+ FDConnection: TFDConnection;
+
+var
+  Form2: TForm2;
+var
+  UltimaPergunta: string;
+  UltimoToolCallID: string;
+  UltimaFuncaoNome: string;
+  UltimaCidade: string;
+
+
+var
+  OpenAIKey: string = API_KEY;
+  FileID: string;
+  AssistantID: string;
+  ThreadID: string;
+  RunID: string;
+  RunStatus:String;
+
+
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TSSLHelper.QuerySSLPort(APort: Word; var VUseSSL: boolean);
+begin
+  VUseSSL := true;
+end;
+
+function TForm2.listar_produtos: string;
+var
+  FDQuery: TFDQuery;
+  Lista: TStringList;
+begin
+  FDQuery := TFDQuery.Create(nil);
+  Lista := TStringList.Create;
+  try
+    FDQuery.Connection := FDConnection;
+    FDQuery.SQL.Text := 'SELECT procodigo, pronome FROM pro';
+    FDQuery.Open;
+
+    while not FDQuery.Eof do
+    begin
+      Lista.Add(FDQuery.FieldByName('procodigo').AsString + ' - ' +
+                FDQuery.FieldByName('pronome').AsString);
+      FDQuery.Next;
+    end;
+
+    Result := Lista.Text;
+  finally
+    FDQuery.Free;
+    Lista.Free;
+  end;
+end;
+
+
+procedure TForm2.mmstatusClick(Sender: TObject);
+begin
+  Timer1.Enabled:=true;
+end;
+
+function CriarThread: string;
+var
+  HTTP: TIdHTTP;
+  IO: TIdSSLIOHandlerSocketOpenSSL;
+  Response: TStringStream;
+  JsonData: TStringStream;
+  MsgJson: string;
+
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IO := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  Response := TStringStream.Create;
+  JsonData := TStringStream.Create('{}', TEncoding.UTF8); // vazio
+
+
+
+  try
+    HTTP.IOHandler := IO;
+    IO.SSLOptions.Method := sslvTLSv1_2;
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+API_KEY;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+    HTTP.Request.ContentType := 'application/json';
+
+
+
+
+    try
+    HTTP.Post('https://api.openai.com/v1/threads', JsonData, Response);
+
+    Result := Response.DataString; // contém o thread_id
+   except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+    end;
+
+
+  finally
+    HTTP.Free;
+    IO.Free;
+    JsonData.Free;
+    Response.Free;
+  end;
+end;
+
+
+
+procedure AdicionarMensagem(const ThreadID: string);
+var
+  HTTP: TIdHTTP;
+  IO: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  MsgJson: string;
+ JSON: string;
+
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IO := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+  try
+    HTTP.IOHandler := IO;
+    IO.SSLOptions.Method := sslvTLSv1_2;
+
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+API_KEY;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+
+
+// JSON com attachments para assistants=v2
+    MsgJson :=
+      '{' +
+      '  "role": "user",' +
+      '  "content": "Leia o arquivo anexo e me mostre apenas os nomes dos produtos, um por linha, exatamente como aparecem no texto. Não use citações, nem diga de onde veio a informação. Apenas me retorne a lista diretamente extraída do conteúdo.",'+
+      '  "attachments": [' +
+      '    {' +
+      '      "file_id": "' + FileID + '",' +
+      '      "tools": [' +
+      '        { "type": "file_search" }' +
+      '      ]' +
+      '    }' +
+      '  ]' +
+      '}';
+
+
+    JsonData.WriteString(MsgJson);
+
+    JsonData.Position := 0;
+    try
+    HTTP.Post('https://api.openai.com/v1/threads/' + ThreadID + '/messages', JsonData, Response);
+
+    ShowMessage('Mensagem enviada: ' + Response.DataString);
+   except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+    end;
+  finally
+    HTTP.Free;
+    IO.Free;
+    JsonData.Free;
+    Response.Free;
+  end;
+end;
+
+
+
+
+procedure TForm2.Button10Click(Sender: TObject);
+var
+ retorno:String;
+ vlResposta:TJSONObject;
+ JSonValue:TJSonValue;
+begin
+ retorno:= CriarThread;
+  Showmessage(retorno);
+
+  JsonValue := TJSonObject.ParseJSONValue(retorno);
+  ThreadID := JsonValue.GetValue<string>('id');
+
+ AdicionarMensagem(ThreadID);
+
+end;
+
+
+function CriarRun(const ThreadID, AssistantID, FileID: string):string;
+var
+  HTTP: TIdHTTP;
+  IO: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  RunJson: string;
+  Json : TJSONValue;
+  a:string;
+begin
+  result:='';
+  HTTP := TIdHTTP.Create(nil);
+  IO := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+  try
+    HTTP.IOHandler := IO;
+    IO.SSLOptions.Method := sslvTLSv1_2;
+
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+API_KEY;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    RunJson :=
+      '{' +
+      '  "assistant_id": "' + AssistantID + '"'+
+      '}';
+
+
+     JsonData.WriteString(RunJson);
+
+   a:=  JsonData.DataString;
+
+    JsonData.Position := 0;
+    try
+    HTTP.Post('https://api.openai.com/v1/threads/' + ThreadID + '/runs', JsonData, Response);
+    result:=Response.DataString;
+
+    Json := TJSONObject.ParseJSONValue(Response.DataString) as TJSONObject;
+
+    RUNID := Json.GetValue<string>('id');
+
+    ShowMessage('Run criado: ' + RUNID);
+
+    except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+    end;
+
+  finally
+    HTTP.Free;
+    IO.Free;
+    JsonData.Free;
+    Response.Free;
+  end;
+end;
+
+
+procedure TForm2.Button11Click(Sender: TObject);
+var
+  retorno:string;
+begin
+  retorno:= CriarRun(ThreadID, AssistantID, FileID);
+end;
+
+procedure TForm2.Button1Click(Sender: TObject);
+begin
+  EnviarComFerramentas;
+end;
+
+
+procedure TForm2.EnviarComFerramentas;
+
+var
+  HttpClient: TNetHTTPClient;
+  Request: TStringStream;
+  Response: IHTTPResponse;
+  JsonRequest, MsgObj, Tool, ToolObjClima, ToolObjProdutos: TJSONObject;
+  Messages, ToolsArray: TJSONArray;
+  RespostaTexto: string;
+
+
+begin
+  Memo1.Lines.Clear;
+  Memo2.Lines.Clear;
+
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := 'Bearer ' + API_KEY;
+    if ORG_ID <> '' then
+      HttpClient.CustomHeaders['OpenAI-Organization'] := ORG_ID;
+    HttpClient.ContentType := 'application/json';
+
+    JsonRequest := TJSONObject.Create;
+    Messages := TJSONArray.Create;
+    ToolsArray := TJSONArray.Create;
+
+    try
+      // Mensagem inicial do usuário
+      MsgObj := TJSONObject.Create;
+      MsgObj.AddPair('role', 'user');
+      MsgObj.AddPair('content', 'Qual a previsão do tempo para '+edit1.text+'?');
+      Messages.AddElement(MsgObj);
+
+      // Ferramenta: obter_clima
+      Tool := TJSONObject.Create;
+      Tool.AddPair('type', 'function');
+
+
+
+      ToolObjClima := TJSONObject.Create;
+      ToolObjClima.AddPair('name', 'obter_clima');
+      ToolObjClima.AddPair('description', 'Retorna a previsão do tempo para uma cidade.');
+      ToolObjClima.AddPair('parameters', TJSONObject.ParseJSONValue(
+        '{ "type": "object", "properties": { "cidade": { "type": "string", "description": "Nome da cidade" } }, "required": ["cidade"] }'
+      ) as TJSONObject);
+
+
+      ToolObjProdutos := TJSONObject.Create;
+      ToolObjProdutos.AddPair('name', 'listar_produtos');
+      ToolObjProdutos.AddPair('description', 'Retorna uma lista de produtos disponíveis');
+      ToolObjClima.AddPair('parameters', TJSONObject.ParseJSONValue(
+        '{ "type": "object", "properties": { "nome": { "type": "string", "description": "Nome do produto" } }, "required": ["pronome"] }'
+      ) as TJSONObject);
+
+
+      ToolObjProdutos.AddPair('parameters', TJSONObject.ParseJSONValue('{ "type": "object", "properties": {}, "required": [] }') as TJSONObject);
+
+
+
+      Tool.AddPair('function', ToolObjClima);
+      Tool.AddPair('function', ToolObjProdutos);
+
+      ToolsArray.AddElement(Tool);
+
+      // Requisição final
+      JsonRequest.AddPair('model', 'gpt-4o');
+      JsonRequest.AddPair('messages', Messages);
+      JsonRequest.AddPair('tools', ToolsArray);
+      JsonRequest.AddPair('tool_choice', 'auto');
+
+      Request := TStringStream.Create(JsonRequest.ToJSON, TEncoding.UTF8);
+      try
+        Response := HttpClient.Post('https://api.openai.com/v1/chat/completions', Request);
+        RespostaTexto := Response.ContentAsString;
+        Memo1.Lines.Text := RespostaTexto;
+
+        // Agora interpretamos se veio uma tool_call:
+        InterpretarToolCall(RespostaTexto); // Chama função abaixo
+
+    //    InterpretarRespostaTexto(RespostaTexto); // nova função para mostrar texto direto
+
+
+      finally
+        Request.Free;
+      end;
+    finally
+      JsonRequest.Free;
+    end;
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+procedure TForm2.InterpretarToolCall(const JsonStr: string);
+var
+  JsonResp, MsgObj, ToolCallObj, FunctionObj, ArgsObj: TJSONObject;
+  ToolCalls: TJSONArray;
+begin
+  JsonResp := TJSONObject.ParseJSONValue(JsonStr) as TJSONObject;
+  try
+    MsgObj := JsonResp
+      .GetValue<TJSONArray>('choices')
+      .Items[0]
+      .GetValue<TJSONObject>('message');
+
+    ToolCalls := MsgObj.GetValue<TJSONArray>('tool_calls');
+
+    if Assigned(ToolCalls) and (ToolCalls.Count > 0) then
+    begin
+      ToolCallObj := ToolCalls.Items[0] as TJSONObject;
+      UltimoToolCallID := ToolCallObj.GetValue<string>('id');
+      UltimaFuncaoNome := ToolCallObj.GetValue<TJSONObject>('function').GetValue<string>('name');
+
+      ArgsObj := TJSONObject.ParseJSONValue(
+        ToolCallObj.GetValue<TJSONObject>('function').GetValue<string>('arguments')
+      ) as TJSONObject;
+
+      UltimaCidade := ArgsObj.GetValue<string>('cidade');
+
+      Memo2.Lines.Text := obter_clima(UltimaCidade); // executa a função
+      ExecutarRespostaFinal; // chama nova requisição com resultado
+      ArgsObj.Free;
+    end;
+  finally
+    JsonResp.Free;
+  end;
+end;
+
+
+function TForm2.obter_clima(const cidade: string): string;
+begin
+  if LowerCase(cidade) = 'são paulo' then
+    Result := 'Previsão para São Paulo: Sol e pancadas de chuva à tarde. 26ºC'
+  else
+    Result := 'Sem dados reais, simulação para cidade: ' + cidade;
+end;
+
+
+
+
+procedure TForm2.InterpretarRespostaTexto(const JsonStr: string);
+var
+  JsonResp, MsgObj: TJSONObject;
+  MensagemTexto: string;
+begin
+  JsonResp := TJSONObject.ParseJSONValue(JsonStr) as TJSONObject;
+  try
+    MsgObj := JsonResp
+      .GetValue<TJSONArray>('choices')
+      .Items[0]
+      .GetValue<TJSONObject>('message');
+
+    if MsgObj.TryGetValue<string>('content', MensagemTexto) then
+    begin
+      Memo3.Lines.Text := MensagemTexto;
+    end
+    else
+    begin
+      Memo3.Lines.Text := '[Sem resposta textual direta.]';
+    end;
+  finally
+    JsonResp.Free;
+  end;
+end;
+
+
+
+
+
+procedure TForm2.ExecutarRespostaFinal;
+var
+  HttpClient: TNetHTTPClient;
+  Request: TStringStream;
+  Response: IHTTPResponse;
+  JsonRequest, UserMsg, AssistantToolCall, ToolResultMsg, ToolCallObj, ToolFunctionObj: TJSONObject;
+  Messages, ToolCalls: TJSONArray;
+begin
+  Memo3.Lines.Clear;
+
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := 'Bearer '+API_KEY;
+    HttpClient.ContentType := 'application/json';
+
+    JsonRequest := TJSONObject.Create;
+    Messages := TJSONArray.Create;
+    ToolCalls := TJSONArray.Create;
+
+    try
+      // Mensagem original do usuário
+      UserMsg := TJSONObject.Create;
+      UserMsg.AddPair('role', 'user');
+      UserMsg.AddPair('content', UltimaPergunta);
+      Messages.AddElement(UserMsg);
+
+      // Tool call feita pelo modelo
+      ToolCallObj := TJSONObject.Create;
+      ToolCallObj.AddPair('id', UltimoToolCallID);
+      ToolCallObj.AddPair('type', 'function');
+
+      ToolFunctionObj := TJSONObject.Create;
+      ToolFunctionObj.AddPair('name', UltimaFuncaoNome);
+      ToolFunctionObj.AddPair('arguments', Format('{ "cidade": "%s" }', [UltimaCidade]));
+      ToolCallObj.AddPair('function', ToolFunctionObj);
+
+      AssistantToolCall := TJSONObject.Create;
+      AssistantToolCall.AddPair('role', 'assistant');
+      AssistantToolCall.AddPair('tool_calls', ToolCalls);
+      ToolCalls.AddElement(ToolCallObj);
+      Messages.AddElement(AssistantToolCall);
+
+      // Resposta da ferramenta executada
+      ToolResultMsg := TJSONObject.Create;
+      ToolResultMsg.AddPair('role', 'tool');
+      ToolResultMsg.AddPair('tool_call_id', UltimoToolCallID);
+      ToolResultMsg.AddPair('content', obter_clima(UltimaCidade));
+      Messages.AddElement(ToolResultMsg);
+
+      // Monta JSON final
+      JsonRequest.AddPair('model', 'gpt-4o');
+      JsonRequest.AddPair('messages', Messages);
+
+      Request := TStringStream.Create(JsonRequest.ToJSON, TEncoding.UTF8);
+      try
+        Response := HttpClient.Post('https://api.openai.com/v1/chat/completions', Request);
+        Memo3.Lines.Text := ExtrairTextoFinal(Response.ContentAsString);
+      finally
+        Request.Free;
+      end;
+    finally
+      JsonRequest.Free;
+    end;
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function TForm2.ExtrairTextoFinal(const JsonStr: string): string;
+var
+  JsonResp, MsgObj: TJSONObject;
+begin
+  Result := '';
+  JsonResp := TJSONObject.ParseJSONValue(JsonStr) as TJSONObject;
+  try
+    MsgObj := JsonResp
+      .GetValue<TJSONArray>('choices')
+      .Items[0]
+      .GetValue<TJSONObject>('message');
+    Result := MsgObj.GetValue<string>('content');
+  finally
+    JsonResp.Free;
+  end;
+end;
+
+
+
+procedure TForm2.EnviarArquivoParaOpenAI;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  Stream: TIdMultipartFormDataStream;
+  Resposta: string;
+  Json: TJSONObject;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+
+  Stream := TIdMultipartFormDataStream.Create;
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    Stream.AddFormField('purpose', 'assistants');
+    Stream.AddFile('file', 'produtos.txt', 'text/plain');
+
+    Resposta := HTTP.Post('https://api.openai.com/v1/files', Stream);
+    Memo1.Lines.Text := Resposta;
+
+    Json := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    FileID := Json.GetValue<string>('id');
+    ShowMessage('Arquivo enviado: ' + FileID);
+    Json.Free;
+  finally
+    HTTP.Free;
+    SSL.Free;
+    Stream.Free;
+  end;
+end;
+
+
+
+
+procedure TForm2.GerarArquivoProdutos;   // ok
+var
+  FDQuery: TFDQuery;
+  F: TextFile;
+begin
+  AssignFile(F, 'produtos.txt');
+  Rewrite(F);
+  WriteLn(F, 'procodigo,pronome');
+
+  FDQuery := TFDQuery.Create(nil);
+  try
+    FDQuery.Connection := FDConnection;
+    FDQuery.SQL.Text := 'SELECT procodigo, pronome FROM pro';
+    FDQuery.Open;
+
+    while not FDQuery.Eof do
+    begin
+      WriteLn(F, FDQuery.FieldByName('procodigo').AsString + ',' +
+                  FDQuery.FieldByName('pronome').AsString);
+      FDQuery.Next;
+    end;
+
+
+  finally
+    FDQuery.Free;
+    CloseFile(F);
+  end;
+end;
+
+
+procedure TForm2.CriarThreadComMensagem;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  JsonBody, Resposta: string;
+  ResponseJSON: TJSONObject;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    JsonBody := '{ "messages": [ { "role": "user", "content": "Leia o arquivo anexo e me mostre apenas os nomes dos produtos, um por linha,'+' exatamente como aparecem no texto. Não use citações, nem diga de onde veio a informação. Apenas me retorne a lista diretamente extraída do conteúdo." } ] }';
+
+    Resposta := HTTP.Post('https://api.openai.com/v1/threads', TStringStream.Create(JsonBody, TEncoding.UTF8));
+    Memo1.Lines.Text := Resposta;
+
+    ResponseJSON := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    ThreadID := ResponseJSON.GetValue<string>('id');
+    ShowMessage('Thread criada: ' + ThreadID);
+    ResponseJSON.Free;
+  finally
+    HTTP.Free;
+    SSL.Free;
+  end;
+end;
+
+procedure TForm2.RodarAssistantNaThread;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  JsonBody, Resposta: string;
+  ResponseJSON: TJSONObject;
+  RunID: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    JsonBody := Format('{ "assistant_id": "%s" }', [AssistantID]);
+
+    Resposta := HTTP.Post('https://api.openai.com/v1/threads/' + ThreadID + '/runs', TStringStream.Create(JsonBody, TEncoding.UTF8));
+    Memo1.Lines.Text := Resposta;
+
+    ResponseJSON := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    RunID := ResponseJSON.GetValue<string>('id');
+    ResponseJSON.Free;
+
+    // Aguarda a conclusão do run (simples polling)
+    Sleep(4000); // Tempo mínimo; ideal usar loop com verificação de status
+
+    // Recupera a resposta
+    Resposta := HTTP.Get('https://api.openai.com/v1/threads/' + ThreadID + '/messages');
+    Memo1.Lines.Text := Resposta;
+
+    // Extrai e exibe a mensagem final
+    var JsonObj := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    var Msgs := JsonObj.GetValue<TJSONArray>('data');
+    var Content := Msgs.Items[0].GetValue<TJSONObject>('content').GetValue<TJSONArray>('text');
+    var Parts := Content.Items[0].GetValue<TJSONObject>('text');
+    ShowMessage('Resposta: ' + Parts.GetValue<string>('value'));
+    JsonObj.Free;
+
+  finally
+    HTTP.Free;
+    SSL.Free;
+  end;
+end;
+
+
+
+
+function ConsultaEstadoRun(const ThreadID, RunID: string): String;
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Resp: TStringStream;
+  Status, StatusURL: string;
+  JSONResult: TJSONObject;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  IOHandler.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  IOHandler.SSLOptions.Method := sslvSSLv23;
+
+
+  try
+    HTTP.IOHandler := IOHandler;
+
+      Sleep(2000);  // Espera 2 segundos
+      Resp.Clear;
+      StatusURL := 'https://api.openai.com/v1/threads/' + ThreadID + '/runs/' + RunID;
+
+      try
+        HTTP.Get(StatusURL, Resp);
+        JSONResult := TJSONObject.ParseJSONValue(Resp.DataString) as TJSONObject;
+        Status := JSONResult.GetValue<string>('status');
+      except
+      on E: EIdHTTPProtocolException do
+        ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + E.ErrorMessage);
+      on E: Exception do
+        ShowMessage('Erro geral: ' + E.Message);
+      end;
+    Result := Status ;
+  finally
+    HTTP.Free;
+    IOHandler.Free;
+    Resp.Free;
+  end;
+end;
+
+
+
+procedure TForm2.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled:=false;
+  RunStatus:='';
+  if (ThreadID<>'') and (RunID<>'') then
+  begin
+    RunStatus:=ConsultaEstadoRun(ThreadID, RunID);
+  end;
+
+  mmstatus.Lines.Add(datetimetostr(now())+' Status: '+RunStatus);
+  Timer1.Enabled:=True;
+end;
+
+procedure TForm2.Button2Click(Sender: TObject);
+begin
+  GerarArquivoProdutos;
+  EnviarArquivoParaOpenAI;
+end;
+
+
+
+procedure TForm2.Button3Click(Sender: TObject);
+begin
+  CriarAssistant;
+end;
+
+
+procedure TForm2.Button4Click(Sender: TObject);
+begin
+  CriarThreadComMensagem;
+end;
+
+procedure TForm2.Button5Click(Sender: TObject);
+begin
+  RodarAssistantNaThread;
+end;
+
+
+function EstadoRun(const ThreadID, RunID: string): Boolean;
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Resp: TStringStream;
+  Status, StatusURL: string;
+  JSONResult: TJSONObject;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  IOHandler.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  IOHandler.SSLOptions.Method := sslvSSLv23;
+
+
+  try
+    HTTP.IOHandler := IOHandler;
+
+      Sleep(2000);  // Espera 2 segundos
+      Resp.Clear;
+      StatusURL := 'https://api.openai.com/v1/threads/' + ThreadID + '/runs/' + RunID;
+      HTTP.Get(StatusURL, Resp);
+      JSONResult := TJSONObject.ParseJSONValue(Resp.DataString) as TJSONObject;
+      Status := JSONResult.GetValue<string>('status');
+
+    Result := (Status = 'completed');
+  finally
+    HTTP.Free;
+    IOHandler.Free;
+    Resp.Free;
+  end;
+end;
+
+
+
+procedure CancelarRun(const ThreadID, RunID: string);
+var
+  HTTP: TIdHTTP;
+  IO: TIdSSLIOHandlerSocketOpenSSL;
+  Resp: TStringStream;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IO := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  Resp := TStringStream.Create;
+  try
+    HTTP.IOHandler := IO;
+    IO.SSLOptions.Method := sslvTLSv1_2;
+
+    HTTP.Request.CustomHeaders.Clear;
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+    HTTP.Request.ContentType := 'application/json';
+
+    // POST vazio para cancelar o run
+    HTTP.Post('https://api.openai.com/v1/threads/' + ThreadID + '/runs/' + RunID + '/cancel', TStringStream.Create('{}', TEncoding.UTF8), Resp);
+
+    ShowMessage('Run cancelado com sucesso.' + sLineBreak + Resp.DataString);
+  except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro geral: ' + E.Message);
+ { finally
+    HTTP.Free;
+    IO.Free;
+    Resp.Free;}
+  end;
+end;
+
+
+
+procedure TForm2.Button6Click(Sender: TObject);
+begin
+
+  EnviarPerguntaParaThread;
+  RodarAssistantComPergunta;
+  CancelarRun(ThreadID, RunID);
+
+end;
+
+procedure CriarAssistantNovo(const FileID: string);
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  IOHandler.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  IOHandler.SSLOptions.Method := sslvSSLv23;
+
+
+  JsonData := TStringStream.Create(
+    '{"instructions": "Você é um assistente que responde com base nos dados do arquivo.",' +
+    '"name": "ConsultorArquivo",' +
+    '"tools": [{"type": "file_search"}],' +
+    '"tool_resources": {"file_search": {"vector_store_ids": [], "file_ids": ["' + FileID + '"]}}}',
+    TEncoding.UTF8
+  );
+
+  try
+    HTTP.IOHandler := IOHandler;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+API_KEY;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    try
+    Response := TStringStream.Create;
+    HTTP.Post('https://api.openai.com/v1/assistants', JsonData, Response);
+
+    ShowMessage('Assistant criado: ' + Response.DataString);
+    except
+      on E: EIdHTTPProtocolException do
+        ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+      on E: Exception do
+        ShowMessage('Erro: ' + E.Message);
+    end;
+    finally
+    HTTP.Free;
+    IOHandler.Free;
+    JsonData.Free;
+    Response.Free;
+  end;
+end;
+
+procedure TForm2.Button7Click(Sender: TObject);
+begin
+  CriarAssistantNovo(FileID);
+end;
+
+
+
+procedure CriarAssistantNovo2(const FileID: string);
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  JsonBody: string;
+begin
+
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+
+
+  try
+    HTTP.IOHandler := IOHandler;
+    IOHandler.SSLOptions.Method := sslvTLSv1_2;
+
+    // Corrigir os headers
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    // Montar JSON válido
+    JsonBody :=
+      '{' +
+      '  "name": "AssistenteArquivo",' +
+      '  "instructions": "Você é um assistente que responde com base no conteúdo do arquivo fornecido.",' +
+      '  "model": "gpt-4o",' +
+      '  "tools": [' +
+      '    { "type": "file_search" }' +
+      '  ],' +
+      '  "tool_resources": {' +
+      '    "file_search": {' +
+      '      "file_ids": ["' + FileID + '"]' +
+      '    }' +
+      '  }' +
+      '}';
+
+    JsonData.WriteString(JsonBody);
+    JsonData.Position := 0;
+
+    // Enviar POST
+    HTTP.Post('https://api.openai.com/v1/assistants', JsonData, Response);
+
+    // Mostrar resposta
+    ShowMessage('Assistant criado: ' + Response.DataString);
+
+  except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+  end;
+
+ { finally
+    JsonData.Free;
+    Response.Free;
+    HTTP.Free;
+    IOHandler.Free;
+  end;}
+end;
+
+
+
+procedure CriarAssistantV2;
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  JsonBody: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+  try
+    HTTP.IOHandler := IOHandler;
+    IOHandler.SSLOptions.Method := sslvTLSv1_2;
+
+    // Headers obrigatórios
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Clear;
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    // JSON sem "tool_resources"
+    JsonBody :=
+      '{' +
+      '  "name": "AssistenteArquivo",' +
+      '  "instructions": "Você é um assistente que responde com base em arquivos enviados.",' +
+      '  "model": "gpt-4o",' +
+      '  "tools": [' +
+      '    { "type": "file_search" }' +
+      '  ]' +
+      '}';
+
+    JsonData.WriteString(JsonBody);
+    JsonData.Position := 0;
+
+    HTTP.Post('https://api.openai.com/v1/assistants', JsonData, Response);
+
+    ShowMessage('Assistant criado: ' + Response.DataString);
+
+  except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+{  finally
+    JsonData.Free;
+    Response.Free;
+    HTTP.Free;
+    IOHandler.Free;}
+  end;
+end;
+
+
+procedure CriarAssistantNovo3(const FileID: string);
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  JsonBody: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+  try
+    HTTP.IOHandler := IOHandler;
+    IOHandler.SSLOptions.Method := sslvTLSv1_2;
+
+    // Headers obrigatórios
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    // Corpo JSON
+    JsonBody :=
+      '{' +
+      '  "name": "AssistenteArquivo",' +
+      '  "instructions": "Você é um assistente que responde com base no conteúdo do arquivo fornecido.",' +
+      '  "model": "gpt-4o",' +
+      '  "tools": [' +
+      '    { "type": "file_search" }' +
+      '  ],' +
+      '  "tool_resources": {' +
+      '    "file_search": {' +
+      '      "file_ids": ["' + FileID + '"]' +
+      '    }' +
+      '  }' +
+      '}';
+
+    JsonData.WriteString(JsonBody);
+    JsonData.Position := 0;
+
+    HTTP.Post('https://api.openai.com/v1/assistants', JsonData, Response);
+
+    ShowMessage('Assistant criado: ' + Response.DataString);
+
+  except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+ { finally
+    JsonData.Free;
+    Response.Free;
+    HTTP.Free;
+    IOHandler.Free;
+  end;}
+  end;
+end;
+
+
+procedure TForm2.Button8Click(Sender: TObject);
+begin
+ CriarAssistantNovo3(FileID);
+end;
+
+
+function CriarAssistantNovoV2:string;
+var
+  HTTP: TIdHTTP;
+  IOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  JsonData, Response: TStringStream;
+  JsonBody: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  JsonData := TStringStream.Create('', TEncoding.UTF8);
+  Response := TStringStream.Create;
+  try
+    HTTP.IOHandler := IOHandler;
+    IOHandler.SSLOptions.Method := sslvTLSv1_2;
+
+    // Headers obrigatórios
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Clear;
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer '+OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    // JSON sem "tool_resources"
+    JsonBody :=
+      '{' +
+      '  "name": "AssistenteArquivo",' +
+      '  "instructions": "Você é um assistente que responde com base em arquivos enviados.",' +
+      '  "model": "gpt-4o",' +
+      '  "tools": [' +
+      '    { "type": "file_search" }' +
+      '  ]' +
+      '}';
+
+    JsonData.WriteString(JsonBody);
+    JsonData.Position := 0;
+
+    HTTP.Post('https://api.openai.com/v1/assistants', JsonData, Response);
+
+    Result:=Response.DataString ;
+    ShowMessage('Assistant criado: ' + Response.DataString);
+
+  except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+{  finally
+    JsonData.Free;
+    Response.Free;
+    HTTP.Free;
+    IOHandler.Free;}
+  end;
+end;
+
+
+
+procedure TForm2.Button9Click(Sender: TObject);
+var
+  vlretorno:string;
+  ResponseJSON:TJSONValue;
+
+begin
+  vlretorno:=CriarAssistantNovoV2;
+    ResponseJSON := TJSONObject.ParseJSONValue(vlretorno) as TJSONObject;
+    AssistantID := ResponseJSON.GetValue<string>('id');
+
+end;
+
+procedure TForm2.CriarAssistant;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  JsonBody, Resposta: string;
+  ResponseJSON: TJSONObject;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    JsonBody := Format(
+      '{ "name": "AssistenteProdutos", "instructions": "Responda perguntas sobre os produtos da lista.", ' +
+      '"model": "gpt-4o", "file_ids": ["%s"] }', [FileID]);
+
+    Resposta := HTTP.Post('https://api.openai.com/v1/assistants', TStringStream.Create(JsonBody, TEncoding.UTF8));
+    Memo1.Lines.Text := Resposta;
+
+    ResponseJSON := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    AssistantID := ResponseJSON.GetValue<string>('id');
+    ShowMessage('Assistant criado: ' + AssistantID);
+    ResponseJSON.Free;
+  finally
+    HTTP.Free;
+    SSL.Free;
+  end;
+end;
+
+
+procedure TForm2.EnviarPerguntaParaThread;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  JsonBody, Resposta: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    JsonBody := Format(
+      '{ "role": "user", "content": "%s" }',
+      [ MemoPrompt.Text]
+    );
+
+    try
+
+    Resposta := HTTP.Post(
+      'https://api.openai.com/v1/threads/' + ThreadID + '/messages',
+      TStringStream.Create(JsonBody, TEncoding.UTF8)
+    );
+
+    MemoResposta.Lines.Text := '[Enviado com sucesso]';
+     except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+    end;
+  finally
+    HTTP.Free;
+    SSL.Free;
+  end;
+end;
+
+function CleanJsonString(const JsonString: string): string;
+var
+  I: Integer;
+  SB: TStringBuilder;
+begin
+  SB := TStringBuilder.Create;
+  for I := 1 to Length(JsonString) do
+  begin
+    if CharInSet(JsonString[I], [' ', #9, #10, #13]) then
+      Continue //Pula espaços, tabs, CRs e LFs
+    else
+      SB.Append(JsonString[I]);
+  end;
+  Result := SB.ToString;
+  SB.Free;
+end;
+
+
+
+procedure TForm2.RodarAssistantComPergunta;
+var
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  JsonBody, Resposta: string;
+  RunID: string;
+  MsgContent:TJSONArray;
+  JsonObj:TJSONObject;
+  Msgs,  TextPart: TJSONObject;
+
+  DataArray: TJSONArray;
+  MsContent: TJSONArray;
+  a:string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  SSL.SSLOptions.SSLVersions:=[sslvSSLv2, sslvSSLv23, sslvSSLv3, sslvTLSv1,sslvTLSv1_1,sslvTLSv1_2];
+  SSL.SSLOptions.Method := sslvSSLv23;
+
+  try
+    HTTP.IOHandler := SSL;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.CustomHeaders.Values['Authorization'] := 'Bearer ' + OpenAIKey;
+    HTTP.Request.CustomHeaders.Values['OpenAI-Beta'] := 'assistants=v2';
+
+    // Inicia o processamento
+    JsonBody := Format('{ "assistant_id": "%s" }', [AssistantID]);
+    Resposta := HTTP.Post(
+      'https://api.openai.com/v1/threads/' + ThreadID + '/runs',
+      TStringStream.Create(JsonBody, TEncoding.UTF8)
+    );
+
+    Sleep(6000); // aguarda processamento (pode ser refinado)
+    try
+    // Pega a resposta
+    Resposta := HTTP.Get('https://api.openai.com/v1/threads/' + ThreadID + '/messages');
+    a:=CleanJsonString(resposta);
+
+
+
+    JsonObj := TJSONObject.ParseJSONValue(Resposta) as TJSONObject;
+    DataArray := JsonObj.GetValue<TJSONArray>('data');
+
+    a:=DataArray.ToString;
+     showmessage(a);
+
+    if (DataArray.Count > 0) then
+    begin
+      MsgContent := DataArray.Items[0].GetValue<TJSONArray>('content');
+      a:=MsgContent.ToString;
+      a:=StringReplace(a,'\n',#13#10,[rfReplaceAll]);
+      showmessage(a);
+      TextPart := MsgContent.Items[0].GetValue<TJsonObject>('text') as TJSONObject;
+      MemoResposta.Lines.Text := TextPart.GetValue<string>('value');
+    end
+    else
+      MemoResposta.Lines.Text := '[Sem resposta recebida]';
+
+
+
+    JsonObj.Free;
+     except
+    on E: EIdHTTPProtocolException do
+      ShowMessage('Erro HTTP: ' + E.Message + sLineBreak + 'Status: ' + E.ErrorMessage);
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message);
+    end;
+  finally
+    HTTP.Free;
+    SSL.Free;
+  end;
+end;
+
+
+
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  FDConnection := TFDConnection.Create(nil);
+  FDConnection.DriverName := 'MySQL';
+  FDConnection.Params.Values['Database'] := 'danielentrega';
+  FDConnection.Params.Values['User_Name'] := 'root';
+  FDConnection.Params.Values['Password'] := 'xda973'; // ou sua senha
+  FDConnection.Params.Values['Server'] := '192.168.5.159';
+  FDConnection.LoginPrompt := False;
+  FDConnection.Connected := True;
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+begin
+  ShowMessage('SSL Loaded: ' + BoolToStr(LoadOpenSSLLibrary, True));
+end;
+
+end.
+

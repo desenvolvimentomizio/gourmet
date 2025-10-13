@@ -1,0 +1,6 @@
+object MainService: TMainService
+  OldCreateOrder = False
+  DisplayName = 'Gourmet - Produ'#231#227'o UP'
+  Height = 150
+  Width = 215
+end

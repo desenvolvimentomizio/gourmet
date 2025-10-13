@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8E91C900-E97A-43EB-93B5-B10B31D46556}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GourmetStone\GourmetStone.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="mGourmetStone\mGourmetStone.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GourmetStone">
+        <MSBuild Projects="GourmetStone\GourmetStone.dproj"/>
+    </Target>
+    <Target Name="GourmetStone:Clean">
+        <MSBuild Projects="GourmetStone\GourmetStone.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetStone:Make">
+        <MSBuild Projects="GourmetStone\GourmetStone.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="mGourmetStone">
+        <MSBuild Projects="mGourmetStone\mGourmetStone.dproj"/>
+    </Target>
+    <Target Name="mGourmetStone:Clean">
+        <MSBuild Projects="mGourmetStone\mGourmetStone.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mGourmetStone:Make">
+        <MSBuild Projects="mGourmetStone\mGourmetStone.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GourmetStone;mGourmetStone"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GourmetStone:Clean;mGourmetStone:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GourmetStone:Make;mGourmetStone:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="Androidapi.JNI.Toast" platform="Android">
+  <const name="LongToast" type="TToastLength">
+    <value>
+      LongToast
+    </value>
+  </const>
+  <const name="ShortToast" type="TToastLength">
+    <value>
+      ShortToast
+    </value>
+  </const>
+  <enum name="TToastLength">
+    <element value="0" name="LongToast" />
+    <element value="1" name="ShortToast" />
+  </enum>
+  <interface name="JToastClass" GUID="{69E2D233-B9D3-4F3E-B882-474C8E1D50E9}" ancestor="JObjectClass">
+    <function name="_GetLENGTH_LONG" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="_GetLENGTH_SHORT" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <retval type="JToast">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="makeText" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="text" type="JCharSequence" />
+        <parameter name="duration" type="Integer" />
+        <retval type="JToast">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <property name="LENGTH_LONG" visibility="public" read="_GetLENGTH_LONG" type="Integer" />
+    <property name="LENGTH_SHORT" visibility="public" read="_GetLENGTH_SHORT" type="Integer" />
+  </interface>
+  <interface name="JToast" GUID="{FD81CC32-BFBC-4838-8893-9DD01DE47B00}" ancestor="JObject">
+    <attributes>
+      <attribute name="JavaSignatureAttribute" />
+    </attributes>
+    <procedure name="cancel" visibility="public" procflags="abstract virtual" callconv="cdecl">
+    </procedure>
+    <function name="getDuration" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getGravity" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getHorizontalMargin" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Single" />
+      </parameters>
+    </function>
+    <function name="getVerticalMargin" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Single" />
+      </parameters>
+    </function>
+    <function name="getView" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="JView">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="getXOffset" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getYOffset" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <procedure name="setDuration" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="value" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="setGravity" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="gravity" type="Integer" />
+        <parameter name="xOffset" type="Integer" />
+        <parameter name="yOffset" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="setMargin" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="horizontalMargin" type="Single" />
+        <parameter name="verticalMargin" type="Single" />
+      </parameters>
+    </procedure>
+    <procedure name="setText" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="s" type="JCharSequence" />
+      </parameters>
+    </procedure>
+    <procedure name="setView" visibility="public" procflags="abstract virtual" callconv="cdecl">
+      <parameters>
+        <parameter name="view" type="JView" />
+      </parameters>
+    </procedure>
+    <procedure name="show" visibility="public" procflags="abstract virtual" callconv="cdecl">
+    </procedure>
+  </interface>
+  <class name="TJToast">
+    <ancestor name="{Androidapi.JNIBridge}TJavaGenericImport&lt;Androidapi.JNI.Toast.JToastClass,Androidapi.JNI.Toast.JToast&gt;" namespace="Androidapi.JNI.Toast">
+      <methodref name="GetJavaClass" visibility="class private" procflags="static">
+      </methodref>
+      <methodref name="Alloc" visibility="class private" procflags="static overload">
+      </methodref>
+      <methodref name="Destroy@" visibility="class private" procflags="class destructor noself">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <propertyref name="JavaClass" visibility="public">
+      </propertyref>
+      <methodref name="Create" visibility="public" procflags="static">
+      </methodref>
+      <methodref name="GetClsID" visibility="public" procflags="static">
+      </methodref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+  </class>
+  <procedure name="Toast" visibility="public">
+    <parameters>
+      <parameter name="Msg" type="string" paramflags="const" />
+      <parameter name="Duration" type="TToastLength">
+        <value>
+          ShortToast
+        </value>
+      </parameter>
+    </parameters>
+  </procedure>
+</namespace>

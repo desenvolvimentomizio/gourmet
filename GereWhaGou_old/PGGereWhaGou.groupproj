@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8EB27EFB-B3F0-40E3-A556-194A154F342F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="C:\componentes\WPP4Delphi\Packages\TWPP4DelphiCollection.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GereWhatsGou.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TWPP4DelphiCollection">
+        <MSBuild Projects="C:\componentes\WPP4Delphi\Packages\TWPP4DelphiCollection.dproj"/>
+    </Target>
+    <Target Name="TWPP4DelphiCollection:Clean">
+        <MSBuild Projects="C:\componentes\WPP4Delphi\Packages\TWPP4DelphiCollection.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TWPP4DelphiCollection:Make">
+        <MSBuild Projects="C:\componentes\WPP4Delphi\Packages\TWPP4DelphiCollection.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GereWhatsGou">
+        <MSBuild Projects="GereWhatsGou.dproj"/>
+    </Target>
+    <Target Name="GereWhatsGou:Clean">
+        <MSBuild Projects="GereWhatsGou.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GereWhatsGou:Make">
+        <MSBuild Projects="GereWhatsGou.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TWPP4DelphiCollection;GereWhatsGou"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TWPP4DelphiCollection:Clean;GereWhatsGou:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TWPP4DelphiCollection:Make;GereWhatsGou:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

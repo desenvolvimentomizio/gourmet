@@ -1,0 +1,58 @@
+
+
+
+
+Os dados para a sua integração são:
+ 
+Client_id: miziogourmet
+Client_secret: M3NaHT
+
+
+
+
+
+Prezado parceiro, estamos felizes que você tenha entrado para o time de parceiras do iFood, para que você possa se integrar a nossa plataforma segue os dados necessários para autenticação e alguns pontos importantes.
+
+Os dados para a sua integração são:
+ 
+Client_id: miziogourmet
+Client_secret: M3NaHT
+
+Lembrando que: É necessário abrir o link e nele irá conter o seu client_secret que expira em 10 dias ou 5 visualizações, portanto copie e guarde a senha (client_secret) e mantenha-os seguros pois são de uso exclusivo.
+
+Para realizar os pedidos testes, basta entrar no site do iFood com o CEP 12345-678 Nº 100. Na listagem de restaurantes o seu ambiente irá aparecer com o nome Teste mizio Gourmet. Para inserir os pedidos, basta criar uma conta ou usar uma existente do site.
+
+Os dados para o restaurante teste são:
+ 
+Username: POS-645464555
+Password: POS-645464555
+
+Para realização de algumas chamadas da API é necessário o Merchant_id segue abaixo:
+ 
+Merchant_id: 327866
+
+Para acessar ao Portal de Parceiros do Ifood, onde é realizado as alterações no cardápio é obrigatório possuir um usuário e senha, abaixo seu usuário e senha para acesso:
+
+Para acessar o portal do parceiro iFood, clique aqui!
+ 
+Usuário: daniel@miziosistemas.com.br
+Senha: Chegará um e-mail com a senha provisória, recomendamos alterar após o primeiro acesso.
+
+Lembrando que toda a nossa documentação de desenvolvimento encontra se disponível na nossa página de desenvolvedores.
+
+Após concluir o seu desenvolvimento é necessário enviar um e-mail para integracoes@ifood.com.br contendo o seguinte layout.
+
+
+ 
+Assunto: Integração API Kitchen + Nome do Parceiro (Software House)
+
+Conteúdo do e-mail:
+
+CNPJ do Restaurante:
+Nome do Restaurante:
+Anexar o cardápio.
+
+Em anexo, o modelo do cardápio que deve ser enviado para o iFood após o desenvolvimento da sua integração.
+
+Qualquer dúvida, estamos à disposição
+Abraços!

@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<DBMODEL Version="1.0" TYPE="MySQL">
+<MODELSETTINGS MDDVERSION="1.9.6 (build 438)" ModelProject="" ModelName="diagramactb" ModelCompany="" ModelAuthor="" ModelVersion="" ModelVersionAI="0" ModelCreated="2012-09-29 19:54:34" MaintainModelUpdated="1" ModelCopyright="\169" ModelUpdated="2012-09-30 15:39:38" Description="" Annotation="" ZoomFac="100.00" XPos="1596" YPos="200" PrintLink="" WorkspaceColor="16777215" SnapGrid="1" DisplaySnap="1" SnapSize="10" ShowPages="1" ShowTableColumns="1" ShowTableIndeces="1" ShowColumnTypes="1" ShowDomains="0" ShowIndexInd="0" ShowNullInd="0" ShowForeignKeys="1" EntityFillColor="16777215" EntityLineColor="8388608" EntityFontColor="0" ShowTableColumnComment="0" ShowTableTriggers="1" ShowTableComment="0" ShowRefName="1" ShowCardinality="0" ShowJoin="0" Notation="0" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" DefaultDelete="3" DefaultUpdate="3" DefaultTableType="0" DefaultDataType="3" CreateFKRef="0" FKPrefix="" QueryDelimiter=";" DBQuoteCharacter="`" EncloseNames="1" HPageCount="5" VPageCount="5" SPFillColor="13499135" SPLineColor="8388608" SPFontColor="0" ViewFillColor="3329434" ViewLineColor="8388608" ViewFontColor="0" TrimSPBody="0" MinimapBackColor="16777215" MinimapShapesStyle="2" MinimapVisibleAreaStyle="2" />
+<GENERATIONSETTINGS TextCharCase="2" NameInComment="0" ModelCheck="1" ISQL="0" Delimiter="||" TypeInsteadOfEngine="0">
+  <DBGENSETTINGS DBCreate="0" BeginScript="0" Comment="0" Drop="0" EndScript="0" />
+  <FKGENSETTINGS CreateFK="1" GenerateInsideTables="1" /> + EOL  <SPGENSETTINGS BeginScript="0" Comment="0" Drop="1" EndScript="1" SPCreate="1" OrderStr="" />
+  <TABLEGENSETTINGS Annotation="0" BeginScript="0" Comment="1" CreateIndex="1" CreateOption="1" CreatePK="1" Drop="1" EndScript="0" TableCreate="1" TriggersCreate="1" TriggersDrop="0" OrderStr="" />
+  <VIEWGENSETTINGS BeginScript="0" Comment="0" Drop="1" EndScript="0" ViewCreate="1" OrderStr="" />
+  <EVENTGENSETTINGS BeginScript="0" Comment="0" Drop="1" EndScript="0" EventCreate="1" OrderStr="" />
+</GENERATIONSETTINGS>
+<DATABASE Name="Database_1" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="0" />
+<STAMPS>
+</STAMPS>
+<DOMAINS>
+</DOMAINS>
+<METADATA>
+<ENTITIES>
+<ENTITY ID="13241" Name="act" XPos="1130" YPos="40" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13267" Name="actcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13268" Name="actidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13269" Name="mdlcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13270" Name="actformulario" DomainID="-1" Pos="4" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13271" Name="actacao" DomainID="-1" Pos="5" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13272" Name="actativa" DomainID="-1" Pos="6" Datatype="3" Type="int" Width="2" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13449" />
+<REFERENCE_BEGIN ID="13455" />
+</REFERENCES_BEGIN>
+<REFERENCES_END>
+<REFERENCE_END ID="13447" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13273" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13267=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13274" Name="mdlcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13269=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13242" Name="cau" XPos="1050" YPos="280" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13275" Name="cauchave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13276" Name="mdlcodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13277" Name="actcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13278" Name="caudata" DomainID="-1" Pos="4" Datatype="8" Type="date" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13279" Name="cauhora" DomainID="-1" Pos="5" Datatype="11" Type="time" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13280" Name="usrautorizou" DomainID="-1" Pos="6" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13450" />
+</REFERENCES_BEGIN>
+<REFERENCES_END>
+<REFERENCE_END ID="13448" />
+<REFERENCE_END ID="13449" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13281" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13275=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13282" Name="mdlcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13276=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13283" Name="actcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13277=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13243" Name="cca" XPos="790" YPos="330" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13284" Name="ccachave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13285" Name="cauchave" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13286" Name="coacodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13450" />
+<REFERENCE_END ID="13451" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13287" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13284=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13288" Name="cauchave" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13285=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13289" Name="coacodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13286=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13244" Name="ced" XPos="2260" YPos="800" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13290" Name="cedcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13291" Name="cedidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="15" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13452" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13292" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13290=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13245" Name="cfg" XPos="340" YPos="470" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13293" Name="cfgcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13294" Name="cddcodigo" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="10" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13295" Name="cfgidentificacao" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13296" Name="cfgverdados" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="6" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<INDEXES>
+<INDEX ID="13297" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13293=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13246" Name="cfp" XPos="2260" YPos="560" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13298" Name="cfpcodigo" DomainID="-1" Pos="0" Datatype="3" Type="INT" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13299" Name="cedcodigo" DomainID="-1" Pos="1" Datatype="3" Type="INT" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13469" Name="cfgidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="VARCHAR" Width="35" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13300" Name="cfpmascara" DomainID="-1" Pos="3" Datatype="14" Type="VARCHAR" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13301" Name="cfpgrupo" DomainID="-1" Pos="4" Datatype="3" Type="INT" Width="2" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13466" />
+</REFERENCES_BEGIN>
+<REFERENCES_END>
+<REFERENCE_END ID="13452" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13302" Name="PRIMARY" Primary="1" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13298=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13303" Name="cedcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13299=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13247" Name="clb" XPos="1550" YPos="550" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13304" Name="clbcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13305" Name="clbdescmaximo" DomainID="-1" Pos="2" Datatype="5" Type="float" Width="9" Prec="3" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0.000" Comments="">
+</COLUMN>
+<COLUMN ID="13306" Name="clbsenha" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="15" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13307" Name="clbativo" DomainID="-1" Pos="4" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="1" Comments="">
+</COLUMN>
+<COLUMN ID="13308" Name="clbidentificacao" DomainID="-1" Pos="5" Datatype="14" Type="varchar" Width="30" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13456" />
+<REFERENCE_BEGIN ID="13458" />
+<REFERENCE_BEGIN ID="13462" />
+<REFERENCE_BEGIN ID="13464" />
+<REFERENCE_BEGIN ID="13465" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13309" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13304=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13248" Name="cls" XPos="1050" YPos="750" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13310" Name="clscodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13311" Name="clsnomeform" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13312" Name="clslargura" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="350" Comments="">
+</COLUMN>
+<COLUMN ID="13313" Name="clsaltura" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="350" Comments="">
+</COLUMN>
+<COLUMN ID="13314" Name="clscolunas" DomainID="-1" Pos="5" Datatype="16" Type="blob" Width="0" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13315" Name="usrcodigo" DomainID="-1" Pos="6" Datatype="3" Type="int" Width="11" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13316" Name="clsmodo" DomainID="-1" Pos="7" Datatype="3" Type="int" Width="2" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="1" Comments="">
+</COLUMN>
+<COLUMN ID="13317" Name="clsrodape" DomainID="-1" Pos="8" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="25" Comments="">
+</COLUMN>
+<COLUMN ID="13318" Name="clsfiltro" DomainID="-1" Pos="9" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="40" Comments="">
+</COLUMN>
+<COLUMN ID="13319" Name="clstopo" DomainID="-1" Pos="10" Datatype="3" Type="int" Width="4" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13320" Name="clsesquerda" DomainID="-1" Pos="11" Datatype="3" Type="int" Width="4" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13321" Name="clsbotoes" DomainID="-1" Pos="12" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="185" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13457" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13322" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13310=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13323" Name="usrcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13315=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13324" Name="clsnomeform" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13311=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13249" Name="coa" XPos="340" YPos="90" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13325" Name="coacodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13326" Name="dtbcodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13327" Name="dcpcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13328" Name="coadata" DomainID="-1" Pos="4" Datatype="8" Type="date" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13329" Name="clbcodigo" DomainID="-1" Pos="5" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13330" Name="coaanterior" DomainID="-1" Pos="6" Datatype="14" Type="varchar" Width="250" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13331" Name="coaatual" DomainID="-1" Pos="7" Datatype="14" Type="varchar" Width="250" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13451" />
+</REFERENCES_BEGIN>
+<REFERENCES_END>
+<REFERENCE_END ID="13453" />
+<REFERENCE_END ID="13454" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13332" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13325=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13333" Name="dtbcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13326=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13334" Name="dcpcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13327=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13250" Name="dau" XPos="1260" YPos="340" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13335" Name="daucodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13336" Name="clbcodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13337" Name="actcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13338" Name="dauativo" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="2" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13455" />
+<REFERENCE_END ID="13456" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13339" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13335=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13340" Name="usrcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13336=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13341" Name="actcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13337=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13251" Name="dcl" XPos="1050" YPos="470" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13342" Name="dclcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13343" Name="clscodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13344" Name="clbcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13345" Name="dclvisivel" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="1" Comments="">
+</COLUMN>
+<COLUMN ID="13346" Name="dclpesquisavel" DomainID="-1" Pos="5" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="1" Comments="">
+</COLUMN>
+<COLUMN ID="13347" Name="dclpesquisa" DomainID="-1" Pos="6" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="1" Comments="">
+</COLUMN>
+<COLUMN ID="13348" Name="dclnomecampo" DomainID="-1" Pos="7" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13349" Name="dcltitulo" DomainID="-1" Pos="8" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13457" />
+<REFERENCE_END ID="13458" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13350" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13342=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13351" Name="clscodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13343=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13352" Name="clbcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13344=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13252" Name="dcp" XPos="350" YPos="350" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13353" Name="dcpcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13354" Name="dcpcampo" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13355" Name="dcpdescricao" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="250" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13356" Name="dcpspeedfiscal" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13453" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13357" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13353=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13253" Name="drg" XPos="2930" YPos="420" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13358" Name="drgchave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13359" Name="rmgchave" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13360" Name="pcgcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13361" Name="drgvalor" DomainID="-1" Pos="4" Datatype="5" Type="float" Width="9" Prec="2" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0.00" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13459" />
+<REFERENCE_END ID="13460" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13362" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13358=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13363" Name="rmgchave" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13359=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13364" Name="pcgcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13360=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13254" Name="dtb" XPos="50" YPos="60" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13365" Name="dtbcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13366" Name="dtbtabela" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13367" Name="dtbdescricao" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="250" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13454" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13368" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13365=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13255" Name="fcb" XPos="1580" YPos="350" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13369" Name="fcbchave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13370" Name="flacodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13371" Name="clbcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13461" />
+<REFERENCE_END ID="13462" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13372" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13369=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13373" Name="flacodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13370=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13374" Name="clbcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13371=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13256" Name="fcl" XPos="1580" YPos="800" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13375" Name="fclcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13376" Name="fnccodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13377" Name="clbcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13463" />
+<REFERENCE_END ID="13464" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13378" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13375=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13379" Name="fnccodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13376=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13380" Name="clbcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13377=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13257" Name="fla" XPos="1540" YPos="220" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13381" Name="flacodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13382" Name="flaidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13461" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13383" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13381=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13258" Name="fnc" XPos="1930" YPos="740" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13384" Name="fnccodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13385" Name="fncidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="25" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13386" Name="fncdoacao" DomainID="-1" Pos="3" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13387" Name="fnctroca" DomainID="-1" Pos="4" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13388" Name="fnccondicional" DomainID="-1" Pos="5" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13389" Name="fncsaldonegat" DomainID="-1" Pos="6" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13390" Name="fnclimitecred" DomainID="-1" Pos="7" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13391" Name="fncservicos" DomainID="-1" Pos="8" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13392" Name="fncvende" DomainID="-1" Pos="9" Datatype="23" Type="enum" Width="0" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="\a0\a,\a1\a" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13463" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13393" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13384=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13259" Name="mdl" XPos="780" YPos="60" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13394" Name="mdlcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13395" Name="mdlidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13396" Name="mdldescricao" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="1000" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13397" Name="mdlnome" DomainID="-1" Pos="4" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13398" Name="mdlgrupo" DomainID="-1" Pos="5" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13399" Name="mdlconfig" DomainID="-1" Pos="6" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13400" Name="mdlsubgrupo" DomainID="-1" Pos="7" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13447" />
+<REFERENCE_BEGIN ID="13448" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13401" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13394=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13260" Name="mlg" XPos="1840" YPos="580" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13402" Name="mlgchave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13403" Name="clbcodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13465" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13404" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13402=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13405" Name="clbcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13403=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13261" Name="pcg" XPos="2340" YPos="250" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13406" Name="pcgcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13407" Name="seacodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13408" Name="cfpcodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13409" Name="pcgestrutural" DomainID="-1" Pos="4" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13410" Name="pcgidentificacao" DomainID="-1" Pos="5" Datatype="14" Type="varchar" Width="80" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13460" />
+</REFERENCES_BEGIN>
+<REFERENCES_END>
+<REFERENCE_END ID="13466" />
+<REFERENCE_END ID="13467" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13411" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13406=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13412" Name="cfpcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13408=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13413" Name="seacodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13407=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13262" Name="pfr" XPos="40" YPos="250" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13414" Name="pfrcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13415" Name="pfrnomeform" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13416" Name="pfrlargura" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="350" Comments="">
+</COLUMN>
+<COLUMN ID="13417" Name="pfraltura" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="350" Comments="">
+</COLUMN>
+<COLUMN ID="13418" Name="usrcodigo" DomainID="-1" Pos="5" Datatype="3" Type="int" Width="11" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13468" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13419" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13414=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13263" Name="phg" XPos="2680" YPos="120" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13420" Name="phgcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13421" Name="phgidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="80" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13422" Name="phgcomplemento" DomainID="-1" Pos="3" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<INDEXES>
+<INDEX ID="13423" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13420=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13264" Name="psf" XPos="20" YPos="500" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13424" Name="psfcodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13425" Name="pfrcodigo" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="1" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13426" Name="psfalinhamento" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13427" Name="psfposicao" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="4" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="150" Comments="">
+</COLUMN>
+<COLUMN ID="13428" Name="psfnome" DomainID="-1" Pos="5" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_END>
+<REFERENCE_END ID="13468" />
+</REFERENCES_END>
+<INDEXES>
+<INDEX ID="13429" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13424=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13430" Name="pfrcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13425=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13265" Name="rmg" XPos="2500" YPos="560" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13431" Name="rmgchave" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="1" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13432" Name="mlgchave" DomainID="-1" Pos="2" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13433" Name="flacodigo" DomainID="-1" Pos="3" Datatype="3" Type="int" Width="3" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13434" Name="phgcodigo" DomainID="-1" Pos="4" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13435" Name="rmgdata" DomainID="-1" Pos="5" Datatype="8" Type="date" Width="0" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13436" Name="rmgvalor" DomainID="-1" Pos="6" Datatype="5" Type="float" Width="9" Prec="2" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0.00" Comments="">
+</COLUMN>
+<COLUMN ID="13437" Name="rmgcomplemento" DomainID="-1" Pos="7" Datatype="14" Type="varchar" Width="50" Prec="0" NotNull="0" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13438" Name="pcgdebito" DomainID="-1" Pos="8" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+<COLUMN ID="13439" Name="pcgcredito" DomainID="-1" Pos="9" Datatype="3" Type="int" Width="11" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="0" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13459" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13440" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13431=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13441" Name="mlgchave" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13432=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13442" Name="flacodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13433=" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="13443" Name="phgcodigo" Primary="0" Unique="0" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13434=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+<ENTITY ID="13266" Name="sea" XPos="2360" YPos="100" Type="4" RowFormat="0" Temporary="0" RowChecksum="0" PackKeys="0" DelayKeyTblUpdates="0" MinRowNumber="0" MaxRowNumber="0" FillColor="16777215" LineColor="8388608" FontColor="0" CharacterSet="" Collate="" Comments="" Description="" Annotation="" BeginScript="" EndScript="" Generate="1" >
+<COLUMNS>
+<COLUMN ID="13444" Name="seacodigo" DomainID="-1" Pos="1" Datatype="3" Type="int" Width="1" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="1" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+<COLUMN ID="13445" Name="seaidentificacao" DomainID="-1" Pos="2" Datatype="14" Type="varchar" Width="15" Prec="0" NotNull="1" Unsigned="0" ZeroFill="0" Binary="0" AutoInc="0" PrimaryKey="0" IsFKey="0" Values="" DefaultValue="" Comments="">
+</COLUMN>
+</COLUMNS>
+<REFERENCES_BEGIN>
+<REFERENCE_BEGIN ID="13467" />
+</REFERENCES_BEGIN>
+<INDEXES>
+<INDEX ID="13446" Name="PRIMARY" Primary="1" Unique="1" FullText="0" Reference_ID="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN ID="13444=" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDEXES>
+</ENTITY>
+</ENTITIES>
+<REFERENCES>
+<REFERENCE ID="13447" Name="act_mdl" SOURCE="13259" DESTINATION="13241" FKIDS="13394=13269\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="3" OnUpdate="3" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13401" AutoColumnIDs="" />
+<REFERENCE ID="13448" Name="cau_mdl" SOURCE="13259" DESTINATION="13242" FKIDS="13394=13276\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13401" AutoColumnIDs="" />
+<REFERENCE ID="13449" Name="cau_act" SOURCE="13241" DESTINATION="13242" FKIDS="13267=13277\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13273" AutoColumnIDs="" />
+<REFERENCE ID="13450" Name="cca_cau" SOURCE="13242" DESTINATION="13243" FKIDS="13275=13285\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13281" AutoColumnIDs="" />
+<REFERENCE ID="13451" Name="cca_coa" SOURCE="13249" DESTINATION="13243" FKIDS="13325=13286\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13332" AutoColumnIDs="" />
+<REFERENCE ID="13452" Name="cfp_ced" SOURCE="13244" DESTINATION="13246" FKIDS="13290=13299\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13292" AutoColumnIDs="" />
+<REFERENCE ID="13453" Name="coa_dcp" SOURCE="13252" DESTINATION="13249" FKIDS="13353=13327\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13357" AutoColumnIDs="" />
+<REFERENCE ID="13454" Name="coa_dtb" SOURCE="13254" DESTINATION="13249" FKIDS="13365=13326\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13368" AutoColumnIDs="" />
+<REFERENCE ID="13455" Name="dau_act" SOURCE="13241" DESTINATION="13250" FKIDS="13267=13337\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="3" OnUpdate="3" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13273" AutoColumnIDs="" />
+<REFERENCE ID="13456" Name="dau_clb" SOURCE="13247" DESTINATION="13250" FKIDS="13304=13336\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="3" OnUpdate="3" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13309" AutoColumnIDs="" />
+<REFERENCE ID="13457" Name="dcl_cls" SOURCE="13248" DESTINATION="13251" FKIDS="13310=13343\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13322" AutoColumnIDs="" />
+<REFERENCE ID="13458" Name="dcl_clb" SOURCE="13247" DESTINATION="13251" FKIDS="13304=13344\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13309" AutoColumnIDs="" />
+<REFERENCE ID="13459" Name="drg_rmg" SOURCE="13265" DESTINATION="13253" FKIDS="13431=13359\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13440" AutoColumnIDs="" />
+<REFERENCE ID="13460" Name="drg_pcg" SOURCE="13261" DESTINATION="13253" FKIDS="13406=13360\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13411" AutoColumnIDs="" />
+<REFERENCE ID="13461" Name="fcb_fla" SOURCE="13257" DESTINATION="13255" FKIDS="13381=13370\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13383" AutoColumnIDs="" />
+<REFERENCE ID="13462" Name="fcb_clb" SOURCE="13247" DESTINATION="13255" FKIDS="13304=13371\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13309" AutoColumnIDs="" />
+<REFERENCE ID="13463" Name="fcl_fnc" SOURCE="13258" DESTINATION="13256" FKIDS="13384=13376\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="3" OnUpdate="3" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13393" AutoColumnIDs="" />
+<REFERENCE ID="13464" Name="fcl_clb" SOURCE="13247" DESTINATION="13256" FKIDS="13304=13377\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="3" OnUpdate="3" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13309" AutoColumnIDs="" />
+<REFERENCE ID="13465" Name="mlg_clb" SOURCE="13247" DESTINATION="13260" FKIDS="13304=13403\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13309" AutoColumnIDs="" />
+<REFERENCE ID="13466" Name="pcg_cfp" SOURCE="13246" DESTINATION="13261" FKIDS="13298=13408\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13302" AutoColumnIDs="" />
+<REFERENCE ID="13467" Name="pcg_sea" SOURCE="13266" DESTINATION="13261" FKIDS="13444=13407\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13446" AutoColumnIDs="" />
+<REFERENCE ID="13468" Name="psf_pfr" SOURCE="13262" DESTINATION="13264" FKIDS="13414=13425\n" RefColor="8388608" RefLabelColor="16777215" RefLabelFontColor="0" OnDelete="1" OnUpdate="1" Comments="" Description="" Annotation="" Generate="1" FKIndex_ID="-1" ParentKeyIndexID="13419" AutoColumnIDs="" />
+</REFERENCES>
+<NOTES>
+</NOTES>
+<STOREDPROCES>
+</STOREDPROCES>
+<VIEWS>
+</VIEWS>
+<EVENTS>
+</EVENTS>
+</METADATA>
+</DBMODEL>

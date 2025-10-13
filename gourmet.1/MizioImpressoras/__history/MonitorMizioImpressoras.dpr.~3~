@@ -1,0 +1,19 @@
+program MonitorMizioImpressoras;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  ufMonitorMizioServImpressoras;
+
+uses
+  Vcl.Forms,
+  ufMonitorMizioServImpressoras - Copia in 'ufMonitorMizioServImpressoras - Copia.pas' {fMonitorMizioServImpressoras};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfMonitorMizioServImpressoras, fMonitorMizioServImpressoras);
+  Application.Run;
+end.

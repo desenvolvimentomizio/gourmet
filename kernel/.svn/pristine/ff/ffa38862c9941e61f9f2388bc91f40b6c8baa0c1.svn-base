@@ -1,0 +1,252 @@
+unit uMizioCloudDAV;
+
+interface
+
+uses
+  IdBaseComponent,
+  IdComponent,
+  IdTCPConnection,
+  IdTCPClient,
+  IdHTTP,
+  IdWebDAV,
+  IdIOHandler,
+  IdIOHandlerSocket,
+  IdIOHandlerStack,
+  IdZLibCompressorBase,
+  IdCompressorZLib,
+  IdIntercept,
+  IdCompressionIntercept,
+  IdCookieManager,
+  IdSSL,
+  IdSSLOpenSSL,
+  REST.Client,
+  REST.Authenticator.Basic,
+  IdAuthentication,
+  REST.Types,
+  System.Generics.Collections,
+  XMLDoc,
+  XMLIntf,
+  IdCoder,
+  IdCoder3to4,
+  IdCoderMIME,
+  Vcl.ComCtrls,
+  System.Classes,
+  Generics.Collections,
+  SysUtils,
+  Vcl.Forms,
+  Vcl.Dialogs;
+
+type
+  TFileInfo = class
+    FileItem, FilePath, FileName, FileSize, FileDate: String;
+    IsFolder: Boolean;
+  end;
+
+
+
+type
+  TMizioCloudDAV = class(TObject)
+    constructor create;
+    destructor destroy; override;
+  private
+    IdWebDAVC: TIdWebDAV;
+    IdCookieMng: TIdCookieManager;
+    IdSSLHandSockOpenSSL: TIdSSLIOHandlerSocketOpenSSL;
+    IdCompresZLib: TIdCompressorZLib;
+    IdCompresInterc: TIdCompressionIntercept;
+    IdEncodMIME: TIdEncoderMIME;
+    HTTPBasicAuthent: THTTPBasicAuthenticator;
+    FUserName, FPassword, FServer: String;
+
+  public
+    FileDB: TDictionary<String, TFileInfo>;
+    FileGet: TFileInfo;
+    procedure setConfig;
+    procedure getFileList(Folder: String);
+    function downloadFile(FilePath: String; DestPath: String): Boolean;
+    function uploadFile(SourcePath, DestPath: String; ALockToken: string): Boolean;
+    function deleteFile(FileName: String): Boolean;
+    function createFolder(FileName: String): Boolean;
+    function getFileListXML(Folder: String): TStringStream;
+  published
+    property UserName: String read FUserName write FUserName;
+    property Password: String read FPassword write FPassword;
+    property Server: String read FServer write FServer;
+  end;
+
+  { TMizioCloudDAV }
+
+implementation
+
+constructor TMizioCloudDAV.create;
+begin
+  inherited;
+
+  IdCompresInterc := TIdCompressionIntercept.create;
+
+  IdCompresZLib := TIdCompressorZLib.create;
+  IdCompresInterc := TIdCompressionIntercept.create;
+  IdEncodMIME := TIdEncoderMIME.create;
+  IdSSLHandSockOpenSSL := TIdSSLIOHandlerSocketOpenSSL.create;
+
+  IdWebDAVC := TIdWebDAV.create;
+  IdWebDAVC.CookieManager := IdCookieMng;
+  IdWebDAVC.HTTPOptions := [hoForceEncodeParams];
+  IdWebDAVC.Intercept := IdCompresInterc;
+  IdSSLHandSockOpenSSL.SSLOptions.SSLVersions := [sslvTLSv1_2];
+  IdSSLHandSockOpenSSL.SSLOptions.Method := sslvTLSv1_2;
+  IdWebDAVC.IOHandler := IdSSLHandSockOpenSSL;
+  FileDB := TDictionary<String, TFileInfo>.create;
+
+end;
+
+function TMizioCloudDAV.createFolder(FileName: String): Boolean;
+begin
+  try
+    IdWebDAVC.DAVMakeCollection(Server + FileName);
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+function TMizioCloudDAV.deleteFile(FileName: String): Boolean;
+begin
+  try
+    IdWebDAVC.DAVDelete(Server + FileName, '');
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+destructor TMizioCloudDAV.destroy;
+var
+  sItem: String;
+begin
+  IdWebDAVC.Free;
+  IdSSLHandSockOpenSSL.Free;
+  IdEncodMIME.Free;
+
+  for sItem in FileDB.Keys do
+  begin
+    FileDB.Items[sItem].Free;
+  end;
+
+  FreeAndNil(FileDB);
+  inherited;
+end;
+
+function TMizioCloudDAV.downloadFile(FilePath, DestPath: String): Boolean;
+var
+  FileStream: TFileStream;
+begin
+  FileStream := TFileStream.create(DestPath, fmCreate);
+  try
+    IdWebDAVC.Get(Server + FilePath, FileStream);
+    Result := True;
+    FileStream.Free;
+  except
+    Result := False;
+    FileStream.Free;
+  end;
+end;
+
+Function TMizioCloudDAV.getFileListXML(Folder: String): TStringStream;
+var
+  ResponseXML: TStringStream;
+begin
+  try
+    ResponseXML := TStringStream.create;
+
+    IdWebDAVC.DAVPropFind(Server + Folder, nil, ResponseXML, '1');
+    Result := ResponseXML;
+
+  finally
+    ResponseXML.Free;
+  end;
+end;
+
+procedure TMizioCloudDAV.getFileList(Folder: String);
+var
+  ResponseXML: TStringStream;
+  XMLFile: TXMLDocument;
+  MainNode, ChildNode: IXMLNode;
+  I: Integer;
+  Keys: String;
+
+begin
+  ResponseXML := TStringStream.create;
+
+  IdWebDAVC.DAVPropFind(Server + Folder, nil, ResponseXML, '1');
+
+  XMLFile := TXMLDocument.create(Application);
+  try
+    XMLFile.LoadFromXML(ResponseXML.DataString);
+    XMLFile.Active := True;
+    MainNode := XMLFile.DocumentElement;
+    FileDB.Clear;
+
+    for I := 0 to MainNode.ChildNodes.Count - 1 do
+    begin
+      ChildNode := MainNode.ChildNodes.Nodes[I];
+
+      if Trim(ChildNode.ChildNodes['d:href'].Text) = '' then
+      begin
+        continue;
+      end;
+
+      FileGet := TFileInfo.create;
+      FileGet.FileItem := I.ToString;
+      FileGet.FilePath := ChildNode.ChildNodes['d:href'].Text;
+      FileGet.FileDate := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getlastmodified'].Text;
+      FileGet.FileSize := ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:getcontentlength'].Text;
+      FileGet.IsFolder := Assigned(ChildNode.ChildNodes['d:propstat'].ChildNodes['d:prop'].ChildNodes['d:resourcetype']
+        .ChildNodes.FindNode('d:collection'));
+
+      if FileGet.IsFolder then
+      begin
+        FileGet.FileName := FileGet.FilePath;
+        Delete(FileGet.FileName, Length(FileGet.FileName), 1);
+        FileGet.FileName := StringReplace(FileGet.FileName, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+      end
+      else
+      begin
+        FileGet.FileName := StringReplace(FileGet.FilePath, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        FileGet.FileName := ExtractFileName(FileGet.FileName);
+      end;
+
+      FileDB.Add(FileGet.FileItem, FileGet);
+    end;
+  finally
+    ResponseXML.Free;
+    XMLFile.Free;
+  end;
+end;
+
+procedure TMizioCloudDAV.setConfig;
+begin
+  IdWebDAVC.Request.UserName := UserName;
+  IdWebDAVC.Request.Password := Password;
+  IdWebDAVC.Request.CustomHeaders.Values['Authorization'] := 'Basic ' + IdEncodMIME.EncodeString(UserName + ':' + Password);
+end;
+
+function TMizioCloudDAV.uploadFile(SourcePath, DestPath: String; ALockToken: string): Boolean;
+var
+  FileStream: TMemoryStream;
+begin
+  FileStream := TMemoryStream.create;
+  try
+    FileStream.LoadFromFile(SourcePath);
+    IdWebDAVC.DAVPut(Server + DestPath + ExtractFileName(SourcePath), FileStream, ALockToken);
+    FileStream.Free;
+    Result := True;
+  except
+    Result := False;
+    FileStream.Free;
+  end;
+
+end;
+
+end.

@@ -1,0 +1,14 @@
+program MizioContigencia;
+
+uses
+  Vcl.Forms,
+  ufGerContiNFCe in 'ufGerContiNFCe.pas' {fGerContiNFCe};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfGerContiNFCe, fGerContiNFCe);
+  Application.Run;
+end.

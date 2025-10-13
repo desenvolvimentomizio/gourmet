@@ -1,0 +1,49 @@
+unit ulclb;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ulfrmbase, Data.DB, DBAccess, Uni, MemDS, ufrabase,
+  ufraclb, Vcl.StdCtrls, Vcl.Buttons, System.Classes, Vcl.Controls, Vcl.ExtCtrls,
+  uPegaBase;
+
+type
+  Tlclb = class(Tlfrmbase)
+    fraclb: Tfraclb;
+    fcl: tuniquery;
+    fclclbcodigo: TIntegerField;
+    fclfnccodigo: TIntegerField;
+    fclfncidentificacao: TStringField;
+    Dfcl: tunidatasource;
+  private
+  public
+    { Public declarations }
+    hfcl: THandle;
+  end;
+
+var
+  lclb: Tlclb;
+
+implementation
+
+{$R *.dfm}
+
+function formu(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+
+  if (Pos('Vendedor', pCargaFrame.Modulo) + Pos('Técnico', pCargaFrame.Modulo)) > 0 then
+    pCargaFrame.Titulo := pCargaFrame.Modulo;
+
+  lclb := Tlclb.Create(pCargaFrame);
+  try
+    lclb.ShowModal;
+    Result := lclb.fraclb.vretorno;
+  finally
+    lclb.Free;
+  end;
+end;
+
+exports formu;
+
+end.

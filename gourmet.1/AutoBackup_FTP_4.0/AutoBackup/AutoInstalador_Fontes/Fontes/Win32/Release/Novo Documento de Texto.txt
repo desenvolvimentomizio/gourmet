@@ -1,0 +1,1 @@
+cd\Fontes\16\AutoBackup_FTP_4.0\AutoBackup\AutoInstalador_Fontes\Fontes\Win32\Release && upx AutoBackup.exe

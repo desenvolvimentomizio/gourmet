@@ -1,0 +1,12 @@
+ 
+
+
+Nome da loja teste: Teste mizio Gourmet
+Merchant ID: 327866
+Username: POS-645464555
+Password: POS-645464555
+
+CREDENCIAIS PARA USO DA API
+
+Client ID: miziogourmet
+Client Secret:M3NaHT

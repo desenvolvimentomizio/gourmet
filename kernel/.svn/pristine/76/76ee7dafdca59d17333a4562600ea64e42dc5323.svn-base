@@ -1,0 +1,246 @@
+inherited fcremlt: Tfcremlt
+  Caption = 'Contas a Receber'
+  ClientHeight = 490
+  ClientWidth = 1057
+  ExplicitWidth = 1073
+  ExplicitHeight = 529
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 461
+    Width = 1057
+    ExplicitTop = 461
+    ExplicitWidth = 1057
+    inherited bconfirma: TBitBtn
+      Left = 903
+      ExplicitLeft = 903
+    end
+    inherited bcancela: TBitBtn
+      Left = 978
+      ExplicitLeft = 978
+    end
+    inherited bfechar: TBitBtn
+      Left = 838
+      ExplicitLeft = 838
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 1057
+    Height = 461
+    ExplicitWidth = 1057
+    ExplicitHeight = 461
+    inherited Principal: TTabSheet
+      ExplicitWidth = 1049
+      ExplicitHeight = 433
+      inherited F: TBevel
+        Width = 1049
+        ExplicitWidth = 687
+      end
+      inherited Label2: TLabel
+        Width = 33
+        Caption = 'Cliente'
+        ExplicitWidth = 33
+      end
+      inherited lmoecodigo: TLabel
+        Top = 249
+        ExplicitTop = 249
+      end
+      inherited Label16: TLabel
+        Left = 281
+        Top = 222
+        ExplicitLeft = 281
+        ExplicitTop = 222
+      end
+      inherited titvalorparcela: TDBEdit
+        TabOrder = 11
+        OnEnter = titvalorparcelaEnter
+      end
+      inherited titvctoinicial: TDBEdit
+        OnEnter = titvctoinicialEnter
+      end
+      inherited carcodigo: TDBEdit
+        OnExit = carcodigoExit
+      end
+      inherited moecodigo: TDBEdit
+        Top = 246
+        TabOrder = 13
+        ExplicitTop = 246
+      end
+      inherited titmoradia: TDBEdit
+        TabOrder = 14
+      end
+      inherited titpercmesmora: TDBEdit
+        Width = 106
+        TabOrder = 15
+        ExplicitWidth = 106
+      end
+      inherited titdiasdesc: TDBEdit
+        TabOrder = 16
+      end
+      inherited titvalodesc: TDBEdit
+        TabOrder = 17
+      end
+      inherited titdiasmulta: TDBEdit
+        TabOrder = 18
+      end
+      inherited titvalomulta: TDBEdit
+        TabOrder = 19
+      end
+      inherited tithistorico: TDBEdit
+        TabOrder = 20
+      end
+      inherited titprevisao: TDBEdit
+        Left = 424
+        Top = 219
+        TabOrder = 10
+        ExplicitLeft = 424
+        ExplicitTop = 219
+      end
+    end
+  end
+  inherited cfg: TUniQuery
+    SQL.Strings = (
+      
+        'select cfgdtinictb, cfgdtfinctb,cfgportadorpadrao from cfg,cfgmc' +
+        're where cfg.cfgcodigo=cfgmcre.cfgcodigo and flacodigo=:flacodig' +
+        'o')
+    object cfgcfgportadorpadrao: TIntegerField
+      FieldName = 'cfgportadorpadrao'
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  tit.titcodigo,'
+      '  tit.etdcodigo,'
+      '  tit.titvalor,'
+      '  tit.titnumero,'
+      '  tit.titemissao,'
+      '  tit.titvalorparcela,'
+      '  tit.titparcelas,'
+      '  tit.titvctoinicial,'
+      '  tit.tfdcodigo,'
+      '  tit.srfcodigo,'
+      '  tit.tficodigo,'
+      '  tit.tithora,'
+      '  tit.clbcodigo,'
+      '  tit.tithistorico,'
+      '  tit.flacodigo,'
+      '  tit.bcocodigo,'
+      '  tit.carcodigo,'
+      '  tit.titprevisao,'
+      '  tit.moecodigo,'
+      '  tit.titmoradia,'
+      '  tit.titdiasmulta,'
+      '  tit.titvalomulta,'
+      '  tit.titpercmesmora,'
+      '  tit.titvalodesc,'
+      '  tit.titdiasdesc,'
+      '  tit.titpercmulta,'
+      '  tit.titinclusao,'
+      '  tit.cctchave,'
+      '  tit.edrcodigo'
+      'FROM tit'
+      'where titcodigo=:titcodigo')
+    Left = 640
+    Top = 188
+    object registrocctchave: TIntegerField [34]
+      FieldName = 'cctchave'
+    end
+  end
+  inherited ImgBusca: TPngImageList
+    Bitmap = {}
+  end
+  inherited lou: TUniQuery
+    Left = 568
+    Top = 296
+  end
+  object v_rfi: TUniQuery
+    SQL.Strings = (
+      
+        'select rfichave, rfinumero, rfihistorico, rfivencimento,cctchave' +
+        ' from v_rfi where rfichave=:rfichave')
+    Left = 564
+    Top = 256
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'rfichave'
+        Value = nil
+      end>
+    object v_rfirfinumero: TStringField
+      FieldName = 'rfinumero'
+    end
+    object v_rfirfihistorico: TStringField
+      FieldName = 'rfihistorico'
+      Size = 50
+    end
+    object v_rfirfichave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'rfichave'
+    end
+    object v_rfirfivencimento: TDateField
+      FieldName = 'rfivencimento'
+    end
+    object v_rficctchave: TIntegerField
+      FieldName = 'cctchave'
+    end
+  end
+  object ajustarfi: TUniQuery
+    Left = 412
+    Top = 184
+  end
+  object mcg: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mcgchave,'
+      '  ccgcodigo,'
+      '  mcgvalor,'
+      '  mcgdata,'
+      '  mcgtabela,'
+      '  mcgchaveorigem,'
+      '  mcgsituacao,'
+      '  clbcodigo,'
+      '  mcgregistro,'
+      '  mcgcompetencia,'
+      '  rfichave'
+      'FROM mcg limit 0')
+    Left = 490
+    Top = 206
+    object mcgmcgchave: TIntegerField
+      FieldName = 'mcgchave'
+    end
+    object mcgccgcodigo: TIntegerField
+      FieldName = 'ccgcodigo'
+    end
+    object mcgmcgvalor: TFloatField
+      FieldName = 'mcgvalor'
+    end
+    object mcgmcgdata: TDateField
+      FieldName = 'mcgdata'
+    end
+    object mcgmcgtabela: TStringField
+      FieldName = 'mcgtabela'
+      Size = 50
+    end
+    object mcgmcgchaveorigem: TIntegerField
+      FieldName = 'mcgchaveorigem'
+    end
+    object mcgmcgsituacao: TIntegerField
+      FieldName = 'mcgsituacao'
+    end
+    object mcgclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object mcgmcgregistro: TDateTimeField
+      FieldName = 'mcgregistro'
+    end
+    object mcgmcgcompetencia: TStringField
+      FieldName = 'mcgcompetencia'
+      Size = 10
+    end
+    object mcgrfichave: TIntegerField
+      FieldName = 'rfichave'
+    end
+  end
+end

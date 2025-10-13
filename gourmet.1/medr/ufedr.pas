@@ -1,0 +1,391 @@
+unit ufedr;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, Vcl.Forms, ufrmbase, ACBrBase, ACBrValidador,
+  Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Mask, Vcl.ImgList, Vcl.Controls, PngImageList,
+  System.Classes, System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.Buttons, Vcl.ComCtrls, Vcl.ExtCtrls, ufuncoes, Vcl.Dialogs, uPegaBase, System.ImageList;
+
+type
+  Tfedr = class(Tfrmbase)
+    registroedrcodigo: TIntegerField;
+    registroetdcodigo: TIntegerField;
+    registrotedcodigo: TIntegerField;
+    registrotedidentificacao: TStringField;
+    registroedrrua: TStringField;
+    registroedrnumero: TStringField;
+    registroedrcxpostal: TStringField;
+    registroedrcomple: TStringField;
+    registroedrbairro: TStringField;
+    registrocddcodigo: TStringField;
+    registrocddnome: TStringField;
+    registroedrinscest: TStringField;
+    registroedrcep: TStringField;
+    Label8: TLabel;
+    tedcodigo: TDBEdit;
+    Label9: TLabel;
+    edrrua: TDBEdit;
+    Label10: TLabel;
+    edrnumero: TDBEdit;
+    Label11: TLabel;
+    edrcomple: TDBEdit;
+    Label12: TLabel;
+    edrbairro: TDBEdit;
+    Label13: TLabel;
+    edrcxpostal: TDBEdit;
+    Label14: TLabel;
+    cddcodigo: TDBEdit;
+    Label16: TLabel;
+    edrcep: TDBEdit;
+    Label15: TLabel;
+    edrinscest: TDBEdit;
+    ufscodigo: TDBEdit;
+    BvalidarDoc2: TBitBtn;
+    ACBrValidador: TACBrValidador;
+    ted: tuniquery;
+    tedtedcodigo: TIntegerField;
+    tedtedidentificacao: TStringField;
+    cdd: tuniquery;
+    cddcddcodigo: TStringField;
+    cddcddnome: TStringField;
+    Label1: TLabel;
+    ufs: tuniquery;
+    registroufscodigo: TStringField;
+    ufsufscodigo: TStringField;
+    ufsufsnome: TStringField;
+    ufsufssigla: TStringField;
+    registroufsnome: TStringField;
+    ufssigla: TDBEdit;
+    registroufssigla: TStringField;
+    registroedrobs: TStringField;
+    edrobs: TDBMemo;
+    Label2: TLabel;
+    ACBrValidadorCEP: TACBrValidador;
+    registroedrinscmun: TStringField;
+    Label3: TLabel;
+    edrinscmun: TDBEdit;
+    pltpeidentificacao: TPanel;
+    registroedritem: TIntegerField;
+    cfgcddcodigo: TStringField;
+    cfgufscodigo: TStringField;
+    cfgedrcep: TStringField;
+    registroedrnomefazenda: TStringField;
+    registroedrrazaofazenda: TStringField;
+    lbedrrazaofazenda: TLabel;
+    edrrazaofazenda: TDBEdit;
+    lbedrnomefazenda: TLabel;
+    edrnomefazenda: TDBEdit;
+    procedure BvalidarDoc2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure DSRegistroDataChange(Sender: TObject; Field: TField);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure cddcodigoEnter(Sender: TObject);
+    procedure registroCalcFields(DataSet: TDataSet);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure edrcepExit(Sender: TObject);
+    procedure edrinscestKeyPress(Sender: TObject; var Key: Char);
+    procedure cddcodigoExit(Sender: TObject);
+    procedure ufscodigoExit(Sender: TObject);
+  private
+    function ValidaIE: Boolean;
+    function ValidaCidade: Boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpTipoPessoa: Integer;
+  end;
+
+var
+  fedr: Tfedr;
+
+  // Início ID do Módulo fraedr
+const
+  vPlIdMd = '01.01.80.001-02';
+
+  // Fim ID do Módulo fraedr
+
+implementation
+
+{$R *.dfm}
+
+function formulario(pCargaFrame: TCargaFrame): string;
+begin
+  fedr := Tfedr.Create(pCargaFrame);
+  fedr.ShowModal;
+  fedr.Free;
+end;
+
+exports formulario;
+
+procedure Tfedr.bconfirmaClick(Sender: TObject);
+begin
+  if not ValidaCidade then
+    Exit;
+
+  if psituacao.Caption = 'Incluindo' then
+  begin
+    if Self.tedcodigo.Field.AsInteger = 1 then
+    begin
+      consulta.Close;
+      consulta.SQL.Clear;
+      consulta.SQL.Add('SELECT COUNT(edr.tedcodigo) AS principal');
+      consulta.SQL.Add('  FROM edr ');
+      consulta.SQL.Add(' WHERE edr.etdcodigo = ' + Self.vChaveMestre);
+      consulta.SQL.Add('   AND edr.tedcodigo = 1;');
+      consulta.Open;
+
+      if Self.consulta.Fields[0].AsInteger >= 1 then
+      begin
+        ShowMessage('Já consta endereço Principal para este Cadastro!');
+        Self.tedcodigo.SetFocus;
+        Exit;
+      end;
+    end;
+  end;
+
+  If Length(SoNumeros(Self.edrcep.Text)) <> 8 Then
+  Begin
+    ShowMessage('Atenção, CEP inválido, tamanho' + #13 + ' obrigatório de 8 digitos!');
+    Self.edrcep.SetFocus;
+    Exit;
+  End;
+
+  if (ufssigla.Field.AsString = 'RO') then
+  begin
+
+  end
+  else if (not ValidaIE) then
+  begin
+    edrinscest.SetFocus;
+    Exit;
+  end;
+
+  Inherited;
+end;
+
+procedure Tfedr.BvalidarDoc2Click(Sender: TObject);
+begin
+  inherited;
+  if ufssigla.Field.AsString = 'RO' then
+  begin
+    Self.bconfirma.Enabled := True;
+    edrinscest.Color := $00B3FFB3;
+    Self.bconfirma.SetFocus;
+    Exit;
+  end;
+
+  if not ValidaCidade then
+    Exit;
+
+  if ValidaIE then
+  begin
+    Self.bconfirma.Enabled := True;
+    edrinscest.Color := $00B3FFB3;
+    Self.bconfirma.SetFocus;
+  end
+  else
+  begin
+    Self.bconfirma.Enabled := False;
+    edrinscest.SetFocus;
+  end;
+end;
+
+procedure Tfedr.cddcodigoEnter(Sender: TObject);
+begin
+  inherited;
+  Self.txtFiltro := ' ufscodigo=' + chr(39) + Self.ufscodigo.Field.AsString + chr(39);
+end;
+
+procedure Tfedr.cddcodigoExit(Sender: TObject);
+begin
+  // inherited;
+  if ActiveControl = bcancela then
+    Exit;
+
+  Self.ValidaSaida(Sender);
+
+  if not ValidaCidade then
+    Exit;
+end;
+
+procedure Tfedr.DSRegistroDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  If Self.tedcodigo.Field.AsInteger = 4 Then
+  Begin
+    lbedrnomefazenda.Visible := True;
+    lbedrrazaofazenda.Visible := True;
+    edrnomefazenda.Visible := True;
+    edrrazaofazenda.Visible := True;
+  End
+  Else
+  Begin
+    lbedrnomefazenda.Visible := False;
+    lbedrrazaofazenda.Visible := False;
+    edrnomefazenda.Visible := False;
+    edrrazaofazenda.Visible := False;
+  End;
+end;
+
+procedure Tfedr.edrcepExit(Sender: TObject);
+begin
+  inherited;
+
+  ACBrValidadorCEP.Documento := edrcep.Field.AsString;
+  If ACBrValidadorCEP.Validar Then
+  Begin
+    Self.ValidaSaida(Sender);
+  End
+  else
+  begin
+    ShowMessage('CEP inválido!');
+    edrcep.SetFocus;
+    edrcep.SelectAll;
+  end;
+end;
+
+procedure Tfedr.edrinscestKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not(Key in [#$16, #27, #13, #8, '0' .. '9', '.', '-']) then
+    Key := #0;
+
+  FormKeyPress(Sender, Key);
+end;
+
+procedure Tfedr.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+  inherited;
+  { prepara validação de Inscrição estadual
+    Pega pela consulta o tipo de pessoa
+    se pessoa física, a inscrição é ISENTO, outros
+    tipos de pessoa deverá validar a inscrição }
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT tpe.tpecodigo, tpe.tpeidentificacao FROM etd, tpe ';
+  consulta.SQL.Add('WHERE etd.tpecodigo = tpe.tpecodigo ');
+  consulta.SQL.Add('AND etdcodigo = ' + Self.vChaveMestre);
+  consulta.Open;
+
+  Self.vpTipoPessoa := Self.consulta.Fields[0].AsInteger;
+
+  pltpeidentificacao.Caption := Self.consulta.Fields[1].AsString;
+
+  if Self.psituacao.Caption = 'Incluindo' then
+  begin
+    cfg.Close;
+    cfg.Open;
+
+    ufscodigo.Field.AsString := Self.cfgufscodigo.AsString;
+    cddcodigo.Field.AsString := Self.cfgcddcodigo.AsString;
+    Self.edrcep.Field.AsString := cfgedrcep.AsString;
+  end;
+end;
+
+procedure Tfedr.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  Self.registroetdcodigo.AsString := vChaveMestre;
+  consulta.Close;
+  consulta.SQL.Text := 'Select count(edrcodigo) as qtd from edr where etdcodigo=' + vChaveMestre { + ' and tedcodigo=1' };
+  consulta.Open;
+
+  registroedritem.AsInteger := consulta.Fields[0].AsInteger + 1;
+
+  if consulta.Fields[0].AsInteger = 0 then
+  begin
+    Self.registrotedcodigo.AsInteger := 1;
+    tedcodigo.Enabled := False;
+    edrrua.SetFocus;
+  end
+  else
+  begin
+    tedcodigo.Enabled := True;
+    tedcodigo.SetFocus;
+  end;
+end;
+
+procedure Tfedr.registroCalcFields(DataSet: TDataSet);
+begin
+  inherited;
+  if Self.registroufscodigo.AsString <> '' then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'select ufssigla from ufs where ufscodigo=' + Self.registroufscodigo.AsString;
+    consulta.Open;
+    Self.registroufssigla.AsString := Self.consulta.Fields[0].AsString;
+    consulta.Close;
+  end;
+end;
+
+procedure Tfedr.ufscodigoExit(Sender: TObject);
+begin
+  inherited;
+  Self.ValidaSaida(Sender);
+  Self.txtFiltro := ' ufscodigo=' + chr(39) + Self.ufscodigo.Field.AsString + chr(39);
+end;
+
+function Tfedr.ValidaIE: Boolean;
+begin
+  Result := False;
+
+  Self.edrinscest.Field.AsString := SoNumeros(Self.edrinscest.Field.AsString);
+
+  if (Self.edrinscest.Field.AsString <> '') then
+  begin
+    Self.edrinscest.Field.AsFloat := Self.edrinscest.Field.AsFloat;
+
+    ACBrValidador.AjustarTamanho := True;
+
+    ACBrValidador.Complemento := Self.ufssigla.Field.AsString;
+    ACBrValidador.Documento := Self.edrinscest.Field.AsString;
+
+    If not ACBrValidador.Validar Then
+    Begin
+      ShowMessage('Inscrição estadual inválida para o estado de ' + Self.ufssigla.Field.AsString);
+      Exit;
+    End;
+
+    Self.edrinscest.Field.AsString := ACBrValidador.Formatar;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT edr.etdcodigo, etd.etdidentificacao FROM edr, etd ';
+    consulta.SQL.Add('WHERE edr.etdcodigo = etd.etdcodigo ');
+    consulta.SQL.Add('AND edr.edrinscest=''' + Self.edrinscest.Field.AsString + ''' ');
+    if Situacao = 'Alterando' then
+      consulta.SQL.Add('AND edr.edrcodigo<>' + Self.registroedrcodigo.AsString);
+    consulta.Open;
+
+    If Not consulta.IsEmpty Then
+    Begin
+      ShowMessage('Esta inscrição já está em uso pela entidade: ' + #13 + consulta.Fields[0].AsString + ' -  ' + consulta.Fields[1].AsString + #13 + 'Inscrição Estadual: ' +
+        Self.edrinscest.Field.AsString);
+      Exit;
+    End;
+  end;
+
+  Result := True;
+end;
+
+function Tfedr.ValidaCidade: Boolean;
+var
+  vufscodigo: string;
+begin
+  Result := False;
+
+  vufscodigo := Copy(cddcodigo.Field.AsString, 1, 2);
+
+  if ufscodigo.Text <> vufscodigo then
+  begin
+    ShowMessage('Cidade inválida para este estado!');
+    cddcodigo.Field.AsString := '';
+    cddcodigo.SetFocus;
+    Exit;
+  end;
+
+  Result := True;
+end;
+
+end.

@@ -1,0 +1,931 @@
+inherited fproime: Tfproime
+  Caption = 'Pesquisa de produto por descri'#231#227'o na IMENDES'
+  ClientHeight = 634
+  ClientWidth = 820
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 605
+    Width = 820
+    inherited bconfirma: TBitBtn
+      Left = 666
+      Default = True
+      Enabled = False
+      ModalResult = 1
+      NumGlyphs = 2
+    end
+    inherited bcancela: TBitBtn
+      Left = 741
+    end
+    inherited bfechar: TBitBtn
+      Left = 601
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 820
+    Height = 605
+    inherited Principal: TTabSheet
+      object Label2: TLabel
+        Left = 502
+        Top = 298
+        Width = 56
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo EAN'
+        FocusControl = DBEdit2
+      end
+      object Label3: TLabel
+        Left = 283
+        Top = 336
+        Width = 72
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo Interno'
+        FocusControl = DBEdit3
+      end
+      object Label4: TLabel
+        Left = 99
+        Top = 336
+        Width = 80
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo IMENDES'
+        FocusControl = DBEdit4
+      end
+      object Label5: TLabel
+        Left = 483
+        Top = 336
+        Width = 22
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'NCM'
+        FocusControl = DBEdit5
+      end
+      object Label6: TLabel
+        Left = 662
+        Top = 336
+        Width = 25
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CEST'
+        FocusControl = DBEdit6
+      end
+      object Label7: TLabel
+        Left = 99
+        Top = 393
+        Width = 113
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CST PIS/COFINS sa'#237'das'
+        FocusControl = DBEdit7
+      end
+      object Label8: TLabel
+        Left = 100
+        Top = 521
+        Width = 75
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CFOP de Venda'
+        FocusControl = DBEdit8
+      end
+      object Label9: TLabel
+        Left = 483
+        Top = 393
+        Width = 95
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo de CST  ICM'
+        FocusControl = DBEdit9
+      end
+      object Label10: TLabel
+        Left = 662
+        Top = 393
+        Width = 109
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'sigo de CSOSN  ICM'
+        FocusControl = DBEdit10
+      end
+      object Label11: TLabel
+        Left = 99
+        Top = 453
+        Width = 48
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% de ICM'
+        FocusControl = DBEdit11
+      end
+      object Label12: TLabel
+        Left = 283
+        Top = 453
+        Width = 134
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% de Redu'#231#227'o base do ICM'
+        FocusControl = DBEdit12
+      end
+      object Label13: TLabel
+        Left = 483
+        Top = 453
+        Width = 77
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% de IVA / MVA'
+        FocusControl = DBEdit13
+      end
+      object Label14: TLabel
+        Left = 662
+        Top = 453
+        Width = 132
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% Fundo Combate Pobreza'
+        FocusControl = DBEdit14
+      end
+      object Label18: TLabel
+        Left = 709
+        Top = 298
+        Width = 41
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Situa'#231#227'o'
+        FocusControl = DBEdit18
+      end
+      object Label1: TLabel
+        Left = 18
+        Top = 298
+        Width = 46
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Descri'#231#227'o'
+        FocusControl = DBEdit1
+      end
+      object Label15: TLabel
+        Left = 283
+        Top = 390
+        Width = 30
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% PIS'
+        FocusControl = DBEdit15
+      end
+      object Label16: TLabel
+        Left = 362
+        Top = 391
+        Width = 52
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '% COFINS'
+        FocusControl = DBEdit15
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 812
+        Height = 289
+        CustomHint = BalloonHint
+        Align = alTop
+        TabOrder = 0
+        object Panel2: TPanel
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 804
+          Height = 41
+          CustomHint = BalloonHint
+          Align = alTop
+          BevelOuter = bvNone
+          Color = clSilver
+          Padding.Top = 7
+          Padding.Bottom = 7
+          ParentBackground = False
+          TabOrder = 0
+          object Label19: TLabel
+            Left = 14
+            Top = 14
+            Width = 191
+            Height = 13
+            CustomHint = BalloonHint
+            Caption = 'Descri'#231#227'o do produto a pesquisar:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object SpeedButton1: TSpeedButton
+            AlignWithMargins = True
+            Left = 482
+            Top = 10
+            Width = 65
+            Height = 21
+            CustomHint = BalloonHint
+            Align = alRight
+            Caption = 'Pesquisar'
+            OnClick = SpeedButton1Click
+          end
+          object SpeedButton2: TSpeedButton
+            AlignWithMargins = True
+            Left = 553
+            Top = 10
+            Width = 99
+            Height = 21
+            CustomHint = BalloonHint
+            Align = alRight
+            Caption = 'Limpar Pesquisa'
+            OnClick = SpeedButton2Click
+          end
+          object SpeedButton3: TSpeedButton
+            AlignWithMargins = True
+            Left = 658
+            Top = 10
+            Width = 143
+            Height = 21
+            CustomHint = BalloonHint
+            Align = alRight
+            Caption = 'Carregar Item selecionado'
+            OnClick = SpeedButton3Click
+          end
+          object EdBusca: TEdit
+            AlignWithMargins = True
+            Left = 211
+            Top = 10
+            Width = 265
+            Height = 21
+            CustomHint = BalloonHint
+            Align = alRight
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
+        object Panel3: TPanel
+          AlignWithMargins = True
+          Left = 4
+          Top = 51
+          Width = 804
+          Height = 23
+          CustomHint = BalloonHint
+          Align = alTop
+          Alignment = taLeftJustify
+          BevelOuter = bvNone
+          Caption = '  Lista de produtos localizados'
+          Color = clSilver
+          ParentBackground = False
+          TabOrder = 1
+        end
+        object DBGrid1: TDBGrid
+          Left = 1
+          Top = 240
+          Width = 810
+          Height = 48
+          CustomHint = BalloonHint
+          Align = alBottom
+          DataSource = DSFDMemPro
+          DrawingStyle = gdsGradient
+          TabOrder = 2
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Visible = False
+          OnDrawColumnCell = DBGrid1DrawColumnCell
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'id'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ean'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'descricao'
+              Width = 550
+              Visible = True
+            end>
+        end
+        object CRDBGrid1: TCRDBGrid
+          Left = 1
+          Top = 77
+          Width = 810
+          Height = 163
+          CustomHint = BalloonHint
+          OptionsEx = [dgeSearchBar]
+          Align = alClient
+          BorderStyle = bsNone
+          Ctl3D = False
+          DataSource = DSFDMemPro
+          Options = [dgTitles, dgIndicator, dgRowLines, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ParentColor = True
+          ParentCtl3D = False
+          ParentShowHint = False
+          ShowHint = False
+          TabOrder = 3
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'id'
+              Width = 84
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ean'
+              Width = 124
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'descricao'
+              Width = 550
+              Visible = True
+            end>
+        end
+      end
+      object DBEdit2: TDBEdit
+        Left = 564
+        Top = 295
+        Width = 128
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imuean'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object DBEdit3: TDBEdit
+        Left = 283
+        Top = 353
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucodigointerno'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object DBEdit4: TDBEdit
+        Left = 99
+        Top = 353
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucodigoimendes'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 3
+      end
+      object DBEdit5: TDBEdit
+        Left = 483
+        Top = 353
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imuncm'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 4
+      end
+      object DBEdit6: TDBEdit
+        Left = 662
+        Top = 353
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucest'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 5
+      end
+      object DBEdit7: TDBEdit
+        Left = 99
+        Top = 412
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucstpiscofinssai'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 6
+      end
+      object DBEdit8: TDBEdit
+        Left = 100
+        Top = 537
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucfopvenda'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 7
+      end
+      object DBEdit9: TDBEdit
+        Left = 483
+        Top = 409
+        Width = 121
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucst'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 8
+      end
+      object DBEdit10: TDBEdit
+        Left = 662
+        Top = 409
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imucsosn'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 9
+      end
+      object DBEdit11: TDBEdit
+        Left = 99
+        Top = 471
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imuicmspdv'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 10
+      end
+      object DBEdit12: TDBEdit
+        Left = 283
+        Top = 471
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imupercredbcicms'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 11
+      end
+      object DBEdit13: TDBEdit
+        Left = 483
+        Top = 471
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imuiva'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 12
+      end
+      object DBEdit14: TDBEdit
+        Left = 662
+        Top = 471
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imupercfcp'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 13
+      end
+      object DBEdit18: TDBEdit
+        Left = 766
+        Top = 295
+        Width = 30
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imustatus'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 14
+      end
+      object DBEdit1: TDBEdit
+        Left = 100
+        Top = 295
+        Width = 381
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imudescricao'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 15
+      end
+      object DBEdit15: TDBEdit
+        Left = 283
+        Top = 409
+        Width = 55
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imupercpis'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 16
+      end
+      object DBEdit16: TDBEdit
+        Left = 362
+        Top = 409
+        Width = 55
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        Color = 16765348
+        DataField = 'imuperccofins'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 17
+      end
+    end
+  end
+  inherited cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT cfgmsai.cfgcodigo'
+      '     , cfgmsai.cfgbalanca'
+      '     , cfgmsai.cfgnrseriepro'
+      '     , cfgmsai.cfgrefepro'
+      '     , cfgmsai.cfgcompro'
+      '     , cfgmsai.cfgunitrib'
+      '     , cfgmsai.cfgdoisprecos'
+      '     , cfgmsai.cfgusagrade'
+      '     , cfgmsai.cfgusaenderecamento'
+      '     , cfgmsai.cfgprodefineicms'
+      '     , cfgmsai.cfgextratosegmentado'
+      '     , cfgmsai.cfgusaprecobase'
+      '     , cfgmsai.cfgtabelasaux'
+      '     , cfgmsai.cfgproinativsaldozero'
+      '     , cfgmsai.cfgtributacaoimendes'
+      '     , etd.etddoc1'
+      '     , cfgmcfg.crtcodigo'
+      '     , cfgmspd.cfgcnae'
+      '     , cfgmcfg.talcodigo'
+      ''
+      ''
+      'FROM cfgmsai'
+      '  INNER join cfgmcfg  ON cfgmsai.cfgcodigo = cfgmcfg.cfgcodigo'
+      '  INNER join cfgmspd  ON cfgmspd.cfgcodigo = cfgmcfg.cfgcodigo'
+      '  INNER JOIN etd on etd.etdcodigo = cfgmcfg.cfgetdempresa')
+    object cfgcfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+    end
+    object cfgcfgrefepro: TIntegerField
+      DisplayLabel = 'Utiliza refer'#234'ncia'
+      FieldName = 'cfgrefepro'
+    end
+    object cfgcfgdoisprecos: TIntegerField
+      DisplayLabel = 'Utiliza pre'#231'o a Vista e a Prazo'
+      FieldName = 'cfgdoisprecos'
+    end
+    object cfgcfgusagrade: TIntegerField
+      FieldName = 'cfgusagrade'
+    end
+    object cfgcfgusaenderecamento: TIntegerField
+      FieldName = 'cfgusaenderecamento'
+    end
+    object cfgcfgprodefineicms: TIntegerField
+      FieldName = 'cfgprodefineicms'
+    end
+    object cfgcfgbalanca: TIntegerField
+      FieldName = 'cfgbalanca'
+    end
+    object cfgcfgextratosegmentado: TIntegerField
+      FieldName = 'cfgextratosegmentado'
+    end
+    object cfgcfgusaprecobase: TIntegerField
+      FieldName = 'cfgusaprecobase'
+    end
+    object cfgcfgtabelasaux: TIntegerField
+      FieldName = 'cfgtabelasaux'
+    end
+    object cfgcfgproinativsaldozero: TIntegerField
+      FieldName = 'cfgproinativsaldozero'
+    end
+    object cfgcfgtributacaoimendes: TIntegerField
+      FieldName = 'cfgtributacaoimendes'
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+      Size = 50
+    end
+    object cfgcrtcodigo: TIntegerField
+      FieldName = 'crtcodigo'
+    end
+    object cfgcfgcnae: TStringField
+      FieldName = 'cfgcnae'
+    end
+    object cfgtalcodigo: TIntegerField
+      FieldName = 'talcodigo'
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  imuid,'
+      '  imuean,'
+      '  imucodigointerno,'
+      '  imucodigoimendes,'
+      '  imustatus,'
+      '  imudescricao,'
+      '  imuncm,'
+      '  imucest,'
+      '  imupercipi,'
+      '  imucestipi,'
+      '  imucstpiscofinsent,'
+      '  imucstpiscofinssai,'
+      '  imunatrecisenta,'
+      '  imupiscofins,'
+      '  imulista,'
+      '  imutipo,'
+      '  imupercpis,'
+      '  imuperccofins,'
+      '  imucfopcompra,'
+      '  imucfopvenda,'
+      '  imucst,'
+      '  imucsosn,'
+      '  imumodbc,'
+      '  imupercicms,'
+      '  imuicmspdv,'
+      '  imusimbpdv,'
+      '  imupercredbcicms,'
+      '  imupercredbcicmsst,'
+      '  imupercmodbcst,'
+      '  imupercicmsst,'
+      '  imuiva,'
+      '  imupautast,'
+      '  imupercfcp,'
+      '  imuantecipado'
+      '  FROM'
+      'imu where imuid=:imuid')
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'imuid'
+        Value = nil
+      end>
+    object registroimuid: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Chave'
+      FieldName = 'imuid'
+    end
+    object registroimuean: TStringField
+      DisplayLabel = 'C'#243'digo EAN'
+      FieldName = 'imuean'
+    end
+    object registroimucodigointerno: TStringField
+      DisplayLabel = 'C'#243'digo Interno'
+      FieldName = 'imucodigointerno'
+    end
+    object registroimucodigoimendes: TStringField
+      DisplayLabel = 'C'#243'digo IMENDES'
+      FieldName = 'imucodigoimendes'
+    end
+    object registroimustatus: TStringField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'imustatus'
+      Size = 2
+    end
+    object registroimudescricao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'imudescricao'
+      Size = 200
+    end
+    object registroimuncm: TStringField
+      DisplayLabel = 'NCM'
+      FieldName = 'imuncm'
+      Size = 10
+    end
+    object registroimucest: TStringField
+      DisplayLabel = 'CEST'
+      FieldName = 'imucest'
+      Size = 10
+    end
+    object registroimupercipi: TStringField
+      DisplayLabel = 'Percentual de IPI'
+      FieldName = 'imupercipi'
+      Size = 10
+    end
+    object registroimucestipi: TStringField
+      DisplayLabel = 'C'#243'digo CST do IPI'
+      FieldName = 'imucestipi'
+      Size = 10
+    end
+    object registroimucstpiscofinsent: TStringField
+      DisplayLabel = 'Percentual de PIS/COFINS para entradas'
+      FieldName = 'imucstpiscofinsent'
+      Size = 10
+    end
+    object registroimucstpiscofinssai: TStringField
+      DisplayLabel = 'Percentual de PIS/COFINS para sa'#237'das'
+      FieldName = 'imucstpiscofinssai'
+      Size = 10
+    end
+    object registroimunatrecisenta: TStringField
+      DisplayLabel = 'Natureza ISENTA'
+      FieldName = 'imunatrecisenta'
+      Size = 10
+    end
+    object registroimupiscofins: TStringField
+      FieldName = 'imupiscofins'
+      Size = 10
+    end
+    object registroimulista: TStringField
+      FieldName = 'imulista'
+    end
+    object registroimutipo: TStringField
+      FieldName = 'imutipo'
+    end
+    object registroimupercpis: TStringField
+      FieldName = 'imupercpis'
+      Size = 10
+    end
+    object registroimuperccofins: TStringField
+      FieldName = 'imuperccofins'
+      Size = 10
+    end
+    object registroimucfopcompra: TStringField
+      DisplayLabel = 'CFOP de compra'
+      FieldName = 'imucfopcompra'
+      Size = 10
+    end
+    object registroimucfopvenda: TStringField
+      DisplayLabel = 'CFOP de Venda'
+      FieldName = 'imucfopvenda'
+      Size = 10
+    end
+    object registroimucst: TStringField
+      DisplayLabel = 'C'#243'sigo de CST  ICM'
+      FieldName = 'imucst'
+      Size = 10
+    end
+    object registroimucsosn: TStringField
+      DisplayLabel = 'C'#243'sigo de CSOSN  ICM'
+      FieldName = 'imucsosn'
+      Size = 10
+    end
+    object registroimumodbc: TStringField
+      FieldName = 'imumodbc'
+      Size = 10
+    end
+    object registroimupercicms: TStringField
+      FieldName = 'imupercicms'
+      Size = 10
+    end
+    object registroimuicmspdv: TStringField
+      DisplayLabel = 'Percentual de ICM'
+      FieldName = 'imuicmspdv'
+      Size = 10
+    end
+    object registroimusimbpdv: TStringField
+      FieldName = 'imusimbpdv'
+      Size = 10
+    end
+    object registroimupercredbcicms: TStringField
+      DisplayLabel = 'Percental de Redu'#231#227'o na base do ICM'
+      FieldName = 'imupercredbcicms'
+      Size = 10
+    end
+    object registroimupercredbcicmsst: TStringField
+      DisplayLabel = 'Percental de Redu'#231#227'o na base do ICM ST'
+      FieldName = 'imupercredbcicmsst'
+      Size = 10
+    end
+    object registroimupercmodbcst: TStringField
+      FieldName = 'imupercmodbcst'
+      Size = 10
+    end
+    object registroimupercicmsst: TStringField
+      DisplayLabel = 'Percentual de ICM ST'
+      FieldName = 'imupercicmsst'
+      Size = 10
+    end
+    object registroimuiva: TStringField
+      DisplayLabel = 'Percentual de IVA'
+      FieldName = 'imuiva'
+      Size = 10
+    end
+    object registroimupautast: TStringField
+      FieldName = 'imupautast'
+      Size = 10
+    end
+    object registroimupercfcp: TStringField
+      DisplayLabel = '% Fundo Combate a Pobreza'
+      FieldName = 'imupercfcp'
+      Size = 10
+    end
+    object registroimuantecipado: TStringField
+      FieldName = 'imuantecipado'
+      Size = 10
+    end
+  end
+  inherited ImgBusca: TPngImageList
+    Left = 620
+    Top = 136
+  end
+  object RESTClientBase: TRESTClient
+    BaseURL = 'http://localhost:9191/grp'
+    Params = <
+      item
+        Kind = pkHTTPHEADER
+        Name = 'login'
+        Options = [poDoNotEncode]
+        Value = '14477548000131'
+        ContentType = ctAPPLICATION_JSON
+      end
+      item
+        Kind = pkHTTPHEADER
+        Name = 'senha'
+        Options = [poDoNotEncode]
+        Value = 'HPoLD9OmFOHb'
+        ContentType = ctAPPLICATION_JSON
+      end>
+    Left = 728
+    Top = 120
+  end
+  object RESTResponseBase: TRESTResponse
+    Left = 728
+    Top = 176
+  end
+  object RESTRequestBase: TRESTRequest
+    Client = RESTClientBase
+    Method = rmPOST
+    Params = <>
+    Response = RESTResponseBase
+    SynchronizedEvents = False
+    Left = 736
+    Top = 224
+  end
+  object fdmempro: TFDMemTable
+    Filtered = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 196
+    Top = 216
+    object fdmemproid: TIntegerField
+      DisplayLabel = 'C'#243'digo IMENDES'
+      FieldName = 'id'
+    end
+    object fdmemprodescricao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'descricao'
+      Size = 200
+    end
+    object fdmemproean: TStringField
+      DisplayLabel = 'EAN'
+      FieldName = 'ean'
+    end
+  end
+  object DSFDMemPro: TDataSource
+    DataSet = fdmempro
+    Left = 316
+    Top = 216
+  end
+end

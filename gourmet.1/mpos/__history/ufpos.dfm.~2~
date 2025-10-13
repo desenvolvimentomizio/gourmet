@@ -1,0 +1,5 @@
+inherited fpos: Tfpos
+  Caption = 'fpos'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

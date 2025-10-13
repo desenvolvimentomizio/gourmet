@@ -1,0 +1,277 @@
+object dtmxml: Tdtmxml
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  OldCreateOrder = False
+  Height = 371
+  HorizontalOffset = 932
+  VerticalOffset = 370
+  Width = 507
+  object ACBrNFe: TACBrNFe
+    MAIL = ACBrMail1
+    OnTransmitError = ACBrNFeTransmitError
+    Configuracoes.Geral.SSLLib = libCapicom
+    Configuracoes.Geral.SSLCryptLib = cryCapicom
+    Configuracoes.Geral.SSLHttpLib = httpWinINet
+    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
+    Configuracoes.Geral.ExibirErroSchema = False
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.Arquivos.PathSalvar = '.\Salvar\'
+    Configuracoes.Arquivos.PathSchemas = '.\Schemas\'
+    Configuracoes.Arquivos.IniServicos = 'UrlsTXT.txt'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.Arquivos.SepararPorMes = True
+    Configuracoes.Arquivos.EmissaoPathNFe = True
+    Configuracoes.Arquivos.SalvarEvento = True
+    Configuracoes.Arquivos.PathNFe = '.\NFe'
+    Configuracoes.Arquivos.PathInu = '.\Inu'
+    Configuracoes.Arquivos.PathEvento = '.\Eventos'
+    Configuracoes.Arquivos.DownloadNFe.PathDownload = '.\Download'
+    Configuracoes.WebServices.UF = 'ES'
+    Configuracoes.WebServices.Ambiente = taProducao
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    DANFE = ACBrNFeDANFeRL1
+    left = 304
+    top = 128
+  end
+  object ACBrNFeDANFeRL1: TACBrNFeDANFeRL
+    ACBrNFe = ACBrNFe
+    PathPDF = '.\PDFs\'
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiRetrato
+    NumCopias = 1
+    ImprimeNomeFantasia = False
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = True
+    MargemInferior = 0.7
+    MargemSuperior = 0.7
+    MargemEsquerda = 0.7
+    MargemDireita = 0.7
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais._qCom = 4
+    CasasDecimais._vUnCom = 4
+    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
+    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    ImprimirItens = True
+    vTroco = 0
+    ViaConsumidor = True
+    TamanhoLogoHeight = 0
+    TamanhoLogoWidth = 0
+    RecuoEndereco = 0
+    RecuoEmpresa = 0
+    LogoemCima = False
+    TamanhoFonteEndereco = 0
+    RecuoLogo = 0
+    TributosSeparadamente = False
+    vTribFed = 0
+    vTribEst = 0
+    vTribMun = 0
+    LarguraCodProd = 54
+    ExibirEAN = False
+    QuebraLinhaEmDetalhamentoEspecifico = True
+    ExibeCampoFatura = False
+    ImprimirUnQtVlComercial = iuComercial
+    ImprimirDadosDocReferenciados = True
+    left = 304
+    top = 192
+  end
+  object ACBrMail1: TACBrMail
+    Host = '127.0.0.1'
+    Port = '25'
+    SetSSL = False
+    SetTLS = False
+    Attempts = 3
+    DefaultCharset = UTF_8
+    IDECharset = UTF_8
+    left = 304
+    top = 264
+  end
+  object Conn: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = '.\Database\acbrxml.db'
+    KeepConnection = False
+    Transaction = Trans
+    HostName = '127.0.0.1'
+    LogEvents = []
+    Options = []
+    left = 62
+    top = 52
+  end
+  object xmlcfg: TSQLQuery
+    PacketRecords = 1
+    FieldDefs = <>
+    AfterOpen = xmlcfgAfterOpen
+    AfterPost = xmlcfgAfterPost
+    Database = Conn
+    Transaction = Trans
+    SQL.Strings = (
+      'select * from xmlcfg'
+    )
+    Options = []
+    Params = <>
+    left = 62
+    top = 130
+  end
+  object Trans: TSQLTransaction
+    Active = False
+    Database = Conn
+    Options = []
+    left = 116
+    top = 54
+  end
+  object xmlres: TSQLQuery
+    PacketRecords = -1
+    FieldDefs = <    
+      item
+        Name = 'idDFe'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'xNumeroNFe'
+        DataType = ftString
+        Precision = -1
+        Size = 10
+      end    
+      item
+        Name = 'xSerie'
+        DataType = ftString
+        Precision = -1
+        Size = 3
+      end    
+      item
+        Name = 'chNFe'
+        DataType = ftString
+        Precision = -1
+        Size = 44
+      end    
+      item
+        Name = 'CNPJCPF'
+        DataType = ftString
+        Precision = -1
+        Size = 14
+      end    
+      item
+        Name = 'xNome'
+        DataType = ftString
+        Precision = -1
+        Size = 100
+      end    
+      item
+        Name = 'IE'
+        DataType = ftString
+        Precision = -1
+        Size = 18
+      end    
+      item
+        Name = 'dhEmi'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'tpNF'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'vNF'
+        DataType = ftFMTBcd
+        Precision = -1
+        Size = 2
+      end    
+      item
+        Name = 'digVal'
+        DataType = ftString
+        Precision = -1
+        Size = 1
+      end    
+      item
+        Name = 'dhRecbto'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'nProt'
+        DataType = ftString
+        Precision = -1
+        Size = 20
+      end    
+      item
+        Name = 'cSitNFe'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'NSU'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'xmlNFe'
+        DataType = ftString
+        Precision = -1
+        Size = 1
+      end    
+      item
+        Name = 'DFe'
+        DataType = ftString
+        Precision = -1
+        Size = 1
+      end>
+    Database = Conn
+    Transaction = Trans
+    SQL.Strings = (
+      'select * from xmlnfe'
+    )
+    Options = []
+    Params = <>
+    left = 112
+    top = 130
+  end
+  object find: TSQLQuery
+    PacketRecords = 1
+    UniDirectional = True
+    FieldDefs = <>
+    Database = Conn
+    Transaction = Trans
+    Options = []
+    Params = <>
+    left = 62
+    top = 286
+  end
+  object xmldfe: TSQLQuery
+    PacketRecords = -1
+    FieldDefs = <>
+    Database = Conn
+    Transaction = Trans
+    Options = []
+    Params = <>
+    left = 60
+    top = 196
+  end
+  object xmlnfe: TSQLQuery
+    PacketRecords = -1
+    FieldDefs = <>
+    Database = Conn
+    Transaction = Trans
+    Options = []
+    Params = <>
+    left = 112
+    top = 196
+  end
+  object AutoExec: TTimer
+    Enabled = False
+    OnTimer = AutoExecTimer
+    left = 428
+    top = 130
+  end
+end

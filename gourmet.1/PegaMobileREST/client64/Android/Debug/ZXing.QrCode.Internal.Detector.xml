@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.Detector" platform="Android">
+  <class name="TDetector" file="ZXing.QrCode.Internal.Detector.pas" line="47">
+    <devnotes>
+       <summary>
+       <p>Encapsulates logic that can detect a QR Code in an image, even if the QR Code
+       is rotated or skewed, or partially obscured.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FImage" type="TBitMatrix" visibility="private" size="4" offset="4" file="ZXing.QrCode.Internal.Detector.pas" line="49" />
+      <field name="FResultPointCallback" type="TResultPointCallback" visibility="private" size="8" offset="8" file="ZXing.QrCode.Internal.Detector.pas" line="50" />
+      <function name="calculateModuleSizeOneWay" visibility="private" file="ZXing.QrCode.Internal.Detector.pas" line="52">
+        <parameters>
+          <parameter name="pattern" type="IResultPoint" />
+          <parameter name="otherPattern" type="IResultPoint" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="computeDimension" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Detector.pas" line="55">
+        <parameters>
+          <parameter name="topLeft" type="IResultPoint" />
+          <parameter name="topRight" type="IResultPoint" />
+          <parameter name="bottomLeft" type="IResultPoint" />
+          <parameter name="moduleSize" type="Single" />
+          <parameter name="dimension" type="Integer" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="createTransform" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Detector.pas" line="59">
+        <parameters>
+          <parameter name="topLeft" type="IResultPoint" paramflags="const" />
+          <parameter name="topRight" type="IResultPoint" paramflags="const" />
+          <parameter name="bottomLeft" type="IResultPoint" paramflags="const" />
+          <parameter name="AlignmentPattern" type="IResultPoint" paramflags="const" />
+          <parameter name="dimension" type="Integer" paramflags="const" />
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="sampleGrid" visibility="private" procflags="static" file="ZXing.QrCode.Internal.Detector.pas" line="63">
+        <parameters>
+          <parameter name="image" type="TBitMatrix" />
+          <parameter name="transform" type="TPerspectiveTransform" />
+          <parameter name="dimension" type="Integer" />
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="sizeOfBlackWhiteBlackRun" visibility="private" file="ZXing.QrCode.Internal.Detector.pas" line="65">
+        <parameters>
+          <parameter name="fromX" type="Integer" />
+          <parameter name="fromY" type="Integer" />
+          <parameter name="toX" type="Integer" />
+          <parameter name="toY" type="Integer" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="sizeOfBlackWhiteBlackRunBothWays" visibility="private" file="ZXing.QrCode.Internal.Detector.pas" line="67">
+        <parameters>
+          <parameter name="fromX" type="Integer" />
+          <parameter name="fromY" type="Integer" />
+          <parameter name="toX" type="Integer" />
+          <parameter name="toY" type="Integer" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="calculateModuleSize" visibility="protected" procflags="virtual" file="ZXing.QrCode.Internal.Detector.pas" line="70">
+        <parameters>
+          <parameter name="topLeft" type="IResultPoint" paramflags="const" />
+          <parameter name="topRight" type="IResultPoint" paramflags="const" />
+          <parameter name="bottomLeft" type="IResultPoint" paramflags="const" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="findAlignmentInRegion" visibility="protected" file="ZXing.QrCode.Internal.Detector.pas" line="73">
+        <parameters>
+          <parameter name="overallEstModuleSize" type="Single" paramflags="const" />
+          <parameter name="estAlignmentX" type="Integer" paramflags="const" />
+          <parameter name="estAlignmentY" type="Integer" paramflags="const" />
+          <parameter name="allowanceFactor" type="Single" paramflags="const" />
+          <retval type="IAlignmentPattern">
+            <devnotes>
+               <summary>
+                As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+               of TAligmnentPattern instances
+               the actual implementation of this interface is in unit ZXing.QrCode.Internal.AlignmentPatternImplementation
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="processFinderPatternInfo" visibility="protected" procflags="virtual" file="ZXing.QrCode.Internal.Detector.pas" line="82">
+        <devnotes>
+           <summary>
+           Processes the finder pattern info.
+           </summary>
+           <param name="info">The info.</param>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="info" type="TFinderPatternInfo" paramflags="const" />
+          <retval type="TDetectorResult">
+            <devnotes>
+               <summary> <p>Encapsulates the result of detecting a barcode in an image. This includes the raw
+               matrix of black/white pixels corresponding to the barcode, and possibly points of interest
+               in the image, like the location of finder patterns or corners of the barcode in the image.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.Detector.pas" line="89">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.QrCode.Internal.Detector.pas" line="90">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="detect" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.Detector.pas" line="98">
+        <devnotes>
+           <summary>
+           <p>Detects a QR Code in an image.</p>
+           </summary>
+           <returns>
+           <see cref="T:ZXing.Common.DetectorResult.TDetectorResult"/> encapsulating results of detecting a QR Code
+           </returns>
+        </devnotes>
+        <parameters>
+          <retval type="TDetectorResult">
+            <devnotes>
+               <summary> <p>Encapsulates the result of detecting a barcode in an image. This includes the raw
+               matrix of black/white pixels corresponding to the barcode, and possibly points of interest
+               in the image, like the location of finder patterns or corners of the barcode in the image.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="detect" visibility="public" procflags="overload" file="ZXing.QrCode.Internal.Detector.pas" line="107">
+        <devnotes>
+           <summary>
+           <p>Detects a QR Code in an image.</p>
+           </summary>
+           <param name="hints">optional hints to detector</param>
+           <returns>
+           <see cref="T:ZXing.Common.DetectorResult.TDetectorResult"/> encapsulating results of detecting a QR Code
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TDetectorResult">
+            <devnotes>
+               <summary> <p>Encapsulates the result of detecting a barcode in an image. This includes the raw
+               matrix of black/white pixels corresponding to the barcode, and possibly points of interest
+               in the image, like the location of finder patterns or corners of the barcode in the image.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <property name="image" visibility="public" read="FImage" type="TBitMatrix" file="ZXing.QrCode.Internal.Detector.pas" line="110" />
+      <event name="ResultPointCallback" visibility="public" read="FResultPointCallback" type="TResultPointCallback" file="ZXing.QrCode.Internal.Detector.pas" line="111" />
+    </members>
+  </class>
+</namespace>

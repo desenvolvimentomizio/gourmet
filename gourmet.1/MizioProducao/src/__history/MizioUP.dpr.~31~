@@ -1,0 +1,40 @@
+program MizioUP;
+
+uses
+  FastMM4 in 'C:\componentes\FastMM4\FastMM4.pas',
+  madExcept,
+  System.StartUpCopy,
+  FMX.Forms,
+  FMX.Skia,
+  ufrmPrincipal in 'ufrmPrincipal.pas' {FrmPrincipal},
+  MizioUP.Controllers.produtividade in 'Controllers\MizioUP.Controllers.produtividade.pas',
+  MizioUP.Models.Configuracoes in 'Models\MizioUP.Models.Configuracoes.pas',
+  MizioUP.Services.conexao in 'Services\MizioUP.Services.conexao.pas',
+  MizioUP.Services.estilo in 'Services\MizioUP.Services.estilo.pas',
+  MizioUP.Controllers.setor in 'Controllers\MizioUP.Controllers.setor.pas',
+  MizioUP.Views.uListviewsetor in 'Views\MizioUP.Views.uListviewsetor.pas',
+  MizioUP.Views.uListviewcolaborador in 'Views\MizioUP.Views.uListviewcolaborador.pas',
+  MizioUP.Controllers.colaborador in 'Controllers\MizioUP.Controllers.colaborador.pas',
+  MizioUP.Views.uListviewpedido in 'Views\MizioUP.Views.uListviewpedido.pas',
+  MizioUP.Controllers.pedido in 'Controllers\MizioUP.Controllers.pedido.pas',
+  MizioUP.Views.uListviewprodutor in 'Views\MizioUP.Views.uListviewprodutor.pas',
+  MizioUP.Controllers.produtor in 'Controllers\MizioUP.Controllers.produtor.pas',
+  MizioUP.Controllers.producao in 'Controllers\MizioUP.Controllers.producao.pas';
+
+{$R *.res}
+
+begin
+  GlobalUseSkia := True;
+
+  {$IFDEF DEBUG}
+    ReportMemoryLeaksOnShutdown:=True;
+    //configuração do FastMM4
+    FullDebugModeScanMemoryPoolBeforeEveryOperation := True;
+    SuppressMessageBoxes:=False;
+
+  {$ENDIF}
+
+  Application.Initialize;
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.Run;
+end.

@@ -1,0 +1,48 @@
+Boa tarde Time Pegasus !!!!,
+
+Segue credenciais e acesso ao ambiente de Desenvolvimento da Api 2.0 Rappi.
+    - Doc: http://microservices.dev.rappi.com/api/v2/restaurants-integrations-public-api/docs.html	
+
+Nossa sugestão é que comecem pelo Create_menu (Post) para enviar produtos com preço, imagem, disponibilidade, min/max, etc... ao ambiente (Menu automático) e assim que enviarem os consulte no seu POS Tester de Desenvolvimento, a partir disso é possível enviar pedidos com os produtos encaminhados e também fazer Get_Menu (Recendo Sku’s e os Rappi ID’s criados para cada produto).
+*No ambiente de Produção/Piloto a aprovação do menu será "manual" feita pelo time de catálogo da Rappi.
+*É importante que as imagens sejam no formato JPG/PNG e que não estejam em domínio/nome de outros aplicativos (Ifood/Eats/Zé, etc)
+
+Após esse passo seguir com o desenvolvimento do Get_Orders.
+
+Como podem ler na documentação também estamos preparados para:
+      - Ligar e desligar a loja pela Api (POS); Turn)on/off.
+      - Ligar e desligar produtos pela Api por sku ou Rappi ID (POS); Stockout Turn)on/off.
+      - Pooling/Webhook de Eventos (READY_FOR_PICKUP, CANCEL_BY_USER; Etc…)
+
+Dentro das suas credenciais serão disponibilizados os Rappi Stores Id para integração, sendo possível integrar várias lojas conforme estrutura de menú e match de cardápio feito pelo POS.
+      - Será disponibilizado somente uma credencial em produção por POS/Sistema.
+*É importante que seja respeitado o prazo de vencimento do token (7 dias). Consultas e atualizações excessivas terão as credenciais retiradas.
+
+Credenciais:
+
+Pegasus [BR] 2.0
+Pos Tester
+URL: https://pos-tester.dev.rappi.com/	
+USER: pegasuspav2@pegasuspav2.com.br	
+PASS: Rappi2021
+STORE: 900110255  - Pegasus [BR] 2.0
+
+Credenciales PA V2 Login:
+Cliente ID: qIkXrpSxbixjO7n37QB49OxRWUcJ2Mug
+Client Secret: CscJlh39561NsDYPwoNdZbnWut1y_BkuZ3Ae0PnCFD0olWSe-6DjVWRlYlzH1HR4
+
+Audience: “https://int-public-api-v2/api”
+Grant Type: “client_credentials”
+URL Login DEV: https://rests-integrations-dev.auth0.com/oauth/token	
+
+URL DEV Menu y Ordenes:
+URL: https://microservices.dev.rappi.com/api/v2/restaurants-integrations-public-api/....
+
+:)
+
+Para podermos dar sequência a integração precisamos dos "Termos e Condições de utilização da API Rappi" assinado (Limite <=30 Dias após Piloto).
+*Anexo*
+
+Aguardamos seus comentários, sugestões e prazo para finalização do desenvolvimento.
+
+Conte conosco para organizarmos a agenda e tirarmos suas dúvidas!  :)  

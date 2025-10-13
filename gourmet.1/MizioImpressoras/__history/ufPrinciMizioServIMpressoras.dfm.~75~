@@ -1,0 +1,361 @@
+object fPrinciMizioServImpressoras: TfPrinciMizioServImpressoras
+  Left = 0
+  Top = 0
+  Caption = 'Mizio Servidor de Impressoras'
+  ClientHeight = 793
+  ClientWidth = 780
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object mmLogs: TMemo
+    Left = 0
+    Top = 680
+    Width = 780
+    Height = 113
+    Align = alBottom
+    Lines.Strings = (
+      'mmLogs')
+    TabOrder = 0
+  end
+  object plFilaSalao: TPanel
+    Left = 0
+    Top = 41
+    Width = 250
+    Height = 639
+    Align = alLeft
+    Caption = 'plFilaSalao'
+    TabOrder = 1
+    object mmFilaSalao: TMemo
+      Left = 1
+      Top = 42
+      Width = 248
+      Height = 596
+      Align = alClient
+      TabOrder = 0
+    end
+    object plTituloFilaSalao: TPanel
+      Left = 1
+      Top = 1
+      Width = 248
+      Height = 41
+      Align = alTop
+      Caption = 'Pedidos Sal'#227'o: 000'
+      TabOrder = 1
+    end
+  end
+  object plFilaEntrega: TPanel
+    Left = 250
+    Top = 41
+    Width = 250
+    Height = 639
+    Align = alLeft
+    Caption = 'plFilaSalao'
+    TabOrder = 2
+    object mmFilaEntrega: TMemo
+      Left = 1
+      Top = 42
+      Width = 248
+      Height = 596
+      Align = alClient
+      TabOrder = 0
+    end
+    object plTituloFilaEntrega: TPanel
+      Left = 1
+      Top = 1
+      Width = 248
+      Height = 41
+      Align = alTop
+      Caption = 'Pedidos Entrega: 000'
+      TabOrder = 1
+    end
+  end
+  object plTopo: TPanel
+    Left = 0
+    Top = 0
+    Width = 780
+    Height = 41
+    Align = alTop
+    TabOrder = 3
+    object plRelagio: TPanel
+      Left = 649
+      Top = 1
+      Width = 130
+      Height = 39
+      Align = alRight
+      Caption = '00:00:00'
+      TabOrder = 0
+    end
+    object plCozinha: TPanel
+      Left = 519
+      Top = 1
+      Width = 130
+      Height = 39
+      Align = alRight
+      Caption = 'Cozinha: 000000'
+      TabOrder = 1
+    end
+  end
+  object plStatusImpressoras: TPanel
+    Left = 500
+    Top = 41
+    Width = 280
+    Height = 639
+    Align = alClient
+    TabOrder = 4
+    object plTituloStatusImpressoras: TPanel
+      Left = 1
+      Top = 1
+      Width = 278
+      Height = 41
+      Align = alTop
+      Caption = 'Situa'#231#227'o das Impressoras'
+      TabOrder = 0
+    end
+    object plListaImpressoras: TPanel
+      Left = 1
+      Top = 42
+      Width = 278
+      Height = 596
+      Align = alClient
+      TabOrder = 1
+      object plImp2: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 40
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+      end
+      object plImp1: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 1
+      end
+      object plImp3: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 76
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 2
+      end
+      object plImp4: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 112
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 3
+      end
+      object plImp5: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 148
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 4
+      end
+      object plImp7: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 220
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 5
+      end
+      object plImp6: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 184
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 6
+      end
+      object plImp9: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 292
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 7
+      end
+      object plImp10: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 328
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 8
+      end
+      object plImp8: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 256
+        Width = 270
+        Height = 30
+        Align = alTop
+        BevelOuter = bvNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 9
+      end
+    end
+  end
+  object tmInicialiar: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tmInicialiarTimer
+    Left = 24
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    ArqLOG = 'c:\gourmet\MizioServidoImpressoras\logs\log.txt'
+    Left = 368
+    Top = 193
+  end
+  object tmEnviaImpressora: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmEnviaImpressoraTimer
+    Left = 72
+    Top = 256
+  end
+  object impressoras: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 193
+    Top = 185
+    object impressorasID: TStringField
+      FieldName = 'ID'
+      Size = 50
+    end
+    object impressorascodigo: TStringField
+      FieldName = 'codigo'
+      Size = 50
+    end
+    object impressorasporta: TStringField
+      FieldName = 'porta'
+      Size = 50
+    end
+    object impressorasidentificacao: TStringField
+      FieldName = 'identificacao'
+      Size = 50
+    end
+    object impressorasestado: TStringField
+      FieldName = 'estado'
+      Size = 50
+    end
+  end
+  object tmCarregaListaPedidos: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tmCarregaListaPedidosTimer
+    Left = 80
+    Top = 185
+  end
+  object IdAntiFreeze1: TIdAntiFreeze
+    Left = 72
+    Top = 353
+  end
+end

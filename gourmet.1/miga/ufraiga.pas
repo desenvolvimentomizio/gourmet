@@ -1,0 +1,116 @@
+unit ufraiga;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, VirtualTable, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, uPegaBase, System.ImageList, Vcl.ImgList,
+  Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls, Vcl.Graphics, ufuncoes, Xml.xmldom,
+  Xml.XMLIntf, Xml.XMLDoc, System.SysUtils;
+
+type
+  Tfraiga = class(Tfrabase)
+    uqtabelaprocodigo: TIntegerField;
+    uqtabelapronome: TStringField;
+    uqtabelapunprecoav: TFloatField;
+    uqtabelagrpcodigo: TIntegerField;
+    uqtabelatpocodigo: TIntegerField;
+    sip: TUniQuery;
+    sipsipcodigo: TIntegerField;
+    sipsipidentificacao: TStringField;
+    ActDesativar: TAction;
+    ActReativar: TAction;
+    uqtabelasipcodigo: TIntegerField;
+    procedure ActDesativarExecute(Sender: TObject);
+    procedure ActReativarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+       procedure Carregar; override;
+
+  end;
+
+var
+  fraiga: Tfraiga;
+
+  // Início ID do Módulo fraiga
+const
+  vPlIdMd = '00.00.00.000-01';
+  vPlTitMdl = 'Ingredientes para Adicionar';
+
+  // Fim ID do Módulo fraiga
+implementation
+
+{$R *.dfm}
+{ Tfraiga }
+
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fraiga := Tfraiga.Create(pCargaFrame);
+end;
+
+exports formuFrame;
+
+
+
+
+procedure Tfraiga.ActDesativarExecute(Sender: TObject);
+begin
+  inherited;
+
+  If Application.MessageBox(PChar('Confirma a DESATIVAÇÃO do ingreidente selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+
+    consulta.Close;
+    consulta.SQL.Clear;
+    consulta.SQL.Add('UPDATE pro SET sipcodigo = 2 WHERE procodigo = ' + self.uqtabelaprocodigo.AsString);
+    consulta.ExecSQL;
+
+    self.actatualizar.Execute;
+
+
+  End;
+
+end;
+
+procedure Tfraiga.ActReativarExecute(Sender: TObject);
+Var
+  rg: Integer;
+Begin
+  Inherited;
+
+  rg := self.uqtabelaprocodigo.asinteger;
+  consulta.Close;
+  consulta.SQL.Clear;
+  consulta.SQL.Add('UPDATE pro SET sipcodigo = 1 WHERE procodigo = ' + self.uqtabelaprocodigo.AsString);
+  consulta.ExecSQL;
+  self.actatualizar.Execute;
+
+  uqtabela.Locate('procodigo', rg, []);
+
+end;
+
+procedure Tfraiga.Carregar;
+begin
+
+
+  MontaFiltroEsp(sip, IntToStr(sipNormal));
+
+  if FormaFrame = ffFormu then
+    if TxtFiltro <> '' then
+      TxtFiltroSQL := TxtFiltro;
+
+  inherited Carregar;
+
+
+
+end;
+
+
+end.

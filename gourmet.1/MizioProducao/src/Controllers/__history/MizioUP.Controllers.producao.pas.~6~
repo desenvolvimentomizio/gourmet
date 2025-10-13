@@ -1,0 +1,34 @@
+unit MizioUP.Controllers.producao;
+
+interface
+
+uses
+  System.SysUtils,
+  RESTRequest4D,
+  REST.Types,
+  System.JSON;
+
+function GravaProducao(Const AIpServer:String; aRegistro: TJsonArray):Integer;
+
+implementation
+
+
+function GravaProducao(Const AIpServer:String; aRegistro:TJsonArray):Integer;
+var
+  resposta: IResponse;
+begin
+
+  resposta := TRequest.New.BaseURL('http://' + AIpServer + ':9191/v1/rmp')
+            .ContentType('application/json')
+            .AddBody(aRegistro.ToString)
+            .Post;
+
+  if (resposta.StatusCode <> 200) and (resposta.StatusCode <> 204) then
+    raise Exception.Create(resposta.Content);
+
+  result := resposta.StatusCode;
+
+end;
+
+
+end.

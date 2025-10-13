@@ -1,0 +1,578 @@
+inherited FrmVendaRapida: TFrmVendaRapida
+  ActiveControl = EdtCodprod
+  Caption = 'Venda R'#225'pida'
+  ClientHeight = 624
+  ClientWidth = 1049
+  ExplicitWidth = 1065
+  ExplicitHeight = 663
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 595
+    Width = 1049
+    ExplicitTop = 595
+    ExplicitWidth = 1049
+    inherited bconfirma: TBitBtn
+      Left = 856
+      Width = 114
+      Caption = '[ C ] Confirma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitLeft = 856
+      ExplicitWidth = 114
+    end
+    inherited bcancela: TBitBtn
+      Left = 970
+      ExplicitLeft = 970
+    end
+    inherited bfechar: TBitBtn
+      Left = 791
+      ExplicitLeft = 791
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 1049
+    Height = 595
+    ExplicitWidth = 1049
+    ExplicitHeight = 595
+    inherited Principal: TTabSheet
+      ExplicitWidth = 1041
+      ExplicitHeight = 567
+      object Panel12: TPanel
+        Left = 0
+        Top = 506
+        Width = 1041
+        Height = 61
+        CustomHint = BalloonHint
+        Align = alBottom
+        BevelOuter = bvNone
+        BorderWidth = 10
+        Color = 12615680
+        ParentBackground = False
+        TabOrder = 0
+        object LbItemQtde: TLabel
+          AlignWithMargins = True
+          Left = 705
+          Top = 10
+          Width = 63
+          Height = 19
+          Hint = 'Quantidade de Itens'
+          Margins.Left = 25
+          Margins.Top = 0
+          Margins.Right = 25
+          CustomHint = BalloonHint
+          Alignment = taCenter
+          Caption = 'Itens: 0'
+          Color = 12615680
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Layout = tlCenter
+        end
+        object LbItemTotal: TLabel
+          Left = 893
+          Top = 10
+          Width = 138
+          Height = 41
+          CustomHint = BalloonHint
+          Align = alRight
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '0,00'
+          Color = clWhite
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clYellow
+          Font.Height = -24
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = True
+          ExplicitLeft = 903
+          ExplicitTop = 1
+          ExplicitHeight = 50
+        end
+        object Label9: TLabel
+          Left = 795
+          Top = 10
+          Width = 98
+          Height = 41
+          CustomHint = BalloonHint
+          Align = alRight
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Total R$:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clYellow
+          Font.Height = -19
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitLeft = 660
+          ExplicitTop = 14
+          ExplicitHeight = 22
+        end
+        object Panel18: TPanel
+          Left = 10
+          Top = 10
+          Width = 241
+          Height = 41
+          CustomHint = BalloonHint
+          Align = alLeft
+          BevelOuter = bvNone
+          Color = 12615680
+          ParentBackground = False
+          TabOrder = 0
+          object Label2: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 65
+            Height = 19
+            CustomHint = BalloonHint
+            Align = alLeft
+            Alignment = taRightJustify
+            BiDiMode = bdLeftToRight
+            Caption = 'Produto'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentBiDiMode = False
+            ParentFont = False
+            Layout = tlCenter
+          end
+          object Panel20: TPanel
+            Left = 225
+            Top = 0
+            Width = 8
+            Height = 41
+            CustomHint = BalloonHint
+            Align = alLeft
+            BevelOuter = bvNone
+            Color = 12615680
+            ParentBackground = False
+            TabOrder = 0
+          end
+          object Panel21: TPanel
+            Left = 71
+            Top = 0
+            Width = 154
+            Height = 41
+            CustomHint = BalloonHint
+            Align = alLeft
+            BevelOuter = bvNone
+            Color = 12615680
+            ParentBackground = False
+            TabOrder = 1
+            object EdtCodprod: TEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 145
+              Height = 35
+              CustomHint = BalloonHint
+              Align = alLeft
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              MaxLength = 14
+              ParentFont = False
+              TabOrder = 0
+              OnEnter = EdtCodprodEnter
+              OnKeyDown = EdtCodprodKeyDown
+              OnKeyPress = EdtCodprodKeyPress
+              ExplicitHeight = 27
+            end
+          end
+        end
+        object btChamaListaProdutos: TButton
+          Left = 235
+          Top = 14
+          Width = 86
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = '[F8] Produtos'
+          TabOrder = 1
+          OnClick = btChamaListaProdutosClick
+        end
+        object btexcluiitemvendarapida: TButton
+          Left = 327
+          Top = 14
+          Width = 154
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = 'Excluir item selecionado'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+          OnClick = btexcluiitemvendarapidaClick
+        end
+      end
+      object DBGrid1: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 1041
+        Height = 431
+        CustomHint = BalloonHint
+        Align = alTop
+        Color = 14286847
+        DataSource = DmDados.dIto
+        DrawingStyle = gdsGradient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+        ParentFont = False
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'itoitem'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Caption = 'Item'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 37
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'immnumepedido'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Caption = 'Ped.'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 52
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'immhorapedido'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Alignment = taCenter
+            Title.Caption = 'Hora'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 52
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'procodigo'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Caption = 'C'#243'digo'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 47
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pronome'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Caption = 'Produto'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 320
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'itoquantidade'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Alignment = taCenter
+            Title.Caption = 'Qtde'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'unisimbolo'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Alignment = taCenter
+            Title.Caption = 'Und.'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'itovalorav'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Alignment = taRightJustify
+            Title.Caption = 'Valor'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 74
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'itototalav'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Alignment = taRightJustify
+            Title.Caption = 'Total'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 82
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'stoidentificacao'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Title.Caption = 'Situa'#231#227'o'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'clbpediu'
+            Title.Caption = 'Pedido Por'
+            Width = 70
+            Visible = True
+          end>
+      end
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT orc.orcchave         -- chave'
+      '     , orc.etdcodigo        -- entidade'
+      '     , orc.clbcodigo        -- atendente'
+      '     , orc.stocodigo        -- 1 Em digita'#231#227'o'
+      '     , orc.orcmesa          -- mesa'
+      '     , orcpessoas'
+      '     , sto.stoidentificacao -- situa'#231#227'o da mesa'
+      '     , orc.orcimpressao'
+      '     , mor.meschave'
+      '  FROM orc'
+      ' INNER JOIN sto ON orc.stocodigo = sto.stocodigo '
+      ' LEFT JOIN mor on orc.orcchave = mor.orcchave '
+      ' WHERE orc.orcmesa   = :orcmesa'
+      '   AND orc.moccodigo  IN (1,5)'
+      '   AND orc.orcdataencerr IS NULL'
+      '   AND orc.stocodigo in (1, 2, 5) ')
+    BeforePost = registroBeforePost
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcmesa'
+        Value = nil
+      end>
+    object registroorcchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'orcchave'
+    end
+    object registroetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object registroclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object registrostocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object registroorcmesa: TIntegerField
+      FieldName = 'orcmesa'
+    end
+    object registroorcpessoas: TIntegerField
+      FieldName = 'orcpessoas'
+    end
+    object registrostoidentificacao: TStringField
+      FieldName = 'stoidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object registroorcimpressao: TIntegerField
+      FieldName = 'orcimpressao'
+      Required = True
+    end
+  end
+  object ACBrValidador: TACBrValidador
+    TipoDocto = docGTIN
+    IgnorarChar = './-'
+    AjustarTamanho = True
+    PermiteVazio = True
+    Left = 488
+    Top = 352
+  end
+  object ito: TUniQuery
+    Connection = DmDados.Conexao
+    SQL.Strings = (
+      'select itochave, procodigo from ito where itochave=:itochave')
+    Left = 204
+    Top = 344
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object itoitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object itoprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object itopronome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'pronome'
+      LookupDataSet = pro
+      LookupKeyFields = 'procodigo'
+      LookupResultField = 'pronome'
+      KeyFields = 'procodigo'
+      Size = 50
+      Lookup = True
+    end
+  end
+  object DSito: TUniDataSource
+    DataSet = ito
+    Left = 152
+    Top = 344
+  end
+  object pro: TUniQuery
+    Connection = DmDados.Conexao
+    SQL.Strings = (
+      'select procodigo, pronome from pro')
+    Left = 204
+    Top = 392
+    object proprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object propronome: TStringField
+      FieldName = 'pronome'
+      Size = 50
+    end
+  end
+  object dIto: TUniDataSource
+    DataSet = DmDados.ito
+    Left = 224
+    Top = 256
+  end
+  object gri: TUniQuery
+    Connection = DmDados.Conexao
+    SQL.Strings = (
+      'SELECT'
+      '  pro.pronome,'
+      '  pun.punprecoav,'
+      '  ito.itochave,'
+      '  ito.orcchave,'
+      '  uni.unisimbolo'
+      'FROM gri'
+      '  INNER JOIN pro ON gri.grpcodigo = pro.grpcodigo'
+      '  INNER JOIN ito ON ito.procodigo = pro.procodigo'
+      
+        '  INNER JOIN pun ON pun.procodigo = ito.procodigo  AND pun.unico' +
+        'digo = ito.unicodigo'
+      
+        '  INNER JOIN uni ON pun.unicodigo=uni.unicodigo AND (uni.tuncodi' +
+        'go=9 OR uni.tuncodigo=1)'
+      '  WHERE ito.orcchave=:orcchave AND gri.griimprimeauto=1')
+    Left = 632
+    Top = 320
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+  end
+end

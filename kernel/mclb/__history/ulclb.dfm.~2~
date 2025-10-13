@@ -1,0 +1,151 @@
+inherited lclb: Tlclb
+  Caption = 'Usu'#225'rios'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    TabOrder = 1
+  end
+  inline fraclb: Tfraclb
+    Left = 0
+    Top = 0
+    Width = 1024
+    Height = 632
+    Align = alClient
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    ExplicitWidth = 1024
+    ExplicitHeight = 632
+    inherited PlGeral: TPanel
+      Width = 1024
+      Height = 632
+      ExplicitWidth = 1024
+      ExplicitHeight = 632
+      inherited SplBotoes: TSplitter
+        Height = 612
+        ExplicitHeight = 598
+      end
+      inherited PlBotoes: TPanel
+        Height = 612
+        ExplicitHeight = 612
+        inherited ImageLogoBase: TImage
+          Top = 533
+          ExplicitTop = 519
+        end
+        inherited PlInfo: TPanel
+          Top = 594
+          ExplicitTop = 594
+        end
+        inherited SBBotoes: TScrollBox
+          Height = 533
+          ExplicitHeight = 533
+        end
+      end
+      inherited PlLista: TPanel
+        Width = 880
+        Height = 612
+        ExplicitWidth = 880
+        ExplicitHeight = 612
+        inherited SplLista: TSplitter
+          Top = 575
+          Width = 880
+          Height = 12
+          ExplicitTop = 560
+          ExplicitWidth = 870
+          ExplicitHeight = 12
+        end
+        inherited SpFilter: TSplitter
+          Width = 880
+          ExplicitWidth = 870
+        end
+        inherited PlRodaPe: TPanel
+          Top = 587
+          Width = 880
+          Height = 25
+          ExplicitTop = 587
+          ExplicitWidth = 880
+          ExplicitHeight = 25
+        end
+        inherited PlFiltros: TPanel
+          Width = 880
+          ExplicitWidth = 880
+        end
+        inherited PlSelecao: TPanel
+          Width = 880
+          ExplicitWidth = 880
+          inherited GBPlSelecao: TGroupBox
+            Width = 876
+            ExplicitWidth = 876
+            inherited DBLista: TDBGrid
+              Width = 769
+            end
+          end
+        end
+        inherited PnlGrid: TPanel
+          Width = 880
+          Height = 446
+          ExplicitWidth = 880
+          ExplicitHeight = 446
+          inherited DBGLista: TDBGrid
+            Width = 880
+            Height = 420
+          end
+          inherited PnlRodapeGrid: TPanel
+            Top = 420
+            Width = 880
+            Height = 26
+            ExplicitTop = 420
+            ExplicitWidth = 880
+            ExplicitHeight = 26
+          end
+        end
+      end
+      inherited PlTitulo: TPanel
+        Width = 1024
+        ExplicitWidth = 1024
+        inherited plid: TPanel
+          Left = 574
+          ExplicitLeft = 574
+        end
+        inherited PlSair: TPanel
+          Left = 818
+          ExplicitLeft = 818
+        end
+      end
+    end
+    inherited vcls: TVirtualTable
+      Data = {04000000000000000000}
+    end
+  end
+  object fcl: TUniQuery
+    SQL.Strings = (
+      
+        'select fnc.fnccodigo, fcl.clbcodigo,fncidentificacao from fcl,fn' +
+        'c where fcl.fnccodigo=fnc.fnccodigo and fcl.clbcodigo=:clbcodigo')
+    Left = 540
+    Top = 312
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'clbcodigo'
+        Value = nil
+      end>
+    object fclclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object fclfnccodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'fnccodigo'
+    end
+    object fclfncidentificacao: TStringField
+      DisplayLabel = 'Fun'#231#227'o'
+      FieldName = 'fncidentificacao'
+      Size = 30
+    end
+  end
+  object Dfcl: TUniDataSource
+    DataSet = fcl
+    Left = 504
+    Top = 312
+  end
+end

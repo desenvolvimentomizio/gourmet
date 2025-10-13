@@ -1,0 +1,651 @@
+unit ufproime;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmbase,
+  System.ImageList, Vcl.ImgList, PngImageList, System.Actions, Vcl.ActnList,
+  Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, IPPeerClient,
+  REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, ufuncoes, CRGrid, REST.Types;
+
+type
+  Tfproime = class(Tfrmbase)
+    registroimuid: TIntegerField;
+    registroimuean: TStringField;
+    registroimucodigointerno: TStringField;
+    registroimucodigoimendes: TStringField;
+    registroimustatus: TStringField;
+    registroimudescricao: TStringField;
+    registroimuncm: TStringField;
+    registroimucest: TStringField;
+    registroimupercipi: TStringField;
+    registroimucestipi: TStringField;
+    registroimucstpiscofinsent: TStringField;
+    registroimucstpiscofinssai: TStringField;
+    registroimunatrecisenta: TStringField;
+    registroimupiscofins: TStringField;
+    registroimulista: TStringField;
+    registroimutipo: TStringField;
+    registroimupercpis: TStringField;
+    registroimuperccofins: TStringField;
+    registroimucfopcompra: TStringField;
+    registroimucfopvenda: TStringField;
+    registroimucst: TStringField;
+    registroimucsosn: TStringField;
+    registroimumodbc: TStringField;
+    registroimupercicms: TStringField;
+    registroimuicmspdv: TStringField;
+    registroimusimbpdv: TStringField;
+    registroimupercredbcicms: TStringField;
+    registroimupercredbcicmsst: TStringField;
+    registroimupercmodbcst: TStringField;
+    registroimupercicmsst: TStringField;
+    registroimuiva: TStringField;
+    registroimupautast: TStringField;
+    registroimupercfcp: TStringField;
+    registroimuantecipado: TStringField;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    Label4: TLabel;
+    DBEdit4: TDBEdit;
+    Label5: TLabel;
+    DBEdit5: TDBEdit;
+    Label6: TLabel;
+    DBEdit6: TDBEdit;
+    Label7: TLabel;
+    DBEdit7: TDBEdit;
+    Label8: TLabel;
+    DBEdit8: TDBEdit;
+    Label9: TLabel;
+    DBEdit9: TDBEdit;
+    Label10: TLabel;
+    DBEdit10: TDBEdit;
+    Label11: TLabel;
+    DBEdit11: TDBEdit;
+    Label12: TLabel;
+    DBEdit12: TDBEdit;
+    Label13: TLabel;
+    DBEdit13: TDBEdit;
+    Label14: TLabel;
+    DBEdit14: TDBEdit;
+    DBEdit18: TDBEdit;
+    Label18: TLabel;
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    Label19: TLabel;
+    EdBusca: TEdit;
+    SpeedButton1: TSpeedButton;
+    Panel3: TPanel;
+    DBGrid1: TDBGrid;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    RESTClientBase: TRESTClient;
+    RESTResponseBase: TRESTResponse;
+    RESTRequestBase: TRESTRequest;
+    fdmempro: TFDMemTable;
+    fdmemproid: TIntegerField;
+    fdmemprodescricao: TStringField;
+    fdmemproean: TStringField;
+    DSFDMemPro: TDataSource;
+    Label15: TLabel;
+    DBEdit15: TDBEdit;
+    DBEdit16: TDBEdit;
+    Label16: TLabel;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgrefepro: TIntegerField;
+    cfgcfgdoisprecos: TIntegerField;
+    cfgcfgusagrade: TIntegerField;
+    cfgcfgusaenderecamento: TIntegerField;
+    cfgcfgprodefineicms: TIntegerField;
+    cfgcfgbalanca: TIntegerField;
+    cfgcfgextratosegmentado: TIntegerField;
+    cfgcfgusaprecobase: TIntegerField;
+    cfgcfgtabelasaux: TIntegerField;
+    cfgcfgproinativsaldozero: TIntegerField;
+    cfgcfgtributacaoimendes: TIntegerField;
+    cfgetddoc1: TStringField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcnae: TStringField;
+    cfgtalcodigo: TIntegerField;
+    CRDBGrid1: TCRDBGrid;
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vpPalavrasPesquisa: string;
+
+  end;
+
+var
+  fproime: Tfproime;
+
+implementation
+
+uses
+  System.JSON;
+
+{$R *.dfm}
+
+procedure Tfproime.bconfirmaClick(Sender: TObject);
+begin
+
+  inherited;
+
+  vpRetorno := registroimuid.AsString;
+  consulta.Close;
+  consulta.SQL.Text := 'update pun set imecodigo=' + registroimucodigointerno.AsString + ' where procodigo=' + vChaveMestre;
+  consulta.ExecSQL;
+  modalresult:=mrok;
+
+end;
+
+procedure Tfproime.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  gridzebrado(Sender, Rect, DataCol, Column, State);
+end;
+
+procedure Tfproime.FormShow(Sender: TObject);
+begin
+  inherited;
+  cfg.Close;
+  cfg.open;
+
+  EdBusca.Text := txtFiltro;
+  SpeedButton1.Click;
+  fdmempro.Locate('descricao', EdBusca.Text, [locaseinsensitive, loPartialKey]);
+end;
+
+procedure Tfproime.SpeedButton1Click(Sender: TObject);
+var
+  vlJson: string;
+  vlJsonResult: tJsonObject;
+  vlsresultado: string;
+  vldescricao: string;
+  vlJsonProdutos: tJsonArray;
+  vlJsonValue: tJsonObject;
+  vlQtdProdutos: Integer;
+  vlIMEid: string;
+  vlIMEdescricao: string;
+  vlIMEean: string;
+  vlLog: TStringList;
+
+  vlPalavra1: String;
+  vlPalavra2: String;
+  vlPalavra3: String;
+  vlPalavra4: String;
+  vlPalavrasOriginais: string;
+
+begin
+  inherited;
+
+  EdBusca.Text := trim(EdBusca.Text);
+
+  vpPalavrasPesquisa := EdBusca.Text;
+  vlPalavrasOriginais := EdBusca.Text;
+
+  if pos(' ', vpPalavrasPesquisa) > 0 then
+  begin
+    vlPalavra1 := trim(copy(vpPalavrasPesquisa, 1, pos(' ', vpPalavrasPesquisa) - 1));
+    vpPalavrasPesquisa := trim(copy(vpPalavrasPesquisa, pos(' ', vpPalavrasPesquisa) + 1, 200));
+
+    if pos(' ', vpPalavrasPesquisa) > 0 then
+    begin
+      vlPalavra2 := trim(copy(vpPalavrasPesquisa, 1, pos(' ', vpPalavrasPesquisa) - 1));
+      vpPalavrasPesquisa := trim(copy(vpPalavrasPesquisa, pos(' ', vpPalavrasPesquisa) + 1, 200));
+
+      if pos(' ', vpPalavrasPesquisa) > 0 then
+      begin
+        vlPalavra3 := trim(copy(vpPalavrasPesquisa, 1, pos(' ', vpPalavrasPesquisa) - 1));
+        vpPalavrasPesquisa := trim(copy(vpPalavrasPesquisa, pos(' ', vpPalavrasPesquisa) + 1, 200));
+
+        if pos(' ', vpPalavrasPesquisa) > 0 then
+        begin
+          vlPalavra4 := trim(copy(vpPalavrasPesquisa, 1, pos(' ', vpPalavrasPesquisa) - 1));
+          vpPalavrasPesquisa := trim(copy(vpPalavrasPesquisa, pos(' ', vpPalavrasPesquisa) + 1, 200));
+
+        end
+        else
+        begin
+          if vpPalavrasPesquisa <> '' then
+          begin
+            vlPalavra4 := trim(vpPalavrasPesquisa);
+          end;
+
+        end;
+
+      end
+      else
+      begin
+        if vpPalavrasPesquisa <> '' then
+        begin
+          vlPalavra3 := trim(vpPalavrasPesquisa);
+        end;
+
+      end;
+
+    end
+    else
+    begin
+      if vpPalavrasPesquisa <> '' then
+      begin
+        vlPalavra2 := trim(vpPalavrasPesquisa);
+      end;
+    end;
+  end
+  else
+  begin
+    vlPalavra1 := trim(vpPalavrasPesquisa);
+  end;
+
+  { if pos(' ', EdBusca.Text) > 0 then
+    begin
+    EdBusca.Text := trim(copy(EdBusca.Text, 1, pos(' ', EdBusca.Text) - 1));
+    end; }
+
+  EdBusca.Text := StringReplace(EdBusca.Text, ' ', '%', [rfReplaceAll, rfIgnoreCase]);
+
+  EdBusca.Text := StringReplace(EdBusca.Text, '*', '', [rfReplaceAll, rfIgnoreCase]);
+
+  EdBusca.Text := StringReplace(EdBusca.Text, '\', '', [rfReplaceAll, rfIgnoreCase]);
+  bconfirma.Enabled := False;
+  vlLog := TStringList.create;
+  fdmempro.Close;
+  fdmempro.open;
+
+  vldescricao := trim(uppercase(EdBusca.Text));
+  EdBusca.Text := vlPalavrasOriginais;
+
+  RESTClientBase.BaseURL := 'http://consultatributos.com.br:8080/api/v1/public/EnviaRecebeDados';
+  RESTRequestBase.Method := rmPOST;
+
+  vlJson := '{"nomeServico":"DESCRPRODUTOS",' + '"dados":"' + SoNumeros(cfgetddoc1.AsString) + '|' + vldescricao + '"}';
+  // vlJson := '{"nomeServico":"DESCRPRODUTOS",' + '"dados":"'+SoNumeros('14.477.548/0001-31')+'|' + vldescricao + '"}';
+
+  with RESTRequestBase.Params.AddItem do
+  begin
+    ContentType := ctAPPLICATION_JSON;
+    name := 'param'; // param name
+    Value := vlJson; // seu json
+    Kind := pkREQUESTBODY;
+  end;
+
+  vlLog.Add('ENVIO: DESCRPRODUTOS');
+  vlLog.Add('json:');
+  vlLog.Add(vlJson);
+  vlLog.Add('=============================================================================');
+
+  try
+    RESTRequestBase.Execute;
+  except
+    showmessage('Consulta momentaneamente indisponível.' + #13 + #13 + 'Por favor, aguarde 5 minutos e realize a consulta novamente.');
+    exit;
+
+  end;
+
+  vlJsonResult := tJsonObject(RESTResponseBase.JSONValue);
+  vlsresultado := vlJsonResult.ToString;
+
+  vlLog.Add('RETORNO: DESCRPRODUTOS');
+  vlLog.Add('json:');
+  vlLog.Add(vlsresultado);
+  vlLog.Add('=============================================================================');
+
+  vlJsonProdutos := tJsonArray(vlJsonResult.GetValue('produto'));
+  if vlJsonProdutos <> nil then
+  begin
+    vlsresultado := vlJsonProdutos.ToString;
+
+    for vlQtdProdutos := 0 to vlJsonProdutos.Count - 1 do
+    begin
+
+      vlJsonValue := tJsonObject(vlJsonProdutos.get(vlQtdProdutos));
+
+      vlIMEid := StringReplace(vlJsonValue.GetValue('id').ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      vlIMEdescricao := StringReplace(vlJsonValue.GetValue('descricao').ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      vlIMEean := StringReplace(vlJsonValue.GetValue('ean').ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+      if (pos(vlPalavra1, vlIMEdescricao) > 0) or (pos(vlPalavra2, vlIMEdescricao) > 0) or (pos(vlPalavra3, vlIMEdescricao) > 0) or
+        (pos(vlPalavra4, vlIMEdescricao) > 0) then
+      begin
+
+        fdmempro.append;
+        fdmemproid.AsString := vlIMEid;
+        fdmemprodescricao.AsString := vlIMEdescricao;
+        fdmemproean.AsString := vlIMEean;
+        fdmempro.post;
+      end;
+
+    end;
+
+  end;
+  vlLog.SaveToFile('C:\imendes\logs\DESCRPRODUTOS_' + formatdatetime('dd mm yyyy-hh nn ss', now()) + '.txt');
+
+end;
+
+procedure Tfproime.SpeedButton2Click(Sender: TObject);
+begin
+  inherited;
+
+  fdmempro.Close;
+  fdmempro.open;
+
+  EdBusca.Text := '';
+
+end;
+
+procedure Tfproime.SpeedButton3Click(Sender: TObject);
+VAR
+  vlJson: String;
+  vlJsonResult: tJsonObject;
+  vlsresultado: String;
+  vlJsonGrupo: tJsonArray;
+  vlstatus: string;
+  vlqtdGrupos: Integer;
+
+  vlJsonValue: tJsonObject;
+  vlJsonProduto: tJsonArray;
+
+  vlcodigoimendes: string;
+  vlcodigointerno: string;
+  vlncm: string;
+  vlcest: string;
+  vlean: String;
+
+  vldescricao: String;
+  vlpercipi: String;
+  vlcestipi: String;
+  vlcstpiscofinsent: String;
+  vlcstpiscofinssai: String;
+  vlnatrecisenta: String;
+  vllista: String;
+  vltipo: String;
+  vlpercpis: String;
+  vlperccofins: String;
+  vlcfopcompra: String;
+  vlcfopvenda: String;
+  vlcst: String;
+  vlcsosn: String;
+  vlmodbc: String;
+  vlpercicms: String;
+  vlicmspdv: String;
+  vlsimbpdv: String;
+
+  vlpercredbcicms: String;
+  vlpercredbcicmsst: String;
+  vlpercmodbcst: String;
+  vlpercicmsst: String;
+  vliva: String;
+  vlpautast: String;
+  vlpercfcp: String;
+  vlantecipado: String;
+
+  vlJsonPisCofins: tJsonObject;
+  vlJsonIpi: tJsonObject;
+  vlJsonRegra: tJsonArray;
+  vlqtdRegras: Integer;
+
+  vlImuid: string;
+
+  vlLog: TStringList;
+
+begin
+  inherited;
+
+  try
+    RESTClientBase.BaseURL := 'http://consultatributos.com.br:8080/api/v1/public/RegrasFiscais';
+    RESTRequestBase.Method := rmPOST;
+
+    if cfgcrtcodigo.asinteger <> 3 then
+    begin
+
+      vlJson := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",' + '"crt":'
+        + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"", "regimeTrib":"S",' + '"contribuinte":1,' + '"amb":2' + '},' + '"uf":["MT"],' +
+        '"produto":[';
+
+    end
+    else
+    begin
+
+      if cfgtalcodigo.asinteger = 1 then // lucro presumido
+      begin
+
+        vlJson := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",' +
+          '"crt":' + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"",' + '"codFaixa":"98",' + '"regimeTrib":"P",' + '"contribuinte":1,' + '"amb":2'
+          + '},' + '"uf":["MT"],' + '"produto":[';
+      end
+      else if cfgtalcodigo.asinteger = 2 then // lucro real
+      begin
+
+        vlJson := '{"cabecalho":{' + '"cnpj":"' + SoNumeros(cfgetddoc1.AsString) + '",' + '"cnae":"' + SoNumeros(cfgcfgcnae.AsString) + '",' +
+          '"crt":' + cfgcrtcodigo.AsString + ',' + '"regimeEspecial":"",' + '"codFaixa":"99",' + '"regimeTrib":"R",' + '"contribuinte":1,' + '"amb":2'
+          + '},' + '"uf":["MT"],' + '"produto":[';
+
+      end;
+
+    end;
+
+
+
+
+
+    // vlJson := '{"cabecalho":{' + '"cnpj":"' '",' + '"cnae":"4712100",' + '"crt":3,' + '"regimeEspecial":"",' + '"codFaixa":"98",' +
+    // '"regimeTrib":"P",' + '"contribuinte":1,' + '"amb":1' + '},' + '"uf":["MT"],' + '"produto":[';
+
+    vlJson := vlJson + '{' + '"codIMendes":"' + fdmemproid.AsString + '"';
+    vlJson := vlJson + ',"tipoCodigo":"2"';
+
+    vlJson := copy(vlJson, 1, Length(vlJson) - 1);
+
+    vlJson := vlJson + ']' + '}';
+
+    with RESTRequestBase.Params.AddItem do
+    begin
+      ContentType := ctAPPLICATION_JSON;
+      name := 'param'; // param name
+      Value := vlJson; // seu json
+      Kind := pkREQUESTBODY;
+    end;
+
+    vlLog := TStringList.create;
+
+    vlLog.Add('ENVIO: SANEAMENTO');
+    vlLog.Add('json:');
+    vlLog.Add(vlJson);
+    vlLog.Add('=============================================================================');
+
+    try
+
+      RESTRequestBase.Execute;
+    except
+      exit;
+    end;
+
+    vlJsonResult := tJsonObject(RESTResponseBase.JSONValue);
+    vlsresultado := vlJsonResult.ToString;
+
+    vlLog.Add('RETORNO: SANEAMENTO');
+    vlLog.Add('json:');
+
+    vlLog.Add(vlsresultado);
+    vlLog.Add('=============================================================================');
+
+    vlLog.SaveToFile('C:\imendes\logs\SANEAMENTO1_' + formatdatetime('dd mm yyyy-hh nn ss', now) + '.txt');
+    vlLog.free;
+
+    vlJsonResult := tJsonObject(RESTResponseBase.JSONValue);
+    vlsresultado := vlJsonResult.ToString;
+
+    vlJsonGrupo := tJsonArray(vlJsonResult.GetValue('grupo'));
+    vlsresultado := vlJsonGrupo.ToString;
+
+    vlstatus := '';
+    try
+      for vlqtdGrupos := 0 to vlJsonGrupo.Count - 1 do
+      begin
+
+        vlJsonGrupo := tJsonArray(vlJsonResult.GetValue('grupo'));
+        vlsresultado := vlJsonGrupo.ToString;
+
+        vlJsonValue := tJsonObject(vlJsonGrupo.get(vlqtdGrupos));
+
+        try
+          vlJsonProduto := tJsonArray(vlJsonValue.GetValue('produto'));
+          if vlJsonProduto <> nil then
+          begin
+            vlean := SoNumeros(vlJsonProduto.Items[0].ToString);
+          end
+          else
+          begin
+            vlean := '';
+          end;
+        except
+          vlean := '';
+        end;
+
+        vlcodigoimendes := vlJsonValue.GetValue('codigo').ToString;
+        vlncm := SoNumeros(vlJsonValue.GetValue('ncm').ToString);
+        vlcest := SoNumeros(vlJsonValue.GetValue('cest').ToString);
+
+        vlJsonPisCofins := tJsonObject(vlJsonValue.GetValue('piscofins'));
+        vlperccofins := vlJsonPisCofins.GetValue('aliqCOFINS').ToString;
+        vlpercpis := vlJsonPisCofins.GetValue('aliqPIS').ToString;
+        vlcstpiscofinsent := vlJsonPisCofins.GetValue('cstEnt').ToString;
+        vlcstpiscofinssai := vlJsonPisCofins.GetValue('cstSai').ToString;
+        vlnatrecisenta := vlJsonPisCofins.GetValue('nri').ToString;
+
+        vlJsonIpi := tJsonObject(vlJsonValue.GetValue('ipi'));
+        vlsresultado := vlJsonIpi.ToString;
+
+        vlpercipi := vlJsonIpi.GetValue('aliqIPI').ToString;
+        vlcestipi := vlJsonIpi.GetValue('cstSai').ToString;
+
+        vlJsonRegra := tJsonArray(vlJsonValue.GetValue('regra'));
+        vlsresultado := vlJsonRegra.ToString;
+
+        for vlqtdRegras := 0 to vlJsonRegra.Count - 1 do
+        begin
+          vlJsonValue := tJsonObject(vlJsonRegra.get(vlqtdRegras));
+          vlsresultado := vlJsonValue.ToString;
+
+          vlcst := vlJsonValue.GetValue('cst').ToString;
+          vlcsosn := vlJsonValue.GetValue('csosn').ToString;
+
+          vlcfopcompra := vlJsonValue.GetValue('cfopCompra').ToString;
+          vlcfopvenda := vlJsonValue.GetValue('cfopVenda').ToString;
+
+          vldescricao := fdmemprodescricao.AsString;
+          vllista := '';
+          vltipo := '';
+
+          if vlcfopvenda = '5405' then
+            vlpercicms := floattostr(strtofloat(StringReplace(vlJsonValue.GetValue('pICMSPDV').ToString, '.', ',', [])))
+          else
+            vlpercicms := floattostr(strtofloat(StringReplace(vlJsonValue.GetValue('aliqicms').ToString, '.', ',', [])));
+
+          vlsimbpdv := vlJsonValue.GetValue('simbPDV').ToString;
+
+          vlpercredbcicms := vlJsonValue.GetValue('reducaobcicms').ToString;
+          vlpercredbcicmsst := vlJsonValue.GetValue('reducaobcicmsst').ToString;
+
+          vlpercicmsst := vlJsonValue.GetValue('aliqicmsst').ToString;
+
+          vliva := vlJsonValue.GetValue('iva').ToString;
+          vlpercfcp := vlJsonValue.GetValue('fcp').ToString;
+
+        end;
+      end;
+
+      consulta.Close;
+      consulta.SQL.Text := 'select imuid from imu where imudescricao=' + QuotedStr(fdmemprodescricao.AsString);
+      consulta.open;
+
+      vlImuid := '';
+
+      if consulta.RecordCount >= 1 then
+      begin
+
+        vlImuid := consulta.FieldByName('imuid').AsString;
+
+      end;
+
+      if vlImuid <> '' then
+      begin
+        registro.Cancel;
+        registro.Close;
+        registro.ParamByName('imuid').AsString := vlImuid;
+        registro.open;
+        vchave := vlImuid;
+        psituacao.Caption := 'Alterando';
+        registro.Edit;
+      end;
+
+      registroimuean.AsString := vlean;
+      registroimucodigointerno.AsString := StringReplace(fdmemproid.AsString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucodigoimendes.AsString := vlcodigoimendes;
+      consulta.Close;
+      consulta.SQL.Text := 'select pronome from pro where procodigo=' + vChaveMestre;
+      consulta.open;
+
+      if not consulta.IsEmpty then
+        registroimudescricao.AsString := consulta.FieldByName('pronome').AsString
+      else
+        registroimudescricao.AsString := StringReplace(fdmemprodescricao.AsString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+      registroimuncm.AsString := StringReplace(vlncm, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucest.AsString := StringReplace(vlcest, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimupercipi.AsString := StringReplace(vlpercipi, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucestipi.AsString := StringReplace(vlcestipi, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucstpiscofinsent.AsString := StringReplace(vlcstpiscofinsent, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucstpiscofinssai.AsString := StringReplace(vlcstpiscofinssai, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimunatrecisenta.AsString := StringReplace(vlnatrecisenta, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimulista.AsString := StringReplace(vllista, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimutipo.AsString := StringReplace(vltipo, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimupercpis.AsString := vlpercpis;
+      registroimuperccofins.AsString := vlperccofins;
+      registroimucfopcompra.AsString := vlcfopcompra;
+      registroimucfopvenda.AsString := StringReplace(vlcfopvenda, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucst.AsString := StringReplace(vlcst, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimucsosn.AsString := StringReplace(vlcsosn, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimumodbc.AsString := StringReplace(vlmodbc, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimupercicms.AsString := vlpercicms;
+      registroimuicmspdv.AsString := vlpercicms;
+      registroimupercredbcicms.AsString := vlpercredbcicms;
+      registroimupercredbcicmsst.AsString := vlpercredbcicmsst;
+      registroimupercmodbcst.AsString := vlpercmodbcst;
+      registroimupercicmsst.AsString := vlpercicmsst;
+      registroimuiva.AsString := StringReplace(vliva, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimupautast.AsString := vlpautast;
+      registroimupercfcp.AsString := vlpercfcp;
+      registroimuantecipado.AsString := vlantecipado;
+      registroimustatus.AsString := StringReplace(vlstatus, '"', '', [rfReplaceAll, rfIgnoreCase]);
+      registroimusimbpdv.AsString := StringReplace(vlsimbpdv, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+      bconfirma.Enabled := true;
+
+    except
+      bconfirma.Enabled := False;
+    end;
+
+  finally
+
+  end;
+
+end;
+
+end.

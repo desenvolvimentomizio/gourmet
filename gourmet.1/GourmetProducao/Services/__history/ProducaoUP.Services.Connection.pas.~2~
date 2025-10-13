@@ -1,0 +1,67 @@
+unit ProducaoUP.Services.Connection;
+
+interface
+
+
+Uses
+  IniFiles,
+  Uni,
+  UniProvider;
+
+
+
+function AtivaConexao(aConexao:TUniConnection):Boolean;
+
+var
+  vpNomeBanco: String;
+  vpServidor: String;
+  vpUsuario: String;
+  vpSenha: String;
+  vpPortaBanco: String;
+
+
+implementation
+
+uses
+  System.SysUtils, Vcl.Forms;
+
+
+Procedure CarregaIni;
+Var
+  arquini: TIniFile;
+Begin
+
+  arquini :=TIniFile.Create(extractfilepath(application.exename)+'gourmeterp.ini');
+  With arquini Do
+  Begin
+    vpNomeBanco := ReadString('posi', 'nomebanco', 'pegasus');
+    vpServidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vpUsuario := ReadString('posi', 'usuario', 'root');
+    vpSenha := ReadString('posi', 'senha', 'xda973');
+    vpPortaBanco := ReadString('posi', 'portabanco', '3306');
+  End;
+  arquini.Free;
+
+End;
+
+
+function AtivaConexao(aConexao:TUniConnection):Boolean;
+begin
+
+  CarregaIni;
+
+  aConexao.ProviderName := 'MySQL';
+  aConexao.Database := vpNomeBanco;
+  aConexao.UserName := vpUsuario;
+  aConexao.Password := vpSenha;
+  aConexao.Port := vpPortaBanco.ToInteger;
+  aConexao.Server := vpServidor;
+  aConexao.SpecificOptions.Add('ConnectionTimeout=200');
+  aConexao.Connect;
+
+  Result:=aConexao.Connected;
+
+end;
+
+
+end.

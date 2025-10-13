@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.HybridBinarizer" platform="Android">
+  <class name="THybridBinarizer" file="ZXing.HybridBinarizer.pas" line="55">
+    <ancestor name="TGlobalHistogramBinarizer" namespace="ZXing.GlobalHistogramBinarizer">
+      <methodref name="InitArrays" visibility="private" />
+      <methodref name="estimateBlackPoint" visibility="private" />
+      <methodref name="ClassInit" visibility="private" procflags="static" />
+      <methodref name="Create" visibility="public" procflags="constructor" />
+      <methodref name="GetBlackRow" visibility="public" procflags="override" />
+      <ancestor name="TBinarizer" namespace="ZXing.Binarizer">
+        <methodref name="GetWidth" visibility="private" />
+        <methodref name="GetHeight" visibility="private" />
+        <methodref name="Create" visibility="protected" procflags="constructor">
+        </methodref>
+        <methodref name="LuminanceSource" visibility="public">
+        </methodref>
+        <methodref name="GetBlackRow" visibility="public" procflags="abstract virtual" />
+        <methodref name="BlackMatrix" visibility="public" procflags="abstract virtual" />
+        <methodref name="Destroy" visibility="public" procflags="destructor override" />
+        <methodref name="createBinarizer" visibility="public" procflags="abstract virtual">
+        </methodref>
+        <propertyref name="Width" visibility="public" />
+        <propertyref name="Height" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="matrix" type="TBitMatrix" visibility="private" size="4" offset="8" file="ZXing.HybridBinarizer.pas" line="57" />
+      <procedure name="BinarizeEntireImage" visibility="private" file="ZXing.HybridBinarizer.pas" line="58">
+      </procedure>
+      <procedure name="calculateThresholdForBlock" visibility="private" file="ZXing.HybridBinarizer.pas" line="59">
+        <parameters>
+          <parameter name="luminances" type="TArray&lt;System.Byte&gt;" />
+          <parameter name="subWidth" type="Integer" />
+          <parameter name="subHeight" type="Integer" />
+          <parameter name="width" type="Integer" />
+          <parameter name="height" type="Integer" />
+          <parameter name="blackPoints" type="TArrayIntOfInt" />
+          <parameter name="matrix" type="TBitMatrix" />
+        </parameters>
+      </procedure>
+      <function name="calculateBlackPoints" visibility="private" file="ZXing.HybridBinarizer.pas" line="62">
+        <parameters>
+          <parameter name="luminances" type="TArray&lt;System.Byte&gt;" />
+          <parameter name="subWidth" type="Integer" />
+          <parameter name="subHeight" type="Integer" />
+          <parameter name="width" type="Integer" />
+          <parameter name="height" type="Integer" />
+          <retval type="TArrayIntOfInt">
+            <devnotes>
+               <summary> This class implements a local thresholding algorithm, which while slower than the
+               GlobalHistogramBinarizer, is fairly efficient for what it does. It is designed for
+               high frequency images of barcodes with black data on white backgrounds. For this application,
+               it does a much better job than a global blackpoint with severe shadows and gradients.
+               However it tends to produce artifacts on lower frequency images and is therefore not
+               a good general purpose binarizer for uses outside ZXing.
+              
+               This class extends GlobalHistogramBinarizer, using the older histogram approach for 1D readers,
+               and the newer local approach for 2D readers. 1D decoding using a per-row histogram is already
+               inherently local, and only fails for horizontal gradients. We can revisit that problem later,
+               but for now it was not a win to use local blocks for 1D.
+              
+               This Binarizer is the default for the unit tests and the recommended class for library users.
+              
+               </summary>
+               <author>  dswitkin@google.com (Daniel Switkin)
+               </author>
+               <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source
+               </author>
+               <author>Adapted for Delphi/Object Pascal FireMonkey XE7 mobile by E.Spelt
+               </author>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="thresholdBlock" visibility="private" file="ZXing.HybridBinarizer.pas" line="64">
+        <parameters>
+          <parameter name="luminances" type="TArray&lt;System.Byte&gt;" />
+          <parameter name="xoffset" type="Integer" />
+          <parameter name="yoffset" type="Integer" />
+          <parameter name="threshold" type="Integer" />
+          <parameter name="stride" type="Integer" />
+          <parameter name="matrix" type="TBitMatrix" />
+        </parameters>
+      </procedure>
+      <function name="cap" visibility="private" file="ZXing.HybridBinarizer.pas" line="67">
+        <parameters>
+          <parameter name="value" type="Integer" />
+          <parameter name="min" type="Integer" />
+          <parameter name="max" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="createBinarizer" visibility="public" procflags="override" file="ZXing.HybridBinarizer.pas" line="71">
+        <parameters>
+          <parameter name="source" type="TLuminanceSource" />
+          <retval type="TBinarizer">
+            <devnotes>
+               <summary> This class hierarchy provides a set of methods to convert luminance data to 1 bit data.
+               It allows the algorithm to vary polymorphically, for example allowing a very expensive
+               thresholding technique for servers and a fast one for mobile. It also permits the implementation
+               to vary, e.g. a JNI version for Android and a Java fallback version for other platforms.
+              
+               <author>dswitkin@google.com (Daniel Switkin)</author>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.HybridBinarizer.pas" line="73">
+        <parameters>
+          <parameter name="source" type="TLuminanceSource" />
+        </parameters>
+      </constructor>
+      <function name="BlackMatrix" visibility="public" procflags="override" file="ZXing.HybridBinarizer.pas" line="74">
+        <parameters>
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

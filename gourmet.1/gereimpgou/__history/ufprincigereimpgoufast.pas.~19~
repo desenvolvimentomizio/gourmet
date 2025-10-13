@@ -1,0 +1,1062 @@
+unit ufprincigereimpgoufast;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  IdBaseComponent,
+  Vcl.ImgList, Data.DB,
+  UniProvider, MySQLUniProvider, DASQLMonitor, UniSQLMonitor, shellapi, registry, inifiles,
+  System.DateUtils, Vcl.Printers, System.StrUtils, MemDS, DBAccess, Uni, frxRich,
+  ufprincigereimpgoufast01, ufprincigereimpgoufast02, ufprincigereimpgoufast03;
+
+type
+  Tfprincigereimpgoufast = class(TForm)
+    plCozinha: TPanel;
+    plHora: TPanel;
+    BtnImpressao: TButton;
+    Button3: TButton;
+    btlimpar: TButton;
+    plTopo: TPanel;
+    sbTop: TScrollBox;
+    mensagens: TStatusBar;
+    plFalhaBanco: TPanel;
+    erros: TMemo;
+    pedidos: TMemo;
+    UniSQLMonitor: TUniSQLMonitor;
+    MySQLUniProvider: TMySQLUniProvider;
+    Conexao: TUniConnection;
+    inicializar: TTimer;
+    tmVerificarPedidos: TTimer;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmgoupedidelivery: TIntegerField;
+    cfgcfgmgoupedideliveryaux: TIntegerField;
+    czn: TUniQuery;
+    czncznchave: TIntegerField;
+    imm: TUniQuery;
+    immorcchave: TIntegerField;
+    immfoacodigo: TIntegerField;
+    immstocodigo: TIntegerField;
+    immrelarquivo: TBlobField;
+    immorcobs: TStringField;
+    immorcgeralav: TFloatField;
+    immgricodigo: TIntegerField;
+    immgrpcodigo: TIntegerField;
+    immimmchave: TIntegerField;
+    immimmnumepedido: TIntegerField;
+    consulta: TUniQuery;
+    mit: TUniQuery;
+    mitmitcodigo: TIntegerField;
+    mitmitidentificacao: TStringField;
+    immmitidentificacao: TStringField;
+    ajustasitucaoimpressora: TUniQuery;
+    tcisituacao: TUniQuery;
+    gri: TUniQuery;
+    gritcicodigo: TIntegerField;
+    gritciporta: TStringField;
+    grimitidentificacao: TStringField;
+    grigripedidoaux: TIntegerField;
+    tci: TUniQuery;
+    tcimitidentificacao: TStringField;
+    tcitciporta: TStringField;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    procedure tmVerificarPedidosTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure inicializarTimer(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure btlimparClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure BtnImpressaoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+
+    procedure ajustaPaineisImp(vquery: TUniQuery);
+    procedure AjustaPainelImpressora(vTciCodigo, vlIdentificacao, vlTciPorta: string; vlRetorno: Integer);
+    procedure AjustaPaines;
+    function AjustaSituacaoCozinha: Boolean;
+    procedure AtualizaPaineisImpressoras;
+    function BaixaArqRel(vFoaCodigo: string; vrelarquivo: TBlobField): String;
+    function ConsultaEstadoImpressora(vporta: string): string;
+    function enviaBMPImpressora(vlNumePedido: Integer; vporta: string; vlRetorno: Integer; vlimms, vTciCodigo: string): Boolean;
+    procedure RunOnStartup(sProgTitle, sCmdLine: String; bRunOnce: Boolean);
+    function ConsultaImpressora(Porta: string): String;
+    procedure conectabanco;
+    function EstadoImpressora(vporta: string): Integer;
+    function ImprimePedido(vOrcChave: string; vFoaCodigo: string; vrelarquivo: TBlobField; vimmorigem: TUniQuery; vImprime: Integer = 1): Boolean;
+
+    procedure VerificaPedidos;
+
+    procedure VerificaPedidosImpressora(vImpressora: string);
+    procedure VerificaPedidosImpressora01(vImpressora: string; vIP: string);
+    procedure VerificaPedidosImpressora02(vImpressora: string; vIP: string);
+    procedure VerificaPedidosImpressora03(vImpressora: string; vIP: string);
+
+    { Private declarations }
+  public
+    { Public declarations }
+    vpListaImpressoras: tstringList;
+    vpipListaImpressoras: tstringList;
+    vpImpressora01: string;
+    vpImpressora02: string;
+    vpImpressora03: string;
+
+    vpIPImpressora01: string;
+    vpIPImpressora02: string;
+    vpIPImpressora03: string;
+
+    vpPastaDia: string;
+    vpCozinhaAberta: Boolean;
+    vpCznChave: string;
+    vpImpressora: String;
+    vpDebug: String;
+    procedure VerificaPedidos01(vImpresso: string);
+  end;
+
+var
+  fprincigereimpgoufast: Tfprincigereimpgoufast;
+
+implementation
+
+{$R *.dfm}
+
+uses ufimprimefast;
+
+procedure TrimAppMemorySize;
+var
+  MainHandle: thandle;
+begin
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, False, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+  end;
+  // Application.ProcessMessages;
+end;
+
+function Tfprincigereimpgoufast.AjustaSituacaoCozinha: Boolean;
+begin
+
+  result := False;
+
+  czn.close;
+  czn.Open;
+
+  if czn.IsEmpty then
+  begin
+    plCozinha.Caption := 'Atenção: A Cozinha não esta aberta, solicite a abertura da Cozinha!';
+    plCozinha.Font.Color := clYellow;
+    plCozinha.Color := clred;
+
+    vpCozinhaAberta := False;
+    // Application.ProcessMessages;
+  end
+  else
+  begin
+
+    { cria pasta para salvar as imagens dos pedidos do dia }
+    vpPastaDia := ExtractFilePath(Application.ExeName) + 'pedidos';
+    vpPastaDia := vpPastaDia + '\' + formatfloat('000000', czncznchave.AsInteger);
+
+    if not DirectoryExists(vpPastaDia) then
+    begin
+      ForceDirectories(vpPastaDia);
+    end;
+    plCozinha.Caption := 'Cozinha aberta. Bom Trabalho!';
+    plCozinha.Font.Color := clWhite;
+    plCozinha.Color := clgreen;
+
+    vpCozinhaAberta := True;
+    // Application.ProcessMessages;
+    vpCznChave := czncznchave.AsString;
+  end;
+  result := vpCozinhaAberta;
+
+end;
+
+procedure Tfprincigereimpgoufast.AjustaPainelImpressora(vTciCodigo: string; vlIdentificacao: string; vlTciPorta: string; vlRetorno: Integer);
+begin
+
+  case vlRetorno of
+    0:
+      begin
+
+        tcisituacao.close;
+        tcisituacao.SQL.Text := 'select tciimprimindo from tci where tcicodigo=' + vTciCodigo;
+        tcisituacao.Open;
+
+        if tcisituacao.FieldByName('tciimprimindo').AsString <> '' then
+        begin
+
+          (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clnavy;
+          (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clWhite;
+          (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( IMPRIMINDO )';
+
+        end
+        else
+        begin
+
+          if tcisituacao.FieldByName('tciimprimindo').AsString <> '' then
+          begin
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clgreen;
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clWhite;
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' (Porta: ' + vlTciPorta + ')';
+          end
+          else
+          begin
+
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clred;
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clYellow;
+            (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( FALHA ' + vlTciPorta + ' )';
+          end;
+
+        end;
+
+      end;
+    1:
+      begin
+
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clnavy;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clYellow;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( FALHA ' + vlTciPorta + ' )';
+
+      end;
+    5:
+      begin
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clYellow;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clred;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( POUCO PAPEL' + ' )';
+      end;
+    9:
+      begin
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clGray;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clred;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( TAMPA ABERTA' + ' )';
+      end;
+    24:
+      begin
+        // impressora ativa e on-line
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clgreen;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clWhite;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' (Porta: ' + vlTciPorta + ')';
+      end;
+    32:
+      begin
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Color := clblack;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Font.Color := clred;
+        (self.FindComponent('plimp' + vTciCodigo) as TPanel).Caption := vlIdentificacao + ' ( SEM PAPEL' + ' )';
+      end;
+  end;
+
+end;
+
+Procedure ExecuteProgram(Nome, Parametros: String);
+Var
+  Comando: Array [0 .. 1024] of Char;
+  Parms: Array [0 .. 1024] of Char;
+Begin
+  StrPCopy(Comando, Nome);
+  StrPCopy(Parms, Parametros);
+  ShellExecute(0, nil, Comando, Parms, nil, SW_SHOWMINIMIZED);
+End;
+
+function Tfprincigereimpgoufast.enviaBMPImpressora(vlNumePedido: Integer; vporta: string; vlRetorno: Integer; vlimms: string;
+  vTciCodigo: string): Boolean;
+begin
+end;
+
+procedure Tfprincigereimpgoufast.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  freeandnil(vpListaImpressoras);
+  freeandnil(vpipListaImpressoras);
+
+end;
+
+procedure Tfprincigereimpgoufast.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  tmVerificarPedidos.Enabled := False;
+  sleep(1000);
+  CanClose := True;
+
+end;
+
+procedure Tfprincigereimpgoufast.FormShow(Sender: TObject);
+begin
+  inicializar.Enabled := True;
+  Screen.Cursors[crSQLWait] := Screen.Cursors[crDefault];
+end;
+
+procedure Tfprincigereimpgoufast.inicializarTimer(Sender: TObject);
+var
+  i: Integer;
+  vlNomeImpressora: string;
+  vlIPImpressora: string;
+
+begin
+  inicializar.Enabled := False;
+  // cria um mutex usando um nome único
+  CreateMutex(nil, False, 'GereImpGouMulti.OnlyOne');
+  // verifica se houve erro na criação
+  if GetLastError = ERROR_ALREADY_EXISTS then
+  begin
+    MessageBox(0, 'Este programa já está sendo executado', 'Aviso', MB_ICONSTOP);
+    Halt(0); // cancela execução
+  end
+  else
+  begin
+
+    RunOnStartup('Gerenciador Impressão Mizio Sistemas', Application.ExeName, False);
+
+    for i := 0 to self.ComponentCount - 1 do
+    begin
+      if self.Components[i] is TUniQuery then
+        (self.Components[i] as TUniQuery).Connection := Conexao;
+
+    end;
+
+    conectabanco;
+
+    if AjustaSituacaoCozinha then
+    begin
+
+      vpListaImpressoras := tstringList.Create;
+      vpipListaImpressoras := tstringList.Create;
+
+      tci.close;
+      tci.Open;
+
+      tci.First;
+      while not tci.Eof do
+      begin
+        vlNomeImpressora := tcimitidentificacao.AsString;
+        vlIPImpressora := tcitciporta.AsString;
+
+        if pos(vlNomeImpressora, vpListaImpressoras.Text) = 0 then
+        begin
+          vpListaImpressoras.Add(vlNomeImpressora);
+          vpipListaImpressoras.Add(vlIPImpressora);
+
+        end;
+
+        tci.Next;
+      end;
+
+      vpImpressora01 := '';
+      vpImpressora02 := '';
+      vpImpressora03 := '';
+
+      for i := 0 to vpListaImpressoras.Count - 1 do
+      begin
+        if i = 0 then
+        begin
+          vpImpressora01 := vpListaImpressoras.Strings[i];
+          vpIPImpressora01 := vpipListaImpressoras.Strings[i];
+
+        end;
+        if i = 1 then
+        begin
+          vpImpressora02 := vpListaImpressoras.Strings[i];
+          vpIPImpressora02 := vpipListaImpressoras.Strings[i];
+        end;
+
+        if i = 2 then
+        begin
+          vpImpressora03 := vpListaImpressoras.Strings[i];
+          vpIPImpressora03 := vpipListaImpressoras.Strings[i];
+        end;
+
+      end;
+
+      tmVerificarPedidos.Enabled := True;
+
+    end;
+
+  end;
+
+end;
+
+Procedure Tfprincigereimpgoufast.RunOnStartup(sProgTitle, sCmdLine: String; bRunOnce: Boolean);
+Var
+  sKey: String;
+  Reg: TRegIniFile;
+Begin
+  Try
+    If (bRunOnce) Then
+      sKey := 'mizioGerenciaImpress'
+    Else
+      sKey := '';
+    Reg := TRegIniFile.Create('');
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    Reg.WriteString('Software\Microsoft\Windows\CurrentVersion\Run' + sKey + #0, sProgTitle, sCmdLine);
+
+    Reg.Free;
+  Except
+    Reg.Free;
+  End;
+End;
+
+procedure Tfprincigereimpgoufast.tmVerificarPedidosTimer(Sender: TObject);
+
+begin
+
+  try
+
+    tmVerificarPedidos.Enabled := False;
+    TrimAppMemorySize;
+
+    if AjustaSituacaoCozinha then
+    begin
+
+      plHora.Caption := timetostr(time);
+
+      AtualizaPaineisImpressoras;
+
+      if vpImpressora01 <> '' then
+      begin
+
+        consulta.close;
+        consulta.Connection := Conexao;
+        consulta.SQL.Text :=
+          'select gri.tcicodigo, grisituacao from gri,tci,mit where  gri.tcicodigo=tci.tcicodigo  and  mit.mitcodigo=tci.mitcodigo  and mitidentificacao='
+          + QuotedStr(vpImpressora01);
+        consulta.Open;
+
+        pedidos.Lines.Add('Vai verificar impressora ' + vpImpressora01);
+        Application.ProcessMessages;
+        VerificaPedidosImpressora01(vpImpressora01, vpIPImpressora01);
+        pedidos.Lines.Add('Verificou impressora ' + vpImpressora01);
+
+      end;
+
+      if vpImpressora02 <> '' then
+      begin
+
+        consulta.close;
+        consulta.Connection := Conexao;
+        consulta.SQL.Text :=
+          'select gri.tcicodigo, grisituacao from gri,tci,mit where  gri.tcicodigo=tci.tcicodigo  and  mit.mitcodigo=tci.mitcodigo  and mitidentificacao='
+          + QuotedStr(vpImpressora02);
+        consulta.Open;
+        pedidos.Lines.Add('Vai verificar impressora ' + vpImpressora02);
+        Application.ProcessMessages;
+        VerificaPedidosImpressora02(vpImpressora02, vpIPImpressora02);
+        pedidos.Lines.Add('Verificar impressora ' + vpImpressora02);
+
+      end;
+
+      if vpImpressora03 <> '' then
+      begin
+
+        consulta.close;
+        consulta.Connection := Conexao;
+        consulta.SQL.Text :=
+          'select gri.tcicodigo, grisituacao from gri,tci,mit where  gri.tcicodigo=tci.tcicodigo  and  mit.mitcodigo=tci.mitcodigo  and mitidentificacao='
+          + QuotedStr(vpImpressora03);
+        consulta.Open;
+        pedidos.Lines.Add('Vai verificar impressora ' + vpImpressora03);
+        Application.ProcessMessages;
+        VerificaPedidosImpressora03(vpImpressora03, vpIPImpressora03);
+        pedidos.Lines.Add('Verificou impressora ' + vpImpressora03);
+
+      end;
+
+    end;
+
+  finally
+    tmVerificarPedidos.Enabled := True;
+
+  end;
+
+end;
+
+Procedure Tfprincigereimpgoufast.conectabanco;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+  vCaminho: string;
+Begin
+
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'mizio.ini');
+  vCaminho := ExtractFilePath(Application.ExeName);
+  With arquini Do
+  Begin
+
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+    vpImpressora := ReadString('posi', 'impressora', '999');
+    vpDebug := ReadString('posi', 'debug', '0');
+
+  End;
+  arquini.Free;
+
+  Conexao.Connected := False;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := True;
+
+  mensagens.Panels[0].Text := 'IP: ' + vservidor;
+  mensagens.Panels[1].Text := 'BD: ' + vnomebanco;
+
+  if not Conexao.Connected then
+  begin
+    ShowMessage('Falha de conexão com o Banco de Dados. Verifique as configurações do mizio.ini');
+    Application.Terminate;
+  end
+  else
+    AjustaPaines;
+
+End;
+
+function Tfprincigereimpgoufast.ConsultaEstadoImpressora(vporta: string): string;
+begin
+  result := ConsultaImpressora(vporta);
+end;
+
+function Tfprincigereimpgoufast.BaixaArqRel(vFoaCodigo: string; vrelarquivo: TBlobField): String;
+var
+  vlNomeArq: String;
+  BlobField: TBlobField;
+  vlNomeRelatorio: string;
+begin
+  result := '';
+  vlNomeArq := ExtractFilePath(Application.ExeName) + 'Report\Pedido_' + vFoaCodigo + '.fr3';
+
+  if fileexists(vlNomeArq) then
+    deletefile(vlNomeArq);
+
+  BlobField := vrelarquivo as TBlobField;
+
+  BlobField.SaveToFile(vlNomeArq);
+
+  if not fileexists(vlNomeArq) then
+  begin
+    // pedidos.Lines.Add('Arquivo nao localizado: ' + vlNomeArq);
+    exit;
+  end
+  else
+    result := vlNomeArq;
+
+end;
+
+procedure Tfprincigereimpgoufast.btlimparClick(Sender: TObject);
+begin
+  erros.Lines.Clear;
+end;
+
+procedure Tfprincigereimpgoufast.BtnImpressaoClick(Sender: TObject);
+begin
+  if BtnImpressao.Tag = 0 then
+  begin
+    BtnImpressao.Tag := 1;
+    tmVerificarPedidos.Enabled := False;
+    BtnImpressao.Caption := 'Iniciar';
+  end
+  else
+  begin
+    BtnImpressao.Tag := 0;
+    tmVerificarPedidos.Enabled := True;
+    BtnImpressao.Caption := 'Pausar';
+  end;
+
+end;
+
+procedure Tfprincigereimpgoufast.Button3Click(Sender: TObject);
+begin
+  close;
+end;
+
+procedure Tfprincigereimpgoufast.AtualizaPaineisImpressoras;
+var
+  vlIdentificacao: string;
+  vlTciPorta: string;
+  vlTciCodigo: string;
+
+  vlRetorno: Integer;
+  vlRetornoStr: String;
+begin
+  gri.close;
+  gri.Open;
+
+  gri.First;
+  while not gri.Eof do
+  begin
+
+    vlIdentificacao := gri.FieldByName('mitidentificacao').AsString;
+    vlTciPorta := gri.FieldByName('tciporta').AsString;
+    vlTciCodigo := gri.FieldByName('tcicodigo').AsString;
+
+    if self.FindComponent('plimp' + vlTciCodigo) <> nil then
+    begin
+      vlRetorno := 0;
+
+      if vpDebug = '1' then
+        vlRetornoStr := '24'
+      else
+      begin
+        vlRetornoStr := ConsultaEstadoImpressora(vlTciPorta);
+      end;
+
+      if vlRetornoStr <> '' then
+        vlRetorno := StrToInt(vlRetornoStr);
+
+      try
+
+        consulta.close;
+        consulta.Connection := Conexao;
+        consulta.SQL.Text := 'select gricodigo, tcicodigo, grisituacao from gri where ' + 'tcicodigo=' + vlTciCodigo;
+        consulta.Open;
+        consulta.Edit;
+        consulta.FieldByName('grisituacao').AsString := vlRetornoStr;
+        consulta.Post;
+
+      except
+
+        consulta.Cancel;
+        sleep(100);
+        try
+          consulta.close;
+          consulta.Connection := Conexao;
+          consulta.SQL.Text := 'select gricodigo, tcicodigo, grisituacao from gri where ' + 'tcicodigo=' + vlTciCodigo;
+          consulta.Open;
+          consulta.Edit;
+          consulta.FieldByName('grisituacao').AsString := vlRetornoStr;
+          consulta.Post;
+        except
+        end;
+
+      end;
+
+      ajustasitucaoimpressora.close;
+      ajustasitucaoimpressora.Connection := Conexao;
+      ajustasitucaoimpressora.SQL.Text :=
+        'select gri.gricodigo, gri.tcicodigo, grisituacao from gri,tci,mit where  gri.tcicodigo=tci.tcicodigo  and  mit.mitcodigo=tci.mitcodigo  and mitidentificacao='
+        + QuotedStr(vlIdentificacao);
+      ajustasitucaoimpressora.Open;
+
+      vlRetornoStr := ajustasitucaoimpressora.FieldByName('grisituacao').AsString;
+
+      if vlRetornoStr <> '' then
+        vlRetorno := StrToInt(vlRetornoStr);
+
+      AjustaPainelImpressora(vlTciCodigo, vlIdentificacao, vlTciPorta, vlRetorno);
+
+    end;
+
+    gri.Next;
+
+  end;
+
+end;
+
+procedure Tfprincigereimpgoufast.ajustaPaineisImp(vquery: TUniQuery);
+var
+  plImp: TPanel;
+  A, E: Integer;
+  vlWidth: Integer;
+begin
+  vquery.First;
+  A := 0;
+  E := 1;
+  vlWidth := sbTop.Width;
+  vquery.Connection := Conexao;
+  while not vquery.Eof do
+  begin
+
+    if self.FindComponent('plimp' + vquery.FieldByName('tcicodigo').AsString) = nil then
+    begin
+
+      plImp := TPanel.Create(self);
+      plImp.Parent := sbTop;
+      plImp.Name := 'plimp' + vquery.FieldByName('tcicodigo').AsString;
+      plImp.Caption := vquery.FieldByName('mitidentificacao').AsString;
+      plImp.ParentBackground := False;
+      plImp.ParentFont := False;
+      plImp.Align := alNone;
+      plImp.Height := 20;
+      plImp.Width := 310;
+      plImp.top := (23 * A) + 7;
+      plImp.BorderWidth := 3;
+      plImp.Alignment := taLeftJustify;
+      plImp.Left := (315 * E) - plImp.Width;
+      plImp.Font.Color := clblack;
+      plImp.Font.Size := 9;
+      plImp.Tag := vquery.FieldByName('tcicodigo').AsInteger;
+
+    end;
+
+    vquery.Next;
+    A := A + 1;
+    if A > 8 then
+    begin
+      E := E + 1;
+      A := 0;
+    end;
+  end;
+end;
+
+procedure Tfprincigereimpgoufast.AjustaPaines;
+begin
+  { se exite destroi para recriar }
+  cfg.close;
+  cfg.Open;
+
+  gri.close;
+  if vpImpressora <> '999' then
+  begin
+    gri.FilterSQL := 'tci.tcicodigo=' + vpImpressora;
+  end;
+
+  gri.Open;
+
+  ajustaPaineisImp(gri);
+
+end;
+
+Function Tfprincigereimpgoufast.ConsultaImpressora(Porta: string): String;
+Var
+  i_retorno: Integer;
+  sRetorno: String;
+Begin
+  Try
+
+    sRetorno := '1';
+
+    if vpDebug = '1' then
+      i_retorno := 24
+    else
+      i_retorno := EstadoImpressora(Porta);
+
+    If i_retorno <> 1 Then
+    Begin
+      if i_retorno = 0 then
+      begin
+        erros.Lines.Add(datetimetostr(now) + ' 0 - IMPRESSORA - OFF LINE/SEM COMUNICAÇÃO ' + Porta);
+      end
+      else if i_retorno = 32 then
+      begin
+        erros.Lines.Add(datetimetostr(now) + '32 - IMPRESSORA - SEM PAPEL ' + Porta);
+      end
+      else if i_retorno = 5 then
+      begin
+        erros.Lines.Add(datetimetostr(now) + ' 5 - IMPRESSORA - ON LINE - POUCO PAPEL ' + Porta);
+      end
+      else if i_retorno = 9 then
+      begin
+        erros.Lines.Add(datetimetostr(now) + ' 9 - IMPRESSORA - OFF LINE - TAMPA ABERTA ' + Porta);
+      end
+      else if i_retorno <> 24 then
+      begin
+        erros.Lines.Add(datetimetostr(now) + '  ' + inttostr(i_retorno) + ' - IMPRESSORA - ERRO NÃO DEFINIDO ' + Porta);
+      end;
+
+      // Application.ProcessMessages;
+
+    End;
+
+    If i_retorno = 1 Then
+    Begin
+
+      sleep(500);
+
+    End;
+    sRetorno := inttostr(i_retorno);
+
+    If i_retorno = 0 Then
+      exit;
+
+  Finally
+    result := sRetorno;
+  End;
+End;
+
+procedure Tfprincigereimpgoufast.VerificaPedidosImpressora03(vImpressora: string; vIP: string);
+var
+  vlpedido: string;
+  fprincigereimpgoufast03: Tfprincigereimpgoufast03;
+begin
+
+  // if FindWindow(nil, pchar('Imprimindo ' + vIP)) = 0 then
+  // begin
+  if immimmnumepedido.AsInteger > 0 then
+  begin
+    vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+    pedidos.Lines.Add(vlpedido);
+  end;
+
+  fprincigereimpgoufast03 := Tfprincigereimpgoufast03.Create(self);
+  fprincigereimpgoufast03.Parent := Panel6;
+  fprincigereimpgoufast03.Caption := 'Imprimindo ' + vIP;
+  fprincigereimpgoufast03.vpImpressora := vImpressora;
+  fprincigereimpgoufast03.ZCone := Conexao;
+  fprincigereimpgoufast03.frxUniDACComponents.DefaultDatabase := Conexao;
+  fprincigereimpgoufast03.ShowModal;
+
+
+  // sleep(500);
+  { end
+    else
+    begin
+    erros.Lines.Add('Imprimindo ' + vIP);
+    end; }
+
+end;
+
+procedure Tfprincigereimpgoufast.VerificaPedidosImpressora02(vImpressora: string; vIP: string);
+var
+  vlpedido: string;
+  fprincigereimpgoufast02: Tfprincigereimpgoufast02;
+
+begin
+
+  if FindWindow(nil, pchar('Imprimindo ' + vIP)) = 0 then
+  begin
+
+    if immimmnumepedido.AsInteger > 0 then
+    begin
+
+      vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+      pedidos.Lines.Add('Vai imprimir ' + vlpedido);
+      pedidos.Lines.Add(vlpedido);
+    end;
+
+    fprincigereimpgoufast02 := Tfprincigereimpgoufast02.Create(self);
+    fprincigereimpgoufast02.plsituacao.Color := clgreen;
+    fprincigereimpgoufast02.top := 0;
+    fprincigereimpgoufast02.Left := 60;
+
+    fprincigereimpgoufast02.Parent := Panel5;
+    fprincigereimpgoufast02.Caption := 'Imprimindo ' + vIP;
+    fprincigereimpgoufast02.vpImpressora := vImpressora;
+    fprincigereimpgoufast02.ZCone := Conexao;
+    fprincigereimpgoufast02.frxUniDACComponents.DefaultDatabase := Conexao;
+    fprincigereimpgoufast02.inicializar.Enabled :=true;
+    fprincigereimpgoufast02.ShowModal;
+
+    // sleep(500);
+
+  end
+  else
+  begin
+    erros.Lines.Add('Imprimindo ' + vIP);
+    pedidos.Lines.Add('Esta imprimindo  ' + vIP);
+
+  end;
+  Application.ProcessMessages;
+
+end;
+
+procedure Tfprincigereimpgoufast.VerificaPedidosImpressora01(vImpressora: string; vIP: string);
+var
+  vlpedido: string;
+  fprincigereimpgoufast01: Tfprincigereimpgoufast01;
+
+begin
+
+  if FindWindow(nil, pchar('Imprimindo ' + vIP)) = 0 then
+  begin
+    if immimmnumepedido.AsInteger > 0 then
+    begin
+
+      vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+      pedidos.Lines.Add('Vai imprimir  ' + vlpedido);
+
+      pedidos.Lines.Add(vlpedido);
+
+    end;
+
+    fprincigereimpgoufast01 := Tfprincigereimpgoufast01.Create(self);
+    fprincigereimpgoufast01.plsituacao.Color := clgreen;
+    fprincigereimpgoufast01.Parent := Panel4;
+    fprincigereimpgoufast01.top := 0;
+    fprincigereimpgoufast01.Left := 0;
+    pedidos.Lines.Add('Titulo da janela: ' + 'Imprimindo ' + vIP);
+    fprincigereimpgoufast01.Caption := 'Imprimindo ' + vIP;
+    fprincigereimpgoufast01.vpImpressora := vImpressora;
+    fprincigereimpgoufast01.ZCone := Conexao;
+    fprincigereimpgoufast01.frxUniDACComponents.DefaultDatabase := Conexao;
+    fprincigereimpgoufast01.inicializar.Enabled :=true;
+    fprincigereimpgoufast01.ShowModal;
+
+    // sleep(500);
+  end
+  else
+  begin
+    erros.Lines.Add('Imprimindo ' + vIP);
+    pedidos.Lines.Add('Esta imprimindo  ' + vIP);
+
+  end;
+  Application.ProcessMessages;
+end;
+
+procedure Tfprincigereimpgoufast.VerificaPedidosImpressora(vImpressora: string);
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+  vlpedido: string;
+
+begin
+
+  imm.First;
+  while not imm.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immgrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+    vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+
+    pedidos.Lines.Add(vlpedido);
+
+    if ImprimePedido(immorcchave.AsString, immfoacodigo.AsString, immrelarquivo, imm) then
+    begin
+      sleep(500);
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      pedidos.Lines.Add('Pedido: ' + vlpedido);
+
+      imm.Next;
+    end;
+
+  end;
+end;
+
+procedure Tfprincigereimpgoufast.VerificaPedidos01(vImpresso: string);
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+  vlpedido: string;
+
+begin
+
+  imm.First;
+  while not imm.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immgrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+    vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+
+    if ImprimePedido(immorcchave.AsString, immfoacodigo.AsString, immrelarquivo, imm) then
+    begin
+      sleep(500);
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      pedidos.Lines.Add('Pedido: ' + vlpedido);
+      imm.Next;
+    end;
+
+  end;
+end;
+
+procedure Tfprincigereimpgoufast.VerificaPedidos;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+  vlpedido: string;
+
+begin
+
+  imm.First;
+  while not imm.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immgrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+    vlpedido := 'Pedido: ' + formatfloat('0000', immimmnumepedido.AsInteger) + '-' + immgricodigo.AsString;
+    pedidos.Lines.Add(vlpedido);
+
+    if ImprimePedido(immorcchave.AsString, immfoacodigo.AsString, immrelarquivo, imm) then
+    begin
+      sleep(500);
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      pedidos.Lines.Add('Pedido: ' + vlpedido);
+      imm.Next;
+    end;
+
+  end;
+end;
+
+function Tfprincigereimpgoufast.ImprimePedido(vOrcChave: string; vFoaCodigo: string; vrelarquivo: TBlobField; vimmorigem: TUniQuery;
+  vImprime: Integer = 1): Boolean;
+begin
+end;
+
+function IsValidatePrinter(LabelPrinter: String): Integer;
+var
+  i: Integer;
+begin
+  for i := 0 to Printer.Printers.Count - 1 do
+    if AnsiContainsText(Printer.Printers[i], LabelPrinter) then
+      exit(i);
+  result := -1;
+end;
+
+function Tfprincigereimpgoufast.EstadoImpressora(vporta: string): Integer;
+Var
+  vu: string;
+  vlRetorno, i_retorno, vlIndexPrinter: Integer;
+  s_cmdtx: string;
+  i, U, E: Integer;
+Begin
+
+  vlIndexPrinter := IsValidatePrinter(trim(vporta));
+  if vlIndexPrinter <> -1 then // Identifica se é uma impressora válida
+  begin
+
+    Vcl.Printers.Printer.PrinterIndex := vlIndexPrinter;
+
+    if Printer.Printing then
+    begin
+      vlRetorno := 99;
+    end
+    else
+    begin
+      vlRetorno := 24;
+    end;
+
+  end;
+
+  result := vlRetorno;
+
+End;
+
+end.

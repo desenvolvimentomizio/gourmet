@@ -1,0 +1,63 @@
+>>>Cadastro de Clientes - Incluir
+
+* Ao abrir a tela de endereço trazer o tipo de endereço preenchido - 1.Principal
+
+* Endereço, telefone é padrão para qualquer ramo de atividade - os outros deverá ser configurável conforme necessidade de cada um.
+
+* E-mail - contato não deve ser orbigatório 
+
+* telefone - tipo deve vir com padrão 1-Principal
+
+* referencia Pessoal - a data da consulta - padrão preenchido, data do dia.
+
+* referencia comercial - contato obrigatório
+
+* Referência bancária - Contato e informações devem ser obrigatórios.
+
+* Dados pessoais - se estiver obrigatório não confirmar sem preencher.
+
+
+>>>Cadastro de Clientes - Alterar
+
+*Quando validar manter as informações no campo CPF/CNPJ e tipo de pessoa bloquear.
+
+
+>>>Cadastro de Clientes - Bloqueios
+
+* Tabela para Situação do Cliente - Ativo, Bloqueio Total , Bloqueio a Prazo 
+
+* Tabela para registrar motivo de bloqueio e desbloqueio.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+>>>Listas - Geral
+
+* Alterar menu configurações para Definir Colunas.
+
+* Utilizar menu Configurações para atribuir definições de cada modulo.
+
+* Filtros - Não mostrar panel de filtros ativos - informar filtros ativos ao lado do campo pesquisa.(Verificar exclusão de item do filtro)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+>>>Cadastro de Fornecedores - Incluir
+
+* Ao cadastrar - quando entidade possui outro vínculo - erro de chave duplicada
+
+* IE retorna erro - isncrição isento ja está em uso.
+
+* Está passando código de cadastro para etv em alguns casos gera chave duplicada - (etvcodigo não precisa ser atribuído).
+
+* 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+>>>Cadastro de Fornecedores - Transportadores
+
+* Erro de sql ao tentar cadastrar entidade ja cadastrada como Fornecedor ou apenas transportador
+
+*
+
+
+
+
+
+

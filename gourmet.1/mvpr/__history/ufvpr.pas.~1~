@@ -1,0 +1,254 @@
+unit ufvpr;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, Vcl.ImgList, Vcl.Controls, Data.DB, DBAccess, Uni,
+  MemDS, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls,
+  System.Classes, Vcl.Graphics, System.SysUtils, uFuncoes, System.ImageList, dialogs;
+
+type
+  Tfvpr = class(TForm)
+    PlBotoes: TPanel;
+    ImageLogoBase: TImage;
+    PlInfo: TPanel;
+    PlTitulo: TPanel;
+    plid: TPanel;
+    ItmPro: TUniQuery;
+    ItmProprocodigo: TIntegerField;
+    ItmProquantidade: TFloatField;
+    ItmProtpocodigo: TIntegerField;
+    ItmProprosaldo: TFloatField;
+    DSItmPro: tunidatasource;
+    ItmProttecodigo: TIntegerField;
+    ItmProtoecodigo: TIntegerField;
+    Panel1: TPanel;
+    DBGLista: TDBGrid;
+    ItmProPodeTipo: TBooleanField;
+    ItmProPodeSaldo: TBooleanField;
+    BFechar: TBitBtn;
+    Panel2: TPanel;
+    ItmPropronome: TStringField;
+    ItmProtpoidentificacao: TStringField;
+    ItmProproncm: TStringField;
+    ItmProPodeNCM: TBooleanField;
+    ImageList: TImageList;
+    Panel3: TPanel;
+    ImgCorretos: TImage;
+    ImgErros: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    cfg: TUniQuery;
+    cfgcfgcontrolaestoque: TIntegerField;
+    tcg: TUniQuery;
+    tcgtcgncm: TStringField;
+    cfgcfgusapdv: TIntegerField;
+    mes: TUniQuery;
+    ItmProitmPodeNCM: TStringField;
+    ItmProitmPodeSaldo: TStringField;
+    ItmProitmPodeTipo: TStringField;
+    plIdChaveFilial: TPanel;
+    procedure ItmProCalcFields(DataSet: TDataSet);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure BFecharClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    Fzcone: tuniconnection;
+    vpChaveMes: String;
+    vpRetorno: Boolean;
+    vpVerificaSaldo: Boolean;
+    vpVerificaNCM: Boolean;
+    vpTemNCMInvalido: Boolean;
+
+    function Verifica(ChaveMes: string; CodigoFilial: string): Boolean;
+    { Private declarations }
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  fvpr: Tfvpr;
+
+implementation
+
+{$R *.dfm}
+
+function ValidaProdutos(AOwner: TComponent; conexao: tuniconnection; ChaveMes: string; CodigoFilial: string = '1'; VerificaNCM: Boolean = True): Boolean;
+Begin
+  Application.CreateForm(Tfvpr, fvpr);
+  try
+    fvpr.Visible := False;
+    fvpr.zcone := conexao;
+    fvpr.vpVerificaNCM := VerificaNCM;
+    fvpr.plIdChaveFilial.Caption := 'Filial: ' + CodigoFilial + ' Chave venda nr: ' + ChaveMes;
+    fvpr.vpRetorno := fvpr.Verifica(ChaveMes, CodigoFilial);
+
+    Result := fvpr.vpRetorno;
+  finally
+    fvpr.Free;
+  end;
+End;
+
+exports ValidaProdutos;
+
+{ Tfvpr }
+
+procedure Tfvpr.BFecharClick(Sender: TObject);
+begin
+  ModalResult := mrOk;
+end;
+
+procedure Tfvpr.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+  Bitmap: TBitmap;
+  ImgIndex: Integer;
+begin
+
+  fixRect := Rect;
+
+  If Odd(DSItmPro.DataSet.RecNo) Then
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  With (Sender As TDBGrid).Canvas Do
+  begin
+    If gdSelected In State Then
+      Brush.Color := PEG_COR_SELCGRID;
+
+    Font.Color := clBlack;
+    FillRect(Rect);
+  end;
+
+  if (Column.Field = ItmProPodeNCM) or (Column.Field = ItmProPodeTipo) or (Column.Field = ItmProPodeSaldo) then
+  begin
+    if Column.Field.AsBoolean = True then
+      ImgIndex := 0
+    else
+      ImgIndex := 1;
+
+    Try
+      Bitmap := TBitmap.Create;
+      ImageList.GetBitmap(ImgIndex, Bitmap);
+      DBGLista.Canvas.Draw(Rect.Left + 7, Rect.Top + 1, Bitmap);
+    Finally
+      Bitmap.Free;
+    End;
+
+    fixRect := Rect;
+    fixRect.Left := fixRect.Left + Column.Width;
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure Tfvpr.FormShow(Sender: TObject);
+begin
+  ImageList.GetBitmap(0, ImgCorretos.Picture.Bitmap);
+  ImageList.GetBitmap(1, ImgErros.Picture.Bitmap);
+
+  Self.Width := 1024;
+
+  PlInfo.Caption := GetAppVersionStr(ExtractFilePath(Application.ExeName) + 'modulos\mvpr.bpl');
+end;
+
+procedure Tfvpr.ItmProCalcFields(DataSet: TDataSet);
+begin
+  ItmProPodeTipo.AsBoolean := True;
+  ItmProPodeSaldo.AsBoolean := True;
+  ItmProPodeNCM.AsBoolean := True;
+
+  (* Valida Tipo de Produto *)
+  ItmProPodeTipo.AsBoolean := ItmProitmPodeTipo.AsInteger = 1;
+
+  (* Valida Saldo *)
+  if (ItmProttecodigo.AsInteger = 1) and (vpVerificaSaldo) and (ItmProtpocodigo.AsInteger = tpoMercadoriaRevenda) then
+    ItmProPodeSaldo.AsBoolean := ItmProitmPodeSaldo.AsInteger = 1;
+
+  (* Valida NCM *)
+  if vpVerificaNCM then
+  begin
+    ItmProPodeNCM.AsBoolean := ItmProitmPodeNCM.AsInteger = 1;
+
+    if ItmProPodeNCM.AsBoolean = False then
+      vpTemNCMInvalido := True;
+  end;
+end;
+
+function Tfvpr.Verifica(ChaveMes: string; CodigoFilial: string): Boolean;
+var
+  vItensValidos: Boolean;
+  i: Integer;
+  vQuery, vSeparador, vFiltro: String;
+begin
+
+  For i := 0 To Self.ComponentCount - 1 Do
+    If Self.Components[i] Is TUniQuery Then
+      (Self.Components[i] As TUniQuery).Connection := zcone;
+
+  vItensValidos := True;
+  vpVerificaSaldo := True;
+  vpTemNCMInvalido := False;
+
+  cfg.Open;
+
+  if cfgcfgcontrolaestoque.AsInteger = 0 then
+    vpVerificaSaldo := False;
+
+  mes.Close;
+  mes.Params[0].AsString := ChaveMes;
+  mes.Params[1].AsString := CodigoFilial;
+  mes.Open;
+
+  if not mes.IsEmpty then
+    vpVerificaSaldo := False;
+
+  (* Inicia Verificação de cada item *)
+  ItmPro.Close;
+  ItmPro.Params[0].AsString := ChaveMes;
+  ItmPro.Params[1].AsString := CodigoFilial;
+
+  ItmPro.Open;
+
+  vFiltro := '';
+  vSeparador := '';
+
+  while not ItmPro.Eof do
+  begin
+    if not(ItmProPodeTipo.AsBoolean and ItmProPodeSaldo.AsBoolean and ItmProPodeNCM.AsBoolean) then
+    begin
+      vItensValidos := False;
+
+      vFiltro := vFiltro + vSeparador + ItmProprocodigo.AsString;
+      vSeparador := ', ';
+    end;
+
+    ItmPro.Next;
+  end;
+
+  if vItensValidos then
+    Result := True
+  else
+  begin
+    { if (cfgcfgusapdv.AsInteger = 1) and vpTemNCMInvalido then
+      begin
+      Application.MessageBox(PChar('Um ou mais itens possui NCM inválido, documento Fiscal não pode ser gerado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+      Exit(False);
+      end; }
+
+    ItmPro.Close;
+    vQuery := Copy(ItmPro.SQL.Text, 1, Pos('GROUP', ItmPro.SQL.Text) - 1);
+    vQuery := vQuery + ' AND itm.procodigo IN (' + vFiltro + ') ' + Copy(ItmPro.SQL.Text, Pos('GROUP', ItmPro.SQL.Text), 30);
+    ItmPro.SQL.Text := vQuery;
+    ItmPro.Open;
+
+    ModalResult := Self.ShowModal;
+    Result := False;
+  end;
+end;
+
+end.

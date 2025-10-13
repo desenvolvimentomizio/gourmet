@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/20 08:54:38.000.352,=rtl.dcp</Transaction>
+    <Transaction>2024/03/20 08:55:24.000.565,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\fontes\mercato\mltePDVTEF\mltePDVTEF.dproj</Transaction>
+    <Transaction>2024/03/20 08:57:14.000.778,=C:\fontes\mercato\mltePDVTEF\Unit1.pas</Transaction>
+    <Transaction>2024/03/20 08:59:50.000.373,C:\fontes\mercato\mltePDVTEF\Unit1.dfm=C:\fontes\mercato\mltePDVTEF\ufltePDVTEF.dfm</Transaction>
+    <Transaction>2024/03/20 08:59:50.000.373,C:\fontes\mercato\mltePDVTEF\Unit1.pas=C:\fontes\mercato\mltePDVTEF\ufltePDVTEF.pas</Transaction>
+    <Transaction>2024/03/20 09:52:11.000.076,=C:\fontes\mercato\mltePDVTEF\Unit1.pas</Transaction>
+    <Transaction>2024/03/20 09:52:30.000.910,C:\fontes\mercato\mltePDVTEF\Unit1.pas=C:\fontes\mercato\mltePDVTEF\uflteModalidade.pas</Transaction>
+    <Transaction>2024/03/20 09:52:30.000.910,C:\fontes\mercato\mltePDVTEF\Unit1.dfm=C:\fontes\mercato\mltePDVTEF\uflteModalidade.dfm</Transaction>
+    <Transaction>2024/03/22 08:33:14.000.955,=C:\fontes\mercato\mltePDVTEF\frMenuTEF.pas</Transaction>
+    <Transaction>2024/03/22 08:33:14.000.845,=C:\fontes\mercato\mltePDVTEF\frExibeMensagem.pas</Transaction>
+    <Transaction>2024/03/22 08:33:15.000.274,=C:\fontes\mercato\mltePDVTEF\uftransacaoTEFAPI.pas</Transaction>
+    <Transaction>2024/03/22 08:33:15.000.073,=C:\fontes\mercato\mltePDVTEF\frObtemCampo.pas</Transaction>
+    <Transaction>2024/03/22 08:33:15.000.153,=C:\fontes\mercato\mltePDVTEF\uDadosVendaTEF.pas</Transaction>
+    <Transaction>2024/03/22 08:35:36.000.116,=ACBr_TEFD.dcp</Transaction>
+    <Transaction>2024/03/22 16:00:38.000.374,C:\fontes\mercato\mltePDVTEF\uftransacaoLTETEFAPI.dfm=C:\fontes\mercato\mltePDVTEF\uftransacaoTEFAPI.dfm</Transaction>
+    <Transaction>2024/03/22 16:00:38.000.374,C:\fontes\mercato\mltePDVTEF\uftransacaoLTETEFAPI.pas=C:\fontes\mercato\mltePDVTEF\uftransacaoTEFAPI.pas</Transaction>
+    <Transaction>2024/04/04 10:44:25.000.399,=ACBr_Serial.dcp</Transaction>
+    <Transaction>2024/05/08 17:26:37.000.350,=C:\fontes_mercato\mercato\mltePDVTEF\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 17:27:05.000.359,C:\fontes_mercato\mercato\mltePDVTEF\Unit1.pas=C:\fontes_mercato\mercato\mltePDVTEF\uflteComprovante.pas</Transaction>
+    <Transaction>2024/05/08 17:27:05.000.359,C:\fontes_mercato\mercato\mltePDVTEF\Unit1.dfm=C:\fontes_mercato\mercato\mltePDVTEF\uflteComprovante.dfm</Transaction>
+    <Transaction>2024/07/17 09:54:13.000.736,=C:\fontes_mercato\mercato\mltePDVTEF\Unit1.pas</Transaction>
+    <Transaction>2024/07/17 09:54:32.000.495,C:\fontes_mercato\mercato\mltePDVTEF\Unit1.pas=C:\fontes_mercato\mercato\mltePDVTEF\Ping2.pas</Transaction>
+    <Transaction>2024/07/18 08:29:27.000.554,C:\fontes_mercato\mercato\mltePDVTEF\Ping2.pas=</Transaction>
+    <Transaction>2024/07/23 17:00:09.000.126,C:\fontes_mercato\mercato\mltePDVTEF\frExibeMensagemPorTempo.dfm=C:\fontes_mercato\mercato\mltePDVTEF\frExibeMensagem.dfm</Transaction>
+    <Transaction>2024/07/23 17:00:09.000.126,C:\fontes_mercato\mercato\mltePDVTEF\frExibeMensagemPorTempo.pas=C:\fontes_mercato\mercato\mltePDVTEF\frExibeMensagem.pas</Transaction>
+    <Transaction>2024/07/23 17:00:31.000.531,=C:\fontes_mercato\mercato\mltePDVTEF\frExibeMensagem.pas</Transaction>
+    <Transaction>2024/08/30 11:19:24.000.989,=C:\Fontes_varejo\16.1\mltePDVTEF\ufdfcPDV.pas</Transaction>
+    <Transaction>2024/08/30 11:19:40.000.922,C:\Fontes_varejo\16.1\mltePDVTEF\ufdfcPDVTEF.pas=C:\Fontes_varejo\16.1\mltePDVTEF\ufdfcPDV.pas</Transaction>
+    <Transaction>2024/08/30 11:19:40.000.922,C:\Fontes_varejo\16.1\mltePDVTEF\ufdfcPDVTEF.dfm=C:\Fontes_varejo\16.1\mltePDVTEF\ufdfcPDV.dfm</Transaction>
+    <Transaction>2024/09/11 15:43:49.000.556,=C:\Fontes_varejo\16.1\mltePDVTEF\Unit1.pas</Transaction>
+    <Transaction>2024/09/11 15:44:16.000.281,C:\Fontes_varejo\16.1\mltePDVTEF\Unit1.pas=C:\Fontes_varejo\16.1\mltePDVTEF\uflteFormaCredito.pas</Transaction>
+    <Transaction>2024/09/11 15:44:16.000.281,C:\Fontes_varejo\16.1\mltePDVTEF\Unit1.dfm=C:\Fontes_varejo\16.1\mltePDVTEF\uflteFormaCredito.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="frExibeMensagem.pas"/>
+    <File Path="frExibeMensagem.dfm"/>
+    <File Path="frExibeMensagemPorTempo.pas"/>
+    <File Path="frExibeMensagemPorTempo.dfm"/>
+    <File Path="frMenuTEF.pas"/>
+    <File Path="frMenuTEF.dfm"/>
+    <File Path="frObtemCampo.pas"/>
+    <File Path="frObtemCampo.dfm"/>
+    <File Path="ufdfcPDVTEF.pas"/>
+    <File Path="ufdfcPDVTEF.dfm"/>
+    <File Path="uflteComprovante.pas"/>
+    <File Path="uflteComprovante.dfm"/>
+    <File Path="uflteFormaCredito.pas"/>
+    <File Path="uflteFormaCredito.dfm"/>
+    <File Path="uflteModalidade.pas"/>
+    <File Path="uflteModalidade.dfm"/>
+    <File Path="ufltePDVTEF.pas"/>
+    <File Path="ufltePDVTEF.dfm"/>
+    <File Path="uftransacaoLTETEFAPI.pas"/>
+    <File Path="uftransacaoLTETEFAPI.dfm"/>
+    <File Path="ACBr_TEFD.dcp"/>
+    <File Path="mpeggourmet.dcp"/>
+    <File Path="rtl.dcp"/>
+  </ProjectSortOrder>
+</BorlandProject>

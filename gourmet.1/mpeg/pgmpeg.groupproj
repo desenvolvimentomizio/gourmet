@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{811A86EE-5896-4D1C-B98C-037B612D8BC9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="mpeg.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="mpeg">
+        <MSBuild Projects="mpeg.dproj"/>
+    </Target>
+    <Target Name="mpeg:Clean">
+        <MSBuild Projects="mpeg.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mpeg:Make">
+        <MSBuild Projects="mpeg.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="mpeg"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="mpeg:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="mpeg:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

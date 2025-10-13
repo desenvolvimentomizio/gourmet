@@ -1,0 +1,89 @@
+unit GourmetServer.Controller.CFGMGOU;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Controller.IMM,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CFGMGOU;
+
+function NovoNumeroPedidoCFG(vCznChave:integer): Integer;
+Function ManutencaoCFGMGOU(vcfgmgoupedidelivery:Integer): Integer;
+Procedure ManutencaoStatusAIQ(vcfgcodigo:Integer);
+
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+procedure ManutencaoStatusAIQ(vcfgcodigo:Integer);
+var
+  FDAO: iDAOGeneric<TCFGMGOU>;
+  FCFGMGOU: TCFGMGOU;
+begin
+
+  FDAO := TDAOGeneric<TCFGMGOU>.New;
+
+  FDAO.DAO.SQL.where('cfgcodigo=1').&End.Find;
+
+  FCFGMGOU := TCFGMGOU.create;
+  FCFGMGOU.cfgcodigo := 1;
+  FCFGMGOU.cfgmgoupedidelivery :=vcfgmgoupedidelivery;
+  FDAO.DAO.Update(FCFGMGOU);
+
+    FDAO.DAO.Find;
+
+
+vlNumeroPedido:=FDAO.DataSet.FieldByName('cfgmgoupedidelivery').asInteger;
+
+
+
+end;
+
+
+Function ManutencaoCFGMGOU(vcfgmgoupedidelivery:Integer): Integer;
+var
+  FDAO: iDAOGeneric<TCFGMGOU>;
+  FCFGMGOU: TCFGMGOU;
+  vlNumeroPedido: Integer;
+begin
+  vlNumeroPedido := 0;
+
+  FDAO := TDAOGeneric<TCFGMGOU>.New;
+
+  FDAO.DAO.SQL.where('cfgcodigo=1').&End.Find;
+
+  FCFGMGOU := TCFGMGOU.create;
+  FCFGMGOU.cfgcodigo := 1;
+  FCFGMGOU.cfgmgoupedidelivery :=vcfgmgoupedidelivery;
+  FDAO.DAO.Update(FCFGMGOU);
+
+    FDAO.DAO.Find;
+vlNumeroPedido:=FDAO.DataSet.FieldByName('cfgmgoupedidelivery').asInteger;
+  result := vlNumeroPedido;
+
+end;
+
+function NovoNumeroPedidoCFG(vCznChave:integer): Integer;
+var
+  vlNumeroPedido: Integer;
+begin
+
+  vlNumeroPedido :=  BuscaNumeroUltimoPedido(vCznChave)+1;
+  ManutencaoCFGMGOU(vlNumeroPedido);
+  result := vlNumeroPedido;
+
+end;
+
+
+end.

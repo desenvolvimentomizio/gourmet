@@ -1,0 +1,35 @@
+CUSTO CSS
+
+  html { height: 120% }
+  body { height: 120%; margin: 5; padding: 5 }
+  #map-canvas { height: 100% }
+ 
+ 
+ .x-grid .x-grid-cell {
+   height: 20px;
+   line-height: 20px;
+   font-size: 20px;
+}
+
+
+----------
+
+CUSTOM FILES
+
+http://maps.googleapis.com/maps/api/js?sensor=false
+-----------------
+
+CUSTO METAS
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+-----------
+
+
+UNIEVENTS
+
+function beforeInit(sender, config)
+{
+    config.cls="mGridCliente";
+    config.itemHeight = 30;
+    config.headerContainer = {height: 30};
+}

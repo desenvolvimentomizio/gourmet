@@ -1,0 +1,11 @@
+object GourmetServerServer: TGourmetServerServer
+  OldCreateOrder = False
+  OnCreate = ServiceCreate
+  DisplayName = 'Gourmet Server Service'
+  StartType = stManual
+  AfterInstall = ServiceAfterInstall
+  OnStart = ServiceStart
+  OnStop = ServiceStop
+  Height = 150
+  Width = 215
+end

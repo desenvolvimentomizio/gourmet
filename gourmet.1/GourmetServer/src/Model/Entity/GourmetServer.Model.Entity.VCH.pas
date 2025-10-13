@@ -1,0 +1,447 @@
+unit GourmetServer.Model.Entity.VCH;
+
+interface
+
+uses
+  System.Json,
+  System.SysUtils,
+  System.Variants,
+  SimpleAttributes;
+
+type
+
+  [Tabela('vch')]
+  Tvch = class
+  private
+    FCOUNT: Integer;
+    Fvchchave: Integer;
+    Fvchdataemissao: TDateTime;
+    Fvchsituacao: Integer;
+    Fvchvoucher: String;
+    Fvchtipo: Integer;
+    Fvchmodouso: Integer;
+    Fvchdatavalidade: TDateTime;
+    Fvchvalor: Currency;
+    Fvchpercentual: Currency;
+    Fetdcodigo: Integer;
+    Fvchdatauso: TDateTime;
+    Fprocodigo: Integer;
+    Fpuncodigo: Integer;
+    Fvchetdemissor: Integer;
+    Fvchautomatico: Integer;
+
+    procedure Setvchchave(const Value: Integer);
+    function Getvchchave: Integer;
+    procedure Setvchdataemissao(const Value: TDateTime);
+    function Getvchdataemissao: TDateTime;
+    procedure Setvchsituacao(const Value: Integer);
+    function Getvchsituacao: Integer;
+    procedure Setvchvoucher(const Value: String);
+    function Getvchvoucher: String;
+    procedure Setvchtipo(const Value: Integer);
+    function Getvchtipo: Integer;
+    procedure Setvchmodouso(const Value: Integer);
+    function Getvchmodouso: Integer;
+    procedure Setvchdatavalidade(const Value: TDateTime);
+    function Getvchdatavalidade: TDateTime;
+    procedure Setvchvalor(const Value: Currency);
+    function Getvchvalor: Currency;
+    procedure Setvchpercentual(const Value: Currency);
+    function Getvchpercentual: Currency;
+    procedure Setetdcodigo(const Value: Integer);
+    function Getetdcodigo: Integer;
+    procedure Setvchdatauso(const Value: TDateTime);
+    function Getvchdatauso: TDateTime;
+    procedure Setprocodigo(const Value: Integer);
+    function Getprocodigo: Integer;
+    procedure Setpuncodigo(const Value: Integer);
+    function Getpuncodigo: Integer;
+    procedure Setvchetdemissor(const Value: Integer);
+    function Getvchetdemissor: Integer;
+    procedure Setvchautomatico(const Value: Integer);
+    function Getvchautomatico: Integer;
+
+    procedure SetCOUNT(const Value: Integer);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Limpar;
+    function ToJson(pFields: String = '*'): TJSonObject;
+    function JsonToClass(obj: TJSonObject): Tvch;
+    [Campo('vchchave'), PK]
+    property vchchave: Integer read Getvchchave write Setvchchave;
+    [Campo('vchdataemissao')]
+    /// <summary>
+    /// data de emissao ou registro do voucher
+    /// </summary>
+    property vchdataemissao: TDateTime read Getvchdataemissao write Setvchdataemissao;
+    [Campo('vchsituacao')]
+    /// <summary>
+    /// 1 - Em aberto, 2 utilizado, 88 cancelado
+    /// </summary>
+    property vchsituacao: Integer read Getvchsituacao write Setvchsituacao;
+    [Campo('vchvoucher')]
+    /// <summary>
+    /// chave de identificacao do voucher
+    /// </summary>
+    property vchvoucher: String read Getvchvoucher write Setvchvoucher;
+    [Campo('vchtipo')]
+    /// <summary>
+    /// 1 para interno, 2 para externo
+    /// </summary>
+    property vchtipo: Integer read Getvchtipo write Setvchtipo;
+    [Campo('vchmodouso')]
+    /// <summary>
+    /// 1 para por validade, 2 para uso unico
+    /// </summary>
+    property vchmodouso: Integer read Getvchmodouso write Setvchmodouso;
+    [Campo('vchdatavalidade')]
+    /// <summary>
+    /// data de validade, se do tipo 1,deve vencer em 12 meses da emissão
+    /// </summary>
+    property vchdatavalidade: TDateTime read Getvchdatavalidade write Setvchdatavalidade;
+    [Campo('vchvalor')]
+    /// <summary>
+    /// definir se o voucher for de um valor fixo, zerar o  percentual
+    /// </summary>
+    property vchvalor: Currency read Getvchvalor write Setvchvalor;
+    [Campo('vchpercentual')]
+    /// <summary>
+    /// definir se o voucher for de em percentual, zerar o  valor
+    /// </summary>
+    property vchpercentual: Currency read Getvchpercentual write Setvchpercentual;
+    [Campo('etdcodigo')]
+    /// <summary>
+    /// 0 - consumidor, para vouchers de terceiros, outros ficam vicnulados ao clientes
+    /// </summary>
+    property etdcodigo: Integer read Getetdcodigo write Setetdcodigo;
+    [Campo('vchdatauso')]
+    /// <summary>
+    /// Registrar o ultimo uso do voucher, mesmo sendo internou ou externo
+    /// </summary>
+    property vchdatauso: TDateTime read Getvchdatauso write Setvchdatauso;
+    [Campo('procodigo')]
+    /// <summary>
+    /// Código do produto com voucher
+    /// </summary>
+    property procodigo: Integer read Getprocodigo write Setprocodigo;
+    [Campo('puncodigo')]
+    /// <summary>
+    /// tamaho do produto com voucher
+    /// </summary>
+    property puncodigo: Integer read Getpuncodigo write Setpuncodigo;
+    [Campo('vchetdemissor')]
+    /// <summary>
+    /// Entidade que emitiu o voucher
+    /// </summary>
+    property vchetdemissor: Integer read Getvchetdemissor write Setvchetdemissor;
+    [Campo('vchautomatico')]
+    property vchautomatico: Integer read Getvchautomatico write Setvchautomatico;
+
+    [Campo('COUNT'), Ignore]
+    property COUNT: Integer read FCOUNT write SetCOUNT;
+  end;
+
+implementation
+
+constructor Tvch.Create;
+begin
+  Limpar;
+end;
+
+destructor Tvch.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure Tvch.Setvchchave(const Value: Integer);
+begin
+  Fvchchave := Value;
+end;
+
+function Tvch.Getvchchave: Integer;
+begin
+  Result := Fvchchave;
+end;
+
+procedure Tvch.Setvchdataemissao(const Value: TDateTime);
+begin
+  Fvchdataemissao := Value;
+end;
+
+function Tvch.Getvchdataemissao: TDateTime;
+begin
+  Result := Fvchdataemissao;
+end;
+
+procedure Tvch.Setvchsituacao(const Value: Integer);
+begin
+  Fvchsituacao := Value;
+end;
+
+function Tvch.Getvchsituacao: Integer;
+begin
+  Result := Fvchsituacao;
+end;
+
+procedure Tvch.Setvchvoucher(const Value: String);
+begin
+  Fvchvoucher := Value;
+end;
+
+function Tvch.Getvchvoucher: String;
+begin
+  Result := Fvchvoucher;
+end;
+
+procedure Tvch.Setvchtipo(const Value: Integer);
+begin
+  Fvchtipo := Value;
+end;
+
+function Tvch.Getvchtipo: Integer;
+begin
+  Result := Fvchtipo;
+end;
+
+procedure Tvch.Setvchmodouso(const Value: Integer);
+begin
+  Fvchmodouso := Value;
+end;
+
+function Tvch.Getvchmodouso: Integer;
+begin
+  Result := Fvchmodouso;
+end;
+
+procedure Tvch.Setvchdatavalidade(const Value: TDateTime);
+begin
+  Fvchdatavalidade := Value;
+end;
+
+function Tvch.Getvchdatavalidade: TDateTime;
+begin
+  Result := Fvchdatavalidade;
+end;
+
+procedure Tvch.Setvchvalor(const Value: Currency);
+begin
+  Fvchvalor := Value;
+end;
+
+function Tvch.Getvchvalor: Currency;
+begin
+  Result := Fvchvalor;
+end;
+
+procedure Tvch.Setvchpercentual(const Value: Currency);
+begin
+  Fvchpercentual := Value;
+end;
+
+function Tvch.Getvchpercentual: Currency;
+begin
+  Result := Fvchpercentual;
+end;
+
+procedure Tvch.Setetdcodigo(const Value: Integer);
+begin
+  Fetdcodigo := Value;
+end;
+
+function Tvch.Getetdcodigo: Integer;
+begin
+  Result := Fetdcodigo;
+end;
+
+procedure Tvch.Setvchdatauso(const Value: TDateTime);
+begin
+  Fvchdatauso := Value;
+end;
+
+function Tvch.Getvchdatauso: TDateTime;
+begin
+  Result := Fvchdatauso;
+end;
+
+procedure Tvch.Setprocodigo(const Value: Integer);
+begin
+  Fprocodigo := Value;
+end;
+
+function Tvch.Getprocodigo: Integer;
+begin
+  Result := Fprocodigo;
+end;
+
+procedure Tvch.Setpuncodigo(const Value: Integer);
+begin
+  Fpuncodigo := Value;
+end;
+
+function Tvch.Getpuncodigo: Integer;
+begin
+  Result := Fpuncodigo;
+end;
+
+procedure Tvch.Setvchetdemissor(const Value: Integer);
+begin
+  Fvchetdemissor := Value;
+end;
+
+function Tvch.Getvchetdemissor: Integer;
+begin
+  Result := Fvchetdemissor;
+end;
+
+procedure Tvch.Setvchautomatico(const Value: Integer);
+begin
+  Fvchautomatico := Value;
+end;
+
+function Tvch.Getvchautomatico: Integer;
+begin
+  Result := Fvchautomatico;
+end;
+
+procedure Tvch.Limpar;
+begin
+  Self.vchchave := 0;
+  Self.vchdataemissao := 0;
+  Self.vchsituacao := 0;
+  Self.vchvoucher := '';
+  Self.vchtipo := 0;
+  Self.vchmodouso := 0;
+  Self.vchdatavalidade := 0;
+  Self.vchvalor := 0;
+  Self.vchpercentual := 0;
+  Self.etdcodigo := 0;
+  Self.vchdatauso := 0;
+  Self.procodigo := 0;
+  Self.puncodigo := 0;
+  Self.vchetdemissor := 0;
+  Self.vchautomatico := 0;
+
+end;
+
+procedure Tvch.SetCOUNT(const Value: Integer);
+begin
+  FCOUNT := Value;
+end;
+
+function Tvch.ToJson(pFields: String = '*'): TJSonObject;
+begin
+  pFields := ' ' + StringReplace(pFields, ',', ' ', [rfReplaceAll]);
+  Result := TJSonObject.Create;
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchchave ')) then
+    Result.addPair('vchchave', IntToStr(Self.vchchave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchdataemissao ')) then
+    Result.addPair('vchdataemissao', DateTimeToStr(Self.vchdataemissao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchsituacao ')) then
+    Result.addPair('vchsituacao', IntToStr(Self.vchsituacao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchvoucher ')) then
+    Result.addPair('vchvoucher', Self.vchvoucher);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchtipo ')) then
+    Result.addPair('vchtipo', IntToStr(Self.vchtipo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchmodouso ')) then
+    Result.addPair('vchmodouso', IntToStr(Self.vchmodouso));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchdatavalidade ')) then
+    Result.addPair('vchdatavalidade', DateTimeToStr(Self.vchdatavalidade));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchvalor ')) then
+    Result.addPair('vchvalor', FloatToStr(Self.vchvalor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchpercentual ')) then
+    Result.addPair('vchpercentual', FloatToStr(Self.vchpercentual));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' etdcodigo ')) then
+    Result.addPair('etdcodigo', IntToStr(Self.etdcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchdatauso ')) then
+    Result.addPair('vchdatauso', DateTimeToStr(Self.vchdatauso));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' procodigo ')) then
+    Result.addPair('procodigo', IntToStr(Self.procodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' puncodigo ')) then
+    Result.addPair('puncodigo', IntToStr(Self.puncodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchetdemissor ')) then
+    Result.addPair('vchetdemissor', IntToStr(Self.vchetdemissor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' vchautomatico ')) then
+    Result.addPair('vchautomatico', IntToStr(Self.vchautomatico));
+
+end;
+
+function Tvch.JsonToClass(obj: TJSonObject): Tvch;
+begin
+  Result := Tvch.Create;
+  if (assigned(obj)) then
+  begin
+    Try
+      Try
+        Result.vchchave := StrToInt(obj.get('vchchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchdataemissao := StrToDateTime(obj.get('vchdataemissao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchsituacao := StrToInt(obj.get('vchsituacao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchvoucher := obj.get('vchvoucher').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.vchtipo := StrToInt(obj.get('vchtipo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchmodouso := StrToInt(obj.get('vchmodouso').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchdatavalidade := StrToDateTime(obj.get('vchdatavalidade').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchvalor := StrToFloat(obj.get('vchvalor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchpercentual := StrToFloat(obj.get('vchpercentual').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.etdcodigo := StrToInt(obj.get('etdcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchdatauso := StrToDateTime(obj.get('vchdatauso').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.procodigo := StrToInt(obj.get('procodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.puncodigo := StrToInt(obj.get('puncodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchetdemissor := StrToInt(obj.get('vchetdemissor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.vchautomatico := StrToInt(obj.get('vchautomatico').JsonValue.Value);
+      Except
+      End;
+
+    Except
+      on E: Exception do
+      begin
+        Result.Free;
+        raise Exception.Create(E.Message);
+      end;
+    End;
+  end;
+end;
+
+end.

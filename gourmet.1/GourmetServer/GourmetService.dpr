@@ -1,0 +1,140 @@
+program GourmetService;
+
+uses
+  Vcl.SvcMgr,
+  uGourmetService in 'uGourmetService.pas' {GourmetIntetrationService: TService},
+  GourmetServer.Service.Funcoes in 'src\Service\GourmetServer.Service.Funcoes.pas',
+  GourmetServer.Model.Connection in 'src\Model\GourmetServer.Model.Connection.pas',
+  GourmetServer.Model.DaoGeneric in 'src\Model\GourmetServer.Model.DaoGeneric.pas',
+  GourmetServer.Model.Entity.AIQ in 'src\Model\Entity\GourmetServer.Model.Entity.AIQ.pas',
+  GourmetServer.Model.Entity.BAI in 'src\Model\Entity\GourmetServer.Model.Entity.BAI.pas',
+  GourmetServer.Model.Entity.BPR in 'src\Model\Entity\GourmetServer.Model.Entity.BPR.pas',
+  GourmetServer.Model.Entity.BRD in 'src\Model\Entity\GourmetServer.Model.Entity.BRD.pas',
+  GourmetServer.Model.Entity.BRG in 'src\Model\Entity\GourmetServer.Model.Entity.BRG.pas',
+  GourmetServer.Model.Entity.BRI in 'src\Model\Entity\GourmetServer.Model.Entity.BRI.pas',
+  GourmetServer.Model.Entity.CCO in 'src\Model\Entity\GourmetServer.Model.Entity.CCO.pas',
+  GourmetServer.Model.Entity.CCX in 'src\Model\Entity\GourmetServer.Model.Entity.CCX.pas',
+  GourmetServer.Model.Entity.CDD in 'src\Model\Entity\GourmetServer.Model.Entity.CDD.pas',
+  GourmetServer.Model.Entity.CEP in 'src\Model\Entity\GourmetServer.Model.Entity.CEP.pas',
+  GourmetServer.Model.Entity.CFGMGOU in 'src\Model\Entity\GourmetServer.Model.Entity.CFGMGOU.pas',
+  GourmetServer.Model.Entity.CLB in 'src\Model\Entity\GourmetServer.Model.Entity.CLB.pas',
+  GourmetServer.Model.Entity.CZN in 'src\Model\Entity\GourmetServer.Model.Entity.CZN.pas',
+  GourmetServer.Model.Entity.DTL in 'src\Model\Entity\GourmetServer.Model.Entity.DTL.pas',
+  GourmetServer.Model.Entity.EDR in 'src\Model\Entity\GourmetServer.Model.Entity.EDR.pas',
+  GourmetServer.Model.Entity.ETD in 'src\Model\Entity\GourmetServer.Model.Entity.ETD.pas',
+  GourmetServer.Model.Entity.ETE in 'src\Model\Entity\GourmetServer.Model.Entity.ETE.pas',
+  GourmetServer.Model.Entity.ETF in 'src\Model\Entity\GourmetServer.Model.Entity.ETF.pas',
+  GourmetServer.Model.Entity.ETV in 'src\Model\Entity\GourmetServer.Model.Entity.ETV.pas',
+  GourmetServer.Model.Entity.GRI in 'src\Model\Entity\GourmetServer.Model.Entity.GRI.pas',
+  GourmetServer.Model.Entity.GRP in 'src\Model\Entity\GourmetServer.Model.Entity.GRP.pas',
+  GourmetServer.Model.Entity.IMM in 'src\Model\Entity\GourmetServer.Model.Entity.IMM.pas',
+  GourmetServer.Model.Entity.IMP in 'src\Model\Entity\GourmetServer.Model.Entity.IMP.pas',
+  GourmetServer.Model.Entity.ISA in 'src\Model\Entity\GourmetServer.Model.Entity.ISA.pas',
+  GourmetServer.Model.Entity.ISI in 'src\Model\Entity\GourmetServer.Model.Entity.ISI.pas',
+  GourmetServer.Model.Entity.ISV in 'src\Model\Entity\GourmetServer.Model.Entity.ISV.pas',
+  GourmetServer.Model.Entity.ITM in 'src\Model\Entity\GourmetServer.Model.Entity.ITM.pas',
+  GourmetServer.Model.Entity.ITO in 'src\Model\Entity\GourmetServer.Model.Entity.ITO.pas',
+  GourmetServer.Model.Entity.LTE in 'src\Model\Entity\GourmetServer.Model.Entity.LTE.pas',
+  GourmetServer.Model.Entity.MES in 'src\Model\Entity\GourmetServer.Model.Entity.MES.pas',
+  GourmetServer.Model.Entity.MFI in 'src\Model\Entity\GourmetServer.Model.Entity.MFI.pas',
+  GourmetServer.Model.Entity.MLT in 'src\Model\Entity\GourmetServer.Model.Entity.MLT.pas',
+  GourmetServer.Model.Entity.MOR in 'src\Model\Entity\GourmetServer.Model.Entity.MOR.pas',
+  GourmetServer.Model.Entity.ORC in 'src\Model\Entity\GourmetServer.Model.Entity.ORC.pas',
+  GourmetServer.Model.Entity.PRO in 'src\Model\Entity\GourmetServer.Model.Entity.PRO.pas',
+  GourmetServer.Model.Entity.PUN in 'src\Model\Entity\GourmetServer.Model.Entity.PUN.pas',
+  GourmetServer.Model.Entity.RFI in 'src\Model\Entity\GourmetServer.Model.Entity.RFI.pas',
+  GourmetServer.Model.Entity.RFM in 'src\Model\Entity\GourmetServer.Model.Entity.RFM.pas',
+  GourmetServer.Model.Entity.SBI in 'src\Model\Entity\GourmetServer.Model.Entity.SBI.pas',
+  GourmetServer.Model.Entity.SBR in 'src\Model\Entity\GourmetServer.Model.Entity.SBR.pas',
+  GourmetServer.Model.Entity.SBV in 'src\Model\Entity\GourmetServer.Model.Entity.SBV.pas',
+  GourmetServer.Model.Entity.SFN in 'src\Model\Entity\GourmetServer.Model.Entity.SFN.pas',
+  GourmetServer.Model.Entity.TIT in 'src\Model\Entity\GourmetServer.Model.Entity.TIT.pas',
+  GourmetServer.Model.Entity.UFS in 'src\Model\Entity\GourmetServer.Model.Entity.UFS.pas',
+  GourmetServer.Model.Entity.UNI in 'src\Model\Entity\GourmetServer.Model.Entity.UNI.pas',
+  GourmetServer.Model.Entity.V_CFG in 'src\Model\Entity\GourmetServer.Model.Entity.V_CFG.pas',
+  GourmetServer.Model.Entity.V_CLI in 'src\Model\Entity\GourmetServer.Model.Entity.V_CLI.pas',
+  GourmetServer.Model.Entity.V_IGA in 'src\Model\Entity\GourmetServer.Model.Entity.V_IGA.pas',
+  GourmetServer.Model.Entity.V_PRO in 'src\Model\Entity\GourmetServer.Model.Entity.V_PRO.pas',
+  GourmetServer.Model.Entity.VCH in 'src\Model\Entity\GourmetServer.Model.Entity.VCH.pas',
+  GourmetServer.Controller.BAI in 'src\Controller\GourmetServer.Controller.BAI.pas',
+  GourmetServer.Controller.BPR in 'src\Controller\GourmetServer.Controller.BPR.pas',
+  GourmetServer.Controller.BRD in 'src\Controller\GourmetServer.Controller.BRD.pas',
+  GourmetServer.Controller.BRG in 'src\Controller\GourmetServer.Controller.BRG.pas',
+  GourmetServer.Controller.BRI in 'src\Controller\GourmetServer.Controller.BRI.pas',
+  GourmetServer.Controller.CCO in 'src\Controller\GourmetServer.Controller.CCO.pas',
+  GourmetServer.Controller.CCX in 'src\Controller\GourmetServer.Controller.CCX.pas',
+  GourmetServer.Controller.CDD in 'src\Controller\GourmetServer.Controller.CDD.pas',
+  GourmetServer.Controller.CEP in 'src\Controller\GourmetServer.Controller.CEP.pas',
+  GourmetServer.Controller.CFGMGOU in 'src\Controller\GourmetServer.Controller.CFGMGOU.pas',
+  GourmetServer.Controller.CLB in 'src\Controller\GourmetServer.Controller.CLB.pas',
+  GourmetServer.Controller.CZN in 'src\Controller\GourmetServer.Controller.CZN.pas',
+  GourmetServer.Controller.DTL in 'src\Controller\GourmetServer.Controller.DTL.pas',
+  GourmetServer.Controller.EDR in 'src\Controller\GourmetServer.Controller.EDR.pas',
+  GourmetServer.Controller.ETD in 'src\Controller\GourmetServer.Controller.ETD.pas',
+  GourmetServer.Controller.ETE in 'src\Controller\GourmetServer.Controller.ETE.pas',
+  GourmetServer.Controller.ETF in 'src\Controller\GourmetServer.Controller.ETF.pas',
+  GourmetServer.Controller.ETV in 'src\Controller\GourmetServer.Controller.ETV.pas',
+  GourmetServer.Controller.GRI in 'src\Controller\GourmetServer.Controller.GRI.pas',
+  GourmetServer.Controller.GRP in 'src\Controller\GourmetServer.Controller.GRP.pas',
+  GourmetServer.Controller.IMM in 'src\Controller\GourmetServer.Controller.IMM.pas',
+  GourmetServer.Controller.IMP in 'src\Controller\GourmetServer.Controller.IMP.pas',
+  GourmetServer.Controller.ImportaCardapioMizio in 'src\Controller\GourmetServer.Controller.ImportaCardapioMizio.pas',
+  GourmetServer.Controller.ISA in 'src\Controller\GourmetServer.Controller.ISA.pas',
+  GourmetServer.Controller.ISI in 'src\Controller\GourmetServer.Controller.ISI.pas',
+  GourmetServer.Controller.ISV in 'src\Controller\GourmetServer.Controller.ISV.pas',
+  GourmetServer.Controller.ITM in 'src\Controller\GourmetServer.Controller.ITM.pas',
+  GourmetServer.Controller.ITO in 'src\Controller\GourmetServer.Controller.ITO.pas',
+  GourmetServer.Controller.LTE in 'src\Controller\GourmetServer.Controller.LTE.pas',
+  GourmetServer.Controller.MES in 'src\Controller\GourmetServer.Controller.MES.pas',
+  GourmetServer.Controller.MFI in 'src\Controller\GourmetServer.Controller.MFI.pas',
+  GourmetServer.Controller.MLT in 'src\Controller\GourmetServer.Controller.MLT.pas',
+  GourmetServer.Controller.MOR in 'src\Controller\GourmetServer.Controller.MOR.pas',
+  GourmetServer.Controller.ORC in 'src\Controller\GourmetServer.Controller.ORC.pas',
+  GourmetServer.Controller.PRO in 'src\Controller\GourmetServer.Controller.PRO.pas',
+  GourmetServer.Controller.PUN in 'src\Controller\GourmetServer.Controller.PUN.pas',
+  GourmetServer.Controller.RFI in 'src\Controller\GourmetServer.Controller.RFI.pas',
+  GourmetServer.Controller.RFM in 'src\Controller\GourmetServer.Controller.RFM.pas',
+  GourmetServer.Controller.SBI in 'src\Controller\GourmetServer.Controller.SBI.pas',
+  GourmetServer.Controller.SBR in 'src\Controller\GourmetServer.Controller.SBR.pas',
+  GourmetServer.Controller.SBV in 'src\Controller\GourmetServer.Controller.SBV.pas',
+  GourmetServer.Controller.SFN in 'src\Controller\GourmetServer.Controller.SFN.pas',
+  GourmetServer.Controller.TIT in 'src\Controller\GourmetServer.Controller.TIT.pas',
+  GourmetServer.Controller.UFS in 'src\Controller\GourmetServer.Controller.UFS.pas',
+  GourmetServer.Controller.UNI in 'src\Controller\GourmetServer.Controller.UNI.pas',
+  GourmetServer.Controller.V_CFG in 'src\Controller\GourmetServer.Controller.V_CFG.pas',
+  GourmetServer.Controller.V_CLI in 'src\Controller\GourmetServer.Controller.V_CLI.pas',
+  GourmetServer.Controller.V_IGA in 'src\Controller\GourmetServer.Controller.V_IGA.pas',
+  GourmetServer.Controller.VCH in 'src\Controller\GourmetServer.Controller.VCH.pas',
+  GourmetServer.Controller.aiq.AIQ in 'src\Controller\aiq\GourmetServer.Controller.aiq.AIQ.pas',
+  GourmetServer.Controller.aiq.AIQMDA in 'src\Controller\aiq\GourmetServer.Controller.aiq.AIQMDA.pas',
+  GourmetServer.Controller.aiq.CFGGOU in 'src\Controller\aiq\GourmetServer.Controller.aiq.CFGGOU.pas',
+  GourmetServer.Controller.aiq.CLIENTE in 'src\Controller\aiq\GourmetServer.Controller.aiq.CLIENTE.pas',
+  GourmetServer.Controller.aiq.FINALIZAVENDA in 'src\Controller\aiq\GourmetServer.Controller.aiq.FINALIZAVENDA.pas',
+  GourmetServer.Controller.aiq.PEDIDO in 'src\Controller\aiq\GourmetServer.Controller.aiq.PEDIDO.pas',
+  GourmetServer.Model.Entity.aiq.AIQCFG in 'src\Model\Entity\aiq\GourmetServer.Model.Entity.aiq.AIQCFG.pas',
+  GourmetServer.Model.Entity.aiq.AIQMDA in 'src\Model\Entity\aiq\GourmetServer.Model.Entity.aiq.AIQMDA.pas',
+  GourmetServer.Model.Entity.aiq.PEDIDO in 'src\Model\Entity\aiq\GourmetServer.Model.Entity.aiq.PEDIDO.pas';
+
+{$R *.RES}
+
+begin
+  // Windows 2003 Server requires StartServiceCtrlDispatcher to be
+  // called before CoRegisterClassObject, which can be called indirectly
+  // by Application.Initialize. TServiceApplication.DelayInitialize allows
+  // Application.Initialize to be called from TService.Main (after
+  // StartServiceCtrlDispatcher has been called).
+  //
+  // Delayed initialization of the Application object may affect
+  // events which then occur prior to initialization, such as
+  // TService.OnCreate. It is only recommended if the ServiceApplication
+  // registers a class object with OLE and is intended for use with
+  // Windows 2003 Server.
+  //
+  // Application.DelayInitialize := True;
+  //
+  if not Application.DelayInitialize or Application.Installing then
+    Application.Initialize;
+  Application.CreateForm(TGourmetIntetrationService, GourmetIntetrationService);
+  Application.Run;
+
+end.

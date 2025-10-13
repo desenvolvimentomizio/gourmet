@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/18 09:49:15.000.767,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/18 19:05:35.000.974,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/04 18:37:12.000.462,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/16 17:57:00.000.364,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/17 17:33:42.000.922,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/08/16 10:44:30.000.127,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/08/09 06:40:07.000.675,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/09/05 06:06:41.000.768,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/09/05 06:07:43.000.128,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\uFprinciMonitorIntegracao.pas</Transaction>
+    <Transaction>2025/09/05 06:07:43.000.128,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.dfm=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\uFprinciMonitorIntegracao.dfm</Transaction>
+    <Transaction>2025/09/05 06:07:56.000.804,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\MonitorIntegracao.dproj</Transaction>
+    <Transaction>2025/09/05 07:28:23.000.336,=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas</Transaction>
+    <Transaction>2025/09/05 07:28:46.000.011,C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\AIQCFG.pas</Transaction>
+    <Transaction>2025/09/05 07:34:48.000.442,=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas</Transaction>
+    <Transaction>2025/09/05 07:35:19.000.980,C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.dfm=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\uDMAIQ.dfm</Transaction>
+    <Transaction>2025/09/05 07:35:19.000.980,C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\uDMAIQ.pas</Transaction>
+    <Transaction>2025/09/05 07:37:26.000.843,=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas</Transaction>
+    <Transaction>2025/09/05 07:37:46.000.631,C:\fontes_gourmet\gourmet.1\aiq\monitor\src\Unit1.pas=C:\fontes_gourmet\gourmet.1\aiq\monitor\src\constants.pas</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>

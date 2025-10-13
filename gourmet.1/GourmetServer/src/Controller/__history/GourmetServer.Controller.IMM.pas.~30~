@@ -1,0 +1,204 @@
+unit GourmetServer.Controller.IMM;
+
+interface
+
+Uses
+  Horse,
+
+  FireDAC.Phys.MySQLDef,
+  FireDAC.Phys.MySQL,
+  FireDAC.Phys.Intf,
+  FireDAC.Phys,
+  FireDAC.UI.Intf,
+  FireDAC.ConsoleUI.Wait,
+  Data.DB,
+  DASQLMonitor, UniSQLMonitor,
+  FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet,
+
+
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Service.Funcoes,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.IMM;
+
+Function ManutencaoIMM(vItem: TJsonObject): Integer;
+Function v1ManutencaoIMM(vItem: TJsonObject): boolean;
+Function BuscaNumeroUltimoPedido(vCznChave: Integer): Integer;
+
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  GourmetServer.Service.Conexoes;
+
+Function BuscaNumeroUltimoPedido(vCznChave: Integer): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TIMM>;
+  FIMM: TIMM;
+  vlImmNumepedido: Integer;
+begin
+
+  vlImmNumepedido := 0;
+
+  FDAO := TDAOGeneric<TIMM>.New;
+  FDAO.DAO.SQL.Fields('MAX(immnumepedido) as immnumepedido').where('CznChave=' + vCznChave.ToString + ' AND immnumepedido<=4999').&End.Find;
+
+
+  vlImmNumepedido := FDAO.DataSet.FieldByName('immnumepedido').asinteger;
+
+  if vlImmNumepedido=0 then
+   vlImmNumepedido:=1;
+
+
+  result := vlImmNumepedido;
+
+end;
+
+
+
+
+Function ManutencaoIMM(vItem: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TIMM>;
+  FIMM: TIMM;
+  vlImmChave: Integer;
+  conexao:TFDconnection;
+  SQLMonitor: TUniSQLMonitor;
+
+begin
+  FDAO := TDAOGeneric<TIMM>.New;
+
+  vlImmChave := vItem.getvalue('immchave', '').ToInteger;
+
+  FIMM := TIMM.Create;
+  FIMM.ImmChave := vlImmChave;
+  FIMM.itochave := vItem.getvalue('itochave', '').ToInteger;
+  FIMM.tcicodigo := vItem.getvalue('tcicodigo', '').ToInteger;
+  FIMM.immmodo := vItem.getvalue('immmodo', '').ToInteger;
+  FIMM.immhoraimprimir := StrtoDateTime(vItem.getvalue('immhoraimprimir', ''));
+  FIMM.immtemporetardo := vItem.getvalue('immtemporetardo', '').ToInteger;
+  FIMM.immmodoimpressao := vItem.getvalue('immmodoimpressao', '').ToInteger;
+  FIMM.trmcodigo := vItem.getvalue('trmcodigo', '').ToInteger;
+  FIMM.immhorapedido := StrtoDateTime(vItem.getvalue('immhorapedido', ''));
+  FIMM.immnumepedido := vItem.getvalue('immnumepedido', '').ToInteger;
+  FIMM.ccxchave := vItem.getvalue('ccxchave', '').ToInteger;
+  FIMM.pdscodigo := vItem.getvalue('pdscodigo', '').ToInteger;
+  FIMM.cznchave := vItem.getvalue('cznchave', '').ToInteger;
+  FIMM.etdcodigoent := vItem.getvalue('etdcodigoent', '').ToInteger;
+  FIMM.immnumepedidoint := vItem.getvalue('immnumepedidoint', '').ToInteger;
+  FIMM.clbcodigo := vItem.getvalue('clbcodigo', '').ToInteger;
+
+
+ if vlImmChave = 0 then
+  // incluir novo
+  begin
+    FIMM.ImmChave := 0;
+    FDAO.DAO.Insert(FIMM);
+    FDAO.DAO.LastID;
+    vlImmChave := FDAO.DataSet.FieldByName('immchave').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FIMM.ImmChave := vlImmChave;
+    FDAO.DAO.Update(FIMM);
+  end;
+  result := vlImmChave;
+
+
+end;
+
+
+
+
+
+
+
+
+Function v1ManutencaoIMM(vItem: TJsonObject):boolean;
+var
+  conexao:TFDconnection;
+  SQLMonitor: TUniSQLMonitor;
+
+  imm:TFDQuery;
+
+  vlimmChave:string;
+  a:string;
+
+begin
+  conexao:=TFDconnection.Create(nil);
+  SQLMonitor:=TUniSQLMonitor.Create(NIL);
+
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    vlimmChave:=vItem.GetValue('immchave','');
+
+    if vlimmChave='' then
+      vlimmChave:='0';
+
+    imm:=TFDQuery.Create(nil);
+    imm.Connection:=Conexao;
+    imm.sql.Text:='select '+
+                  'immchave, itochave, tcicodigo, immhoraimprimir, immhorapedido, '+
+                  'immmodo, immmodoimpressao, trmcodigo, cznchave, ccxchave, etdcodigoent, '+
+                  'immnumepedidoint, pdscodigo, clbcodigo, immtemporetardo, immnumepedido '+
+                  'from imm where immchave='+vlimmChave;
+    imm.Open;
+
+    if vlimmChave='0' then
+      imm.Append
+    else
+      imm.Edit;
+
+
+    imm.FieldByName('immchave').AsString:=vItem.getvalue('immchave', '0');
+    imm.FieldByName('itochave').AsString:=vItem.getvalue('itochave','');
+    imm.FieldByName('tcicodigo').AsString:=vItem.getvalue('tcicodigo','');
+
+    a:=vItem.getvalue('immhoraimprimir','');
+
+    imm.FieldByName('immhoraimprimir').AsString:= vItem.getvalue('immhoraimprimir','');
+    imm.FieldByName('immhorapedido').AsString:=vItem.getvalue('immhorapedido','');
+    imm.FieldByName('immmodo').AsString:=vItem.getvalue('immmodo', '0');
+    imm.FieldByName('immmodoimpressao').AsString:=vItem.getvalue('immmodoimpressao', '0');
+    imm.FieldByName('trmcodigo').AsString:=vItem.getvalue('trmcodigo', '1');
+    imm.FieldByName('cznchave').AsString:=vItem.getvalue('cznchave','');
+    imm.FieldByName('ccxchave').AsString:=vItem.getvalue('ccxchave','');
+    imm.FieldByName('etdcodigoent').AsString:=vItem.getvalue('etdcodigoent', '0');
+    imm.FieldByName('immnumepedidoint').AsString:=vItem.getvalue('immnumepedidoint', '0');
+    imm.FieldByName('pdscodigo').AsString:=vItem.getvalue('pdscodigo','');
+    imm.FieldByName('clbcodigo').AsString:=vItem.getvalue('clbcodigo','');
+    imm.FieldByName('immtemporetardo').AsString:=vItem.getvalue('immtemporetardo', '0');
+    imm.FieldByName('immnumepedido').AsString:=vItem.getvalue('immnumepedido','');
+
+    imm.post;
+
+    imm.close;
+
+    if imm<>nil then
+     imm.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+  conexao.DisposeOf;
+
+end;
+
+end.

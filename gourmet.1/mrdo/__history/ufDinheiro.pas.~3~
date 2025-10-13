@@ -1,0 +1,28 @@
+unit ufDinheiro;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfDinheiro = class(TForm)
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fDinheiro: TfDinheiro;
+
+implementation
+
+{$R *.dfm}
+
+end.

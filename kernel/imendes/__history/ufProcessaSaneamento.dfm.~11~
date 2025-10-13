@@ -1,0 +1,1088 @@
+object fProcessaSaneamento: TfProcessaSaneamento
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Processando Saneamento'
+  ClientHeight = 525
+  ClientWidth = 861
+  Color = clGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGLista: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 861
+    Height = 467
+    Align = alClient
+    BorderStyle = bsNone
+    Color = 14737602
+    Ctl3D = False
+    DataSource = DSTabela
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick]
+    ParentCtl3D = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'procodigo'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'proncm'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'pronome'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'unisimbolo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'icmaliquotas'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cstcodigo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'procest'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'imecodigo'
+        Title.Caption = 'C'#243'd.Tributa'#231#227'o'
+        Width = 80
+        Visible = True
+      end>
+  end
+  object TPanel
+    Left = 0
+    Top = 467
+    Width = 861
+    Height = 58
+    Align = alBottom
+    TabOrder = 1
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 853
+      Height = 23
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+    end
+    object plMostra: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 29
+      Width = 853
+      Height = 25
+      Align = alBottom
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      TabOrder = 1
+      object ProgressBar1: TProgressBar
+        AlignWithMargins = True
+        Left = 518
+        Top = 3
+        Width = 332
+        Height = 19
+        Align = alRight
+        TabOrder = 0
+      end
+      object ProgressBar2: TProgressBar
+        AlignWithMargins = True
+        Left = 287
+        Top = 3
+        Width = 225
+        Height = 19
+        Align = alRight
+        TabOrder = 1
+      end
+    end
+  end
+  object uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  procodigo,'
+      '  pronome,'
+      '  tpoidentificacao,'
+      '  maridentificacao,'
+      '  grpidentificacao,'
+      '  icmaliquotas,'
+      '  proncm,'
+      '  prosaldo,'
+      '  prosaldodisp,'
+      '  sipcodigo,'
+      '  proobs,'
+      '  proreferencia,'
+      '  unisimbolo,'
+      '  punprecoav,'
+      '  punprecoap,'
+      '  tpocodigo,'
+      '  proanpcodigo,'
+      '  enpcodigo,'
+      '  enpendereco,'
+      '  propedecomple,'
+      '  cpbcodbalanca,'
+      '  gracodigo,'
+      '  dpridentificacao,'
+      '  proconsolidado,'
+      '  punpercav,'
+      '  punpercap,'
+      '  puncusto,'
+      '  grpcodigo,'
+      '  cstcodigo,'
+      '  procest,'
+      '  proabc,'
+      '  imudtrev,'
+      '  probalanca,'
+      '  imecodigo,'
+      '  promargemcontrib'
+      'FROM  v_pro pro '
+      '  left join imu on  pro.imuid=imu.imuid'
+      '  where tpocodigo<>1')
+    Left = 344
+    Top = 152
+    object uqtabelaprocodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'procodigo'
+    end
+    object uqtabelaproncm: TStringField
+      DisplayLabel = 'NCM'
+      FieldName = 'proncm'
+      Size = 15
+    end
+    object uqtabelapronome: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'pronome'
+      Size = 150
+    end
+    object uqtabelaprosaldo: TFloatField
+      DisplayLabel = 'Saldo'
+      FieldName = 'prosaldo'
+    end
+    object uqtabelaprosaldodisp: TFloatField
+      DisplayLabel = 'Saldo Disp.'
+      FieldName = 'prosaldodisp'
+    end
+    object uqtabelagrpcodigo: TIntegerField
+      DisplayLabel = 'Grupo'
+      FieldName = 'grpcodigo'
+    end
+    object uqtabelagrpidentificacao: TStringField
+      DisplayLabel = 'Grupo'
+      FieldName = 'grpidentificacao'
+      Size = 30
+    end
+    object uqtabelamaridentificacao: TStringField
+      DisplayLabel = 'Marca'
+      FieldName = 'maridentificacao'
+      Size = 35
+    end
+    object uqtabelaicmaliquotas: TStringField
+      DisplayLabel = 'ICMS'
+      FieldName = 'icmaliquotas'
+      Size = 8
+    end
+    object uqtabelaproreferencia: TStringField
+      DisplayLabel = 'Refer'#234'ncia'
+      FieldName = 'proreferencia'
+      Size = 45
+    end
+    object uqtabelaproobs: TStringField
+      FieldName = 'proobs'
+      Size = 200
+    end
+    object uqtabelaunisimbolo: TStringField
+      DisplayLabel = 'Unid.'
+      FieldName = 'unisimbolo'
+      Size = 6
+    end
+    object uqtabelapunprecoav: TFloatField
+      DisplayLabel = 'Pre'#231'o a Vista'
+      FieldName = 'punprecoav'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelapunprecoap: TFloatField
+      DisplayLabel = 'Pre'#231'o a Prazo'
+      FieldName = 'punprecoap'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelasipcodigo: TIntegerField
+      FieldName = 'sipcodigo'
+    end
+    object uqtabelatpocodigo: TIntegerField
+      FieldName = 'tpocodigo'
+    end
+    object uqtabelatpoidentificacao: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'tpoidentificacao'
+      Size = 30
+    end
+    object uqtabelaenpcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'enpcodigo'
+    end
+    object uqtabelaenpendereco: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'enpendereco'
+      Size = 19
+    end
+    object uqtabelacpbcodbalanca: TIntegerField
+      DisplayLabel = 'Cod.Balan'#231'a'
+      FieldName = 'cpbcodbalanca'
+    end
+    object uqtabelagracodigo: TIntegerField
+      FieldName = 'gracodigo'
+    end
+    object uqtabeladpridentificacao: TStringField
+      DisplayLabel = 'Divis'#227'o'
+      FieldName = 'dpridentificacao'
+      Size = 30
+    end
+    object uqtabelaproconsolidado: TIntegerField
+      FieldName = 'proconsolidado'
+    end
+    object uqtabelapunpercav: TFloatField
+      DisplayLabel = '% Lucro AV'
+      FieldName = 'punpercav'
+      DisplayFormat = '#,##0.000'
+      EditFormat = '#,##0.000'
+    end
+    object uqtabelapunpercap: TFloatField
+      DisplayLabel = '% Lucro AP'
+      FieldName = 'punpercap'
+      DisplayFormat = '#,##0.000'
+      EditFormat = '#,##0.000'
+    end
+    object uqtabelapuncusto: TFloatField
+      DisplayLabel = 'Custo R$'
+      FieldName = 'puncusto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelacstcodigo: TStringField
+      DisplayLabel = 'CST/CSOSN'
+      FieldName = 'cstcodigo'
+      Size = 3
+    end
+    object uqtabelaprocest: TStringField
+      DisplayLabel = 'CEST'
+      FieldName = 'procest'
+    end
+    object uqtabelaimudtrev: TDateField
+      DisplayLabel = 'Rev.IMENDES'
+      FieldName = 'imudtrev'
+    end
+    object uqtabelaimudtultcons: TDateField
+      DisplayLabel = 'Ult. Consulta'
+      FieldName = 'imudtultcons'
+    end
+    object uqtabelapronatrecisenta: TIntegerField
+      FieldName = 'pronatrecisenta'
+    end
+    object uqtabelaproabc: TStringField
+      DisplayLabel = 'Classe ABC'
+      FieldName = 'proabc'
+      Size = 2
+    end
+    object uqtabelapromargemcontrib: TFloatField
+      DisplayLabel = 'Margem Contrib.'
+      FieldName = 'promargemcontrib'
+      DisplayFormat = '#0.000'
+      EditFormat = '#0.000'
+    end
+    object uqtabelaproproducao: TIntegerField
+      FieldName = 'proproducao'
+    end
+    object uqtabelacfocfop: TStringField
+      DisplayLabel = 'CFOP'
+      FieldName = 'cfocfop'
+      Size = 5
+    end
+    object uqtabelacfocfopfora: TStringField
+      DisplayLabel = 'CFOP Fora'
+      FieldName = 'cfocfopfora'
+      Size = 5
+    end
+    object uqtabelaicmaliquotasfora: TStringField
+      DisplayLabel = 'ICM Fora'
+      FieldName = 'icmaliquotasfora'
+      Size = 8
+    end
+    object uqtabelaproanpcodigo: TIntegerField
+      FieldName = 'proanpcodigo'
+    end
+    object uqtabelapropedecomple: TIntegerField
+      FieldName = 'propedecomple'
+      Required = True
+    end
+    object uqtabelaimecodigo: TStringField
+      FieldName = 'imecodigo'
+      Size = 50
+    end
+    object uqtabelaprobalanca: TStringField
+      FieldName = 'probalanca'
+      Size = 3
+    end
+  end
+  object TimerShow: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = TimerShowTimer
+    Left = 656
+    Top = 160
+  end
+  object consulta: TUniQuery
+    Left = 344
+    Top = 208
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT cfgmsai.cfgcodigo'
+      '     , cfgmsai.cfgbalanca'
+      '     , cfgmsai.cfgnrseriepro'
+      '     , cfgmsai.cfgrefepro'
+      '     , cfgmsai.cfgcompro'
+      '     , cfgmsai.cfgunitrib'
+      '     , cfgmsai.cfgdoisprecos'
+      '     , cfgmsai.cfgusagrade'
+      '     , cfgmsai.cfgusaenderecamento'
+      '     , cfgmsai.cfgprodefineicms'
+      '     , cfgmsai.cfgextratosegmentado'
+      '     , cfgmsai.cfgusaprecobase'
+      '     , cfgmsai.cfgtabelasaux'
+      '     , cfgmsai.cfgproinativsaldozero'
+      '     , cfgmsai.cfgtributacaoimendes'
+      '     , etd.etddoc1'
+      '     , cfgmcfg.crtcodigo'
+      '     , cfgmspd.cfgcnae'
+      '     , cfgmcfg.talcodigo'
+      ''
+      ''
+      'FROM cfgmsai'
+      '  INNER join cfgmcfg  ON cfgmsai.cfgcodigo = cfgmcfg.cfgcodigo'
+      '  INNER join cfgmspd  ON cfgmspd.cfgcodigo = cfgmsai.cfgcodigo'
+      '  INNER JOIN etd on etd.etdcodigo = cfgmcfg.cfgetdempresa')
+    Left = 344
+    Top = 264
+    object cfgcfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+    end
+    object cfgcfgrefepro: TIntegerField
+      DisplayLabel = 'Utiliza refer'#234'ncia'
+      FieldName = 'cfgrefepro'
+    end
+    object cfgcfgdoisprecos: TIntegerField
+      DisplayLabel = 'Utiliza pre'#231'o a Vista e a Prazo'
+      FieldName = 'cfgdoisprecos'
+    end
+    object cfgcfgusagrade: TIntegerField
+      FieldName = 'cfgusagrade'
+    end
+    object cfgcfgusaenderecamento: TIntegerField
+      FieldName = 'cfgusaenderecamento'
+    end
+    object cfgcfgprodefineicms: TIntegerField
+      FieldName = 'cfgprodefineicms'
+    end
+    object cfgcfgbalanca: TIntegerField
+      FieldName = 'cfgbalanca'
+    end
+    object cfgcfgextratosegmentado: TIntegerField
+      FieldName = 'cfgextratosegmentado'
+    end
+    object cfgcfgusaprecobase: TIntegerField
+      FieldName = 'cfgusaprecobase'
+    end
+    object cfgcfgtabelasaux: TIntegerField
+      FieldName = 'cfgtabelasaux'
+    end
+    object cfgcfgproinativsaldozero: TIntegerField
+      FieldName = 'cfgproinativsaldozero'
+    end
+    object cfgcfgtributacaoimendes: TIntegerField
+      FieldName = 'cfgtributacaoimendes'
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+      Size = 50
+    end
+    object cfgcrtcodigo: TIntegerField
+      FieldName = 'crtcodigo'
+    end
+    object cfgcfgcnae: TStringField
+      FieldName = 'cfgcnae'
+    end
+    object cfgtalcodigo: TIntegerField
+      FieldName = 'talcodigo'
+    end
+  end
+  object RESTClientBase: TRESTClient
+    BaseURL = 'http://localhost:9191/grp'
+    Params = <
+      item
+        Kind = pkHTTPHEADER
+        Name = 'login'
+        Options = [poDoNotEncode]
+        Value = '14477548000131'
+        ContentType = ctAPPLICATION_JSON
+      end
+      item
+        Kind = pkHTTPHEADER
+        Name = 'senha'
+        Options = [poDoNotEncode]
+        Value = 'HPoLD9OmFOHb'
+        ContentType = ctAPPLICATION_JSON
+      end>
+    Left = 80
+    Top = 120
+  end
+  object RESTResponseBase: TRESTResponse
+    Left = 80
+    Top = 176
+  end
+  object RESTRequestBase: TRESTRequest
+    Client = RESTClientBase
+    Method = rmPOST
+    Params = <>
+    Response = RESTResponseBase
+    SynchronizedEvents = False
+    Left = 80
+    Top = 227
+  end
+  object RESTRmp: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 152
+    Top = 347
+    object RESTRmpchave: TStringField
+      FieldName = 'chave'
+      Size = 0
+    end
+    object RESTRmpcodigo: TIntegerField
+      FieldName = 'codigo'
+    end
+    object RESTRmpitem: TStringField
+      FieldName = 'item'
+      Size = 10
+    end
+    object RESTRmpchaveimm: TIntegerField
+      FieldName = 'chaveimm'
+    end
+    object RESTRmppessoas: TIntegerField
+      FieldName = 'pessoas'
+    end
+  end
+  object DSRESTRmp: TDataSource
+    DataSet = RESTRmp
+    Left = 80
+    Top = 347
+  end
+  object pun: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  puncodigo,'
+      '  procodigo,'
+      '  unisimbolo,'
+      '  punprecoav,'
+      '  punprecoap,'
+      '  puncusto,'
+      '  punidentificacao,'
+      '  dgridentificacao,'
+      '  punbarra,'
+      '  pun.tuncodigo,'
+      ' uni.uninome,'
+      '  pun.unicodigo,'
+      '  punbarrasistema,'
+      '  punmargemap'
+      'FROM pun,'
+      '     uni,'
+      '     dgr'
+      'WHERE pun.unicodigo = uni.unicodigo'
+      'AND pun.dgrcodigo = dgr.dgrcodigo'
+      'AND pun.tuncodigo IN (1, 9)'
+      'AND pun.procodigo = :procodigo'
+      'order by punbarrasistema ')
+    Left = 468
+    Top = 156
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'procodigo'
+        Value = nil
+      end>
+    object punpuncodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'puncodigo'
+    end
+    object punprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object pununisimbolo: TStringField
+      DisplayLabel = 'S'#237'mbolo'
+      FieldName = 'unisimbolo'
+      Size = 6
+    end
+    object pununinome: TStringField
+      DisplayLabel = 'Unidade'
+      FieldName = 'uninome'
+      Size = 30
+    end
+    object punpunidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'punidentificacao'
+      Size = 30
+    end
+    object pundgridentificacao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'dgridentificacao'
+      Size = 30
+    end
+    object punpunprecoav: TFloatField
+      DisplayLabel = #192' Vista'
+      FieldName = 'punprecoav'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object punpunprecoap: TFloatField
+      DisplayLabel = #192' Prazo'
+      FieldName = 'punprecoap'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object punpunbarra: TStringField
+      DisplayLabel = 'C'#243'digo de Barra'
+      FieldName = 'punbarra'
+      Size = 50
+    end
+    object puntuncodigo: TIntegerField
+      FieldName = 'tuncodigo'
+      Required = True
+    end
+    object pununicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+    object punpunbarrasistema: TIntegerField
+      FieldName = 'punbarrasistema'
+    end
+    object punpunmargemap: TFloatField
+      DisplayLabel = '% Acr'#233's. A Prazo '
+      FieldName = 'punmargemap'
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+  end
+  object Dpun: TUniDataSource
+    DataSet = pun
+    Left = 424
+    Top = 156
+  end
+  object DSTabela: TUniDataSource
+    DataSet = uqtabela
+    OnDataChange = DSTabelaDataChange
+    Left = 288
+    Top = 152
+  end
+  object ACBrValidador1: TACBrValidador
+    TipoDocto = docGTIN
+    ExibeDigitoCorreto = True
+    IgnorarChar = './-'
+    AjustarTamanho = True
+    Left = 424
+    Top = 237
+  end
+  object imu: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  imuid,'
+      '  imuean,'
+      '  imucodigointerno,'
+      '  imucodigoimendes,'
+      '  imustatus,'
+      '  imudescricao,'
+      '  imuncm,'
+      '  imucest,'
+      '  imupercipi,'
+      '  imucestipi,'
+      '  imucstpiscofinsent,'
+      '  imucstpiscofinssai,'
+      '  imunatrecisenta,'
+      '  imutipo,'
+      '  imulista,'
+      '  imupercpis,'
+      '  imuperccofins,'
+      '  imucfopcompra,'
+      '  imucfopvenda,'
+      '  imucst,'
+      '  imucsosn,'
+      '  imumodbc,'
+      '  imupercicms,'
+      '  imuicmspdv,'
+      '  imusimbpdv,'
+      '  imupercredbcicms,'
+      '  imupercredbcicmsst,'
+      '  imupercmodbcst,'
+      '  imupercicmsst,'
+      '  imuiva,'
+      '  imupautast,'
+      '  imupercfcp,'
+      '  imuantecipado,'
+      '  imudtultcons,'
+      '  imudtrev,'
+      '  imutipocodigo'
+      '  FROM'
+      '  imu')
+    Left = 649
+    Top = 235
+    object imuimuid: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'imuid'
+    end
+    object imuimuean: TStringField
+      FieldName = 'imuean'
+      Required = True
+    end
+    object imuimucodigointerno: TStringField
+      FieldName = 'imucodigointerno'
+      Required = True
+      Size = 50
+    end
+    object imuimucodigoimendes: TStringField
+      FieldName = 'imucodigoimendes'
+    end
+    object imuimustatus: TStringField
+      FieldName = 'imustatus'
+      Required = True
+      Size = 2
+    end
+    object imuimudescricao: TStringField
+      FieldName = 'imudescricao'
+      Required = True
+      Size = 200
+    end
+    object imuimuncm: TStringField
+      FieldName = 'imuncm'
+      Required = True
+      Size = 10
+    end
+    object imuimucest: TStringField
+      FieldName = 'imucest'
+      Required = True
+      Size = 10
+    end
+    object imuimupercipi: TStringField
+      FieldName = 'imupercipi'
+      Required = True
+      Size = 10
+    end
+    object imuimucestipi: TStringField
+      FieldName = 'imucestipi'
+      Required = True
+      Size = 10
+    end
+    object imuimucstpiscofinsent: TStringField
+      FieldName = 'imucstpiscofinsent'
+      Required = True
+      Size = 10
+    end
+    object imuimucstpiscofinssai: TStringField
+      FieldName = 'imucstpiscofinssai'
+      Required = True
+      Size = 10
+    end
+    object imuimunatrecisenta: TStringField
+      FieldName = 'imunatrecisenta'
+      Required = True
+      Size = 10
+    end
+    object imuimulista: TStringField
+      FieldName = 'imulista'
+    end
+    object imuimutipo: TStringField
+      FieldName = 'imutipo'
+    end
+    object imuimupercpis: TStringField
+      FieldName = 'imupercpis'
+      Required = True
+      Size = 10
+    end
+    object imuimuperccofins: TStringField
+      FieldName = 'imuperccofins'
+      Required = True
+      Size = 10
+    end
+    object imuimucfopcompra: TStringField
+      FieldName = 'imucfopcompra'
+      Required = True
+      Size = 10
+    end
+    object imuimucfopvenda: TStringField
+      FieldName = 'imucfopvenda'
+      Required = True
+      Size = 10
+    end
+    object imuimucst: TStringField
+      FieldName = 'imucst'
+      Required = True
+      Size = 10
+    end
+    object imuimucsosn: TStringField
+      FieldName = 'imucsosn'
+    end
+    object imuimumodbc: TStringField
+      FieldName = 'imumodbc'
+      Required = True
+      Size = 10
+    end
+    object imuimupercicms: TStringField
+      FieldName = 'imupercicms'
+      Required = True
+      Size = 10
+    end
+    object imuimuicmspdv: TStringField
+      FieldName = 'imuicmspdv'
+      Required = True
+      Size = 10
+    end
+    object imuimusimbpdv: TStringField
+      FieldName = 'imusimbpdv'
+      Required = True
+      Size = 10
+    end
+    object imuimupercredbcicms: TStringField
+      FieldName = 'imupercredbcicms'
+      Required = True
+      Size = 10
+    end
+    object imuimupercredbcicmsst: TStringField
+      FieldName = 'imupercredbcicmsst'
+      Required = True
+      Size = 10
+    end
+    object imuimupercmodbcst: TStringField
+      FieldName = 'imupercmodbcst'
+      Required = True
+      Size = 10
+    end
+    object imuimupercicmsst: TStringField
+      FieldName = 'imupercicmsst'
+      Required = True
+      Size = 10
+    end
+    object imuimuiva: TStringField
+      FieldName = 'imuiva'
+      Required = True
+      Size = 10
+    end
+    object imuimupautast: TStringField
+      FieldName = 'imupautast'
+      Required = True
+      Size = 10
+    end
+    object imuimupercfcp: TStringField
+      FieldName = 'imupercfcp'
+      Required = True
+      Size = 10
+    end
+    object imuimuantecipado: TStringField
+      FieldName = 'imuantecipado'
+      Required = True
+      Size = 10
+    end
+    object imuimudtultcons: TDateField
+      FieldName = 'imudtultcons'
+    end
+    object imuimudtrev: TDateField
+      FieldName = 'imudtrev'
+    end
+    object imuimutipocodigo: TStringField
+      FieldName = 'imutipocodigo'
+      Size = 10
+    end
+  end
+  object icm: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  icmcodigo,'
+      '  icmaliquotas'
+      '  FROM icm')
+    Left = 680
+    Top = 229
+    object icmicmcodigo: TStringField
+      FieldName = 'icmcodigo'
+      Size = 10
+    end
+    object icmicmaliquotas: TStringField
+      FieldName = 'icmaliquotas'
+      Size = 10
+    end
+  end
+  object pro: TUniQuery
+    SQL.Strings = (
+      
+        'select pro.procodigo, pronome, punbarra,pun.puncodigo from pro,p' +
+        'un where  pro.sipcodigo=1 and pro.procodigo=pun.procodigo -- and' +
+        ' pro.unicodigo=pun.unicodigo')
+    Left = 648
+    Top = 280
+    object proprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object propronome: TStringField
+      FieldName = 'pronome'
+      Size = 100
+    end
+    object propunbarra: TStringField
+      FieldName = 'punbarra'
+    end
+    object propuncodigo: TIntegerField
+      FieldName = 'puncodigo'
+    end
+  end
+  object imunome: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  imuid,'
+      '  imuean,'
+      '  imucodigointerno,'
+      '  imucodigoimendes,'
+      '  imustatus,'
+      '  imudescricao,'
+      '  imuncm,'
+      '  imucest,'
+      '  imupercipi,'
+      '  imucestipi,'
+      '  imucstpiscofinsent,'
+      '  imucstpiscofinssai,'
+      '  imunatrecisenta,'
+      '  imutipo,'
+      '  imulista,'
+      '  imupercpis,'
+      '  imuperccofins,'
+      '  imucfopcompra,'
+      '  imucfopvenda,'
+      '  imucst,'
+      '  imucsosn,'
+      '  imumodbc,'
+      '  imupercicms,'
+      '  imuicmspdv,'
+      '  imusimbpdv,'
+      '  imupercredbcicms,'
+      '  imupercredbcicmsst,'
+      '  imupercmodbcst,'
+      '  imupercicmsst,'
+      '  imuiva,'
+      '  imupautast,'
+      '  imupercfcp,'
+      '  imuantecipado,'
+      '  imudtultcons,'
+      '  imudtrev,'
+      '  imutipocodigo'
+      '  FROM'
+      '  imu'
+      'limit 0')
+    Left = 696
+    Top = 368
+    object imunomeimuid: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'imuid'
+    end
+    object imunomeimuean: TStringField
+      FieldName = 'imuean'
+      Required = True
+    end
+    object imunomeimucodigointerno: TStringField
+      FieldName = 'imucodigointerno'
+      Required = True
+      Size = 50
+    end
+    object imunomeimucodigoimendes: TStringField
+      FieldName = 'imucodigoimendes'
+    end
+    object imunomeimustatus: TStringField
+      FieldName = 'imustatus'
+      Required = True
+      Size = 2
+    end
+    object imunomeimudescricao: TStringField
+      FieldName = 'imudescricao'
+      Required = True
+      Size = 200
+    end
+    object imunomeimuncm: TStringField
+      FieldName = 'imuncm'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucest: TStringField
+      FieldName = 'imucest'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercipi: TStringField
+      FieldName = 'imupercipi'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucestipi: TStringField
+      FieldName = 'imucestipi'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucstpiscofinsent: TStringField
+      FieldName = 'imucstpiscofinsent'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucstpiscofinssai: TStringField
+      FieldName = 'imucstpiscofinssai'
+      Required = True
+      Size = 10
+    end
+    object imunomeimunatrecisenta: TStringField
+      FieldName = 'imunatrecisenta'
+      Required = True
+      Size = 10
+    end
+    object imunomeimulista: TStringField
+      FieldName = 'imulista'
+    end
+    object imunomeimutipo: TStringField
+      FieldName = 'imutipo'
+    end
+    object imunomeimupercpis: TStringField
+      FieldName = 'imupercpis'
+      Required = True
+      Size = 10
+    end
+    object imunomeimuperccofins: TStringField
+      FieldName = 'imuperccofins'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucfopcompra: TStringField
+      FieldName = 'imucfopcompra'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucfopvenda: TStringField
+      FieldName = 'imucfopvenda'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucst: TStringField
+      FieldName = 'imucst'
+      Required = True
+      Size = 10
+    end
+    object imunomeimucsosn: TStringField
+      FieldName = 'imucsosn'
+    end
+    object imunomeimumodbc: TStringField
+      FieldName = 'imumodbc'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercicms: TStringField
+      FieldName = 'imupercicms'
+      Required = True
+      Size = 10
+    end
+    object imunomeimuicmspdv: TStringField
+      FieldName = 'imuicmspdv'
+      Required = True
+      Size = 10
+    end
+    object imunomeimusimbpdv: TStringField
+      FieldName = 'imusimbpdv'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercredbcicms: TStringField
+      FieldName = 'imupercredbcicms'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercredbcicmsst: TStringField
+      FieldName = 'imupercredbcicmsst'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercmodbcst: TStringField
+      FieldName = 'imupercmodbcst'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercicmsst: TStringField
+      FieldName = 'imupercicmsst'
+      Required = True
+      Size = 10
+    end
+    object imunomeimuiva: TStringField
+      FieldName = 'imuiva'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupautast: TStringField
+      FieldName = 'imupautast'
+      Required = True
+      Size = 10
+    end
+    object imunomeimupercfcp: TStringField
+      FieldName = 'imupercfcp'
+      Required = True
+      Size = 10
+    end
+    object imunomeimuantecipado: TStringField
+      FieldName = 'imuantecipado'
+      Required = True
+      Size = 10
+    end
+    object imunomeimudtultcons: TDateField
+      FieldName = 'imudtultcons'
+    end
+    object imunomeimudtrev: TDateField
+      FieldName = 'imudtrev'
+    end
+    object imunomeimutipocodigo: TStringField
+      FieldName = 'imutipocodigo'
+      Size = 10
+    end
+  end
+end

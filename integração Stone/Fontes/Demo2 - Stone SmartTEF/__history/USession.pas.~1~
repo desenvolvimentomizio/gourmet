@@ -1,0 +1,200 @@
+unit USession;
+
+interface
+
+uses
+  System.Classes;
+
+const  imgCard =
+        'M3 8C2.45 8 2 7.55 2 7S2.45 6 3 6H5.54C5.19 6.6 5 7.29 5 8H3M5 13H2C1.45 13 1 12.55 1 12S1.45 11 2 ' +
+        '11H5V13M1 18C.448 18 0 17.55 0 17S.448 16 1 16H5C5 16.71 5.19 17.4 5.54 18H1M21 6H9C7.89 6 7 6.89 7 ' +
+        '8V16C7 17.11 7.89 18 9 18H21C22.11 18 23 17.11 23 16V8C23 6.89 22.11 6 21 6M21 12H9V9H21V12Z';
+       imgDinheiro =
+        'M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,' +
+        '1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z';
+       imgPIX =
+        'M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H' +
+        '17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3' +
+        'M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z';
+
+type Tmodo = (tmForcaVendas, tmPDV, tmPDVSmartPOS, tmAPI);
+type TAdquirentePOS = (tadVERO, tadSTONE, tadPAGBANK, tadNONE,tadSmartTEF);
+
+type
+  TSession = class
+
+  private
+    class var FCOD_USUARIO : integer;
+    class var FNOME        : string;
+    class var FRAZAO: string;
+    class var FCNPJ_EMPRESA: string;
+    class var FIMPRESSORA: string;
+    class var FUFEmpresa: String;
+    class var FRegimeEmpresa: string;
+    class var FCMUNEmpresa: string;
+    class var FFONE: string;
+    class var FFANTASIA_EMP: string;
+    class var FBAIRRO_EMP: string;
+    class var FNUM_EMP: string;
+    class var FCEP_EMP: string;
+    class var FIE_EMP: string;
+    class var FENDERECO_EMP: string;
+    class var FCIDADE_EMP: string;
+    class var FNum_NFCE: string;
+    class var FPerm_ConsPadrao: Boolean;
+    class var FPerm_NFE: boolean;
+    class var FPerm_PesqSai: boolean;
+    class var FPerm_NFCE: Boolean;
+    class var FPerm_Paginacao: integer;
+    class var FSerie_NFCE: string;
+    class var FNum_NFE: string;
+    class var FSerie_NFE: string;
+    class var FImpDireto: boolean;
+    class var FModoOperacao: Tmodo;
+    class var FValorTeclado: Extended;
+    class var FHomologacao: Boolean;
+    class var FControlaGrupos: Boolean;
+    class var FCodGrupoSel: string;
+    class var FAdiconar: TStringList;
+    class var FRetirar: TStringList;
+    class var FAdicionar: TStringList;
+    class var FAdicionaisEmColuna: Boolean;
+    class var FHabilitaCReceber: Boolean;
+    class var FFontePadrao: string;
+    class var FHabilitaMesas: Boolean;
+    class var FQtdeMesas: Integer;
+    class var FColunasPDV: integer;
+    class var FTEF_NSU: string;
+    class var FTEF_TIPO: string;
+    class var FTEF_ADQUIRENTE: string;
+    class var FTEF_CNPJADQUIRENTE: string;
+    class var FTEF_BANDEIRA: string;
+    class var FTEF_ERRO: string;
+    class var FOOK: Boolean;
+    class var FTEF_AdquirentePOS: TAdquirentePOS;
+    class var FTEF_POS_Anterior: TAdquirentePOS;
+
+  public
+    class property COD_USUARIO  : integer read FCOD_USUARIO   write FCOD_USUARIO;
+    class property NOME_USUARIO : string  read FNOME          write FNOME;
+    class property RAZAO_SOCIAL : string  read FRAZAO         write FRAZAO;
+    class property CNPJ_EMPRESA : string  read FCNPJ_EMPRESA  write FCNPJ_EMPRESA;
+    class property UFEmpresa    : String  read FUFEmpresa     write FUFEmpresa;
+    class property RegimeEmpresa: string  read FRegimeEmpresa write FRegimeEmpresa;
+    class property CMUNEmpresa  : string  read FCMUNEmpresa   write FCMUNEmpresa;
+    class property BAIRRO_EMP   : string  read FBAIRRO_EMP    write FBAIRRO_EMP;
+    class property FANTASIA_EMP : string  read FFANTASIA_EMP  write FFANTASIA_EMP;
+    class property ENDERECO_EMP : string  read FENDERECO_EMP  write FENDERECO_EMP;
+    class property NUM_EMP      : string  read FNUM_EMP       write FNUM_EMP;
+    class property CEP_EMP      : string  read FCEP_EMP       write FCEP_EMP;
+    class property FONE         : string  read FFONE          write FFONE;
+    class property IE_EMP       : string  read FIE_EMP        write FIE_EMP;
+    class property CIDADE_EMP   : string  read FCIDADE_EMP    write FCIDADE_EMP;
+    class property Num_NFCE     : string  read FNum_NFCE      write FNum_NFCE;
+    class property Serie_NFCE   : string  read FSerie_NFCE    write FSerie_NFCE;
+    class property Num_NFE      : string  read FNum_NFE       write FNum_NFE;
+    class property Serie_NFE    : string  read FSerie_NFE     write FSerie_NFE;
+    class property ImpDireto    : boolean read FImpDireto     write FImpDireto;
+    class property Homologacao  : Boolean read FHomologacao   write FHomologacao;
+
+    class property Perm_NFCE       : Boolean read FPerm_NFCE       write FPerm_NFCE;
+    class property Perm_NFE        : boolean read FPerm_NFE        write FPerm_NFE;
+    class property Perm_ConsPadrao : Boolean read FPerm_ConsPadrao write FPerm_ConsPadrao;
+    class property Perm_PesqNaoSai : boolean read FPerm_PesqSai    write FPerm_PesqSai;
+    class property Perm_Paginacao  : integer read FPerm_Paginacao  write FPerm_Paginacao;
+
+    class property ModoOperacao       : Tmodo          read FModoOperacao         write FModoOperacao;
+    class property ControlaGrupos     : Boolean        read FControlaGrupos       write FControlaGrupos;
+    class property CodGrupoSel        : string         read FCodGrupoSel          write FCodGrupoSel;
+    class property Adicionar          : TStringList    read FAdicionar            write FAdicionar;
+    class property Retirar            : TStringList    read FRetirar              write FRetirar;
+    class property AdicionaisEmColuna : Boolean        read FAdicionaisEmColuna   write FAdicionaisEmColuna;
+    class property HabilitaCReceber   : Boolean        read FHabilitaCReceber     write FHabilitaCReceber;
+    class property FontePadrao        : string         read FFontePadrao          write FFontePadrao;
+
+    class property HabilitaMesas      : Boolean        read FHabilitaMesas        write FHabilitaMesas;
+    class property QtdeMesas          : Integer        read FQtdeMesas            write FQtdeMesas;
+    class property ColunasPDV         : integer        read FColunasPDV           write FColunasPDV;
+
+    class property TEF_AdquirentePOS  : TAdquirentePOS read FTEF_AdquirentePOS    write FTEF_AdquirentePOS;
+    class property TEF_POS_Anterior   : TAdquirentePOS read FTEF_POS_Anterior     write FTEF_POS_Anterior;
+    class property TEF_NSU            : string         read FTEF_NSU              write FTEF_NSU;
+    class property TEF_TIPO           : string         read FTEF_TIPO             write FTEF_TIPO;
+    class property TEF_BANDEIRA       : string         read FTEF_BANDEIRA         write FTEF_BANDEIRA;
+    class property TEF_ADQUIRENTE     : string         read FTEF_ADQUIRENTE       write FTEF_ADQUIRENTE;
+    class property TEF_CNPJADQUIRENTE : string         read FTEF_CNPJADQUIRENTE   write FTEF_CNPJADQUIRENTE;
+    class property TEF_ERRO           : string         read FTEF_ERRO             write FTEF_ERRO;
+    class property OOK                : Boolean        read FOOK                  write FOOK;
+
+    class procedure LerConfiguracoes;
+    class function GetModoByID(ID: Integer): Tmodo;
+    class function GetSmartPOSByID(ID: Integer): TAdquirentePOS;
+
+    class property ValorTecaldo : Extended read FValorTeclado write FValorTeclado;
+
+  end;
+
+implementation
+
+uses
+  System.IniFiles,ACBrUtil, System.SysUtils;
+
+{ TSession }
+
+class function TSession.GetModoByID(ID: Integer): Tmodo;
+begin
+  case ID of
+    0: Result := tmForcaVendas;
+    1: Result := tmPDV;
+    2: Result := tmPDVSmartPOS;
+    3: Result := tmAPI;
+  else
+    raise Exception.Create('ID inválido');
+  end;
+end;
+
+class function TSession.GetSmartPOSByID(ID: Integer): TAdquirentePOS;
+begin
+  case ID of
+    0: Result := tadPAGBANK;
+    1: Result := tadSTONE;
+    2: Result := tadVERO;
+    3: Result := tadNONE;
+    4: Result := tadSmartTEF;
+  else
+    raise Exception.Create('ID inválido');
+  end;
+end;
+
+class procedure TSession.LerConfiguracoes;
+var
+  IniFile : string;
+  Ini     : TIniFile;
+begin
+  IniFile := ApplicationPath + 'Configuracoes.ini';
+  Ini     := TIniFile.Create(IniFile{$IfDef POSIX}, TEncoding.ANSI{$EndIf});
+  try
+    FPerm_NFCE          := Ini.ReadBool(   'ConfigAdic' , 'NFCe'             , false);
+    FPerm_NFE           := Ini.ReadBool(   'ConfigAdic' , 'NFe'              , false);
+    FPerm_PesqSai       := Ini.ReadBool(   'ConfigAdic' , 'PesqSai'          , false);
+    FPerm_ConsPadrao    := Ini.ReadBool(   'ConfigAdic' , 'ConsumidorPadrao' , false);
+    FPerm_Paginacao     := Ini.ReadInteger('ConfigAdic' , 'PaginacaoProd'    , 30);
+    FModoOperacao       := GetModoByID( Ini.ReadInteger('ConfigAdic' , 'Modo', 0));
+    FFontePadrao        := Ini.ReadString(  'ConfigAdic', 'FontePadrao'      , '</FN>');
+    FHabilitaMesas      := Ini.ReadBool(   'ConfigAdic' , 'HabMesa'          , false);
+    FColunasPDV         := Ini.ReadInteger(   'ConfigAdic' , 'ColunasPDV'    , 3);
+    FTEF_AdquirentePOS  := GetSmartPOSByID( Ini.ReadInteger('ConfigAdic'     , 'SmartPOS', 3));
+
+    FControlaGrupos     := True; // ajustar akiiiiiiiiiiiiiiiiiiiiiiii
+    FAdicionaisEmColuna := True;
+    FHabilitaCReceber   := False;
+
+    FQtdeMesas          := 50;
+
+  finally
+    Ini.Free;
+  end;
+
+end;
+
+end.

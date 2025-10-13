@@ -1,0 +1,2464 @@
+unit ufGerContiNFCe;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, MemDS, DBAccess, Uni,
+  UniProvider, MySQLUniProvider, System.ImageList, Vcl.ImgList,
+  Vcl.ExtCtrls, Vcl.Menus, pingsend, RESTRequest4D, JSON,
+  System.Net.HttpClient, Winapi.WinSock,
+
+  ACBrBase, ACBrDFe, ACBrNFe, ufuncoes, inifiles, Vcl.StdCtrls,
+  pcnConversaoNFe, pcnConversao, Vcl.ComCtrls,  IdBaseComponent,
+
+  Shellapi, ACBrDFeSSL,
+  blcksock, ACBrSocket, ACBrIBPTax, PngImageList, IdAntiFreezeBase, IdAntiFreeze,
+  ACBrValidador,
+  UFuncoesContigencia, DASQLMonitor, UniSQLMonitor;
+
+
+type
+
+  TAcesso = record
+    IdAcesso: Integer;
+    usuario: Integer;
+    Filial: Integer;
+    Terminal: Integer;
+  end;
+
+type
+  TfGerContiNFCe = class(TForm)
+    PopupMenu: TPopupMenu;
+    mnMudarContigenciaManual: TMenuItem;
+    N2: TMenuItem;
+    MOSTRARImpressor: TMenuItem;
+    OCULTARImpressor: TMenuItem;
+    N1: TMenuItem;
+    Fechar: TMenuItem;
+    TrayIcon: TTrayIcon;
+    conexao: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmensagempdv: TStringField;
+    cfgcfgtrmimpfis1: TIntegerField;
+    cfgcfgtrmimpfis2: TIntegerField;
+    cfgcfgtrmtef1: TIntegerField;
+    cfgcfgtrmtef2: TIntegerField;
+    cfgcfgimpnfe1: TIntegerField;
+    cfgcfgimpnfe2: TIntegerField;
+    cfgcfgimpnfc1: TIntegerField;
+    cfgcfgimpnfc2: TIntegerField;
+    cfgcfgimpnfc3: TIntegerField;
+    cfgcfgservarqnfes: TStringField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgtoeusofora: TIntegerField;
+    cfgcfgtoeusointe: TIntegerField;
+    cfgcfgtoecuffora: TIntegerField;
+    cfgcfgtoecufinte: TIntegerField;
+    cfgcfgviasnfe: TIntegerField;
+    cfgcfgnumeronfe: TIntegerField;
+    cfgcfgserienfe: TStringField;
+    cfgcfgnumeronfce: TIntegerField;
+    cfgcfgserienfce: TStringField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgdescrinfe: TIntegerField;
+    cfgcfgemailnfe: TStringField;
+    cfgcfgemailservidornfe: TStringField;
+    cfgcfgemailsenhanfe: TStringField;
+    cfgcfgmailportnfe: TStringField;
+    cfgcfgemailusatls: TIntegerField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcstterceiros: TStringField;
+    cfgetdapelido: TStringField;
+    cfgetdidentificacao: TStringField;
+    cfgetddoc1: TStringField;
+    cfgufscodigo: TStringField;
+    cfgcddcodigo: TStringField;
+    cfgedrinscest: TStringField;
+    cfgedrrua: TStringField;
+    cfgedrnumero: TStringField;
+    cfgedrbairro: TStringField;
+    cfgedrcep: TStringField;
+    cfgcddnome: TStringField;
+    cfgufssigla: TStringField;
+    cfgetftelefone: TStringField;
+    cfgctdboxedominio: TStringField;
+    cfgcfgusanfc: TIntegerField;
+    cfgcfgmodonfe: TIntegerField;
+    cfgcfgnumecertifa1: TStringField;
+    cfgcfgsenhacertificadoa1: TStringField;
+    cfgcfgidtokennfce: TStringField;
+    cfgcfgtoken1nfce: TStringField;
+    rec: TUniQuery;
+    recreccodigo: TIntegerField;
+    recrecmotivo: TStringField;
+    recrecdthoraentrada: TDateTimeField;
+    recrecdthorasaida: TDateTimeField;
+    recrecmanual: TIntegerField;
+    NFCeConti: TUniQuery;
+    NFCeContimeschave: TIntegerField;
+    NFCeContitdfcodigo: TStringField;
+    NFCeContimesregistro: TDateField;
+    NFCeContimesnumero: TIntegerField;
+    NFCeContimeschavenfe: TStringField;
+    NFCeContimesprotocolo: TStringField;
+    NFCeContiflacodigo: TIntegerField;
+    NFCeContimesserie: TStringField;
+    NFCeContitemcodigo: TIntegerField;
+    NFCeContimesemissao: TDateField;
+    spd: TUniQuery;
+    plRodaPe: TPanel;
+    pipmicro: TPanel;
+    ttInicializar: TTimer;
+    OcultarInicial: TTimer;
+    MNotificacoes: TMemo;
+    plTopNFE: TPanel;
+    PlStatSefaz: TPanel;
+    plTipoContingencia: TPanel;
+    consulta: TUniQuery;
+    bocultar: TButton;
+    plTitulo: TPanel;
+    relogio: TTimer;
+    PnlDataHora: TPanel;
+    mostra: TProgressBar;
+    plQtd: TPanel;
+    plUltimaverificacao: TPanel;
+    cfgcfgmnfegerenciador: TStringField;
+    ACBrNFeNFCe: TACBrNFe;
+    NFCeContimescodigonota: TIntegerField;
+    mva: TUniQuery;
+    mvamvachave: TIntegerField;
+    mvatcecest: TStringField;
+    mvatcgncm: TStringField;
+    mvamvaidentificacao: TStringField;
+    mvamvapercentual: TFloatField;
+    tcg: TUniQuery;
+    tcgtcgncm: TStringField;
+    tcgtcgex: TStringField;
+    tcgtcgtabela: TIntegerField;
+    tcgtcgaliqnac: TFloatField;
+    tcgtcgaliqimp: TFloatField;
+    tcgtcgaliqest: TFloatField;
+    tcgtcgaliqmun: TFloatField;
+    tcgtcgdescricao: TStringField;
+    tcgtcgversao: TStringField;
+    tcgtcginicio: TDateField;
+    tcgtcgfinal: TDateField;
+    tce: TUniQuery;
+    tcetcechave: TIntegerField;
+    tcetcecest: TStringField;
+    tcetcencm: TStringField;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    proproncm: TStringField;
+    vertcg: TUniQuery;
+    cfgcfgcertificadoa1: TBlobField;
+    ImageList1: TImageList;
+    ACBrNFeNFe: TACBrNFe;
+    IdAntiFreeze1: TIdAntiFreeze;
+    Panel1: TPanel;
+    Plpasta: TPanel;
+    plCNPJ: TPanel;
+    verspd: TUniQuery;
+    verspdspdchave: TIntegerField;
+    verspdspdexercicio: TIntegerField;
+    verspdspddatainicial: TDateField;
+    verspdspddatafinal: TDateField;
+    verspdspddatabalanco: TDateField;
+    verspdpcccodigo: TStringField;
+    verspdspdativo: TIntegerField;
+    verspdspdmotivoinv: TStringField;
+    verspdspdvalortotal: TFloatField;
+    verspdflacodigo: TIntegerField;
+    verspdspdpasta: TStringField;
+    verspdspdregistro: TDateTimeField;
+    verspdspdarquivo: TBlobField;
+    verspdspdaliquotasimples: TFloatField;
+    Button1: TButton;
+    N3: TMenuItem;
+    AtualizaNCMs1: TMenuItem;
+    itm: TUniQuery;
+    ACBrValidador1: TACBrValidador;
+    etdmes: TUniQuery;
+    ACBrIBPTax1: TACBrIBPTax;
+    eco: TUniQuery;
+    ecoecochave: TIntegerField;
+    ecoecoseqevento: TIntegerField;
+    ecoecodhevento: TDateTimeField;
+    ecomeschave: TIntegerField;
+    ecoecochavenfe: TStringField;
+    ecoecoindpag: TIntegerField;
+    ecodtlchave: TIntegerField;
+    ecoecocnpjif: TStringField;
+    ecoecocnpjpag: TStringField;
+    ecoecoufpag: TStringField;
+    ecoecoprotocolo: TStringField;
+    ecoecodhregistroevento: TDateTimeField;
+    dtl: TUniQuery;
+    dtldtlchave: TIntegerField;
+    dtlltechave: TIntegerField;
+    dtlcedcodigo: TIntegerField;
+    dtldtlvalor: TFloatField;
+    dtlmdacodigo: TIntegerField;
+    dtldtlvalorinfo: TFloatField;
+    dtlflacodigo: TIntegerField;
+    dtlrdcnrauto: TStringField;
+    dtlccxchave: TIntegerField;
+    dtldtlregistro: TDateTimeField;
+    rdc: TUniQuery;
+    rdcrdcchave: TIntegerField;
+    rdcrdcvalor: TFloatField;
+    rdcrdcnrauto: TStringField;
+    rdcrdcvalorope: TFloatField;
+    rdcrdcsituacao: TIntegerField;
+    rdcrdcdata: TDateField;
+    rdcadccodigo: TIntegerField;
+    rdcrdcparcelas: TIntegerField;
+    rdctescodigo: TIntegerField;
+    rdcrdcobs: TStringField;
+    rdcbdccodigo: TIntegerField;
+    rdcrdccomprovante1via: TStringField;
+    rdcrdccomprovante2via: TStringField;
+    rdcrdcconciliado: TIntegerField;
+    rdccedcodigo: TIntegerField;
+    rdcrdchora: TTimeField;
+    rdcrdctaxa: TFloatField;
+    rdcrdcvalordesconto: TFloatField;
+    rdcdtlchave: TIntegerField;
+    UniSQLMonitor1: TUniSQLMonitor;
+    sqleco: TUniQuery;
+    procedure ttInicializarTimer(Sender: TObject);
+    procedure OcultarInicialTimer(Sender: TObject);
+    procedure bocultarClick(Sender: TObject);
+    procedure mnMudarContigenciaManualClick(Sender: TObject);
+    procedure MOSTRARImpressorClick(Sender: TObject);
+    procedure OCULTARImpressorClick(Sender: TObject);
+    procedure FecharClick(Sender: TObject);
+    procedure relogioTimer(Sender: TObject);
+    procedure PlStatSefazClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TrayIconClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure AtualizaNCMs1Click(Sender: TObject);
+  private
+
+    procedure CarregaDadosIni;
+    function BancoConectado: Boolean;
+    procedure MostraMensagem(texto: string);
+    function LerConfiguracaoNFCe: Boolean;
+    procedure AjustaCaminhoGeralNF(Data: TDate);
+    function ConsultaStatusSEFAZ: Boolean;
+    procedure VerificaNFCeContingencia;
+    function GeraNomeArqNFCe(vMesChave: string; vFlaCodigo: String = '1'): string;
+    procedure ReenviaNFCeContingencia(vMesChave: Integer; vChaveNFCe: String; vEmissaoNFCe: TDate; vConsultaNFCe: Boolean = false);
+
+    procedure Inicializar;
+    procedure VerificaContigencias;
+    procedure ProcessarImportacaoNCMs(vArquivo: string);
+
+    function DefineVertical: String;
+    procedure ConectaBaseLocal;
+    function LerConfiguracaoNFe: Boolean;
+    procedure VerificaStatusSefaz;
+    function VerificaPeridoAtivo: Boolean;
+
+    procedure AtualizaNCMs;
+
+    procedure CriaChaveestaativo;
+    procedure AtualizaExecutavel;
+    procedure AJustaNomeExecutavel;
+    procedure AtualizaArquivoNCMs(vpmes:String);
+    procedure ProcessaNotasContigencia;
+    procedure VerificaeConf;
+
+
+  public
+    { Public declarations }
+
+    vpCNPJ: string;
+    vprazao: string;
+    vpNomeMicro: string;
+    vpIPMicro: string;
+
+    vpPathAplicativo: String;
+    vpVersaoExecutavel: String;
+    vpVersaoAtual: String;
+
+    vpmes: string;
+    vpMostrar: Boolean;
+    vpContadorAtualizacao: Integer;
+
+    vpNomeBanco: String;
+    vpIpServidor: String;
+    vpUsuario: String;
+    vpSenha: String;
+    vpPorta: String;
+
+    vpTrmcodigo: String;
+    vpFilial: String;
+
+    vpDataAtual: string;
+    vpAnoMesNomeNFCe: string;
+    vpEmContingencia: Boolean;
+    vpPastaPrincipal: string;
+
+  end;
+
+var
+  PORT_SERV: String;
+  fGerContiNFCe: TfGerContiNFCe;
+
+
+implementation
+
+uses
+  System.DateUtils, ACBrUtil.DateTime, ACBrUtil, uFormAtualiza;
+
+{$R *.dfm}
+
+
+
+
+
+procedure TfGerContiNFCe.TrayIconClick(Sender: TObject);
+begin
+  vpMostrar := True;
+  application.MainForm.Visible := vpMostrar;
+end;
+
+(* Chamada exportada para carga da BPL *)
+procedure MainForm(AOwner: TApplication);
+begin
+  fGerContiNFCe := TfGerContiNFCe.Create(AOwner);
+end;
+
+
+
+function TfGerContiNFCe.DefineVertical: String;
+var
+  vlTipoVertical: string;
+begin
+  vpPathAplicativo := extractfilepath(application.ExeName);
+
+  if fileexists(vpPathAplicativo + 'GourmetERP.exe') then
+    vlTipoVertical := 'Gourmet'
+  else if fileexists(vpPathAplicativo + 'MercatoERP.exe') then
+    vlTipoVertical := 'Mercato'
+  else if fileexists(vpPathAplicativo + 'BoutiqueERP.exe') then
+    vlTipoVertical := 'Boutique'
+  else if fileexists(vpPathAplicativo + 'VarejoERP.exe') then
+    vlTipoVertical := 'Varejo';
+
+  doSaveLog(Extractfilepath(application.ExeName), datetimetostr(now()) + ' ' + vlTipoVertical);
+  Result := vlTipoVertical;
+
+end;
+
+
+procedure TfGerContiNFCe.CarregaDadosIni;
+var
+  vlArquIni: TInifile;
+  vlNome: string;
+begin
+
+  vlNome := DefineVertical;
+
+  try
+    vlArquIni := TInifile.Create(extractfilepath(application.ExeName) + vlNome + 'ERP.ini');
+
+    With vlArquIni Do
+    Begin
+      vpNomeBanco := ReadString('posi', 'nomebanco', 'pegasus');
+      vpIpServidor := ReadString('posi', 'servidor', '127.0.0.1');
+      vpUsuario := ReadString('posi', 'usuario', 'root');
+      vpSenha := ReadString('posi', 'senha', 'xda973');
+      vpPorta := ReadString('posi', 'portabanco', '3306');
+      vpTrmcodigo := ReadString('posi', 'terminal', '1');
+      vpFilial := ReadString('posi', 'filial', '1');
+      self.Caption := 'Gerenciador de Contigencia ' + vpNomeBanco;
+    End;
+    pipmicro.Caption := 'Terminal: ' + vpTrmcodigo;
+
+
+  finally
+    vlArquIni.Free;
+  end;
+end;
+
+procedure TfGerContiNFCe.OCULTARImpressorClick(Sender: TObject);
+begin
+  vpMostrar := false;
+end;
+
+procedure TfGerContiNFCe.OcultarInicialTimer(Sender: TObject);
+begin
+
+  application.MainForm.Visible := vpMostrar;
+  if vpMostrar then
+  begin
+    self.WindowState := wsNormal;
+
+  end;
+end;
+
+procedure TfGerContiNFCe.PlStatSefazClick(Sender: TObject);
+begin
+  VerificaStatusSefaz;
+  AtualizaExecutavel;
+  VerificaContigencias;
+  LerConfiguracaoNFCe;
+  Verificaeconf;
+end;
+
+procedure TfGerContiNFCe.AtualizaNCMs;
+begin
+  try
+
+    vpmes := hoje(application, conexao);
+    vpmes := Copy(vpmes, 7, 4) + Copy(vpmes, 4, 2) + '.csv';
+
+    if not DirectoryExists(extractfilepath(application.ExeName) + 'ncms') then
+      ForceDirectories(extractfilepath(application.ExeName) + 'ncms');
+
+    if fileexists(extractfilepath(application.ExeName) + 'ncms' + '\' + vpmes) = false then
+    begin
+      AtualizaArquivoNCMs(vpmes);
+    end;
+
+    if fileexists(extractfilepath(application.ExeName) + 'ncms' + '\' + vpmes) then
+    begin
+      ProcessarImportacaoNCMs(extractfilepath(application.ExeName) + 'ncms' + '\' + vpmes);
+    end;
+
+  except
+  end;
+end;
+
+
+procedure TfGerContiNFCe.AtualizaArquivoNCMs(vpmes:String);
+var
+ FAtualiza:TFormAtualiza;
+begin
+  try
+    try
+      FAtualiza:=TFormAtualiza.Create(self);
+      FAtualiza.BaixarNCMs(vpmes);
+    except
+      FAtualiza.Free;
+    end;
+  finally
+    FAtualiza.Free;
+  end;
+end;
+
+procedure TfGerContiNFCe.AtualizaNCMs1Click(Sender: TObject);
+begin
+    AtualizaNCMs;
+end;
+
+procedure TfGerContiNFCe.MostraMensagem(texto: string);
+begin
+  MNotificacoes.Lines.Add(datetimetostr(now) + ' ' + texto);
+
+end;
+
+procedure TfGerContiNFCe.MOSTRARImpressorClick(Sender: TObject);
+begin
+  vpMostrar := True;
+
+end;
+
+Function TfGerContiNFCe.BancoConectado: Boolean;
+Var
+  iTentativas: Integer;
+Begin
+
+  try
+    Result := false;
+
+    If conexao.Connected Then
+    begin
+      MostraMensagem('Banco de Dados - Conectado');
+      MNotificacoes.Lines.Add('Banco conectado com sucesso');
+      Result := True;
+      exit;
+    end;
+
+    for iTentativas := 0 to 30 Do
+    Begin
+      Try
+        MostraMensagem('Banco de Dados - Iniciando conexao ' + iTentativas.ToString);
+        conexao.Connected := false;
+        conexao.Database := vpNomeBanco;
+        conexao.Username := 'root';
+        conexao.Password := vpSenha;
+        conexao.port := vpPorta.ToInteger;
+        conexao.Server := vpIpServidor;
+        conexao.Connected := True;
+
+        If conexao.Connected Then
+        Begin
+          MostraMensagem('Banco de Dados - Conectado');
+          sqleco.close;
+          sqleco.ExecSQL;
+          Result := True;
+          Break;
+        End;
+
+      Except
+        MostraMensagem('Tentando conexão  ' + Inttostr(iTentativas) + ' com o banco ' + vpNomeBanco + ' em ' + vpIpServidor);
+
+        sleep(2000);
+
+        If iTentativas = 30 Then
+          MostraMensagem('Não foi possível conectar o banco ' + vpNomeBanco + ' em ' + vpIpServidor + #13 +
+            'LIGUE para (66) 35442765 Mizio sistemas');
+      End;
+    End;
+  except
+    conexao.Connected := false;
+    MNotificacoes.Lines.Add('Tentando conexão  ' + Inttostr(iTentativas) + ' com o banco ' + vpNomeBanco + ' em ' + vpIpServidor);
+  end;
+End;
+
+procedure TfGerContiNFCe.bocultarClick(Sender: TObject);
+begin
+  vpMostrar := false;
+  application.MainForm.Visible := false;
+end;
+
+procedure TfGerContiNFCe.Button1Click(Sender: TObject);
+begin
+
+  doSaveLog(Extractfilepath(application.ExeName), datetimetostr(now()) + ' vai atualizar ncms');
+  AtualizaNCMs;
+  doSaveLog(Extractfilepath(application.ExeName), datetimetostr(now()) + ' Atualizaou ncms');
+  MNotificacoes.Lines.Clear;
+
+end;
+
+function TfGerContiNFCe.LerConfiguracaoNFe: Boolean;
+Var
+  IniFile: String;
+  Ini: TInifile;
+  ok: Boolean;
+  vlPrograma: string;
+Begin
+  Result := True;
+
+  vlPrograma := DefineVertical;
+
+  Ini := TInifile.Create(extractfilepath(application.ExeName) + vlPrograma + 'erp.ini');
+
+  ACBrNFeNFe.Configuracoes.Geral.VersaoDF := ve400;
+
+  ACBrNFeNFe.Configuracoes.WebServices.ResourceName := 'ACBrNFeServicos';
+  ACBrNFeNFe.Configuracoes.Arquivos.PathSchemas := extractfilepath(application.ExeName) + 'schemas';
+  ACBrNFeNFe.Configuracoes.Arquivos.IniServicos := extractfilepath(application.ExeName) + 'schemas\ACBrNFeServicos.ini';
+
+  ACBrNFeNFe.Configuracoes.Geral.SSLLib := libWinCrypt;
+  ACBrNFeNFe.Configuracoes.Geral.SSLCryptLib := cryWinCrypt;
+  ACBrNFeNFe.Configuracoes.Geral.SSLHttpLib := httpWinHttp;
+  ACBrNFeNFe.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
+
+  ACBrNFeNFe.Configuracoes.Certificados.NumeroSerie := self.cfgcfgnumecertif.AsString;
+  ACBrNFeNFe.Configuracoes.Certificados.Senha := cfgcfgsenhacertificadoa1.AsString;
+
+  ACBrNFeNFe.Configuracoes.Geral.FormaEmissao := teNormal;
+  ACBrNFeNFe.Configuracoes.Geral.Salvar := True;
+
+  ACBrNFeNFe.Configuracoes.WebServices.UF := UpperCase(self.cfgufssigla.AsString);
+
+  ACBrNFeNFe.Configuracoes.WebServices.Ambiente := taProducao;
+
+  ACBrNFeNFe.Configuracoes.WebServices.Visualizar := false;
+
+  ACBrNFeNFe.Configuracoes.WebServices.ProxyHost := Ini.ReadString('Proxy', 'Host', '');
+  ACBrNFeNFe.Configuracoes.WebServices.ProxyPort := Ini.ReadString('Proxy', 'Porta', '');
+  ACBrNFeNFe.Configuracoes.WebServices.ProxyUser := Ini.ReadString('Proxy', 'User', '');
+  ACBrNFeNFe.Configuracoes.WebServices.ProxyPass := Ini.ReadString('Proxy', 'Pass', '');
+
+  ACBrNFeNFe.Configuracoes.Geral.SSLHttpLib := httpWinINet;
+
+  ACBrNFeNFe.Configuracoes.WebServices.TimeZoneConf.ModoDeteccao := tzManual;
+  ACBrNFeNFe.Configuracoes.WebServices.TimeZoneConf.TimeZoneStr := '-04:00';
+
+End;
+
+function TfGerContiNFCe.LerConfiguracaoNFCe: Boolean;
+Begin
+
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsString := '1';
+  cfg.Open;
+
+  vpCNPJ := SoNumeros(cfgetddoc1.AsString);
+  vprazao:= cfgetdapelido.AsString;
+
+  plCNPJ.Caption := cfgetddoc1.AsString;
+
+  Result := True;
+
+  ACBrNFeNFCe.Configuracoes.WebServices.Visualizar := false;
+  ACBrNFeNFCe.Configuracoes.Arquivos.PathSchemas := extractfilepath(application.ExeName) + 'schemas';
+  ACBrNFeNFCe.Configuracoes.Arquivos.IniServicos := extractfilepath(application.ExeName) + 'schemas\ACBrNFeServicos.ini';
+
+  ACBrNFeNFCe.Configuracoes.Geral.ModeloDF := moNFCe;
+  ACBrNFeNFCe.Configuracoes.Geral.VersaoDF := ve400;
+
+  if (Length(cfgcfgsenhacertificadoa1.AsString) > 0) then
+  begin
+    ACBrNFeNFCe.Configuracoes.Certificados.Senha := cfgcfgsenhacertificadoa1.AsString;
+    try
+      cfgcfgcertificadoa1.SaveToFile(extractfilepath(application.ExeName) + 'certificado.pfx');
+    except
+      sleep(1000);
+      cfgcfgcertificadoa1.SaveToFile(extractfilepath(application.ExeName) + 'certificado.pfx');
+    end;
+    ACBrNFeNFCe.Configuracoes.Certificados.ArquivoPFX := extractfilepath(application.ExeName) + 'certificado.pfx';
+    ACBrNFeNFCe.Configuracoes.Certificados.NumeroSerie := ''
+  end
+  else
+  begin
+    ACBrNFeNFCe.Configuracoes.Certificados.NumeroSerie := self.cfgcfgnumecertifa1.AsString;
+  end;
+
+  ACBrNFeNFCe.SSL.SSLType := LT_TLSv1_2;
+  ACBrNFeNFCe.Configuracoes.Geral.SSLLib := libOpenSSL;
+  ACBrNFeNFCe.Configuracoes.Geral.SSLCryptLib := cryOpenSSL;
+  ACBrNFeNFCe.Configuracoes.Geral.SSLHttpLib := httpOpenSSL;
+  ACBrNFeNFCe.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
+
+  ACBrNFeNFCe.Configuracoes.Geral.FormaEmissao := teNormal;
+  ACBrNFeNFCe.Configuracoes.Geral.Salvar := True;
+
+  ACBrNFeNFCe.Configuracoes.WebServices.UF := UpperCase(self.cfgufssigla.AsString);
+
+  if cfgcfgmodonfe.AsInteger = 2 then
+  begin
+    ACBrNFeNFCe.Configuracoes.Geral.IdCSC := formatfloat('000000', cfgcfgidtokennfce.AsInteger);
+    ACBrNFeNFCe.Configuracoes.Geral.CSC := LowerCase(cfgcfgtoken1nfce.AsString);
+    ACBrNFeNFCe.Configuracoes.WebServices.Ambiente := taHomologacao;
+  end
+  else if cfgcfgmodonfe.AsInteger = 1 then
+  begin
+    ACBrNFeNFCe.Configuracoes.Geral.IdCSC := formatfloat('000000', cfgcfgidtokennfce.AsInteger);
+    ACBrNFeNFCe.Configuracoes.Geral.CSC := LowerCase(cfgcfgtoken1nfce.AsString);
+    ACBrNFeNFCe.Configuracoes.WebServices.Ambiente := taProducao;
+  end;
+
+End;
+
+procedure TfGerContiNFCe.mnMudarContigenciaManualClick(Sender: TObject);
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'update rec set recdthorasaida=' + QuotedStr(FormatDateTime('yyyy-dd-mm', now) + FormatDateTime('h:n:s', now)) +
+    ' where recdthorasaida=null';
+  consulta.ExecSQL;
+
+  if not rec.Active then
+    rec.Open;
+
+  self.rec.Append;
+  self.recrecmotivo.AsString := 'Velocidade da internet muito baixa.';
+  self.recrecdthoraentrada.AsDateTime := now;
+  self.recrecmanual.AsInteger := 1;
+  self.rec.Post;
+
+end;
+
+procedure TfGerContiNFCe.ttInicializarTimer(Sender: TObject);
+  var
+  vlAplicativo: string;
+  vlChaveAplicativo: string;
+begin
+
+  try
+
+    ttInicializar.Enabled := false;
+
+    vpMostrar := false;
+
+    Inicializar;
+
+    ConectaBaseLocal;
+
+    cfg.Close;
+    cfg.Connection:=conexao;
+    cfg.ParamByName('flacodigo').AsString := '1';
+    cfg.Open;
+
+    vlAplicativo := StringReplace(application.ExeName, 'new.', '', []);
+    vlChaveAplicativo := SoNumeros(cfgetddoc1.AsString);
+
+    RunOnStartup('Mizio - Contingência', vlAplicativo, false, vlChaveAplicativo);
+
+    CreateMutex(nil, false, PChar('MizioContingecia.OnlyOne.' + extractfilename(application.ExeName) + SoNumeros(cfgetddoc1.AsString)));
+
+    if GetLastError = ERROR_ALREADY_EXISTS then
+    begin
+      Halt(0); // cancela execução
+    end;
+
+    RunOnStartup('Mizio - Gerenciador de Contingência', StringReplace(application.ExeName, 'new.', '', []), false, SoNumeros(cfgetddoc1.AsString));
+
+    self.WindowState := wsNormal;
+
+    VerificaStatusSefaz;
+
+    OcultarInicial.Enabled := True;
+
+    relogio.Enabled := True;
+
+  finally
+
+  end;
+
+end;
+
+procedure TfGerContiNFCe.AjustaCaminhoGeralNF(Data: TDate);
+begin
+
+  if not DirectoryExists(vpPastaPrincipal) then
+    ForceDirectories(vpPastaPrincipal);
+
+  vpAnoMesNomeNFCe := vpPastaPrincipal + 'arqnfces\' + FormatDateTime('yyyymm', Data) + '\';
+
+  if not DirectoryExists(vpAnoMesNomeNFCe) then
+    ForceDirectories(vpAnoMesNomeNFCe);
+
+  ACBrNFeNFCe.Configuracoes.Arquivos.PathSalvar := vpAnoMesNomeNFCe;
+
+  Plpasta.Caption := ACBrNFeNFCe.Configuracoes.Arquivos.PathSalvar;
+
+end;
+
+function TfGerContiNFCe.ConsultaStatusSEFAZ: Boolean;
+var
+  vRetornoErro: String;
+  vlxMotivo: String;
+  vlDataAtual: Double;
+  vlDiferenca: String;
+  vldias: string;
+  vlRecCodigo: string;
+  vlDataHoraSaida:string;
+
+  vlHoras:String;
+  vlMinutos:String;
+
+begin
+
+    Result := True;
+
+    if conexao.Connected then
+    begin
+
+      vRetornoErro := '';
+      vlxMotivo := '';
+
+      MNotificacoes.Lines.Add('');
+      MNotificacoes.Lines.Add('Consulta Status Serviço - ' + agora(application, conexao));
+
+      rec.Close;
+      rec.Open;
+      vlRecCodigo:=recreccodigo.AsString;
+
+
+      if recrecmanual.AsInteger = 1 then
+      begin
+
+        plTipoContingencia.Caption := 'C O N T I G E N C I A   M A N U A L';
+        plTipoContingencia.Color := clYellow;
+        plTipoContingencia.Font.Color := clRed;
+
+
+        if recreccodigo.AsString<>'' then
+        begin
+
+          consulta.Close;
+          consulta.SQL.Text := 'SELECT  TIME_FORMAT( TIMEDIFF(NOW(),rec.recdthoraentrada),'+QuotedStr('%H:%i')+ '), reccodigo, dateDIFF(NOW(),rec.recdthoraentrada), rec.recdthorasaida  FROM rec where reccodigo='
+            + recreccodigo.AsString;
+          consulta.Open;
+
+          vlDataHoraSaida:= consulta.FieldByName('recdthorasaida').AsString;
+          vlRecCodigo := consulta.Fields[1].AsString;
+          vlDiferenca := consulta.Fields[0].AsString;
+          vlHoras:=copy(vlDiferenca,1,pos(':',vlDiferenca)-1);
+
+          vlMinutos:=copy(vlDiferenca,pos(':',vlDiferenca)+1,2);
+          vlMinutos:=sonumeros(vlMinutos);
+          vldias := sonumeros(consulta.Fields[2].AsString);
+
+        end;
+
+        Result := false;
+
+        vpEmContingencia := False;
+
+        if (StrToInt(vldias)>1) then
+        begin
+          PlStatSefaz.Color := clYellow;
+          if (vlDataHoraSaida='30/12/1899') or (vlDataHoraSaida='') then
+          begin
+            vpEmContingencia := True;
+          end
+          else
+            PlStatSefaz.Color := clGreen;
+        end
+        else
+        begin
+           PlStatSefaz.Color := clYellow;
+           Result := False;
+           exit;
+        end;
+
+      end
+      else
+      begin
+
+        rec.Close;
+        rec.Open;
+        if recreccodigo.AsString='' then
+        begin
+        plTipoContingencia.Caption := 'NORMAL';
+        plTipoContingencia.Color := clSilver;
+        plTipoContingencia.Font.Color := clBlack;
+        application.ProcessMessages;
+
+        {
+
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT  TIME_FORMAT( TIMEDIFF(NOW(),rec.recdthoraentrada),'+QuotedStr('%H:%i')+ '), reccodigo, dateDIFF(NOW(),rec.recdthoraentrada), rec.recdthorasaida  FROM rec where reccodigo='
+          + datetimetostr(now());
+        consulta.Open;
+        }
+
+        vlDataHoraSaida:=  datetimetostr(now());// consulta.FieldByName('recdthorasaida').AsString;
+
+        vlRecCodigo :='0'; // consulta.Fields[1].AsString;
+        vlDiferenca := '00:00:00'; //consulta.Fields[0].AsString;
+
+        vlHoras:=copy(vlDiferenca,1,pos(':',vlDiferenca)-1);
+
+        vlMinutos:=copy(vlDiferenca,pos(':',vlDiferenca)+1,2);
+        vlMinutos:=sonumeros(vlMinutos);
+        vldias := '0';//sonumeros(consulta.Fields[2].AsString);
+
+        Result := false;
+
+        if vlHoras='' then
+           vlHoras:='2';
+
+        if vlMinutos='' then
+          vlMinutos:='35';
+
+                vpEmContingencia:=false;
+        if ((StrToInt(sonumeros(vlHoras))>0) or (StrToInt(sonumeros(vlMinutos))>30))
+           or (StrToInt(vldias)>1) then
+        begin
+          PlStatSefaz.Color := clYellow;
+          if (vlDataHoraSaida='30/12/1899') or (vlDataHoraSaida='') then
+          begin
+            vpEmContingencia := True;
+          end
+          else
+            PlStatSefaz.Color := clGreen;
+        end
+        else
+        begin
+          PlStatSefaz.Color := clYellow;
+          Result := False;
+          exit;
+        end;
+
+        end;
+      end;
+
+
+      if vpEmContingencia then
+      begin
+
+        try
+          LerConfiguracaoNFCe;
+
+          ACBrNFeNFCe.WebServices.StatusServico.Executar;
+
+          MNotificacoes.Lines.Add('Ambiente: ' + TpAmbToStr(ACBrNFeNFCe.WebServices.StatusServico.tpAmb));
+          MNotificacoes.Lines.Add('Versão: ' + ACBrNFeNFCe.WebServices.StatusServico.verAplic);
+          MNotificacoes.Lines.Add('Status: ' + Inttostr(ACBrNFeNFCe.WebServices.StatusServico.cStat));
+          MNotificacoes.Lines.Add('Motivo: ' + ACBrNFeNFCe.WebServices.StatusServico.xMotivo);
+          MNotificacoes.Lines.Add('UF: ' + Inttostr(ACBrNFeNFCe.WebServices.StatusServico.cUF));
+          MNotificacoes.Lines.Add('Data: ' + datetimetostr(ACBrNFeNFCe.WebServices.StatusServico.dhRecbto));
+          MNotificacoes.Lines.Add('Tempo Médio: ' + Inttostr(ACBrNFeNFCe.WebServices.StatusServico.TMed));
+
+          rec.Close;
+          rec.Open;
+
+          if not rec.IsEmpty Then
+          begin
+            rec.edit;
+            recrecdthorasaida.asfloat := Now();
+            rec.Post;
+          end;
+
+          Result := True;
+
+        except
+          on e: Exception do
+          begin
+            vRetornoErro := e.Message;
+            doSaveLog(Extractfilepath(application.ExeName), 'erro de consulta : ' + vRetornoErro);
+            MNotificacoes.Lines.Add(vRetornoErro);
+            Result := false;
+            MNotificacoes.Lines.Clear;
+
+          end;
+        end;
+
+        vlDataAtual := strtodatetime(agora(application, conexao));
+
+        if Result = True then
+        begin
+
+          vpEmContingencia := false;
+
+          PlStatSefaz.Color := clGreen;
+        end
+        else
+        begin
+          MNotificacoes.Lines.Add('Serviço indisponível.');
+          if vRetornoErro <> '' then
+            MNotificacoes.Lines.Add('Mensagem: ' + vRetornoErro);
+
+          if Length(vlxMotivo) > 0 then
+            MNotificacoes.Lines.Add('Mensagem: ' + vlxMotivo);
+
+
+          if rec.IsEmpty then
+          begin
+            rec.Append;
+            recrecdthoraentrada.asfloat := vlDataAtual;
+            recrecmotivo.AsString := 'Falha de comunicação com servidores da SEFAZ.';
+            rec.Post;
+          end;
+
+          vpEmContingencia := True;
+          PlStatSefaz.Color := clRed;
+        end;
+      end
+      else
+      begin
+        plTipoContingencia.Caption := 'NORMAL';
+        plTipoContingencia.Color := clSilver;
+        plTipoContingencia.Font.Color := clBlack;
+        Result := True;
+      end;
+    end;
+
+end;
+
+procedure TfGerContiNFCe.FecharClick(Sender: TObject);
+begin
+
+  relogio.Enabled := false;
+
+  application.Terminate;
+
+end;
+
+procedure TfGerContiNFCe.FormCreate(Sender: TObject);
+
+begin
+
+  vpVersaoExecutavel := GetAppVersionStr(application.ExeName);
+
+  vpNomeMicro := pubNomeComputador;
+
+  vpIPMicro := GetIP;
+
+  CarregaDadosIni;
+
+
+ 
+
+  if pos('new', application.ExeName) > 0 then
+  begin
+    vpMostrar := false;
+  end;
+
+  plTitulo.Caption := 'Gerenciador de Contingências - ' + vpVersaoExecutavel;
+
+
+  ttInicializar.Enabled := True;
+
+end;
+
+function TfGerContiNFCe.GeraNomeArqNFCe(vMesChave: string; vFlaCodigo: String = '1'): string;
+var
+  vlArqNFCe: String;
+  vData: Double;
+  vlCNPJ: String;
+  vlNrNFCe, vlNrSer: Integer;
+  vlUfCod: string;
+begin
+  vlArqNFCe := '';
+
+  try
+
+    (* Tenta encontrar arquivo da NFCe com geração NORMAL *)
+    vlCNPJ := SomenteNumeros(self.cfgetddoc1.AsString);
+    vlUfCod := Copy(self.cfgcddcodigo.AsString, 1, 2);
+
+    vlNrNFCe := NFCeContimesnumero.AsInteger;
+
+    if NFCeContimesserie.AsString <> '' then
+      vlNrSer := NFCeContimesserie.AsInteger
+    else
+      vlNrSer := 1;
+
+    vlCNPJ := SomenteNumeros(vlCNPJ);
+
+    if NFCeContimesemissao.asfloat = 0 then
+      vData := NFCeContimesregistro.asfloat
+    else
+      vData := NFCeContimesemissao.asfloat;
+
+    // nome da nota com emissao normal
+    vlArqNFCe := Copy(vlUfCod, 1, 2);
+    vlArqNFCe := vlArqNFCe + FormatDateTime('yymm', vData);
+    vlArqNFCe := vlArqNFCe + vlCNPJ;
+    vlArqNFCe := vlArqNFCe + '65';
+    vlArqNFCe := vlArqNFCe + formatfloat('000', vlNrSer);
+    vlArqNFCe := vlArqNFCe + formatfloat('000000000', vlNrNFCe);
+    if NFCeContitemcodigo.AsInteger = 50 then
+    begin
+      vlArqNFCe := vlArqNFCe + '9';
+    end
+    else
+    begin
+      vlArqNFCe := vlArqNFCe + '1';
+    end;
+    vlArqNFCe := vlArqNFCe + formatfloat('00000000', NFCeContimescodigonota.AsInteger);
+    vlArqNFCe := vlArqNFCe + Modulo11(trim(vlArqNFCe));
+    // vlArqNFCe := vlArqNFCe + '-nfe.xml';
+
+  finally
+    Result := vlArqNFCe;
+  end;
+end;
+
+procedure TfGerContiNFCe.VerificaStatusSefaz;
+begin
+
+  ConectaBaseLocal;
+
+  if not conexao.Connected then
+  begin
+    Inicializar;
+    LerConfiguracaoNFCe;
+  end;
+
+    if ConsultaStatusSEFAZ then
+    begin
+      LerConfiguracaoNFCe;
+    //  VerificaContigencias;
+    end;
+
+end;
+
+procedure TfGerContiNFCe.Inicializar;
+var
+  I: Integer;
+begin
+
+  if not BancoConectado then
+  begin
+    SHOWMESSAGE('NÃO CONECOTU NO BANCO LOCAL');
+    application.Terminate;
+  end;
+
+  for I := 0 to self.ComponentCount - 1 do
+  begin
+    if self.Components[I] is TUniQuery then
+      (self.Components[I] as TUniQuery).Connection := self.conexao;
+    if self.Components[I] is tunitable then
+      (self.Components[I] as tunitable).Connection := self.conexao;
+  end;
+  cfg.ParamByName('flacodigo').AsString := vpFilial;
+  cfg.Open;
+
+  vpPastaPrincipal := extractfilepath(application.ExeName);
+
+
+
+end;
+procedure TfGerContiNFCe.VerificaeConf;
+var
+  vlMeschaveNfe:string;
+  vlNomeArq:String;
+  vlTipoNota:string;
+  vlMesNota:string;
+begin
+
+ { if ConsultaStatusSEFAZ=false then
+    exit;}
+
+  eco.close;
+  eco.Open;
+
+  while not eco.Eof do
+  begin
+
+    dtl.close;
+    dtl.ParamByName('dtlchave').AsString:=ecodtlchave.AsString;
+    dtl.Open;
+
+    rdc.close;
+    rdc.ParamByName('dtlchave').AsString:=ecodtlchave.AsString;
+    rdc.Open;
+
+    vlMeschaveNfe:=ecoecochavenfe.AsString;
+    vlTipoNota:=copy(vlMeschaveNfe,21,2);
+    vlMesNota:='20'+copy(vlMeschaveNfe,3,4);
+    AjustaCaminhoGeralNF(Date());
+
+    if vlTipoNota='65' then
+    begin
+
+      vlNomeArq:=extractfilepath(application.ExeName) +'arqnfces\'+vlMesNota+'\'+vlMeschaveNfe+'-nfe.xml';
+
+      if fileexists(vlNomeArq) then
+      begin
+        LerConfiguracaoNFCe;
+
+
+        MNotificacoes.Lines.Add(' 1093 arquivo localizado: ' + vlNomeArq);
+
+        ACBrNFeNFCe.NotasFiscais.Clear;
+        ACBrNFeNFCe.NotasFiscais.LoadFromFile(vlNomeArq);
+
+        if ACBrNFeNFCe.NotasFiscais.Count = 0 then
+        begin
+           MNotificacoes.Lines.Add('erro: ' + vlNomeArq);
+          exit;
+        end;
+
+        ACBrNFeNFCe.EventoNFe.Evento.Clear;
+
+        with ACBrNFeNFCe.EventoNFe.Evento.New do
+        begin
+          // Para o Evento de Cancelamento: nSeqEvento sempre = 1
+          infEvento.nSeqEvento := 1;
+          infEvento.chNFe := Copy(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.infNFe.Id, 4, 44);
+          infEvento.CNPJ :=sonumeros( cfgetddoc1.AsString);
+          infEvento.dhEvento :=StrToDatetime(agora(application, conexao));
+          infEvento.cOrgao := 51; // Código do Órgão de recepção deste evento
+          infEvento.tpEvento := teConcFinanceira;
+
+          infEvento.detEvento.verAplic := '1.00';
+
+          with InfEvento.detEvento.detPag.New do
+          begin
+            // ipVista, ipPrazo, ipOutras, ipNenhum
+            indPag := ipVista;
+
+            if dtlmdacodigo.AsInteger=mdaCartaoDebito then
+              tPag := fpCartaoDebito
+            else if dtlmdacodigo.AsInteger=mdaCartaoCredito then
+              tPag := fpCartaoCredito
+            else if dtlmdacodigo.AsInteger=mdaPIX then
+              tPag := fpPagamentoInstantaneo;
+
+            xPag := ''; // Só informar se a forma de pagamento for Outros.
+            vPag := dtldtlvalor.AsCurrency;
+            dPag := Now; // Data do Pagamento
+            CNPJPag := '';
+            UFPag := '';
+            {
+             CNPJ da instituição financeira, de pagamento, adquirente ou subadquirente.
+            }
+            CNPJIF := ecoecocnpjif.AsString;
+            {
+             Bandeira da operadora de cartão
+
+             bcVisa, bcMasterCard, bcAmericanExpress, bcSorocred, bcDinersClub,
+             bcElo, bcHipercard, bcAura, bcCabal, bcAlelo, bcBanesCard,
+             bcCalCard, bcCredz, bcDiscover, bcGoodCard, bcGreenCard,
+             bcHiper, bcJcB, bcMais, bcMaxVan, bcPolicard, bcRedeCompras,
+             bcSodexo, bcValeCard, bcVerocheque, bcVR, bcTicket,
+             bcOutros
+            }
+
+
+            case rdc.FieldByName('bdccodigo').AsInteger of
+                1:TBand:= bcVisa;
+                2:TBand:= bcMasterCard;
+                3:TBand:= bcAmericanExpress;
+                4:TBand:= bcSorocred;
+                5:TBand:= bcDinersClub;
+                6:TBand:= bcElo;
+                7:TBand:= bcHipercard;
+                8:TBand:= bcAura;
+                9:TBand:= bcCabal;
+                10:TBand:= bcAlelo;
+                11:TBand:= bcBanesCard;
+                12:TBand:= bcCalCard;
+                13:TBand:= bcCredz;
+                14:TBand:= bcDiscover;
+                15:TBand:= bcGoodCard;
+                16:TBand:= bcGreenCard;
+                17:TBand:= bcHiper;
+                18:TBand:= bcJcB;
+                19:TBand:= bcMais;
+                20:TBand:= bcMaxVan;
+                21:TBand:= bcPolicard;
+                22:TBand:= bcRedeCompras;
+                23:TBand:= bcSodexo;
+                24:TBand:= bcValeCard;
+                25:TBand:= bcVerocheque;
+                26:TBand:= bcVR;
+                27:TBand:= bcTicket;
+             10014:TBand:= 	bcDiscover;
+             20001:TBand:= 	bcMasterCard;
+             20002:TBand:= 	bcVisa;
+             20137:TBand:= 	bcMasterCard;
+                99:TBand:= bcOutros;
+            end;
+
+            {
+             Número de autorização da operação com cartões, PIX, boletos e
+             outros pagamentos eletrônicos
+            }
+            cAut := rdcrdcnrauto.AsString;
+
+            {
+             Informar o CNPJ do estabelecimento beneficiário do pagamento
+            }
+
+            CNPJReceb :=sonumeros(cfgetddoc1.AsString);
+            {
+             UF do CNPJ do estabelecimento beneficiário do pagamento
+            }
+
+            UFReceb := cfgufssigla.AsString;
+          end;
+
+        end;
+
+
+        ACBrNFeNFCe.EnviarEvento(ecoecoseqevento.AsInteger);
+
+        MNotificacoes.Lines.Text := ACBrNFeNFCe.WebServices.EnvEvento.RetWS;
+        MNotificacoes.Lines.Text := ACBrNFeNFCe.WebServices.EnvEvento.RetornoWS;
+
+
+
+        MNotificacoes.Lines.Add('');
+        MNotificacoes.Lines.Add('Retorno do Evento');
+        MNotificacoes.Lines.Add('');
+        MNotificacoes.Lines.Add('Id.........: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+        MNotificacoes.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+        MNotificacoes.Lines.Add('verAplic...: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+        MNotificacoes.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+        MNotificacoes.Lines.Add('cStat......: ' + IntToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+        MNotificacoes.Lines.Add('xMotivo....: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+        MNotificacoes.Lines.Add('chNFe......: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+        MNotificacoes.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+        MNotificacoes.Lines.Add('xEvento....: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+        MNotificacoes.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+        MNotificacoes.Lines.Add('CNPJDest...: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+        MNotificacoes.Lines.Add('emailDest..: ' + ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+        MNotificacoes.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+        MNotificacoes.Lines.Add('Protocolo..: '+ ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+
+        if ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat=135 then
+        begin
+          eco.edit;
+          ecoecodhregistroevento.AsString:=DateTimeToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento);
+          ecoecoprotocolo.asstring:=ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt;
+          eco.Post;
+        end;
+
+      end
+      else
+        exit;
+
+    end
+    else  if vlTipoNota='55' then
+    begin
+
+      vlNomeArq:=extractfilepath(application.ExeName) +'arqnfes\'+vlMesNota+'\'+vlMeschaveNfe+'-nfe.xml';
+
+      if fileexists(vlNomeArq) then
+      begin
+        LerConfiguracaoNFe;
+
+        MNotificacoes.Lines.Add(' 1093 arquivo localizado: ' + vlNomeArq);
+
+        ACBrNFeNFe.NotasFiscais.Clear;
+        ACBrNFeNFe.NotasFiscais.LoadFromFile(vlNomeArq);
+
+        if ACBrNFeNFe.NotasFiscais.Count = 0 then
+        begin
+           MNotificacoes.Lines.Add('erro: ' + vlNomeArq);
+          exit;
+        end;
+
+        ACBrNFeNFe.EventoNFe.Evento.Clear;
+
+
+        with ACBrNFeNFe.EventoNFe.Evento.New do
+        begin
+          // Para o Evento de Cancelamento: nSeqEvento sempre = 1
+          infEvento.nSeqEvento := 1;
+          infEvento.chNFe := Copy(ACBrNFeNFe.NotasFiscais.Items[0].NFe.infNFe.Id, 4, 44);
+          infEvento.CNPJ :=sonumeros( cfgetddoc1.AsString);
+          infEvento.dhEvento := now;
+          infEvento.cOrgao := 51; // Código do Órgão de recepção deste evento
+          infEvento.tpEvento := teConcFinanceira;
+
+          infEvento.detEvento.verAplic := '1.00';
+
+          with InfEvento.detEvento.detPag.New do
+          begin
+            // ipVista, ipPrazo, ipOutras, ipNenhum
+            indPag := ipVista;
+
+            if dtlmdacodigo.AsInteger=mdaCartaoDebito then
+              tPag := fpCartaoDebito
+            else if dtlmdacodigo.AsInteger=mdaCartaoCredito then
+              tPag := fpCartaoCredito
+            else if dtlmdacodigo.AsInteger=mdaPIX then
+              tPag := fpPagamentoInstantaneo;
+
+            xPag := ''; // Só informar se a forma de pagamento for Outros.
+            vPag := dtldtlvalor.AsCurrency;
+            dPag := Now; // Data do Pagamento
+            CNPJPag := '';
+            UFPag := '';
+            {
+             CNPJ da instituição financeira, de pagamento, adquirente ou subadquirente.
+            }
+            CNPJIF := ecoecocnpjif.AsString;
+            {
+             Bandeira da operadora de cartão
+
+             bcVisa, bcMasterCard, bcAmericanExpress, bcSorocred, bcDinersClub,
+             bcElo, bcHipercard, bcAura, bcCabal, bcAlelo, bcBanesCard,
+             bcCalCard, bcCredz, bcDiscover, bcGoodCard, bcGreenCard,
+             bcHiper, bcJcB, bcMais, bcMaxVan, bcPolicard, bcRedeCompras,
+             bcSodexo, bcValeCard, bcVerocheque, bcVR, bcTicket,
+             bcOutros
+            }
+
+
+            case rdc.FieldByName('bdccodigo').AsInteger of
+                1:TBand:= bcVisa;
+                2:TBand:= bcMasterCard;
+                3:TBand:= bcAmericanExpress;
+                4:TBand:= bcSorocred;
+                5:TBand:= bcDinersClub;
+                6:TBand:= bcElo;
+                7:TBand:= bcHipercard;
+                8:TBand:= bcAura;
+                9:TBand:= bcCabal;
+                10:TBand:= bcAlelo;
+                11:TBand:= bcBanesCard;
+                12:TBand:= bcCalCard;
+                13:TBand:= bcCredz;
+                14:TBand:= bcDiscover;
+                15:TBand:= bcGoodCard;
+                16:TBand:= bcGreenCard;
+                17:TBand:= bcHiper;
+                18:TBand:= bcJcB;
+                19:TBand:= bcMais;
+                20:TBand:= bcMaxVan;
+                21:TBand:= bcPolicard;
+                22:TBand:= bcRedeCompras;
+                23:TBand:= bcSodexo;
+                24:TBand:= bcValeCard;
+                25:TBand:= bcVerocheque;
+                26:TBand:= bcVR;
+                27:TBand:= bcTicket;
+             10014:TBand:= 	bcDiscover;
+             20001:TBand:= 	bcMasterCard;
+             20002:TBand:= 	bcVisa;
+             20137:TBand:= 	bcMasterCard;
+                99:TBand:= bcOutros;
+            end;
+
+            {
+             Número de autorização da operação com cartões, PIX, boletos e
+             outros pagamentos eletrônicos
+            }
+            cAut := rdcrdcnrauto.AsString;
+
+            {
+             Informar o CNPJ do estabelecimento beneficiário do pagamento
+            }
+
+            CNPJReceb :=sonumeros(cfgetddoc1.AsString);
+            {
+             UF do CNPJ do estabelecimento beneficiário do pagamento
+            }
+
+            UFReceb := cfgufssigla.AsString;
+          end;
+
+        end;
+
+
+        ACBrNFeNFe.EnviarEvento(ecoecoseqevento.AsInteger);
+
+        MNotificacoes.Lines.Text := ACBrNFeNFe.WebServices.EnvEvento.RetWS;
+        MNotificacoes.Lines.Text := ACBrNFeNFe.WebServices.EnvEvento.RetornoWS;
+
+        MNotificacoes.Lines.Add('');
+        MNotificacoes.Lines.Add('Retorno do Evento');
+        MNotificacoes.Lines.Add('');
+        MNotificacoes.Lines.Add('Id.........: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+        MNotificacoes.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+        MNotificacoes.Lines.Add('verAplic...: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+        MNotificacoes.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+        MNotificacoes.Lines.Add('cStat......: ' + IntToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+        MNotificacoes.Lines.Add('xMotivo....: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+        MNotificacoes.Lines.Add('chNFe......: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+        MNotificacoes.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+        MNotificacoes.Lines.Add('xEvento....: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+        MNotificacoes.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+        MNotificacoes.Lines.Add('CNPJDest...: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+        MNotificacoes.Lines.Add('emailDest..: ' + ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+        MNotificacoes.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+        MNotificacoes.Lines.Add('Protocolo..: '+ ACBrNFeNFe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+
+        if ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat=135 then
+        begin
+          eco.edit;
+          ecoecodhregistroevento.AsString:=DateTimeToStr(ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento);
+          ecoecoprotocolo.asstring:=ACBrNFeNFCe.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt;
+          eco.Post;
+        end;
+
+
+      end
+      else
+        exit;
+
+    end;
+
+
+
+    eco.Next;
+  end;
+
+end;
+
+procedure TfGerContiNFCe.VerificaContigencias;
+begin
+
+  plUltimaverificacao.Caption := agora(application, conexao);
+
+  LerConfiguracaoNFCe;
+
+  if VerificaPeridoAtivo then
+  begin
+    MNotificacoes.Lines.Add('Criado e ajustado periodo ativo!');
+  end;
+
+  spd.Close;
+  spd.Open;
+
+  if spd.IsEmpty then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'update spd set spdativo=1 ORDER BY spdchave desc limit 1';
+    consulta.ExecSQL;
+
+  end;
+
+  spd.Close;
+  spd.Open;
+
+
+  MNotificacoes.Lines.Add('VAI CONSULTA SEFAZ');
+
+   ConsultaStatusSEFAZ;
+
+  // mes atual
+
+  vpDataAtual := spd.FieldByName('spddatafinal').AsString;
+  MNotificacoes.Lines.Add('1067 - Vai ajustar Caminho: ' + vpDataAtual);
+  AjustaCaminhoGeralNF(StrToDate(Copy(vpDataAtual, 1, 10)));
+  MNotificacoes.Lines.Add('INICIANDO VERIFICACAO');
+  VerificaNFCeContingencia;
+
+
+  // mes anterior
+
+  vpDataAtual :=datetostr(IncDay(spd.FieldByName('spddatafinal').AsDateTime,-1));
+  MNotificacoes.Lines.Add('1076 - Vai ajustar Caminho: ' + vpDataAtual);
+  AjustaCaminhoGeralNF(StrToDate(Copy(vpDataAtual, 1, 10)));
+  MNotificacoes.Lines.Add('INICIANDO VERIFICACAO MES ANTERIOR');
+  VerificaNFCeContingencia;
+
+
+end;
+
+procedure TfGerContiNFCe.ReenviaNFCeContingencia(vMesChave: Integer; vChaveNFCe: String; vEmissaoNFCe: TDate; vConsultaNFCe: Boolean = false);
+
+const
+  PESO = '4329876543298765432987654329876543298765432';
+var
+  VaaaammNFCe: String;
+  vArqNFCe: String;
+  vArqNFCeConti: string;
+  VProtocoloNFe: String;
+  vlCStat: Integer;
+  vlxMotivo: String;
+  vlDataEmissao: TDate;
+  vlHoraEmissao: TTime;
+  vRetornoErro: String;
+  vNovaChave: String;
+
+  retorno: String;
+  arq: String;
+  vlpesquisa: string;
+
+  searchResult: TSearchRec;
+  vlNovaChave: string;
+  vlChaveAntiga: string;
+  I, j, Digito: Integer;
+  vlChaveRetornada: string;
+  vArqNFCeContiNovo: string;
+
+  vldhRecbto: tdatetime;
+  vlData: string;
+
+  vlNOvachaveNFCE: string;
+  VLKWY: string;
+
+  vdtNFe: String;
+  vhrNFe: String;
+  vemiNFe: String;
+  vlnumero:Integer;
+
+begin
+
+  vlCStat := 0;
+  vRetornoErro := '';
+
+  AjustaCaminhoGeralNF(vEmissaoNFCe);
+  VaaaammNFCe := vpPastaPrincipal + 'arqnfces' + '\' + FormatDateTime('yyyymm', vEmissaoNFCe);
+
+  vlNOvachaveNFCE := Copy(GeraNomeArqNFCe(Inttostr(vMesChave), '1'), 1, 26) + formatfloat('00000000', NFCeContimesnumero.AsInteger) + '1' +
+    formatfloat('00000000', NFCeContimescodigonota.AsInteger);
+  VLKWY := Modulo11(vlNOvachaveNFCE);
+  vlNOvachaveNFCE := vlNOvachaveNFCE + VLKWY;
+
+  vArqNFCe := VaaaammNFCe + '\' + trim(vChaveNFCe) + '-nfe.xml';
+
+  if ((NFCeContitemcodigo.AsInteger = 50) or (NFCeContitemcodigo.AsInteger = 4)) then
+  begin
+
+   { if not fileexists(vArqNFCe) then
+    begin
+      vlnumero:=strtoint(FormatDateTime('yyyymm', vEmissaoNFCe))-1;
+      vArqNFCe:=extractfilepath(application.ExeName)+'arqnfces\'+Inttostr(vlnumero)+'\'+ trim(vChaveNFCe) + '-nfe.xml';
+
+      MNotificacoes.Lines.Add(' 1286 verificando mes anterior, novo caminho: ' + vArqNFCe);
+
+    end;}
+
+
+    if fileexists(vArqNFCe) then
+    begin
+      MNotificacoes.Lines.Add(' 1057 arquivo localizado: ' + vArqNFCe);
+
+      ACBrNFeNFCe.NotasFiscais.Clear;
+      ACBrNFeNFCe.NotasFiscais.LoadFromFile(vArqNFCe);
+
+      if ACBrNFeNFCe.NotasFiscais.Count = 0 then
+      begin
+
+        MNotificacoes.Lines.Add('erro: ' + vArqNFCe);
+        vlCStat := 0;
+        exit;
+
+      end;
+      vlNovaChave := Copy(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.infNFe.ID, 4, 35) + IntToStrZero(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.cNF, 8);
+
+
+      try
+        ACBrNFeNFCe.Consultar;
+        vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+        vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+        vldhRecbto := ACBrNFeNFCe.WebServices.consulta.dhRecbto;
+        vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi;
+        MNotificacoes.Lines.Add('Chave: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Status: ' + Inttostr(vlCStat));
+
+      except
+        vlCStat := 0;
+        sleep(1000);
+        try
+          ACBrNFeNFCe.Consultar;
+          vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+          vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+          vldhRecbto := ACBrNFeNFCe.WebServices.consulta.dhRecbto;
+          vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi;
+
+          MNotificacoes.Lines.Add('Chave: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Status: ' + Inttostr(vlCStat));
+
+        except
+          vlCStat := 0;
+          exit;
+        end;
+      end;
+
+      if (vlCStat = 613) then
+      begin
+        MNotificacoes.Lines.Add('Nova Chave: ' + vlxMotivo);
+        if (SoNumeros(vlxMotivo)<>'') and (Length(SoNumeros(vlxMotivo))>30) then
+        begin
+          NFCeConti.edit;
+          NFCeContimeschavenfe.AsString := SoNumeros(vlxMotivo);
+          NFCeConti.Post;
+        end;
+        vlCStat := 0;
+        MNotificacoes.Lines.Add('613 - Mudou a chava para : ' + NFCeContimeschavenfe.AsString);
+
+      end;
+
+      if (vlCStat = 562) then
+      begin
+        MNotificacoes.Lines.Add('Nova Chave: ' + vlxMotivo);
+        if (SoNumeros(vlxMotivo)<>'') and (Length(SoNumeros(vlxMotivo))>30) then
+        begin
+          NFCeConti.edit;
+          NFCeContimeschavenfe.AsString := SoNumeros(vlxMotivo);
+          NFCeConti.Post;
+        end;
+        vlCStat := 0;
+      end;
+
+      if (vlCStat = 561) and (NFCeContitemcodigo.AsInteger = 50) then
+      begin
+        vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+        MNotificacoes.Lines.Add('Chave: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Motivo: ' + vlxMotivo);
+      end
+      else if ((vlCStat = 217) and ((NFCeContitemcodigo.AsInteger = 50) or (NFCeContitemcodigo.AsInteger = 4))) or
+        ((NFCeContitemcodigo.AsInteger = 5) and (NFCeContimesprotocolo.AsString = '')) then
+      begin
+        if ((vlCStat = 217) and ((NFCeContitemcodigo.AsInteger = 50) or (NFCeContitemcodigo.AsInteger = 4))) then
+        begin
+
+          MNotificacoes.Lines.Add('Esta em contigencia, vai enviar: ' + vArqNFCe);
+
+          try
+            if NFCeContitemcodigo.AsInteger = 50 then
+            begin
+              ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dhCont := now();
+
+            end;
+            if NFCeContitemcodigo.AsInteger = 4 then
+            begin
+              ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi := now();
+            end;
+
+
+            if ACBrNFeNFCe.Enviar(1, false, True, false) then
+            begin
+
+              sleep(1000);
+
+              try
+                ACBrNFeNFCe.Consultar;
+
+                vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+                vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+                VProtocoloNFe := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.NProt;
+                vlDataEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+                vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+                vldhRecbto := ACBrNFeNFCe.WebServices.consulta.dhRecbto;
+
+              except
+                vlCStat := 0;
+                exit;
+              end;
+
+              MNotificacoes.Lines.Add('Resultado do Envio: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Status: ' + Inttostr(vlCStat));
+
+              if (vlCStat = 100) or (vlCStat = 150) then
+              begin
+
+                if (vlCStat = 150) then
+                begin
+                  vdtNFe := Copy(datetimetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto), 1, 10);
+                  vhrNFe := timetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto);
+                  vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+                end
+                else
+                begin
+                  vdtNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+                  vhrNFe := timetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi);
+                  vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+                end;
+
+                consulta.Close;
+                consulta.SQL.Text := 'UPDATE mes SET ';
+                consulta.SQL.Add('tdfcodigo = ''65'', ');
+
+                if vemiNFe <> '' then
+                  consulta.SQL.Add('mesdatanfe = ''' + ajustadata(vemiNFe) + ''', ');
+
+                if vdtNFe <> '' then
+                  consulta.SQL.Add('mesregistro = ''' + ajustadata(vdtNFe) + ''', ');
+
+                consulta.SQL.Add('meshoranfe = ''' + vhrNFe + ''', ');
+                consulta.SQL.Add('mesprotocolo = ''' + VProtocoloNFe + ''', ');
+                consulta.SQL.Add('temcodigo = 5 ');
+                consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+                consulta.ExecSQL;
+
+              end;
+
+            end;
+
+          except
+            on e: Exception do
+            begin
+              vRetornoErro := e.Message;
+              MNotificacoes.Lines.Add('1335 Erro:' + vRetornoErro);
+
+              if (pos('Rejeicao:', vRetornoErro) > 0) or (pos('TAG:', vRetornoErro) > 0) or (pos('Falha', vRetornoErro) > 0) then
+              begin
+                consulta.Close;
+                consulta.SQL.Text := 'UPDATE mes SET ';
+                consulta.SQL.Add('temcodigo = 4 ');
+                consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+                consulta.ExecSQL;
+              end;
+
+             exit;
+            end;
+          end;
+
+        end
+        else if ((NFCeContitemcodigo.AsInteger = 5) and (NFCeContimesprotocolo.AsString = '')) then
+        begin
+
+          sleep(1000);
+          try
+            ACBrNFeNFCe.Consultar;
+
+            vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+            vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+            VProtocoloNFe := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.NProt;
+            vlDataEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+            vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+            vldhRecbto := ACBrNFeNFCe.WebServices.consulta.dhRecbto;
+
+          except
+            vlCStat := 0;
+            exit;
+          end;
+          MNotificacoes.Lines.Add('Resultado do Envio: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Status: ' + Inttostr(vlCStat));
+
+          if (vlCStat = 100) or (vlCStat = 150) then
+          begin
+
+            if (vlCStat = 150) then
+            begin
+              vdtNFe := Copy(datetimetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto), 1, 10);
+              vhrNFe := timetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto);
+              vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+            end
+            else
+            begin
+              vdtNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+              vhrNFe := timetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi);
+              vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+            end;
+
+            consulta.Close;
+            consulta.SQL.Text := 'UPDATE mes SET ';
+            consulta.SQL.Add('tdfcodigo = ''65'', ');
+
+            if vemiNFe <> '' then
+              consulta.SQL.Add('mesdatanfe = ''' + ajustadata(vemiNFe) + ''', ');
+
+            if vdtNFe <> '' then
+              consulta.SQL.Add('mesregistro = ''' + ajustadata(vdtNFe) + ''', ');
+
+            consulta.SQL.Add('meshoranfe = ''' + vhrNFe + ''', ');
+            consulta.SQL.Add('mesprotocolo = ''' + VProtocoloNFe + ''', ');
+            consulta.SQL.Add('temcodigo = 5 ');
+            consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+            consulta.ExecSQL;
+
+          end;
+
+        end;
+
+      end
+      else if (vlCStat = 100) or (vlCStat = 150) then
+      begin
+
+        // ACBrNFeNFCe.Consultar;
+
+        vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+        vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+        VProtocoloNFe := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.NProt;
+        vlData := datetimetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto);
+        vlData := Copy(vlData, 1, 10);
+
+        vlDataEmissao := StrToDate(vlData);
+        vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+
+        vldhRecbto := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+
+        if (vlCStat = 150) then
+        begin
+          vdtNFe := Copy(datetimetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto), 1, 10);
+          vhrNFe := timetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto);
+          vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+        end
+        else
+        begin
+          vdtNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+          vhrNFe := timetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi);
+          vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+        end;
+
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE mes SET ';
+        consulta.SQL.Add('tdfcodigo = ''65'', ');
+
+        if vemiNFe <> '' then
+          consulta.SQL.Add('mesdatanfe = ''' + ajustadata(vemiNFe) + ''', ');
+
+        if vdtNFe <> '' then
+          consulta.SQL.Add('mesregistro = ''' + ajustadata(vdtNFe) + ''', ');
+
+        consulta.SQL.Add('meshoranfe = ''' + vhrNFe + ''', ');
+        consulta.SQL.Add('mesprotocolo = ''' + VProtocoloNFe + ''', ');
+        consulta.SQL.Add('temcodigo = 5 ');
+        consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+        consulta.ExecSQL;
+
+      end;
+
+    end
+    else
+    begin
+
+
+      MNotificacoes.Lines.Add('Não achou: ' + vArqNFCe);
+
+     { consulta.Close;
+      consulta.SQL.Text := 'UPDATE mes SET ';
+      consulta.SQL.Add('temcodigo = 4 ');
+      consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+      consulta.ExecSQL;}
+
+    end;
+
+
+
+  end
+  else
+  begin
+    if ((NFCeContitemcodigo.AsInteger = 5) and (NFCeContimesprotocolo.AsString = '')) then
+    begin
+      MNotificacoes.Lines.Add('Vai consulta: ' + vArqNFCe + ' Protocolo: ' + NFCeContimesprotocolo.AsString);
+
+      if fileexists(vArqNFCe) then
+      begin
+
+        ACBrNFeNFCe.NotasFiscais.Clear;
+        ACBrNFeNFCe.NotasFiscais.LoadFromFile(vArqNFCe);
+
+        if ACBrNFeNFCe.NotasFiscais.Count = 0 then
+        begin
+
+          MNotificacoes.Lines.Add('erro: ' + vArqNFCe);
+          vlCStat := 0;
+          exit;
+
+        end;
+      end;
+
+      sleep(1000);
+      try
+
+        ACBrNFeNFCe.Consultar;
+
+        vlCStat := ACBrNFeNFCe.WebServices.consulta.cStat;
+        vlxMotivo := ACBrNFeNFCe.WebServices.consulta.xMotivo;
+        VProtocoloNFe := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.NProt;
+        vlDataEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+        vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+        vldhRecbto := ACBrNFeNFCe.WebServices.consulta.dhRecbto;
+
+        vlData := datetimetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto);
+        vlData := Copy(vlData, 1, 10);
+
+        vlDataEmissao := StrToDate(vlData);
+        vlHoraEmissao := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+
+        vldhRecbto := ACBrNFeNFCe.NotasFiscais.Items[0].NFe.ProcNFe.dhRecbto;
+
+      except
+        vlCStat := 0;
+        exit;
+
+      end;
+      MNotificacoes.Lines.Add('Conculta do Envio: ' + vArqNFCe + ' Retorno: ' + vRetornoErro + ' Status: ' + Inttostr(vlCStat));
+
+      if (vlCStat = 100) or (vlCStat = 150) then
+      begin
+
+        if (vlCStat = 150) then
+        begin
+          vdtNFe := Copy(datetimetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto), 1, 10);
+          vhrNFe := timetostr(ACBrNFeNFCe.WebServices.consulta.protNFe.dhRecbto);
+          vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+        end
+        else
+        begin
+          vdtNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+          vhrNFe := timetostr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi);
+          vemiNFe := Copy(DateToStr(ACBrNFeNFCe.NotasFiscais.Items[0].NFe.Ide.dEmi), 1, 10);
+        end;
+
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE mes SET ';
+        consulta.SQL.Add('tdfcodigo = ''65'', ');
+
+        if vemiNFe <> '' then
+          consulta.SQL.Add('mesdatanfe = ''' + ajustadata(vemiNFe) + ''', ');
+
+        if vdtNFe <> '' then
+          consulta.SQL.Add('mesregistro = ''' + ajustadata(vdtNFe) + ''', ');
+
+        consulta.SQL.Add('meshoranfe = ''' + vhrNFe + ''', ');
+        consulta.SQL.Add('mesprotocolo = ''' + VProtocoloNFe + ''', ');
+        consulta.SQL.Add('temcodigo = 5 ');
+        consulta.SQL.Add('WHERE meschave = ' + Inttostr(vMesChave));
+        consulta.ExecSQL;
+
+      end;
+
+    end;
+
+  end;
+end;
+
+procedure TfGerContiNFCe.CriaChaveestaativo;
+var
+  vlarq: TStringList;
+begin
+
+  try
+    if not fileexists(extractfilepath(application.ExeName) + LowerCase('miziocontingencia') + '.key') then
+    begin
+      vlarq := TStringList.Create;
+      vlarq.SaveToFile(extractfilepath(application.ExeName) + LowerCase('miziocontingencia') + '.key');
+      vlarq.Free;
+    end;
+  except
+  end;
+end;
+
+procedure TfGerContiNFCe.AJustaNomeExecutavel;
+var
+ FAtualiza:TFormAtualiza;
+begin
+  try
+    try
+      FAtualiza:=TFormAtualiza.Create(self);
+      FAtualiza.AJustaNomeExecutavel;
+    except
+
+    end;
+  finally
+    FAtualiza.Free;
+  end;
+
+end;
+
+
+procedure TfGerContiNFCe.AtualizaExecutavel;
+var
+ FAtualiza:TFormAtualiza;
+begin
+  try
+    try
+      FAtualiza:=TFormAtualiza.Create(self);
+      FAtualiza.AJustaNomeExecutavel;
+      FAtualiza.RemoveVersaoTemporaria(NOME_APLICATIVO);
+      FAtualiza.ConsultaVersaoAtualiza;
+    except
+
+    end;
+  finally
+    FAtualiza.Free;
+  end;
+
+end;
+
+
+procedure TfGerContiNFCe.relogioTimer(Sender: TObject);
+var
+  vlHorario: tdatetime;
+begin
+
+  try
+
+    relogio.Enabled:=false;
+
+    application.MainForm.Visible := vpMostrar;
+
+    CriaChaveestaativo;
+
+    if vpContadorAtualizacao<60 then
+    begin
+
+       vpContadorAtualizacao:=vpContadorAtualizacao+1;
+
+    end
+    else
+    begin
+        MNotificacoes.Lines.Clear;
+        vpContadorAtualizacao:=0;
+        AtualizaExecutavel;
+        VerificaContigencias;
+        LerConfiguracaoNFCe;
+        Verificaeconf;
+
+    end;
+
+    vlHorario := now();
+
+
+    if ((vlHorario >= strtodatetime(Copy(datetimetostr(vlHorario), 1, 10) + ' ' + '10:00:00')) and
+      (vlHorario <= strtodatetime(Copy(datetimetostr(vlHorario), 1, 10) + ' ' + '10:00:02'))) or
+
+      ((vlHorario >= strtodatetime(Copy(datetimetostr(vlHorario), 1, 10) + ' ' + '16:00:00')) and
+      (vlHorario <= strtodatetime(Copy(datetimetostr(vlHorario), 1, 10) + ' ' + '16:00:02'))) then
+    begin
+      doSaveLog(Extractfilepath(application.ExeName), datetimetostr(vlHorario) + ' vai atualizar ncms');
+      AtualizaNCMs;
+      doSaveLog(Extractfilepath(application.ExeName), datetimetostr(vlHorario) + ' Atualizaou ncms');
+      MNotificacoes.Lines.Clear;
+     end;
+
+
+    PnlDataHora.Caption := Copy(timetostr(now()), 1, 10);
+
+    TrimAppMemorySize;
+
+  finally
+     relogio.Enabled:=True;
+  end;
+end;
+
+procedure TfGerContiNFCe.VerificaNFCeContingencia;
+var
+  vlChaveNFCE: string;
+
+begin
+  /// ///////////////////////////////////////////////////////////////////////////////
+  //
+  // Verificação de NFC-es que foram geradas em contingência
+  //
+  /// ///////////////////////////////////////////////////////////////////////////////
+  ///
+  MNotificacoes.Lines.Add('Vai ver se esta em contigencia');
+
+  if not vpEmContingencia then
+  begin
+    MNotificacoes.Lines.Add('Vai conectar no banco');
+
+    BancoConectado;
+
+    if conexao.Connected then
+    begin
+      MNotificacoes.Lines.Add('Vai verificar o periodo');
+
+      MNotificacoes.Lines.Add('vai abrir spd');
+
+      spd.Close;
+      spd.Open;
+
+
+      consulta.Close;
+      consulta.SQL.Text:='update mes set mesregistro=mesemissao where  ( mesregistro='+QuotedStr('1899-12-30') +'  or   mesregistro='+QuotedStr('')+' or mesregistro=null or mesregistro is null ) '+
+                         ' and mes.sdecodigo<>'+QuotedStr('02')+' and mes.temcodigo in (4,50) ';
+
+
+      consulta.ExecSQL;
+
+      MNotificacoes.Lines.Add('1826 ajustou data de registros');
+
+      consulta.Close;
+      consulta.SQL.Text:='update mes set mesdatanfe=mesregistro where mesdatanfe='+QuotedStr('')+' and '+
+                         'mes.tdfcodigo = '+QuotedStr('65')+
+                         ' and mes.sdecodigo<>'+QuotedStr('02')+' and mes.temcodigo in (4,50) ';
+
+      consulta.ExecSQL;
+
+
+
+      NFCeConti.Close;
+      NFCeConti.ParamByName('datainicial').AsDate := IncDay(spd.FieldByName('spddatainicial').asfloat, -10);
+      NFCeConti.ParamByName('datafinal').AsDate := IncDay(spd.FieldByName('spddatafinal').asfloat, +10);
+      NFCeConti.Open;
+
+      MNotificacoes.Lines.Add('Inicio: ' + NFCeConti.ParamByName('datainicial').AsString);
+      MNotificacoes.Lines.Add('Final : ' + NFCeConti.ParamByName('datafinal').AsString);
+
+      MNotificacoes.Lines.Add('');
+      MNotificacoes.Lines.Add('Verificação de NFC-e em contingência iniciada.');
+
+      MNotificacoes.Lines.Add('Total NFC-e(s): ' + Inttostr(NFCeConti.RecordCount));
+
+
+      mostra.Visible:=True;
+      mostra.Max := NFCeConti.RecordCount;
+      mostra.Position := 0;
+
+
+      while not NFCeConti.Eof do
+      begin
+        try
+          sleep(1000);
+
+          MNotificacoes.Lines.Add('Verificando Contigencias: ' + Inttostr(NFCeConti.RecNo) + 'ª NFC-e');
+          MNotificacoes.Lines.Add('            ' + 'Venda: ' + NFCeContimeschave.AsString + ' - Número: ' + NFCeContimesnumero.AsString);
+
+          mostra.Position := mostra.Position + 1;
+          plQtd.Caption := 'Cont: ' + mostra.Position.ToString + ' de ' + mostra.Max.ToString;
+
+
+
+          if NFCeContimeschavenfe.AsString = '' then
+          begin
+            vlChaveNFCE := GeraNomeArqNFCe(NFCeContimeschave.AsString);
+
+
+          end
+          else
+          begin
+            vlChaveNFCE := NFCeContimeschavenfe.AsString;
+          end;
+
+          if (SoNumeros(vlChaveNFCE)<>'') and (Length(SoNumeros(vlChaveNFCE))>30) then
+          begin
+            ReenviaNFCeContingencia(NFCeContimeschave.AsInteger, vlChaveNFCE, NFCeContimesregistro.asfloat, True);
+          end;
+
+        except
+          on e: Exception do
+          begin
+            MNotificacoes.Lines.Add(e.Message);
+          end;
+        end;
+
+        NFCeConti.Next;
+      end;
+      mostra.Visible:=False;
+      MNotificacoes.Lines.Add('');
+      MNotificacoes.Lines.Add('Verificação concluída.');
+      doSaveLog( Extractfilepath(application.ExeName),MNotificacoes.Lines.Text);
+      doSaveLog( Extractfilepath(application.ExeName),datetimetostr(now())+ '**** verificação de contigencia  ****');
+    end;
+
+  end
+  else
+  begin
+    MNotificacoes.Lines.Add(datetimetostr(now())+ ' ESTA EM CONTIGENCIA');
+  end;
+
+end;
+
+
+
+procedure TfGerContiNFCe.ProcessaNotasContigencia;
+var
+  vlHorario: tdatetime;
+  vlVersaoLocal: String;
+  vlVersaoweb: String;
+  vlJsonGab: TJsonObject;
+begin
+
+  if pos('new.', application.ExeName)>0 then
+  begin
+
+    MNotificacoes.Lines.Add('Vai ajustar o nome do executavel');
+
+    AJustaNomeExecutavel;
+
+
+  end
+  else
+  begin
+
+    MNotificacoes.Lines.Add(datetimetostr(now()) + ' Verificou conntigencia');
+
+    plUltimaverificacao.Caption := datetimetostr(now());
+
+    if PingHost('8.8.8.8', 300, 300) then
+    begin
+
+
+      Inicializar;
+      LerConfiguracaoNFCe;
+
+      MNotificacoes.Lines.Add('Vai checar se esta conectato com banco de dados');
+
+      if not conexao.Connected then
+      begin
+        MNotificacoes.Lines.Add('Não esta conectato com banco de dados');
+        BancoConectado;
+        MNotificacoes.Lines.Add('Conectou no banco de dados');
+
+      end;
+
+      // evita que mais de um gerenciador estaja ativo na rede toda
+      try
+        cfg.Close;
+        cfg.ParamByName('flacodigo').AsString := '1';
+        cfg.Open;
+      except
+        try
+          BancoConectado;
+          cfg.Close;
+          cfg.ParamByName('flacodigo').AsString := '1';
+          cfg.Open;
+        except
+          exit;
+
+        end;
+      end;
+
+      plCNPJ.Caption := cfgetddoc1.AsString;
+      plUltimaverificacao.Caption := datetimetostr(now());
+
+
+      vertcg.Close;
+      vertcg.Connection := conexao;
+      vertcg.Open;
+
+      if not conexao.Connected then
+      begin
+
+        Inicializar;
+        LerConfiguracaoNFCe;
+
+      end;
+      plCNPJ.Caption := cfgetddoc1.AsString;
+
+
+      doSaveLog(Extractfilepath(application.ExeName), 'vai verificar contigencia');
+
+      if ConsultaStatusSEFAZ then
+      begin
+
+      //  VerificaContigencias;
+
+      end;
+      doSaveLog(Extractfilepath(application.ExeName), 'notificou contigencia');
+
+      ConectaBaseLocal;
+
+
+    end
+    else
+    begin
+
+      rec.Close;
+      rec.Open;
+
+      if rec.IsEmpty Then
+      begin
+
+        self.rec.Append;
+        self.recrecmotivo.AsString := 'Sem conexao de internet.';
+        self.recrecdthoraentrada.AsDateTime := now;
+        self.recrecmanual.AsInteger := 0;
+        self.rec.Post;
+
+      end;
+
+      doSaveLog(Extractfilepath(application.ExeName), 'Sem internet');
+    end;
+
+
+  end;
+
+
+end;
+
+
+procedure TfGerContiNFCe.ProcessarImportacaoNCMs(vArquivo: string);
+var
+  I: Integer;
+  vlVersao: string;
+begin
+  inherited;
+  try
+    consulta.Close;
+    consulta.SQL.Text := 'delete from tcg';
+    consulta.ExecSQL;
+  except
+  end;
+
+
+  if fileexists(vArquivo) then
+  begin
+
+    vlVersao := extractfilename(vArquivo);
+    vlVersao := ACBrIBPTax1.VersaoArquivo;
+
+    tcg.Open;
+    ACBrIBPTax1.AbrirTabela(vArquivo);
+    mostra.Max := ACBrIBPTax1.Itens.Count;
+
+    MNotificacoes.Lines.Add('Vai importar o arquivo de NCMs: ' + vArquivo);
+
+    mostra.Visible := True;
+    mostra.Position := 0;
+
+
+    MNotificacoes.Lines.Add('Carrgado o arquivo e identificado ' + ACBrIBPTax1.Itens.Count.ToString + ' NCMs a importar');
+
+    for I := 0 to ACBrIBPTax1.Itens.Count - 1 do
+    begin
+
+      mostra.Position := I;
+      plQtd.Caption := mostra.Position.ToString + ' de ' + mostra.Max.ToString;
+
+
+      tcg.Append;
+      tcgtcgncm.AsString := SoNumeros(ACBrIBPTax1.Itens[I].NCM);
+      tcgtcgex.AsString := ACBrIBPTax1.Itens[I].Excecao;
+      tcgtcgtabela.AsInteger := Integer(ACBrIBPTax1.Itens[I].Tabela);
+      tcgtcgaliqnac.asfloat := ACBrIBPTax1.Itens[I].FederalNacional;
+      tcgtcgaliqimp.asfloat := ACBrIBPTax1.Itens[I].FederalImportado;
+      tcgtcgaliqest.asfloat := ACBrIBPTax1.Itens[I].Estadual;
+      tcgtcgaliqmun.asfloat := ACBrIBPTax1.Itens[I].Municipal;
+      tcgtcginicio.asfloat := ACBrIBPTax1.VigenciaInicio;
+      tcgtcgfinal.asfloat := ACBrIBPTax1.VigenciaFim;
+      tcgtcgversao.AsString := ACBrIBPTax1.VersaoArquivo;
+      tcgtcgdescricao.AsString := UpperCase(ACBrIBPTax1.Itens[I].Descricao);
+
+      tcgtcgversao.AsString := vlVersao;
+      tcg.Post;
+
+    end;
+
+    mostra.Visible:=False;
+
+  end;
+end;
+
+
+
+
+procedure TfGerContiNFCe.ConectaBaseLocal;
+begin
+
+  CarregaDadosIni;
+
+  if BancoConectado then
+  begin
+
+    cfg.Close;
+    cfg.ParamByName('flacodigo').AsString := '1';
+    cfg.Open;
+
+    cfg.Open;
+
+    TrayIcon.BalloonTitle := 'Mizio Contingência - ' + cfgetdapelido.AsString;
+    TrayIcon.BalloonHint := 'Mizio Contingência - ' + cfgetdapelido.AsString;
+    TrayIcon.Hint := 'Mizio Contingência - ' + cfgetdapelido.AsString;
+
+  end;
+end;
+
+
+function TfGerContiNFCe.VerificaPeridoAtivo: Boolean;
+Var
+  IniFile: String;
+  Ini: TInifile;
+  ok: Boolean;
+  vlPrograma: string;
+  vlAno: String;
+  vlprimeirodia: String;
+  vlultimodia: String;
+  vlUltimoBalanco: String;
+
+Begin
+  Result := false;
+  consulta.Close;
+
+  consulta.SQL.Text :=
+    'SELECT  YEAR(NOW()) ano,  DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY) primero,   LAST_DAY(CURDATE()) ultimo ';
+  consulta.Open;
+
+  vlAno := consulta.FieldByName('ano').AsString;
+
+  vlprimeirodia := consulta.FieldByName('primero').AsString;
+  vlultimodia := consulta.FieldByName('ultimo').AsString;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT  max(spddatabalanco) balanco from spd ';
+  consulta.Open;
+
+  vlUltimoBalanco := consulta.FieldByName('balanco').AsString;
+
+  if not verspd.Active then
+  begin
+    verspd.Open;
+  end;
+
+  if not verspd.Locate('spddatainicial;spddatafinal', VarArrayOf([vlprimeirodia, vlultimodia]), []) then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'update spd set spdativo=0';
+    consulta.ExecSQL;
+
+    verspd.Append;
+    verspdspdexercicio.AsString := vlAno;
+    verspdspddatainicial.AsString := vlprimeirodia;
+    verspdspddatafinal.AsString := vlultimodia;
+    verspdspddatabalanco.AsString := vlUltimoBalanco;
+    verspdpcccodigo.AsString := '1.01.03.01.01';
+    verspdspdativo.AsInteger := 1;
+    verspdspdmotivoinv.AsString := '01';
+    verspdspdvalortotal.asfloat := 0;
+    verspdspdarquivo.AsString := '';
+    verspdflacodigo.AsInteger := 1;
+    verspdspdregistro.AsDateTime := now;
+    verspdspdaliquotasimples.asfloat := 0;
+    verspd.Post;
+
+    Result := True;
+  end;
+end;
+
+
+
+
+
+end.

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/06/21 09:59:47.000.934,=ACBr_Integrador.dcp</Transaction>
+    <Transaction>2024/06/21 09:59:47.000.824,=inet.dcp</Transaction>
+    <Transaction>2024/06/21 09:59:47.000.981,=ACBr_PCNComum.dcp</Transaction>
+    <Transaction>2024/06/21 09:59:47.000.778,=soaprtl.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

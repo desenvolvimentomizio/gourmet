@@ -1,0 +1,1144 @@
+unit uftransacaoTEFAPI;
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.TypInfo,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ComCtrls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  ACBrTEFComum,
+  ACBrTEFAPI,
+  ACBrBase,
+  ACBrTEFAPIComum,
+  uRecordsTEF,
+  uDadosVendaTEF;
+
+const
+  // Tipo Transação TEF
+  ConstProcesTEFPagamento = 1;
+  ConstProcesTEFCancelamento = 2;
+  ConstProcesTEFAtiva = 0;
+  ConstProcesTEFChamaMenuADM = 99999;
+
+
+type
+
+  TTipoBotaoOperacao = (bopNaoExibir, bopCancelarVenda, bopLiberarCaixa, bopCancelarEsperaTEF);
+
+
+type
+  TftransacaoTEFAPI = class(TForm)
+    ACBrTEF: TACBrTEFAPI;
+    Panel1: TPanel;
+    bCancelarResp: TButton;
+    pMensagem: TPanel;
+    pMensagemOperador: TPanel;
+    lMensagemOperador: TLabel;
+    Panel9: TPanel;
+    StatusBar: TStatusBar;
+    Panel2: TPanel;
+    mLog: TMemo;
+    pStatus: TPanel;
+    pMensagemCliente: TPanel;
+    Panel4: TPanel;
+    lMensagemCliente: TLabel;
+    TimerProcessaTransacao: TTimer;
+    procedure ACBrTEFQuandoDetectarTransacaoPendente(RespostaTEF: TACBrTEFResp; const MsgErro: string);
+    procedure ACBrTEFQuandoEsperarOperacao(OperacaoAPI: TACBrTEFAPIOperacaoAPI; var Cancelar: Boolean);
+    procedure ACBrTEFQuandoExibirMensagem(const Mensagem: string; Terminal: TACBrTEFAPITela; MilissegundosExibicao: Integer);
+    procedure ACBrTEFQuandoExibirQRCode(const DadosQRCode: string);
+    procedure ACBrTEFQuandoFinalizarOperacao(RespostaTEF: TACBrTEFResp);
+    procedure ACBrTEFQuandoFinalizarTransacao(RespostaTEF: TACBrTEFResp; AStatus: TACBrTEFStatusTransacao);
+    procedure ACBrTEFQuandoGravarLog(const ALogLine: string; var Tratado: Boolean);
+    procedure ACBrTEFQuandoPerguntarCampo(DefinicaoCampo: TACBrTEFAPIDefinicaoCampo; var Resposta: string; var Validado, Cancelado: Boolean);
+    procedure ACBrTEFQuandoPerguntarMenu(const Titulo: string; Opcoes: TStringList; var ItemSelecionado: Integer);
+    procedure TimerProcessaTransacaoTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+    vTipoProcessamento: Integer;
+
+    FCanceladoPeloOperador: Boolean;
+    FTempoDeEspera: TDateTime;
+    vCancelado: Boolean;
+    vOperacaoTEF: TOperacaoTEF;
+
+    vConfiguracaoTEF: TConfiguracaoTEF;
+
+    FVenda: TVenda;
+    FTipoBotaoOperacao: TTipoBotaoOperacao;
+
+    procedure AdicionarLinhaLog(AMensagem: String);
+
+    function GetStatusVenda: TStatusVenda;
+    procedure SetStatusVenda(const AValue: TStatusVenda);
+
+    procedure SetTipoBotaoOperacao(const AValue: TTipoBotaoOperacao);
+
+    procedure TratarException(Sender: TObject; E: Exception);
+    procedure MensagemTEF(const MsgOperador, MsgCliente: String);
+    function ObterCPF: String;
+    procedure cancelarOperacaoTEF;
+    procedure Cancelamento;
+    procedure Pagamento;
+    function AtivarConexaoTEF(vConfiguracaoTEF: TConfiguracaoTEF): Boolean;
+
+    function CarregaConfiguracoesTEF(vConfiguracoesTEF: TConfiguracaoTEF): TConfiguracaoTEF;
+    procedure ConfigurarTEFAPI;
+    procedure Ativa(vConfiguracaoTEF: TConfiguracaoTEF);
+    procedure ChamaMenu(vConfiguracaoTEF: TConfiguracaoTEF);
+
+  public
+    { Public declarations }
+    vpMensagemPermanente: String;
+    procedure ChamaMenuADM(vConfiguracaoTEF: TConfiguracaoTEF);
+    function ProcessaPagamento(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+    function ProcessaCancelamento(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+    function VerificaTransacaoPendente(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+    function AtivaTEF:boolean;
+    procedure Mensagem(aTexto:string; vConfiguracaoTEF: TConfiguracaoTEF);
+    procedure MensagemPinPag(aTexto: String; vConfiguracaoTEF: TConfiguracaoTEF);
+    function IncluirPagamento(AValor: Double; aCodFormaPagamento: Integer): Boolean;
+    procedure AdicionarPagamento(const Indice: String; AValor: Double);
+
+
+  published
+
+    property StatusVenda: TStatusVenda read GetStatusVenda write SetStatusVenda;
+    property TipoBotaoOperacao: TTipoBotaoOperacao read FTipoBotaoOperacao write SetTipoBotaoOperacao;
+
+    property Venda: TVenda read FVenda;
+
+  end;
+
+var
+  ftransacaoTEFAPI: TftransacaoTEFAPI;
+
+implementation
+
+uses
+  frExibeMensagem, dateutils, math, strutils,
+  ACBrUtil,
+  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, frObtemCampo, frMenuTEF;
+
+{$R *.dfm}
+{ TftransacaoTEFAPI }
+
+function AtivaTEF:boolean;
+var
+  ftransacaoTEFAPI: TftransacaoTEFAPI;
+begin
+  try
+
+    ftransacaoTEFAPI := TftransacaoTEFAPI.Create(application);
+    ftransacaoTEFAPI.vCancelado := False;
+    ftransacaoTEFAPI.ConfigurarTEFAPI;
+    ftransacaoTEFAPI.vTipoProcessamento := ConstProcesTEFAtiva;
+
+    if ftransacaoTEFAPI.ShowModal=mrok then
+      result:=True
+    else
+      result:=False;
+
+  finally
+    FreeAndNil(ftransacaoTEFAPI);
+  end;
+
+end;
+
+
+procedure TftransacaoTEFAPI.ChamaMenuADM(vConfiguracaoTEF: TConfiguracaoTEF);
+var
+  ftransacaoTEFAPI: TftransacaoTEFAPI;
+begin
+  try
+    ftransacaoTEFAPI := TftransacaoTEFAPI.Create(application);
+    ftransacaoTEFAPI.vCancelado := False;
+    ftransacaoTEFAPI.vConfiguracaoTEF :=vConfiguracaoTEF;
+    ftransacaoTEFAPI.vTipoProcessamento := ConstProcesTEFChamaMenuADM;
+    ftransacaoTEFAPI.ChamaMenu(vConfiguracaoTEF);
+  finally
+    FreeAndNil(ftransacaoTEFAPI);
+  end;
+
+end;
+
+function ProcessaCancelamento(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+var
+  ftransacaoTEFAPI: TftransacaoTEFAPI;
+begin
+  try
+    ftransacaoTEFAPI := TftransacaoTEFAPI.Create(application);
+    ftransacaoTEFAPI.vCancelado := False;
+    ftransacaoTEFAPI.vOperacaoTEF := vOperacaoTEF;
+    ftransacaoTEFAPI.vConfiguracaoTEF :=vConfiguracaoTEF;
+    ftransacaoTEFAPI.vTipoProcessamento := ConstProcesTEFCancelamento;
+    ftransacaoTEFAPI.ShowModal;
+    result := ftransacaoTEFAPI.vOperacaoTEF;
+  finally
+    FreeAndNil(ftransacaoTEFAPI);
+  end;
+
+end;
+
+function ProcessaPagamento(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+var
+  ftransacaoTEFAPI: TftransacaoTEFAPI;
+begin
+  try
+
+    ftransacaoTEFAPI := TftransacaoTEFAPI.Create(application);
+    ftransacaoTEFAPI.vCancelado := False;
+    ftransacaoTEFAPI.vOperacaoTEF := vOperacaoTEF;
+    ftransacaoTEFAPI.vConfiguracaoTEF :=vConfiguracaoTEF;
+    ftransacaoTEFAPI.vTipoProcessamento := ConstProcesTEFPagamento;
+    ftransacaoTEFAPI.ShowModal;
+    result := ftransacaoTEFAPI.vOperacaoTEF;
+  finally
+    FreeAndNil(ftransacaoTEFAPI);
+  end;
+  //
+end;
+
+function VerificaTransacaoPendente(vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+begin
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoDetectarTransacaoPendente(RespostaTEF: TACBrTEFResp; const MsgErro: string);
+var
+  AStatus: TACBrTEFStatusTransacao;
+  i: Integer;
+  ATEFResp: TACBrTEFResp;
+  AMsgErro: String;
+  MR: TModalResult;
+  FormMenuTEF: TFormMenuTEF;
+begin
+  // Aqui você pode Confirmar ou Desfazer as transações pendentes de acordo com
+  // a sua regra de negócios
+
+  // ----------- Exemplo 0 - Deixe o ACBrTEFAndroid CONFIRMAR todas transações pendentes automaticamente
+  // ACBrTEFAPI1.TratamentoTransacaoPendente := tefpenConfirmar;
+  // Nesse caso... esse evento nem será disparado.
+
+  // ----------- Exemplo 1 - Envio de confirmação automática -----------
+  // AStatus := stsSucessoManual;
+  // ACBrTEFAPI1.ResolverOperacaoPendente(AStatus);
+  // ---------- Fim Exemplo 1 ------------
+
+
+  // ----------- Exemplo 2 -  Fazer uma pergunta ao usuário ------------
+  if (MsgErro = '') then
+    AMsgErro := RespostaTEF.TextoEspecialOperador
+  else
+    AMsgErro := MsgErro;
+
+  FormMenuTEF := TFormMenuTEF.Create(self);
+  try
+    FormMenuTEF.Titulo := 'Transação Pendente';
+    FormMenuTEF.Opcoes.Add('1 - Confirmação Manual');
+    FormMenuTEF.Opcoes.Add('2 - Estorno Manual');
+    FormMenuTEF.Opcoes.Add('3 - Estorno, Falta de Energia');
+    FormMenuTEF.Opcoes.Add('4 - Estorno, Erro na Impressão');
+    FormMenuTEF.Opcoes.Add('5 - Estorno, Erro no Dispensador');
+    FormMenuTEF.UsaTeclasDeAtalho := True;
+    FormMenuTEF.ItemSelecionado := 0;
+    FormMenuTEF.btVoltar.Visible := False;
+
+    MR := FormMenuTEF.ShowModal ;
+    if (MR = mrOK) then
+    begin
+      case FormMenuTEF.ItemSelecionado of
+        0: AStatus := tefstsSucessoManual;
+        1: AStatus := tefstsErroDiverso;
+        2: AStatus := tefstsErroEnergia;
+        3: AStatus := tefstsErroImpressao;
+        4: AStatus := tefstsErroDispesador;
+      else
+        AStatus := tefstsSucessoManual;
+      end;
+
+      ACBrTEF.ResolverTransacaoPendente(AStatus);
+    end;
+  finally
+    FormMenuTEF.Free;
+  end;
+  // ---------- Fim Exemplo 2 ------------
+
+  // Opcional... Se confirmou, vamos re-imprimir a transação que ficou pendente
+  if (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]) then
+  begin
+    // Achando a transação original...
+    i := ACBrTEF.RespostasTEF.AcharTransacao( RespostaTEF.Rede,
+                                                  RespostaTEF.NSU,
+                                                  RespostaTEF.Finalizacao);
+    if (i >= 0) then
+      ATEFResp := ACBrTEF.RespostasTEF[i]
+    else
+      ATEFResp := RespostaTEF;
+
+//    ImprimirComprovantes(ATEFResp);
+  end;
+
+
+
+
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoEsperarOperacao(OperacaoAPI: TACBrTEFAPIOperacaoAPI; var Cancelar: Boolean);
+begin
+  AdicionarLinhaLog('QuandoEsperarOperacao: ' + GetEnumName(TypeInfo(TACBrTEFAPIOperacaoAPI), Integer(OperacaoAPI)));
+
+  if FCanceladoPeloOperador then
+  begin
+    FCanceladoPeloOperador := False;
+    Cancelar := True; // Aborta o TEF em andamento
+  end
+  else if (StatusVenda <> stsAguardandoTEF) then
+  begin
+    StatusVenda := stsAguardandoTEF; // Liga Botão que permite cancelar
+    FCanceladoPeloOperador := False;
+  end;
+
+  application.ProcessMessages;
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoExibirMensagem(const Mensagem: string; Terminal: TACBrTEFAPITela; MilissegundosExibicao: Integer);
+var
+  FormExibeMensagem: TFormExibeMensagem;
+begin
+  if (Mensagem = '') then
+  begin
+    if (Terminal in [telaCliente, telaTodas]) then
+      MensagemTEF('', ' ');
+    if (Terminal in [telaOperador, telaTodas]) then
+      MensagemTEF(' ', '');
+  end
+  else if (MilissegundosExibicao >= 0) then
+  begin
+    FormExibeMensagem := TFormExibeMensagem.Create(Self);
+    try
+      FormExibeMensagem.Mensagem := Mensagem;
+      FormExibeMensagem.TempoEspera := MilissegundosExibicao;
+      FormExibeMensagem.ShowModal;
+    finally
+      FormExibeMensagem.Free;
+    end;
+  end
+  else
+  begin
+    if (Terminal in [telaCliente, telaTodas]) then
+      MensagemTEF('', Mensagem);
+    if (Terminal in [telaOperador, telaTodas]) then
+      MensagemTEF(Mensagem, '');
+  end;
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoExibirQRCode(const DadosQRCode: string);
+begin
+  Exit;
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoFinalizarOperacao(RespostaTEF: TACBrTEFResp);
+var
+  MsgFinal: String;
+begin
+  MsgFinal := RespostaTEF.TextoEspecialOperador;
+
+  AdicionarLinhaLog('');
+  AdicionarLinhaLog('');
+  AdicionarLinhaLog('------ Fim da Operação ------');
+  AdicionarLinhaLog('Sucesso: ' + IfThen(RespostaTEF.Sucesso, 'SIM', 'NÃO'));
+  AdicionarLinhaLog('Resultado: ' + MsgFinal);
+
+  // Usando as propriedades de TACBrTEFResp
+  if (RespostaTEF.ValorTotal > 0) then
+  begin
+    AdicionarLinhaLog('');
+    AdicionarLinhaLog('- Rede: ' + RespostaTEF.Rede);
+    AdicionarLinhaLog('- NSU: ' + RespostaTEF.NSU);
+    AdicionarLinhaLog('- Parcelas: ' + IntToStr(RespostaTEF.QtdParcelas) + ', parcelado por: ' + GetEnumName(TypeInfo(TACBrTEFRespParceladoPor),
+      Integer(RespostaTEF.ParceladoPor)));
+    AdicionarLinhaLog('- Tipo Cartão: ' + IfThen(RespostaTEF.Debito, 'Debito', IfThen(RespostaTEF.Credito, 'Crédito', '')));
+    AdicionarLinhaLog(' - Valor: ' + FormatFloat(',0.00', RespostaTEF.ValorTotal));
+  end;
+
+  // Lendo um Campo Específico //
+  if (ACBrTEF.Modelo = tefApiPayGoWeb) then
+    AdicionarLinhaLog('- PWINFO_REQNUM: ' + RespostaTEF.LeInformacao(PWINFO_REQNUM, 0).AsString);
+
+  // Exemplo de como processar a Impressão dos comprovantes
+  if not RespostaTEF.Sucesso then
+  begin
+    if (pos('PENDENTE', UpperCase(MsgFinal)) > 0) then
+    begin
+      if (ACBrTEF.TratamentoTransacaoPendente = tefpenConfirmar) then
+        MsgFinal := MsgFinal + sLineBreak + 'Transação será CONFIRMADA'
+      else if (ACBrTEF.TratamentoTransacaoPendente = tefpenEstornar) then
+        MsgFinal := MsgFinal + sLineBreak + 'Transação será ESTORNADA'
+      else
+        MsgFinal := ''; // Ignora esse erro, pois será tratado em QuandoDetectarTransacaoPendente
+    end;
+
+    if (MsgFinal <> '') then
+      MessageDlg(MsgFinal, mtError, [mbOK], 0);
+  end
+  else
+  begin
+
+    // Se não for Venda, já podemos Confirmar e imprimir os comprovantes
+    if (RespostaTEF.Header <> CHEADER_PAGAMENTO) then
+    begin
+      if (not ACBrTEF.ConfirmarTransacaoAutomaticamente) and // Não confirma de forma automática ?
+        RespostaTEF.Confirmar then // Requer confirmação ?
+        ACBrTEF.FinalizarTransacao(tefstsSucessoAutomatico); // ...então confirme
+
+      // ImprimirTodosComprovantes
+    end;
+  end;
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoFinalizarTransacao(RespostaTEF: TACBrTEFResp; AStatus: TACBrTEFStatusTransacao);
+var
+  Atualizou, Sucesso: Boolean;
+begin
+  Sucesso := (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]);
+  Atualizou := False;
+
+  if (RespostaTEF.Header = CHEADER_PAGAMENTO) then
+  begin
+    if Sucesso then
+      Atualizou := Venda.Pagamentos.ConfirmarPagamento(RespostaTEF.Rede, RespostaTEF.NSU, RespostaTEF.ValorTotal)
+    else
+      Atualizou := Venda.Pagamentos.CancelarPagamento(RespostaTEF.Rede, RespostaTEF.NSU, RespostaTEF.ValorTotal);
+  end
+
+  else if (RespostaTEF.Header = CHEADER_CANCELAMENTO) then
+  begin
+    if Sucesso then
+      Atualizou := Venda.Pagamentos.CancelarPagamento(RespostaTEF.Rede, RespostaTEF.NSUTransacaoCancelada, RespostaTEF.ValorTotal);
+  end
+
+  else if (RespostaTEF.Header = CHEADER_ADMINISTRATIVA) then
+  begin
+    if Sucesso then
+    begin
+      // https://www.projetoacbr.com.br/forum/topic/61001-como-detectar-se-em-uma-transa%C3%A7%C3%A3o-adm-houve-um-cancelamento/
+      if (RespostaTEF.NSUTransacaoCancelada <> '') and (RespostaTEF.ImagemComprovante1aVia.Count > 0) then
+      begin
+        Atualizou := Venda.Pagamentos.CancelarPagamento(RespostaTEF.Rede, RespostaTEF.NSU, RespostaTEF.ValorTotal);
+      end;
+    end;
+  end;
+
+  if Atualizou then
+  begin
+    // AtualizarPagamentosVendaNaInterface;
+  end;
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoGravarLog(const ALogLine: string; var Tratado: Boolean);
+begin
+  AdicionarLinhaLog(ALogLine);
+  Tratado := False;
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoPerguntarCampo(DefinicaoCampo: TACBrTEFAPIDefinicaoCampo; var Resposta: string;
+  var Validado, Cancelado: Boolean);
+Var
+  MR: TModalResult;
+  FormObtemCampo: TFormObtemCampo;
+begin
+  AdicionarLinhaLog('QuandoPerguntarCampo: ' + DefinicaoCampo.TituloPergunta);
+
+  { NOTA: Se DefinicaoCampo.ValidacaoDado = "pgvSenhaLojista"
+    Você deve chamar a Tela de Senha do seu sistema, e retornar o NOME do
+    Operador, NUNCA a Senha digitada
+
+    if (DefinicaoCampo.ValidacaoDado = pgvSenhaLojista) then
+    begin
+    Validado := True;
+    Cancelado := False;
+    Resposta := fOperador;
+    Exit;
+    end;
+  }
+
+  FormObtemCampo := TFormObtemCampo.Create(Self);
+  try
+    FormObtemCampo.Titulo := DefinicaoCampo.TituloPergunta;
+    FormObtemCampo.TamanhoMaximo := DefinicaoCampo.TamanhoMaximo;
+    FormObtemCampo.TamanhoMinimo := DefinicaoCampo.TamanhoMinimo;
+    FormObtemCampo.Resposta := DefinicaoCampo.ValorInicial;
+    FormObtemCampo.Ocultar := DefinicaoCampo.OcultarDadosDigitados;
+    FormObtemCampo.Mascara := DefinicaoCampo.MascaraDeCaptura;
+    FormObtemCampo.btVoltar.Visible := False; // PayGoWeb não suporta Voltar;
+
+    if (pos('R$', DefinicaoCampo.MascaraDeCaptura) > 0) or (pos('@.@@@,@@', DefinicaoCampo.MascaraDeCaptura) > 0) or
+      (pos('@@@@@@,@@', DefinicaoCampo.MascaraDeCaptura) > 0) then
+      FormObtemCampo.TipoCampo := tcoCurrency
+    else
+    begin
+      case DefinicaoCampo.TipoDeEntrada of
+        tedApenasLeitura:
+          FormObtemCampo.edtResposta.ReadOnly := True;
+        tedNumerico:
+          if (pos('@,@@', DefinicaoCampo.MascaraDeCaptura) > 0) then
+            FormObtemCampo.TipoCampo := tcoDecimal
+          else
+            FormObtemCampo.TipoCampo := tcoNumeric;
+        tedAlfabetico:
+          FormObtemCampo.TipoCampo := tcoAlfa;
+        tedAlfaNum:
+          FormObtemCampo.TipoCampo := tcoAlfaNum;
+      else
+        FormObtemCampo.TipoCampo := tcoString;
+      end;
+    end;
+
+    MR := FormObtemCampo.ShowModal;
+
+    Cancelado := (MR <> mrOK);
+    Validado := False; // Não fizemos as validações de "DefinicaoCampo.ValidacaoDado", vamos deixar o ACBrTEFAPI validar
+    Resposta := FormObtemCampo.Resposta;
+  finally
+    FormObtemCampo.Free;
+  end;
+
+end;
+
+procedure TftransacaoTEFAPI.ACBrTEFQuandoPerguntarMenu(const Titulo: string; Opcoes: TStringList; var ItemSelecionado: Integer);
+Var
+  MR: TModalResult;
+  FormMenuTEF: TFormMenuTEF;
+begin
+  AdicionarLinhaLog('QuandoPerguntarMenu: ' + Titulo + sLineBreak + Opcoes.Text);
+  if (Opcoes.Count < 1) then
+  begin
+    ItemSelecionado := -1;
+    Exit;
+  end;
+
+  FormMenuTEF := TFormMenuTEF.Create(Self);
+  try
+    FormMenuTEF.Titulo := Titulo;
+    FormMenuTEF.Opcoes := Opcoes;
+    FormMenuTEF.UsaTeclasDeAtalho := (copy(Opcoes[0], 1, 4) = '1 - ');
+    FormMenuTEF.ItemSelecionado := ItemSelecionado;
+
+    MR := FormMenuTEF.ShowModal;
+
+    case MR of
+      mrOK:
+        ItemSelecionado := FormMenuTEF.ItemSelecionado;
+      mrRetry:
+        ItemSelecionado := -2; // Voltar
+    else
+      ItemSelecionado := -1; // Cancelar
+    end;
+  finally
+    FormMenuTEF.Free;
+  end;
+
+end;
+
+
+function TftransacaoTEFAPI.CarregaConfiguracoesTEF(vConfiguracoesTEF: TConfiguracaoTEF): TConfiguracaoTEF;
+begin
+  // popular dados do tef
+
+end;
+
+procedure TftransacaoTEFAPI.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  FVenda.Free;
+end;
+
+procedure TftransacaoTEFAPI.FormCreate(Sender: TObject);
+begin
+
+ if not DirectoryExists(ExtractFilePath(Application.ExeName)+'tmpvenda') then
+  ForceDirectories(ExtractFilePath(Application.ExeName)+'tmpvenda');
+
+ if fileexists(ExtractFilePath(Application.ExeName)+'tmpvenda\venda.txt') then
+   DeleteFiles(ExtractFilePath(Application.ExeName)+'tmpvenda\venda.txt');
+
+ FVenda := TVenda.Create(ExtractFilePath(Application.ExeName)+'tmpvenda\venda.txt');
+
+ end;
+
+procedure TftransacaoTEFAPI.FormShow(Sender: TObject);
+begin
+
+  vOperacaoTEF.AutorizacaoRetorno := '';
+
+  TimerProcessaTransacao.Enabled := True;
+
+end;
+
+function TftransacaoTEFAPI.GetStatusVenda: TStatusVenda;
+begin
+  result := Venda.Status;
+end;
+
+procedure TftransacaoTEFAPI.SetStatusVenda(const AValue: TStatusVenda);
+var
+  MsgStatus: String;
+begin
+  if StatusVenda = AValue then
+    Exit;
+
+  AdicionarLinhaLog('- StatusOperacao: ' + GetEnumName(TypeInfo(TStatusVenda), Integer(AValue)));
+
+  case AValue of
+    stsIniciada:
+      begin
+        MsgStatus := 'EM VENDA';
+        TipoBotaoOperacao := bopCancelarVenda;
+        // AtualizarVendaNaInterface;
+      end;
+
+    stsEmPagamento:
+      begin
+        MsgStatus := 'EM PAGAMENTO';
+        TipoBotaoOperacao := bopCancelarVenda;
+        // sgPagamentos.SetFocus;
+      end;
+
+    stsFinalizada:
+      begin
+        MsgStatus := 'FINALIZADA';
+        TipoBotaoOperacao := bopLiberarCaixa;
+      end;
+
+    stsCancelada:
+      begin
+        MsgStatus := 'CANCELADA';
+        TipoBotaoOperacao := bopLiberarCaixa;
+      end;
+
+    stsAguardandoTEF:
+      begin
+        MsgStatus := 'TRANSACAO TEF';
+        TipoBotaoOperacao := bopCancelarEsperaTEF;
+      end;
+
+    stsOperacaoTEF:
+      begin
+        MsgStatus := 'OPERAÇÃO TEF';
+        TipoBotaoOperacao := bopNaoExibir;
+        // AtualizarVendaNaInterface;
+      end;
+
+  else
+    MsgStatus := 'CAIXA LIVRE';
+    TipoBotaoOperacao := bopNaoExibir;
+    // AtualizarCaixaLivreNaInterface;
+
+  end;
+
+  pStatus.Caption := MsgStatus;
+  Venda.Status := AValue;
+  if (AValue <> stsLivre) then
+    Venda.Gravar;
+
+end;
+
+procedure TftransacaoTEFAPI.SetTipoBotaoOperacao(const AValue: TTipoBotaoOperacao);
+begin
+  FTipoBotaoOperacao := AValue;
+end;
+
+procedure TftransacaoTEFAPI.TimerProcessaTransacaoTimer(Sender: TObject);
+begin
+  TimerProcessaTransacao.Enabled:=false;
+  {
+  if vTipoProcessamento = 1 then
+  begin
+    IncluirPagamento(vOperacaoTEF.Valor, vOperacaoTEF.Modalidade);
+  end
+  else if vTipoProcessamento = 2 then
+    Cancelamento
+  else if vTipoProcessamento = 99999 then
+    ChamaMenuADMTEF()
+  else if vTipoProcessamento = 0 then
+    Ativa;
+  }
+
+end;
+
+procedure TftransacaoTEFAPI.TratarException(Sender: TObject; E: Exception);
+begin
+  AdicionarLinhaLog('');
+  AdicionarLinhaLog('***************' + E.ClassName + '***************');
+  AdicionarLinhaLog(E.Message);
+  AdicionarLinhaLog('');
+  // MessageDlg(E.Message, mtError, [mbOK], 0);
+
+end;
+
+function TftransacaoTEFAPI.VerificaTransacaoPendente(
+  vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+begin
+
+end;
+
+procedure TftransacaoTEFAPI.AdicionarLinhaLog(AMensagem: String);
+begin
+  mLog.Lines.Add(AMensagem);
+end;
+
+procedure TftransacaoTEFAPI.MensagemTEF(const MsgOperador, MsgCliente: String);
+begin
+  if (MsgOperador <> '') then
+    lMensagemOperador.Caption := MsgOperador;
+
+  if (MsgCliente <> '') then
+    lMensagemCliente.Caption := MsgCliente;
+
+  pMensagemOperador.Visible := (Trim(lMensagemOperador.Caption) <> '');
+  pMensagemCliente.Visible := (Trim(lMensagemCliente.Caption) <> '');
+  pMensagem.Visible := pMensagemOperador.Visible or pMensagemCliente.Visible;
+  application.ProcessMessages;
+end;
+
+procedure TftransacaoTEFAPI.cancelarOperacaoTEF;
+begin
+  AdicionarLinhaLog('- btOperacaoClick');
+
+  case TipoBotaoOperacao of
+    bopLiberarCaixa:
+      begin
+        StatusVenda := stsLivre;
+        ACBrTEF.LimparRespostasTEF; // Limpa respostas TEF anteriores, e apaga Arqs Backup
+      end;
+
+    // bopCancelarVenda: CancelarVenda;
+
+    bopCancelarEsperaTEF:
+      begin
+        AdicionarLinhaLog('  Operação Cancelada Pelo Operador');
+        FCanceladoPeloOperador := True;
+      end;
+  end;
+end;
+
+
+procedure TftransacaoTEFAPI.Mensagem(aTexto:string; vConfiguracaoTEF: TConfiguracaoTEF);
+begin
+
+  MensagemPinPag(atexto,vConfiguracaoTEF);
+
+end;
+
+procedure TftransacaoTEFAPI.Ativa(vConfiguracaoTEF: TConfiguracaoTEF);
+begin
+
+  IF AtivarConexaoTEF(vConfiguracaoTEF) then
+    ModalResult:=Mrok
+  else
+    ModalResult:=MrCancel;
+
+end;
+
+procedure TftransacaoTEFAPI.ChamaMenu(vConfiguracaoTEF: TConfiguracaoTEF);
+begin
+
+  StatusVenda := stsLivre;
+
+  ConfigurarTEFAPI;
+
+  ACBrTEF.Inicializar;
+
+  if not ACBrTEF.Inicializado then
+    ACBrTEF.Inicializar;
+
+  AdicionarLinhaLog('- btAdministrativoClick');
+
+  try
+
+    ACBrTEF.EfetuarAdministrativa(tefopAdministrativo);
+
+  finally
+    StatusVenda := stsFinalizada;
+  end;
+end;
+
+function TftransacaoTEFAPI.ObterCPF: String;
+var
+  Saida: String;
+begin
+  Saida := '';
+  Saida := ACBrTEF.ObterDadoPinPad(dpCPF);
+  if (Saida <> '') then
+    ShowMessage('Falha ao Obter CPF no PinPad');
+
+  result := Saida
+end;
+
+procedure TftransacaoTEFAPI.AdicionarPagamento(const Indice: String; AValor: Double);
+var
+  Ok, TemTEF: Boolean;
+  Modalidade: TACBrTEFModalidadePagamento;
+  CartoesAceitos: TACBrTEFTiposCartao;
+  ReajusteValor: Double;
+  IndicePagto: LongInt;
+begin
+  Ok := False;
+  TemTEF := False;
+
+  IndicePagto := StrToIntDef(Indice, 0);
+
+  try
+    // ** NOTA **
+    // Usa '01' como Indice de Forma de Pagamento de ECF, para todas as operações TEF,
+    // para evitar que o ACBrTEFD tente separar os Comprovantes por Forma de Pagamento
+
+    Modalidade := tefmpNaoDefinido;
+    CartoesAceitos := [];
+
+    TemTEF := (IndicePagto >= 2) and (IndicePagto <= 5);
+    case IndicePagto of
+      2:
+        Modalidade := tefmpCheque;
+      4:
+        begin
+          Modalidade := tefmpCartao;
+          CartoesAceitos := [teftcCredito]
+        end;
+      5:
+        begin
+          Modalidade := tefmpCartao;
+          CartoesAceitos := [teftcDebito]
+        end;
+      8:
+        Modalidade := tefmpCarteiraVirtual;
+      7:
+        begin
+          Modalidade := tefmpCartao;
+          CartoesAceitos := [teftcVoucher]
+        end;
+    end;
+
+    if TemTEF then
+    begin
+      // -- Exemplo, usando TypeCast, para inserir Propriedades direto na Classe de TEF -- //
+      (*
+        if ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayGoWeb then
+        begin
+        with TACBrTEFAPIClassPayGoWeb(ACBrTEFAPI1.TEF) do
+        begin
+        TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_AUTHSYST] := 'REDE';   // Autorizador
+        TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_FINTYPE] := '2';       // 01: à vista, 2: parcelado
+        TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_INSTALLMENTS] := '3';  // Parcelas
+        end;
+        end;
+      *)
+
+      Ok := ACBrTEF.EfetuarPagamento(IntToStr(vOperacaoTEF.numero), AValor, Modalidade, CartoesAceitos, tefmfAVista);
+      Ok := Ok and ACBrTEF.UltimaRespostaTEF.Sucesso and ACBrTEF.UltimaRespostaTEF.TransacaoAprovada;
+    end
+    else
+      Ok := True;
+  finally
+    StatusVenda := stsEmPagamento;
+  end;
+
+  // -- Exemplo de como capturar os Erros retornados pela API do TEF PayGoWeb -- //
+  (*
+    if not OK then
+    begin
+    if (ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayGoWeb) then
+    begin
+    CodErro := ACBrTEFAPI1.UltimaRespostaTEF.LeInformacao(PWINFO_RET).AsInteger;
+    MsgErro := ACBrTEFAPI1.UltimaRespostaTEF.LeInformacao(PWINFO_RESULTMSG).AsBinary;
+    ShowMessage('Erro: '+IntToStr(CodErro)+' - '+Trim(MsgErro));
+    end;
+    end;
+  *)
+
+  if Ok then
+  begin
+    with Venda.Pagamentos.New do
+    begin
+      TipoPagamento := Indice;
+      ValorPago := AValor;
+
+      if TemTEF then
+      begin
+        NSU := ACBrTEF.UltimaRespostaTEF.NSU;
+        Rede := ACBrTEF.UltimaRespostaTEF.Rede;
+        RedeCNPJ := ACBrTEF.UltimaRespostaTEF.NFCeSAT.CNPJCredenciadora;
+
+        // Calcula a Diferença do Valor Retornado pela Operação TEF do Valor que
+        // Informamos no CRT/CHQ
+        ReajusteValor := RoundTo(ACBrTEF.UltimaRespostaTEF.ValorTotal - ValorPago, -2);
+
+        Saque := ACBrTEF.UltimaRespostaTEF.Saque;
+        if (Saque > 0) then
+        begin
+          // Se houve Saque na operação TEF, devemos adicionar no ValorPago,
+          // para que o Saque conste como Troco
+          ValorPago := ValorPago + Saque
+        end
+
+        else if (ReajusteValor > 0) then
+        begin
+          // Se não é Saque, mas houve acréscimo no valor Retornado, devemos lançar
+          // o Reajuste como Acréscimo na venda
+          Venda.TotalAcrescimo := Venda.TotalAcrescimo + ReajusteValor;
+        end;
+
+        Desconto := ACBrTEF.UltimaRespostaTEF.Desconto;
+        if (Desconto > 0) then
+        begin
+          // Se houve Desconto na Operação TEF, devemos subtrair do ValorPago
+          // e lançar um Desconto no Total da Transacao
+          ValorPago := ValorPago - Desconto;
+          Venda.TotalDesconto := Venda.TotalDesconto + Desconto;
+        end
+
+        else if (ReajusteValor < 0) then
+        begin
+          // Se não é Desconto, mas houve redução no Valor Retornado, devemos
+          // considerar a redução no ValorPago, pois a Adquirente limitou o
+          // valor da Operação, a um máximo permitido... Deverá fechar o cupom,
+          // com outra forma de Pagamento
+          ValorPago := ValorPago + ReajusteValor;
+        end;
+      end
+      else
+        Confirmada := True;
+    end;
+
+  end;
+end;
+
+procedure TftransacaoTEFAPI.ConfigurarTEFAPI;
+begin
+
+  if not DirectoryExists(extractfilepath(application.ExeName) + '\logstef\' + FormatDateTime('yyyymmdd', now)) then
+    ForceDirectories(extractfilepath(application.ExeName) + '\logstef\' + FormatDateTime('yyyymmdd', now));
+
+   ACBrTEF.ArqLOG :=(extractfilepath(application.ExeName) + '\logstef\' + FormatDateTime('yyyymmdd', now) + '\' + FormatDateTime('hhnnss', now) + 'logtef.txt');
+
+
+
+  if UpperCase(vConfiguracaoTEF.EstabelecimentoTipoTEF)='SKYTEF' then
+    ACBrTEF.Modelo :=TACBrTEFAPITipo.tefApiCliSiTEF
+  else if UpperCase(vConfiguracaoTEF.EstabelecimentoTipoTEF)='PAYGOWEB' then
+    ACBrTEF.Modelo :=TACBrTEFAPITipo.tefApiPayGoWeb;
+
+
+
+  ACBrTEF.TratamentoTransacaoPendente := TACBrTEFTratamentoTransacaoPendente.tefpenConfirmar;
+  ACBrTEF.TratamentoTransacaoInicializacao := TACBrTEFTratamentoTransacaoInicializacao.tefopiProcessarPendentes;
+
+  ACBrTEF.DadosAutomacao.AutoAtendimento := False;
+  ACBrTEF.DadosAutomacao.ImprimeViaClienteReduzida := False;
+  ACBrTEF.ConfirmarTransacaoAutomaticamente := True;
+
+  ACBrTEF.DadosAutomacao.SuportaDesconto := True;
+  ACBrTEF.DadosAutomacao.SuportaSaque := False;
+  ACBrTEF.DadosAutomacao.NomeSoftwareHouse :='PEGASUS DESENVOLVIMENTO DE SISTEMAS DE INFORMATICA LTDA -ME';
+  ACBrTEF.DadosAutomacao.CNPJSoftwareHouse := '14.477.548/0001-31';
+  ACBrTEF.DadosAutomacao.NomeAplicacao := 'Pegasus Mercato';
+  ACBrTEF.DadosAutomacao.VersaoAplicacao := '24.27.300.18';
+
+  ACBrTEF.DadosEstabelecimento.RazaoSocial := vConfiguracaoTEF.EstabelecimentoRazaoSocial;
+  ACBrTEF.DadosEstabelecimento.CNPJ :=  vConfiguracaoTEF.EstabelecimentoCNPJ;
+
+  ACBrTEF.ExibicaoQRCode := qrapiExibirPinPad;
+
+
+  // -- Exemplo de como ajustar o diretório de Trabalho, da PayGoWeb -- //
+
+  if (ACBrTEF.TEF is TACBrTEFAPIClassPayGoWeb) then
+    TACBrTEFAPIClassPayGoWeb(ACBrTEF.TEF).DiretorioTrabalho :=  'C:\PAYGOWEB';
+
+
+end;
+
+
+function TftransacaoTEFAPI.IncluirPagamento(AValor: Double; aCodFormaPagamento: Integer): Boolean;
+begin
+
+  ConfigurarTEFAPI;
+
+  ACBrTEF.Inicializar;
+
+  StatusVenda := stsEmPagamento;
+
+  AdicionarPagamento(cPagamentos[aCodFormaPagamento, 0], AValor);
+
+end;
+
+procedure TftransacaoTEFAPI.Pagamento;
+begin
+  if not AtivarConexaoTEF(vConfiguracaoTEF) then
+  begin
+    vOperacaoTEF.AutorizacaoRetorno := '';
+    close;
+  end
+  else
+  begin
+
+    if IncluirPagamento(vOperacaoTEF.Valor, vOperacaoTEF.Modalidade) then
+    begin
+
+     {
+      ACBrTEF.BloquearMouseTeclado(False);
+      ACBrTEF.ConfirmarTransacoesPendentes;
+      vOperacaoTEF.DocumentoRetorno := ACBrTEFD.TEF.Resp.CodigoAutorizacaoTransacao;
+      vOperacaoTEF.ImagemComprovante1aVia := ACBrTEFD.TEF.Resp.ImagemComprovante1aVia.Text;
+      vOperacaoTEF.ImagemComprovante2aVia := ACBrTEFD.TEF.Resp.ImagemComprovante2aVia.Text;
+      vOperacaoTEF.Rede := ACBrTEFD.TEF.Resp.Rede;
+      vOperacaoTEF.AutorizacaoRetorno := ACBrTEFD.TEF.Resp.CodigoAutorizacaoTransacao;
+      }
+
+      close;
+    end
+    else
+    begin
+      vOperacaoTEF.AutorizacaoRetorno := '';
+      close;
+    end;
+
+  end;
+end;
+
+function TftransacaoTEFAPI.ProcessaCancelamento(
+  vConfiguracaoTEF: TConfiguracaoTEF; vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+begin
+
+end;
+
+function TftransacaoTEFAPI.ProcessaPagamento(vConfiguracaoTEF: TConfiguracaoTEF;
+  vOperacaoTEF: TOperacaoTEF): TOperacaoTEF;
+begin
+
+end;
+
+procedure TftransacaoTEFAPI.Cancelamento;
+begin
+  if not AtivarConexaoTEF(vConfiguracaoTEF) then
+  begin
+    vOperacaoTEF.AutorizacaoRetorno := '';
+    close;
+  end
+  else
+  begin
+    if ACBrTEF.EfetuarAdministrativa(tefopAdministrativo) then
+    begin
+      vOperacaoTEF.AutorizacaoRetorno := '';
+      close;
+    end
+    else
+    begin
+      vOperacaoTEF.AutorizacaoRetorno := '';
+      close;
+    end;
+  end;
+end;
+
+function TftransacaoTEFAPI.AtivarConexaoTEF(vConfiguracaoTEF: TConfiguracaoTEF): Boolean;
+begin
+
+  result := True;
+
+  ConfigurarTEFAPI;
+
+  ACBrTEF.Inicializar;
+
+  if ACBrTEF.Inicializado then
+  begin
+
+    ACBrTEF.ExibirMensagemPinPad('PEGASUS Mercato');
+
+    result := True;
+    StatusBar.Panels[3].Text := 'Sit.: Conectando';
+    application.ProcessMessages;
+  end
+  else
+  begin
+    ACBrTEF.ExibirMensagemPinPad(vpMensagemPermanente);
+    StatusBar.Panels[3].Text := 'Sit.: FALHA DE CONEXÃO';
+    result := False;
+    Exit;
+    application.ProcessMessages;
+  end;
+
+end;
+
+
+
+procedure TftransacaoTEFAPI.MensagemPinPag(aTexto: String; vConfiguracaoTEF: TConfiguracaoTEF);
+begin
+
+  ConfigurarTEFAPI;
+
+  ACBrTEF.Inicializar;
+
+  if ACBrTEF.Inicializado then
+  begin
+    ACBrTEF.ExibirMensagemPinPad('PEGASUS Mercato');
+  end
+  else
+  begin
+    ACBrTEF.ExibirMensagemPinPad(vpMensagemPermanente);
+    Exit;
+  end;
+
+end;
+
+
+function TftransacaoTEFAPI.AtivaTEF: boolean;
+var
+ i:Byte;
+ msg:String;
+begin
+
+  Result:= True;
+
+  if not ACBrTEF.Inicializado then
+  begin
+
+    ConfigurarTEFAPI;
+
+    ACBrTEF.Inicializar;
+
+    if ACBrTEF.Inicializado then
+    begin
+       StatusVenda:=stsLivre;
+       fvenda.Status:=stsLivre;
+      // msg:='PEGASUS Mercato';
+      // ACBrTEF.ExibirMensagemPinPad(msg);
+
+       result:=True;
+    end
+    else
+      Result:=False;
+
+  end;
+
+end;
+
+end.

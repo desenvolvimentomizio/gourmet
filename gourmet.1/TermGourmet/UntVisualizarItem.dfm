@@ -1,0 +1,116 @@
+object FrmVisualizaItem: TFrmVisualizaItem
+  Left = 0
+  Top = 0
+  BorderStyle = bsToolWindow
+  ClientHeight = 440
+  ClientWidth = 737
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel25: TPanel
+    Left = 0
+    Top = 401
+    Width = 737
+    Height = 39
+    Align = alBottom
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 0
+    object Panel26: TPanel
+      Left = 482
+      Top = 0
+      Width = 251
+      Height = 35
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Button8: TButton
+        Left = 124
+        Top = 2
+        Width = 120
+        Height = 31
+        Caption = 'Fechar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = Button8Click
+      end
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 737
+    Height = 401
+    Align = alClient
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    TabOrder = 1
+    object Panel3: TPanel
+      Left = 0
+      Top = 3
+      Width = 5
+      Height = 390
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 0
+    end
+    object MemPro: TRichEdit
+      Left = 5
+      Top = 3
+      Width = 723
+      Height = 390
+      Align = alClient
+      BevelOuter = bvNone
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 1
+      Zoom = 100
+    end
+    object Panel4: TPanel
+      Left = 728
+      Top = 3
+      Width = 5
+      Height = 390
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 2
+    end
+    object Panel5: TPanel
+      Left = 0
+      Top = 393
+      Width = 733
+      Height = 4
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 3
+    end
+    object Panel6: TPanel
+      Left = 0
+      Top = 0
+      Width = 733
+      Height = 3
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 4
+    end
+  end
+end

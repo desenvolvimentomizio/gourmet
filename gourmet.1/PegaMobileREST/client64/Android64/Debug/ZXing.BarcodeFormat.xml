@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.BarcodeFormat" platform="Android">
+  <const name="Auto" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="26">
+    <devnotes>
+       <summary>No format set. All formats will be used</summary>
+    </devnotes>
+    <value>
+      Auto
+    </value>
+  </const>
+  <const name="AZTEC" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="29">
+    <devnotes>
+       <summary>Aztec 2D barcode format.</summary>
+    </devnotes>
+    <value>
+      AZTEC
+    </value>
+  </const>
+  <const name="CODABAR" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="32">
+    <devnotes>
+       <summary>CODABAR 1D format.</summary>
+    </devnotes>
+    <value>
+      CODABAR
+    </value>
+  </const>
+  <const name="CODE_39" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="35">
+    <devnotes>
+       <summary>Code 39 1D format.</summary>
+    </devnotes>
+    <value>
+      CODE_39
+    </value>
+  </const>
+  <const name="CODE_93" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="38">
+    <devnotes>
+       <summary>Code 93 1D format.</summary>
+    </devnotes>
+    <value>
+      CODE_93
+    </value>
+  </const>
+  <const name="CODE_128" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="41">
+    <devnotes>
+       <summary>Code 128 1D format.</summary>
+    </devnotes>
+    <value>
+      CODE_128
+    </value>
+  </const>
+  <const name="DATA_MATRIX" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="44">
+    <devnotes>
+       <summary>Data Matrix 2D barcode format.</summary>
+    </devnotes>
+    <value>
+      DATA_MATRIX
+    </value>
+  </const>
+  <const name="EAN_8" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="47">
+    <devnotes>
+       <summary>EAN-8 1D format.</summary>
+    </devnotes>
+    <value>
+      EAN_8
+    </value>
+  </const>
+  <const name="EAN_13" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="50">
+    <devnotes>
+       <summary>EAN-13 1D format.</summary>
+    </devnotes>
+    <value>
+      EAN_13
+    </value>
+  </const>
+  <const name="ITF" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="53">
+    <devnotes>
+       <summary>ITF (Interleaved Two of Five) 1D format.</summary>
+    </devnotes>
+    <value>
+      ITF
+    </value>
+  </const>
+  <const name="MAXICODE" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="56">
+    <devnotes>
+       <summary>MaxiCode 2D barcode format.</summary>
+    </devnotes>
+    <value>
+      MAXICODE
+    </value>
+  </const>
+  <const name="PDF_417" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="59">
+    <devnotes>
+       <summary>PDF417 format.</summary>
+    </devnotes>
+    <value>
+      PDF_417
+    </value>
+  </const>
+  <const name="QR_CODE" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="62">
+    <devnotes>
+       <summary>QR Code 2D barcode format.</summary>
+    </devnotes>
+    <value>
+      QR_CODE
+    </value>
+  </const>
+  <const name="RSS_14" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="65">
+    <devnotes>
+       <summary>RSS 14</summary>
+    </devnotes>
+    <value>
+      RSS_14
+    </value>
+  </const>
+  <const name="RSS_EXPANDED" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="68">
+    <devnotes>
+       <summary>RSS EXPANDED</summary>
+    </devnotes>
+    <value>
+      RSS_EXPANDED
+    </value>
+  </const>
+  <const name="UPC_A" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="71">
+    <devnotes>
+       <summary>UPC-A 1D format.</summary>
+    </devnotes>
+    <value>
+      UPC_A
+    </value>
+  </const>
+  <const name="UPC_E" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="74">
+    <devnotes>
+       <summary>UPC-E 1D format.</summary>
+    </devnotes>
+    <value>
+      UPC_E
+    </value>
+  </const>
+  <const name="UPC_EAN_EXTENSION" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="77">
+    <devnotes>
+       <summary>UPC/EAN extension format. Not a stand-alone format.</summary>
+    </devnotes>
+    <value>
+      UPC_EAN_EXTENSION
+    </value>
+  </const>
+  <const name="MSI" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="80">
+    <devnotes>
+       <summary>MSI</summary>
+    </devnotes>
+    <value>
+      MSI
+    </value>
+  </const>
+  <const name="PLESSEY" type="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="83">
+    <devnotes>
+       <summary>Plessey</summary>
+    </devnotes>
+    <value>
+      PLESSEY
+    </value>
+  </const>
+  <enum name="TBarcodeFormat" file="ZXing.BarcodeFormat.pas" line="24">
+    <element value="0" name="Auto" file="ZXing.BarcodeFormat.pas" line="26">
+      <devnotes>
+         <summary>No format set. All formats will be used</summary>
+      </devnotes>
+    </element>
+    <element value="1" name="AZTEC" file="ZXing.BarcodeFormat.pas" line="29">
+      <devnotes>
+         <summary>Aztec 2D barcode format.</summary>
+      </devnotes>
+    </element>
+    <element value="2" name="CODABAR" file="ZXing.BarcodeFormat.pas" line="32">
+      <devnotes>
+         <summary>CODABAR 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="4" name="CODE_39" file="ZXing.BarcodeFormat.pas" line="35">
+      <devnotes>
+         <summary>Code 39 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="8" name="CODE_93" file="ZXing.BarcodeFormat.pas" line="38">
+      <devnotes>
+         <summary>Code 93 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="16" name="CODE_128" file="ZXing.BarcodeFormat.pas" line="41">
+      <devnotes>
+         <summary>Code 128 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="32" name="DATA_MATRIX" file="ZXing.BarcodeFormat.pas" line="44">
+      <devnotes>
+         <summary>Data Matrix 2D barcode format.</summary>
+      </devnotes>
+    </element>
+    <element value="64" name="EAN_8" file="ZXing.BarcodeFormat.pas" line="47">
+      <devnotes>
+         <summary>EAN-8 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="128" name="EAN_13" file="ZXing.BarcodeFormat.pas" line="50">
+      <devnotes>
+         <summary>EAN-13 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="256" name="ITF" file="ZXing.BarcodeFormat.pas" line="53">
+      <devnotes>
+         <summary>ITF (Interleaved Two of Five) 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="512" name="MAXICODE" file="ZXing.BarcodeFormat.pas" line="56">
+      <devnotes>
+         <summary>MaxiCode 2D barcode format.</summary>
+      </devnotes>
+    </element>
+    <element value="1024" name="PDF_417" file="ZXing.BarcodeFormat.pas" line="59">
+      <devnotes>
+         <summary>PDF417 format.</summary>
+      </devnotes>
+    </element>
+    <element value="2048" name="QR_CODE" file="ZXing.BarcodeFormat.pas" line="62">
+      <devnotes>
+         <summary>QR Code 2D barcode format.</summary>
+      </devnotes>
+    </element>
+    <element value="4096" name="RSS_14" file="ZXing.BarcodeFormat.pas" line="65">
+      <devnotes>
+         <summary>RSS 14</summary>
+      </devnotes>
+    </element>
+    <element value="8192" name="RSS_EXPANDED" file="ZXing.BarcodeFormat.pas" line="68">
+      <devnotes>
+         <summary>RSS EXPANDED</summary>
+      </devnotes>
+    </element>
+    <element value="16384" name="UPC_A" file="ZXing.BarcodeFormat.pas" line="71">
+      <devnotes>
+         <summary>UPC-A 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="32768" name="UPC_E" file="ZXing.BarcodeFormat.pas" line="74">
+      <devnotes>
+         <summary>UPC-E 1D format.</summary>
+      </devnotes>
+    </element>
+    <element value="65536" name="UPC_EAN_EXTENSION" file="ZXing.BarcodeFormat.pas" line="77">
+      <devnotes>
+         <summary>UPC/EAN extension format. Not a stand-alone format.</summary>
+      </devnotes>
+    </element>
+    <element value="131072" name="MSI" file="ZXing.BarcodeFormat.pas" line="80">
+      <devnotes>
+         <summary>MSI</summary>
+      </devnotes>
+    </element>
+    <element value="262144" name="PLESSEY" file="ZXing.BarcodeFormat.pas" line="83">
+      <devnotes>
+         <summary>Plessey</summary>
+      </devnotes>
+    </element>
+  </enum>
+</namespace>

@@ -1,0 +1,33 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 285
+  ClientWidth = 609
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object WPPConnect1: TWPPConnect
+    InjectJS.AutoUpdateTimeOut = 10
+    InjectJS.JSURL = 
+      'https://raw.githubusercontent.com/wppconnect-team/WPP4Delphi/mai' +
+      'n/Source/JS/js.abr'
+    Config.AutoStart = True
+    Config.AutoDelay = 500
+    Config.SecondsMonitor = 4
+    Config.Evento_msg_ack_change = True
+    Config.Evento_msg_revoke = True
+    Config.Evento_new_reaction = True
+    AjustNumber.LengthPhone = 8
+    AjustNumber.DDIDefault = 55
+    FormQrCodeType = Ft_Http
+    Left = 168
+    Top = 72
+  end
+end

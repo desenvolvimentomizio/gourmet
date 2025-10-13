@@ -1,0 +1,424 @@
+unit ufrafrn;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, ACBrBase, ACBrValidador, VirtualTable,
+  Data.DB, MemDS, DBAccess, Uni, Vcl.Menus, System.Classes, System.Actions,
+  Vcl.ActnList, Vcl.Buttons, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Imaging.pngimage, Vcl.Controls, ufuncoes,
+  uPegaBase, Vcl.Mask, Vcl.DBCtrls, Vcl.Graphics, System.SysUtils,
+  System.ImageList, Vcl.ImgList, Vcl.Dialogs, Xml.xmldom, Xml.XMLIntf,
+  Xml.XMLDoc;
+
+type
+  Tfrafrn = class(Tfrabase)
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelaetdapelido: TStringField;
+    uqtabelatsecodigo: TIntegerField;
+    uqtabelaetddoc1: TStringField;
+    tvi: tuniquery;
+    tvitvicodigo: TIntegerField;
+    tvitviidentificacao: TStringField;
+    Dedr: tunidatasource;
+    edr: tuniquery;
+    edredrrua: TStringField;
+    edredrbairro: TStringField;
+    edrcddnome: TStringField;
+    edrtedidentificacao: TStringField;
+    Detf: tunidatasource;
+    etf: tuniquery;
+    etfetftelefone: TStringField;
+    etfetfcontato: TStringField;
+    etfttfidentificacao: TStringField;
+    ete: tuniquery;
+    eteeteemail: TStringField;
+    eteetecontato: TStringField;
+    eteeteenvianfe: TIntegerField;
+    Dete: tunidatasource;
+    GBEdr: TGroupBox;
+    DBEdr: TDBGrid;
+    GBEmail: TGroupBox;
+    DBete: TDBGrid;
+    GBTlefone: TGroupBox;
+    DBetf: TDBGrid;
+    uqtabelatpecodigo: TIntegerField;
+    ACBrValidador: TACBrValidador;
+    uqtabelaedrinscest: TStringField;
+    uqtabelatpeidentificacao: TStringField;
+    mUtilitarios: TMenuItem;
+    mDesvincularFornecedor: TMenuItem;
+    ActDesativar: TAction;
+    ActAtivar: TAction;
+    ets: TUniQuery;
+    etsetscodigo: TIntegerField;
+    etstsecodigo: TIntegerField;
+    etsetdcodigo: TIntegerField;
+    etsetsdata: TDateField;
+    etsetshistorico: TStringField;
+    etstseidentificacao: TStringField;
+    tse: TUniQuery;
+    tsetsecodigo: TIntegerField;
+    tsetseidentificacao: TStringField;
+    GBetddescsituacao: TGroupBox;
+    listaets: TDBGrid;
+    uqtabelaetdobs: TStringField;
+    Dets: TUniDataSource;
+    uqtabelatseidentificacao: TStringField;
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure ActSairExecute(Sender: TObject);
+    procedure mDesvincularFornecedorClick(Sender: TObject);
+    procedure ActDesativarExecute(Sender: TObject);
+    procedure ActAtivarExecute(Sender: TObject);
+  private
+    procedure registrasituacao(vetdcodigo, vtsecodigo: Integer;
+      vetshistorico: string);
+  public
+    procedure Carregar; override;
+    { Public declarations }
+  end;
+
+var
+  frafrn: Tfrafrn;
+
+  // Início ID do Módulo frafrn
+const
+  vPlIdMd = '01.01.03.001-01';
+  vPlTitMdl = 'Fornecedores';
+
+  // Fim ID do Módulo frafrn
+
+implementation
+
+uses uffrn;
+
+{$R *.dfm}
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frafrn := Tfrafrn.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  frafrn := Tfrafrn.Create(pCargaFrame);
+  try
+    frafrn.CriaAcoesDeAcesso;
+  finally
+    frafrn.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfrafrn.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tffrn, uqtabelaetdcodigo.asstring, '');
+end;
+
+
+procedure Tfrafrn.registrasituacao(vetdcodigo: Integer; vtsecodigo: Integer; vetshistorico: string);
+begin
+  ets.close;
+
+  if ets.Active = False then
+  begin
+    ets.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+    ets.Open;
+  end;
+  ets.Append;
+  etstsecodigo.AsInteger := vtsecodigo;
+  etsetdcodigo.AsInteger := vetdcodigo;
+  etsetsdata.AsFloat := Self.vdataatual;
+  etsetshistorico.asstring := vetshistorico;
+  ets.Post;
+
+end;
+procedure Tfrafrn.ActAtivarExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  pode: boolean;
+Begin
+  Inherited;
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        if pode then
+        begin
+          If application.MessageBox(PChar('Confirma a REATIVAÇÃO do fornecedor selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idyes Then
+          Begin
+
+            Repeat
+              motivo := InputBox('Reativação !', 'Descreva o motivo para reativar o Fornecedor: ', '');
+            Until motivo <> '';
+
+            rg := Self.UQTabelaetdcodigo.AsInteger;
+
+            consulta.close;
+            consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=0  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+            consulta.Execsql;
+
+            consulta.close;
+            consulta.sql.Text := 'update v_rfi set tsecodigo=0  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+            consulta.Execsql;
+
+            registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 0, motivo);
+
+            Self.actatualizar.Execute;
+
+            Self.uqtabela.Locate('etdcodigo', rg, []);
+
+          End;
+        end;
+
+      end;
+    end;
+  end;
+
+
+end;
+
+procedure Tfrafrn.ActDesativarExecute(Sender: TObject);
+Var
+  rg: Integer;
+  motivo: String;
+  pode: boolean;
+Begin
+  Inherited;
+  pode := True;
+  if Self.UQTabelaetdcodigo.asstring <> '0' then
+  begin
+
+    if Self.autorizado(Sender, '') then
+    begin
+
+      if Self.UQTabelaetdcodigo.asstring <> '' then
+      begin
+
+        if pode then
+        begin
+          If application.MessageBox(PChar('Confirma a DESATIVAÇÃO do fornecedor selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = idyes Then
+          Begin
+
+            Repeat
+              motivo := InputBox('Desativação !', 'Descreva o motivo para desativar o Fornecedor: ', '');
+            Until motivo <> '';
+
+            rg := Self.UQTabelaetdcodigo.AsInteger;
+
+            consulta.close;
+            consulta.sql.Text := 'update etd set etddescsituacao=' + chr(39) + motivo + chr(39) + ',tsecodigo=9  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+            consulta.Execsql;
+
+            consulta.close;
+            consulta.sql.Text := 'update v_rfi set tsecodigo=9  where etdcodigo = ' + Self.UQTabelaetdcodigo.asstring;
+            consulta.Execsql;
+
+            registrasituacao(Self.UQTabelaetdcodigo.AsInteger, 9, motivo);
+
+            Self.actatualizar.Execute;
+
+            Self.uqtabela.Locate('etdcodigo', rg, []);
+
+          End;
+        end;
+
+      end;
+    end;
+  end;
+
+end;
+
+procedure Tfrafrn.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tffrn, '', '');
+end;
+
+procedure Tfrafrn.ActSairExecute(Sender: TObject);
+begin
+  SalvarColunas(DBEdr);
+  SalvarColunas(DBetf);
+  SalvarColunas(DBete);
+
+  inherited;
+
+end;
+
+procedure Tfrafrn.Carregar;
+begin
+  MontaFiltroEsp(tvi, IntToStr(tviFornecedor));
+
+  if (FormaFrame = ffFrame) then
+    PlBotaoFiltroEsp.Visible := False;
+
+  inherited;
+
+  CarregarColunas(DBEdr);
+  CarregarColunas(DBetf);
+  CarregarColunas(DBete);
+
+end;
+
+procedure Tfrafrn.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+Var
+  // bitmap: TBitmap;
+  fixRect: TRect;
+  // bmpWidth: Integer;
+  // imgIndex: Integer;
+Begin
+
+  // Inherited;
+
+  fixRect := Rect;
+
+  If odd(DStabela.DataSet.RecNo) Then
+  begin
+
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE;
+  end
+  Else
+  begin
+
+    DBGLista.Canvas.Brush.Color := clwhite;
+  end;
+
+  { cast DBGrid to a unit friendly class thus exposing all it private bits! }
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. tmpck against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(Rect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+      FillRect(fixRect);
+      Font.Color := clwhite;
+    End;
+
+  with TFriendly(DBGLista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. tmpck against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  case UQTabelatsecodigo.AsInteger of
+    0:
+      DBGLista.Canvas.Font.Color := clBlack;
+    1:
+      DBGLista.Canvas.Font.Color := clRed;
+    2:
+      DBGLista.Canvas.Font.Color := clFuchsia;
+    9:
+      DBGLista.Canvas.Font.Color := clgray;
+
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfrafrn.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if uqtabela.Active then
+  begin
+    if self.uqtabelaetdcodigo.asstring <> '' then
+    begin
+
+      edr.Close;
+      edr.Params[0].AsInteger := self.uqtabelaetdcodigo.AsInteger;
+      edr.Open;
+
+      ete.Close;
+      ete.Params[0].AsInteger := self.uqtabelaetdcodigo.AsInteger;
+      ete.Open;
+
+      ets.close;
+      ets.Params[0].AsInteger := Self.UQTabelaetdcodigo.AsInteger;
+      ets.Open;
+
+      etf.Close;
+      etf.Params[0].AsInteger := self.uqtabelaetdcodigo.AsInteger;
+      etf.Open;
+
+           if (ets.RecordCount > 0) or (UQTabelaetdobs.asstring <> '') then
+      PnlRodapeGrid.Visible := True
+      else
+      PnlRodapeGrid.Visible := False;
+
+
+    end;
+
+  end;
+
+end;
+
+procedure Tfrafrn.mDesvincularFornecedorClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(Pchar('Confirma desvinculação desta entidade como Fornecedor?'), Pchar('Excluir'), MB_TASKMODAL + MB_ICONQUESTION + MB_YESNO + MB_DEFBUTTON2) = idYes
+  then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'update mes set toecodigo=20 where etdcodigo=' + self.uqtabelaetdcodigo.asstring + ' and toecodigo=17';
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'update mes set toecodigo=21 where etdcodigo=' + self.uqtabelaetdcodigo.asstring + ' and toecodigo=16';
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'delete from etv where etdcodigo=' + self.uqtabelaetdcodigo.asstring + ' and tvicodigo=2';
+    consulta.ExecSQL;
+
+  end;
+end;
+
+end.

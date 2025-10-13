@@ -1,0 +1,358 @@
+object fGeraImpressaoJson: TfGeraImpressaoJson
+  Left = 0
+  Top = 0
+  Caption = 'fGeraImpressaoJson'
+  ClientHeight = 329
+  ClientWidth = 609
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object orc: TUniQuery
+    SQL.Strings = (
+      'CREATE TEMPORARY TABLE IF NOT EXISTS tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB;    '
+      '  '
+      'SET @orcchave      = :orcchave;'
+      'SET @tcicodigo     = :tcicodigo;'
+      'SET @auxsim        = (SELECT COUNT(*) '
+      '                        FROM tped '
+      '                       where orcchave      = @orcchave     '
+      '                         and tcicodigo     = @tcicodigo'
+      '                         and pedidoaux = 1);'
+      ''
+      'SET @auxnao        = (SELECT COUNT(*) '
+      '                        FROM tped '
+      '                       where orcchave      = @orcchave     '
+      '                         and tcicodigo     = @tcicodigo     '
+      '                         and pedidoaux = 0);'
+      ''
+      'SELECT distinct'
+      
+        '       orc.orcchave                                             ' +
+        '                       '
+      '     , orc.etdcodigo'
+      '     , etd.etdidentificacao'
+      '     , etd.etdapelido'
+      '     , edr.edrrua'
+      '     , edr.edrnumero'
+      '     , edr.edrcomple'
+      '     , edr.edrbairro'
+      
+        '     , TRIM(edr.edrobs)  edrobs                                 ' +
+        ' '
+      '     , etf.etftelefone'
+      '     , clb.clbidentificacao'
+      '     , orc.orcdataabert'
+      '     , orchoraabert              '
+      '     , orc.foacodigo'
+      '     , orc.orcmesa'
+      '     , imm.immnumepedido'
+      '     , imm.immhorapedido'
+      '     , imm.tcicodigo'
+      
+        '     , trim(orc.orcobs)orcobs                                   ' +
+        '   '
+      '    '
+      '     , @auxnao pedauxnao'
+      '     , @auxsim pedauxsim'
+      '     , concat(orc.orcchave,'#39'-'#39',orcdataabert) orcqrcode   '
+      '     , orc.orcpedidointegracao'
+      '     , etd.etdobs'
+      '     , ori.oriidentificacao'
+      '      '
+      '  FROM orc'
+      ' INNER JOIN ori on orc.oricodigo = ori.oricodigo'
+      ' INNER JOIN ito on orc.orcchave  = ito.orcchave'
+      ' INNER JOIN imm ON ito.itochave  = imm.itochave'
+      
+        ' INNER JOIN clb ON imm.clbcodigo = clb.clbcodigo                ' +
+        '        '
+      ' INNER JOIN etd ON orc.etdcodigo = etd.etdcodigo'
+      ' INNER JOIN edr ON edr.edrcodigo = orc.edrcodigo'
+      '  LEFT JOIN etf ON etf.etdcodigo = etd.etdcodigo'
+      ' WHERE orc.orcchave = @orcchave'
+      
+        '   AND IF(etf.etdcodigo > 0, orc.orctelefone=etf.etftelefone, 1 ' +
+        '= 1)'
+      
+        '   AND if(@tcicodigo<>0,  imm.tcicodigo = @tcicodigo,1=1)       ' +
+        '                                         '
+      ' '
+      '')
+    Left = 32
+    Top = 64
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tcicodigo'
+        Value = nil
+      end>
+  end
+  object ito: TUniQuery
+    SQL.Strings = (
+      'SET @orcchave      =  :orcchave;  '
+      'SET @tcicodigo     =  :tcicodigo;'
+      ''
+      'SELECT distinct ito.itoitem        '
+      '     , ito.itochave                                    '
+      '     , ito.procodigo          '
+      '     , pro.pronome                                '
+      '     , ito.itoquantidade      '
+      '     , uni.unisimbolo'
+      
+        '     , uni.uninome                                              ' +
+        '                                    '
+      '     , ito.itovalorav         '
+      '     , ito.itototalav         '
+      '     , itoobs'
+      '     , imm.immcopos '
+      '     , imm.immpratos'
+      '     , grp.grpidentificacao'
+      '     , ito.itoacrescimoav         '
+      
+        '     , (SELECT t.tciprioridade from tci t,grp g, gri i, pro p WH' +
+        'ERE i.grpcodigo=g.grpcodigo and  g.grpcodigo=p.grpcodigo AND p.p' +
+        'rocodigo=ito.procodigo  and i.tcicodigo=t.tcicodigo LIMIT 1) tci' +
+        'prioridade         '
+      '     , sfn.sfncodigo'
+      '     , gri.gripedidoaux'
+      '  FROM ito'
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      ' INNER JOIN clb ON orc.clbcodigo = clb.clbcodigo       '
+      ' INNER JOIN imm ON ito.itochave = imm.itochave'
+      ' INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      ' INNER JOIN grp ON grp.grpcodigo = pro.grpcodigo        '
+      ' INNER JOIN gri ON grp.grpcodigo = gri.grpcodigo        '
+      
+        '                                                                ' +
+        '                                            '
+      ' INNER JOIN uni ON ito.unicodigo = uni.unicodigo'
+      ' INNER JOIN tci ON imm.tcicodigo = tci.tcicodigo     '
+      
+        '  LEFT JOIN sfn ON pro.procodigo = sfn.procodigo AND uni.unicodi' +
+        'go = sfn.unicodigo'
+      
+        ' WHERE orc.orcchave = @orcchave -- and if(@tcicodigo<>0, imm.tci' +
+        'codigo = @tcicodigo,1=1)                 '
+      '   and ito.stocodigo not in (9, 88)'
+      '    AND ito.procodigo not in (select procodigo from bai)      '
+      '    AND imm.immhoraimpresso IS null   '
+      ' ORDER BY  tci.tciprioridade, gri.gripedidoaux           ')
+    Left = 32
+    Top = 128
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tcicodigo'
+        Value = nil
+      end>
+  end
+  object brd: TUniQuery
+    SQL.Strings = (
+      '-- BORDAS'
+      'SELECT distinct'
+      
+        '       bri.itochave                                             ' +
+        '                       '
+      '     , brd.brdidentificacao'
+      '     , bri.briincluir                                        '
+      '  FROM bri '
+      ' INNER JOIN brd ON bri.brdcodigo = brd.brdcodigo'
+      
+        ' where briincluir=1 and bri.itochave=:itochave                  ' +
+        '                     '
+      ' ORDER BY brd.brdidentificacao')
+    Left = 32
+    Top = 184
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+  end
+  object sbr: TUniQuery
+    SQL.Strings = (
+      '-- SABORES'
+      'SELECT distinct'
+      '       sbi.itochave'
+      
+        '     , sbi.sbichave                                             ' +
+        '   '
+      
+        '     , sbr.sbrcodigo                                            ' +
+        '            '
+      '     , sbr.sbridentificacao'
+      '     , sbi.sbiobs'
+      '     , ifnull(sfn.sfncodigo,0) sfncodigo'
+      '     , sbiitem                          '
+      '  FROM sbi '
+      ' INNER JOIN sbr ON sbi.sbrcodigo = sbr.sbrcodigo'
+      ' INNER JOIN (SELECT itochave itemid'
+      '                  , procodigo'
+      '                  , unicodigo'
+      '               FROM ito) tito'
+      '         ON sbi.itochave = tito.itemid '
+      ' INNER JOIN pro ON tito.procodigo = pro.procodigo'
+      ' '
+      '  LEFT JOIN sfn'
+      '         ON pro.procodigo = sfn.procodigo '
+      '        AND tito.unicodigo = sfn.unicodigo'
+      ' where sbi.itochave=:itochave '
+      
+        ' ORDER BY sbr.sbridentificacao, sbi.sbiitem                     ' +
+        '        '
+      ''
+      ''
+      '')
+    Left = 96
+    Top = 64
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+  end
+  object isi: TUniQuery
+    SQL.Strings = (
+      '-- INGREDIENTE'
+      'SELECT distinct'
+      '      sbi.sbrcodigo                '
+      '     , isi.procodigo'
+      '     , isi.isitipo'
+      '     , ing.pronome ingnome'
+      '     , tsi.tsicodigo                                      '
+      
+        '     , IF(tsi.tsicodigo = 3, '#39#39', tsi.tsiidentificacao) AS tsiide' +
+        'ntificacao'
+      
+        '      , IF(isiquantidade>1,CONCAT(isiquantidade,'#39' '#39','#39'UN'#39'),'#39#39') qu' +
+        'ant                               '
+      '  FROM sbi'
+      ' INNER JOIN isi ON sbi.sbichave = isi.sbichave'
+      ' INNER JOIN tsi ON isi.tsicodigo = tsi.tsicodigo '
+      ' INNER JOIN pro ing ON isi.procodigo = ing.procodigo'
+      '  WHERE IF(isi.isitipo = 0, tsi.tsicodigo != 3, 1 = 1 )'
+      '  AND sbi.sbichave=:sbichave      '
+      '   ORDER BY isi.isitipo, ing.pronome')
+    Left = 96
+    Top = 128
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'sbichave'
+        Value = nil
+      end>
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      ' SELECT'
+      '  etd.etdapelido,'
+      '  etd.etddoc1,'
+      '  edr.edrinscest,'
+      '  edr.edrrua,'
+      '  edr.edrnumero,'
+      '  edr.edrbairro,'
+      '  edr.edrcep,'
+      '  cdd.cddnome,'
+      '  ufs.ufssigla,'
+      '  etf.etftelefone,'
+      '  cfglogo'
+      'FROM cfgmcfg'
+      '  INNER JOIN etd'
+      '    ON cfgmcfg.cfgetdempresa = etd.etdcodigo'
+      '  INNER JOIN edr'
+      '    ON etd.etdcodigo = edr.etdcodigo'
+      '  INNER JOIN etf'
+      '    ON etd.etdcodigo = etf.etdcodigo'
+      '  INNER JOIN cdd'
+      '    ON edr.cddcodigo = cdd.cddcodigo'
+      '  INNER JOIN ufs'
+      '    ON edr.ufscodigo = ufs.ufscodigo'
+      'WHERE etf.ttfcodigo = 1'
+      'AND edr.tedcodigo = 1')
+    Left = 32
+    Top = 8
+  end
+  object total: TUniQuery
+    SQL.Strings = (
+      'SET @orcchave      =  :orcchave;  '
+      ''
+      ''
+      
+        'SELECT   sum(ito.itototalav+ito.itoacrescimoav-itodescontoav) to' +
+        'tal,'
+      ' sum(ito.itototalav+ito.itoacrescimoav)valor,'
+      '     orcdescontoav        '
+      '  FROM ito'
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      ' INNER JOIN clb ON orc.clbcodigo = clb.clbcodigo       '
+      ' INNER JOIN imm ON ito.itochave = imm.itochave'
+      ' INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      
+        ' INNER JOIN grp ON grp.grpcodigo = pro.grpcodigo                ' +
+        '                                                                ' +
+        '                                    '
+      ' INNER JOIN uni ON ito.unicodigo = uni.unicodigo'
+      ' INNER JOIN tci ON imm.tcicodigo = tci.tcicodigo     '
+      '  LEFT JOIN sfn '
+      '         ON pro.procodigo = sfn.procodigo '
+      '        AND uni.unicodigo = sfn.unicodigo'
+      ' WHERE orc.orcchave = @orcchave                 '
+      '   and ito.stocodigo not in (9, 88)'
+      
+        ' --   AND ito.procodigo not in (select procodigo from bai)      ' +
+        ' '
+      ' ORDER BY  tci.tciprioridade          '
+      '          ')
+    Left = 32
+    Top = 248
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+  end
+  object ori: TUniQuery
+    SQL.Strings = (
+      'select oriidentificacao, orcnumeropedido from orc, ori'
+      'where orc.oricodigo=ori.oricodigo and orc.orcchave=:orcchave')
+    Left = 96
+    Top = 184
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+  end
+  object consulta: TUniQuery
+    Left = 96
+    Top = 256
+  end
+end

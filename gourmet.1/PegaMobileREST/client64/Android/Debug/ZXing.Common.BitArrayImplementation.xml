@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.BitArrayImplementation" platform="Android">
+  <function name="NewBitArray" visibility="public" procflags="overload" file="ZXing.Common.BitArrayImplementation.pas" line="459">
+    <parameters>
+      <retval type="IBitArray" />
+    </parameters>
+  </function>
+  <function name="NewBitArray" visibility="public" procflags="overload" file="ZXing.Common.BitArrayImplementation.pas" line="465">
+    <parameters>
+      <parameter name="Size" type="Integer" paramflags="const" />
+      <retval type="IBitArray" />
+    </parameters>
+  </function>
+</namespace>

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.FinderPatternInfo" platform="Android">
+  <class name="TFinderPatternInfo" sealed="true" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="32">
+    <devnotes>
+       <summary>
+       <p>Encapsulates information about finder patterns in an image, including the location of
+       the three finder patterns, and their estimated module size.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FbottomLeft" type="IFinderPattern" visibility="private" size="8" offset="8" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="34" />
+      <field name="FtopLeft" type="IFinderPattern" visibility="private" size="8" offset="16" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="35" />
+      <field name="FtopRight" type="IFinderPattern" visibility="private" size="8" offset="24" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="36" />
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="42">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+          <parameter name="patternCenters" type="TArray&lt;ZXing.QrCode.Internal.FinderPattern.IFinderPattern&gt;" paramflags="const" />
+        </parameters>
+      </constructor>
+      <property name="bottomLeft" visibility="public" read="FbottomLeft" type="IFinderPattern" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="47">
+        <devnotes>
+           <summary>
+           Gets the bottom left.
+           </summary>
+        </devnotes>
+      </property>
+      <property name="topLeft" visibility="public" read="FtopLeft" type="IFinderPattern" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="52">
+        <devnotes>
+           <summary>
+           Gets the top left.
+           </summary>
+        </devnotes>
+      </property>
+      <property name="topRight" visibility="public" read="FtopRight" type="IFinderPattern" file="ZXing.QrCode.Internal.FinderPatternInfo.pas" line="57">
+        <devnotes>
+           <summary>
+           Gets the top right.
+           </summary>
+        </devnotes>
+      </property>
+    </members>
+  </class>
+</namespace>

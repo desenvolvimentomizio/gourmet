@@ -1,0 +1,331 @@
+unit ufrarmg;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, VirtualTable, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, Vcl.Graphics, System.SysUtils, uPegaBase,ufuncoes, Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls,
+  System.ImageList, Vcl.ImgList, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
+
+type
+  Tfrarmg = class(Tfrabase)
+    uqtabelarmgchave: TIntegerField;
+    uqtabelamlgchave: TIntegerField;
+    uqtabelaflacodigo: TIntegerField;
+    uqtabelapcgcodigo: TIntegerField;
+    uqtabelacedcodigo: TIntegerField;
+    uqtabelarmgvalor: TFloatField;
+    uqtabelarmgdata: TDateField;
+    uqtabelarmgcomplemento: TStringField;
+    phg: tuniquery;
+    phgphgcodigo: TIntegerField;
+    phgphgidentificacao: TStringField;
+    uqtabelaphgcodigo: TIntegerField;
+    drg: tuniquery;
+    Ddrg: tunidatasource;
+    drgdrgchave: TIntegerField;
+    drgmlgchave: TIntegerField;
+    drgdrgvalor: TFloatField;
+    Listadrg: TDBGrid;
+    fcb: tuniquery;
+    fcbflacodigo: TIntegerField;
+    fcbclbcodigo: TIntegerField;
+    cfg: tuniquery;
+    cfgcfgdtinictb: TDateField;
+    cfgcfgdtfinctb: TDateField;
+    uqtabelaflaidentificacao: TStringField;
+    uqtabelaphgidentificacao: TStringField;
+    uqtabelarmgcompetencia: TDateField;
+    uqtabelarmginclusao: TDateTimeField;
+    drgccgcodigo: TIntegerField;
+    drgccgidentificacao: TStringField;
+    ActLivroRazao: TAction;
+    uqtabelapcgidentificacao: TStringField;
+    uqtabelacedidentificacao: TStringField;
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure ListadrgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure ActLivroRazaoExecute(Sender: TObject);
+  private
+    function MostraRazao: String;
+  public
+    { Public declarations }
+  end;
+
+  tgerarza = function(AOwner: TComponent; conexao: tuniconnection; vacesso:TAcesso; vmodo: string): string;
+
+var
+  frarmg: Tfrarmg;
+
+  // Início ID do Módulo frarmg
+const
+  vPlIdMd = '02.02.16.009-01';
+  vPlTitMdl = 'Movimentação Gerencial';
+
+  // Fim ID do Módulo frarmg
+
+implementation
+
+{$R *.dfm}
+
+uses ufrmg;
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frarmg := Tfrarmg.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  frarmg := Tfrarmg.Create(pCargaFrame);
+  try
+    frarmg.CriaAcoesDeAcesso;
+  finally
+    frarmg.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+Function Tfrarmg.MostraRazao: String;
+Var
+  Exec: tgerarza;
+  Pack: HMODULE;
+  Ch: String;
+Begin
+  Pack := LoadPackage('modulos\mrza.bpl');
+  If Pack <> 0 Then
+    Try
+      @Exec := GetProcAddress(Pack, PChar('gerarza'));
+
+      If Assigned(Exec) Then
+        Ch := Exec(Application, zcone, Acesso, '1');
+    Finally
+      // DoUnLoadPackage(Application, Pack);
+    End;
+  Result := Ch;
+End;
+
+procedure Tfrarmg.ActAlterarExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfrmg, self.uqtabelarmgchave.AsString, '');
+end;
+
+procedure Tfrarmg.ActAtualizarExecute(Sender: TObject);
+Var
+  rgi, xsql: string;
+  t: string;
+  i: Integer;
+  vfiltro: string;
+  fltfla: string;
+  fltdta: string;
+  vsuper: Integer;
+Begin
+  vsuper := 0;
+  inherited;
+
+  { for i := 0 to self.ComponentCount - 1 do
+    begin
+    if self.Components[i] is tuniquery then
+    begin
+    (self.Components[i] as tuniquery).Connection := self.zcone;
+    end;
+    end;
+
+    If uqtabela.Active Then
+    Begin
+    rgi := self.uqtabela.fields[0].AsString;
+    End
+    Else
+    Begin
+    rgi := '';
+    End;
+
+    self.uqtabela.Close;
+
+    fil.Close;
+    fil.SQL.Clear;
+    fil.SQL.Text := 'select filcodigo, clscodigo, clbcodigo, filsqloriginal from fil ' + 'where clscodigo=' + self.clsclscodigo.AsString +
+    ' and clbcodigo=' + self.vusrcodigo;
+    fil.Open;
+
+    vfiltro := montafiltro;
+
+    fcb.Connection := zcone;
+    fcb.Close;
+    fcb.Filter := 'clbcodigo=' + vusrcodigo;
+    fcb.Filtered := True;
+    fcb.Open;
+
+    if fcb.RecordCount > 1 then
+    begin
+    while not fcb.Eof do
+    begin
+    fltfla := fltfla + 'rmg.flacodigo=' + chr(39) + fcbflacodigo.AsString + chr(39) + ' or ';
+    fcb.Next;
+    end;
+    end
+    else
+    begin
+    fltfla := 'rmg.flacodigo=' + fcbflacodigo.AsString;
+    end;
+
+    if copy(fltfla, length(fltfla) - 3, 4) = ' or ' then
+    begin
+    fltfla := trim(copy(fltfla, 1, length(fltfla) - 3));
+    end;
+
+    fltfla := '(' + fltfla + ')';
+
+    if vfiltro <> '' then
+    begin
+    if pos('where', self.filfilsqloriginal.AsString) = 0 then
+    begin
+    self.uqtabela.SQL.Text := self.filfilsqloriginal.AsString + ' where ' + vfiltro;
+    end
+    else
+    begin
+    self.uqtabela.SQL.Text := self.filfilsqloriginal.AsString + ' and ' + vfiltro;
+    end;
+    end
+    else
+    begin
+    if self.filfilsqloriginal.AsString <> '' then
+    begin
+    self.uqtabela.SQL.Text := self.filfilsqloriginal.AsString;
+    end;
+    end;
+    cfg.Close;
+    cfg.Open;
+
+    if pos('where', self.uqtabela.SQL.Text) > 0 then
+    begin
+    self.uqtabela.SQL.Text := self.uqtabela.SQL.Text + ' and ' + fltfla;
+    end
+    else
+    begin
+    self.uqtabela.SQL.Text := self.uqtabela.SQL.Text + ' where ' + fltfla;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select clbsuper from clb where clbcodigo=' + self.vusrcodigo;
+    consulta.Open;
+
+    vsuper := consulta.fields[0].AsInteger;
+    consulta.Close;
+
+    if vsuper = 0 then
+    begin
+    // fltdta:=' and rmgdata>='+chr(39)+self.cfgcfgdtinictb.AsString+chr(39)+ ' and rmgdata<='+chr  (39)+self.cfgcfgdtfinctb.AsString+chr(39);
+    // self.uqtabela.SQL.Text := self.uqtabela.SQL.Text+ fltdta;
+    end;
+
+    If self.vChaveMestre <> '' Then
+    Begin
+    If self.uqtabela.Params.Count = 1 Then
+    Begin
+    self.uqtabela.Params[0].AsString := self.vChaveMestre;
+    End;
+    End;
+    xsql := self.uqtabela.SQL.Text;
+    self.uqtabela.Open;
+    MostraQuantiRecno;
+    if rgi <> '' then
+    begin
+    self.uqtabela.Locate(uqtabela.fields[0].FieldName, rgi, []);
+    end;
+
+    if ifi.Active then
+    begin
+    if ifi.RecordCount = 0 then
+    begin
+    if SplBotoes.FindComponent('bactverfiltros') <> nil then
+    begin
+    (SplBotoes.FindComponent('bactverfiltros') as TBitBtn).Visible := False;
+    end;
+    end
+    else
+    begin
+    if SplBotoes.FindComponent('bactverfiltros') <> nil then
+    begin
+    (SplBotoes.FindComponent('bactverfiltros') as TBitBtn).Visible := True;
+    end;
+    end;
+    end
+    else
+    begin
+    if SplBotoes.FindComponent('bactverfiltros') <> nil then
+    begin
+    (SplBotoes.FindComponent('bactverfiltros') as TBitBtn).Visible := False;
+    end;
+    end; }
+
+end;
+
+procedure Tfrarmg.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfrmg, '', '');
+end;
+
+procedure Tfrarmg.ActLivroRazaoExecute(Sender: TObject);
+begin
+  inherited;
+  MostraRazao;
+end;
+
+procedure Tfrarmg.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+
+  if self.uqtabelarmgchave.AsString <> '' then
+  begin
+
+    drg.Close;
+    drg.Params[0].AsInteger := self.uqtabelamlgchave.AsInteger;
+    drg.Params[1].AsInteger := self.uqtabelapcgcodigo.AsInteger;
+    drg.Open;
+
+    if drg.RecordCount > 0 then
+    begin
+      // PlRodaPe.Visible:=true;
+    end
+    else
+    begin
+      // PlRodaPe.Visible:=false;
+    end;
+
+  end;
+
+end;
+
+procedure Tfrarmg.ListadrgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+
+  If odd(Ddrg.DataSet.RecNo) Then
+    Listadrg.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    Listadrg.Canvas.Brush.Color := CLWHITE;
+
+  TDBGrid(Sender).Canvas.Font.Color := clblack;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := clSilver; // $004080FF;
+      FillRect(Rect);
+      Font.Style := [fsbold]
+    End;
+
+  TDBGrid(Sender).DefaultDrawDataCell(Rect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+end.

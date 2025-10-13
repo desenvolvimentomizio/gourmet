@@ -1,0 +1,1946 @@
+unit ufrapro;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.DBCtrls, VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Classes,
+  Vcl.Controls, Vcl.ActnList, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.Dialogs,
+  Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Imaging.pngimage, System.Actions,
+  System.SysUtils, Vcl.Graphics, uFuncoes, uBuscaProduto, uPegaBase, Vcl.Mask, dateutils,
+  System.ImageList, Vcl.ImgList,  ACBrBase, ACBrSocket, ACBrIBPTax,
+  Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, System.Variants 
+
+type
+  Tfrapro = class(Tfrabase)
+    uqtabelaprocodigo: TIntegerField;
+    uqtabelaproncm: TStringField;
+    uqtabelapronome: TStringField;
+    uqtabelaprosaldo: TFloatField;
+    uqtabelagrpidentificacao: TStringField;
+    uqtabelamaridentificacao: TStringField;
+    uqtabelaicmaliquotas: TStringField;
+    uqtabelaproobs: TStringField;
+    pun: tuniquery;
+    punpuncodigo: TIntegerField;
+    punprocodigo: TIntegerField;
+    pununisimbolo: TStringField;
+    punpunidentificacao: TStringField;
+    pundgridentificacao: TStringField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpunbarra: TStringField;
+    Dpun: tunidatasource;
+    GBObs: TGroupBox;
+    proobs: TDBMemo;
+    bbarra: tuniquery;
+    mBuscaPorBarra: TMenuItem;
+    N1: TMenuItem;
+    uqtabelaproreferencia: TStringField;
+    PnlBuscaBarra: TGroupBox;
+    Panel1: TPanel;
+    cd: TEdit;
+    uqtabelaunisimbolo: TStringField;
+    uqtabelapunprecoav: TFloatField;
+    uqtabelapunprecoap: TFloatField;
+    cfg: tuniquery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgrefepro: TIntegerField;
+    cfgcfgdoisprecos: TIntegerField;
+    ActPrecoDeVenda: TAction;
+    puntuncodigo: TIntegerField;
+    sip: tuniquery;
+    sipsipcodigo: TIntegerField;
+    sipsipidentificacao: TStringField;
+    uqtabelaprosaldodisp: TFloatField;
+    mostra: TProgressBar;
+    uqtabelasipcodigo: TIntegerField;
+    ActMovimentacao: TAction;
+    uqtabelatpoidentificacao: TStringField;
+    uqtabelatpocodigo: TIntegerField;
+    ActMostrarInativos: TAction;
+    uqtabelaenpcodigo: TIntegerField;
+    uqtabelaenpendereco: TStringField;
+    ActAjustaBarra: TAction;
+    pununinome: TStringField;
+    pununicodigo: TIntegerField;
+    punpunbarrasistema: TIntegerField;
+    ActEtiquetas: TAction;
+    apv: tuniquery;
+    apvapvprecoav: TFloatField;
+    apvapvprecoap: TFloatField;
+    apvapvdatahora: TDateTimeField;
+    apvclbidentificacao: TStringField;
+    Dapv: TDataSource;
+    plEmbalagens: TPanel;
+    listapun: TDBGrid;
+    plTitulosEmbalagens: TPanel;
+    plAjustedePrecos: TPanel;
+    listaapv: TDBGrid;
+    plTituloPrecos: TPanel;
+    uqtabelacpbcodbalanca: TIntegerField;
+    ActPrecoDeCusto: TAction;
+    ActVariacoes: TAction;
+    uqtabelagracodigo: TIntegerField;
+    cfgcfgusagrade: TIntegerField;
+    ActPrecoCustoEsp: TAction;
+    uqtabeladpridentificacao: TStringField;
+    cfgcfgusaenderecamento: TIntegerField;
+    cfgcfgprodefineicms: TIntegerField;
+    cfgcfgbalanca: TIntegerField;
+    esp: tuniquery;
+    espespcodigo: TIntegerField;
+    espprocodigo: TIntegerField;
+    espflacodigo: TIntegerField;
+    espespgeral: TFloatField;
+    espesppendente: TFloatField;
+    espespreservado: TFloatField;
+    espespavaria: TFloatField;
+    espesptransito: TFloatField;
+    espesprequisitado: TFloatField;
+    espespdisponivel: TFloatField;
+    espflasigla: TStringField;
+    plEstoque: TPanel;
+    listaesp: TDBGrid;
+    Panel3: TPanel;
+    Desp: TDataSource;
+    uqtabelaproconsolidado: TIntegerField;
+    AlterarPreo1: TMenuItem;
+    AjustaNCM1: TMenuItem;
+    AlterarCustoePreos1: TMenuItem;
+    punpunmargemap: TFloatField;
+    uqtabelapunpercav: TFloatField;
+    uqtabelapunpercap: TFloatField;
+    uqtabelapuncusto: TFloatField;
+    ActVerCusto: TAction;
+    expdisp: tuniquery;
+    exp: tuniquery;
+    tprg: tuniquery;
+    tprgeprcodigo: TIntegerField;
+    tprgprocodigo: TIntegerField;
+    tprgetdcodigo: TIntegerField;
+    tprgetdidentificacao: TStringField;
+    tprgeprdata: TDateField;
+    tprgeprchavedoc: TIntegerField;
+    tprgeprorigem: TStringField;
+    tprgeprnumero: TStringField;
+    tprgunicodigo: TIntegerField;
+    tprgunisimbolo: TStringField;
+    tprgtdfidentificacao: TStringField;
+    tprgeprquantiitm: TFloatField;
+    tprgeprquanti: TFloatField;
+    tprgeprcontendo: TFloatField;
+    tprgunisimbolobase: TStringField;
+    tprgepracumulado: TFloatField;
+    tprgeprmultiplicador: TFloatField;
+    tprgtmecodigo: TIntegerField;
+    tprgttecodigo: TIntegerField;
+    tprgeprcustototal: TFloatField;
+    tprgeprmediacusto: TFloatField;
+    tprgeprcustofinal: TFloatField;
+    tprgsdeidentificacao: TStringField;
+    tprgsdecodigo: TStringField;
+    tprgmesinclusao: TDateTimeField;
+    tprd: tuniquery;
+    tprdeprcodigo: TIntegerField;
+    tprdprocodigo: TIntegerField;
+    tprdetdcodigo: TIntegerField;
+    tprdetdidentificacao: TStringField;
+    tprdeprdata: TDateField;
+    tprdeprchavedoc: TIntegerField;
+    tprdeprorigem: TStringField;
+    tprdeprnumero: TStringField;
+    tprdunicodigo: TIntegerField;
+    tprdunisimbolo: TStringField;
+    tprdtdfidentificacao: TStringField;
+    tprdeprquantiitm: TFloatField;
+    tprdeprquanti: TFloatField;
+    tprdeprcontendo: TFloatField;
+    tprdunisimbolobase: TStringField;
+    tprdepracumulado: TFloatField;
+    tprdeprmultiplicador: TFloatField;
+    tprdtmecodigo: TIntegerField;
+    tprdttecodigo: TIntegerField;
+    tprdeprcustototal: TFloatField;
+    tprdeprmediacusto: TFloatField;
+    tprdeprcustofinal: TFloatField;
+    tprdsdeidentificacao: TStringField;
+    tprdsdecodigo: TStringField;
+    tprdmesinclusao: TDateTimeField;
+    ProgressBar1: TProgressBar;
+    vtprg: TVirtualTable;
+    vtprgeprcodigo: TIntegerField;
+    vtprgprocodigo: TIntegerField;
+    vtprgetdcodigo: TIntegerField;
+    vtprgetdidentificacao: TStringField;
+    vtprgeprdata: TDateField;
+    vtprgeprchavedoc: TIntegerField;
+    vtprgeprorigem: TStringField;
+    vtprgeprnumero: TStringField;
+    vtprgunicodigo: TIntegerField;
+    vtprgunisimbolo: TStringField;
+    vtprgtdfidentificacao: TStringField;
+    vtprgeprquantiitm: TFloatField;
+    vtprgeprquanti: TFloatField;
+    vtprgeprcontendo: TFloatField;
+    vtprgunisimbolobase: TStringField;
+    vtprgepracumulado: TFloatField;
+    vtprgeprmultiplicador: TFloatField;
+    vtprgtmecodigo: TIntegerField;
+    vtprgttecodigo: TIntegerField;
+    vtprgeprcustototal: TFloatField;
+    vtprgeprmediacusto: TFloatField;
+    vtprgeprcustofinal: TFloatField;
+    vtprgsdeidentificacao: TStringField;
+    vtprgsdecodigo: TStringField;
+    vtprgmesinclusao: TDateTimeField;
+    vtprd: TVirtualTable;
+    vtprdeprcodigo: TIntegerField;
+    vtprdprocodigo: TIntegerField;
+    vtprdetdcodigo: TIntegerField;
+    vtprdetdidentificacao: TStringField;
+    vtprdeprdata: TDateField;
+    vtprdeprchavedoc: TIntegerField;
+    vtprdeprorigem: TStringField;
+    vtprdeprnumero: TStringField;
+    vtprdunicodigo: TIntegerField;
+    vtprdunisimbolo: TStringField;
+    vtprdtdfidentificacao: TStringField;
+    vtprdeprquantiitm: TFloatField;
+    vtprdeprquanti: TFloatField;
+    vtprdeprcontendo: TFloatField;
+    vtprdunisimbolobase: TStringField;
+    vtprdepracumulado: TFloatField;
+    vtprdeprmultiplicador: TFloatField;
+    vtprdtmecodigo: TIntegerField;
+    vtprdttecodigo: TIntegerField;
+    vtprdeprcustototal: TFloatField;
+    vtprdeprmediacusto: TFloatField;
+    vtprdeprcustofinal: TFloatField;
+    vtprdsdeidentificacao: TStringField;
+    vtprdsdecodigo: TStringField;
+    vtprdmesinclusao: TDateTimeField;
+    ivt: tuniquery;
+    ivtivtchave: TIntegerField;
+    ivtprocodigo: TIntegerField;
+    ivtivtquantidade: TFloatField;
+    ivtivtdescricao: TStringField;
+    ivtspddatabalanco: TDateField;
+    ivtunisimbolo: TStringField;
+    ivd: tuniquery;
+    ivdivdchave: TIntegerField;
+    ivdprocodigo: TIntegerField;
+    ivdspddatabalanco: TDateField;
+    ivdivddescricao: TStringField;
+    ivdunisimbolo: TStringField;
+    ivdivdquantidade: TFloatField;
+    ActHistoricoCusto: TAction;
+    mnUtilitarios: TMenuItem;
+    mnImportadores: TMenuItem;
+    mnProdutosLayout001: TMenuItem;
+    cfgcfgextratosegmentado: TIntegerField;
+    ActHistoricoPreco: TAction;
+    uqtabelagrpcodigo: TIntegerField;
+    ActVerificarDuplicidade: TAction;
+    mnProdutosLayout002: TMenuItem;
+    ActHistoricoMovimento: TAction;
+    ActCustoBase: TAction;
+    cfgcfgusaprecobase: TIntegerField;
+    uqtabelacstcodigo: TStringField;
+    ActTrocarNCMs: TAction;
+    ActAjustarCusto: TAction;
+    ActDadosAdicionais: TAction;
+    cfgcfgtabelasaux: TIntegerField;
+    saldo: tuniquery;
+    cfgcfgproinativsaldozero: TIntegerField;
+    ActAtualizarNCM: TAction;
+    ACBrIBPTax1: TACBrIBPTax;
+    tcg: tuniquery;
+    tcgtcgncm: TStringField;
+    tcgtcgex: TStringField;
+    tcgtcgtabela: TIntegerField;
+    tcgtcgaliqnac: TFloatField;
+    tcgtcgaliqimp: TFloatField;
+    tcgtcgaliqest: TFloatField;
+    tcgtcgaliqmun: TFloatField;
+    tcgtcgdescricao: TStringField;
+    tcgtcgversao: TStringField;
+    tcgtcginicio: TDateField;
+    tcgtcgfinal: TDateField;
+    tce: tuniquery;
+    tcetcechave: TIntegerField;
+    tcetcecest: TStringField;
+    tcetcencm: TStringField;
+    lcn: tuniquery;
+    lcnlcnchave: TIntegerField;
+    lcntcecest: TStringField;
+    lcntcgncm: TStringField;
+    mva: tuniquery;
+    mvamvachave: TIntegerField;
+    mvatcecest: TStringField;
+    mvatcgncm: TStringField;
+    mvamvaidentificacao: TStringField;
+    mvamvapercentual: TFloatField;
+    uqtabelaprocest: TStringField;
+    procedure ActAjustaNCMExecute(Sender: TObject);
+    procedure ActBuscaBarraExecute(Sender: TObject);
+    procedure ActDesativarExecute(Sender: TObject);
+    procedure ActReativarExecute(Sender: TObject);
+    procedure ActRecalculaSaldoExecute(Sender: TObject);
+    procedure cdExit(Sender: TObject);
+    procedure cdKeyPress(Sender: TObject; var Key: Char);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure listapunDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActPrecoDeVendaExecute(Sender: TObject);
+    procedure listapunKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ActNormalExecute(Sender: TObject);
+    procedure ActInativosExecute(Sender: TObject);
+    procedure ActMovimentacaoExecute(Sender: TObject);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActAjustaBarraExecute(Sender: TObject);
+    procedure ActEtiquetasExecute(Sender: TObject);
+    procedure listaapvDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure listaapvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ActPrecoDeCustoExecute(Sender: TObject);
+    procedure ActVariacoesExecute(Sender: TObject);
+    procedure ActPrecoCustoEspExecute(Sender: TObject);
+    procedure listaespDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure listaespKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ActVerCustoExecute(Sender: TObject);
+    procedure ActHistoricoCustoExecute(Sender: TObject);
+    procedure mnProdutosLayout001Click(Sender: TObject);
+    procedure ActHistoricoPrecoExecute(Sender: TObject);
+    procedure ActVerificarDuplicidadeExecute(Sender: TObject);
+    procedure mnProdutosLayout002Click(Sender: TObject);
+    procedure ActHistoricoMovimentoExecute(Sender: TObject);
+    procedure ActCustoBaseExecute(Sender: TObject);
+    procedure ActTrocarNCMsExecute(Sender: TObject);
+    procedure ActDadosAdicionaisExecute(Sender: TObject);
+    procedure ActAtualizarNCMExecute(Sender: TObject);
+  private
+    procedure atualizacolunas;
+    function TemMovimentacao: Boolean;
+    procedure DBGListaTitleClick(Column: TColumn);
+    procedure AjustaVisaoCusto;
+    function CarregaImportador(vAcesso: TAcesso): Boolean;
+    procedure ProcessarImportacaoNCMs(vArquivo: string);
+    procedure ProcessarImportacaoMVAs(vArquivo: string);
+
+    procedure SincronizarCEST;
+  public
+    { Public declarations }
+    procedure Carregar; override;
+  end;
+
+  Tregistraimportador = function(AOwner: TComponent; conexao: tuniconnection; Acesso: TAcesso): string;
+
+var
+  frapro: Tfrapro;
+
+  // Início ID do Módulo frapro
+const
+  vPlIdMd = '01.01.05.001-01';
+  vPlTitMdl = 'Produtos';
+
+  // Fim ID do Módulo frapro
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+implementation
+
+{$R *.dfm}
+
+uses ufncm, ufpro, ufbarra, ufproEtiqueta, ufimpprolay01, ufproHistorico,
+  uftrocancm;
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frapro := Tfrapro.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  frapro := Tfrapro.Create(pCargaFrame);
+  try
+    frapro.CriaAcoesDeAcesso;
+  finally
+    frapro.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfrapro.Carregar;
+begin
+  atualizacolunas;
+
+  MontaFiltroEsp(sip, IntToStr(sipNormal));
+
+  if FormaFrame = ffFormu then
+    if TxtFiltro <> '' then
+      TxtFiltroSQL := TxtFiltro;
+
+  inherited Carregar;
+
+  if cfgcfgtabelasaux.asinteger = 1 then
+  begin
+    if self.FindComponent('ActDadosAdicionais') <> nil then
+      (self.FindComponent('ActDadosAdicionais') as TAction).Enabled := true;
+  end
+  else
+  begin
+    if self.FindComponent('ActDadosAdicionais') <> nil then
+      (self.FindComponent('ActDadosAdicionais') as TAction).Enabled := False;
+  end;
+
+  if cfgcfgusaprecobase.asinteger = 1 then
+  begin
+    if self.FindComponent('ActCustoBase') <> nil then
+      (self.FindComponent('ActCustoBase') as TAction).Enabled := true;
+  end
+  else
+  begin
+    if self.FindComponent('ActCustoBase') <> nil then
+      (self.FindComponent('ActCustoBase') as TAction).Enabled := False;
+  end;
+
+  AjustaVisaoCusto;
+
+end;
+
+procedure Tfrapro.AjustaVisaoCusto;
+var
+  i: Integer;
+begin
+  for i := 0 to dbglista.Columns.Count - 1 do
+  begin
+    if (dbglista.Columns[i].FieldName = 'punpercap') or (dbglista.Columns[i].FieldName = 'punpercav') or (dbglista.Columns[i].FieldName = 'puncusto') then
+      dbglista.Columns[i].Visible := ActVerCusto.Checked;
+  end;
+end;
+
+procedure Tfrapro.atualizacolunas;
+begin
+  cfg.Connection := zcone;
+  cfg.Open;
+
+  if cfgcfgusagrade.asinteger = 0 then
+    ActVariacoes.Visible := False;
+
+  if cfgcfgdoisprecos.asinteger = 0 then
+  begin
+    deletarcoluna('punprecoap', dbglista);
+    deletarcoluna('punprecoap', listapun);
+  end;
+
+  if cfgcfgrefepro.asinteger = 0 then
+    deletarcoluna('proreferencia', dbglista);
+
+  if cfgcfgusaenderecamento.asinteger = 0 then
+    deletarcoluna('enpendereco', dbglista);
+
+  if cfgcfgprodefineicms.asinteger = 0 then
+    deletarcoluna('icmaliquotas', dbglista);
+
+  if cfgcfgbalanca.asinteger = 0 then
+    deletarcoluna('cpbcodbalanca', dbglista);
+
+end;
+
+procedure Tfrapro.ActAjustaBarraExecute(Sender: TObject);
+Var
+  vfbarra: tfbarra;
+  rg: Integer;
+Begin
+  Inherited;
+  if TemMovimentacao then
+  begin
+    if punpunbarrasistema.asinteger = 0 then
+    begin
+      showmessage('ATENÇÃO: Este produto tem movimentação ja registrada para este código de Barra!');
+      exit;
+    end;
+  end;
+
+  if self.autorizado(Sender) then
+  begin
+    try
+      rg := self.uqtabelaprocodigo.asinteger;
+      if uqtabela.FieldByName('sipcodigo').asinteger = 1 then
+        CriaFormulario(tfbarra, self.punpuncodigo.AsString, '');
+
+      self.uqtabela.Locate('procodigo', rg, []);
+    finally
+    end;
+  end;
+
+end;
+
+procedure Tfrapro.ActAjustaNCMExecute(Sender: TObject);
+Var
+  vfncm: tfncm;
+  rg: Integer;
+Begin
+  Inherited;
+  if self.autorizado(Sender) then
+  begin
+    try
+      rg := uqtabela.RecNo;
+      vfncm := tfncm.Create(self);
+
+      vfncm.registro.Connection := self.zcone;
+      vfncm.tcg.Connection := self.zcone;
+      vfncm.registro.Close;
+      vfncm.registro.ParamByName('procodigo').asinteger := self.uqtabelaprocodigo.asinteger;
+      vfncm.registro.Open;
+      vfncm.registro.Edit;
+      vfncm.ShowModal;
+      self.actatualizar.Execute;
+      uqtabela.RecNo := rg;
+    finally
+      FreeAndNil(vfncm);
+    end;
+  end;
+end;
+
+procedure Tfrapro.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  if uqtabela.FieldByName('sipcodigo').asinteger = 1 then
+    CriaFormulario(Tfpro, self.uqtabelaprocodigo.AsString, '');
+end;
+
+procedure Tfrapro.ActAtualizarNCMExecute(Sender: TObject);
+Type
+  TEfetuaDownloadArquivo = Function(pApplication: TApplication; pDadosConexaoFTP: TDadosConexaoFTP): string;
+var
+  EfetuaDownloadArquivo: TEfetuaDownloadArquivo;
+  vlPackLia: Cardinal;
+  vlArquivo: String;
+  DadosConexaoFTP: TDadosConexaoFTP;
+  vlmes: string;
+begin
+
+  vlPackLia := LoadPackage('modulos\mftp.bpl');
+  if vlPackLia <> 0 then
+    try
+      @EfetuaDownloadArquivo := GetProcAddress(vlPackLia, PChar('EfetuaDownloadArquivo'));
+
+      if Assigned(EfetuaDownloadArquivo) then
+      begin
+        DadosConexaoFTP.Host := 'servpegftp001s.miziosistemas.com.br';
+        DadosConexaoFTP.usuario := 'backups';
+        DadosConexaoFTP.Senha := 'mizio973';
+        DadosConexaoFTP.Porta := 21;
+        vlmes := hoje(application, zcone);
+        vlmes := copy(vlmes, 7, 4) + copy(vlmes, 4, 2) + '.csv';
+
+        DadosConexaoFTP.Arquivo := vlmes;
+        DadosConexaoFTP.PastaOrigem := 'ibpt';
+        DadosConexaoFTP.PastaDestino := 'ncms';
+
+        vlArquivo := EfetuaDownloadArquivo(application, DadosConexaoFTP);
+
+        if FileExists(extractfilepath(application.ExeName) + DadosConexaoFTP.PastaDestino + '\' + DadosConexaoFTP.Arquivo) then
+        begin
+
+          ProcessarImportacaoNCMs(extractfilepath(application.ExeName) + DadosConexaoFTP.PastaDestino + '\' + DadosConexaoFTP.Arquivo);
+
+          SincronizarCEST;
+        end
+        else
+        begin
+
+        end;
+
+        DadosConexaoFTP.Arquivo := vlmes;
+        DadosConexaoFTP.PastaOrigem := 'mva';
+        DadosConexaoFTP.PastaDestino := 'mvas';
+
+        vlArquivo := EfetuaDownloadArquivo(application, DadosConexaoFTP);
+
+        if FileExists(extractfilepath(application.ExeName) + DadosConexaoFTP.PastaDestino + '\' + DadosConexaoFTP.Arquivo) then
+        begin
+
+          ProcessarImportacaoMVAs(extractfilepath(application.ExeName) + DadosConexaoFTP.PastaDestino + '\' + DadosConexaoFTP.Arquivo);
+
+        end
+        else
+        begin
+
+        end;
+
+      end;
+    finally
+        showmessage('Atualziação realizada com sucesso!');
+
+      // DoUnLoadPackage(Application, vlPackLia);
+    end;
+end;
+
+procedure Tfrapro.ProcessarImportacaoMVAs(vArquivo: string);
+var
+  i, x: Integer;
+  vlVersao: string;
+  vlTexto: TstringList;
+  vltcgncms: TstringList;
+
+  vlLInha: string;
+  vlLInhaToda: string;
+
+  vltcecest: string;
+
+  vltcgncm: string;
+  vlmvaidentificacao: string;
+  vlmvapercentual: double;
+
+begin
+  inherited;
+
+  if FileExists(vArquivo) then
+  begin
+    PnlRodapeGrid.Visible := true;
+
+    vlVersao := extractfilename(vArquivo);
+
+    mva.Open;
+
+    vlTexto := TstringList.Create;
+    vltcgncms := TstringList.Create;
+
+    vlTexto.LoadFromFile(vArquivo);
+
+    ProgressBar1.Max := vlTexto.Count;
+    ProgressBar1.Visible := true;
+
+    for i := 0 to vlTexto.Count - 1 do
+    begin
+      vlLInha := vlTexto[i];
+      vlLInhaToda := vlLInha;
+
+      if (copy(vlLInha, 1, 1) <> ';') and (copy(vlLInha, 1, 4) <> 'CEST') then
+      begin
+
+        vltcecest := trim(copy(vlLInha, 1, pos(';', vlLInha) - 1));
+
+        vlLInha := trim(copy(vlLInha, pos(';', vlLInha) + 1, 50000));
+
+        vltcgncm := trim(copy(vlLInha, 1, pos(';', vlLInha) - 1));
+
+        if pos(' ', vltcgncm) = 0 then
+        begin
+          vltcgncms.Clear;
+          vltcgncms.Add(vltcgncm);
+        end
+        else
+        begin
+          vltcgncms.Clear;
+
+          while true do
+          begin
+
+            vltcgncms.Add(sonumeros(trim(copy(vltcgncm, 1, pos(' ', vltcgncm) - 1))));
+
+            if pos(' ', vltcgncm) > 0 then
+            begin
+              vltcgncm := trim(copy(vltcgncm, pos(' ', vltcgncm) + 1, 500));
+            end
+            else
+            begin
+              vltcgncms.Add(sonumeros(trim(vltcgncm)));
+              break;
+            end;
+
+            if vltcgncm = '' then
+              break;
+
+          end;
+
+        end;
+
+        vlLInha := trim(copy(vlLInha, pos(';', vlLInha) + 1, 50000));
+
+        vlmvaidentificacao := trim(copy(vlLInha, 1, length(vlLInha) - 7));
+        if pos('%', vlLInha) > 0 then
+        begin
+          vlmvapercentual := strtofloat(trim(copy(vlLInha, length(vlLInha) - 5, 5)));
+        end;
+
+      end
+      else if (copy(vlLInha, 1, 1) = ';') AND (copy(vlLInha, 2, 1) <> ';') then
+      begin
+
+        vlLInha := trim(copy(vlLInha, pos(';', vlLInha) + 1, 50000));
+        vltcgncm := sonumeros(trim(copy(vlLInha, 1, pos(';', vlLInha) - 1)));
+        vltcgncms.Clear;
+        vltcgncms.Add(vltcgncm);
+      end
+      else if (vlLInha = ';;;') then
+      begin
+
+      end;
+
+      if (vltcecest <> 'CEST') and (vltcecest <> ';') and (vltcgncms.Count > 0) then
+      begin
+
+        ProgressBar1.Position := i;
+        application.ProcessMessages;
+
+        for x := 0 to vltcgncms.Count - 1 do
+        begin
+          if trim(vltcgncms[x]) <> '' then
+          begin
+            consulta.Close;
+            consulta.SQL.Text := 'delete from mva where tcgncm=' + QuotedStr(sonumeros(vltcgncms[x])) + ' and tcecest=' + QuotedStr(sonumeros(vltcecest));
+            consulta.ExecSQL;
+
+            try
+
+              mva.Append;
+              mvatcecest.AsString := sonumeros(vltcecest);
+              mvatcgncm.AsString := sonumeros(vltcgncms[x]);
+              mvamvaidentificacao.AsString := vlmvaidentificacao;
+              mvamvapercentual.asfloat := vlmvapercentual;
+              mva.Post;
+            except
+
+              showmessage(vlLInhaToda);
+            end;
+          end;
+        end;
+
+      end;
+
+    end;
+    PnlRodapeGrid.Visible := False;
+  end;
+end;
+
+procedure Tfrapro.ProcessarImportacaoNCMs(vArquivo: string);
+var
+  i: Integer;
+  vlVersao: string;
+begin
+  inherited;
+
+  if FileExists(vArquivo) then
+  begin
+    PnlRodapeGrid.Visible := true;
+    vlVersao := extractfilename(vArquivo);
+    vlVersao := ACBrIBPTax1.VersaoArquivo;
+
+    tcg.Open;
+    ACBrIBPTax1.AbrirTabela(vArquivo);
+    ProgressBar1.Max := ACBrIBPTax1.Itens.Count;
+    ProgressBar1.Visible := true;
+
+    for i := 0 to ACBrIBPTax1.Itens.Count - 1 do
+    begin
+      // try
+      ProgressBar1.Position := i;
+      application.ProcessMessages;
+
+      consulta.Close;
+      consulta.SQL.Text := 'delete from tcg where tcgncm=' + QuotedStr(ACBrIBPTax1.Itens[i].NCM);
+      consulta.ExecSQL;
+
+      tcg.Append;
+      tcgtcgncm.AsString := ACBrIBPTax1.Itens[i].NCM;
+      tcgtcgex.AsString := ACBrIBPTax1.Itens[i].Excecao;
+      tcgtcgtabela.asinteger := Integer(ACBrIBPTax1.Itens[i].Tabela);
+      tcgtcgaliqnac.asfloat := ACBrIBPTax1.Itens[i].FederalNacional;
+      tcgtcgaliqimp.asfloat := ACBrIBPTax1.Itens[i].FederalImportado;
+      tcgtcgaliqest.asfloat := ACBrIBPTax1.Itens[i].Estadual;
+      tcgtcgaliqmun.asfloat := ACBrIBPTax1.Itens[i].Municipal;
+      tcgtcginicio.asfloat := ACBrIBPTax1.VigenciaInicio;
+      tcgtcgfinal.asfloat := ACBrIBPTax1.VigenciaFim;
+      tcgtcgversao.AsString := ACBrIBPTax1.VersaoArquivo;
+      tcgtcgdescricao.AsString := uppercase(ACBrIBPTax1.Itens[i].Descricao);
+
+      tcgtcgversao.AsString := vlVersao;
+      tcg.Post;
+      { except
+        showMessage('Falha de importação');
+        end; }
+    end;
+    PnlRodapeGrid.Visible := False;
+
+  end;
+end;
+
+procedure Tfrapro.ActBuscaBarraExecute(Sender: TObject);
+begin
+  inherited;
+  uqtabela.FilterSQL := '';
+  actatualizar.Execute;
+
+  cd.Text := '';
+  cd.Visible := False;
+
+  PnlBuscaBarra.Visible := true;
+  cd.Visible := true;
+  cd.SetFocus;
+end;
+
+procedure Tfrapro.ActCustoBaseExecute(Sender: TObject);
+var
+  vPunCodigo: String;
+begin
+  inherited;
+
+  if pun.IsEmpty then
+  begin
+    showmessage('Não foi localizada unidade de venda para este produto!');
+    exit;
+  end;
+
+  MostraFormu('mpun', self.punpuncodigo.AsString, self.uqtabelaprocodigo.AsString, 'formulariocustobase');
+
+  self.actatualizar.Execute;
+
+end;
+
+procedure Tfrapro.ActDadosAdicionaisExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mpca', '', uqtabelaprocodigo.AsString);
+end;
+
+procedure Tfrapro.ActDesativarExecute(Sender: TObject);
+begin
+  inherited;
+
+  If application.MessageBox(PChar('Confirma a DESATIVAÇÃO do produto selecionado?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+
+    consulta.Close;
+    consulta.SQL.Clear;
+    consulta.SQL.Add('UPDATE pro SET sipcodigo = 2 WHERE procodigo = ' + self.uqtabelaprocodigo.AsString);
+    consulta.ExecSQL;
+
+    SalvarSTG('pro', 'procodigo');
+    RegistraAlteracaoParaCargas;
+
+    self.actatualizar.Execute;
+    uqtabela.Next;
+
+  End;
+end;
+
+procedure Tfrapro.ActEtiquetasExecute(Sender: TObject);
+var
+  vlRegistro: Integer;
+begin
+  inherited;
+  vlRegistro := uqtabelaprocodigo.asinteger;
+
+  CriaFormulario(TfproEtiqueta, '', '');
+
+  uqtabela.Locate('procodigo', vlRegistro, []);
+end;
+
+procedure Tfrapro.ActHistoricoCustoExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mhit', 'pro.procodigo=' + uqtabelaprocodigo.AsString + ' and toe.ttecodigo=0', '');
+
+end;
+
+procedure Tfrapro.ActHistoricoMovimentoExecute(Sender: TObject);
+begin
+  inherited;
+  application.CreateForm(TfproHistorico, fproHistorico);
+  fproHistorico.zcone := self.zcone;
+  fproHistorico.vnd.Connection := fproHistorico.zcone;
+  fproHistorico.vnd.ParamByName('flacodigo').asinteger := Acesso.Filial;
+  fproHistorico.vnd.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+  fproHistorico.vnd.Open;
+
+  fproHistorico.ajuvnd.Connection := fproHistorico.zcone;
+  fproHistorico.ajuvnd.ParamByName('flacodigo').asinteger := Acesso.Filial;
+  fproHistorico.ajuvnd.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+  fproHistorico.ajuvnd.Open;
+
+  fproHistorico.cpr.Connection := fproHistorico.zcone;
+  fproHistorico.cpr.ParamByName('flacodigo').asinteger := Acesso.Filial;
+  fproHistorico.cpr.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+  fproHistorico.cpr.Open;
+
+  fproHistorico.ajucpr.Connection := fproHistorico.zcone;
+  fproHistorico.ajucpr.ParamByName('flacodigo').asinteger := Acesso.Filial;
+  fproHistorico.ajucpr.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+  fproHistorico.ajucpr.Open;
+
+  fproHistorico.pro.ParamByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+  fproHistorico.pro.Open;
+
+  fproHistorico.ShowModal;
+end;
+
+procedure Tfrapro.ActHistoricoPrecoExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mrpu', 'pro.procodigo=' + uqtabelaprocodigo.AsString, '');
+
+end;
+
+procedure Tfrapro.ActInativosExecute(Sender: TObject);
+begin
+  inherited;
+  self.actatualizar.Execute;
+end;
+
+procedure Tfrapro.ActIncluirExecute(Sender: TObject);
+var
+  pode: Boolean;
+begin
+  inherited;
+  pode := CriaFormulario(Tfpro, '', '');
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT MAX(procodigo) FROM pro';
+  consulta.Open;
+  self.uqtabela.Locate('procodigo', consulta.Fields[0].asinteger, [])
+
+end;
+
+procedure Tfrapro.ActMovimentacaoExecute(Sender: TObject);
+var
+  vch: string;
+  vpr: string;
+  vqz: tuniquery;
+begin
+  inherited;
+
+  if cfgcfgextratosegmentado.asinteger = 1 then
+  begin
+
+    { carga da bpl mexp  Módulo de extrato de produto }
+    vch := '';
+    vpr := self.uqtabelaprocodigo.AsString;
+    try
+      vqz := tuniquery.Create(self);
+      vqz.Connection := self.zcone;
+
+      vqz.Close;
+      vqz.SQL.Text := 'SELECT expchave FROM exp WHERE procodigo = ' + vpr + ' AND clbcodigo = ' + Acesso.usuario.ToString;
+      vqz.Open;
+
+      vch := vqz.Fields[0].AsString;
+
+      vqz.Close;
+
+      MostraFormu('meps', vch, vpr);
+
+    finally
+      FreeAndNil(vqz)
+    end;
+
+  end
+  else
+  begin
+
+    { carga da bpl mexp  Módulo de extrato de produto }
+    vch := '';
+    vpr := self.uqtabelaprocodigo.AsString;
+    try
+      vqz := tuniquery.Create(self);
+      vqz.Connection := self.zcone;
+
+      vqz.Close;
+      vqz.SQL.Text := 'SELECT expchave FROM exp WHERE procodigo = ' + vpr + ' AND clbcodigo = ' + Acesso.usuario.ToString;
+      vqz.Open;
+
+      vch := vqz.Fields[0].AsString;
+
+      vqz.Close;
+
+      MostraFormu('mexp', vch, vpr);
+
+    finally
+      FreeAndNil(vqz)
+    end;
+
+  end;
+
+end;
+
+procedure Tfrapro.ActNormalExecute(Sender: TObject);
+begin
+  inherited;
+  self.actatualizar.Execute;
+end;
+
+procedure Tfrapro.ActPrecoCustoEspExecute(Sender: TObject);
+var
+  vPunCodigo: String;
+begin
+  inherited;
+
+  if pun.IsEmpty then
+  begin
+    showmessage('Não foi localizada unidade de venda para este produto!');
+    exit;
+  end;
+
+  MostraFormu('mpun', self.punpuncodigo.AsString, self.uqtabelaprocodigo.AsString, 'formulariocustoesp');
+
+  self.actatualizar.Execute;
+
+end;
+
+procedure Tfrapro.ActPrecoDeCustoExecute(Sender: TObject);
+var
+  vPunCodigo: String;
+begin
+  inherited;
+
+  if pun.IsEmpty then
+  begin
+    showmessage('Não foi localizada unidade de venda para este produto!');
+    exit;
+  end;
+
+  MostraFormu('mpun', self.punpuncodigo.AsString, self.uqtabelaprocodigo.AsString, 'formulariocusto');
+
+  self.actatualizar.Execute;
+
+end;
+
+procedure Tfrapro.ActPrecoDeVendaExecute(Sender: TObject);
+var
+  vPunCodigo: String;
+begin
+  inherited;
+
+  if pun.IsEmpty then
+  begin
+    showmessage('Não foi localizada unidade de venda para este produto!');
+    exit;
+  end;
+
+  MostraFormu('mpun', self.punpuncodigo.AsString, self.uqtabelaprocodigo.AsString);
+
+  self.actatualizar.Execute;
+end;
+
+procedure Tfrapro.ActReativarExecute(Sender: TObject);
+Var
+  rg: Integer;
+Begin
+  Inherited;
+
+  rg := self.uqtabelaprocodigo.asinteger;
+  consulta.Close;
+  consulta.SQL.Clear;
+  consulta.SQL.Add('UPDATE pro SET sipcodigo = 1 WHERE procodigo = ' + self.uqtabelaprocodigo.AsString);
+  consulta.ExecSQL;
+
+  SalvarSTG('pro', 'procodigo');
+  RegistraAlteracaoParaCargas;
+
+  self.actatualizar.Execute;
+
+  uqtabela.Locate('procodigo', rg, []);
+
+end;
+
+procedure Tfrapro.ActRecalculaSaldoExecute(Sender: TObject);
+var
+  r: Integer;
+  i: Integer;
+  vlSaldo: double;
+  vlSpdChave: Integer;
+
+  vlSaldoDisp: double;
+
+begin
+  inherited;
+  try
+    r := self.uqtabela.RecNo;
+    uqtabela.DisableControls;
+
+    ProgressBar1.Max := uqtabela.RecordCount;
+    ProgressBar1.Position := 0;
+    uqtabela.First;
+    PnlRodapeGrid.Visible := true;
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT   spdchave,  spdexercicio,  spddatainicial,  spddatafinal,  spddatabalanco, ';
+    consulta.SQL.Add('pcccodigo,   spdativo,  spdmotivoinv,  spdvalortotal,  spdarquivo,  spdgeracao,  flacodigo,  spdpasta, ');
+    consulta.SQL.Add(' spdregistro,  spdenvio FROM spd order by spdchave limit 1');
+    consulta.Open;
+
+    if consulta.IsEmpty then
+    begin
+      vlSpdChave := 1;
+      consulta.Append;
+      consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+      consulta.FieldByName('spdexercicio').AsString := FormatDateTime('yyyy', StrToDate(hoje(application, zcone)));
+      consulta.FieldByName('spddatainicial').asfloat := StrToDate(hoje(application, zcone));
+      consulta.FieldByName('spddatafinal').asfloat := EndOfTheMonth(consulta.FieldByName('spddatainicial').asfloat);
+      consulta.FieldByName('spddatabalanco').asfloat := consulta.FieldByName('spddatafinal').asfloat;
+      consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+      consulta.FieldByName('spdativo').AsString := '1';
+      consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+      consulta.Post;
+
+    end
+    else
+    begin
+      vlSpdChave := consulta.FieldByName('spdchave').asinteger;
+    end;
+
+    while not uqtabela.Eof do
+    begin
+
+      ProgressBar1.Position := ProgressBar1.Position + 1;
+      application.ProcessMessages;
+
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT   ivtchave,  spdchave,  procodigo,  pcccodigo,  ivtquantidade,';
+      consulta.SQL.Add('ivtvalor,   ivttotal,  ivtproprietario,  ivtdescricao,  etdcodigo,  flacodigo, ivtregistro FROM ivt where procodigo=' + uqtabelaprocodigo.AsString);
+      consulta.Open;
+
+      if consulta.IsEmpty then
+      begin
+
+        consulta.Append;
+        consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+        consulta.FieldByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+        consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+        consulta.FieldByName('ivtquantidade').asinteger := 0;
+        consulta.FieldByName('ivtvalor').asinteger := 0;
+        consulta.FieldByName('ivttotal').asinteger := 0;
+        consulta.FieldByName('ivtproprietario').asinteger := 1;
+        consulta.FieldByName('ivtdescricao').AsString := 'Inventário de inclusão do produto';
+        consulta.FieldByName('etdcodigo').AsString := '1';
+        consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+        consulta.FieldByName('ivtregistro').AsDatetime := strtodatetime('01/01/2000 00:00:01');
+        consulta.Post;
+      end;
+
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT   ivdchave,  spdchave,  procodigo,  pcccodigo,  ivdquantidade,';
+      consulta.SQL.Add('ivdvalor,   ivdtotal,  ivdproprietario,  ivddescricao,  etdcodigo,  flacodigo FROM ivd where procodigo=' + uqtabelaprocodigo.AsString);
+      consulta.Open;
+
+      if consulta.IsEmpty then
+      begin
+
+        consulta.Append;
+        consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+        consulta.FieldByName('procodigo').asinteger := uqtabelaprocodigo.asinteger;
+        consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+        consulta.FieldByName('ivdquantidade').asinteger := 0;
+        consulta.FieldByName('ivdvalor').asinteger := 0;
+        consulta.FieldByName('ivdtotal').asinteger := 0;
+        consulta.FieldByName('ivdproprietario').asinteger := 1;
+        consulta.FieldByName('ivddescricao').AsString := 'Inventário de inclusão do produto';
+        consulta.FieldByName('etdcodigo').AsString := '1';
+        consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+        consulta.Post;
+
+      end;
+
+      vlSaldo := 0;
+      consulta.Close;
+      consulta.SQL.Text := 'select calcSaldoProduto(' + uqtabelaprocodigo.AsString + ')';
+      consulta.Open;
+      vlSaldo := consulta.Fields[0].asfloat;
+
+      vlSaldoDisp := 0;
+      consulta.Close;
+      consulta.SQL.Text := 'select calcSaldoProdutoDisp(' + uqtabelaprocodigo.AsString + ')';
+      consulta.Open;
+      vlSaldoDisp := consulta.Fields[0].asfloat;
+
+      consulta.Close;
+      consulta.SQL.Text := 'UPDATE pro SET prosaldo = ' + buscatroca(floattostr(vlSaldo), ',', '.') + ', prosaldodisp =  ' + buscatroca(floattostr(vlSaldoDisp), ',', '.') +
+        ' where procodigo=' + uqtabelaprocodigo.AsString;
+      consulta.ExecSQL;
+
+      if cfgcfgproinativsaldozero.asinteger = 1 then
+      begin
+
+        saldo.Close;
+        saldo.SQL.Text := 'CALL AjustaSitacaoProduto(' + uqtabelaprocodigo.AsString + ', IF((select prosaldo from pro where procodigo=' + uqtabelaprocodigo.AsString + ')=0,2,1) )';
+        saldo.ExecSQL;
+
+        saldo.Close;
+        saldo.SQL.Text := 'CALL AjustaSitacaoProduto(' + uqtabelaprocodigo.AsString + ', IF((select prosaldodisp from pro where procodigo=' + uqtabelaprocodigo.AsString +
+          ')=0,2,1) )';
+        saldo.ExecSQL;
+
+      end;
+
+      uqtabela.Next;
+
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'UPDATE vrp v SET v.vrpsaldo = calcSaldoVariacao(v.vrpcodigo);';
+    consulta.ExecSQL;
+
+    showmessage('Recalculo de Saldo concluído com sucesso!');
+  finally
+    self.actatualizar.Execute;
+
+    self.uqtabela.RecNo := r;
+    uqtabela.EnableControls;
+
+    PnlRodapeGrid.Visible := False;
+
+    uqtabela.EnableControls;
+  end;
+end;
+
+procedure Tfrapro.ActTrocarNCMsExecute(Sender: TObject);
+Var
+  vftrocancm: tftrocancm;
+  rg: Integer;
+Begin
+  Inherited;
+  if self.autorizado(Sender) then
+  begin
+    try
+      rg := uqtabela.RecNo;
+      vftrocancm := tftrocancm.Create(self);
+
+      vftrocancm.registro.Connection := self.zcone;
+      vftrocancm.tcg.Connection := self.zcone;
+      vftrocancm.registro.Close;
+      vftrocancm.registro.ParamByName('procodigo').asinteger := self.uqtabelaprocodigo.asinteger;
+      vftrocancm.registro.Open;
+      vftrocancm.registro.Edit;
+      vftrocancm.ShowModal;
+      self.actatualizar.Execute;
+      uqtabela.RecNo := rg;
+    finally
+      FreeAndNil(vftrocancm);
+    end;
+  end;
+
+end;
+
+procedure Tfrapro.ActVariacoesExecute(Sender: TObject);
+begin
+  inherited;
+
+  if uqtabelagracodigo.asinteger = 0 then
+  begin
+    application.MessageBox(PChar('Este produto não possui Grade!!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    exit;
+  end;
+
+  mostralista('mvrp', '', self.uqtabelaprocodigo.AsString);
+end;
+
+procedure Tfrapro.ActVerCustoExecute(Sender: TObject);
+begin
+  inherited;
+  if ActVerCusto.Checked = False then
+    ActVerCusto.Checked := true
+  else
+    ActVerCusto.Checked := False;
+
+  AjustaVisaoCusto;
+
+end;
+
+procedure Tfrapro.ActVerificarDuplicidadeExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mupr', '')
+end;
+
+procedure Tfrapro.cdExit(Sender: TObject);
+Var
+  pode: Boolean;
+  cdbr: double;
+  dg: String;
+  cn: String;
+  cp: String;
+  cod: String;
+  vlocalizada: Boolean;
+  inat: Boolean;
+  vEmbalagem: Integer;
+  vVariacao: Integer;
+Begin
+  inat := true;
+  pode := true;
+  cdbr := 0;
+  inat := False;
+  Inherited;
+
+  If pode Then
+  Begin
+    If cd.Text <> '' Then
+    Begin
+      Try
+        cdbr := strtofloat(cd.Text);
+      Except
+        cdbr := 0;
+      End;
+
+      cdbr := BuscaProdutoBarra(application, self.zcone, cd.Text, vEmbalagem, vVariacao);
+
+      if cdbr = -1 then
+      begin
+        showmessage('Produto não localizado!');
+        cd.Text := '';
+        PnlBuscaBarra.Visible := False;
+        dbglista.SetFocus;
+
+      end;
+      consulta.Close;
+      consulta.SQL.Clear;
+      consulta.SQL.Add('select procodigo,sipcodigo from pro where procodigo=' + floattostr(cdbr));
+      consulta.Open;
+      if consulta.Fields[1].asinteger = 2 then
+      begin
+
+        If application.MessageBox(PChar('Este produto esta desativado, deseja reativa-lo?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+        Begin
+          inat := False;
+          consulta.Close;
+          consulta.SQL.Clear;
+          consulta.SQL.Add('update pro set sipcodigo=1 where procodigo=' + floattostr(cdbr));
+          consulta.ExecSQL;
+          self.actatualizar.Execute;
+          try
+            uqtabela.Locate('procodigo', cdbr, []);
+            cd.Text := '';
+            PnlBuscaBarra.Visible := False;
+            dbglista.SetFocus;
+          except
+          end;
+        End
+        Else
+        Begin
+          cd.Text := '';
+          PnlBuscaBarra.Visible := False;
+          dbglista.SetFocus;
+        End;
+      end
+      Else
+      Begin
+        uqtabela.Locate('procodigo', consulta.Fields[0].asinteger, []);
+        cd.Text := '';
+        PnlBuscaBarra.Visible := False;
+
+        dbglista.SetFocus;
+      End;
+    End;
+  End;
+end;
+
+procedure Tfrapro.cdKeyPress(Sender: TObject; var Key: Char);
+Var
+  co: String;
+Begin
+  Inherited;
+
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    If length(cd.Text) = 12 Then
+    Begin
+      co := '0' + copy(cd.Text, 1, 11);
+      { If CalculaDigEAN13(co) = Copy(cd.Text, 12, 1) Then
+        Begin
+        co := '0' + Copy(cd.Text, 1, 12);
+        cd.Text := co;
+        End; }
+    End;
+    If length(cd.Text) < 13 Then
+    Begin
+      Try
+        cd.Text := FormatFloat('0000000000000', strtofloat(cd.Text));
+      Except
+        cd.Text := '';
+      End;
+    End;
+
+    dbglista.SetFocus;
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    cd.Text := '';
+    cd.Visible := False;
+    dbglista.SetFocus;
+  End;
+
+end;
+
+procedure Tfrapro.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+  fixRect := Rect;
+
+  If Odd(DSTabela.DataSet.RecNo) Then
+    dbglista.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    dbglista.Canvas.Brush.Color := CLWHITE;
+
+  if uqtabelaproconsolidado.asfloat = 1 then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      FillRect(fixRect);
+      Font.Color := clTeal;
+    End;
+
+  if (uqtabelaprosaldodisp.asfloat <= 0) then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      FillRect(fixRect);
+      Font.Color := clRed;
+    End;
+
+  if (uqtabelaprosaldo.asfloat > 0) then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      FillRect(fixRect);
+      Font.Color := clMaroon;
+    End;
+
+  if (uqtabelaprosaldo.asfloat > 0) and (uqtabelaprosaldodisp.asfloat > 0) then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      FillRect(fixRect);
+      Font.Color := clBlack;
+    End;
+
+  { cast DBGrid to a unit friendly class thus exposing all it private bits! }
+  with TFriendly(dbglista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. Check against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := $00FFB76F; // PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(Rect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := $00FFB76F; // PEG_COR_SELCGRID; // $004080FF;
+
+      FillRect(fixRect);
+      // Font.Color :=  CLWHITE;
+      Font.Style := [fsbold];
+    End;
+
+  with TFriendly(dbglista) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. Check against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+
+        Brush.Color := $00FFB76F; // PEG_COR_SELCGRID; // $004080FF;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  if (Sender as TDBGrid).DataSource.DataSet.FieldByName('sipcodigo').asinteger = 2 then
+  begin
+
+    If gdSelected In State Then
+    begin
+      With (Sender As TDBGrid).Canvas Do
+      Begin
+
+        Brush.Color := $00FFB76F; // PEG_COR_SELCGRID; // $004080FF;
+        // Font.Color := CLWHITE;
+        FillRect(fixRect);
+        Font.Style := [fsbold];
+      End;
+    end
+    else
+      (Sender as TDBGrid).Canvas.Font.Color := $007D7D7D;
+
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfrapro.DBGListaTitleClick(Column: TColumn);
+begin
+  inherited;
+  edbusca.SetFocus;
+end;
+
+procedure Tfrapro.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if self.uqtabelaprocodigo.AsString <> '' then
+  begin
+    pun.Close;
+    pun.Params[0].asinteger := self.uqtabelaprocodigo.asinteger;
+    pun.Open;
+
+    esp.Close;
+    esp.Params[0].asinteger := self.uqtabelaprocodigo.asinteger;
+    esp.Params[1].asinteger := Acesso.usuario;
+    esp.Open;
+
+    { apv.Close;
+      apv.Params[0].AsInteger := Self.uqtabelaprocodigo.AsInteger;
+      apv.Open; }
+
+  end
+  else
+  begin
+    pun.Close;
+    apv.Close;
+  end;
+
+  if not apv.IsEmpty then
+    plAjustedePrecos.Visible := true
+  else
+    plAjustedePrecos.Visible := False;
+
+end;
+
+procedure Tfrapro.edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+  query: String;
+  filtro: String;
+  linha: String;
+  i: Integer;
+  pala1: String;
+  pala2: String;
+  pala3: String;
+  pala4: String;
+  pala5: String;
+
+  vlsqlbase: string;
+  vlInicio: Integer;
+  vlNomeChave: string;
+  vlCampos: String;
+  vlTabela: String;
+  vlSqlOriginal: string;
+Begin
+  if edbusca.Text = '' then
+  begin
+    uqtabela.FilterSQL := '';
+    actatualizar.Execute;
+    if (Key = 38) then
+    begin
+      if dbglista.Visible then
+        self.dbglista.SetFocus;
+      self.uqtabela.Prior;
+      exit;
+    end;
+
+    if (Key = 40) or (Key = 39) then
+    begin
+      if dbglista.Visible then
+        self.dbglista.SetFocus;
+      self.uqtabela.Next;
+      exit;
+    end;
+  end
+  else
+  begin
+    if (self.ModoFrame = modoPesquisa) or (self.ModoFrame = modoPesqEdicao) then
+    begin
+
+      linha := trim(edbusca.Text);
+      filtro := trim(edbusca.Text);
+      i := pos(' ', linha) - 1;
+      If i > 0 Then
+      Begin
+        pala1 := copy(linha, 1, i);
+        linha := trim(copy(linha, i + 1, length(linha)));
+        i := pos(' ', linha) - 1;
+        If i > 0 Then
+        Begin
+          pala2 := trim(copy(linha, 1, i));
+          linha := trim(copy(linha, i + 1, length(linha)));
+
+          i := pos(' ', linha) - 1;
+          If i > 0 Then
+          Begin
+            pala3 := copy(linha, 1, i);
+            linha := trim(copy(linha, i + 1, length(linha)));
+
+            If i > 0 Then
+            Begin
+              pala4 := copy(linha, 1, i);
+              linha := trim(copy(linha, i + 1, length(linha)));
+
+              If i > 0 Then
+              Begin
+                pala5 := copy(linha, 1, i);
+                linha := trim(copy(linha, i + 1, length(linha)));
+              End
+              Else
+              Begin
+                pala5 := trim(copy(linha, 1, length(linha)));
+              End;
+
+            End
+            Else
+            Begin
+              pala4 := trim(copy(linha, 1, length(linha)));
+            End;
+
+          End
+          Else
+          Begin
+            pala3 := trim(copy(linha, 1, length(linha)));
+          End;
+
+        End
+        Else
+        Begin
+          pala2 := trim(copy(linha, 1, length(linha)));
+
+        End;
+
+      End
+      Else
+      Begin
+        filtro := 'lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(linha) + '%' + chr(39);
+      End;
+
+      If pala1 <> '' Then
+      Begin
+        filtro := ' lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala1) + '%' + chr(39);
+      End;
+
+      If pala2 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala2) + '%' + chr(39);
+      End;
+
+      If pala3 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala3) + '%' + chr(39);
+      End;
+
+      If pala4 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala4) + '%' + chr(39);
+      End;
+
+      If pala5 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala5) + '%' + chr(39);
+      End;
+
+      vlsqlbase := lowercase(uqtabela.SQL.Text);
+
+      vlNomeChave := trim(copy(vlsqlbase, pos(' ', vlsqlbase), 50));
+      vlNomeChave := trim(copy(vlNomeChave, 1, pos(',', vlNomeChave) - 1));
+
+      vlInicio := pos('from', vlsqlbase);
+      vlsqlbase := copy(vlsqlbase, vlInicio, length(vlsqlbase));
+
+      if pos('order by', vlsqlbase) > 0 then
+      begin
+        vlInicio := pos('order by', vlsqlbase);
+        vlsqlbase := copy(vlsqlbase, 1, vlInicio - 1);
+      end;
+
+      if pos('.', vlNomeChave) > 0 then
+      begin
+        vlTabela := copy(vlNomeChave, 1, pos('.', vlNomeChave) - 1);
+        vlNomeChave := copy(vlNomeChave, pos('.', vlNomeChave) + 1);
+        if uppercase(trim(vlNomeChave)) = uppercase(trim(vordem)) then
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave;
+          filtro := StringReplace(filtro, vordem, vlCampos, [rfReplaceAll]);
+        end
+        else
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+        end;
+
+      end
+      else
+        vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+
+      if uppercase(trim(vlNomeChave)) <> uppercase(trim(vordem)) then
+      begin
+
+        if pos('where', vlsqlbase) > 0 then
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'and ' + filtro + ' order by ' + vlCampos + ' limit 1000'
+        else
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'where ' + filtro + ' order by ' + vlCampos + ' limit 1000';
+
+        vlSqlOriginal := uqtabela.SQL.Text;
+
+        if filtro <> '' then
+        begin
+
+          if pos(' limit 1000', uqtabela.SQL.Text) = 0 then
+            uqtabela.SQL.Text := uqtabela.SQL.Text + ' limit 1000';
+
+          If edbusca.Text <> '' Then
+          Begin
+            if pos(' limit 1000', uqtabela.SQL.Text) = 0 then
+              uqtabela.SQL.Text := uqtabela.SQL.Text + ' limit 1000';
+          End
+          else
+          begin
+            uqtabela.SQL.Text := StringReplace(uqtabela.SQL.Text, ' limit 1000', '', [rfReplaceAll, rfIgnoreCase]);
+          end;
+
+          uqtabela.FilterSQL := filtro;
+
+        end
+        else
+        begin
+
+        end;
+
+        inherited;
+      end
+      else
+      begin
+        inherited;
+      end;
+    end
+    else
+      inherited;
+
+  end;
+end;
+
+procedure Tfrapro.listaapvDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+
+end;
+
+procedure Tfrapro.listaapvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  If ((Shift = [ssCtrl]) And (Key = 46)) Then
+    Abort;
+end;
+
+procedure Tfrapro.listaespDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+
+end;
+
+procedure Tfrapro.listaespKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  If ((Shift = [ssCtrl]) And (Key = 46)) Then
+    Abort;
+end;
+
+procedure Tfrapro.listapunDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+end;
+
+procedure Tfrapro.listapunKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  If ((Shift = [ssCtrl]) And (Key = 46)) Then
+    Abort;
+end;
+
+procedure Tfrapro.mnProdutosLayout001Click(Sender: TObject);
+begin
+  inherited;
+  application.CreateForm(Tfimpprolay01, fimpprolay01);
+  fimpprolay01.zcone := self.zcone;
+  if fimpprolay01.ShowModal = mrok then
+    self.actatualizar.Execute;
+
+end;
+
+procedure Tfrapro.mnProdutosLayout002Click(Sender: TObject);
+begin
+  inherited;
+  CarregaImportador(Acesso);
+end;
+
+function Tfrapro.CarregaImportador(vAcesso: TAcesso): Boolean;
+
+var
+  exec: Tregistraimportador;
+  vu: string;
+begin
+  pack := LoadPackage('modulos\micb.bpl');
+  if pack <> 0 then
+    try
+      @exec := GetProcAddress(pack, PChar('importador001'));
+
+      if Assigned(exec) then
+      begin
+        vu := exec(application, zcone, vAcesso);
+      end;
+    finally
+      // DoUnLoadPackage(Application, pack);
+    end;
+
+end;
+
+function Tfrapro.TemMovimentacao: Boolean;
+var
+  vTem: Boolean;
+begin
+  vTem := False;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT COUNT(itmchave) FROM itm WHERE ';
+  consulta.SQL.Add('procodigo = ' + self.uqtabelaprocodigo.AsString + ' AND ');
+  consulta.SQL.Add('unicodigo = ' + IntToStr(pununicodigo.asinteger));
+  consulta.Open;
+
+  if consulta.Fields[0].asfloat > 0 then
+    vTem := true;
+
+  consulta.Close;
+
+  Result := vTem;
+end;
+
+procedure Tfrapro.SincronizarCEST;
+var
+  vlncmparcial: string;
+begin
+  inherited;
+
+  consulta.Close;
+  consulta.SQL.Text := 'delete from lcn';
+  consulta.ExecSQL;
+
+  lcn.Close;
+  lcn.Open;
+
+  tcg.Close;
+  tcg.Open;
+
+  tce.Close;
+  tce.Open;
+  tce.First;
+
+  ProgressBar1.Max := tce.RecordCount;
+  ProgressBar1.Visible := true;
+  ProgressBar1.Position := 0;
+  application.ProcessMessages;
+
+  while not tce.Eof do
+  begin
+
+    ProgressBar1.Position := ProgressBar1.Position + 1;
+    application.ProcessMessages;
+
+    tce.Edit;
+    tcetcecest.AsString := sonumeros(tcetcecest.AsString);
+    tcetcencm.AsString := sonumeros(tcetcencm.AsString);
+    tce.Post;
+    tce.Next;
+  end;
+
+  tce.First;
+
+  ProgressBar1.Position := 0;
+  application.ProcessMessages;
+  ProgressBar1.Visible := true;
+  PnlRodapeGrid.Visible := true;
+
+  while not tce.Eof do
+  begin
+
+    ProgressBar1.Position := ProgressBar1.Position + 1;
+    application.ProcessMessages;
+
+    if length(uqtabelaproncm.AsString) < 8 then
+    begin
+      vlncmparcial := sonumeros(tcetcencm.AsString);
+
+      if vlncmparcial <> '' then
+      begin
+        tcg.Close;
+        tcg.SQL.Text :=
+          'select  tcgncm, tcgex,  tcgtabela,  tcgaliqnac,  tcgaliqimp,  tcgaliqest,  tcgaliqmun,  tcgdescricao,  tcgversao,  tcginicio,  tcgfinal  from tcg where replace(tcgncm,''.'','''')  like '
+          + QuotedStr(vlncmparcial + '%');
+        tcg.Open;
+
+        while not tcg.Eof do
+        begin
+
+          if not lcn.Locate('tcgncm;tcecest', VarArrayOf([sonumeros(tcgtcgncm.AsString), sonumeros(tcetcecest.AsString)]), []) then
+          begin
+            lcn.Append;
+            lcntcecest.AsString := sonumeros(tcetcecest.AsString);
+            lcntcgncm.AsString := sonumeros(tcgtcgncm.AsString);
+            lcn.Post;
+          end;
+          tcg.Next;
+        end;
+      end;
+    end
+    else
+    begin
+
+      vlncmparcial := sonumeros(tcetcencm.AsString);
+      tcg.Close;
+      tcg.SQL.Text :=
+        'select  tcgncm, tcgex,  tcgtabela,  tcgaliqnac,  tcgaliqimp,  tcgaliqest,  tcgaliqmun,  tcgdescricao,  tcgversao,  tcginicio,  tcgfinal  from tcg where replace(tcgncm,''.'','''')='
+        + QuotedStr(vlncmparcial);
+      tcg.Open;
+
+      while not tcg.Eof do
+      begin
+
+        if not lcn.Locate('tcgncm;tcecest', VarArrayOf([sonumeros(tcgtcgncm.AsString), sonumeros(tcetcecest.AsString)]), []) then
+        begin
+          lcn.Append;
+          lcntcecest.AsString := sonumeros(tcetcecest.AsString);
+          lcntcgncm.AsString := sonumeros(tcgtcgncm.AsString);
+          lcn.Post;
+
+        end;
+
+        tcg.Next;
+      end;
+
+    end;
+
+    tce.Next;
+
+  end;
+
+END;
+
+end.

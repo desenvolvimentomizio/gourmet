@@ -1,0 +1,47 @@
+package mltePDVTEF;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeg,
+  ACBr_TEFD;
+
+contains
+  ufltePDVTEF in 'ufltePDVTEF.pas' {fltePDTVTEF},
+  uflteModalidade in 'uflteModalidade.pas' {flteModalidade},
+  frExibeMensagemPorTempo in 'frExibeMensagemPorTempo.pas' {FormExibeMensagemPorTempo},
+  frMenuTEF in 'frMenuTEF.pas' {FormMenuTEF},
+  frObtemCampo in 'frObtemCampo.pas' {FormObtemCampo},
+  uftransacaoLTETEFAPI in 'uftransacaoLTETEFAPI.pas' {ftransacaoTEFAPI},
+  uflteComprovante in 'uflteComprovante.pas' {flteComprovante},
+  frExibeMensagem in 'frExibeMensagem.pas' {FormExibeMensagem},
+  ufdfcPDVTEF in 'ufdfcPDVTEF.pas' {fdfcPDVTEF};
+
+end.

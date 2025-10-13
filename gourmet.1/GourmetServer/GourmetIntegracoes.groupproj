@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2B98F16B-F0B2-475A-88A0-5F200483CC9E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GourmetServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GourmetServerSvc.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GourmetServer">
+        <MSBuild Projects="GourmetServer.dproj"/>
+    </Target>
+    <Target Name="GourmetServer:Clean">
+        <MSBuild Projects="GourmetServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetServer:Make">
+        <MSBuild Projects="GourmetServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GourmetServerSvc">
+        <MSBuild Projects="GourmetServerSvc.dproj"/>
+    </Target>
+    <Target Name="GourmetServerSvc:Clean">
+        <MSBuild Projects="GourmetServerSvc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetServerSvc:Make">
+        <MSBuild Projects="GourmetServerSvc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GourmetServer;GourmetServerSvc"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GourmetServer:Clean;GourmetServerSvc:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GourmetServer:Make;GourmetServerSvc:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

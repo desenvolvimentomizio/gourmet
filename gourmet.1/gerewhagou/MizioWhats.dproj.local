@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/08/16 17:40:12.000.312,=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/08/16 17:41:02.000.804,C:\fontes\gourmet.1\gerewhagou\uFprinciMizioWhats.pas=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/08/16 17:41:02.000.804,C:\fontes\gourmet.1\gerewhagou\uFprinciMizioWhats.dfm=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/08/16 17:41:17.000.868,C:\fontes\gourmet.1\gerewhagou\MizioWhats.dproj=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

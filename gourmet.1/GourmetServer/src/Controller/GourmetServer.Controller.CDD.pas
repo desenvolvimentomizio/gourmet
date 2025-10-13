@@ -1,0 +1,40 @@
+unit GourmetServer.Controller.CDD;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CDD;
+
+function BuscaCodigoCidade(vNomeCidade: string; vCodigoUF: string): String;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+function BuscaCodigoCidade(vNomeCidade: string; vCodigoUF: string): String;
+var
+  FDAO: iDAOGeneric<TCDD>;
+  vlcddcodigo: string;
+begin
+  vlcddcodigo := '';
+
+  FDAO := TDAOGeneric<TCDD>.New;
+
+  FDAO.DAO.SQL.where('cddnome=' + QuotedStr(uppercase(vNomeCidade)) + ' and ufscodigo=' + QuotedStr(vCodigoUF)).&End.Find;
+
+  vlcddcodigo := FDAO.DataSet.FieldByName('cddcodigo').asstring;
+  result := vlcddcodigo;
+end;
+
+
+end.

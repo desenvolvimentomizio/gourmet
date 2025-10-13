@@ -1,0 +1,34 @@
+CREATE TABLE xmlcfg (
+	idDFe integer NOT NULL PRIMARY KEY, 
+	ultNSU integer, 
+	UF varchar (2), 
+	TimeInterval integer NOT NULL DEFAULT 1000, 
+	NumeroSerie VARCHAR (30), 
+	idDFeAutoInc INTEGER NOT NULL DEFAULT 0, 
+	Senha VARCHAR (30), 
+	ArquivoPFX NVARCHAR (254), 
+	PathDB NVARCHAR (254), 
+	SSLLib VARCHAR (2) NOT NULL DEFAULT '01', 
+	AutoExecute INTEGER NOT NULL DEFAULT 0, 
+	AutoTimer INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE xmlnfe (
+	idDFe integer NOT NULL PRIMARY KEY, 
+	xNumeroNFe varchar (10), 
+	xSerie varchar (3), 
+	chNFe varchar (44), 
+	CNPJCPF varchar (14), 
+	xNome varchar (100), 
+	IE varchar (18), 
+	dhEmi DATETIME, 
+	tpNF integer, 
+	vNF numeric (18, 2) NOT NULL DEFAULT 0, 
+	digVal varchar (100), 
+	dhRecbto datetime, 
+	nProt varchar (20), 
+	cSitNFe integer, 
+	NSU integer, 
+	NFe varchar (1) NOT NULL DEFAULT 'F', 
+	DFe varchar (1) NOT NULL DEFAULT 'F'
+);

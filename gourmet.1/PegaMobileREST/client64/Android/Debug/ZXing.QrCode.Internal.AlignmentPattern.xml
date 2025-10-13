@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.AlignmentPattern" platform="Android">
+  <interface name="IAlignmentPattern" GUID="{8C0A5D01-9620-42B6-BE3E-9C40717B5B38}" ancestor="IResultPoint" file="ZXing.QrCode.Internal.AlignmentPattern.pas" line="31">
+    <devnotes>
+       <summary>
+        As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+       of TAligmnentPattern instances
+       the actual implementation of this interface is in unit ZXing.QrCode.Internal.AlignmentPatternImplementation
+       </summary>
+    </devnotes>
+    <function name="aboutEquals" visibility="public" procflags="abstract virtual" file="ZXing.QrCode.Internal.AlignmentPattern.pas" line="36">
+      <devnotes>
+         <summary> <p>Determines if this alignment pattern &quot;about equals&quot; an alignment pattern at the stated
+         position and size -- meaning, it is at nearly the same center with nearly the same size.</p>
+         </summary>
+      </devnotes>
+      <parameters>
+        <parameter name="moduleSize" type="Single" paramflags="const" />
+        <parameter name="i" type="Single" paramflags="const" />
+        <parameter name="j" type="Single" paramflags="const" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="combineEstimate" visibility="public" procflags="abstract virtual" file="ZXing.QrCode.Internal.AlignmentPattern.pas" line="46">
+      <devnotes>
+         <summary>
+         Combines this object's current estimate of a finder pattern position and module size
+         with a new estimate. It returns a new {@code FinderPattern} containing an average of the two.
+         </summary>
+         <param name="i">The i.</param>
+         <param name="j">The j.</param>
+         <param name="newModuleSize">New size of the module.</param>
+         <returns></returns>
+      </devnotes>
+      <parameters>
+        <parameter name="i" type="Single" paramflags="const" />
+        <parameter name="j" type="Single" paramflags="const" />
+        <parameter name="newModuleSize" type="Single" paramflags="const" />
+        <retval type="IAlignmentPattern">
+          <devnotes>
+             <summary>
+              As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+             of TAligmnentPattern instances
+             the actual implementation of this interface is in unit ZXing.QrCode.Internal.AlignmentPatternImplementation
+             </summary>
+          </devnotes>
+        </retval>
+      </parameters>
+    </function>
+  </interface>
+  <class name="TAlignmentPatternHelpers" file="ZXing.QrCode.Internal.AlignmentPattern.pas" line="53">
+    <devnotes>
+       <summary>
+        contains all static methods for using IAlignmentPatterns instances
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <function name="CreateAlignmentPattern" visibility="public" procflags="class" file="ZXing.QrCode.Internal.AlignmentPattern.pas" line="57">
+        <devnotes>
+           <summary>
+            IAlignmentPattern instances must be obtained by calling this function
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="posX" type="Single" paramflags="const" />
+          <parameter name="posY" type="Single" paramflags="const" />
+          <parameter name="estimatedModuleSize" type="Single" paramflags="const" />
+          <retval type="IAlignmentPattern">
+            <devnotes>
+               <summary>
+                As we did for ResultPoint, we use an interfaced object to implement automatic deallocation
+               of TAligmnentPattern instances
+               the actual implementation of this interface is in unit ZXing.QrCode.Internal.AlignmentPatternImplementation
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

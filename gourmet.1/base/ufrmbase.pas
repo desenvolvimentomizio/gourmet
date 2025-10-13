@@ -1,0 +1,2748 @@
+unit ufrmbase;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, Vcl.ImgList, Vcl.Controls, PngImageList,
+  System.Classes, System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.Buttons, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls, Winapi.Messages, midaslib,
+  Vcl.DBGrids, Vcl.Grids, Vcl.DBCtrls, Vcl.Dialogs, System.SysUtils,
+  Vcl.Graphics, ufuncoes, UniScript, System.Variants, uPegaBase, Vcl.Imaging.jpeg,
+  System.ImageList, Vcl.Themes, Vcl.Styles, Vcl.Mask, TypInfo;
+
+type
+  TFrmBaseClass = class of TFrmBase;
+
+  TFrmBase = class(TForm)
+    DSRegistro: tunidatasource;
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    bfechar: TBitBtn;
+    paginas: TPageControl;
+    Principal: TTabSheet;
+    cfg: tuniquery;
+    consulta: tuniquery;
+    registro: tuniquery;
+    dcp: tuniquery;
+    dcpdcpcodigo: TIntegerField;
+    dcpdcpcampo: TStringField;
+    dcpdcpdescricao: TStringField;
+    dcpdcpspedfiscal: TIntegerField;
+    dtb: tuniquery;
+    dtbdtbcodigo: TIntegerField;
+    dtbdtbtabela: TStringField;
+    dtbdtbdescricao: TStringField;
+    coa: tuniquery;
+    coacoacodigo: TIntegerField;
+    coadtbcodigo: TIntegerField;
+    coadcpcodigo: TIntegerField;
+    coacoadata: TDateField;
+    coaclbcodigo: TIntegerField;
+    coacoaanterior: TStringField;
+    coacoaatual: TStringField;
+    pfr: tuniquery;
+    pfrpfrcodigo: TIntegerField;
+    pfrpfrnomeform: TStringField;
+    pfrpfrlargura: TIntegerField;
+    pfrpfraltura: TIntegerField;
+    pfrusrcodigo: TIntegerField;
+    psf: tuniquery;
+    psfpsfcodigo: TIntegerField;
+    psfpfrcodigo: TIntegerField;
+    psfpsfalinhamento: TIntegerField;
+    psfpsfposicao: TIntegerField;
+    psfpsfnome: TStringField;
+    dcl: tuniquery;
+    cau: tuniquery;
+    caumdlcodigo: TIntegerField;
+    cauactcodigo: TIntegerField;
+    caucaudata: TDateField;
+    caucauhora: TTimeField;
+    cauusrautorizou: TIntegerField;
+    pfrpfrcolunas: TBlobField;
+    err: tuniquery;
+    errerrchave: TIntegerField;
+    errerringles: TStringField;
+    errerrportu: TStringField;
+    BalloonHint: TBalloonHint;
+    lbcodigojanela: TPanel;
+    acoesfrm: TActionList;
+    ActConfiguracoes: TAction;
+    cpg: tuniquery;
+    cpgcpgchave: TIntegerField;
+    cpgcpgnomegrid: TStringField;
+    cpgcpgcolunas: TBlobField;
+    cpgclbcodigo: TIntegerField;
+    cpc: tuniquery;
+    cpccpcchave: TIntegerField;
+    cpccpgchave: TIntegerField;
+    cpccpcordem: TIntegerField;
+    cpccpccampo: TStringField;
+    cpccpclargura: TIntegerField;
+    cpccpctitulo: TStringField;
+    cpccpcvisivel: TIntegerField;
+    coacoahora: TTimeField;
+    coaacschave: TIntegerField;
+    spChamaAjuda: TSpeedButton;
+    ImgBusca: TPngImageList;
+    dau: tuniquery;
+    dauactcodigo: TIntegerField;
+    dauclbcodigo: TIntegerField;
+    daudauativo: TIntegerField;
+    lou: tuniquery;
+    loulouchave: TIntegerField;
+    louloudatahora: TDateTimeField;
+    loulouaplicacao: TStringField;
+    loulouformulario: TStringField;
+    loulounomecomponente: TStringField;
+    louloutipocomponente: TStringField;
+    loulouconteudocomponente: TStringField;
+    loulouacaocomponente: TStringField;
+    louclbcodigo: TIntegerField;
+    stg: tuniquery;
+    stgstgcodigo: TIntegerField;
+    stgstgdatacriacao: TDateTimeField;
+    stgstgdataalteracao: TDateTimeField;
+    stgclbcodigo: TIntegerField;
+    stgstgexcluido: TIntegerField;
+    consultashema: tuniquery;
+    consultashemaCOLUMN_NAME: TStringField;
+    stgid: tuniquery;
+    cfgalterado: tuniquery;
+    cfgalteradocfgcodigo: TIntegerField;
+    cfgalteradocfgalteracao: TDateTimeField;
+
+    procedure bcancelaClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure bfecharClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure DSRegistroDataChange(Sender: TObject; Field: TField);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure registroBeforeEdit(DataSet: TDataSet);
+    procedure FormResize(Sender: TObject);
+    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure FormDeactivate(Sender: TObject);
+    procedure registroPostError(DataSet: TDataSet; E: EDatabaseError; var Action: TDataAction);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ActCancelarExecute(Sender: TObject);
+    procedure spChamaAjudaClick(Sender: TObject);
+    procedure paginasChange(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure FormActivate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+  private
+    { Private declarations }
+    // lista para controlar paginas
+
+    FIdModulo: string;
+    FModulo: string;
+    FRetorno: string;
+    FZCone: TUniConnection;
+    listapaginas: TStringList;
+    // armazena dados para registro de alteração
+    vdadosatuais: TStringList;
+    FActiveControlCancela: TWinControl;
+    procedure abretabelasaux;
+    procedure limpatexto(Sender: TObject);
+    procedure registraalteracoes;
+    function validadatamovimento(dia: String): Boolean;
+    procedure carregaposicoes;
+    procedure salvaposicoes;
+    procedure chamacalendario(Sender: TObject);
+    function Autorizado(Sender: TObject; modulo: string; motivo: string = ''): Boolean;
+    procedure WMSysCommand(var Message: TWMSysCommand); message WM_SysCommand;
+    function GetSituacao: String;
+    function GetRetorno: String;
+    procedure SetRetorno(Value: String);
+    procedure SetActiveControlCancela(const Value: TWinControl);
+    procedure SetZCone(const Value: TUniConnection);
+
+    procedure RemovePastaImagens;
+    procedure VerAtualizacao(pacote: string);
+
+  published
+    property ZCone: TUniConnection read FZCone write SetZCone;
+    function CriaFormulario(pFormClass: TFrmBaseClass; pChave, pChaveMestre: String; pFiltro: String = ''): string;
+    property modulo: string read FModulo write FModulo;
+    property IdModulo: string read FIdModulo write FIdModulo;
+    procedure gridzebrado(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure VerificaDataOnSetText(Sender: TField; const Text: String);
+    function ValidaCamposRequeridos: Boolean;
+    property Situacao: String read GetSituacao;
+    property Retorno: String read FRetorno write SetRetorno;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+
+    procedure carregacolunas(grid: TDBGrid);
+    procedure salvacolunas(grid: TDBGrid);
+    property ActiveControlCancela: TWinControl read FActiveControlCancela write SetActiveControlCancela;
+    procedure SalvarSTG(vtabela: string; vcampochave: string);
+    procedure RegistraAlteracaoParaCargas;
+  public
+    { Public declarations }
+    vpRetorno: string;
+    Acesso: TAcesso;
+
+    pack: Cardinal;
+    vChaveMestre: string;
+    vchave: string;
+    txtFiltro: string;
+    vchavepesquisa: string;
+    vdataatual: double;
+    BitMap: Tbitmap;
+    (* Método Construtor *)
+    /// <summary>Construtor formulário base.</summary>
+    constructor Create(pCargaFrame: TCargaFrame); overload;
+
+    constructor Create(pAOwner: TComponent); overload;
+
+    function MostraLista(pModulo: string; pFiltro: string): string;
+    function MostraFormu(pModulo: string; pChave: string; pChaveMestre: string; pFormulario: string = 'formulario'; pFiltro: String = ''): String;
+
+    function montapesquisaespecial(campo: TDBEdit; modulo, vusuario, vfiltro: string): string;
+    function SalvaRegistro: Boolean;
+
+    procedure ajustabotoes;
+    function CarregaFrame(pPacote: string; pDestino: TPanel; pModulo: string; pFiltro: String = ''): THandle;
+    procedure DoUnLoadPackage(Module: HModule);
+    procedure CriaBusca(destino: TDBEdit; etiqueta: TStringField);
+    procedure ajustacampos;
+    procedure verificapesquisa(campo: TDBEdit; modulo: string);
+    procedure ValidaSaida(Sender: TObject);
+
+  end;
+
+var
+  frmbase: TFrmBase;
+
+implementation
+
+{$R *.dfm}
+
+uses ufbusca, ufcalendario, ufajuda;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+procedure TFrmBase.WMSysCommand(var Message: TWMSysCommand);
+begin
+  if Message.CmdType = SC_MAXIMIZE then
+    Message.Result := 0
+  else
+    inherited;
+
+  if Self.Top > (Screen.DesktopHeight - 200) then
+    Self.Top := Screen.DesktopHeight - 200;
+
+  if Self.Left < 0 then
+    Self.Left := 0;
+
+  if (Self.Left + 150) > Screen.DesktopWidth then
+    Self.Left := Screen.DesktopWidth - 150;
+end;
+
+procedure TFrmBase.VerificaDataOnSetText(Sender: TField; const Text: String);
+var
+  dia: TDateTime;
+  err: Boolean;
+begin
+
+  try
+    err := False;
+    if Pos('/', Text) = 0 then
+    begin
+      dia := StrToDate(Copy(Text, 1, 2) + '/' + Copy(Text, 3, 2) + '/' + Copy(Text, 5, 4));
+    end
+    else
+    begin
+      dia := StrToDate(Text);
+    end;
+    Sender.AsString := datetostr(dia);
+  except
+    err := True;
+  end;
+
+  if err then
+  begin
+    if Text <> '' then
+    begin
+      if Text <> '  /  /    ' then
+      begin
+        Sender.ConstraintErrorMessage := 'Data inválida: ' + chr(39) + Text + chr(39);
+        Sender.EditMask := '!99/99/9999;1;_';
+        Sender.AsString := '';
+      end;
+      Sender.AsString := '';
+    end;
+  end;
+end;
+
+procedure TFrmBase.gridzebrado(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+  fixRect := Rect;
+
+  If odd((Sender as TDBGrid).DataSource.DataSet.RecNo) Then
+    (Sender as TDBGrid).Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    (Sender as TDBGrid).Canvas.Brush.Color := CLWHITE;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID; // $004080FF;
+      FillRect(fixRect);
+      // Font.Color := clWhite;
+    End;
+
+  with TFriendly((Sender as TDBGrid)) do
+  begin
+    { Get active record within grids TDataLink. The active record will be
+      the current record in the dataset. Check against Row that we are
+      trying to Draw, -1 to offset the column headings within grid. }
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+    begin
+      with Canvas do
+      begin
+        { set grids canvas to win highlight colour }
+        Brush.Color := PEG_COR_SELCGRID;
+        { now redraw the cell, but highlighted }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+    end;
+  end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+function TFrmBase.Autorizado(Sender: TObject; modulo: string; motivo: string = ''): Boolean;
+type
+  TAutorizacao = function(AOwner: TComponent; conexao: TUniConnection; vusuario: string; vactcodigo: string; vmotivo: string = ''; vtdecodigo: String = '';
+    vorcchave: String = ''; vmeschave: String = ''; vltecodigo: String = ''; vddfcodigo: String = ''; vForcaLogin: Boolean = False): string;
+var
+  Autoriza: TAutorizacao;
+  vlRetorno: string;
+  vlActCodigo: Integer;
+  vlPackLia: Cardinal;
+begin
+  Result := True;
+
+  vlActCodigo := (Sender as TAction).Tag;
+
+  if vlActCodigo > 0 then
+    if not dau.Locate('actcodigo;dauativo', VarArrayOf([vlActCodigo, 1]), []) then
+    begin
+      Result := False;
+
+      vlPackLia := LoadPackage('modulos\mlia.bpl');
+      if vlPackLia <> 0 then
+        try
+          @Autoriza := GetProcAddress(vlPackLia, Pchar('liberacao'));
+
+          if Assigned(Autoriza) then
+          begin
+            vlRetorno := Autoriza(Application, Self.ZCone, Acesso.Usuario.ToString, IntToStr(vlActCodigo), motivo);
+
+            if (vlRetorno <> '0') and (vlRetorno <> '') then // retornou NÃO AUTORIZADO
+              Result := True;
+          end;
+        finally
+          DoUnLoadPackage(vlPackLia);
+        end;
+    end;
+end;
+
+function TFrmBase.CriaFormulario(pFormClass: TFrmBaseClass; pChave, pChaveMestre: String; pFiltro: String = ''): string;
+var
+  vlCargaFrame: TCargaFrame;
+  FormBase: TFrmBase;
+Begin
+  (*
+    if not Self.Autorizado(origem, Self.modulo) then
+    Exit;
+  *)
+
+  vlCargaFrame := CargaFormu(Application, ZCone, Acesso, pFiltro, pChave, pChaveMestre);
+  FormBase := pFormClass.Create(vlCargaFrame);
+  FormBase.ShowModal;
+  Result := FRetorno;
+  FormBase.Free;
+
+End;
+
+procedure TFrmBase.bcancelaClick(Sender: TObject);
+var
+  smsg: string;
+begin
+  if psituacao.caption = 'Alterando' then
+    smsg := 'Deseja realmente abandonar as alterações ?'
+  else
+    smsg := 'Deseja realmente abandonar a inclusão do registro ?';
+
+  If Application.MessageBox(Pchar(smsg), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+    If Self.DSRegistro.DataSet.State = dsBrowse Then
+      Self.DSRegistro.DataSet.Edit;
+
+    If Self.DSRegistro.DataSet.State <> dsBrowse Then
+      Self.DSRegistro.DataSet.Cancel;
+
+    If psituacao.caption = 'Incluindo' Then
+      If Not registro.IsEmpty Then
+        Self.DSRegistro.DataSet.Delete;
+
+    Self.ModalResult := mrCancel;
+  end
+  else
+    Self.ActiveControl := ActiveControlCancela;
+end;
+
+procedure TFrmBase.SalvarSTG(vtabela: string; vcampochave: string);
+var
+  vlTemStgCodigo: Boolean;
+  vlTemSipCodigo: Boolean;
+
+begin
+
+  vlTemStgCodigo := False;
+  vlTemSipCodigo := False;
+
+  consultashema.Close;
+  consultashema.SQL.clear;
+  consultashema.SQL.Text := 'SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() ';
+  consultashema.SQL.add('AND TABLE_NAME = :tabela  AND COLUMN_NAME = ' + QuotedStr('sipcodigo'));
+  consultashema.ParamByName('tabela').AsString := vtabela;
+  consultashema.Open;
+
+  if consultashema.IsEmpty then
+    vlTemSipCodigo := False
+  else
+    vlTemSipCodigo := True;
+
+  consultashema.Close;
+  consultashema.SQL.clear;
+  consultashema.SQL.Text := 'SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() ';
+  consultashema.SQL.add('AND TABLE_NAME = :tabela  AND COLUMN_NAME = ' + QuotedStr('stgcodigo'));
+  consultashema.ParamByName('tabela').AsString := vtabela;
+  consultashema.Open;
+
+  if not consultashema.IsEmpty then
+  begin
+
+    if psituacao.caption = 'Incluindo' then
+    begin
+      stg.Close;
+      stg.FilterSQL := '';
+      stg.Filtered := False;
+      stg.Open;
+
+      stg.Append;
+      stgstgdatacriacao.AsString := agora(Application, ZCone);
+      stgstgdataalteracao.AsString := agora(Application, ZCone);
+      stgclbcodigo.AsInteger := Acesso.Usuario;
+      stgstgexcluido.AsInteger := 0;
+      stg.Post;
+
+      stgid.Close;
+      stgid.SQL.Text := 'select ' + vcampochave + ',stgcodigo from ' + vtabela + ' where ' + vcampochave + '=' + registro.fields[0].AsString;
+      stgid.Open;
+
+      stgid.Edit;
+      stgid.FieldByName('stgcodigo').AsInteger := stgstgcodigo.AsInteger;
+      stgid.Post;
+
+    end
+    else
+    begin
+      stgid.Close;
+      stgid.SQL.Text := 'select ' + vcampochave + ',stgcodigo from ' + vtabela + ' where ' + vcampochave + '=' + registro.fields[0].AsString;
+      stgid.Open;
+
+      if stgid.IsEmpty then
+      begin
+
+        stg.Close;
+        stg.FilterSQL := '';
+        stg.Filtered := False;
+        stg.Open;
+
+        stg.Append;
+        stgstgdatacriacao.AsString := agora(Application, ZCone);
+        stgstgdataalteracao.AsString := agora(Application, ZCone);
+        stgclbcodigo.AsInteger := Acesso.Usuario;
+        stgstgexcluido.AsInteger := 0;
+        stg.Post;
+
+        stgid.Edit;
+        stgid.FieldByName('stgcodigo').AsInteger := stgstgcodigo.AsInteger;
+        stgid.Post;
+
+      end
+      else
+      begin
+
+        if stgid.FieldByName('stgcodigo').AsString <> '' then
+        begin
+          stg.Close;
+          stg.FilterSQL := 'stgcodigo=' + stgid.FieldByName('stgcodigo').AsString;
+          stg.Filtered := True;
+          stg.Open;
+
+          stg.Edit;
+          if stgstgdatacriacao.AsString = '' then
+          begin
+            stgstgdatacriacao.AsString := agora(Application, ZCone);
+          end;
+
+          stgstgdataalteracao.AsString := agora(Application, ZCone);
+          stgclbcodigo.AsInteger := Acesso.Usuario;
+          stgstgexcluido.AsInteger := 0;
+          stg.Post;
+
+          stgid.Edit;
+          stgid.FieldByName('stgcodigo').AsInteger := stgstgcodigo.AsInteger;
+          stgid.Post;
+
+        end
+        else
+        begin
+          stgid.Close;
+          stgid.SQL.Text := 'select ' + vcampochave + ',stgcodigo from ' + vtabela + ' where ' + vcampochave + '=' + registro.fields[0].AsString;
+          stgid.Open;
+
+          stg.Close;
+          stg.FilterSQL := '';
+          stg.Filtered := False;
+          stg.Open;
+
+          stg.Append;
+          stgstgdataalteracao.AsString := agora(Application, ZCone);
+          stgclbcodigo.AsInteger := Acesso.Usuario;
+          stgstgexcluido.AsInteger := 0;
+          stg.Post;
+
+          stgid.Edit;
+          stgid.FieldByName('stgcodigo').AsInteger := stgstgcodigo.AsInteger;
+          stgid.Post;
+
+        end;
+
+      end;
+
+    end;
+
+  end;
+
+end;
+
+procedure TFrmBase.RegistraAlteracaoParaCargas;
+begin
+
+  cfgalterado.Close;
+  cfgalterado.ParamByName('cfgcodigo').AsInteger := Acesso.Filial;
+  cfgalterado.Open;
+
+  cfgalterado.Edit;
+  cfgalteradocfgalteracao.AsString := agora(Application, ZCone);
+  cfgalterado.Post;
+end;
+
+procedure TFrmBase.bconfirmaClick(Sender: TObject);
+var
+  vltabela: string;
+  vlcampochave: string;
+begin
+
+  Try
+    if bconfirma.Visible then
+      bconfirma.SetFocus; // Força o ActiveControl para o botão Confirma
+
+    if not ValidaCamposRequeridos then
+      Exit;
+
+    If (Self.bconfirma.caption = 'Confirma') or (Self.bconfirma.caption = 'Fechar') or (Self.bconfirma.caption = 'Ligação') Then
+    Begin
+      If Self.SalvaRegistro Then
+      begin
+
+        vlcampochave := registro.fields[0].FieldName;
+        vltabela := Copy(vlcampochave, 1, 3);
+
+        if (vltabela = 'opg') or (vltabela = 'pun') or (vltabela = 'grp') or (vltabela = 'pro') or (vltabela = 'sbr') or (vltabela = 'brg') or
+          (vltabela = 'sbp') or (vltabela = 'igp') or (vltabela = 'gri') or (vltabela = 'sfn') or (vltabela = 'tsi') or (vltabela = 'bdr') or
+          (vltabela = 'img') or (vltabela = 'uni') or (vltabela = 'opc') or (vltabela = 'isa') or (vltabela = 'ava') or (vltabela = 'pmo') or
+          (vltabela = 'pmp') or (vltabela = 'bai') or (vltabela = 'cfgmgou') then
+        begin
+          SalvarSTG(vltabela, vlcampochave);
+          RegistraAlteracaoParaCargas;
+        end;
+        ModalResult := mrOk;
+      end
+      Else
+        ShowMessage('Cadastro incompleto, favor verficar !');
+    End
+    Else
+    Begin
+      paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+
+      if paginas.ActivePageIndex = -1 then
+        paginas.ActivePageIndex := 0;
+
+      If paginas.Pages[paginas.ActivePageIndex].TabVisible = False Then
+      Begin
+        paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+      End;
+      If paginas.Pages[paginas.ActivePageIndex].TabVisible = False Then
+      Begin
+        paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+      End;
+      If paginas.Pages[paginas.ActivePageIndex].TabVisible = False Then
+      Begin
+        paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+      End;
+      If paginas.Pages[paginas.ActivePageIndex].TabVisible = False Then
+      Begin
+        paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+      End;
+      If paginas.Pages[paginas.ActivePageIndex].TabVisible = False Then
+      Begin
+        paginas.ActivePageIndex := paginas.ActivePageIndex + 1;
+      End;
+
+      ajustabotoes;
+
+      (Self.paginas.Pages[paginas.ActivePageIndex] As TTabSheet).SetFocus;
+
+    End;
+  Except
+    on E: Exception do
+      ShowMessage('Erro ao salvar o registro.' + #13 + 'Mensagem: ' + #13 + E.Message);
+  End;
+end;
+
+procedure TFrmBase.bfecharClick(Sender: TObject);
+begin
+  if bfechar.Visible then
+    bfechar.SetFocus; // Força o ActiveControl para o botão Fechar
+
+  If bfechar.caption = 'Fechar' Then
+  Begin
+    If DSRegistro.DataSet.State <> dsBrowse Then
+      DSRegistro.DataSet.Cancel;
+
+    Self.ModalResult := mrCancel;
+  End;
+
+  If bfechar.caption = 'Voltar' Then
+  Begin
+    paginas.ActivePageIndex := paginas.ActivePageIndex - 1;
+
+    If Not paginas.Pages[paginas.ActivePageIndex].TabVisible Then
+      paginas.ActivePageIndex := paginas.ActivePageIndex - 1;
+
+    If Not paginas.Pages[paginas.ActivePageIndex].TabVisible Then
+      paginas.ActivePageIndex := paginas.ActivePageIndex - 1;
+
+    If Not paginas.Pages[paginas.ActivePageIndex].TabVisible Then
+      paginas.ActivePageIndex := paginas.ActivePageIndex - 1;
+
+    If Not paginas.Pages[paginas.ActivePageIndex].TabVisible Then
+      paginas.ActivePageIndex := paginas.ActivePageIndex - 1;
+
+    If paginas.PageCount > 1 Then
+      bconfirma.caption := 'Avançar';
+
+    If paginas.ActivePageIndex = 0 Then
+    Begin
+      bfechar.caption := 'Fechar';
+      bfechar.Visible := False;
+    End;
+  End;
+end;
+
+procedure TFrmBase.FormActivate(Sender: TObject);
+begin
+  lbcodigojanela.caption := 'ID: ' + Self.name;
+  lbcodigojanela.Visible := True;
+end;
+
+procedure TFrmBase.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if Self.FindComponent('fajuda') <> nil then
+    TForm(Self.FindComponent('fajuda')).Close;
+
+  Action := cafree;
+end;
+
+procedure TFrmBase.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+Begin
+  if not((Self.ActiveControl = bconfirma) or (Self.ActiveControl = bcancela) or (Self.ActiveControl = bfechar) or
+    (TButton(Self.ActiveControl).caption = 'Chamado')) then
+  begin
+    Application.MessageBox(Pchar('Utilize as opções Confirma ou Cancela.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    CanClose := False;
+    Exit;
+  end;
+
+  CanClose := True;
+
+  salvaposicoes;
+
+  FreeAndNil(listapaginas);
+  FreeAndNil(vdadosatuais);
+  Try
+    If Self.DSRegistro.DataSet.State <> dsBrowse Then
+      Self.DSRegistro.DataSet.Cancel;
+  Except
+  End;
+end;
+
+procedure TFrmBase.FormCreate(Sender: TObject);
+begin
+
+  { if not ZCone.Connected then
+    ZCone.Connected :=true; }
+
+  // lista para controlar paginas
+  listapaginas := TStringList.Create;
+
+  // armazena dados para registro de alteração
+  vdadosatuais := TStringList.Create;
+
+  (* Define a filial se o parâmetro existir na query cfg *)
+  if cfg.FindParam('flacodigo') <> nil then
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+
+end;
+
+procedure TFrmBase.FormDeactivate(Sender: TObject);
+begin
+  if Self.Top > (Screen.Height - 150) then
+    Self.Top := Screen.Height - 150;
+
+  if Self.Left < 0 then
+    Self.Left := 0;
+end;
+
+procedure TFrmBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+end;
+
+procedure TFrmBase.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Sender is TDBEdit) then
+    if (Sender as TDBEdit).Field.DataType in [ftfloat, ftCurrency] then
+    begin
+      if not(Key in [#0, #13, #27, #8, #3, #$16, ',', '0' .. '9']) then
+      begin
+        Key := #0;
+        Exit;
+      end;
+      If (Key = ',') Then
+      begin
+        if (Pos(',', (Sender as TDBEdit).Text) = 0) then
+        begin
+          Key := #0;
+          Key := ',';
+        end
+        else
+        begin
+          Key := #0;
+        end;
+      end;
+    end;
+
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    If (Sender Is TDBGrid) Then
+    Begin
+      Key := #0;
+      (Sender As TDBGrid).SelectedIndex := (Sender As TDBGrid).SelectedIndex + 1;
+      If (Sender As TDBGrid).SelectedIndex = ((Sender As TDBGrid).Columns.Count) Then
+      Begin
+        (Sender As TDBGrid).SelectedIndex := 1;
+        (Sender As TDBGrid).DataSource.DataSet.Next;
+        If (Sender As TDBGrid).DataSource.DataSet.Eof Then
+        Begin
+          Perform(WM_NEXTDLGCTL, 0, 0);
+        End;
+      End;
+    End
+    Else
+    Begin
+      Key := #0;
+      Perform(WM_NEXTDLGCTL, 0, 0);
+    End;
+
+  End
+  Else If Key = #27 Then
+  Begin
+    if bcancela.Visible then
+    begin
+      bcancela.SetFocus;
+      Key := #0;
+      bcancela.Click;
+    end
+    else if bfechar.Visible then
+    begin
+      bfechar.SetFocus;
+      Key := #0;
+      bfechar.Click;
+    end;
+  End;
+end;
+
+procedure TFrmBase.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = 13) or (Key = 8) then
+  begin
+    try
+
+      lou.Close;
+      lou.Open;
+
+      lou.Append;
+      louclbcodigo.AsInteger := Acesso.Usuario;
+
+      louloudatahora.AsString := agora(Application, ZCone);
+      loulouaplicacao.AsString := extractfilename(Application.ExeName);
+      loulouformulario.AsString := Self.name;
+
+      if (Sender is TDBMemo) then
+      begin
+        loulounomecomponente.AsString := (Sender as TDBMemo).name;
+        louloutipocomponente.AsString := 'dbmemo';
+        loulouconteudocomponente.AsString := (Sender as TDBMemo).Field.Text;
+
+      end;
+
+      if (Sender is TDBEdit) then
+      begin
+        loulounomecomponente.AsString := (Sender as TDBEdit).name;
+        louloutipocomponente.AsString := 'dbedit';
+        loulouconteudocomponente.AsString := (Sender as TDBEdit).Field.Text;
+      end;
+
+      loulouacaocomponente.AsString := IntToStr(Key);
+
+      lou.Post;
+
+    finally
+    end;
+  end;
+end;
+
+procedure TFrmBase.FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+  lou.Close;
+  lou.Open;
+
+  lou.Append;
+  louclbcodigo.AsInteger := Acesso.Usuario;
+
+  louloudatahora.AsString := agora(Application, ZCone);
+  loulouaplicacao.AsString := extractfilename(Application.ExeName);
+  loulouformulario.AsString := Self.name;
+  loulounomecomponente.AsString := (Sender as TControl).name;
+
+  if (Sender is TBitBtn) then
+  begin
+    louloutipocomponente.AsString := 'bitbtn';
+    loulouconteudocomponente.AsString := (Sender as TBitBtn).caption;
+  end;
+  if (Sender is TSpeedButton) then
+  begin
+    louloutipocomponente.AsString := 'speedbutton';
+    loulouconteudocomponente.AsString := (Sender as TSpeedButton).caption;
+  end;
+
+  loulouacaocomponente.AsString := 'Click';
+
+  lou.Post;
+
+end;
+
+procedure TFrmBase.FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+  if Self.Top > (Screen.Height - 150) then
+    Self.Top := Screen.Height - 150;
+
+  if Self.Left < 0 then
+    Self.Left := 0;
+end;
+
+procedure TFrmBase.FormResize(Sender: TObject);
+begin
+  lbcodigojanela.Left := Self.Width - lbcodigojanela.Width - 42;
+  // Set to correct value for the designated panel
+  if Self.Width < 150 then
+    Self.Width := 150;
+
+  if Self.Height < 150 then
+    Self.Height := 150;
+end;
+
+procedure TFrmBase.FormShow(Sender: TObject);
+var
+  i, X: Integer;
+
+begin
+  // RemovePastaImagens;
+
+  for i := 0 to Self.ComponentCount - 1 do
+    if Self.Components[i] is TDBGrid then
+      (Self.Components[i] as TDBGrid).ReadOnly := True;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select curdate()';
+  consulta.Open;
+  Self.vdataatual := consulta.fields[0].AsFloat;
+
+  If Self.registro.Active = False Then
+  Begin
+    X := CountChar(':', Self.registro.SQL.Text);
+    If X = 3 Then
+    Begin
+      If (Self.vchave <> '') And (Self.vChaveMestre <> '') And (Self.txtFiltro <> '') Then
+      Begin
+        registro.Params[0].AsString := Self.vchave;
+        registro.Params[1].AsString := Self.vChaveMestre;
+        registro.Params[2].AsString := Self.txtFiltro;
+      End;
+    End;
+
+    If X = 2 Then
+    Begin
+      If (Self.vchave <> '') And (Self.vChaveMestre <> '') Then
+      Begin
+        registro.Params[0].AsString := Self.vchave;
+        registro.Params[1].AsString := Self.vChaveMestre;
+      End;
+    End;
+
+    If X = 1 Then
+    Begin
+      If Self.vchave <> '' Then
+      Begin
+        Self.registro.Params[0].AsString := Self.vchave;
+      End;
+    End;
+
+    registro.Open;
+    If registro.RecordCount = 0 Then
+    Begin
+      registro.Append;
+      psituacao.caption := 'Incluindo';
+    End
+    Else
+    Begin
+      registro.Edit;
+      psituacao.caption := 'Alterando';
+    End;
+  End;
+
+  abretabelasaux;
+
+  ajustacampos;
+
+  paginas.ActivePageIndex := 0;
+
+  If Self.BorderStyle = bsNone Then
+    Self.pbotoes.Visible := False;
+
+  If cfg.SQL.Text <> '' Then
+  Begin
+    cfg.Close;
+    if cfg.Params.FindParam('flacodigo') <> nil then
+      cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+  End;
+
+  carregaposicoes;
+
+  lbcodigojanela.caption := 'ID: ' + Self.name;
+  lbcodigojanela.Parent := paginas;
+  lbcodigojanela.Top := 1;
+  lbcodigojanela.Width := 110;
+  lbcodigojanela.Left := Self.Width - lbcodigojanela.Width - 42; // Set to correct value for the designated panel
+  lbcodigojanela.Height := 20;
+end;
+
+function TFrmBase.GetRetorno: String;
+begin
+  Result := vpRetorno;
+end;
+
+function TFrmBase.GetSituacao: String;
+begin
+  Result := Self.psituacao.caption;
+end;
+
+Procedure TFrmBase.abretabelasaux;
+Var
+  i: Integer;
+Begin
+  For i := 0 To Self.ComponentCount - 1 Do
+    If Self.Components[i] Is tuniquery Then
+      If (Self.Components[i] As tuniquery).Tag <> 0 Then
+        If (Self.Components[i] As tuniquery).SQL.Text <> '' Then
+        Begin
+          (Self.Components[i] As tuniquery).Close;
+          (Self.Components[i] As tuniquery).Open;
+        End;
+End;
+
+Procedure TFrmBase.registraalteracoes;
+Var
+  nc: String;
+  nt: String;
+  nb: String;
+  vc: String;
+  ntab: String;
+  i: Integer;
+  tbl: tuniquery;
+  vlIdSecaoBanco: string;
+  vlAcsChave: string;
+Begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT CONNECTION_ID() from dual';
+  consulta.Open;
+  vlIdSecaoBanco := consulta.fields[0].AsString;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT acschave from acs where acspid=' + vlIdSecaoBanco;
+  consulta.Open;
+  vlAcsChave := consulta.fields[0].AsString;
+  consulta.Close;
+
+  For i := 0 To Self.vdadosatuais.Count - 1 Do
+  Begin
+
+    nt := Copy(Self.vdadosatuais.Strings[i], 1, Pos('=', Self.vdadosatuais.Strings[i]) - 1);
+
+    nc := Copy(Self.vdadosatuais.Strings[i], Pos('=', Self.vdadosatuais.Strings[i]) + 1, 500);
+
+    nc := Copy(nc, 1, Pos('-', nc) - 1);
+    nb := nc;
+    vc := Copy(Self.vdadosatuais.Strings[i], Pos('-', Self.vdadosatuais.Strings[i]) + 1, 250);
+
+    ntab := nt;
+    Try
+      If Self.FindComponent(ntab) <> Nil Then
+      Begin
+        tbl := tuniquery.Create(Self);
+        tbl := (Self.FindComponent(ntab) As tuniquery);
+      End;
+      If tbl.FieldByName(nc).AsString <> '' Then
+      Begin
+        If tbl.FieldByName(nc).AsString <> vc Then
+        Begin
+          dtb.Close;
+          dtb.SQL.Text := 'select * from dtb where dtbtabela=' + chr(39) + Copy(nb, 1, 3) + chr(39);
+          dtb.Open;
+          If Not dtb.IsEmpty Then
+          Begin
+            dcp.Close;
+            dcp.SQL.Text := 'select * from dcp where dcpcampo=' + chr(39) + nc + chr(39);
+            dcp.Open;
+            If Not dcp.IsEmpty Then
+            Begin
+              coa.Close;
+              coa.Params[0].AsInteger := dtb.FieldByName('dtbcodigo').AsInteger;
+              coa.Params[1].AsInteger := dcp.FieldByName('dcpcodigo').AsInteger;
+              coa.Params[2].AsInteger := Acesso.Usuario;
+              coa.Open;
+
+              coa.Append;
+              coadtbcodigo.AsInteger := dtb.FieldByName('dtbcodigo').AsInteger;
+              coadcpcodigo.AsInteger := dcp.FieldByName('dcpcodigo').AsInteger;
+              coacoaanterior.AsString := vc;
+              coacoaatual.AsString := tbl.FieldByName(nc).AsString;
+              coaclbcodigo.AsInteger := Acesso.Usuario;
+              coacoadata.AsFloat := Date;
+              coacoahora.AsFloat := time;
+              coaacschave.AsString := vlAcsChave;
+              coa.Post;
+            End;
+          End;
+        End;
+      End;
+
+    Finally
+      // tbl.Free;
+    End;
+  End;
+
+  coa.Close;
+End;
+
+procedure TFrmBase.registroAfterInsert(DataSet: TDataSet);
+var
+  X: Integer;
+begin
+  X := CountChar(':', Self.registro.SQL.Text);
+  If (Self.vChaveMestre <> '') and (X > 1) Then
+    Self.registro.fields[1].AsString := Self.vChaveMestre;
+end;
+
+procedure TFrmBase.registroBeforeEdit(DataSet: TDataSet);
+begin
+  if Self.FindComponent('etauto') <> nil then
+    if Self.FindComponent('etauto') is TPanel then
+      (Self.FindComponent('etauto') as TPanel).Visible := False;
+end;
+
+procedure TFrmBase.registroPostError(DataSet: TDataSet; E: EDatabaseError; var Action: TDataAction);
+begin
+  { try
+
+    except
+    on E: Exception do
+    ShowMessage('Erro ao salvar o registro.' + #13 + 'Mensagem: ' + #13 + E.Message);
+    end; }
+end;
+
+procedure TFrmBase.paginasChange(Sender: TObject);
+begin
+  Self.ajustabotoes;
+end;
+
+Procedure TFrmBase.ajustacampos;
+Var
+  etibeve: TBevel;
+  etitext: TDBText;
+  spdpesq: TBitBtn;
+  spdcale: TBitBtn;
+
+  vComponent: TComponent;
+  vFieldName: String;
+  vIndex: Integer;
+  vIndexNext: Integer;
+  vlCampos: Integer;
+  Comp: TComponent;
+  Method: TMethod;
+
+Begin
+
+  for vIndex := 0 to Self.ComponentCount - 1 do
+  begin
+    vComponent := Self.Components[vIndex];
+
+    if (vComponent is TDBEdit) then
+      if ((vComponent as TDBEdit).Parent is TTabSheet) or ((vComponent as TDBEdit).Parent is TGroupBox) or ((vComponent as TDBEdit).Parent is TPanel) then
+      begin
+        If (vComponent As TDBEdit).DataSource.DataSet.Active = False Then
+          (vComponent As TDBEdit).DataSource.DataSet.Open;
+
+        vFieldName := (vComponent As TDBEdit).name;
+
+        (*
+          *Verifica se campo seguinte é Lookup e cria o Botão de pesquisa e o Bevel para indentificação
+        *)
+
+        vIndexNext := (vComponent As TDBEdit).Field.Index + 1;
+
+        if vIndexNext <= (vComponent As TDBEdit).DataSource.DataSet.FieldCount - 1 then
+          if ((vComponent As TDBEdit).DataSource.DataSet.fields[vIndexNext].FieldKind = fkLookup) and
+            ((vComponent As TDBEdit).DataSource.DataSet.fields[vIndexNext].Visible) Then
+          begin
+            (* Cria botão de Pesquisa *)
+            if Self.FindComponent('spdb' + vFieldName) = nil then
+            begin
+              spdpesq := TBitBtn.Create(Self);
+              spdpesq.Parent := (vComponent as TDBEdit).Parent;
+              spdpesq.Top := (vComponent As TDBEdit).Top - 1;
+              spdpesq.Width := 23;
+              spdpesq.Height := 23;
+              spdpesq.Left := (vComponent As TDBEdit).Left + (vComponent As TDBEdit).Width + 5;
+              spdpesq.Parent := (vComponent As TDBEdit).Parent;
+              spdpesq.name := 'spdb' + vFieldName;
+              spdpesq.caption := '';
+              spdpesq.TabStop := False;
+              spdpesq.Visible := (vComponent As TDBEdit).Visible;
+
+              spdpesq.OnClick := limpatexto;
+
+              ImgBusca.GetBitmap(0, spdpesq.Glyph);
+            end;
+
+            { if Self.FindComponent('p' + (vComponent As TDBEdit).Parent.name + vFieldName) = nil then
+              begin
+              etibeve := TBevel.Create(Self);
+              etibeve.Parent := (vComponent As TDBEdit).Parent;
+
+              etibeve.name := 'p' + (vComponent As TDBEdit).Parent.name + vFieldName; // (vComponent As TDBEdit).Name;
+
+              etibeve.Left := (vComponent As TDBEdit).Left + (vComponent As TDBEdit).Width + 25;
+              etibeve.Width := ((vComponent As TDBEdit).DataSource.DataSet.Fields[vIndexNext].Size * Self.Font.Size) - 15;
+              etibeve.Top := (vComponent As TDBEdit).Top;
+              etibeve.Height := (vComponent As TDBEdit).Height;
+              etibeve.Visible := (vComponent As TDBEdit).Visible;
+              end; }
+
+            if Self.FindComponent('l' + vFieldName) = nil then
+            begin
+              etitext := TDBText.Create(Self);
+              etitext.Parent := (vComponent As TDBEdit).Parent;
+              etitext.DataSource := (vComponent As TDBEdit).DataSource;
+              etitext.name := 'l' + vFieldName; // (vComponent As TDBEdit).Name;
+              etitext.Hint := etitext.name;
+              etitext.DataField := (vComponent As TDBEdit).DataSource.DataSet.fields[vIndexNext].FieldName;
+              etitext.Left := (vComponent As TDBEdit).Left + (vComponent As TDBEdit).Width + 32;
+              etitext.Width := ((vComponent As TDBEdit).DataSource.DataSet.fields[vIndexNext].Size * Self.Font.Size) + 8 - 10;
+              etitext.Font.Style := [];
+              etitext.Top := (vComponent As TDBEdit).Top + 5;
+              etitext.Height := (vComponent As TDBEdit).Height - 7;
+              etitext.Visible := (vComponent As TDBEdit).Visible;
+            end;
+          End;
+
+        (*
+          *Trata detalhes do campo se for DATE
+        *)
+
+        If (vComponent As TDBEdit).Field.DataType = ftDate Then
+          if Self.FindComponent('spca' + vFieldName) = nil then
+          begin
+            spdcale := TBitBtn.Create((vComponent as TDBEdit).Parent);
+            spdcale.Top := (vComponent As TDBEdit).Top - 1;
+            spdcale.Width := 23;
+            spdcale.Height := 23;
+            (vComponent As TDBEdit).Width := 72;
+            spdcale.Left := (vComponent As TDBEdit).Left + (vComponent As TDBEdit).Width;
+            spdcale.Parent := (vComponent As TDBEdit).Parent;
+            spdcale.name := 'spca' + vFieldName;
+            spdcale.caption := '';
+            spdcale.TabStop := False;
+            spdcale.Visible := (vComponent As TDBEdit).Visible;
+
+            spdcale.OnClick := chamacalendario;
+
+            ImgBusca.GetBitmap(0, spdcale.Glyph);
+
+            ((vComponent As TDBEdit).Field as TDateField).EditMask := '!99/99/9999;1;_';
+            ((vComponent As TDBEdit).Field as TDateField).OnSetText := VerificaDataOnSetText;
+          end;
+
+        (*
+          * Diversas tratativas do campo
+        *)
+
+        if (vComponent As TDBEdit).Field.Required then
+          (vComponent As TDBEdit).Color := PEG_COR_VALORREQUERIDO
+        else
+          (vComponent As TDBEdit).Color := CLWHITE;
+
+        if (vComponent As TDBEdit).Field.AutoGenerateValue = arautoinc then
+        begin
+          (vComponent As TDBEdit).Color := clSilver;
+          (vComponent As TDBEdit).Font.Color := clRed;
+          (vComponent As TDBEdit).ReadOnly := True;
+          (vComponent As TDBEdit).TabStop := False;
+          (vComponent As TDBEdit).Enabled := False;
+        end;
+
+        if (vComponent as TDBEdit).Field.DataType in [ftfloat, ftCurrency] then
+          if not Assigned((vComponent As TDBEdit).OnKeyUp) then
+          begin
+            if (vComponent as TDBEdit).Field.DataType = ftfloat then
+            begin
+              for vlCampos := 0 to (vComponent As TDBEdit).DataSource.DataSet.FieldCount - 1 do
+              begin
+                if (vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos].FieldName = (vComponent As TDBEdit).Field.FieldName then
+                begin
+                  TFloatField((vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos]).EditMask := '';
+                  TFloatField((vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos]).Editformat := '#0.00';
+                end;
+              end;
+            end;
+
+            if (vComponent as TDBEdit).Field.DataType = ftCurrency then
+            begin
+              if (vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos].FieldName = (vComponent As TDBEdit).Field.FieldName then
+              begin
+                TCurrencyField((vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos]).EditMask := '';
+                TCurrencyField((vComponent As TDBEdit).DataSource.DataSet.fields[vlCampos]).Editformat := '#0.00';
+
+              end;
+            end;
+
+            (vComponent As TDBEdit).OnKeyUp := FormKeyUp;
+          end;
+
+        if not Assigned((vComponent As TDBEdit).OnKeyPress) then
+          (vComponent As TDBEdit).OnKeyPress := FormKeyPress;
+
+        if not Assigned((vComponent As TDBEdit).OnKeyUp) then
+          (vComponent As TDBEdit).OnKeyUp := FormKeyUp;
+
+        if not Assigned((vComponent As TDBEdit).OnExit) then
+          (vComponent As TDBEdit).OnExit := Self.ValidaSaida;
+
+        vdadosatuais.add((vComponent As TDBEdit).DataSource.DataSet.name + '=' + (vComponent As TDBEdit).Field.FullName + '-' + (vComponent As TDBEdit)
+          .Field.AsString);
+      end;
+
+    (*
+      *
+      * Trata ComboBox
+      *
+    *)
+
+    if (vComponent is TDBComboBox) then
+      if ((vComponent as TDBComboBox).Parent is TTabSheet) or ((vComponent as TDBComboBox).Parent is TGroupBox) or ((vComponent as TDBComboBox).Parent is TPanel)
+      then
+      Begin
+        If (vComponent As TDBComboBox).DataSource.DataSet.Active = False Then
+          (vComponent As TDBComboBox).DataSource.DataSet.Open;
+
+        If (vComponent As TDBComboBox).Field.Required Then
+          (vComponent As TDBComboBox).Color := PEG_COR_VALORREQUERIDO
+        Else
+          (vComponent As TDBComboBox).Color := CLWHITE;
+
+        (vComponent As TDBComboBox).OnKeyPress := FormKeyPress;
+        (vComponent As TDBComboBox).OnExit := Self.ValidaSaida;
+        vdadosatuais.add((vComponent As TDBComboBox).DataSource.DataSet.name + '=' + (vComponent As TDBComboBox).Field.FullName + '-' +
+          (vComponent As TDBComboBox).Field.AsString);
+
+        if not Assigned((vComponent As TDBComboBox).OnKeyUp) then
+          (vComponent As TDBComboBox).OnKeyUp := FormKeyUp;
+
+      End;
+
+    (*
+      *
+      * Trata DBMemo
+      *
+    *)
+
+    if (vComponent is TDBMemo) then
+    begin
+      if ((vComponent as TDBMemo).Parent is TTabSheet) or ((vComponent as TDBMemo).Parent is TGroupBox) or ((vComponent as TDBMemo).Parent is TPanel) then
+      begin
+        If (vComponent As TDBMemo).DataSource.DataSet.Active = False Then
+          (vComponent As TDBMemo).DataSource.DataSet.Open;
+
+        if not Assigned((vComponent As TDBMemo).OnKeyPress) then
+          (vComponent As TDBMemo).OnKeyPress := FormKeyPress;
+
+        vdadosatuais.add((vComponent As TDBMemo).DataSource.DataSet.name + '=' + (vComponent As TDBMemo).Field.FullName + '-' + (vComponent As TDBMemo)
+          .Field.AsString);
+      end;
+      if (vComponent as TDBMemo).Field.Required then
+        (vComponent As TDBMemo).Color := PEG_COR_VALORREQUERIDO;
+
+      if not Assigned((vComponent As TDBMemo).OnKeyUp) then
+        (vComponent As TDBMemo).OnKeyUp := FormKeyUp;
+    end;
+
+    if (vComponent is TSpeedButton) then
+    begin
+      Method := GetMethodProp(TSpeedButton(vComponent), 'OnMouseDown');
+      if not Assigned(Method.Code) then
+        TSpeedButton(vComponent).OnMouseDown := FormMouseDown;
+
+    end;
+
+    if (vComponent is TBitBtn) then
+    begin
+      Method := GetMethodProp(TBitBtn(vComponent), 'OnMouseDown');
+      if not Assigned(Method.Code) then
+        TBitBtn(vComponent).OnMouseDown := FormMouseDown;
+
+    end;
+
+  end;
+End;
+
+procedure TFrmBase.chamacalendario(Sender: TObject);
+Var
+  vData: TDate;
+  vFieldName: string;
+  vFieldDate: TDBEdit;
+begin
+  vData := 0;
+
+  vFieldName := (Sender As TBitBtn).name;
+  vFieldName := Trim(Copy(vFieldName, 5, 200));
+
+  if not(Self.FindComponent(vFieldName) is TDBEdit) then
+    Exit;
+
+  vFieldDate := Self.FindComponent(vFieldName) as TDBEdit;
+
+  If not(vFieldDate.Enabled) or (vFieldDate.ReadOnly) Then
+    Exit;
+
+  // captura data atual para passar para o calendario
+  if vFieldDate.Field.AsString <> '' then
+    vData := (vFieldDate As TDBEdit).Field.AsFloat;
+
+  Application.CreateForm(tfcalendario, fcalendario);
+  fcalendario.vData := vData;
+
+  if fcalendario.ShowModal = mrOk then
+  begin
+    try
+      vData := fcalendario.vData;
+    except
+      vData := 0;
+    end;
+
+    If vFieldDate.DataSource.DataSet.State = dsBrowse Then
+      vFieldDate.DataSource.DataSet.Edit;
+
+    vFieldDate.SetFocus;
+    vFieldDate.Field.AsFloat := vData;
+  End;
+end;
+
+constructor TFrmBase.Create(pCargaFrame: TCargaFrame);
+begin
+  inherited Create(pCargaFrame.AOwner);
+
+  ZCone := pCargaFrame.conexao;
+  Acesso := pCargaFrame.Acesso;
+
+  vchave := pCargaFrame.Chave;
+  vChaveMestre := pCargaFrame.ChaveMestre;
+  txtFiltro := pCargaFrame.Filtro;
+
+  registro.Close;
+  Visible := False;
+end;
+
+constructor TFrmBase.Create(pAOwner: TComponent);
+begin
+  inherited Create(pAOwner);
+end;
+
+procedure TFrmBase.verificapesquisa(campo: TDBEdit; modulo: string);
+var
+  vnmcampo: string;
+begin
+  vnmcampo := campo.DataField;
+  montapesquisaespecial(campo, modulo, Acesso.Usuario.ToString, Self.txtFiltro);
+end;
+
+Procedure TFrmBase.limpatexto(Sender: TObject);
+Var
+  vFieldName: string;
+  vFieldPesq: TComponent;
+Begin
+  If Sender Is TBitBtn Then
+  Begin
+    vFieldName := (Sender As TBitBtn).name;
+    vFieldName := Trim(Copy(vFieldName, 5, 200));
+
+    vFieldPesq := Self.FindComponent(vFieldName);
+
+    If ((vFieldPesq As TDBEdit).Enabled) and ((vFieldPesq As TDBEdit).ReadOnly = False) Then
+    Begin
+      If (vFieldPesq As TDBEdit).DataSource.DataSet.State = dsBrowse Then
+        (vFieldPesq As TDBEdit).DataSource.DataSet.Edit;
+
+      // (vFieldPesq As TDBEdit).SetFocus; // Gabriel - Tenho filtros que precisam ser passados no OnEnter do Field
+      (vFieldPesq As TDBEdit).Field.AsString := '';
+      (vFieldPesq As TDBEdit).SetFocus;
+      (vFieldPesq As TDBEdit).Color := PEG_COR_VALORREQUERIDO; // Daniel atribuido a cor para forçar a pesquisa neste momento
+      ValidaSaida(vFieldPesq As TDBEdit);
+    End;
+  End;
+End;
+
+
+Procedure TFrmBase.ValidaSaida(Sender: TObject);
+Var
+  u: Integer;
+  X: Integer;
+  vc, vt: String;
+  d: String;
+  veridata: TDate;
+  veritxt: string;
+Begin
+  inherited;
+
+  If not(Sender Is TDBEdit) Then
+    Exit;
+
+  ActiveControlCancela := TDBEdit(Sender);
+
+  (* Identifica se usuário está abandonando a tela *)
+  If Self.ActiveControl Is TBitBtn Then
+    If (Self.ActiveControl As TBitBtn).name = 'bcancela' Then
+      Exit;
+
+  { * Verifica se é um campo float ou currency , se sim remove todos pontos de milhar * }
+  { if ((Sender As TDBEdit).Field.DataType = ftfloat) or ((Sender As TDBEdit).Field.DataType = ftCurrency) then
+    begin
+
+    (Sender As TDBEdit).Text := StringReplace((Sender As TDBEdit).Text, '.', '', [rfReplaceAll, rfIgnoreCase]);
+    end; }
+
+  { * Verifica se é um campo data, se não data valida nem valida os dados * }
+  if (Sender As TDBEdit).Field.DataType = ftDate then
+  begin
+    (* Identifica que usuário está clicando no botão para chamar Calendário. *)
+    If Self.ActiveControl Is TBitBtn Then
+      If (Self.ActiveControl As TBitBtn).name = 'spca' + TDBEdit(Sender).name Then
+        Exit;
+
+    try
+      veritxt := (Sender As TDBEdit).Text;
+      StrToDate((Sender As TDBEdit).Text);
+    except
+      if Pos('Data inválida: ', (Sender As TDBEdit).Field.ConstraintErrorMessage) > 0 then
+      begin
+        if ((Sender As TDBEdit).Field.Required) or ((Sender As TDBEdit).Field.ConstraintErrorMessage <> 'Data inválida: ' + chr(39) + '  /  /    ' + chr(39))
+        then
+        begin
+          ShowMessage((Sender As TDBEdit).Field.ConstraintErrorMessage);
+          (Sender As TDBEdit).Field.AsString := '';
+          (Sender As TDBEdit).SetFocus;
+        end;
+      end;
+      Exit;
+    end;
+  end;
+
+  If (Trim((Sender As TDBEdit).Text) = '') or ((Sender As TDBEdit).Text = '  /  /    ') Then
+  Begin
+    u := (Sender As TDBEdit).DataSource.DataSet.FieldCount - 1;
+    X := (Sender As TDBEdit).Field.Index + 1;
+    If X <= u Then
+      If ((Sender As TDBEdit).DataSource.DataSet.fields[X].FieldKind = fkLookup) and ((Sender As TDBEdit).DataSource.DataSet.fields[X].Visible) and
+        (((Sender As TDBEdit).DataSource.DataSet.fields[(Sender As TDBEdit).Field.Index].Required) or ((Sender As TDBEdit).Color = PEG_COR_VALORREQUERIDO)) Then
+      Begin
+        CriaBusca((Sender As TDBEdit), ((Sender As TDBEdit).DataSource.DataSet.fields[X] As TStringField));
+        Exit;
+      End;
+
+    If ((Sender As TDBEdit).Color = PEG_COR_VALORREQUERIDO) OR ((Sender As TDBEdit).DataSource.DataSet.fields[(Sender As TDBEdit).Field.Index].Required) Then
+    Begin
+      if (Sender As TDBEdit).Field is TStringField then
+        if ((Sender As TDBEdit).Field as TStringField).EditMask = '(99)9999-9999;0;_' then
+          if (Sender As TDBEdit).Field.AsString = '' then
+          begin
+            ShowMessage('Campo Obrigatório !');
+            (Sender As TDBEdit).SetFocus;
+            Exit;
+          end;
+
+      if (Sender As TDBEdit).Field is TStringField then
+        if ((Sender As TDBEdit).Field as TStringField).EditMask = '(00)0000-0000;1;' then
+          if ((Sender As TDBEdit).Field.AsString = '(  )    -    ') then
+          begin
+            ShowMessage('Campo Obrigatório !');
+            (Sender As TDBEdit).SetFocus;
+            Exit;
+          end;
+
+      ShowMessage('Campo Obrigatório !');
+      if (Sender As TDBEdit).Enabled then
+        (Sender As TDBEdit).SetFocus;
+      Exit;
+    End;
+
+  End
+  Else If ((Sender As TDBEdit).Text <> '') Then
+  Begin
+
+    u := (Sender As TDBEdit).DataSource.DataSet.FieldCount - 1;
+    X := (Sender As TDBEdit).Field.Index + 1;
+    If X <= u Then
+    Begin
+      If ((Sender As TDBEdit).DataSource.DataSet.fields[X].FieldKind = fkLookup) and ((Sender As TDBEdit).DataSource.DataSet.fields[X].Visible) and
+        ((Sender As TDBEdit).color=PEG_COR_VALORREQUERIDO) Then
+      Begin
+        (Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet.Close;
+        (Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet.Open;
+        (Sender As TDBEdit).DataSource.DataSet.fields[X].RefreshLookupList;
+        vt := (Sender As TDBEdit).DataSource.DataSet.fields[X].AsString;
+        If vt = '' Then
+        Begin
+          If (Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet Is tuniquery Then
+          Begin
+            vc := ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).SQL.Text;
+            If Pos(':', vc) > 0 Then
+            Begin
+              ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).Close;
+              vc := Copy(vc, Pos(':', vc), 500);
+              vc := Trim(Copy(vc, 2, Pos(' ', vc) - 1));
+              ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).ParamByName(vc).AsString := (Sender As TDBEdit)
+                .DataSource.DataSet.FieldByName(vc).AsString;
+              ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).Open;
+            End
+            Else
+            Begin
+              ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).Close;
+              ((Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet As tuniquery).Open;
+            End;
+          End;
+
+          (Sender As TDBEdit).DataSource.DataSet.fields[X].LookupDataSet.Refresh;
+          (Sender As TDBEdit).DataSource.DataSet.fields[X].RefreshLookupList;
+
+          vt := (Sender As TDBEdit).DataSource.DataSet.fields[X].AsString;
+          If vt = '' Then
+          Begin
+            CriaBusca((Sender As TDBEdit), ((Sender As TDBEdit).DataSource.DataSet.fields[X] As TStringField));
+          End;
+        End;
+      End;
+    End;
+
+    If (Sender As TDBEdit).Tag <> 88 Then
+    Begin
+
+      If (Pos('@', (Sender As TDBEdit).Text) = 0) Then
+      Begin
+        if (Sender As TDBEdit).Tag = 444 then
+          (Sender As TDBEdit).Text := (Sender As TDBEdit).Text
+        else
+          (Sender As TDBEdit).Text := AnsiUpperCase((Sender As TDBEdit).Text);
+      End
+      Else
+        (Sender As TDBEdit).Text := lowercase((Sender As TDBEdit).Text);
+
+    End;
+
+    If ((Sender As TDBEdit).Field Is TDateField) Then
+    Begin
+      d := (Sender As TDBEdit).Field.AsString;
+      If d = '' Then
+        ((Sender As TDBEdit).Field As TDateField).EditMask := '!99/99/9999;1;_';
+      If Not validadatamovimento((Sender As TDBEdit).Field.AsString) Then
+        ShowMessage('Atenção: Sistema bloqueado. Por favor,feche caixa dos dias anteriores !');
+    End;
+  End;
+
+  If ((Sender As TDBEdit).DataSource.DataSet.State = dsinsert) Or ((Sender As TDBEdit).DataSource.DataSet.State = dsedit) Then
+  begin
+    If Pos('@', (Sender As TDBEdit).Text) = 0 Then
+    Begin
+      if (Sender As TDBEdit).Tag = 444 then
+        (Sender As TDBEdit).Text := (Sender As TDBEdit).Text
+      else
+        (Sender As TDBEdit).Field.AsString := AnsiUpperCase((Sender As TDBEdit).Field.AsString);
+    End
+    Else
+    Begin
+      if (Sender As TDBEdit).Tag = 444 then
+        (Sender As TDBEdit).Text := (Sender As TDBEdit).Text
+      else
+        (Sender As TDBEdit).Field.AsString := lowercase((Sender As TDBEdit).Field.AsString);
+    End;
+
+  end;
+
+  If ((Sender As TDBEdit).DataSource.DataSet.State = dsinsert) Or ((Sender As TDBEdit).DataSource.DataSet.State = dsedit) Then
+  begin
+    If ((Sender As TDBEdit).Field.Name = 'etdidentificacao') or
+       ((Sender As TDBEdit).Field.Name = 'etdapelido')  Then
+    Begin
+      If Length((Sender As TDBEdit).field.Text)<3  Then
+       Begin
+         ShowMessage('Atenção: Este campo precisa no mínimo 3 letras !');
+         (Sender As TDBEdit).SetFocus;
+       End;
+    End;
+
+  end;
+
+
+
+
+
+End;
+
+Procedure TFrmBase.CriaBusca(destino: TDBEdit; etiqueta: TStringField);
+Var
+  query: String;
+  Filtro: String;
+  campo: String;
+  ordem: String;
+  de: String;
+  sqll: String;
+  i, u: Integer;
+  lg: Integer;
+  titcampos: TStringList;
+  rstok: Integer;
+  ndll: String;
+  nmodulo: String;
+  Retorno: String;
+  pesq: String;
+  vtit: string;
+  vant: string;
+Begin
+  ndll := '';
+  Retorno := '';
+  vtit := '';
+  vtit := Self.caption;
+
+  If (etiqueta.LookupDataSet Is tuniquery) Then
+  Begin
+
+    // pesq := 'pesquisa';
+
+    Filtro := (etiqueta.LookupDataSet As tuniquery).SQL.Text;
+    de := Trim(Copy(Filtro, Pos('from', lowercase(Filtro)) + 4, 200));
+    ndll := Trim('m' + de);
+
+    if Pos('where', lowercase(ndll)) > 0 then
+      ndll := Trim(Copy(ndll, 1, Pos('where', lowercase(ndll)) - 1));
+
+    if Pos(',', lowercase(ndll)) > 0 then
+      ndll := Trim(Copy(ndll, 1, Pos(',', lowercase(ndll)) - 1));
+
+    if Pos('join', lowercase(ndll)) > 0 then
+      ndll := Trim(Copy(ndll, 1, Pos('join', lowercase(ndll)) - 4));
+
+    if Pos(' ', lowercase(ndll)) > 0 then
+      ndll := Trim(Copy(ndll, 1, Pos(' ', lowercase(ndll)) - 1));
+
+    nmodulo := 'formu';
+
+    If ndll = 'metd' Then
+    Begin
+
+      If (vtit = 'Transferência de Verbas') or (vtit = 'Registro de Verba') or (vtit = 'Contas a Pagar - Parcelado') Or (vtit = 'Entrada') Or
+        (vtit = 'Entrada') Or (vtit = 'Contas a Pagar') Or (vtit = 'Conta de Consumo') or (vtit = 'Entrada por Devolução') or
+        ((Self.name = 'frng') and (Pos('Pagar', Self.caption) > 0)) Then
+      Begin
+        ndll := 'mfrn';
+        // nmodulo := 'modulofrn';
+      End
+      Else If (vtit = 'Licenciamento') or (vtit = 'Informação Tributária') or (vtit = 'Emissão de Recibo') or (vtit = 'Contrato') or (vtit = 'Chamado') or
+        (vtit = 'Movimento em Cartões') or (vtit = 'Transferência de Créditos') or (vtit = 'Registro de Crédito') or (vtit = 'Ajustes de Estoque') or
+        (vtit = 'Alteração da Entidade') Or (vtit = 'Contas a Receber - Parcelado') Or (vtit = 'Faturamento') or (vtit = 'Configurações Gerais') Or
+        (vtit = 'Registro de Cheque') Or (vtit = 'Origem de Pedido') Or (vtit = 'Saída') Or (vtit = 'Contas a Receber') or (vtit = 'Saída por Devolução') or
+        (Self.name = 'fgcb') or (Self.name = 'frng') or (Self.name = 'fdfr') or (Self.name = 'ffla') Then
+      Begin
+        ndll := 'mcli';
+        if (vtit = 'Registro de Crédito') or (vtit = 'Movimento em Cartões') then
+          pesq := Self.txtFiltro;
+        // nmodulo := 'modulocli';
+      End
+      Else If (vtit = 'Participação') Then
+      Begin
+        ndll := 'madv';
+        pesq := txtFiltro;
+      End
+      Else If (vtit = 'Conhecimento de Transporte') or (vtit = 'Dados de Transporte') Then
+      Begin
+        ndll := 'mtrs';
+        // nmodulo := 'modulotrs';
+      End
+      else if (vtit = 'Abertura de Caixa do Entregador') or (vtit = 'Dependente') or (vtit = 'Licença ou Afastamento') or (vtit = 'Ajuda de Custo') or
+        (vtit = 'Valor da Hora por Função') or (vtit = 'Lançamentos Mensais') or (vtit = 'Lançamento Mensal') or (vtit = 'Lançamento Fixos') or
+        (vtit = 'Lançamento Fixo') or (vtit = 'Participação de Colaborador') then
+      begin
+        ndll := 'mcfh';
+        pesq := txtFiltro;
+      end;
+
+    End;
+
+    If ndll = 'mv_rfi' then
+    begin
+      ndll := 'mcpa';
+      pesq := Self.txtFiltro;
+    end;
+
+    If ndll = 'mpro' Then
+    Begin
+
+      If (vtit = 'Ingredientes do Sabor') then
+      begin
+        ndll := 'migp';
+      end
+      else
+        ndll := 'mpro';
+
+    End;
+
+    If ndll = 'mtch' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mccg' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mcpr' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mevf' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mtpe' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mclb' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mgre' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'miat' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mvrp' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mfns' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mcta' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mflh' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mhmd' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mfnv' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mpcb' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mcrd' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mbtm' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mpcg' Then
+      If (vtit = 'Contabilização') then
+      begin
+        ndll := 'mcrd';
+        pesq := Self.txtFiltro;
+      end
+      else
+        pesq := Self.txtFiltro;
+
+    If ndll = 'mcdd' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mtoe' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mtdf' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mclc' Then
+      If vtit = 'Conta de Consumo' Then
+      Begin
+        nmodulo := 'moduloclc';
+        pesq := Self.txtFiltro;
+      End;
+
+    If ndll = 'medr' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'muni' Then
+      pesq := Self.txtFiltro;
+
+    If ndll = 'mpun' Then
+      (* GABRIEL - Verificar - Alterei para Eder Trabalhar *)
+      if (vtit = 'Item de Movimento de Estoque') or (Self.name = 'fitmrcm') or (Self.name = 'fitmvfe') then
+        pesq := Self.txtFiltro
+      else
+        pesq := 'procodigo=' + destino.DataSource.DataSet.FieldByName('procodigo').AsString;
+
+    if ndll = 'mcar' then
+      pesq := Self.txtFiltro;
+  End;
+
+  If FileExists(Trim(ExtractFilePath(Application.ExeName) + 'modulos\' + ndll + '.bpl')) Then
+  Begin
+    vant := destino.Field.AsString;
+    destino.Field.AsString := '';
+
+    Retorno := MostraLista(ndll, pesq);
+
+    if (Retorno = '') and (vant <> '') then
+      Retorno := vant;
+
+    If Retorno <> '' Then
+    Begin
+      (etiqueta.LookupDataSet As tuniquery).Close;
+      (etiqueta.LookupDataSet As tuniquery).Open;
+
+      vchavepesquisa := Retorno;
+      try
+        if destino.Tag = 0 then
+        begin
+          destino.Field.AsString := Retorno;
+          destino.SetFocus;
+          destino.SelectAll;
+          // Gabriel - 2014/11/11 - Necessário pois alterei rotina LimpaTexto do botão de Pesquisa(Busca)
+        end;
+      except
+      end;
+    End
+    else
+    begin
+      if destino.Visible then
+      begin
+        if (TDBEdit(destino).Field is TStringField) or (TDBEdit(destino).Field is TIntegerField) then
+        begin
+
+          if not TDBEdit(destino).Field.Required then
+          begin
+            TDBEdit(destino).Color := CLWHITE;
+
+          end;
+        end;
+
+        destino.SetFocus;
+      end;
+    end;
+  End
+  Else
+  Begin
+
+    titcampos := TStringList.Create;
+    fbusca := tfbusca.Create(Application);
+    fbusca.name := Self.name + 'busca' + destino.Field.FieldName;
+    Filtro := '';
+    ordem := '';
+    If (etiqueta.LookupDataSet Is tuniquery) Then
+    Begin
+      Filtro := (etiqueta.LookupDataSet As tuniquery).SQL.Text;
+
+      titcampos.clear;
+
+      For i := 0 To (etiqueta.LookupDataSet As tuniquery).FieldCount - 1 Do
+        titcampos.add((etiqueta.LookupDataSet As tuniquery).fields[i].DisplayLabel);
+
+      If Pos(':', Filtro) > 0 Then
+      Begin
+        campo := Copy(Filtro, Pos(':', Filtro), 500);
+        campo := Copy(campo, 1, Pos(' ', campo) - 1);
+
+      End;
+      If Pos('WHERE', UPPERCASE(Filtro)) > 0 Then
+      Begin
+        sqll := Copy(Filtro, 1, Pos('from', Filtro) - 1);
+        de := Copy(Filtro, Pos('from', lowercase(Filtro)) + 5, 200);
+        de := Trim(Copy(de, 1, Pos('where', lowercase(de)) - 1));
+        Filtro := ' and ' + Copy(Filtro, Pos('WHERE', UPPERCASE(Filtro)) + 5, length(Filtro));
+        If Pos('order by', Filtro) > 0 Then
+        Begin
+          ordem := ' ' + Trim(Copy(Filtro, Pos('order by', lowercase(Filtro)), 200));
+          Filtro := Copy(Filtro, 1, Pos('order by', Filtro) - 2);
+        End;
+      End
+      Else
+      Begin
+        sqll := Copy(Filtro, 1, Pos('from', Filtro) - 1);
+        If Pos('ORDER BY', UPPERCASE(Filtro)) > 0 Then
+        Begin
+
+          de := Copy(Filtro, Pos('from', lowercase(Filtro)) + 5, 200);
+          ordem := ' ' + Trim(Copy(de, Pos('order by', lowercase(de)), 200));
+          de := Trim(Copy(de, 1, Pos('order by', lowercase(de)) - 1));
+        End
+        Else
+        Begin
+          de := Trim(Copy(Filtro, Pos('from', lowercase(Filtro)) + 4, 200));
+        End;
+
+        Filtro := '';
+      End;
+    End;
+
+    If Filtro = ' and ' Then
+    Begin
+      Filtro := '';
+    End;
+    If de = '' Then
+    Begin
+      de := Copy(destino.Field.FieldName, 1, 3);
+    End;
+    If ordem = '' Then
+    Begin
+      ordem := ' order by ' + etiqueta.FieldName;
+    End;
+    query := sqll + ' from ' + de + '  where ' + etiqueta.FieldName + ' like ' + chr(39) + '%' + '' + '%' + chr(39) + Filtro + ordem;
+
+    consulta.Close;
+    consulta.SQL.clear;
+    consulta.SQL.add(query);
+    If campo <> '' Then
+    Begin
+      campo := Trim(Copy(campo, 2, 200));
+      consulta.ParamByName(campo).AsString := Self.DSRegistro.DataSet.FieldByName(campo).AsString;
+      fbusca.vcampo := campo;
+      fbusca.vvalor := Self.DSRegistro.DataSet.FieldByName(campo).AsString;
+    End;
+
+    If consulta.Connection = Nil Then
+    Begin
+      consulta.Connection := Self.ZCone;
+    End;
+
+    consulta.Open;
+
+    For i := 0 To (etiqueta.LookupDataSet As tuniquery).FieldCount - 1 Do
+    Begin
+      consulta.fields[i].DisplayLabel := titcampos[i];
+    End;
+
+    fbusca.Dconsulta.DataSet := consulta;
+
+    lg := 0;
+    For u := 0 To fbusca.listabusca.Columns.Count - 1 Do
+    Begin
+      lg := lg + (fbusca.listabusca.Columns[u].Width + 5);
+    End;
+    lg := lg + 15;
+
+    fbusca.Width := lg;
+
+    Try
+      rstok := fbusca.ShowModal;
+      If rstok = mrOk Then
+      Begin
+        (etiqueta.LookupDataSet As tuniquery).Close;
+        (etiqueta.LookupDataSet As tuniquery).Open;
+        destino.Field.AsString := consulta.fields[0].AsString;
+        destino.SetFocus;
+      End
+      Else If rstok = mrCancel Then
+      Begin
+        destino.Field.AsString := '';
+        destino.SetFocus;
+      End;
+    Finally
+      FreeAndNil(fbusca);
+      Self.SetFocus;
+    End;
+  End;
+
+End;
+
+function TFrmBase.montapesquisaespecial(campo: TDBEdit; modulo: string; vusuario: string; vfiltro: string): string;
+var
+  vclscodigo: Integer;
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'select clscodigo from cls where clsnomeform=' + chr(39) + 'fra' + Copy(extractfilename(modulo), 2, 3) + chr(39);
+  consulta.Open;
+
+  if consulta.fields[0].AsString <> '' then
+  begin
+    vclscodigo := consulta.fields[0].AsInteger;
+  end
+  else
+  begin
+    vclscodigo := 0;
+  end;
+  consulta.Close;
+
+  if vclscodigo > 0 then
+  begin
+    dcl.Close;
+    dcl.Params[0].AsInteger := vclscodigo;
+    dcl.Params[1].AsInteger := Acesso.Usuario;
+    dcl.Open;
+
+  end;
+
+end;
+
+procedure TFrmBase.VerAtualizacao(pacote: string);
+type
+  TVerificaAtualizacao = function(onwer: TApplication; varquivo: String; vPasta: String; vExtensao: string; vVersao: String = ''): String;
+
+var
+  pack: Cardinal;
+  vlVerificaAtualizacao: TVerificaAtualizacao;
+begin
+  if not FileExists(ExtractFilePath(Application.ExeName) + 'modulos\matz.bpl') then
+  begin
+    Exit;
+  end;
+
+  pack := LoadPackage('modulos\matz.bpl');
+  if pack <> 0 then
+  begin
+    try
+      @vlVerificaAtualizacao := GetProcAddress(pack, Pchar('VerificaAtualizacao'));
+      if Assigned(vlVerificaAtualizacao) then
+      begin
+
+        if (pacote = 'mcre') or (pacote = 'mcpa') then
+          vlVerificaAtualizacao(Application, 'mrfi.bpl', 'modulos', '.bpl');
+
+        if (pacote = 'mbrp') or (pacote = 'mmbrr') then
+          vlVerificaAtualizacao(Application, 'mbrf.bpl', 'modulos', '.bpl');
+
+        vlVerificaAtualizacao(Application, pacote + '.bpl', 'modulos', '.bpl');
+
+      end;
+    finally
+      DoUnLoadPackage(pack);
+    end;
+  end;
+
+end;
+
+function TFrmBase.MostraLista(pModulo: string; pFiltro: string): string;
+var
+  ExecForm: function(CargaFrame: TCargaFrame): String;
+  vlCargaFrame: TCargaFrame;
+begin
+
+  Result := '';
+  pack := LoadPackage('modulos\' + pModulo + '.bpl');
+  if pack <> 0 then
+    try
+      @ExecForm := GetProcAddress(pack, Pchar('formu'));
+      if Assigned(ExecForm) then
+      begin
+        vlCargaFrame := CargaFrameFormu(Application, pack, ZCone, Acesso, pFiltro);
+        Result := ExecForm(vlCargaFrame);
+      end;
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+Function TFrmBase.validadatamovimento(dia: String): Boolean;
+Var
+  d1: TDate;
+  d2: TDate;
+Begin
+
+  d1 := Date;
+  d2 := Date;
+  Try
+    consulta.Close;
+    consulta.SQL.Text := 'select cfgdtcaixa from cfg';
+    consulta.Open;
+
+    d1 := StrToDate(dia);
+    d2 := StrToDate(consulta.fields[0].AsString) - 1;
+  Except
+
+  End;
+
+  If d1 > d2 Then
+  Begin
+    Result := True;
+  End
+  Else
+  Begin
+    Result := True;
+  End;
+
+End;
+
+Function TFrmBase.SalvaRegistro: Boolean;
+Var
+  vid: String;
+  X: Integer;
+Begin
+  Result := True;
+  If Self.DSRegistro.DataSet.State = dsBrowse Then
+  Begin
+    Self.DSRegistro.DataSet.Edit;
+  End;
+
+  If Self.DSRegistro.DataSet.State = dsedit Then
+  Begin
+    registraalteracoes;
+  End;
+
+  If Self.DSRegistro.DataSet.State <> dsBrowse Then
+  Begin
+    X := CountChar(':', Self.registro.SQL.Text);
+    If (Self.vChaveMestre <> '') and (X > 1) Then
+    Begin
+      Self.registro.fields[1].AsString := Self.vChaveMestre;
+    End;
+    try
+      Self.DSRegistro.DataSet.Post;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao salvar o registro.' + #13 + 'Mensagem: ' + #13 + E.Message);
+
+    end;
+    Self.vchave := Self.DSRegistro.DataSet.fields[0].AsString;
+
+  End;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select last_insert_id()';
+  consulta.Open;
+
+  vid := consulta.fields[0].AsString;
+
+End;
+
+procedure TFrmBase.SetRetorno(Value: String);
+begin
+  FRetorno := Value;
+end;
+
+procedure TFrmBase.SetActiveControlCancela(const Value: TWinControl);
+begin
+  FActiveControlCancela := Value;
+end;
+
+procedure TFrmBase.SetZCone(const Value: TUniConnection);
+var
+  i: Integer;
+begin
+  FZCone := Value;
+
+  for i := 0 to Self.ComponentCount - 1 do
+  begin
+    if Self.Components[i] is tuniquery then
+      (Self.Components[i] as tuniquery).Connection := Self.ZCone;
+  end;
+end;
+
+procedure TFrmBase.spChamaAjudaClick(Sender: TObject);
+begin
+
+  if Application.FindComponent('fajuda') <> nil then
+  begin
+    fajuda.Close;
+    Application.CreateForm(tfajuda, fajuda);
+    fajuda.ZCone := Self.ZCone;
+    fajuda.vpBplNome := UPPERCASE('m' + Copy(Self.name, 2, 3) + '.BPL');
+    fajuda.Show;
+  end
+  else
+  begin
+    Application.CreateForm(tfajuda, fajuda);
+    fajuda.ZCone := Self.ZCone;
+    fajuda.vpBplNome := UPPERCASE('m' + Copy(Self.name, 2, 3) + '.BPL');
+    fajuda.Show;
+  end;
+
+end;
+
+procedure TFrmBase.ActCancelarExecute(Sender: TObject);
+begin
+  bcancela.Click;
+end;
+
+Procedure TFrmBase.ajustabotoes;
+Var
+  i: Integer;
+  pga, lpg: String;
+Begin
+  Self.listapaginas.clear;
+  For i := 0 To paginas.PageCount - 1 Do
+  Begin
+    If paginas.Pages[i].TabVisible Then
+    Begin
+      listapaginas.add(paginas.Pages[i].name);
+    End;
+  End;
+
+  Try
+    pga := paginas.ActivePage.name;
+    lpg := listapaginas[listapaginas.Count - 1];
+    If pga = lpg Then
+    Begin
+      bconfirma.caption := 'Confirma';
+      bfechar.Visible := True;
+      bfechar.caption := 'Voltar';
+    End
+    Else
+    Begin
+      bconfirma.caption := 'Avançar';
+      bfechar.Visible := True;
+      bfechar.caption := 'Voltar';
+    End;
+  Except
+    bconfirma.caption := 'Confirma';
+    bfechar.Visible := True;
+    bfechar.caption := 'Voltar';
+
+  End;
+  If paginas.ActivePageIndex = 0 Then
+  Begin
+    bfechar.Visible := False;
+    bfechar.caption := 'Fechar';
+  End;
+End;
+
+function TFrmBase.MostraFormu(pModulo: string; pChave: string; pChaveMestre: string; pFormulario: string = 'formulario'; pFiltro: String = ''): String;
+var
+  ExecForm: function(CargaFrame: TCargaFrame): String;
+  vlCargaFrame: TCargaFrame;
+begin
+  Result := '';
+
+  pack := LoadPackage('modulos\' + pModulo + '.bpl');
+  if pack <> 0 then
+    try
+      @ExecForm := GetProcAddress(pack, Pchar(pFormulario));
+
+      if Assigned(ExecForm) then
+      begin
+        vlCargaFrame := CargaFormu(Application, ZCone, Acesso, pFiltro, pChave, pChaveMestre);
+        Result := ExecForm(vlCargaFrame);
+      end;
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+function TFrmBase.CarregaFrame(pPacote: string; pDestino: TPanel; pModulo: string; pFiltro: String = ''): THandle;
+var
+  ExecFrame: function(CargaFrame: TCargaFrame): TFrame;
+  vlCargaFrame: TCargaFrame;
+begin
+  Result := 0;
+  pack := LoadPackage('modulos\' + pPacote + '.bpl');
+
+  if pack <> 0 then
+  begin
+    @ExecFrame := GetProcAddress(pack, Pchar('execute'));
+    if Assigned(ExecFrame) then
+    begin
+      pDestino.Visible := True;
+
+      if registro.Params.Count = 1 then
+        Self.vchave := Self.registro.fields[0].AsString
+      else if registro.Params.Count = 2 then
+      begin
+        Self.vchave := Self.registro.fields[0].AsString;
+        Self.vChaveMestre := Self.registro.fields[1].AsString;
+      end;
+
+      vlCargaFrame := CargaFrameDocado(Application, pack, pDestino, ZCone, Acesso, pModulo, pFiltro, vchave, modoInclusao);
+      if ExecFrame(vlCargaFrame) <> nil then
+        Result := pack;
+    end;
+  end;
+end;
+
+{
+  procedure TFrmBase.TecladoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  var
+  myFile: TextFile;
+  Text: string;
+  begin
+  if (Key = 13) or (Key = 8) then
+  begin
+  // Try to open the Test.txt file for writing to
+  if FileExists(ExtractFilePath(Application.ExeName) + 'macro.txt') then
+  begin
+  // Reopen the file for reading
+  AssignFile(myFile, ExtractFilePath(Application.ExeName) + 'macro.txt');
+  Reset(myFile);
+  end
+  else
+  begin
+  AssignFile(myFile, ExtractFilePath(Application.ExeName) + 'macro.txt');
+  ReWrite(myFile);
+  end;
+
+  if (Sender is TDBEdit) then
+  begin
+  // Write a couple of well known words to this file
+  WriteLn(myFile,  '['+self.Name+'],[' + (Sender as TDBEdit).Name + '],' + '[' + (Sender as TDBEdit).Field.Text + ']');
+
+  end;
+  // Close the file
+  CloseFile(myFile);
+
+  end;
+
+  end; }
+
+procedure TFrmBase.DoUnLoadPackage(Module: HModule);
+var
+  i: Integer;
+  M: TMemoryBasicInformation;
+begin
+  for i := Application.ComponentCount - 1 downto 0 do
+  begin
+    VirtualQuery(GetClass(Application.Components[i].ClassName), M, SizeOf(M));
+    if (Module = 0) or (HModule(M.AllocationBase) = Module) then
+      Application.Components[i].Free;
+  end;
+  UnRegisterModuleClasses(Module);
+  try
+    UnLoadPackage(Module);
+  except
+    ShowMessage('Falha ao descarregar modulo: ' + (Application.Components[i].ClassName));
+
+  end;
+end;
+
+procedure TFrmBase.DSRegistroDataChange(Sender: TObject; Field: TField);
+begin
+  if Self.registro.Active then
+  begin
+    If Not Self.registro.IsEmpty Then
+    Begin
+      Self.vchave := Self.registro.fields[0].AsString;
+    End
+    Else
+    Begin
+      Self.vchave := '0';
+    End;
+  end
+  else
+  begin
+    Self.vchave := '0';
+  end;
+end;
+
+procedure TFrmBase.carregaposicoes;
+var
+  vpfr: string;
+Begin
+  try
+    Self.pfr.Close;
+    Self.pfr.Params[0].AsInteger := Acesso.Usuario;
+    Self.pfr.Params[1].AsString := Self.name;
+    Self.pfr.Open;
+
+    If Not Self.pfr.IsEmpty Then
+    Begin
+      if (Self is TForm) then
+      begin
+        (Self as TForm).Height := Self.pfrpfraltura.AsInteger;
+
+        if ((Self as TForm).Height + 10) >= Screen.Height then
+          (Self as TForm).Height := Screen.Height - 10;
+
+        (Self as TForm).Width := Self.pfrpfrlargura.AsInteger;
+
+        if ((Self as TForm).Width + 10) >= Screen.Width then
+          (Self as TForm).Width := Screen.Width - 10;
+
+      end;
+      vpfr := pfr.fields[0].AsString;
+    End
+    else
+    begin
+      vpfr := '0';
+    end;
+
+    Self.pfr.Close;
+    Self.psf.Close;
+  finally
+  end;
+end;
+
+procedure TFrmBase.salvaposicoes;
+Var
+  i: Integer;
+  vpfr: string;
+Begin
+
+  pfr.Close;
+  pfr.Params[0].AsInteger := Acesso.Usuario;
+  pfr.Params[1].AsString := Self.name;
+  pfr.Open;
+
+  vpfr := pfr.fields[0].AsString;
+  if vpfr = '' then
+  begin
+    vpfr := '0';
+  end;
+
+  psf.Close;
+  psf.Params[0].AsString := pfr.fields[0].AsString;
+  psf.Open;
+
+  if (Self is TForm) then
+  begin
+
+    If pfr.IsEmpty Then
+    Begin
+      pfr.Append;
+    end
+    else
+    begin
+      pfr.Edit;
+    end;
+
+    Self.pfrpfrnomeform.AsString := (Self as TForm).name;
+    Self.pfrusrcodigo.AsInteger := Acesso.Usuario;
+    Self.pfrpfraltura.AsInteger := (Self as TForm).Height;
+    Self.pfrpfrlargura.AsInteger := (Self as TForm).Width;
+    Self.pfr.Post;
+
+    psf.Close;
+    psf.Params[0].AsInteger := pfr.fields[0].AsInteger;
+    psf.Open;
+
+    for i := 0 to Self.ComponentCount - 1 do
+    begin
+      if (Self.Components[i] is TPanel) then
+      begin
+        if ((Self.FindComponent(Self.Components[i].name) as TPanel).name <> 'pbotoes') and
+          ((Self.FindComponent(Self.Components[i].name) as TPanel).name <> 'lbcodigojanela') and
+          ((Self.FindComponent(Self.Components[i].name) as TPanel).name <> 'psituacao') then
+        begin
+          try
+            if psf.Locate('psfnome', (Self.FindComponent(Self.Components[i].name) as TPanel).name, [locaseinsensitive]) then
+            begin
+              psf.Edit;
+            end
+            else
+            begin
+              psf.Append;
+            end;
+
+            Self.psfpfrcodigo.AsInteger := Self.pfrpfrcodigo.AsInteger;
+
+            if (Self.FindComponent(Self.Components[i].name) as TPanel).Height > 100 then
+            begin
+              Self.psfpsfposicao.AsInteger := (Self.FindComponent(Self.Components[i].name) as TPanel).Height;
+            end
+            else
+            begin
+              Self.psfpsfposicao.AsInteger := 100;
+            end;
+            Self.psfpsfnome.AsString := (Self.FindComponent(Self.Components[i].name) as TPanel).name;
+
+            psf.Post;
+          except
+            ShowMessage((Self.FindComponent(Self.Components[i].name) as TPanel).name);
+          end;
+        end;
+
+      end;
+    end;
+  end;
+end;
+
+procedure TFrmBase.salvacolunas(grid: TDBGrid);
+var
+  vColuna: Integer;
+begin
+
+  cpg.Close;
+  cpg.Params[0].AsInteger := Acesso.Usuario;
+  cpg.Params[1].AsString := Self.name + '-' + grid.name;
+  cpg.Open;
+
+  If cpg.IsEmpty Then
+  Begin
+    cpg.Append;
+    cpgcpgnomegrid.AsString := Self.name + '-' + grid.name;
+    cpgclbcodigo.AsInteger := Acesso.Usuario;
+    cpg.Post;
+  End
+  else
+  begin
+    cpg.Edit;
+    cpgcpgnomegrid.AsString := Self.name + '-' + grid.name;
+    cpgclbcodigo.AsInteger := Acesso.Usuario;
+    cpg.Post;
+  end;
+
+  cpc.Close;
+  cpc.Params[0].AsInteger := Self.cpgcpgchave.AsInteger;
+  cpc.Open;
+
+  for vColuna := 0 to grid.Columns.Count - 1 do
+  begin
+    if cpc.Locate('cpccampo', grid.Columns[vColuna].FieldName, [locaseinsensitive]) then
+      cpc.Edit
+    else
+      cpc.Append;
+
+    cpccpccampo.AsString := grid.Columns[vColuna].FieldName;
+    cpccpgchave.AsInteger := Self.cpgcpgchave.AsInteger;
+    cpccpcordem.AsInteger := grid.Columns[vColuna].Index;
+    if grid.Columns[vColuna].Width > 0 then
+      cpccpclargura.AsInteger := grid.Columns[vColuna].Width;
+    cpccpctitulo.AsString := grid.Columns[vColuna].Title.caption;
+    cpccpcvisivel.AsInteger := Ord(grid.Columns[vColuna].Visible);
+    cpc.Post;
+  end;
+end;
+
+procedure TFrmBase.carregacolunas(grid: TDBGrid);
+var
+  vColuna: Integer;
+begin
+
+  cpg.Connection := Self.ZCone;
+  cpg.Close;
+  cpg.Params[0].AsInteger := Acesso.Usuario;
+  cpg.Params[1].AsString := Self.name + '-' + grid.name;
+  cpg.Open;
+
+  If cpg.IsEmpty Then
+    Exit;
+
+  cpc.Close;
+  cpc.Params[0].AsInteger := Self.cpgcpgchave.AsInteger;
+  cpc.Open;
+
+  if not cpc.IsEmpty then
+  begin
+    (*
+      ** Atualiza o CPC - Controle de Posição das Colunas com possíveis novas colunas **
+    *)
+    for vColuna := 0 to grid.Columns.Count - 1 do
+      if not cpc.Locate('cpccampo', grid.Columns[vColuna].FieldName, [locaseinsensitive]) then
+      begin
+        cpc.Append;
+        cpccpccampo.AsString := grid.Columns[vColuna].FieldName;
+        cpccpgchave.AsInteger := Self.cpgcpgchave.AsInteger;
+        cpccpcordem.AsInteger := vColuna;
+        if grid.Columns[vColuna].Width > 0 then
+          cpccpclargura.AsInteger := grid.Columns[vColuna].Width;
+        cpccpctitulo.AsString := grid.Columns[vColuna].Title.caption;
+        cpccpcvisivel.AsInteger := Ord(grid.Columns[vColuna].Visible);
+        cpc.Post;
+      end;
+
+    (*
+      ** DELETA da CPC colunas que foram removidas do GRID **
+    *)
+    cpc.First;
+    if grid.Columns.Count <> cpc.RecordCount then
+      while not cpc.Eof do
+        if ColumnByFieldName(grid, cpccpccampo.AsString) = nil then
+          // Declarada no uFuncoes.
+          cpc.Delete
+        else
+          cpc.Next;
+
+    (*
+      ** Limpa e Remonta GRID **
+    *)
+    grid.Columns.clear;
+    cpc.First;
+    vColuna := 0;
+    while not cpc.Eof do
+    begin
+      grid.Columns.add;
+      grid.Columns[vColuna].FieldName := cpccpccampo.AsString;
+      grid.Columns[vColuna].Width := cpccpclargura.AsInteger;
+      grid.Columns[vColuna].Visible := cpccpcvisivel.AsInteger = 1;
+      cpc.Next;
+      vColuna := vColuna + 1;
+    end;
+  end
+  else
+  begin
+    (*
+      ** Se não existe definição de CPC, elas são criadas. **
+    *)
+    for vColuna := 0 to grid.Columns.Count - 1 do
+    begin
+      cpc.Append;
+      cpccpccampo.AsString := grid.Columns[vColuna].FieldName;
+      cpccpgchave.AsInteger := Self.cpgcpgchave.AsInteger;
+      cpccpcordem.AsInteger := vColuna;
+      if grid.Columns[vColuna].Width > 0 then
+        cpccpclargura.AsInteger := grid.Columns[vColuna].Width;
+      cpccpctitulo.AsString := grid.Columns[vColuna].Title.caption;
+      cpccpcvisivel.AsInteger := Ord(grid.Columns[vColuna].Visible);
+      cpc.Post;
+    end;
+  end;
+end;
+
+function TFrmBase.ValidaCamposRequeridos: Boolean;
+var
+  i: Integer;
+begin
+  Result := True;
+
+  for i := 0 to Self.registro.FieldCount - 1 do
+    if Self.registro.fields[i].Required then
+      if Self.registro.fields[i].AsString = '' then
+      begin
+        Application.MessageBox(Pchar('Campo "' + Self.registro.fields[i].DisplayLabel + '" precisa ser preenchido!'), 'Preenchimento Obrigatório',
+          MB_ICONWARNING + MB_OK);
+        Result := False;
+        break;
+      end;
+end;
+
+procedure DeletaDir(const RootDir: string);
+var
+  SearchRec: tSearchREC;
+  Erc: Integer;
+Begin
+  try
+    // {$I-}
+    ChDir(RootDir);
+    if IOResult <> 0 then
+      Exit;
+    FindFirst('*.*', faAnyFile, SearchRec);
+    Erc := 0;
+    while Erc = 0 do
+    begin
+      if ((SearchRec.name <> '.') and (SearchRec.name <> '..')) then
+        if (SearchRec.Attr and faDirectory > 0) then
+          DeletaDir(SearchRec.name)
+        Else
+          Deletefile(SearchRec.name);
+      Erc := FindNext(SearchRec);
+      Application.ProcessMessages;
+    end;
+  finally
+    If length(RootDir) > 3 then
+      ChDir('..');
+  end;
+  RmDir(RootDir);
+  // {$I+}
+End;
+
+procedure TFrmBase.RemovePastaImagens;
+var
+  i: Integer;
+  sr: tSearchREC;
+begin
+
+  i := FindFirst(ExtractFilePath(Application.ExeName) + 'ima0*.*', faAnyFile, sr);
+  while i = 0 do
+  begin
+    DeletaDir(ExtractFilePath(Application.ExeName) + sr.name);
+
+    i := FindNext(sr);
+  end;
+
+  try
+    if DirectoryExists(sr.name) then
+      RemoveDir(sr.name);
+  except
+
+  end;
+
+end;
+
+end.

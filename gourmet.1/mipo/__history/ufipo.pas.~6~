@@ -1,0 +1,749 @@
+unit ufipo;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, Vcl.ImgList, Vcl.Controls, Data.DB, MemDS,
+  DBAccess, Uni, Vcl.StdCtrls, Vcl.Buttons, System.Classes, Vcl.ExtCtrls,
+  System.SysUtils, Vcl.Dialogs, Winapi.Messages, uFuncoes, jPeg, Vcl.Graphics, System.ImageList;
+
+type
+  Tfipo = class(TForm)
+    plcomprovante: TPanel;
+    plnota: TPanel;
+    sbNFE: TSpeedButton;
+    plboleto: TPanel;
+    plfechar: TPanel;
+    bfechar: TBitBtn;
+    consulta: tuniquery;
+    cuf: tuniquery;
+    icu: tuniquery;
+    cufcufchave: TIntegerField;
+    cuftdfcodigo: TStringField;
+    cufsdecodigo: TStringField;
+    cufcufcco: TIntegerField;
+    cufcufdata: TDateField;
+    cufcuftotal: TFloatField;
+    cufcufpis: TFloatField;
+    cufcufcofins: TFloatField;
+    cufcufdoc1: TStringField;
+    cufcufnome: TStringField;
+    cufrrzcodigo: TIntegerField;
+    cufcufdesconto: TFloatField;
+    cufetdcodigo: TIntegerField;
+    Plnfce: TPanel;
+    cfg: tuniquery;
+    cfgcfgusanfc: TIntegerField;
+    cfgcfgusanfe: TIntegerField;
+    cfgcfgusapdv: TIntegerField;
+    cfgcfgusabol: TIntegerField;
+    trm: tuniquery;
+    trmtrmcodigo: TIntegerField;
+    trmtrmidentificacao: TStringField;
+    trmtciporta: TStringField;
+    trmecfcodigo: TIntegerField;
+    trmtipcodigo: TIntegerField;
+    PlnfceI: TPanel;
+    mic: tuniquery;
+    micmicchave: TIntegerField;
+    micidccodigo: TIntegerField;
+    micmeschave: TIntegerField;
+    oic: tuniquery;
+    oicoicchave: TIntegerField;
+    oicidccodigo: TIntegerField;
+    oicorcchave: TIntegerField;
+    ImageList1: TImageList;
+    sbDAV: TSpeedButton;
+    sbNFCe: TSpeedButton;
+    sbNFCeI: TSpeedButton;
+    sbBoleto: TSpeedButton;
+    itm: tuniquery;
+    procedure FormShow(Sender: TObject);
+    procedure bfecharClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure sbDAVClick(Sender: TObject);
+    procedure sbNFCeClick(Sender: TObject);
+    procedure sbNFCeIClick(Sender: TObject);
+    procedure sbNFEClick(Sender: TObject);
+    procedure sbBoletoClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure bfecharKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    Fzcone: tuniconnection;
+    Pack: Cardinal;
+    procedure verificasefecha;
+    procedure AjustaNFE_NFCe(Vtipo: string);
+    function ajustacliente: Boolean;
+    procedure AjustaSpeedButton(Sender: TObject);
+    procedure ProcessaECF;
+
+    procedure AjustaNFE_NFE(Vtipo: string);
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+
+  public
+    { Public declarations }
+    vorcchave: string;
+    vpTrmCodigo: string;
+    vusrcodigo: string;
+    vpImpAtivos: string;
+
+    vpDav: string;
+    vpNFCe: string;
+    vpNFCeIdent: string;
+    vpNFE: string;
+    vpBoleto: string;
+
+  end;
+
+  TClienteSimples = function(AOwner: TComponent; conexao: tuniconnection; vmeschave: string; vClbCodigo: string): string;
+
+  TValidaProdutos = Function(AOwner: TComponent; conexao: tuniconnection; ChaveMes: string; CodigoFilial: string = '1';
+    VerificaNCM: Boolean = True): Boolean;
+
+var
+  fipo: Tfipo;
+
+implementation
+
+{$R *.dfm}
+
+function imprimeorc(AOwner: TComponent; conexao: tuniconnection; vchave: string; vTrmCodigo: string; vusrcodigo: string; vlImpAtivos: string): string;
+var
+  vch: string;
+  hWindow: HWND;
+begin
+  try
+    fipo := Tfipo.Create(AOwner);
+
+    fipo.vpDav := '0';
+    fipo.vpNFCe := '0';
+    fipo.vpNFCeIdent := '0';
+    fipo.vpNFE := '0';
+    fipo.vpBoleto := '0';
+
+    fipo.vpImpAtivos := vlImpAtivos;
+
+    fipo.vorcchave := vchave;
+    fipo.vusrcodigo := vusrcodigo;
+    fipo.vpTrmCodigo := vTrmCodigo;
+    fipo.zcone := conexao;
+    fipo.consulta.Connection := fipo.zcone;
+    fipo.cfg.Connection := fipo.zcone;
+    fipo.trm.Connection := fipo.zcone;
+    fipo.mic.Connection := fipo.zcone;
+    fipo.oic.Connection := fipo.zcone;
+
+    fipo.ShowModal;
+    Result := fipo.vpDav + fipo.vpNFCe + fipo.vpNFCeIdent + fipo.vpNFE + fipo.vpBoleto;
+  finally
+    FreeAndNil(fipo);
+  end;
+end;
+
+exports imprimeorc;
+
+procedure Tfipo.ProcessaECF;
+var
+  vmeschave: string;
+  ValidaProdutos: TValidaProdutos;
+  vPodeProdutos: Boolean;
+begin
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT meschave FROM mor WHERE orcchave = ' + Self.vorcchave;
+  consulta.Open;
+  vmeschave := consulta.fields[0].AsString;
+
+  itm.Close;
+  itm.SQL.Text := 'select count(itmcahve) qtd from itm where meschave=' + vmeschave;
+  itm.Open;
+
+  Pack := LoadPackage('modulos\mvpr.bpl');
+  If Pack <> 0 Then
+    Try
+      @ValidaProdutos := GetProcAddress(Pack, PChar('ValidaProdutos'));
+
+      If Assigned(ValidaProdutos) Then
+        vPodeProdutos := ValidaProdutos(Application, zcone, vmeschave);
+
+    Finally
+      DoUnLoadPackage(Application, Pack);
+    End;
+
+  case vPodeProdutos of
+    True:
+      begin
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE orc SET orcdestimpre = 2 WHERE orcchave = ' + Self.vorcchave;
+        consulta.ExecSQL;
+
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE mes SET temcodigo = 8, tdfcodigo = ''2D'' WHERE meschave = ' + vmeschave;
+        consulta.ExecSQL;
+      end;
+  end;
+end;
+
+procedure Tfipo.AjustaNFE_NFE(Vtipo: string);
+Var
+  VOrcDestImpre: String;
+  vmeschave: string;
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT meschave FROM mor WHERE orcchave=' + Self.vorcchave;
+  consulta.Open;
+  vmeschave := consulta.fields[0].AsString;
+
+  if Vtipo = '55' then
+    VOrcDestImpre := '4';
+
+  if Vtipo = '65' then
+    VOrcDestImpre := '3';
+
+  consulta.Close;
+  consulta.SQL.Text := 'UPDATE orc SET orcdestimpre = ' + VOrcDestImpre + ' WHERE orcchave = ' + Self.vorcchave;
+  consulta.ExecSQL;
+end;
+
+procedure Tfipo.AjustaNFE_NFCe(Vtipo: string);
+Var
+  VOrcDestImpre: String;
+  vmeschave: string;
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT meschave FROM mor WHERE orcchave=' + Self.vorcchave;
+  consulta.Open;
+  vmeschave := consulta.fields[0].AsString;
+
+  if Vtipo = '55' then
+    VOrcDestImpre := '4';
+
+  if Vtipo = '65' then
+    VOrcDestImpre := '3';
+
+  consulta.Close;
+  consulta.SQL.Text := 'UPDATE orc SET orcdestimpre = ' + VOrcDestImpre + ' WHERE orcchave = ' + Self.vorcchave;
+  consulta.ExecSQL;
+end;
+
+procedure Tfipo.bfecharClick(Sender: TObject);
+begin
+  if sbDAV.Down then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'UPDATE orc SET orcdestimpre = 1 WHERE orcchave = ' + Self.vorcchave;
+    consulta.ExecSQL;
+
+    fipo.vpDav := '1'
+  end
+  else
+    fipo.vpDav := '0';
+
+  if sbNFCe.Down then
+  begin
+    AjustaNFE_NFCe('65');
+
+    fipo.vpNFCeIdent := '1'
+  end
+  else
+    fipo.vpNFCeIdent := '0';
+
+  if sbNFCeI.Down then
+  begin
+    if not ajustacliente then
+      Exit;
+
+    AjustaNFE_NFCe('65');
+
+    fipo.vpNFCeIdent := '1'
+  end;
+
+  if sbNFE.Down then
+  begin
+    AjustaNFE_NFCe('55');
+
+    fipo.vpNFE := '1'
+  end
+  else
+    fipo.vpNFE := '0';
+
+  if sbBoleto.Down then
+    fipo.vpBoleto := '1'
+  else
+    fipo.vpBoleto := '0';
+
+  if not((sbDAV.Down or sbNFCe.Down or sbNFCeI.Down) IN [True]) then
+  begin
+    // o restaurante pode fechar sem imprimir nada de comprovante
+    if FindWindow(PChar('TFPrinciGou'), nil) <> 0 then
+    begin
+      Close;
+    end
+    else if ((FindWindow(PChar('TFprinciPdv'), nil)) <> 0) or ((FindWindow(PChar('Tfprincirest'), nil)) <> 0) or
+      ((FindWindow(PChar('TFprinciVar'), nil)) <> 0) or ((FindWindow(PChar('TFprinciCax'), nil)) <> 0) then
+    begin
+
+      Close;
+    end
+    else
+    begin
+
+      ShowMessage('ATENÇÃO: ' + #13 + #13 + 'É necessário a emissão de comprovante de venda!');
+    end;
+  end
+  else
+  begin
+
+    Close;
+  end;
+end;
+
+procedure Tfipo.bfecharKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = vk_f4 then
+    abort;
+
+end;
+
+function Tfipo.ajustacliente: Boolean;
+var
+  ClienteSimples: TClienteSimples;
+  vlRetorno: string;
+  vlPackIDC: Cardinal;
+begin
+  vlRetorno := '0';
+  vlPackIDC := 0;
+  vlPackIDC := LoadPackage('modulos\midc.bpl');
+  if vlPackIDC <> 0 then
+    @ClienteSimples := GetProcAddress(vlPackIDC, PChar('ClienteSimplesOrc'));
+
+  if Assigned(ClienteSimples) then
+  begin
+    vlRetorno := ClienteSimples(Application, Self.zcone, vorcchave, vusrcodigo);
+  end;
+
+  DoUnLoadPackage(Application, vlPackIDC);
+
+  if (vlRetorno = '0') or (vlRetorno = '') then
+    Result := False
+  else
+  begin
+    Result := True;
+
+    oic.Close;
+    oic.Params[0].AsString := vorcchave;
+    oic.Open;
+
+    if oic.RecordCount = 1 then
+      oic.Edit
+    else
+      oic.Append;
+
+    oicidccodigo.AsString := vlRetorno;
+    oicorcchave.AsString := vorcchave;
+    oic.Post;
+  end;
+end;
+
+procedure Tfipo.sbNFEClick(Sender: TObject);
+begin
+  AjustaSpeedButton(Sender);
+
+  AjustaNFE_NFCe('55');
+
+  if sbNFE.Down then
+  begin
+
+    sbNFCe.Enabled := False;
+    sbNFCeI.Enabled := False;
+  end
+  else
+  begin
+    sbNFCe.Enabled := True;
+    sbNFCeI.Enabled := True;
+
+  end;
+
+  verificasefecha;
+end;
+
+procedure Tfipo.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure Tfipo.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = vk_f4 then
+    abort;
+end;
+
+procedure Tfipo.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  case Key of
+    #66, #98:
+      if plboleto.Visible then
+      begin
+        Key := #0;
+        sbBoleto.Click;
+      end;
+
+    (* O - COMPROVANTE *)
+    #79, #111:
+      if plcomprovante.Visible then
+      begin
+        Key := #0;
+        sbDAV.Click;
+      end;
+
+    (* F - NFC-e *)
+    #70, #102:
+      if Plnfce.Visible then
+      begin
+        Key := #0;
+        sbNFCe.Click;
+      end;
+
+    (* I - NFC-e IDENTIFICADA *)
+    #73, #105:
+      if PlnfceI.Visible then
+      begin
+        Key := #0;
+        sbNFCeI.Click;
+      end;
+
+    (* E - NF-e *)
+    #69, #101:
+      if plnota.Visible then
+      begin
+        Key := #0;
+        sbNFE.Click;
+      end;
+
+    (* ENTER - FECHAR *)
+    #13:
+      Begin
+        Key := #0;
+        bfechar.SetFocus;
+        bfechar.Click;
+      End;
+  end;
+end;
+
+procedure Tfipo.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = vk_f4 then
+    abort;
+
+  if Key = 40 then
+  begin
+    Key := 0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end;
+end;
+
+procedure Tfipo.FormShow(Sender: TObject);
+var
+  i: Integer;
+  valtura: Integer;
+  vmeschave: String;
+  vlTotalServico: double;
+  vlTotalOrcamento: double;
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT cfgserienfce FROM cfgmnfe';
+  consulta.Open;
+
+  cfg.Close;
+  cfg.Open;
+
+  if cfgcfgusanfc.AsInteger = 1 then
+  begin
+    PlnfceI.Visible := True;
+    Plnfce.Visible := True;
+  end
+  else
+  begin
+    PlnfceI.Visible := False;
+    Plnfce.Visible := False;
+  end;
+
+  if cfgcfgusabol.AsInteger = 1 then
+  begin
+    plboleto.Visible := True;
+  end
+  else
+  begin
+    plboleto.Visible := False;
+  end;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT stocodigo FROM orc WHERE orcchave = ' + Self.vorcchave;
+  consulta.Open;
+
+  if consulta.fields[0].AsInteger = 6 then
+  begin
+    plnota.Visible := False;
+    plboleto.Visible := False;
+  end;
+
+  valtura := 0;
+  for i := 0 to Self.ComponentCount - 1 do
+    if Self.Components[i] is TPanel then
+      if (Self.Components[i] as TPanel).Visible then
+        valtura := valtura + (Self.Components[i] as TPanel).Height;
+
+  Self.Height := valtura + 60;
+  Self.Width := 545;
+
+  vpDav := copy(vpImpAtivos, 1, 1);
+  // vpNFCe := copy(vpImpAtivos, 3, 1);
+  // vpNFCeIdent := copy(vpImpAtivos, 3, 1);
+  // vpNFE := copy(vpImpAtivos, 4, 1);
+  vpBoleto := copy(vpImpAtivos, 5, 1);
+
+  if cfgcfgusanfe.AsInteger = 1 then
+    vpNFE := copy(vpImpAtivos, 4, 1)
+  else
+    vpNFE := ' ';
+
+  if cfgcfgusanfc.AsInteger = 0 then
+  begin
+    vpNFCe := ' ';
+    vpNFCeIdent := ' ';
+
+  end
+  else
+  begin
+    vpNFCe := copy(vpImpAtivos, 3, 1);
+    vpNFCeIdent := copy(vpImpAtivos, 3, 1);
+
+  end;
+
+  if vpDav = ' ' then
+    sbDAV.Enabled := False;
+
+  if (vpNFCeIdent = ' ') or (vpNFCe = ' ') then
+  begin
+    sbNFCe.Enabled := False;
+    sbNFCeI.Enabled := False;
+  end;
+
+  if vpNFE = ' ' then
+    sbNFE.Enabled := False;
+
+  if vpBoleto = ' ' then
+    sbBoleto.Enabled := False;
+
+  consulta.Connection := zcone;
+  itm.Connection := zcone;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT meschave FROM mor WHERE orcchave = ' + Self.vorcchave;
+  consulta.Open;
+
+  vmeschave := consulta.fields[0].AsString;
+
+  if vmeschave <> '' then
+  begin
+    itm.Close;
+    itm.SQL.Text := 'select count(itmchave) qtd from itm,pro where itm.procodigo=pro.procodigo and tpocodigo=0 and meschave=' + vmeschave;
+    itm.Open;
+
+    { if itm.FieldByName('qtd').AsInteger = 0 then
+      begin
+      sbNFCe.Enabled := False;
+      sbNFCeI.Enabled := False;
+      sbNFE.Enabled := False;
+      end; }
+
+  end;
+
+  vlTotalServico := 0;
+  vlTotalOrcamento := 0;
+
+  (* Soma o total dos itens sem produtos do tipo Serviço *)
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT SUM(itototalav) itototalav FROM ito, pro ';
+  consulta.SQL.Add('WHERE ito.procodigo = pro.procodigo ');
+  consulta.SQL.Add('AND ito.stocodigo IN (1, 2, 3) ');
+  consulta.SQL.Add('AND pro.tpocodigo = ' + IntToStr(tpoServicos) + ' ');
+  consulta.SQL.Add('AND ito.orcchave = ' + Self.vorcchave);
+  consulta.Open;
+
+  vlTotalServico := consulta.FieldByName('itototalav').AsCurrency;
+
+  (* Soma o total dos itens sem produtos do tipo Serviço *)
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT SUM(itototalav) itototalav FROM ito, pro ';
+  consulta.SQL.Add('WHERE ito.procodigo = pro.procodigo ');
+  consulta.SQL.Add('AND ito.stocodigo IN (1, 2, 3) ');
+  consulta.SQL.Add('AND ito.orcchave = ' + Self.vorcchave);
+  consulta.Open;
+
+  vlTotalOrcamento := consulta.FieldByName('itototalav').AsCurrency;
+
+  if vlTotalOrcamento = vlTotalServico then
+  begin
+    sbNFCe.Enabled := False;
+    sbNFCeI.Enabled := False;
+  end;
+
+  if vlTotalOrcamento >= 1000 then
+  begin
+
+    if cfgcfgusanfc.AsInteger = 1 then
+    begin
+      Plnfce.Enabled := False;
+      sbNFCe.Enabled := False;
+      sbNFCe.Font.Color := clSilver;
+      sbNFCeI.Enabled := True;
+      PlnfceI.Enabled := True;
+      Application.ProcessMessages;
+      ShowMessage('NFCe com valor igual ou superior a R$ 1.000,00 necessita ser identificado com CPF e nome!');
+
+    end;
+
+  end;
+
+  if ((FindWindow(PChar('TFPrinciGou'), nil)) <> 0) then
+  begin
+    if cfgcfgusanfc.AsInteger = 1 then
+    begin
+      sbNFCe.Enabled := True;
+      sbNFCeI.Enabled := True;
+    end;
+
+  end;
+
+  if (FindWindow(PChar('TFprinciVar'), nil)) <> 0 then
+    bfechar.SetFocus;
+
+  if (FindWindow(PChar('TFPrinciGou'), nil)) <> 0 then
+  begin
+    if (sbDAV.Enabled = True) and (sbNFCe.Enabled = False) and (sbNFCeI.Enabled = False) then
+    begin
+      sbDAV.Click;
+      sleep(150);
+      bfechar.Click;
+    end;
+  end;
+
+  Self.Visible := True;
+  // fipo.BringToFront;
+
+  AjustaSpeedButton(sbDAV);
+
+  bfechar.SetFocus;
+
+end;
+
+procedure Tfipo.sbBoletoClick(Sender: TObject);
+begin
+  if not sbBoleto.Enabled then
+    Exit;
+
+  AjustaSpeedButton(Sender);
+end;
+
+procedure Tfipo.sbDAVClick(Sender: TObject);
+begin
+  if not sbDAV.Enabled then
+    Exit;
+
+  AjustaSpeedButton(Sender);
+
+  if cfgcfgusapdv.AsInteger = 1 then
+    if sbDAV.Down then
+    begin
+      sbNFCe.Enabled := False;
+      sbNFCeI.Enabled := False;
+
+      verificasefecha;
+    end
+    else
+    begin
+      sbNFCe.Enabled := Plnfce.Visible;
+      sbNFCeI.Enabled := PlnfceI.Visible;
+    end;
+end;
+
+procedure Tfipo.sbNFCeClick(Sender: TObject);
+begin
+  if not sbNFCe.Enabled then
+    Exit;
+
+  AjustaSpeedButton(Sender);
+
+  if sbNFCe.Down then
+  begin
+    if cfgcfgusapdv.AsInteger = 1 then
+      sbDAV.Enabled := False;
+
+    sbNFCeI.Enabled := False;
+    sbNFE.Enabled := False;
+
+    verificasefecha;
+  end
+  else
+  begin
+    sbNFE.Enabled := True;
+    sbDAV.Enabled := plcomprovante.Visible;
+    sbNFCeI.Enabled := PlnfceI.Visible;
+
+  end;
+end;
+
+procedure Tfipo.sbNFCeIClick(Sender: TObject);
+begin
+  if not sbNFCeI.Enabled then
+    Exit;
+
+  AjustaSpeedButton(Sender);
+
+  if sbNFCeI.Down then
+  begin
+    if cfgcfgusapdv.AsInteger = 1 then
+      sbDAV.Enabled := False;
+
+    sbNFCe.Enabled := False;
+    sbNFE.Enabled := False;
+    verificasefecha;
+  end
+  else
+  begin
+    sbNFE.Enabled := True;
+    sbDAV.Enabled := plcomprovante.Visible;
+    sbNFCe.Enabled := Plnfce.Visible;
+  end;
+end;
+
+procedure Tfipo.AjustaSpeedButton(Sender: TObject);
+begin
+  TSpeedButton(Sender).Down := (TSpeedButton(Sender).Tag = 0);
+  TSpeedButton(Sender).Tag := 1 - TSpeedButton(Sender).Tag;
+
+  TSpeedButton(Sender).Glyph.Assign(nil);
+  if TSpeedButton(Sender).Down then
+    ImageList1.GetBitmap(1, TSpeedButton(Sender).Glyph)
+  else
+    ImageList1.GetBitmap(0, TSpeedButton(Sender).Glyph);
+end;
+
+procedure Tfipo.verificasefecha;
+begin
+  if FindWindow(PChar('TFprinciPdv'), nil) <> 0 then
+  begin
+    if bfechar.Enabled then
+      Self.bfechar.Click;
+  end;
+end;
+
+end.

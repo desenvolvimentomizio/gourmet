@@ -1,0 +1,272 @@
+unit GourmetAIQ.Model.Entity.AIQ;
+
+interface
+
+uses
+  System.Json,
+  System.SysUtils,
+  System.Variants,
+  SimpleAttributes;
+
+type
+
+  [Tabela('aiq')]
+  Taiq = class
+  private
+    FCOUNT: Integer;
+    Faiqchave: Integer;
+    Faiqpedido: Integer;
+    Forcchave: Integer;
+    Faiqstatus: Integer;
+    faiqvalor:String;
+    faiqentrega:String;
+    Faiqjson: WideString;
+    Fcznchave: Integer;
+    Faiqregistro: String;
+
+    procedure Setaiqchave(const Value: Integer);
+    function Getaiqchave: Integer;
+    procedure Setaiqpedido(const Value: Integer);
+    function Getaiqpedido: Integer;
+    procedure Setorcchave(const Value: Integer);
+    function Getorcchave: Integer;
+    procedure Setaiqstatus(const Value: Integer);
+    function Getaiqstatus: Integer;
+
+    procedure Setaiqvalor(const Value: String);
+    function Getaiqvalor: String;
+    procedure Setaiqentrega(const Value: String);
+    function Getaiqentrega: String;
+
+
+
+    procedure Setaiqjson(const Value: String);
+    function Getaiqjson: String;
+    procedure Setcznchave(const Value: Integer);
+    function Getcznchave: Integer;
+
+    procedure Setaiqregistro(const Value: String);
+    function Getaiqregistro: String;
+
+
+    procedure SetCOUNT(const Value: Integer);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Limpar;
+    function ToJson(pFields: String = '*'): TJSonObject;
+    function JsonToClass(obj: TJSonObject): Taiq;
+    [Campo('aiqchave'), PK]
+    property aiqchave: Integer read Getaiqchave write Setaiqchave;
+    [Campo('aiqpedido')]
+    property aiqpedido: Integer read Getaiqpedido write Setaiqpedido;
+    [Campo('orcchave')]
+    property orcchave: Integer read Getorcchave write Setorcchave;
+    [Campo('aiqstatus')]
+    property aiqstatus: Integer read Getaiqstatus write Setaiqstatus;
+
+    [Campo('aiqvalor')]
+    property aiqvalor: string read Getaiqvalor write Setaiqvalor;
+
+    [Campo('aiqentrega')]
+    property aiqentrega: string read Getaiqentrega write Setaiqentrega;
+
+
+    [Campo('aiqjson')]
+    property aiqjson: String read Getaiqjson write Setaiqjson;
+    [Campo('cznchave')]
+    property cznchave: Integer read Getcznchave write Setcznchave;
+    [Campo('aiqregistro')]
+    property aiqregistro: String read Getaiqregistro write Setaiqregistro;
+
+
+    [Campo('COUNT'), Ignore]
+    property COUNT: Integer read FCOUNT write SetCOUNT;
+  end;
+
+implementation
+
+constructor Taiq.Create;
+begin
+  Limpar;
+end;
+
+destructor Taiq.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure Taiq.Setaiqchave(const Value: Integer);
+begin
+  Faiqchave := Value;
+end;
+
+procedure Taiq.Setaiqentrega(const Value: String);
+begin
+faiqentrega:=Value;
+end;
+
+function Taiq.Getaiqchave: Integer;
+begin
+  Result := Faiqchave;
+end;
+
+function Taiq.Getaiqentrega: String;
+begin
+  result:=faiqentrega;
+end;
+
+procedure Taiq.Setaiqpedido(const Value: Integer);
+begin
+  Faiqpedido := Value;
+end;
+
+procedure Taiq.Setaiqregistro(const Value: String);
+begin
+  faiqregistro:=value;
+end;
+
+function Taiq.Getaiqpedido: Integer;
+begin
+  Result := Faiqpedido;
+end;
+
+function Taiq.Getaiqregistro: String;
+begin
+     Result := Faiqregistro;
+end;
+
+procedure Taiq.Setorcchave(const Value: Integer);
+begin
+  Forcchave := Value;
+end;
+
+function Taiq.Getorcchave: Integer;
+begin
+  Result := Forcchave;
+end;
+
+procedure Taiq.Setaiqstatus(const Value: Integer);
+begin
+  Faiqstatus := Value;
+end;
+
+procedure Taiq.Setaiqvalor(const Value: String);
+begin
+faiqvalor:=value;
+end;
+
+function Taiq.Getaiqstatus: Integer;
+begin
+  Result := Faiqstatus;
+end;
+
+function Taiq.Getaiqvalor: String;
+begin
+result:=faiqvalor;
+end;
+
+procedure Taiq.Setaiqjson(const Value: String);
+begin
+  Faiqjson := Value;
+end;
+
+function Taiq.Getaiqjson: String;
+begin
+  Result := Faiqjson;
+end;
+
+procedure Taiq.Setcznchave(const Value: Integer);
+begin
+  Fcznchave := Value;
+end;
+
+function Taiq.Getcznchave: Integer;
+begin
+  Result := Fcznchave;
+end;
+
+procedure Taiq.Limpar;
+begin
+  Self.aiqchave := 0;
+  Self.aiqpedido := 0;
+  Self.orcchave := 0;
+  Self.aiqstatus := 0;
+  Self.aiqvalor := '0';
+  Self.aiqentrega := '0';
+  Self.cznchave := 0;
+  Self.aiqregistro := '';
+
+end;
+
+procedure Taiq.SetCOUNT(const Value: Integer);
+begin
+  FCOUNT := Value;
+end;
+
+function Taiq.ToJson(pFields: String = '*'): TJSonObject;
+begin
+  pFields := ' ' + StringReplace(pFields, ',', ' ', [rfReplaceAll]);
+  Result := TJSonObject.Create;
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' aiqchave ')) then
+    Result.addPair('aiqchave', IntToStr(Self.aiqchave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' aiqpedido ')) then
+    Result.addPair('aiqpedido', IntToStr(Self.aiqpedido));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' orcchave ')) then
+    Result.addPair('orcchave', IntToStr(Self.orcchave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' aiqstatus ')) then
+    Result.addPair('aiqstatus', IntToStr(Self.aiqstatus));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' cznchave ')) then
+    Result.addPair('cznchave', IntToStr(Self.cznchave));
+
+
+end;
+
+function Taiq.JsonToClass(obj: TJSonObject): Taiq;
+begin
+  Result := Taiq.Create;
+  if (assigned(obj)) then
+  begin
+    Try
+      Try
+        Result.aiqchave := StrToInt(obj.get('aiqchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.aiqpedido := StrToInt(obj.get('aiqpedido').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.orcchave := StrToInt(obj.get('orcchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.aiqstatus := StrToInt(obj.get('aiqstatus').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.cznchave := StrToInt(obj.get('cznchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.aiqvalor := obj.get('aiqvalor').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.aiqentrega := obj.get('aiqentrega').JsonValue.Value;
+      Except
+      End;
+
+
+    Except
+      on E: Exception do
+      begin
+        Result.Free;
+        raise Exception.Create(E.Message);
+      end;
+    End;
+  end;
+end;
+
+end.

@@ -1,0 +1,15 @@
+cria um rfi de 356,25 = valor liquido da venda
+cria um mfi de 356,25 = débito do consumidor
+cria um mfi de 356,25 = crédito de consumidor
+cria um lte de 356,25 = lote de recebimento
+ligar este o mfi de credito ao lte através do mlt
+detalho o lote de pagamentos uma a um na tabela dtl
+exemplo: dinhero 150, cheque 150, cartao 150 a crédito
+         troco dinhero 93,75 a débito
+criar os registro acima no cco e ligar ao lote com clt
+
+no caso de convenio só rfi e mfi
+ 
+
+
+

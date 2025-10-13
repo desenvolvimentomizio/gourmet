@@ -1,0 +1,86 @@
+unit GourmetServer.Controller.ETE;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.ETE;
+
+Function ManutencaoETE(var vletdcodigo: Integer; vCliente: TJsonObject): Integer;
+
+function BuscaCodigoEmail(vEtdCodigo: Integer; vemail: string): Integer;
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  FireDAC.Comp.Client;
+
+
+function BuscaCodigoEmail(vEtdCodigo: Integer; vemail: string): Integer;
+var
+  FDAO: iDAOGeneric<TETE>;
+  vletecodigo: Integer;
+begin
+  vletecodigo :=0;
+  FDAO := TDAOGeneric<TETE>.New;
+
+  FDAO.DAO.SQL.where('etdcodigo=' + vEtdCodigo.ToString + ' and eteemail=' + QuotedStr(vemail)).&End.Find;
+
+  vletecodigo := FDAO.DataSet.FieldByName('etecodigo').asInteger;
+  result := vletecodigo;
+
+end;
+
+
+
+Function ManutencaoETE(var vletdcodigo: Integer; vCliente: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TETE>;
+  FETE: TETE;
+  vletecodigo: Integer;
+begin
+  FDAO := TDAOGeneric<TETE>.New;
+  vletecodigo := 0;
+
+  FETE := TETE.Create;
+
+  FETE.etecodigo := vletecodigo;
+  FETE.etdcodigo := vletdcodigo;
+  FETE.eteemail := vCliente.getvalue('email', '');
+  FETE.etecontato := vCliente.getvalue('name', '');
+  FETE.etedepartamento := '';
+  FETE.eteenvianfe := 1;
+
+  vletecodigo := BuscaCodigoEmail(vletdcodigo, FETE.eteemail);
+
+  if vletecodigo = 0 then
+  // incluir novo
+  begin
+    FETE.etecodigo := 0;
+    FDAO.DAO.Insert(FETE);
+    FDAO.DAO.LastID;
+    vletecodigo := FDAO.DataSet.FieldByName('etecodigo').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FETE.etecodigo := vletecodigo;
+    FDAO.DAO.Update(FETE);
+  end;
+  result := vletecodigo;
+
+
+end;
+
+end.

@@ -1,0 +1,4 @@
+credito - caixa = din - reg che terc
+débito - caixa = din - sel che terc
+
+

@@ -1,0 +1,42 @@
+package mcre;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mrfi;
+
+contains
+  ufajustatng in '..\..\kernel\mcre\ufajustatng.pas' {fajustatng},
+  ufcre in '..\..\kernel\mcre\ufcre.pas' {fcre},
+  ufcremlt in '..\..\kernel\mcre\ufcremlt.pas' {fcremlt},
+  ufracre in '..\..\kernel\mcre\ufracre.pas' {fracre: TFrame},
+  ulcre in '..\..\kernel\mcre\ulcre.pas' {lcre};
+
+end.

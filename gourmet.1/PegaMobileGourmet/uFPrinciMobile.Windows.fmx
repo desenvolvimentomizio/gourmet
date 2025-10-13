@@ -1,0 +1,193 @@
+inherited fPrinciGourmetMobile_Windows: TfPrinciGourmetMobile_Windows
+  DesignerMasterStyle = 3
+  inherited pnPrincipal: TPanel
+    Size.Width = 762.000000000000000000
+    inherited tcPaginas: TTabControl
+      Size.Width = 762.000000000000000000
+      Size.Height = 685.000000000000000000
+      Sizes = (
+        762s
+        685s
+        762s
+        685s
+        762s
+        685s
+        762s
+        685s
+        762s
+        685s)
+      inherited TabLogin: TTabItem
+        Size.Width = 11.000000000000000000
+        Size.Height = 11.000000000000000000
+        ExplicitSize.cx = 50.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        inherited rclogin1: TRectangle
+          Size.Width = 762.000000000000000000
+        end
+        inherited imLogomizio: TImage
+          MultiResBitmap.Height = 75
+          MultiResBitmap.Width = 157
+          Size.Width = 762.000000000000000000
+        end
+        inherited rclogin2: TRectangle
+          Size.Width = 762.000000000000000000
+          Stroke.CustomDash = {0000000000000000}
+        end
+        inherited rcUsuario: TRectangle
+          Size.Width = 762.000000000000000000
+          inherited rcCentralizaUsuario: TRectangle
+            inherited edUsuario: TEdit
+              Size.Height = 30.000000000000000000
+            end
+          end
+        end
+        inherited rcSenha: TRectangle
+          Size.Width = 762.000000000000000000
+          inherited rcCentralizaSenha: TRectangle
+            inherited edSenha: TEdit
+              Size.Height = 30.000000000000000000
+            end
+          end
+        end
+        inherited rclogin3: TRectangle
+          Size.Width = 762.000000000000000000
+          Stroke.CustomDash = {0000000000000000}
+        end
+        inherited rcBotoesLogin: TRectangle
+          Size.Width = 762.000000000000000000
+        end
+        inherited rcLogin4: TRectangle
+          Size.Width = 762.000000000000000000
+          Stroke.CustomDash = {0000000000000000}
+        end
+      end
+      inherited TabMesa: TTabItem
+        Size.Width = 11.000000000000000000
+        Size.Height = 11.000000000000000000
+        ExplicitSize.cx = 54.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        inherited VertScrollBox1: TVertScrollBox
+          Size.Width = 762.000000000000000000
+          Size.Height = 685.000000000000000000
+          Viewport.Width = 762.000000000000000000
+          Viewport.Height = 685.000000000000000000
+        end
+      end
+      inherited TabPedido: TTabItem
+        Size.Width = 11.000000000000000000
+        Size.Height = 11.000000000000000000
+        ExplicitSize.cx = 57.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        inherited rcRodapePedido: TRectangle
+          Position.Y = 601.000000000000000000
+          Size.Width = 762.000000000000000000
+          inherited rcRodapePedidoTopo: TRectangle
+            Size.Width = 762.000000000000000000
+            inherited rcTotalPedido: TRectangle
+              Position.X = 674.000000000000000000
+              inherited lbTituloTotalPedido: TLabel
+                TextSettings.Font.StyleExt = {00070000000000000004000000}
+              end
+            end
+            inherited rcDividir: TRectangle
+              Position.X = 538.000000000000000000
+              inherited sbPessoas: TSpinBox
+                Size.Height = 40.000000000000000000
+              end
+            end
+          end
+          inherited rcRodapePedidoRodaPe: TRectangle
+            Size.Width = 762.000000000000000000
+            inherited btnTabPedConfirma: TButton
+              Position.X = 650.000000000000000000
+            end
+          end
+        end
+        inherited tbPedido: TToolBar
+          Size.Width = 762.000000000000000000
+          inherited BtTabPedExcluirItem: TButton
+            Position.X = 711.000000000000000000
+            Size.Height = 42.000000000000000000
+          end
+          inherited BtTabPedIncluirItem: TButton
+            Position.X = 657.000000000000000000
+            Size.Height = 42.000000000000000000
+          end
+        end
+        inherited lvPedido: TListView
+          Size.Width = 762.000000000000000000
+          Size.Height = 553.000000000000000000
+        end
+      end
+      inherited TabCardGrp: TTabItem
+        Size.Width = 11.000000000000000000
+        Size.Height = 11.000000000000000000
+        ExplicitSize.cx = 68.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        inherited GridTabCardClasseGrupo: TListBox
+          Size.Height = 685.000000000000000000
+          Viewport.Width = 121.000000000000000000
+          Viewport.Height = 685.000000000000000000
+        end
+        inherited GridTabCardTipoGrupo: TListBox
+          Size.Height = 685.000000000000000000
+          Viewport.Width = 121.000000000000000000
+          Viewport.Height = 685.000000000000000000
+        end
+        inherited GridTabCardGrupo: TListBox
+          Size.Width = 520.000000000000000000
+          Size.Height = 685.000000000000000000
+          Viewport.Width = 520.000000000000000000
+          Viewport.Height = 685.000000000000000000
+        end
+      end
+      inherited TabCardOpcao: TTabItem
+        Size.Width = 11.000000000000000000
+        Size.Height = 11.000000000000000000
+        ExplicitSize.cx = 61.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        inherited GridTabCardProdutos: TListView
+          Size.Width = 762.000000000000000000
+          Size.Height = 685.000000000000000000
+        end
+      end
+    end
+    inherited TBPrincipal: TToolBar
+      Size.Width = 762.000000000000000000
+      Size.Height = 55.000000000000000000
+      inherited lvTituloPrincipal: TLabel
+        Size.Width = 694.000000000000000000
+        Size.Height = 55.000000000000000000
+      end
+      inherited MasterButton: TSpeedButton
+        Position.Y = 8.000000000000000000
+        Size.Width = 40.000000000000000000
+        Size.Height = 40.000000000000000000
+        Visible = True
+      end
+    end
+  end
+  inherited MVMenu: TMultiView
+    Size.Width = 50.000000000000000000
+    inherited ToolBar2: TToolBar
+      Size.Width = 50.000000000000000000
+      Size.Height = 55.000000000000000000
+      inherited Label1: TLabel
+        Size.Width = 50.000000000000000000
+        Size.Height = 55.000000000000000000
+      end
+    end
+    inherited ListBox1: TListBox
+      Size.Width = 50.000000000000000000
+      Size.Height = 685.000000000000000000
+      Viewport.Width = 50.000000000000000000
+      Viewport.Height = 685.000000000000000000
+      inherited ListBoxItem1: TListBoxItem
+        Size.Width = 50.000000000000000000
+      end
+      inherited ListBoxItem2: TListBoxItem
+        Size.Width = 50.000000000000000000
+      end
+    end
+  end
+end

@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.QRCodeReader" platform="Android">
+  <class name="TQRCodeReader" file="ZXing.QrCode.QRCodeReader.pas" line="48">
+    <devnotes>
+       <summary>
+       This implementation can detect and decode QR Codes in an image.
+       </summary>
+    </devnotes>
+    <ancestor name="TInterfacedObject" namespace="System">
+      <interfaces>
+        <implements name="IInterface" />
+      </interfaces>
+      <methodref name="GetRefCount" visibility="private" procflags="inline">
+      </methodref>
+      <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+      </methodref>
+      <methodref name="QueryInterface" visibility="protected">
+      </methodref>
+      <methodref name="_AddRef" visibility="protected">
+      </methodref>
+      <methodref name="_Release" visibility="protected">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class override">
+      </methodref>
+      <propertyref name="RefCount" visibility="public">
+      </propertyref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+    <interfaces>
+      <implements name="IReader" />
+    </interfaces>
+    <members>
+      <field name="FDecoder" type="TQRDecoder" visibility="private" size="8" offset="24" file="ZXing.QrCode.QRCodeReader.pas" line="50" />
+      <field name="NO_POINTS" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" visibility="private" size="8" offset="32" file="ZXing.QrCode.QRCodeReader.pas" line="51" />
+      <function name="extractPureBits" visibility="private" procflags="static" file="ZXing.QrCode.QRCodeReader.pas" line="61">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'extractPureBits' -->
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+          <retval type="TBitMatrix">
+            <devnotes>
+               <summary>
+               <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+               module, x is the column position, and y is the row position. The ordering is always x, y.
+               The origin is at the top-left.</p>
+               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+               with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+               efficiently.</p>
+               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+               meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="moduleSize" visibility="private" procflags="static" file="ZXing.QrCode.QRCodeReader.pas" line="62">
+        <parameters>
+          <parameter name="leftTopBlack" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+          <parameter name="image" type="TBitMatrix" paramflags="const" />
+          <parameter name="msize" type="Single" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <property name="Decoder" visibility="protected" read="FDecoder" type="TQRDecoder" file="ZXing.QrCode.QRCodeReader.pas" line="69">
+        <devnotes>
+           <summary>
+           Gets the decoder.
+           </summary>
+           <returns></returns>
+        </devnotes>
+      </property>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.QRCodeReader.pas" line="71">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.QrCode.QRCodeReader.pas" line="72">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.QrCode.QRCodeReader.pas" line="79">
+        <devnotes>
+           <summary>
+           Locates and decodes a QR code in an image.
+          
+           <returns>a String representing the content encoded by the QR code</returns>
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="overload" file="ZXing.QrCode.QRCodeReader.pas" line="92">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'decode' -->
+        </devnotes>
+        <parameters>
+          <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" />
+          <retval type="TReadResult" />
+        </parameters>
+      </function>
+      <procedure name="reset" visibility="public" file="ZXing.QrCode.QRCodeReader.pas" line="99">
+        <devnotes>
+           <summary>
+           Resets any internal state the implementation has after a decode, to prepare it
+           for reuse.
+           </summary>
+        </devnotes>
+      </procedure>
+    </members>
+  </class>
+</namespace>

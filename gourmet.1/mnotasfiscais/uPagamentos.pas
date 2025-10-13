@@ -1,0 +1,449 @@
+unit uPagamentos;
+
+{
+  Unidade auxiliar para refatorar a inclusão de PAGAMENTOS da NFC-e (ACBrNFe).
+  - Delphi 10.4
+  - Compatível com layout 4.00 (detPag + grupo card)
+  - Elimina duplicações de "with pag.add do ..."
+
+  COMO USAR (resumo):
+  1) Adicione esta unit na cláusula "uses" da sua unit que contém GeraNFCe.
+  2) Dentro de GeraNFCe, declare e preencha um TCartaoInfo para crédito e outro para débito (quando houver).
+  3) Substitua os blocos repetidos de "with pag.add do" por chamadas:
+        AddPagamento(pag, zcone, tagPagamento, AValor, mdaCodigo, ASomaTroco, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+     e para cartões:
+        AddPagamentoCartao(pag, AValor, True=Crédito|False=Débito, InfoCartao, vlValorDiferenca);
+   Veja o exemplo ao final desta unit (seção "Exemplo de integração").
+}
+
+interface
+
+uses
+  System.SysUtils, System.Math, Data.DB;
+
+type
+  // Dados do cartão: metadados que podem vir do TEF, DB, etc.
+  // Se TpIntegra NÃO for 1 ou 2, o helper AUTO-DETECTA:
+  //   - 2 (Não Integrado/POS) quando não houver Autorizacao (ex.: rdc vazio ou rdcnrauto ausente)
+  //   - 1 (Integrado/TEF)     quando houver Autorizacao
+  TCartaoInfo = record
+    TpIntegra: Integer;         // 1 = Integrado (TEF); 2 = Não Integrado (POS)
+    NSU: string;                // se desejar armazenar/logar (não tem tag no XML)
+    Autorizacao: string;        // cAut
+    CNPJCredenciadora: string;  // somente dígitos
+    BandeiraCod: string;        // '01'..'09' ou '99'
+  end;
+
+function OnlyDigits(const S: string): string;
+function StrToBandeira(const ACod: string): Integer;
+
+// Helper de pagamentos simples (dinheiro, cheque, convênio, vale, doação, online, crédito loja, troca/devolução)
+procedure AddPagamento(
+  const APag: TObject;             // ACBrNFe.NotasFiscais.Items[0].NFe.pag
+  const AZCon: TObject;            // TZConnection (ou equivalente) usado por tagPagamento
+  const ATagPagamento: TDataSet;   // dataset que retorna mdatagpagamento, mdadescrpagamento
+  var   AValor: Double;            // valor da forma (será ajustado pelo vlValorDiferenca se houver)
+  const AMdaCodigo: Integer;       // código para consulta em tagPagamento (mdacodigo)
+  const ASomaTroco: Boolean;       // somar vlTroco (true p/ dinheiro)
+  var   AVlValorDiferenca: Double; // diferença a absorver
+  const AVlTroco: Double;          // troco a somar no dinheiro
+  const AVlCodigoTagOK: Boolean    // usado por StrToFormaPagamento
+);
+
+// Helper de cartões (crédito/débito) com grupo "card"
+procedure AddPagamentoCartao(
+  const APag: TObject;             // ACBrNFe.NotasFiscais.Items[0].NFe.pag
+  var   AValor: Double;            // valor total do pagamento (ajusta AVlValorDiferenca)
+  const AIsCredito: Boolean;       // True = crédito; False = débito
+  const AInfo: TCartaoInfo;        // metadados do cartão
+  var   AVlValorDiferenca: Double  // diferença a absorver (opcional)
+);
+
+
+
+type
+  // Montante por forma de pagamento
+  TPagValores = record
+    Dinheiro: Double;
+    ChequeProprio: Double;
+    ChequeTerceiros: Double;
+    Convenio: Double;
+    Vale: Double;
+    Doacao: Double;
+    Online: Double;
+    CreditoLoja: Double;
+    TrocaDevolucao: Double;
+    Pix: Double;
+    Voucher: Double;
+    CartaoDebito: Double;
+    CartaoCredito: Double;
+  end;
+
+  // mdacodigo por forma de pagamento (para consulta em tagPagamento)
+  TPagMDAs = record
+    Dinheiro: Integer;
+    ChequeProprio: Integer;
+    ChequeTerceiros: Integer;
+    Convenio: Integer;
+    Vale: Integer;
+    Doacao: Integer;
+    Online: Integer;
+    CreditoLoja: Integer;
+    TrocaDevolucao: Integer;
+    Pix: Integer;
+    Voucher: Integer;
+  end;
+
+// Inclui *todas* as formas simples + cartões numa única chamada.
+// Ordem de absorção da diferença: Dinheiro -> Online -> Convenio -> Cheques -> Vale -> Doacao -> CreditoLoja -> Troca -> Pix -> Voucher -> Cartões.
+procedure IncluirPagamentos(
+  const APag: TObject;
+  const AZCon: TObject;
+  const ATagPagamento: TDataSet;
+  var   Valores: TPagValores;
+  const MDAs: TPagMDAs;
+  var   AVlValorDiferenca: Double;
+  const AVlTroco: Double;
+  const AVlCodigoTagOK: Boolean;
+  const InfoDeb: TCartaoInfo;
+  const InfoCred: TCartaoInfo
+);
+implementation
+
+uses
+  // ACBr units (ajuste os nomes conforme seu projeto)
+  ACBrUtil, ACBrNFe, pcnConversao; // StrToFormaPagamento está em pcnConversao
+
+type
+  // Pequenas "helpers" para acessar as propriedades necessárias sem exigir RTTI pesada
+  // (assumimos a estrutura do ACBr). Caso seu projeto tenha tipos nomeados, faça cast direto.
+  // Estas classes são *somente* para compilar com typed helpers (casts em runtime).
+  TPagDet = class
+  public
+    vPag: Double;
+    tPag: Integer;
+    xPag: string;
+    // subgrupo card
+    tpIntegra: Integer;
+    CNPJ: string;
+    tBand: Integer;
+    cAut: string;
+  end;
+
+  TPag = class
+  public
+    function Add: TPagDet;
+  end;
+
+function OnlyDigits(const S: string): string;
+var
+  I: Integer;
+begin
+  Result := '';
+  for I := 1 to Length(S) do
+    if CharInSet(S[I], ['0'..'9']) then
+      Result := Result + S[I];
+end;
+
+function StrToBandeira(const ACod: string): Integer;
+begin
+  // 01=Visa, 02=Mastercard, 03=AmEx, 04=Sorocred, 05=Diners, 06=Elo,
+  // 07=Hipercard, 08=Aura, 09=Cabal, 99=Outros
+  if ACod = '' then
+    Exit(0);
+  case StrToIntDef(ACod, 0) of
+    1..9:  Result := StrToInt(ACod);
+    99:    Result := 99;
+  else
+    Result := 99;
+  end;
+
+function AutoTpIntegra(const AInfo: TCartaoInfo): Integer;
+begin
+  // Se não veio Autorizacao (ex.: RDV/RDC vazio, ou rdcnrauto ausente),
+  // consideramos POS (não integrado) = 2. Caso contrário, TEF = 1.
+  if Trim(AInfo.Autorizacao) = '' then
+    Result := 2
+  else
+    Result := 1;
+end;
+
+end;
+
+procedure AddPagamento(
+  const APag: TObject;
+  const AZCon: TObject;
+  const ATagPagamento: TDataSet;
+  var   AValor: Double;
+  const AMdaCodigo: Integer;
+  const ASomaTroco: Boolean;
+  var   AVlValorDiferenca: Double;
+  const AVlTroco: Double;
+  const AVlCodigoTagOK: Boolean
+);
+var
+  Det: TPagDet;
+  vValor: Double;
+  vForma: Integer;
+  vMdaTag: Integer;
+  vDescOutros: string;
+begin
+  if AValor <= 0 then
+    Exit;
+
+  vValor := AValor;
+
+  // abre tagPagamento pelo mdacodigo
+  ATagPagamento.Close;
+  // (Se seu dataset depender de conexão externa TZConnection, faça o cast aqui. Ex.:
+  //   (ATagPagamento as TZQuery).Connection := TZConnection(AZCon);
+  // )
+  ATagPagamento.ParamByName('mdacodigo').AsInteger := AMdaCodigo;
+  ATagPagamento.Open;
+
+  vMdaTag := ATagPagamento.FieldByName('mdatagpagamento').AsInteger;
+  vDescOutros := ATagPagamento.FieldByName('mdadescrpagamento').AsString;
+
+  // converte mdatagpagamento em tPag
+  vForma := StrToFormaPagamento(AVlCodigoTagOK, FormatFloat('00', ATagPagamento.FieldByName('mdatagpagamento').AsFloat));
+
+  // absorve diferença se houver
+  if AVlValorDiferenca <> 0 then
+  begin
+    vValor := vValor + AVlValorDiferenca;
+    AVlValorDiferenca := 0;
+  end;
+
+  // soma troco no dinheiro (ou outras regras que você desejar)
+  if ASomaTroco then
+    vValor := vValor + AVlTroco;
+
+  // cria parcela
+  Det := TPag(APag).Add;
+  Det.tPag := vForma;
+  Det.vPag := vValor;
+
+  if vMdaTag = 99 then
+    Det.xPag := vDescOutros;
+
+  // devolve o valor (caso o chamador deseje reutilizar)
+  AValor := vValor;
+end;
+
+procedure AddPagamentoCartao(
+  const APag: TObject;
+  var   AValor: Double;
+  const AIsCredito: Boolean;
+  const AInfo: TCartaoInfo;
+  var   AVlValorDiferenca: Double
+);
+var
+  Det: TPagDet;
+  vValor: Double;
+begin
+  if AValor <= 0 then
+    Exit;
+
+  vValor := AValor;
+
+  // absorve diferença, se houver
+  if AVlValorDiferenca <> 0 then
+  begin
+    vValor := vValor + AVlValorDiferenca;
+    AVlValorDiferenca := 0;
+  end;
+
+  // cria parcela
+  Det := TPag(APag).Add;
+  if AIsCredito then
+    Det.tPag := 3  // fpCartaoCredito (valor numérico aceito pelo ACBr)
+  else
+    Det.tPag := 4  // fpCartaoDebito
+
+  Det.vPag := vValor;
+
+  // subgrupo card
+  // Auto-detecta tpIntegra quando AInfo.TpIntegra não for 1 ou 2
+  if (AInfo.TpIntegra = 1) or (AInfo.TpIntegra = 2) then
+    Det.tpIntegra := AInfo.TpIntegra
+  else
+    Det.tpIntegra := AutoTpIntegra(AInfo);
+
+  if AInfo.CNPJCredenciadora <> '' then
+    Det.CNPJ := OnlyDigits(AInfo.CNPJCredenciadora);
+
+  if AInfo.BandeiraCod <> '' then
+    Det.tBand := StrToBandeira(AInfo.BandeiraCod);
+
+  if AInfo.Autorizacao <> '' then
+    Det.cAut := AInfo.Autorizacao;
+
+  // devolve o valor (caso o chamador deseje reutilizar)
+  AValor := vValor;
+end;
+
+{ ------------------------------------------------------------------------------
+  Exemplo de integração (pseudo-código dentro da sua função GeraNFCe):
+
+  uses uPagamentosRefatorados;
+
+  var
+    InfoDeb, InfoCred: TCartaoInfo;
+  begin
+    // ... (cálculos anteriores)
+    if vDinheiro > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vDinheiro, mdaDinheiro, True,  vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vChequeProprio > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vChequeProprio, mdaChequeProprio, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vChequeTerceiros > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vChequeTerceiros, mdaChequeTerceiros, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vConvenio > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vConvenio, mdaConvenio, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vVale > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vVale, mdaVale, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vDoacao > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vDoacao, mdaDoacao, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vOnLine > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vOnLine, mdaOnLine, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vCredito > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vCredito, mdaCredito, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    if vTrocaDevolucao > 0 then
+      AddPagamento(pag, zcone, tagPagamento, vTrocaDevolucao, mdaTrocaDevolucao, False, vlValorDiferenca, vlTroco, vlCodigoTagOK);
+
+    // Cartões
+    if vCartaoDebito > 0 then
+    begin
+      InfoDeb.TpIntegra         := 0;           // AUTO: 0 (usa AutoTpIntegra pelo cAut); use 1 (TEF) ou 2 (POS) se quiser forçar
+      InfoDeb.Autorizacao       := vAutDeb;     // da sua integração TEF/DB
+      InfoDeb.CNPJCredenciadora := vCNPJDeb;    // idem
+      InfoDeb.BandeiraCod       := vBandDeb;    // '01'..'09' ou '99'
+      AddPagamentoCartao(pag, vCartaoDebito, False, InfoDeb, vlValorDiferenca);
+    end;
+
+    if vCartaoCredito > 0 then
+    begin
+      InfoCred.TpIntegra         := 0;  // AUTO
+      InfoCred.Autorizacao       := vAutCred;
+      InfoCred.CNPJCredenciadora := vCNJPCred;
+      InfoCred.BandeiraCod       := vBandCred;
+      AddPagamentoCartao(pag, vCartaoCredito, True, InfoCred, vlValorDiferenca);
+    end;
+  end;
+  ------------------------------------------------------------------------------ }
+
+
+
+procedure IncluirPagamentos(
+  const APag: TObject;
+  const AZCon: TObject;
+  const ATagPagamento: TDataSet;
+  var   Valores: TPagValores;
+  const MDAs: TPagMDAs;
+  var   AVlValorDiferenca: Double;
+  const AVlTroco: Double;
+  const AVlCodigoTagOK: Boolean;
+  const InfoDeb: TCartaoInfo;
+  const InfoCred: TCartaoInfo
+);
+var
+  Tmp: Double;
+  Deb, Cred: TCartaoInfo;
+begin
+  // Copiamos os cartões para permitir auto-tpIntegra e consumir diferença local sem afetar o chamador
+  Deb := InfoDeb;
+  Cred := InfoCred;
+
+  // Ordem preferencial para absorção da diferença:
+  // Dinheiro (soma troco) -> Online -> Convenio -> ChequeProprio -> ChequeTerceiros -> Vale -> Doacao -> CreditoLoja -> TrocaDevolucao -> Pix -> Voucher
+  // Cada AddPagamento consome AVlValorDiferenca se existir.
+
+  if Valores.Dinheiro > 0 then begin
+    Tmp := Valores.Dinheiro;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Dinheiro, True, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Dinheiro := Tmp;
+  end;
+
+  if Valores.Online > 0 then begin
+    Tmp := Valores.Online;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Online, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Online := Tmp;
+  end;
+
+  if Valores.Convenio > 0 then begin
+    Tmp := Valores.Convenio;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Convenio, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Convenio := Tmp;
+  end;
+
+  if Valores.ChequeProprio > 0 then begin
+    Tmp := Valores.ChequeProprio;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.ChequeProprio, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.ChequeProprio := Tmp;
+  end;
+
+  if Valores.ChequeTerceiros > 0 then begin
+    Tmp := Valores.ChequeTerceiros;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.ChequeTerceiros, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.ChequeTerceiros := Tmp;
+  end;
+
+  if Valores.Vale > 0 then begin
+    Tmp := Valores.Vale;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Vale, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Vale := Tmp;
+  end;
+
+  if Valores.Doacao > 0 then begin
+    Tmp := Valores.Doacao;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Doacao, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Doacao := Tmp;
+  end;
+
+  if Valores.CreditoLoja > 0 then begin
+    Tmp := Valores.CreditoLoja;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.CreditoLoja, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.CreditoLoja := Tmp;
+  end;
+
+  if Valores.TrocaDevolucao > 0 then begin
+    Tmp := Valores.TrocaDevolucao;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.TrocaDevolucao, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.TrocaDevolucao := Tmp;
+  end;
+
+  if Valores.Pix > 0 then begin
+    Tmp := Valores.Pix;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Pix, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Pix := Tmp;
+  end;
+
+  if Valores.Voucher > 0 then begin
+    Tmp := Valores.Voucher;
+    AddPagamento(APag, AZCon, ATagPagamento, Tmp, MDAs.Voucher, False, AVlValorDiferenca, AVlTroco, AVlCodigoTagOK);
+    Valores.Voucher := Tmp;
+  end;
+
+  // Cartão Débito
+  if Valores.CartaoDebito > 0 then begin
+    Tmp := Valores.CartaoDebito;
+    AddPagamentoCartao(APag, Tmp, False, Deb, AVlValorDiferenca);
+    Valores.CartaoDebito := Tmp;
+  end;
+
+  // Cartão Crédito
+  if Valores.CartaoCredito > 0 then begin
+    Tmp := Valores.CartaoCredito;
+    AddPagamentoCartao(APag, Tmp, True, Cred, AVlValorDiferenca);
+    Valores.CartaoCredito := Tmp;
+  end;
+end;
+end.
+

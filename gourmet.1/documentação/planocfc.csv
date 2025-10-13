@@ -1,0 +1,353 @@
+﻿pcgcodigo;seacodigo;cfpcodigo;pcgestrutural;pcgidentificacao;cedcodigo;pcgativa;pcgrecdes;pcccodigo;pcgdescricao;pcgorcamento
+1;0;1;1;ATIVO;1;1;1;;;1
+2;0;1;1.1;ATIVO CIRCULANTE;1;1;1;;;1
+3;0;1;1.1.1;DISPONÍVEL;1;1;1;;;1
+4;0;1;1.1.1.1;CAIXA;1;1;1;;;1
+5;0;1;1.1.1.1.01;Caixa Geral;1;1;1;;;1
+6;0;1;1.1.1.2;BANCOS CONTA MOVIMENTO;1;1;1;;;1
+7;0;1;1.1.1.2.01;Banco A;1;1;1;;;1
+8;0;1;1.1.1.3;APLICAÇÕES FINANCEIRAS;1;1;1;;;1
+9;0;1;1.1.1.3.01;Banco A;1;1;1;;;1
+10;0;1;1.1.2;CONTAS A RECEBER;1;1;1;;;1
+11;0;1;1.1.2.1;CLIENTES;1;1;1;;;1
+12;0;1;1.1.2.1.01;Cliente A;1;1;1;;;1
+13;0;1;1.1.2.2;(-) DUPLICATAS DESCONTADAS;1;1;1;;;1
+14;0;1;1.1.2.2.01;Banco A;1;1;1;;;1
+15;0;1;1.1.2.9;OUTRAS CONTAS A RECEBER;1;1;1;;;1
+16;0;1;1.1.2.9.01;Conta A;1;1;1;;;1
+17;0;1;1.1.3;ESTOQUES;1;1;1;;;1
+18;0;1;1.1.3.1;MERCADORIAS PARA REVENDA;1;1;1;;;1
+19;0;1;1.1.3.1.01;Estoque Inicial;1;1;1;;;1
+20;0;1;1.1.3.1.02;Compras;1;1;1;;;1
+21;0;1;1.1.3.1.03;Fretes e Carretos;1;1;1;;;1
+22;0;1;1.1.3.1.04;ICMS – Substituição Tributária;1;1;1;;;1
+23;0;1;1.1.3.1.05;ICMS – Antecipado;1;1;1;;;1
+24;0;1;1.1.3.1.10;(-) Devoluções de Compras;1;1;1;;;1
+25;0;1;1.1.3.1.11;(-) ICMS sobre Compras;1;1;1;;;1
+26;0;1;1.1.3.1.12;(-) COFINS sobre Compras;1;1;1;;;1
+27;0;1;1.1.3.1.13;(-) PIS sobre Compras;1;1;1;;;1
+28;0;1;1.1.3.1.19;(-) Custo das Mercadorias Vendidas;1;1;1;;;1
+29;0;1;1.1.3.2;PRODUTOS ACABADOS;1;1;1;;;1
+30;0;1;1.1.3.2.01;Estoque Inicial;1;1;1;;;1
+31;0;1;1.1.3.2.02;Produção;1;1;1;;;1
+32;0;1;1.1.3.2.09;(-) Custo dos Produtos Vendidos;1;1;1;;;1
+33;0;1;1.1.3.3; MATÉRIAS-PRIMAS;1;1;1;;;1
+34;0;1;1.1.3.3.01;Estoque Inicial;1;1;1;;;1
+35;0;1;1.1.3.3.02;Compras;1;1;1;;;1
+36;0;1;1.1.3.3.03;Fretes e Carretos;1;1;1;;;1
+37;0;1;1.1.3.3.04;ICMS – Substituição Tributária;1;1;1;;;1
+38;0;1;1.1.3.3.05;ICMS – Antecipado;1;1;1;;;1
+39;0;1;1.1.3.3.10;(-) Devoluções de Compras;1;1;1;;;1
+40;0;1;1.1.3.3.11;(-) ICMS sobre Compras;1;1;1;;;1
+41;0;1;1.1.3.3.12;(-) COFINS sobre Compras;1;1;1;;;1
+42;0;1;1.1.3.3.13;(-) PIS sobre Compras;1;1;1;;;1
+43;0;1;1.1.3.3.19;(-) Transferência para Consumo;1;1;1;;;1
+44;0;1;1.1.3.4;MATERIAIS DE EMBALAGEM;1;1;1;;;1
+45;0;1;1.1.3.4.01;Estoque Inicial;1;1;1;;;1
+46;0;1;1.1.3.4.02;Compras;1;1;1;;;1
+47;0;1;1.1.3.4.03;Fretes e Carretos;1;1;1;;;1
+48;0;1;1.1.3.4.04;ICMS – Substituição Tributária;1;1;1;;;1
+49;0;1;1.1.3.4.05;ICMS – Antecipado;1;1;1;;;1
+50;0;1;1.1.3.4.10;(-) Devoluções de Compras;1;1;1;;;1
+51;0;1;1.1.3.4.11;(-) ICMS sobre Compras;1;1;1;;;1
+52;0;1;1.1.3.4.12;(-) COFINS sobre Compras;1;1;1;;;1
+53;0;1;1.1.3.4.13;(-) PIS sobre Compras;1;1;1;;;1
+54;0;1;1.1.3.4.19;(-) Transferência para Consumo;1;1;1;;;1
+55;0;1;1.1.3.9;MATERIAIS DE CONSUMO;1;1;1;;;1
+56;0;1;1.1.3.9.01;Estoque Inicial;1;1;1;;;1
+57;0;1;1.1.3.9.02;Compras;1;1;1;;;1
+58;0;1;1.1.3.9.03;Fretes e Carretos;1;1;1;;;1
+59;0;1;1.1.3.9.04;ICMS – Antecipado;1;1;1;;;1
+60;0;1;1.1.3.9.10;(-) Devoluções de Compras;1;1;1;;;1
+61;0;1;1.1.3.9.19;(-) Transferência para Consumo;1;1;1;;;1
+62;0;1;1.1.4;OUTROS CRÉDITOS;1;1;1;;;1
+63;0;1;1.1.4.1;IMPOSTOS A RECUPERAR;1;1;1;;;1
+64;0;1;1.1.4.1.01;IPI;1;1;1;;;1
+65;0;1;1.1.4.1.02;ICMS;1;1;1;;;1
+66;0;1;1.1.4.1.03;ICMS Antecipado;1;1;1;;;1
+67;0;1;1.1.4.1.04;COFINS;1;1;1;;;1
+68;0;1;1.1.4.1.05;PIS;1;1;1;;;1
+69;0;1;1.1.4.1.06;IRPJ;1;1;1;;;1
+70;0;1;1.1.4.1.07;CSLL;1;1;1;;;1
+71;0;1;1.1.4.1.08;IRF;1;1;1;;;1
+72;0;1;1.1.4.1.09;ISSF;1;1;1;;;1
+73;0;1;1.1.9;DESPESAS DO EXERCÍCIO SEGUINTE;1;1;1;;;1
+74;0;1;1.1.9.1;DESPESAS ANTECIPADAS;1;1;1;;;1
+75;0;1;1.1.9.1.01;eguros a Apropriar;1;1;1;;;1
+76;0;1;1.1.9.1.02;Encargos a Apropriar;1;1;1;;;1
+77;0;1;1.1.9.1.03;IPTU a Apropriar;1;1;1;;;1
+78;0;1;1.2;ATIVO REALIZÁVEL A LONGO PRAZO;1;1;1;;;1
+79;0;1;1.2.1;APLICAÇÕES FINANCEIRAS DE LONGO PRAZO;1;1;1;;;1
+80;0;1;1.2.1.1;APLICAÇÕES FINANCEIRAS;1;1;1;;;1
+81;0;1;1.2.1.1.01;Banco A;1;1;1;;;1
+82;0;1;1.2.2;CONTAS A RECEBER;1;1;1;;;1
+83;0;1;1.2.2.1;CLIENTES;1;1;1;;;1
+84;0;1;1.2.2.1.01;Cliente A;1;1;1;;;1
+85;0;1;1.3;ATIVO PERMANENTE;1;1;1;;;1
+86;0;1;1.3.1;INVESTIMENTOS;1;1;1;;;1
+87;0;1;1.3.1.1;PARTICIPAÇÕES SOCIETÁRIAS;1;1;1;;;1
+88;0;1;1.3.1.1.01;Consórcio Simples A;1;1;1;;;1
+89;0;1;1.3.1.1.02;Cooperativa de Crédito A;1;1;1;;;1
+90;0;1;1.3.2;IMOBILIZADO;1;1;1;;;1
+91;0;1;1.3.2.1;BENS EM OPERAÇÃO;1;1;1;;;1
+92;0;1;1.3.2.1.01;Terrenos;1;1;1;;;1
+93;0;1;1.3.2.1.02;Construções e Benfeitorias;1;1;1;;;1
+94;0;1;1.3.2.1.03;Máquinas, Aparelhos e Equipamentos;1;1;1;;;1
+95;0;1;1.3.2.1.04;Ferramentas;1;1;1;;;1
+96;0;1;1.3.2.1.05;Matrizes;1;1;1;;;1
+97;0;1;1.3.2.1.06;Móveis & Utensílios;1;1;1;;;1
+98;0;1;1.3.2.1.07;Equipamentos de Informática;1;1;1;;;1
+99;0;1;1.3.2.1.08;Instalações Comerciais;1;1;1;;;1
+100;0;1;1.3.2.1.09;Veículos e Acessórios;1;1;1;;;1
+101;0;1;1.3.2.9 (-);DEPRECIAÇÕES ACUMULADAS;1;1;1;;;1
+102;0;1;1.3.2.9.01;Construções e Benfeitorias;1;1;1;;;1
+103;0;1;1.3.2.9.02;Máquinas, Aparelhos e Equipamentos;1;1;1;;;1
+104;0;1;1.3.2.9.03;Ferramentas;1;1;1;;;1
+105;0;1;1.3.2.9.04;Matrizes;1;1;1;;;1
+106;0;1;1.3.2.9.05;Móveis & Utensílios;1;1;1;;;1
+107;0;1;1.3.2.9.06;Equipamentos de Informática;1;1;1;;;1
+108;0;1;1.3.2.9.07;Instalações Comerciais;1;1;1;;;1
+109;0;1;1.3.2.9.08;Veículos e Acessórios;1;1;1;;;1
+110;0;1;1.3.3;INTANGÍVEL;1;1;1;;;1
+111;0;1;1.3.3.1;BENS INCORPÓREOS;1;1;1;;;1
+112;0;1;1.3.3.1.01;Marcas e Patentes;1;1;1;;;1
+113;0;1;1.3.3.1.02;Sistemas Aplicativos (softwares);1;1;1;;;1
+114;0;1;1.3.3.9;(-) AMORTIZAÇÕES ACUMULADAS;1;1;1;;;1
+115;0;1;1.3.3.9.01;Marcas e Patentes;1;1;1;;;1
+116;0;1;1.3.3.9.02;Sistemas Aplicativos (softwares);1;1;1;;;1
+117;0;1;1.3.4;DIFERIDO;1;1;1;;;1
+118;0;1;1.3.4.1;GASTOS PRÉ-OPERACIONAIS;1;1;1;;;1
+119;0;1;1.3.4.1.01;Gastos de Organização e Administração;1;1;1;;;1
+120;0;1;1.3.4.1.02;Projetos e Desenvolvimento de Novos Produtos;1;1;1;;;1
+121;0;1;1.3.4.9 (-);AMORTIZAÇÕES ACUMULADAS;1;1;1;;;1
+122;0;1;1.3.4.9.01;Gastos de Organização e Administração;1;1;1;;;1
+123;0;1;1.3.4.9.02;Projetos e Desenvolvimento de Novos Produtos;1;1;1;;;1
+124;1;2;2;PASSIVO;1;1;1;;;1
+125;1;2;2.1;CIRCULANTE;1;1;1;;;1
+126;1;2;2.1.1;CONTAS A PAGAR;1;1;1;;;1
+127;1;2;2.1.1.1;SALÁRIOS A PAGAR;1;1;1;;;1
+128;1;2;2.1.1.1.01;Salários;1;1;1;;;1
+129;1;2;2.1.1.1.02;Férias a Pagar;1;1;1;;;1
+130;1;2;2.1.1.1.03;13º Salário a Pagar;1;1;1;;;1
+131;1;2;2.1.1.2;OBRIGAÇÕES TRABALHISTAS;1;1;1;;;1
+132;1;2;2.1.1.2.01;INSS a Recolher;1;1;1;;;1
+133;1;2;2.1.1.2.02;FGTS a Recolher;1;1;1;;;1
+134;1;2;2.1.1.2.03;Contribuição Sindical a Recolher;1;1;1;;;1
+135;1;2;2.1.1.3;OBRIGAÇÕES TRIBUTÁRIAS;1;1;1;;;1
+136;1;2;2.1.1.3.01;Simples Nacional a Recolher;1;1;1;;;1
+137;1;2;2.1.1.3.02;IPI a Recolher;1;1;1;;;1
+138;1;2;2.1.1.3.03;ICMS a Recolher;1;1;1;;;1
+139;1;2;2.1.1.3.04;COFINS a Recolher;1;1;1;;;1
+140;1;2;2.1.1.3.05;PIS a Recolher;1;1;1;;;1
+141;1;2;2.1.1.3.06;IRPJ a Recolher;1;1;1;;;1
+142;1;2;2.1.1.3.07;CSLL a Recolher;1;1;1;;;1
+143;1;2;2.1.1.3.08;ISS a Recolher;1;1;1;;;1
+144;1;2;2.1.1.3.09;IRF a Recolher;1;1;1;;;1
+145;1;2;2.1.1.3.10;ISSF a Recolher;1;1;1;;;1
+146;1;2;2.1.1.3.11;ICMS Substituição Tributária a Recolher;1;1;1;;;1
+147;1;2;2.1.1.4;FORNECEDORES;1;1;1;;;1
+148;1;2;2.1.1.4.01;Fornecedor A;1;1;1;;;1
+149;1;2;2.1.1.5;EMPRÉSTIMOS BANCÁRIOS;1;1;1;;;1
+150;1;2;2.1.1.5.01;Banco A;1;1;1;;;1
+151;1;2;2.1.1.6;(-) ENCARGOS FINANCEIROS A TRANSCORRER;1;1;1;;;1
+152;1;2;2.1.1.6.01;Juros Passivos;1;1;1;;;1
+153;1;2;2.1.1.9;OUTRAS CONTAS A PAGAR;1;1;1;;;1
+154;1;2;2.1.1.9.01;Aluguéis a Pagar;1;1;1;;;1
+155;1;2;2.1.1.9.02;Energia Elétrica a Pagar;1;1;1;;;1
+156;1;2;2.1.1.9.03;Telefone a Pagar;1;1;1;;;1
+157;1;2;2.1.1.9.04;Água e Esgotos a Pagar;1;1;1;;;1
+158;1;2;2.1.1.9.05;Pró-labore a Pagar;1;1;1;;;1
+159;1;2;2.2;EXIGÍVEL A LONGO PRAZO;1;1;1;;;1
+160;1;2;2.2.1;CONTAS A PAGAR;1;1;1;;;1
+161;1;2;2.2.1.1;FINANCIAMENTOS BANCÁRIOS;1;1;1;;;1
+162;1;2;2.2.1.1.01;Banco A;1;1;1;;;1
+163;1;2;2.3;RESULTADOS DE EXERCÍCIOS FUTUROS;1;1;1;;;1
+164;1;2;2.3.1;RESULTADOS DIFERIDOS;1;1;1;;;1
+165;1;2;2.3.1.1;RECEITAS DIFERIDAS;1;1;1;;;1
+166;1;2;2.3.1.1.01;Receitas de Obras em Andamento;1;1;1;;;1
+167;1;2;2.3.1.2;(-) CUSTOS DIFERIDOS;1;1;1;;;1
+168;1;2;2.3.1.2.01;Custos de Obras em Andamento;1;1;1;;;1
+169;1;2;2.3.1.3;(-) DESPESAS DIFERIDAS;1;1;1;;;1
+170;1;2;2.3.1.3.01;Despesas de Obras em Andamento;1;1;1;;;1
+171;1;2;2.4;PATRIMÔNIO LÍQUIDO;1;1;1;;;1
+172;1;2;2.4.1;CAPITAL SOCIAL REALIZADO;1;1;1;;;1
+173;1;2;2.4.1.1;CAPITAL SOCIAL SUBSCRITO;1;1;1;;;1
+174;1;2;2.4.1.1.01;Capital Nacional;1;1;1;;;1
+175;1;2;2.4.1.2;(-) CAPITAL SOCIAL A REALIZAR;1;1;1;;;1
+176;1;2;2.4.1.2.01;Sócio A;1;1;1;;;1
+177;1;2;2.4.2;RESERVAS;1;1;1;;;1
+178;1;2;2.4.2.1;RESERVAS DE CAPITAL;1;1;1;;;1
+179;1;2;2.4.2.1.01;Reserva de Incentivos Fiscais;1;1;1;;;1
+180;1;2;2.4.2.2;AJUSTES DE AVALIAÇÃO PATRIMONIAL;1;1;1;;;1
+181;1;2;2.4.2.2.01;Variações de Elementos Ativos;1;1;1;;;1
+182;1;2;2.4.2.2.02;Variações de Elementos Passivos;1;1;1;;;1
+183;1;2;2.4.2.3;RESERVAS DE LUCROS;1;1;1;;;1
+184;1;2;2.4.2.3.01; Retenções de Lucros;1;1;1;;;1
+185;1;2;2.4.2.3.02;Lucros a Realizar;1;1;1;;;1
+186;1;2;2.4.3;QUOTAS EM TESOURARIA;1;1;1;;;1
+187;1;2;2.4.3.1;QUOTAS EM TESOURARIA;1;1;1;;;1
+188;1;2;2.4.3.1.01;Quotas de Capital Realizado;1;1;1;;;1
+189;1;2;2.4.4;LUCROS OU PREJUIZOS ACUMULADOS;1;1;1;;;1
+190;1;2;2.4.4.1;LUCROS OU PREJUIZOS ACUMULADOS;1;1;1;;;1
+191;1;2;2.4.4.1.01;Lucros Acumulados;1;1;1;;;1
+192;1;2;2.4.4.1.02;Prejuízos Acumulados;1;1;1;;;1
+193;0;3;3; CUSTOS;1;1;1;;;1
+194;0;3;3.1;CUSTOS DE PRODUÇÃO;1;1;1;;;1
+195;0;3;3.1.1;CUSTOS INDUSTRIAIS;1;1;1;;;1
+196;0;3;3.1.1.1;INSUMOS;1;1;1;;;1
+197;0;3;3.1.1.1.01;Matérias-primas;1;1;1;;;1
+198;0;3;3.1.1.1.02;Materiais de embalagem;1;1;1;;;1
+199;0;3;3.1.1.2;MÃO-DE-OBRA DIRETA;1;1;1;;;1
+200;0;3;3.1.1.2.01;Salários;1;1;1;;;1
+201;0;3;3.1.1.2.02;Encargos Sociais;1;1;1;;;1
+202;0;3;3.1.1.2.03;Vale Transporte;1;1;1;;;1
+203;0;3;3.1.1.2.04;Refeições;1;1;1;;;1
+204;0;3;3.1.1.2.05;Uniformes;1;1;1;;;1
+205;0;3;3.1.1.2.06;Assistência Médica;1;1;1;;;1
+206;0;3;3.1.1.3;UTROS CUSTOS DIRETOS;1;1;1;;;1
+207;0;3;3.1.1.3.01;Materiais de consumo;1;1;1;;;1
+208;0;3;3.1.1.9;CUSTOS INDIRETOS DE FABRICAÇÃO;1;1;1;;;1
+209;0;3;3.1.1.9.01;Salários;1;1;1;;;1
+210;0;3;3.1.1.9.02;Encargos Sociais;1;1;1;;;1
+211;0;3;3.1.1.9.03;Vale Transporte;1;1;1;;;1
+212;0;3;3.1.1.9.04;Refeições;1;1;1;;;1
+213;0;3;3.1.1.9.05;Uniformes;1;1;1;;;1
+214;0;3;3.1.1.9.06;Assistência Médica;1;1;1;;;1
+215;0;3;3.1.1.9.10;Energia elétrica;1;1;1;;;1
+216;0;3;3.1.1.9.11;Manutenção;1;1;1;;;1
+217;0;3;3.1.1.9.12;Aluguel de bens imóveis;1;1;1;;;1
+218;0;3;3.1.1.9.13;Locação de bens móveis;1;1;1;;;1
+219;0;3;3.1.1.9.14;Água e Esgoto;1;1;1;;;1
+220;0;3;3.1.1.9.15;Materiais de consumo;1;1;1;;;1
+221;0;3;3.1.1.9.90;Prêmios de Seguro;1;1;1;;;1
+222;0;3;3.1.1.9.91;Depreciação e Amortização;1;1;1;;;1
+223;0;3;3.1.2;CUSTOS DE PRESTAÇÃO DE SERVIÇOS;1;1;1;;;1
+224;0;3;3.1.2.1;CONSUMO DE MATERIAIS;1;1;1;;;1
+225;0;3;3.1.2.1.01;Materiais Aplicados;1;1;1;;;1
+226;0;3;3.1.2.2;MÃO-DE-OBRA DIRETA;1;1;1;;;1
+227;0;3;3.1.2.2.01;Salários;1;1;1;;;1
+228;0;3;3.1.2.2.02;Encargos Sociais;1;1;1;;;1
+229;0;3;3.1.2.2.03;Vale Transporte;1;1;1;;;1
+230;0;3;3.1.2.2.04;Refeições;1;1;1;;;1
+231;0;3;3.1.2.2.05;Uniformes;1;1;1;;;1
+232;0;3;3.1.2.2.06;Assistência Médica;1;1;1;;;1
+233;0;3;3.1.2.3;OUTROS CUSTOS DIRETOS;1;1;1;;;1
+234;0;3;3.1.2.3.01;Materiais de consumo;1;1;1;;;1
+235;0;3;3.1.2.9;CUSTOS INDIRETOS DE PRESTAÇÃO DE SERVIÇOS;1;1;1;;;1
+236;0;3;3.1.2.9.01;Salários;1;1;1;;;1
+237;0;3;3.1.2.9.02;Encargos Sociais;1;1;1;;;1
+238;0;3;3.1.2.9.03;Vale Transporte;1;1;1;;;1
+239;0;3;3.1.2.9.04;Refeições;1;1;1;;;1
+240;0;3;3.1.2.9.05;Uniformes;1;1;1;;;1
+241;0;3;3.1.2.9.06;Assistência Médica;1;1;1;;;1
+242;0;3;3.1.2.9.10;Energia elétrica;1;1;1;;;1
+243;0;3;3.1.2.9.11;Manutenção;1;1;1;;;1
+244;0;3;3.1.2.9.12;Aluguel de bens imóveis;1;1;1;;;1
+245;0;3;3.1.2.9.13;Locação de bens móveis;1;1;1;;;1
+246;0;3;3.1.2.9.14;Água e Esgoto;1;1;1;;;1
+247;0;3;3.1.2.9.15;Materiais de consumo;1;1;1;;;1
+248;0;3;3.1.2.9.16;Ferramentas;1;1;1;;;1
+249;0;3;3.1.2.9.90;Prêmios de Seguro;1;1;1;;;1
+250;0;3;3.1.2.9.91;Depreciação e Amortização;1;1;1;;;1
+251;0;4;4;PRODUÇÃO;1;1;1;;;1
+252;0;4;4.1;PRODUÇÃO;1;1;1;;;1
+253;0;4;4.1.1;PRODUÇÃO;1;1;1;;;1
+254;0;4;4.1.1.1;PRODUÇÃO;1;1;1;;;1
+255;0;4;4.1.1.1.01;De Bens;1;1;1;;;1
+256;0;4;4.1.1.1.02;De Serviços;1;1;1;;;1
+257;0;5;5;DESPESAS;1;1;1;;;1
+258;0;5;5.1;DESPESAS DIVERSAS;1;1;1;;;1
+259;0;5;5.1.1;DESPESAS OPERACIONAIS;1;1;1;;;1
+260;0;5;5.1.1.1;CUSTO DAS VENDAS;1;1;1;;;1
+261;0;5;5.1.1.1.01;Custo das Mercadorias Vendidas;1;1;1;;;1
+262;0;5;5.1.1.1.02;Custo dos Produtos Vendidos;1;1;1;;;1
+263;0;5;5.1.1.1.03;Custo dos Serviços Prestados;1;1;1;;;1
+264;0;5;5.1.1.2;DESPESAS COM PESSOAL;1;1;1;;;1
+265;0;5;5.1.1.2.01;Salários;1;1;1;;;1
+266;0;5;5.1.1.2.02;Encargos Sociais;1;1;1;;;1
+267;0;5;5.1.1.2.03;Vale Transporte;1;1;1;;;1
+268;0;5;5.1.1.2.04;Refeições;1;1;1;;;1
+269;0;5;5.1.1.2.05;Uniformes;1;1;1;;;1
+270;0;5;5.1.1.2.06;Assistência Médica;1;1;1;;;1
+271;0;5;5.1.1.3;DESPESAS ADMINISTRATIVAS;1;1;1;;;1
+272;0;5;5.1.1.3.01;Pró-labore;1;1;1;;;1
+273;0;5;5.1.1.3.02;Aluguel de Imóveis;1;1;1;;;1
+274;0;5;5.1.1.3.03;Locação de Bens;1;1;1;;;1
+275;0;5;5.1.1.3.04;Energia Elétrica;1;1;1;;;1
+276;0;5;5.1.1.3.05;Telefone e Internet;1;1;1;;;1
+277;0;5;5.1.1.3.06;Água e Esgoto;1;1;1;;;1
+278;0;5;5.1.1.3.07;Tarifas Bancárias;1;1;1;;;1
+279;0;5;5.1.1.3.08;Material de Consumo;1;1;1;;;1
+280;0;5;5.1.1.3.09;Material de Expediente;1;1;1;;;1
+281;0;5;5.1.1.3.10;Correios;1;1;1;;;1
+282;0;5;5.1.1.4;DESPESAS DE COMERCIALIZAÇÃO;1;1;1;;;1
+283;0;5;5.1.1.4.01;Fretes e Carretos;1;1;1;;;1
+284;0;5;5.1.1.4.02;Comissões e Corretagens;1;1;1;;;1
+285;0;5;5.1.1.4.03;Despesas de Viagens e Estadas;1;1;1;;;1
+286;0;5;5.1.1.5;DESPESAS TRIBUTÁRIAS;1;1;1;;;1
+287;0;5;5.1.1.5.01;IPTU;1;1;1;;;1
+288;0;5;5.1.1.5.02;IPVA;1;1;1;;;1
+289;0;5;5.1.1.5.03;IOF;1;1;1;;;1
+290;0;5;5.1.1.5.04;Multas Fiscais;1;1;1;;;1
+291;0;5;5.1.1.5.05;COFINS s/Outras Receitas;1;1;1;;;1
+292;0;5;5.1.1.5.06;PIS s/Outras Receitas;1;1;1;;;1
+293;0;5;5.1.1.5.07;IRPJ s/Aplicações Financeiras;1;1;1;;;1
+294;0;5;5.1.1.5.08;Impostos e Taxas Diversas;1;1;1;;;1
+295;0;5;5.1.1.6;DESPESAS FINANCEIRAS;1;1;1;;;1
+296;0;5;5.1.1.6.01;Juros Passivos;1;1;1;;;1
+297;0;5;5.1.1.6.02;Juros de Mora;1;1;1;;;1
+298;0;5;5.1.1.6.03;Descontos Concedidos;1;1;1;;;1
+299;0;5;5.1.1.6.04;Variações Monetárias Passivas;1;1;1;;;1
+300;0;5;5.1.1.6.05;Variações Cambiais Passivas;1;1;1;;;1
+301;0;5;5.1.1.7;DEPRECIAÇÃO E AMORTIZAÇÃO;1;1;1;;;1
+302;0;5;5.1.1.7.01;Depreciação;1;1;1;;;1
+303;0;5;5.1.1.7.02;Amortização;1;1;1;;;1
+304;0;5;5.1.1.8;PERDAS DIVERSAS;1;1;1;;;1
+305;0;5;5.1.1.8.01;Perdas por Insolvência;1;1;1;;;1
+306;0;5;5.1.2;DESPESAS NÃO OPERACIONAIS;1;1;1;;;1
+307;0;5;5.1.2.1;DESPESAS DIVERSAS;1;1;1;;;1
+308;0;5;5.1.2.1.01;Multas de Trânsito;1;1;1;;;1
+309;0;5;5.1.2.1.02;Multas Fiscais;1;1;1;;;1
+310;0;5;5.1.2.1.03;Gastos com Festividades;1;1;1;;;1
+311;1;6;6;RECEITAS;1;1;1;;;1
+312;1;6;6.1;RECEITAS DIVERSAS;1;1;1;;;1
+313;1;6;6.1.1;RECEITAS OPERACIONAIS;1;1;1;;;1
+314;1;6;6.1.1.1;RECEITA BRUTA DE VENDAS;1;1;1;;;1
+315;1;6;6.1.1.1.01;Vendas de Mercadorias;1;1;1;;;1
+316;1;6;6.1.1.1.02;Vendas de Mercadorias com Substituição Tributária;1;1;1;;;1
+317;1;6;6.1.1.1.03;Vendas de Mercadorias para o Exterior;1;1;1;;;1
+318;1;6;6.1.1.1.10;Vendas de Produtos de Fabricação Própria;1;1;1;;;1
+319;1;6;6.1.1.1.11;Vendas de Produtos de Fabricação Própria com Substituição Tributária;1;1;1;;;1
+320;1;6;6.1.1.1.12;Vendas de Produtos de Fabricação Própria para o Exterior;1;1;1;;;1
+321;1;6;6.1.1.1.20;Vendas de Serviços Prestados;1;1;1;;;1
+322;1;6;6.1.1.1.21;Vendas de Serviços Prestados com Substituição Tributária;1;1;1;;;1
+323;1;6;6.1.1.1.22;Vendas de Serviços Prestados para o Exterior;1;1;1;;;1
+324;1;6;6.1.1.2 (-);DEDUÇÕES DA RECEITA BRUTA;1;1;1;;;1
+325;1;6;6.1.1.2.01;Simples Nacional;1;1;1;;;1
+326;1;6;6.1.1.2.02;ISS Substituição Tributária;1;1;1;;;1
+327;1;6;6.1.1.2.03;ICMS;1;1;1;;;1
+328;1;6;6.1.1.2.04;ISS;1;1;1;;;1
+329;1;6;6.1.1.2.05;COFINS;1;1;1;;;1
+330;1;6;6.1.1.2.06;PIS;1;1;1;;;1
+331;1;6;6.1.1.2.09;Devoluções de Vendas;1;1;1;;;1
+332;1;6;6.1.1.3;RECEITAS FINANCEIRAS;1;1;1;;;1
+333;1;6;6.1.1.3.01;Juros Ativos;1;1;1;;;1
+334;1;6;6.1.1.3.02;Rendimentos de Aplicações Financeiras;1;1;1;;;1
+335;1;6;6.1.1.4;RECEITAS DIVERSAS;1;1;1;;;1
+336;1;6;6.1.1.4.01;Recuperação de Despesas;1;1;1;;;1
+337;1;6;6.1.2;RECEITAS NÃO OPERACIONAIS;1;1;1;;;1
+338;1;6;6.1.2.1;RECEITAS DIVERSAS;1;1;1;;;1
+339;1;6;6.1.2.1.01;Ganhos de Capital;1;1;1;;;1
+340;1;6;6.1.2.1.02;Outras Receitas;1;1;1;;;1
+341;0;7;7;CONTAS DE APURAÇÃO;1;1;1;;;1
+342;0;7;7.1;CONTAS DIVERSAS;1;1;1;;;1
+343;0;7;7.1.1;BALANÇO;1;1;1;;;1
+344;0;7;7.1.1.1;BALANÇO DE ABERTURA;1;1;1;;;1
+345;0;7;7.1.1.1.01;Ativo;1;1;1;;;1
+346;0;7;7.1.1.1.02;(-) Passivo;1;1;1;;;1
+347;0;7;7.1.1.2;BALANÇO DE ENCERRAMENTO;1;1;1;;;1
+348;0;7;7.1.1.2.01;Ativo;1;1;1;;;1
+349;0;7;7.1.1.2.01;(-) Passivo;1;1;1;;;1
+350;0;7;7.1.2;RESULTADO;1;1;1;;;1
+351;0;7;7.1.2.1;RESULTADO DO EXERCÍCIO;1;1;1;;;1
+352;0;7;7.1.2.1.01;Resultado Final de Exercício;1;1;1;;;1

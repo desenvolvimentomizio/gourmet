@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/18 09:49:15.000.767,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/18 19:05:35.000.974,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/04 18:37:12.000.462,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/16 17:57:00.000.364,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/17 17:33:42.000.922,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/08/16 10:44:30.000.127,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/07/16 13:35:34.000.810,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/07/16 13:36:05.000.291,C:\fontes_gourmet\gourmet.1\MizioImpressoras\Unit2.dfm=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2025/07/16 13:36:05.000.291,C:\fontes_gourmet\gourmet.1\MizioImpressoras\Unit2.pas=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/07/16 13:36:30.000.144,C:\fontes_gourmet\gourmet.1\MizioImpressoras\MonitorMizioImpressoras.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2025/07/16 13:36:38.000.464,C:\fontes_gourmet\gourmet.1\MizioImpressoras\Unit2.pas=</Transaction>
+    <Transaction>2025/07/16 13:37:02.000.488,=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioServImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 13:37:20.000.317,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.dfm=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioServImpressoras.dfm</Transaction>
+    <Transaction>2025/07/16 13:37:20.000.317,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.pas=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioServImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 13:40:29.000.716,=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioServImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 13:40:45.000.976,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioServImpressoras.pas=</Transaction>
+    <Transaction>2025/07/16 13:42:53.000.569,=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 13:43:11.000.104,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.pas=</Transaction>
+    <Transaction>2025/07/16 13:48:25.000.949,=C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 14:03:41.000.688,C:\fontes_gourmet\gourmet.1\MizioImpressoras\MonitorMizioImpressoras.dproj=C:\fontes_gourmet\gourmet.1\MizioImpressoras\MonitorMizioImpressoras\MonitorMizioImpressoras.dproj</Transaction>
+    <Transaction>2025/07/16 14:03:52.000.099,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.pas=C:\fontes_gourmet\gourmet.1\MizioImpressoras\MonitorMizioImpressoras\ufMonitorMizioImpressoras.pas</Transaction>
+    <Transaction>2025/07/16 14:03:52.000.099,C:\fontes_gourmet\gourmet.1\MizioImpressoras\ufMonitorMizioImpressoras.dfm=C:\fontes_gourmet\gourmet.1\MizioImpressoras\MonitorMizioImpressoras\ufMonitorMizioImpressoras.dfm</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>

@@ -1,0 +1,42 @@
+program Project2;
+
+uses
+  Vcl.Forms,
+  Inifiles,
+  uCEFApplication,
+  Unit2 in 'Unit2.pas', System.SysUtils {Form2};
+
+{$R *.res}
+
+
+begin
+
+  GlobalCEFApp := TCefApplication.Create;
+
+  // In case you want to use custom directories for the CEF3 binaries, cache and user data.
+  // If you don't set a cache directory the browser will use in-memory cache.
+
+  GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
+  GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
+  GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
+  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
+  GlobalCEFApp.cache                := 'c:\cef\cache';
+  GlobalCEFApp.UserDataPath         := 'c:\cef\User Data';
+
+
+  if GlobalCEFApp.StartMainProcess then
+  begin
+    Application.Initialize;
+    {$IFDEF DELPHI11_UP}
+    Application.MainFormOnTaskbar := True;
+    {$ENDIF}
+    Application.CreateForm(TForm2, Form2);
+    Application.Run;
+  end;
+
+
+
+  GlobalCEFApp.Free;
+  GlobalCEFApp := nil;
+
+end.

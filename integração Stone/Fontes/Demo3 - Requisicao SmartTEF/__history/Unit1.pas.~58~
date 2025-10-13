@@ -1,0 +1,130 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,system.Net.HttpClient,system.JSON;
+
+type
+  TForm1 = class(TForm)
+    mLog: TMemo;
+    Button1: TButton;
+    cboPagamento: TComboBox;
+    edtValor: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    function valor(pValor: string): string;
+
+  public
+
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+uses
+  System.Net.URLClient;
+
+{$R *.dfm}
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+   mLog.lines.Clear;
+end;
+
+function TForm1.valor(pValor: string): string;
+begin
+  pValor := StringReplace(pValor, ',', '.', [rfReplaceAll]);
+  Result := StringReplace(pValor, '.', '' , [rfReplaceAll]);
+end;
+procedure TForm1.Button1Click(Sender: TObject);
+var
+httpClient    : THTTPClient;
+requestStream : TStringStream;
+Response      : IHTTPResponse;
+Parcelas      : string;
+ValorPagoStr  : string;
+xValTransacao : integer;
+obj,objR      : TJSONObject;
+messageValue  : TJSONValue;
+begin
+         httpClient                    := THTTPClient.Create;
+         HttpClient.ContentType        := 'application/json';
+         HttpClient.Accept             := '/';
+         HttpClient.SendTimeout        := 120000;
+         HttpClient.FResponseTimeout   := 120000;
+         HttpClient.FConnectionTimeout := 120000;
+         requestStream                 := TStringStream.Create;
+
+         if cboPagamento.ItemIndex = 1 then
+          Parcelas := '2'
+         else
+          Parcelas := '1';
+
+         Response                      := httpClient.post('http://192.168.1.47:9911/Pagamento',requestStream, nil,
+                                           TNetHeaders.Create(
+                                                            TNameValuePair.Create('tipopagamento'   ,cboPagamento.Text),
+                                                            TNameValuePair.Create('valor' , valor(edtValor.Text) ),
+                                                            TNameValuePair.Create('parcelas' , Parcelas) ,
+                                                            TNameValuePair.Create('pedido' , '112233')
+                                                            )
+                                                            );
+
+        obj := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONObject;
+
+        if Assigned(obj) then
+        try
+          if Assigned(obj.GetValue('status')) then
+            mLog.Lines.Add('status: ' + obj.GetValue('status').Value)
+          else
+            mLog.Lines.Add('status não encontrado no JSON');
+
+          messageValue := obj.GetValue('message');
+
+          if Assigned(messageValue) then
+          begin
+            objR := TJSONObject.ParseJSONValue(messageValue.ToString) as TJSONObject;
+
+            if Assigned(objR) then
+            try
+              if Assigned(objR.GetValue('NSU')) then
+                mLog.Lines.Add('NSU: ' + objR.GetValue('NSU').Value);
+
+              if Assigned(objR.GetValue('TipoTransacao')) then
+                mLog.Lines.Add('TipoTransacao: ' + objR.GetValue('TipoTransacao').Value);
+
+              if Assigned(objR.GetValue('Bandeira')) then
+                mLog.Lines.Add('Bandeira: ' + objR.GetValue('Bandeira').Value);
+
+              if Assigned(objR.GetValue('NomeAdquirente')) then
+                mLog.Lines.Add('NomeAdquirente: ' + objR.GetValue('NomeAdquirente').Value);
+
+              if Assigned(objR.GetValue('CnpjAdquirente')) then
+                mLog.Lines.Add('CnpjAdquirente: ' + objR.GetValue('CnpjAdquirente').Value);
+            finally
+              objR.Free;
+            end
+            else
+              mLog.Lines.Add('Erro: mensagem JSON inválida');
+          end
+          else
+            mLog.Lines.Add('message não encontrado no JSON');
+        finally
+          obj.Free;
+        end
+        else
+          mLog.Lines.Add('Erro ao processar o JSON principal');
+
+
+         mLog.Lines.Add(StringOfChar('=',50));
+end;
+
+
+
+end.

@@ -1,0 +1,2411 @@
+unit ufinfe;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, Data.DB, ACBrBase, ACBrValidador, Vcl.ExtCtrls,
+  DBAccess, Uni, MemDS, ACBrNFe, System.Classes, Vcl.Controls, Vcl.ComCtrls,
+  System.SysUtils, pcnConversao, uFuncoes, uBuscaProduto, Vcl.FileCtrl, ACBrDFe,
+  Dialogs, uPegaBase, pcnConversaoNFe, Vcl.StdCtrls,  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, ufrabase, ufcpamlt, Vcl.Buttons;
+
+type
+  Tfinfe = class(TForm)
+    ACBrNFeImp: TACBrNFe;
+    consulta: TUniQuery;
+    registro: TUniQuery;
+    registromeschave: TIntegerField;
+    registroetdcodigo: TIntegerField;
+    registromesemissao: TDateField;
+    registromesregistro: TDateField;
+    registrotdfcodigo: TStringField;
+    registrosdecodigo: TStringField;
+    registromesserie: TStringField;
+    registromesnumero: TIntegerField;
+    registromeschavenfe: TStringField;
+    registrotoecodigo: TIntegerField;
+    registrotfpcodigo: TIntegerField;
+    registromesvalor: TFloatField;
+    registromesdesconto: TFloatField;
+    registromestotal: TFloatField;
+    registrorefcodigo: TIntegerField;
+    registromesfrete: TFloatField;
+    registromesseguro: TFloatField;
+    registromesoutras: TFloatField;
+    registromesbicm: TFloatField;
+    registromesicm: TFloatField;
+    registromesbicms: TFloatField;
+    registromesicms: TFloatField;
+    registromesipi: TFloatField;
+    registromespis: TFloatField;
+    registromescofins: TFloatField;
+    registromespiss: TFloatField;
+    registromescofinss: TFloatField;
+    registroclbcodigo: TIntegerField;
+    registrotrmcodigo: TIntegerField;
+    registrotrfcodigo: TStringField;
+    registrotemcodigo: TIntegerField;
+    cfg: TUniQuery;
+    cfgufssigla: TStringField;
+    cfgetddoc1: TStringField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgserienfe: TStringField;
+    etd: TUniQuery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    etdetdapelido: TStringField;
+    etdetddeletar: TIntegerField;
+    etdtpecodigo: TIntegerField;
+    etdetddatacad: TDateField;
+    etdetddataalt: TDateField;
+    etdetddoc1: TStringField;
+    etv: TUniQuery;
+    etvetvcodigo: TIntegerField;
+    etvetdcodigo: TIntegerField;
+    etvtvicodigo: TIntegerField;
+    Detd: tunidatasource;
+    edr: TUniQuery;
+    edredrcodigo: TIntegerField;
+    edrtedcodigo: TIntegerField;
+    edretdcodigo: TIntegerField;
+    edredrrua: TStringField;
+    edredrnumero: TStringField;
+    edredrcxpostal: TStringField;
+    edredrcomple: TStringField;
+    edredrbairro: TStringField;
+    edrcddcodigo: TStringField;
+    edredrinscest: TStringField;
+    edredrcep: TStringField;
+    edrufscodigo: TStringField;
+    etf: TUniQuery;
+    etfetfcodigo: TIntegerField;
+    etfetdcodigo: TIntegerField;
+    etfttfcodigo: TIntegerField;
+    etfetftelefone: TStringField;
+    etfetfcontato: TStringField;
+    etfetfdepartamento: TStringField;
+    ete: TUniQuery;
+    eteetecodigo: TIntegerField;
+    eteetdcodigo: TIntegerField;
+    eteeteemail: TStringField;
+    eteetecontato: TStringField;
+    eteetedepartamento: TStringField;
+    ufs: TUniQuery;
+    ufsufssigla: TStringField;
+    ufstedcodigo: TIntegerField;
+    ufsetdcodigo: TIntegerField;
+    Dufs: tunidatasource;
+    spd: TUniQuery;
+    spdspdexercicio: TIntegerField;
+    spdspddatainicial: TDateField;
+    spdspddatafinal: TDateField;
+    spdspdativo: TIntegerField;
+    Uni: TUniQuery;
+    uniunicodigo: TIntegerField;
+    uniunisimbolo: TStringField;
+    uniuninome: TStringField;
+    icm: TUniQuery;
+    icmicmcodigo: TStringField;
+    icmicmaliquotas: TStringField;
+    DSRegistro: tunidatasource;
+    dtm: TUniQuery;
+    dtmdtmchave: TIntegerField;
+    dtmdtmplaca: TStringField;
+    dtmdtmvolumes: TFloatField;
+    dtmdtmpesobruto: TFloatField;
+    dtmdtmpesoliq: TFloatField;
+    dtmmeschave: TIntegerField;
+    dtmetdcodigo: TIntegerField;
+    dtmufscodigo: TStringField;
+    rfi: TUniQuery;
+    rfm: TUniQuery;
+    rfmrfmchave: TIntegerField;
+    rfmrfichave: TIntegerField;
+    rfmmeschave: TIntegerField;
+    ftr: TUniQuery;
+    ftrftrchave: TIntegerField;
+    ftrftremitente: TStringField;
+    ftrmeschave: TIntegerField;
+    ftrtficodigo: TIntegerField;
+    ftrftrdescricao: TStringField;
+    ftrftrnumero: TStringField;
+    ftrftrparcelas: TIntegerField;
+    ftrftrtotal: TFloatField;
+    itm: TUniQuery;
+    itmitmchave: TIntegerField;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmpronome: TStringField;
+    itmcstcodigo: TStringField;
+    itmprocodigoori: TStringField;
+    itmpronomeori: TStringField;
+    itmitmdesccomple: TStringField;
+    itmitmquantidade: TFloatField;
+    itmitmvalor: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmtotal: TFloatField;
+    itmitmmovifisico: TStringField;
+    itmtoecodigo: TIntegerField;
+    itmtoeidentificacao: TStringField;
+    itmcfocfop: TStringField;
+    itmitmbicm: TFloatField;
+    itmicmcodigo: TStringField;
+    itmitmaliqicm: TStringField;
+    itmitmicm: TFloatField;
+    itmitmbicms: TFloatField;
+    itmitmaliqicms: TFloatField;
+    itmitmicms: TFloatField;
+    itmitmapuipi: TStringField;
+    itmcsicodigo: TStringField;
+    itmceicodigo: TStringField;
+    itmitmbipi: TFloatField;
+    itmitmaliqipi: TFloatField;
+    itmitmipi: TFloatField;
+    itmcspcodigo: TStringField;
+    itmitmbpis: TFloatField;
+    itmitmaliqpis: TFloatField;
+    itmitmpis: TFloatField;
+    itmitmquantpis: TFloatField;
+    itmitmaliqpisvalor: TFloatField;
+    itmcsfcodigo: TStringField;
+    itmitmbcofins: TFloatField;
+    itmitmaliqcofins: TFloatField;
+    itmitmquantcofins: TFloatField;
+    itmitmaliqcofinsvalor: TFloatField;
+    itmitmcofins: TFloatField;
+    itmpcccodigo: TStringField;
+    itmunicodigo: TIntegerField;
+    itmunisimbolo: TStringField;
+    itmpuncodigo: TIntegerField;
+    itmpunidentificacao: TStringField;
+    itmprogtin: TStringField;
+    itmitmcontendo: TFloatField;
+    itmcfocfopdestinacao: TStringField;
+    itmunicodigobase: TIntegerField;
+    itmunisimbolobase: TStringField;
+    itmitmfrete: TFloatField;
+    itmitmcusto: TFloatField;
+    itmitmoutras: TFloatField;
+    itmitmseguro: TFloatField;
+    Dvitm: tunidatasource;
+    importar: TTimer;
+    toe: TUniQuery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    toetoecfopsaida: TStringField;
+    toetoeorigem: TStringField;
+    toettecodigo: TIntegerField;
+    toettmcodigo: TIntegerField;
+    toettocodigo: TIntegerField;
+    tdf: TUniQuery;
+    tdftdfcodigo: TStringField;
+    tdftdfidentificacao: TStringField;
+    tfp: TUniQuery;
+    tfptfpcodigo: TIntegerField;
+    tfptfpidentificacao: TStringField;
+    ref: TUniQuery;
+    refrefcodigo: TIntegerField;
+    refrefidentificacao: TStringField;
+    pun: TUniQuery;
+    punpuncodigo: TIntegerField;
+    punprocodigo: TIntegerField;
+    pununicodigo: TIntegerField;
+    punpunidentificacao: TStringField;
+    pununicodigobase: TIntegerField;
+    punpunmultiplicador: TFloatField;
+    punpunquantidade: TFloatField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpuncusto: TFloatField;
+    punpunmargem: TFloatField;
+    punpunpesobruto: TFloatField;
+    punpunpesoliq: TFloatField;
+    pundgrcodigo: TIntegerField;
+    punpunbarra: TStringField;
+    puntuncodigo: TIntegerField;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    mfi: TUniQuery;
+    mostra: TProgressBar;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgtoeusofora: TIntegerField;
+    cfgcfgtoeusointe: TIntegerField;
+    mar: TUniQuery;
+    marmarcodigo: TIntegerField;
+    marmaridentificacao: TStringField;
+    registromesprodutos: TFloatField;
+    registromesservicos: TFloatField;
+    ACBrValidador1: TACBrValidador;
+    ufsufscodigo: TStringField;
+    cfgcfgcodigo: TIntegerField;
+    rfirfichave: TIntegerField;
+    rfititcodigo: TIntegerField;
+    rfietdcodigo: TIntegerField;
+    rfitfdcodigo: TIntegerField;
+    rfiflacodigo: TIntegerField;
+    rfitficodigo: TIntegerField;
+    rfibcocodigo: TStringField;
+    rficarcodigo: TIntegerField;
+    rfirfiemissao: TDateField;
+    rfirfivencimento: TDateField;
+    rfirfinumero: TStringField;
+    rfirfivalor: TFloatField;
+    rfirfihistorico: TStringField;
+    rfisrfcodigo: TIntegerField;
+    rfifrrcodigo: TIntegerField;
+    rfirfimoradia: TFloatField;
+    rfirfipercmesmora: TFloatField;
+    rfirfirepetir: TIntegerField;
+    rfirfiprevisao: TIntegerField;
+    rfirfivalorparcela: TFloatField;
+    rfimoecodigo: TIntegerField;
+    rfirfidatamulta: TDateField;
+    rfirfivalomulta: TFloatField;
+    rfirfivalodesc: TFloatField;
+    rfirfidatadesc: TDateField;
+    rfirfipercmulta: TFloatField;
+    rfirfidtultbaixa: TDateField;
+    mfimfichave: TIntegerField;
+    mfirfichave: TIntegerField;
+    mfitmfcodigo: TIntegerField;
+    mfimoecodigo: TIntegerField;
+    mfimfivalor: TFloatField;
+    mfimfidata: TDateField;
+    mfimfihistorico: TStringField;
+    mfimfivalorori: TFloatField;
+    mfimfiparcela: TIntegerField;
+    tit: TUniQuery;
+    tittitcodigo: TIntegerField;
+    titetdcodigo: TIntegerField;
+    tittitemissao: TDateField;
+    tittitvctoinicial: TDateField;
+    tittitnumero: TStringField;
+    tittithistorico: TStringField;
+    tittitvalor: TFloatField;
+    titbcocodigo: TStringField;
+    titcarcodigo: TIntegerField;
+    tittitmoradia: TFloatField;
+    tittfdcodigo: TIntegerField;
+    titflacodigo: TIntegerField;
+    tittficodigo: TIntegerField;
+    tittithora: TTimeField;
+    titclbcodigo: TIntegerField;
+    tittitparcelas: TIntegerField;
+    tittitvalorparcela: TFloatField;
+    titsrfcodigo: TIntegerField;
+    tittitrepetir: TIntegerField;
+    tittitprevisao: TIntegerField;
+    titmoecodigo: TIntegerField;
+    tittitdiasdesc: TIntegerField;
+    tittitvalodesc: TFloatField;
+    tittitdiasmulta: TIntegerField;
+    tittitpercmulta: TFloatField;
+    tittitvalomulta: TFloatField;
+    fla: TUniQuery;
+    flaflacodigo: TIntegerField;
+    flaetddoc1: TStringField;
+    flaetdcodigo: TIntegerField;
+    registroflacodigo: TIntegerField;
+    inspro: TUniQuery;
+    insproprocodigo: TIntegerField;
+    inspropronome: TStringField;
+    inspropronomereduzido: TStringField;
+    inspromarcodigo: TIntegerField;
+    insprogrpcodigo: TIntegerField;
+    insproicmcodigo: TStringField;
+    insprotpocodigo: TIntegerField;
+    insprounicodigo: TIntegerField;
+    insproproncm: TStringField;
+    insproprovalidade: TIntegerField;
+    insprocstcodigo: TStringField;
+    inspun: TUniQuery;
+    inspunpuncodigo: TIntegerField;
+    inspunprocodigo: TIntegerField;
+    inspununicodigo: TIntegerField;
+    inspunpunidentificacao: TStringField;
+    inspununicodigobase: TIntegerField;
+    inspunpunquantidade: TFloatField;
+    inspunpunprecoav: TFloatField;
+    inspunpunprecoap: TFloatField;
+    inspunpuncusto: TFloatField;
+    inspunpunmargem: TFloatField;
+    inspunpunbarra: TStringField;
+    insproproestoque: TStringField;
+    insproprosped: TStringField;
+    insprotrbcodigo: TIntegerField;
+    insprosipcodigo: TIntegerField;
+    inspundgrcodigo: TIntegerField;
+    itmflacodigo: TIntegerField;
+    itmitmoutroscustos: TFloatField;
+    registromesoutroscustos: TFloatField;
+    unituncodigo: TIntegerField;
+    cfgcfgimpfatura: TIntegerField;
+    Button1: TButton;
+    lbMenssagem: TLabel;
+    itmitmbasefcpicm: TFloatField;
+    itmitmpercfcpicm: TFloatField;
+    itmitmvalofcpicm: TFloatField;
+    itmitmbasefcpicmst: TFloatField;
+    itmitmpercfcpicmst: TFloatField;
+    itmitmvalofcpicmst: TFloatField;
+    proori: TUniQuery;
+    consultapunbase: TUniQuery;
+    cfgcfgtributacaoimendes: TIntegerField;
+    toecfop: TUniQuery;
+    cfops: TFDMemTable;
+    cfopscfop: TStringField;
+    cfopsquantidade: TIntegerField;
+    itmtdfcodigo: TStringField;
+    procedure itmAfterInsert(DataSet: TDataSet);
+    procedure FormShow(Sender: TObject);
+    procedure importarTimer(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure FormCreate(Sender: TObject);
+    procedure punAfterInsert(DataSet: TDataSet);
+    procedure Button1Click(Sender: TObject);
+    procedure EditaCpa;
+  private
+    Acesso: TAcesso;
+    arqxml: String;
+    // recebe
+    vpEtdEmitente: Integer;
+    vpEtdTransp: Integer;
+    vtoeatu: string;
+    Fzcone: TUniConnection;
+
+    function importarnfe(chave: string): Boolean;
+    procedure importaritens(chave: string);
+    function codigocst(item: Integer): String;
+    function codigocsf(item: Integer): String;
+    function codigocsi(item: Integer): String;
+    function codigocsp(item: Integer): String;
+    procedure importaritensnfe(chave: string);
+    procedure importarcertificado;
+    function consultarcertificado: Boolean;
+    function LocalizaArquivo(chave: String): String;
+    procedure ValidaCPFCNPJ(var Documento: String; var TipoPessoa: Integer);
+    procedure LocalizaEntidade(CPFCNPJ: String; var EtdCodigo: Integer);
+    procedure VerificaTransportador;
+    procedure VerificaEmitente;
+    function RetornaArqXMLNFe(vChave: String): String;
+    { Private declarations }
+
+  published
+    property zcone: TUniConnection read Fzcone write Fzcone;
+
+  public
+    { Public declarations }
+    // setado como true e a nota for de importação pelo XML
+    doc1etd: string;
+    // vimpnf: Boolean;
+    vChave: string;
+    vitenschave: string;
+    vsomes: Boolean;
+
+    vusrcodigo: string;
+    vmeschave: string;
+    vnumecerti: string;
+    vcertivalido: Boolean;
+    vIdentificacaoUnidade: string;
+
+  end;
+
+var
+  finfe: Tfinfe;
+
+implementation
+
+{$R *.dfm}
+
+uses midaslib, ufdescsimb, ufrmbase;
+
+function impertificadonfe(AOwner: TComponent; conexao: TUniConnection; Acesso: TAcesso; chave: string): string;
+var
+  i: Integer;
+Begin
+  try
+    Application.CreateForm(Tfinfe, finfe);
+    finfe.vitenschave := '';
+    finfe.vChave := '';
+    finfe.cfg.Connection := conexao;
+    finfe.Acesso := Acesso;
+
+    For i := 0 To finfe.ComponentCount - 1 Do
+      If finfe.Components[i] Is TUniQuery Then
+        (finfe.Components[i] As TUniQuery).Connection := conexao;
+
+    finfe.ShowModal;
+    Result := finfe.vnumecerti;
+  finally
+    FreeAndNil(finfe);
+  end;
+End;
+
+function conscertificadonfe(AOwner: TComponent; conexao: TUniConnection; Acesso: TAcesso; chave: string): string;
+var
+  i: Integer;
+Begin
+  try
+    Application.CreateForm(Tfinfe, finfe);
+    finfe.vitenschave := '';
+    finfe.vChave := '';
+    finfe.cfg.Connection := conexao;
+    finfe.Acesso := Acesso;
+
+    For i := 0 To finfe.ComponentCount - 1 Do
+      If finfe.Components[i] Is TUniQuery Then
+        (finfe.Components[i] As TUniQuery).Connection := conexao;
+
+    finfe.consultarcertificado;
+
+    if finfe.vcertivalido then
+      Result := '1'
+    else
+      Result := '0';
+
+  finally
+    FreeAndNil(finfe);
+  end;
+End;
+
+function impnfe(AOwner: TComponent; conexao: TUniConnection; Acesso: TAcesso; chave: string; vmodo: Boolean): string;
+Var
+  i: Integer;
+Begin
+  try
+    Application.CreateForm(Tfinfe, finfe);
+    finfe.zcone := conexao;
+    finfe.vChave := chave;
+    finfe.vitenschave := '';
+    finfe.Acesso := Acesso;
+    finfe.vsomes := vmodo;
+    finfe.vusrcodigo := finfe.Acesso.Usuario.ToString;
+
+    For i := 0 To finfe.ComponentCount - 1 Do
+      If finfe.Components[i] Is TUniQuery Then
+        (finfe.Components[i] As TUniQuery).Connection := conexao;
+
+    finfe.ShowModal;
+    Result := finfe.vmeschave;
+  finally
+    FreeAndNil(finfe);
+  end;
+End;
+
+function impnfemes(AOwner: TComponent; conexao: TUniConnection; Acesso: TAcesso; chave: string; vmodo: Boolean): string;
+Var
+  i: Integer;
+Begin
+  try
+    Application.CreateForm(Tfinfe, finfe);
+    finfe.zcone := conexao;
+    finfe.vChave := chave;
+    finfe.vitenschave := '';
+    finfe.vsomes := vmodo;
+    finfe.Acesso := Acesso;
+    finfe.vusrcodigo := finfe.Acesso.Usuario.ToString;
+
+    For i := 0 To finfe.ComponentCount - 1 Do
+      If finfe.Components[i] Is TUniQuery Then
+        (finfe.Components[i] As TUniQuery).Connection := conexao;
+
+    finfe.ShowModal;
+    Result := finfe.cfopscfop.AsString;
+  finally
+    FreeAndNil(finfe);
+  end;
+End;
+
+function impitensnfe(AOwner: TComponent; conexao: TUniConnection; Acesso: TAcesso; chave: string; vmodo: Boolean): string;
+Var
+  i: Integer;
+Begin
+  try
+    Application.CreateForm(Tfinfe, finfe);
+    finfe.zcone := conexao;
+    finfe.vChave := '';
+    finfe.vsomes := vmodo;
+
+    finfe.vitenschave := chave;
+    finfe.Acesso := Acesso;
+    finfe.vusrcodigo := finfe.Acesso.Usuario.ToString;
+
+    For i := 0 To finfe.ComponentCount - 1 Do
+      If finfe.Components[i] Is TUniQuery Then
+        (finfe.Components[i] As TUniQuery).Connection := conexao;
+
+    finfe.ShowModal;
+    Result := finfe.vmeschave;
+  finally
+    FreeAndNil(finfe);
+  end;
+End;
+
+exports impnfe, impnfemes, impitensnfe, impertificadonfe, conscertificadonfe;
+
+function Tfinfe.consultarcertificado: Boolean;
+begin
+  cfg.Close;
+
+  if cfg.Params.FindParam('flacodigo') <> nil then
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  finfe.ACBrNFeImp.Configuracoes.Certificados.NumeroSerie := Self.cfgcfgnumecertif.AsString;
+  // vcertivalido := finfe.ACBrNFeImp.Configuracoes.Certificados.GetCertificado.IsValid.Result;
+  vcertivalido := true;
+
+end;
+
+procedure Tfinfe.EditaCpa;
+var
+  vlCargaFrame: TCargaFrame;
+  FormBase: TFrmBase;
+begin
+  vlCargaFrame := CargaFormu(Application, zcone, Acesso, '', tittitcodigo.AsString, '');
+
+  FormBase := Tfcpamlt.Create(vlCargaFrame);
+
+  FormBase.psituacao.Caption := 'Incluindo';
+
+  if FormBase.ShowModal = mrOk then
+  begin
+    FormBase.Destroy;
+
+  end;
+end;
+
+{
+  procedure Tfinfe.EditaCpa(pFormClass: TFrmBaseClass; pChave: String);
+  begin
+
+  end; }
+
+{
+  function Tfinfe.CriaFormulario(pFormClass: TFrmBaseClass; pChave, pChaveMestre: String; pFiltro: String = ''): Boolean;
+  var
+  vlRecNo: Integer;
+  vlCargaFrame: TCargaFrame;
+  FormBase: TFrmBase;
+  begin
+
+  Result := False;
+
+  vlCargaFrame := CargaFormu(Application, zcone, Acesso, pFiltro, pChave, pChaveMestre);
+
+  FormBase := pFormClass.Create(vlCargaFrame);
+
+  try
+  if FormBase.ShowModal = mrOk then
+  begin
+  Result := true;
+  end;
+
+  finally
+  FormBase.Free;
+
+  end;
+
+  end;
+
+}
+procedure Tfinfe.importarcertificado;
+begin
+  cfg.Close;
+  if cfg.Params.FindParam('flacodigo') <> nil then
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+
+  cfg.Open;
+
+  vnumecerti := finfe.ACBrNFeImp.SSL.SelecionarCertificado;
+
+  { consulta.Close;
+    consulta.SQL.Text := 'UPDATE cfgmnfe SET cfgnumecertif = ''' + vnumecerti + ' ''WHERE cfgcodigo = 1';
+    consulta.ExecSQL; }
+end;
+
+procedure Tfinfe.importaritensnfe(chave: string);
+var
+  vch: string;
+begin
+
+  consulta.Close;
+  consulta.SQL.Text := 'select meschave from mes where temcodigo<>90 and sdecodigo<>' + QuotedStr('02') + ' and  meschavenfe=''' + chave + '''';
+  consulta.Open;
+
+  vch := consulta.Fields[0].AsString;
+
+  Self.registro.Close;
+  Self.registro.Params[0].AsString := vch;
+  Self.registro.Open;
+
+  spd.Close;
+  spd.Open;
+
+  vmeschave := Self.registromeschave.AsString;
+
+  If Self.registrotemcodigo.AsInteger = 3 Then
+    Self.importaritens(chave);
+end;
+
+function Tfinfe.importarnfe(chave: string): Boolean;
+Var
+  vDoc1Emitente: String;
+  vlFlaCodigo: Integer;
+  doc1: string;
+  doc2: string;
+  i: Integer;
+Begin
+  Result := true;
+  mostra.Max := 1;
+  mostra.Position := 1;
+  Application.ProcessMessages;
+
+  If chave = '' Then
+  Begin
+    Application.MessageBox(PChar('Por favor informe a CHAVE DE ACESSO da NFE a ser importada!'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Result := False;
+    Exit;
+  End;
+
+  (* Identifica duplicidade de lançamento *)
+  consulta.Close;
+  consulta.SQL.Text := 'select meschave, mesregistro from mes where temcodigo<>90 and meschavenfe=' + QuotedStr(chave) + ' and flacodigo=' +
+    Acesso.Filial.ToString;
+  consulta.Open;
+
+  if not consulta.IsEmpty then
+  begin
+    Application.MessageBox(PChar('Esta NFE já está registrada!' + #13 + #13 + { }
+      'Chave número    : ' + consulta.Fields[0].AsString + #13 + { }
+      'Filial          : ' + Acesso.Filial.ToString + #13 + { }
+
+      'Data do Registro: ' + consulta.Fields[1].AsString), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+
+    Result := False;
+    Exit;
+  end;
+
+  (* Função que retorna diretório e arquivo se existir *)
+  arqxml := LocalizaArquivo(chave);
+  if arqxml = '' then
+    Exit;
+
+  (* Identifica se a NFe é destinada a empresa correta *)
+  cfg.Close;
+  if cfg.Params.FindParam('flacodigo') <> nil then
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+
+  cfg.Open;
+
+  Self.ACBrNFeImp.NotasFiscais.Clear;
+
+  Self.ACBrNFeImp.NotasFiscais.LoadFromFile(arqxml);
+
+  { * Verificando se não é de uma filial a nota * }
+  vlFlaCodigo := 0;
+  fla.Open;
+  fla.First;
+  while not fla.Eof do
+  begin
+    If (SoNumeros(Self.flaetddoc1.AsString) = SoNumeros(ACBrNFeImp.NotasFiscais.Items[0].NFe.Dest.CNPJCPF)) then
+      vlFlaCodigo := flaflacodigo.AsInteger
+    else If (SoNumeros(Self.flaetddoc1.AsString) = SoNumeros(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.CNPJCPF)) then
+      vlFlaCodigo := flaflacodigo.AsInteger;
+
+    fla.Next;
+  end;
+  doc1 := Self.cfgetddoc1.AsString;
+  doc2 := ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.CNPJCPF;
+
+  If ((copy(SoNumeros(Self.cfgetddoc1.AsString), 1, 8) <> copy(SoNumeros(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.CNPJCPF), 1, 8)) and
+    (copy(SoNumeros(Self.cfgetddoc1.AsString), 1, 8) <> copy(SoNumeros(ACBrNFeImp.NotasFiscais.Items[0].NFe.Dest.CNPJCPF), 1, 8))) and (vlFlaCodigo = 0) then
+  Begin
+    Application.MessageBox(PChar('Atenção esta NF-e não pertence a este CNPJ!' + #13 + 'Não será importada !' + #13 + #13 + 'CNPJ Empresa: ' + vDoc1Emitente +
+      #13 + 'CNPJ NFe    : ' + ACBrNFeImp.NotasFiscais.Items[0].NFe.Dest.CNPJCPF), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Result := False;
+    Exit;
+  End;
+
+  vpEtdTransp := 0;
+
+  (*
+    ** VERIFICA CADASTRO DE TRANSPORTADOR **
+  *)
+  VerificaTransportador;
+
+  (*
+    ** VERIFICA CADASTRADO DO EMITENTE **
+    * Carrega variável vpEtdEmitente com código de Entidade
+  *)
+  VerificaEmitente;
+
+  (*
+    *
+    ** INICIA IMPORTAÇÂO DOS DADOS DA NFE **
+    *
+  *)
+
+  if not registro.Active then
+    registro.Open;
+
+  if registro.State = dsbrowse then
+    registro.Append;
+
+  registrotemcodigo.AsInteger := 3;
+
+  registroetdcodigo.AsInteger := vpEtdEmitente; // Carregada em "VerificaEmitente"
+  registromesemissao.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.dEmi;
+  registromesnumero.AsInteger := ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.nNF;
+  registromesserie.AsInteger := ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.serie;
+
+  case ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.indPag of
+    ipVista:
+      registrotfpcodigo.AsInteger := 0;
+    ipPrazo:
+      registrotfpcodigo.AsInteger := 1;
+    ipOutras:
+      registrotfpcodigo.AsInteger := 2;
+    ipNenhum:
+      registrotfpcodigo.AsInteger := 2;
+  else
+    registrotfpcodigo.AsInteger := 2;
+  end;
+
+  registrotdfcodigo.AsInteger := ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.modelo;
+
+  case ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.modFrete of
+    mfContaEmitente:
+      registrorefcodigo.AsInteger := 0;
+    mfContaDestinatario:
+      registrorefcodigo.AsInteger := 1;
+    mfContaTerceiros:
+      registrorefcodigo.AsInteger := 2;
+    mfSemFrete:
+      registrorefcodigo.AsInteger := 9;
+  end;
+
+  registromeschavenfe.AsString := chave;
+  registromesbicm.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vbc;
+  registromesicm.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vicms;
+  registromesbicms.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vbcst;
+  registromesicms.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vst;
+  registromesvalor.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vprod;
+  registromesfrete.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vFrete;
+  registromesseguro.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vSeg;
+  registromesdesconto.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vDesc;
+  registromesipi.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vIPI;
+  registromestotal.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vNF;
+  registromesprodutos.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vprod;
+  registromespis.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vPIS;
+  registromescofins.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vCOFINS;
+  registromesoutras.AsCurrency := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vOutro;
+
+  registrotoecodigo.AsString := cfgcfgtoeusointe.AsString;
+
+  registroflacodigo.AsInteger := vlFlaCodigo;
+  registro.Post;
+  Self.vmeschave := Self.registromeschave.AsString;
+
+  if vsomes then
+  begin
+    cfops.Close;
+
+    cfops.Open;
+
+    mostra.Position := 0;
+    mostra.Max := ACBrNFeImp.NotasFiscais.Items[0].NFe.det.Count;
+
+    For i := 0 To mostra.Max - 1 Do
+    Begin
+
+      if cfops.Locate('cfop', ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.CFOP, []) then
+      begin
+        cfops.Edit;
+        cfopsquantidade.AsInteger := cfopsquantidade.AsInteger + 1;
+        cfops.Post;
+      end
+      else
+      begin
+        cfops.Append;
+        cfopscfop.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.CFOP;
+        cfopsquantidade.AsInteger := 1;
+        cfops.Post
+      end;
+
+      mostra.Position := mostra.Position + 1;;
+
+      lbMenssagem.Caption := 'Processando item: ' + IntToStr(mostra.Position) + '/' + IntToStr(mostra.Max);
+      Application.ProcessMessages;
+
+    End;
+    cfops.IndexFieldNames := 'quantidade';
+    cfops.Last;
+  end;
+
+End;
+
+procedure Tfinfe.importarTimer(Sender: TObject);
+var
+
+  vlcfop: string;
+begin
+  importar.Enabled := False;
+
+  if (Self.vChave <> '') and (Self.vitenschave = '') then
+  begin
+
+    if importarnfe(Self.vChave) then
+    begin
+
+      Self.vitenschave := Self.vChave;
+      // Self.importaritensnfe(Self.vitenschave);
+
+      if registromeschave.AsString <> '' then
+      begin
+
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT COUNT(cfocfop)toe , cfocfop from itm where meschave=' + registromeschave.AsString + '  GROUP BY cfocfop ORDER BY 1 desc';
+        consulta.Open;
+
+        vlcfop := consulta.FieldByName('cfocfop').AsString;
+
+        vlcfop := cfopscfop.AsString;
+
+        if pos('.', vlcfop) = 0 then
+        begin
+          vlcfop := copy(vlcfop, 1, 1) + '.' + copy(vlcfop, 2, 3);
+        end;
+
+        if copy(vlcfop, 1, 1) = '6' then
+        begin
+          if vlcfop = '6.405' then
+            vlcfop := '2.102'
+
+          else if vlcfop = '6.403' then
+            vlcfop := '2.403'
+
+          else
+            vlcfop := '2' + copy(vlcfop, 2, 5);
+
+          if copy(vlcfop, 5, 1) = '1' then
+            vlcfop := copy(vlcfop, 1, 4) + '2';
+
+        end
+        else
+        begin
+          if (vlcfop = '5.405') or (vlcfop = '5.401') then
+            vlcfop := '1.403'
+          else if (vlcfop = '5.403') then
+            vlcfop := '1.403'
+          else
+            vlcfop := '1' + copy(vlcfop, 2, 5);
+
+          if copy(vlcfop, 5, 1) = '1' then
+            vlcfop := copy(vlcfop, 1, 4) + '2';
+
+        end;
+        try
+          consulta.Close;
+          consulta.SQL.Text := 'select toecodigo from toe where toecfopsaida=' + QuotedStr(vlcfop);
+          consulta.Open;
+
+          if not consulta.IsEmpty then
+          begin
+
+            registro.Edit;
+            registrotoecodigo.AsInteger := consulta.FieldByName('toecodigo').AsInteger;
+            registro.Post;
+
+            consulta.Close;
+            consulta.SQL.Text := 'delete from itm where meschave=' + registromeschave.AsString;
+            consulta.ExecSQL;
+
+          end
+          else
+          begin
+
+            { consulta.Close;
+              consulta.SQL.Text := 'update mes set toecodigo is null where meschave=' + registromeschave.AsString;
+              consulta.ExecSQL;
+            }
+          end;
+        except
+          {
+            consulta.Close;
+            consulta.SQL.Text := 'update mes set toecodigo is null where meschave=' + registromeschave.AsString;
+            consulta.ExecSQL;
+          }
+
+        end;
+      end;
+
+    end
+    else
+    begin
+      ModalResult := mrcancel;
+      Exit;
+    end;
+
+  end
+  else if (Self.vChave = '') and (Self.vitenschave <> '') then
+  begin
+    Self.importaritensnfe(Self.vitenschave)
+  end
+  else if (Self.vChave = '') and (Self.vitenschave = '') then
+    Self.importarcertificado;
+
+  ModalResult := mrOk;
+end;
+
+procedure Tfinfe.itmAfterInsert(DataSet: TDataSet);
+begin
+  itmpcccodigo.AsString := '1.07.00.97.00';
+  itmpuncodigo.AsInteger := 0;
+  itmflacodigo.AsInteger := Acesso.Filial;
+end;
+
+procedure Tfinfe.punAfterInsert(DataSet: TDataSet);
+begin
+  Self.puntuncodigo.AsInteger := 9;
+  Self.punpunquantidade.AsInteger := 1;
+  Self.pundgrcodigo.AsInteger := 1;
+end;
+
+procedure Tfinfe.registroAfterInsert(DataSet: TDataSet);
+begin
+  registrosdecodigo.AsString := '00';
+  registromesvalor.AsFloat := 0;
+  registromesdesconto.AsFloat := 0;
+  registromestotal.AsFloat := 0;
+  registromesprodutos.AsFloat := 0;
+  registromesservicos.AsFloat := 0;
+  registromesfrete.AsFloat := 0;
+  registromesseguro.AsFloat := 0;
+  registromesoutras.AsFloat := 0;
+  registromesbicm.AsFloat := 0;
+  registromesicm.AsFloat := 0;
+  registromesbicms.AsFloat := 0;
+  registromesicms.AsFloat := 0;
+  registromesipi.AsFloat := 0;
+  registromespis.AsFloat := 0;
+  registromescofins.AsFloat := 0;
+  registromespiss.AsFloat := 0;
+  registromescofinss.AsFloat := 0;
+  registrorefcodigo.AsInteger := 1;
+  registroclbcodigo.AsString := Self.vusrcodigo;
+  registrotrmcodigo.AsInteger := 1;
+  Self.registromesregistro.AsFloat := Date;
+  Self.registrotemcodigo.AsInteger := 3;
+  registrotrfcodigo.AsInteger := 0;
+
+end;
+
+Procedure Tfinfe.importaritens(chave: string);
+Var
+  i, d, iv: Integer;
+  vSimboloUnidade: String;
+  vContendo: Double;
+  procod: Integer;
+  alicm: String;
+  vDoc1Transp: string;
+  doc1: string;
+  vlProCodigo: Integer;
+  vlPunCodigo: Integer;
+  vlUniCodigo: Integer;
+  vlcEAN: String;
+  vlPronome: String;
+  vlQtDupli: Integer;
+  vlNCM: String;
+  vlCST: String;
+
+  vlnNF: String;
+  vlnFat: String;
+  vlLiq: Double;
+  vlEmissao: Double;
+
+  vVariacao: Integer;
+  vlCfgCadastraPro: Integer;
+  vlMesOutrosCustos: Double;
+
+  Confirma: Integer;
+  vlFormapgto: TpcnFormaPagamento;
+
+Begin
+
+  consulta.Connection := Self.zcone;
+
+  For i := 0 To finfe.ComponentCount - 1 Do
+    If finfe.Components[i] Is TUniQuery Then
+      (finfe.Components[i] As TUniQuery).Connection := Self.zcone;
+
+  cfg.Close;
+  if cfg.Params.FindParam('flacodigo') <> nil then
+    cfg.ParamByName('flacodigo').AsInteger := Self.Acesso.Filial;
+  cfg.Open;
+
+  Self.doc1etd := SoNumeros(Self.cfgetddoc1.AsString);
+
+  arqxml := LocalizaArquivo(chave);
+
+  if arqxml = '' then
+    Exit;
+
+  ACBrNFeImp.NotasFiscais.Clear;
+  ACBrNFeImp.NotasFiscais.LoadFromFile(arqxml);
+
+  (*
+    *
+    *** DADOS DO TRANSPORTE ***
+    *
+  *)
+
+  lbMenssagem.Caption := 'Dados de transporte';
+  Application.ProcessMessages;
+
+  if not(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.modFrete in [mfContaEmitente, mfSemFrete]) then
+  Begin
+    dtm.Connection := Self.zcone;
+
+    If Not dtm.Active Then
+      dtm.Open;
+
+    dtm.Append;
+
+    dtmmeschave.AsInteger := registromeschave.AsInteger;
+    dtmdtmplaca.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.veictransp.placa;
+
+    mostra.Max := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.vol.Count;
+    mostra.Position := 0;
+    Application.ProcessMessages;
+
+    If ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.vol.Count > 0 Then
+    Begin
+      dtmdtmvolumes.AsInteger := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.vol[0].qVol;
+      dtmdtmpesobruto.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.vol[0].pesoB;
+      dtmdtmpesoliq.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.vol[0].pesoL;
+    End
+    Else
+    Begin
+      dtmdtmvolumes.AsInteger := 0;
+      dtmdtmpesobruto.AsFloat := 0;
+      dtmdtmpesoliq.AsFloat := 0;
+    End;
+
+    (* Tenta localizar código de Entidade do Transportador *)
+    vDoc1Transp := Self.ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.CNPJCPF;
+    LocalizaEntidade(vDoc1Transp, vpEtdTransp);
+
+    If vpEtdTransp <> 0 Then
+      dtmetdcodigo.AsInteger := vpEtdTransp
+    Else
+      dtmetdcodigo.AsInteger := registroetdcodigo.AsInteger;
+
+    If ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.veictransp.UF <> '' Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT ufscodigo FROM ufs WHERE ufssigla = ' + QuotedStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.veictransp.UF);
+      consulta.Open;
+
+      dtmufscodigo.AsInteger := consulta.Fields[0].AsInteger;
+    End
+    Else
+    Begin
+      ufs.Close;
+      ufs.Params[0].AsString := Self.registroetdcodigo.AsString;
+      ufs.Open;
+
+      dtmufscodigo.AsInteger := ufsufscodigo.AsInteger;
+    End;
+
+    dtm.Post;
+  End;
+
+  (*
+    *
+    *** INFORMAÇÕES COMPLEMENTARES ***
+    *
+  *)
+
+  If ACBrNFeImp.NotasFiscais.Items[0].NFe.InfAdic.infcpl <> '' Then
+  Begin
+
+  End;
+
+  (*
+    *
+    *** REGISTRO FINANCEIRO ***
+    *
+  *)
+
+  if cfgcfgimpfatura.AsInteger = 1 then
+  begin
+    if (ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.nFat <> '') or (ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.indPag = ipPrazo) and
+      (cfgcfgimpfatura.AsInteger = 1) then
+    begin
+
+      if (ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup.Count > 0) then
+      begin
+
+        rfm.Close;
+        rfm.ParamByName('meschave').AsInteger := registromeschave.AsInteger;
+        rfm.Open;
+
+        if rfm.IsEmpty then
+        begin
+
+          Confirma := Application.MessageBox(PChar('Importar registros de Contas a Pagar desta Nota Fiscal ?'), 'Atenção - Possui Faturamento:',
+            MB_YESNO + MB_DEFBUTTON2 + MB_ICONQUESTION);
+          if Confirma = idyes then
+          begin
+
+            vlnNF := IntToStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.nNF);
+            vlnFat := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.nFat;
+            vlLiq := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.vLiq;
+            vlQtDupli := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup.Count;
+            vlEmissao := ACBrNFeImp.NotasFiscais.Items[0].NFe.Ide.dEmi;
+
+            If ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.nFat <> '' Then
+            Begin
+              If Not ftr.Active Then
+                ftr.Open;
+
+              ftr.Append;
+              ftrftremitente.AsString := '1';
+              ftrmeschave.AsInteger := registromeschave.AsInteger;
+              ftrtficodigo.AsInteger := tfiFatura;
+              ftrftrdescricao.AsString := 'Fatura NF-e ' + vlnNF;
+              ftrftrparcelas.AsInteger := vlQtDupli;
+              ftrftrnumero.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.nFat;
+              ftrftrtotal.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Fat.vLiq;
+              ftr.Post;
+            End;
+
+            If Not tit.Active Then
+              tit.Open;
+
+            tit.Append;
+
+            titetdcodigo.AsInteger := registroetdcodigo.AsInteger;
+
+            tittitemissao.AsFloat := vlEmissao;
+            tittitvctoinicial.AsFloat := Date; // Editar e corrigir no registro da primeira duplicata
+            if Length(vlnFat) > 0 then
+              tittitnumero.AsString := vlnFat
+            else
+              tittitnumero.AsString := vlnNF;
+
+            if vlLiq > 0 then
+              tittitvalor.AsFloat := vlLiq
+            else
+              tittitvalor.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.total.icmstot.vNF;
+
+            titbcocodigo.AsString := '000';
+            titcarcodigo.AsInteger := 1;
+            tittitmoradia.AsFloat := 0;
+            tittfdcodigo.AsInteger := tfdPagar;
+            titflacodigo.AsInteger := 1;
+            tittficodigo.AsInteger := tfiDuplicata;
+            tittithora.AsFloat := Time;
+            titclbcodigo.AsInteger := 1;
+            if vlQtDupli = 0 then
+              tittitparcelas.AsInteger := 1
+            else
+              tittitparcelas.AsInteger := vlQtDupli;
+
+            tittitvalorparcela.AsFloat := tittitvalor.AsFloat / tittitparcelas.AsInteger;
+            titcarcodigo.AsString := '1';
+            titsrfcodigo.AsInteger := srfEmAberto;
+            tittitrepetir.AsInteger := 1;
+            tittitprevisao.AsInteger := 1;
+            titmoecodigo.AsInteger := 1;
+            tittitvalodesc.AsFloat := 0;
+            tittitdiasdesc.AsFloat := 0;
+            tittitdiasmulta.AsFloat := 0;
+            tittitpercmulta.AsFloat := 0;
+            tittitvalomulta.AsFloat := 0;
+            tittithistorico.AsString := 'Compra ref. NFe Nº: ' + vlnNF;
+
+            tit.Post;
+
+            vlFormapgto := ACBrNFeImp.NotasFiscais.Items[0].NFe.pag.Items[0].tPag;
+
+            if ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup.Count > 0 then
+            begin
+
+              For d := 0 To ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup.Count - 1 Do
+              Begin
+
+                If Not rfi.Active Then
+                  rfi.Open;
+
+                rfi.Append;
+
+                rfititcodigo.AsString := tittitcodigo.AsString;
+                rfietdcodigo.AsString := titetdcodigo.AsString;
+                rfitfdcodigo.AsString := tittfdcodigo.AsString;
+                rfiflacodigo.AsString := titflacodigo.AsString;
+                rfitficodigo.AsString := tittficodigo.AsString;
+                rfibcocodigo.AsString := '000';
+                rficarcodigo.AsString := titcarcodigo.AsString;
+                rfirfiemissao.AsString := tittitemissao.AsString;
+
+                rfirfivencimento.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup[d].dvenc;
+
+                if Length(ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup[d].nDup) > 2 then
+                  rfirfinumero.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup[d].nDup
+                else
+                  rfirfinumero.AsString := vlnNF + ' - ' + ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup[d].nDup;
+
+                rfirfinumero.AsString := tittitnumero.AsString + '-' + IntToStr(d + 1);
+
+                rfirfivalor.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.cobr.Dup[d].vDup;
+
+                rfisrfcodigo.AsInteger := srfEmAberto;
+                rfifrrcodigo.AsString := '1';
+                rfirfimoradia.AsFloat := Self.tittitmoradia.AsFloat;
+                rfirfipercmesmora.AsFloat := 0;
+                rfirfirepetir.AsInteger := 1;
+                rfirfiprevisao.AsInteger := 0;
+                rfirfivalorparcela.AsFloat := rfirfivalor.AsFloat;
+                rfimoecodigo.AsInteger := Self.titmoecodigo.AsInteger;
+                rfirfidatamulta.AsFloat := 0;
+                rfirfivalomulta.AsFloat := 0;
+                rfirfivalodesc.AsFloat := 0;
+                rfirfidatadesc.AsFloat := 0;
+                rfirfipercmulta.AsFloat := 0;
+
+                rfirfidtultbaixa.AsFloat := 0;
+
+                rfirfihistorico.AsString := tittithistorico.AsString;
+
+                rfi.Post;
+
+                If Not mfi.Active Then
+                  mfi.Open;
+
+                mfi.Append;
+                mfirfichave.AsInteger := rfirfichave.AsInteger;
+                mfitmfcodigo.AsInteger := tmfAPagar;
+                mfimoecodigo.AsInteger := 1;
+                mfimfivalor.AsFloat := rfirfivalor.AsFloat;
+                mfimfidata.AsFloat := rfirfiemissao.AsFloat;
+                mfimfihistorico.AsString := rfirfihistorico.AsString;
+                mfimfivalorori.AsFloat := rfirfivalor.AsFloat;
+                mfimfiparcela.AsInteger := 1;
+                mfi.Post;
+
+                // ligação da registro financeiro com o movimento de estoque
+
+                rfm.Append;
+                rfmrfichave.AsInteger := rfirfichave.AsInteger;
+                rfmmeschave.AsInteger := registromeschave.AsInteger;
+                rfm.Post;
+
+
+
+              End;
+            end;
+           EditaCpa;
+          end;
+        end;
+      end;
+
+    end;
+  end;
+
+  lbMenssagem.Caption := 'Iniciando dados de produtos';
+  Application.ProcessMessages;
+
+  (*
+    *
+    *** PRODUTOS ***
+    *
+  *)
+
+  consulta.Close;
+  consulta.SQL.Text := 'select mesreclassicacao from mes where meschave=' + vmeschave;
+  consulta.Open;
+
+  lbMenssagem.Caption := 'Consulta se é reclasificação';
+  Application.ProcessMessages;
+
+  vlCfgCadastraPro := consulta.Fields[0].AsInteger;
+  consulta.Close;
+
+  mostra.Position := 0;
+  mostra.Max := ACBrNFeImp.NotasFiscais.Items[0].NFe.det.Count;
+
+  lbMenssagem.Caption := 'Total de Itens a Importar: ' + IntToStr(mostra.Max);
+  Application.ProcessMessages;
+
+  itm.Close;
+  itm.Connection := zcone;
+  itm.ParamByName('meschave').AsString := chave;
+  itm.Open;
+
+  lbMenssagem.Caption := 'Tabela de itens da nota aberta';
+  Application.ProcessMessages;
+
+  For i := 0 To mostra.Max - 1 Do
+  Begin
+
+    mostra.Position := mostra.Position + 1;;
+
+    lbMenssagem.Caption := 'Processando item: ' + IntToStr(mostra.Position) + '/' + IntToStr(mostra.Max);
+    Application.ProcessMessages;
+
+    vlcEAN := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.cEAN;
+    vSimboloUnidade := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.uCom;
+    vlNCM := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.NCM;
+    vlCST := Self.codigocst(i);
+    vlPronome := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.xProd;
+    Uni.Close;
+    Uni.Open;
+
+    If Uni.Locate('unisimbolo', Trim(lowercase(vSimboloUnidade)), [loCaseInsensitive]) Then
+      vlUniCodigo := uniunicodigo.AsInteger
+    else
+      vlUniCodigo := -1;
+
+    vlProCodigo := BuscaProdutoBarra(Application, zcone, vlcEAN, vlPunCodigo, vVariacao);
+
+    if vlProCodigo > -1 then
+      procod := vlProCodigo
+    else if vlCfgCadastraPro = 1 then
+    begin
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT pro.procodigo, pro.pronome, pro.unicodigo from pro WHERE pronome=' + QuotedStr(vlPronome);
+      consulta.Open;
+      if not consulta.IsEmpty then
+      begin
+        procod := consulta.Fields[0].AsInteger;
+        vlProCodigo := consulta.Fields[0].AsInteger;
+        vlUniCodigo := consulta.Fields[2].AsInteger;
+
+      end
+      else
+      begin
+        if not inspro.Active then
+          inspro.Open;
+
+        if vlUniCodigo = -1 then
+        begin
+          Uni.Append;
+          uniunisimbolo.AsString := vSimboloUnidade;
+          uniuninome.AsString := vIdentificacaoUnidade;
+          unituncodigo.AsInteger := 9;
+          Uni.Post;
+          vlUniCodigo := uniunicodigo.AsInteger;
+
+        end;
+
+        inspro.Append;
+        inspropronome.AsString := vlPronome;
+        inspropronomereduzido.AsString := copy(vlPronome, 1, 40);
+        inspromarcodigo.AsInteger := 1;
+        insprogrpcodigo.AsInteger := 1;
+        insproicmcodigo.AsString := '01';
+        insprotpocodigo.AsString := '0';
+        insprounicodigo.AsInteger := vlUniCodigo;
+        insproproncm.AsString := vlNCM;
+        insproprovalidade.AsInteger := 0;
+        insproproestoque.AsInteger := 1;
+        insproprosped.AsInteger := 1;
+        insprocstcodigo.AsString := vlCST;
+        insprotrbcodigo.AsInteger := 1;
+        insprosipcodigo.AsInteger := 1;
+
+        inspro.Post;
+        procod := insproprocodigo.AsInteger;
+
+        if not inspun.Active then
+          inspun.Open;
+        inspun.Append;
+
+        inspunprocodigo.AsInteger := insproprocodigo.AsInteger;
+        inspununicodigo.AsInteger := vlUniCodigo;
+
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT uninome from uni WHERE unicodigo=' + IntToStr(vlUniCodigo);
+        consulta.Open;
+
+        inspunpunidentificacao.AsString := '1X' + consulta.Fields[0].AsString;
+        inspununicodigobase.AsInteger := vlUniCodigo;
+        inspunpunquantidade.AsInteger := vlUniCodigo;
+        inspunpunprecoav.AsFloat := 0;
+        inspunpunprecoap.AsFloat := 0;
+        inspunpuncusto.AsFloat := 0;
+        inspunpunmargem.AsFloat := 0;
+        inspunpunbarra.AsString := GeraProdutoBarra(Application, insproprocodigo.AsInteger, vlUniCodigo);
+        inspundgrcodigo.AsInteger := 1;
+        inspun.Post;
+
+        inspun.Close;
+        inspro.Close;
+
+      end;
+
+    end
+    else
+    begin
+      procod := 0;
+    end;
+
+    lbMenssagem.Caption := 'Iniciando Contendo';
+    Application.ProcessMessages;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT pro.procodigo, pun.punmultiplicador, uni.unisimbolo, pro.unicodigo, pronome from pro, pun, uni WHERE ';
+    consulta.SQL.Add('pun.unicodigo = uni.unicodigo ');
+    consulta.SQL.Add('AND pro.procodigo = pun.procodigo ');
+    consulta.SQL.Add('AND pun.procodigo = ' + IntToStr(vlProCodigo) + ' ');
+    consulta.SQL.Add('AND pun.unicodigo = ' + IntToStr(vlUniCodigo));
+    consulta.Open;
+
+    vContendo := 0;
+
+    If consulta.RecordCount = 1 Then
+      vContendo := consulta.FieldByName('punmultiplicador').AsFloat
+    Else
+    Begin
+      if copy(SoNumeros(Self.doc1etd), 1, 8) = copy(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.CNPJCPF, 1, 8) then
+      begin
+        try
+
+          consulta.Close;
+          consulta.SQL.Text := 'SELECT DISTINCT pro.procodigo, pun.punmultiplicador, uni.unisimbolo,pro.unicodigo, pronome FROM pro, pun, uni WHERE ';
+          consulta.SQL.Add('pun.unicodigo = uni.unicodigo AND ');
+          consulta.SQL.Add('pro.procodigo = pun.procodigo AND ');
+          consulta.SQL.Add('pro.procodigo=' + ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.cProd);
+          consulta.Open;
+
+          If consulta.RecordCount >= 1 Then
+            procod := consulta.FieldByName('procodigo').AsInteger
+        except
+          procod := 0;
+        end;
+      end;
+    End;
+
+    itm.Append;
+
+    proori.Close;
+    proori.SQL.Text :=
+      'SELECT procodigo, puncodigo, procodigoori, pronomeori, itmcontendo,unicodigo FROM itm,mes WHERE mes.sdecodigo<>'+QuotedStr('02')+' and itm.meschave=mes.meschave and mes.etdcodigo=' +
+      registroetdcodigo.AsString + ' and  procodigoori=' + QuotedStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.cProd) + ' and pronomeori=' +
+      QuotedStr(UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.xProd)) + ' and mes.meschave<>' + registromeschave.AsString +
+      ' order by itm.itmchave desc limit 1 ';
+    proori.Open;
+
+    vlPunCodigo := 0;
+    if not proori.IsEmpty then
+    begin
+      procod := proori.FieldByName('procodigo').AsInteger;
+      vContendo := proori.FieldByName('itmcontendo').AsFloat;
+      vlPunCodigo := proori.FieldByName('puncodigo').AsInteger;
+
+    end;
+
+    itmmeschave.AsInteger := registromeschave.AsInteger;
+    itmitmitem.AsInteger := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.nItem;
+    itmprocodigo.AsInteger := procod;
+    itmcstcodigo.AsString := Self.codigocst(i);
+
+    if vContendo > 0 then
+      itmitmcontendo.AsFloat := vContendo
+    else
+      itmitmcontendo.AsFloat := 1;
+
+    if vlPunCodigo > 0 then
+    begin
+
+      itmpuncodigo.AsInteger := vlPunCodigo;
+    end;
+    itmprocodigoori.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.cProd;
+    itmpronomeori.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.xProd);
+    itmprogtin.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.cEAN;
+
+    itmitmquantidade.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.qCom;
+
+    itmitmvalor.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vUnCom;
+    itmitmdesconto.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vDesc;
+    itmitmtotal.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vprod;
+    itmitmmovifisico.AsString := '0';
+
+    if cfgcfgtributacaoimendes.AsInteger = 1 then
+    begin
+
+      toecfop.Close;
+      toecfop.SQL.Text := 'select cfopentrada from pro where procodigo=' + itmprocodigo.AsString;
+      toecfop.Open;
+
+      if not toecfop.IsEmpty then
+      begin
+        if toecfop.FieldByName('cfopentrada').AsString <> '' then
+        begin
+          if pos('.', toecfop.FieldByName('cfopentrada').AsString) > 0 then
+          begin
+
+            if toe.Locate('toecfopsaida', toecfop.FieldByName('cfopentrada').AsString, []) then
+            begin
+              itmtoecodigo.AsInteger := toe.FieldByName('toecodigo').AsInteger;
+            end
+            else
+            begin
+              itmtoecodigo.AsInteger := registrotoecodigo.AsInteger;
+            end;
+          end
+          else
+          begin
+
+            if toe.Locate('toecfopsaida', copy(toecfop.FieldByName('cfopentrada').AsString, 1, 1) + '.' + copy(toecfop.FieldByName('cfopentrada').AsString, 2,
+              3), []) then
+            begin
+              itmtoecodigo.AsInteger := toe.FieldByName('toecodigo').AsInteger;
+            end
+            else
+            begin
+              itmtoecodigo.AsInteger := registrotoecodigo.AsInteger;
+            end;
+          end;
+        end
+        else
+        begin
+          itmtoecodigo.AsInteger := registrotoecodigo.AsInteger;
+        end;
+      end
+      else
+      begin
+        itmtoecodigo.AsInteger := registrotoecodigo.AsInteger;
+      end;
+    end
+    else
+    begin
+      itmtoecodigo.AsInteger := registrotoecodigo.AsInteger;
+    end;
+
+    itmcfocfop.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.CFOP;
+
+    If procod <> 0 Then
+    begin
+      if not proori.IsEmpty then
+      begin
+        Self.itmunicodigobase.AsInteger := proori.FieldByName('unicodigo').AsInteger;
+
+        if vlPunCodigo > 0 then
+        begin
+
+          consultapunbase.Close;
+          consultapunbase.SQL.Text := 'select unicodigobase from pun where puncodigo=' + vlPunCodigo.ToString;
+          consultapunbase.Open;
+
+          if not consultapunbase.IsEmpty then
+          begin
+            itmunicodigobase.AsInteger := Self.consultapunbase.Fields[0].AsInteger;
+          end;
+        end;
+
+      end
+      else
+        Self.itmunicodigobase.AsInteger := consulta.FieldByName('unicodigo').AsInteger
+    end
+    Else
+      Self.itmunicodigobase.AsInteger := 0;
+
+    If pos('.', itmcfocfop.AsString) = 0 Then
+      itmcfocfop.AsString := copy(itmcfocfop.AsString, 1, 1) + '.' + copy(itmcfocfop.AsString, 2, 3);
+
+    consulta.Close;
+    consulta.SQL.Text := 'select toecfopsaida from toe where toecodigo = ' + Self.itmtoecodigo.AsString;
+    consulta.Open;
+    itmcfocfopdestinacao.AsString := consulta.Fields[0].AsString;
+
+    If pos('.', Self.itmcfocfopdestinacao.AsString) = 0 Then
+      Self.itmcfocfopdestinacao.AsString := copy(Self.itmcfocfopdestinacao.AsString, 1, 1) + '.' + copy(Self.itmcfocfopdestinacao.AsString, 2, 3);
+
+    itmitmbicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vbc;
+    itmitmaliqicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.pICMS;
+    itmitmicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vicms;
+    itmitmbicms.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vbcst;
+    itmitmicms.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vICMSST;
+    itmitmaliqicms.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.pICMSST;
+
+    itmitmbasefcpicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vBCFCP;
+    itmitmpercfcpicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.pFCP;
+    itmitmvalofcpicm.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vFCP;
+
+    itmitmbasefcpicmst.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vBCFCPST;
+    itmitmpercfcpicmst.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.pFCPST;
+    itmitmvalofcpicmst.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.vFCPST;
+
+    itmitmfrete.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vFrete;
+    itmitmoutras.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vOutro;
+    itmitmseguro.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.vSeg;
+
+    itmitmapuipi.AsFloat := 0;
+    itmcsicodigo.AsString := Self.codigocsi(i);
+    itmceicodigo.AsString := '';
+    itmitmbipi.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.IPI.vbc;
+    itmitmipi.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.IPI.vIPI;
+    itmitmaliqipi.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.IPI.pIPI;
+
+    itmcspcodigo.AsString := Self.codigocsp(i);
+
+    itmitmbpis.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.PIS.vbc;
+    itmitmaliqpis.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.PIS.pPIS;
+    itmitmquantpis.AsFloat := 0;
+    itmitmaliqpisvalor.AsFloat := 0;
+    itmitmpis.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.PIS.vPIS;
+    itmcsfcodigo.AsString := Self.codigocsf(i);
+    itmitmbcofins.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.COFINS.vbc;
+    itmitmaliqcofins.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.COFINS.pCOFINS;
+    itmitmquantcofins.AsFloat := 0;
+    itmitmaliqcofinsvalor.AsFloat := 0;
+    itmitmcofins.AsFloat := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.COFINS.vCOFINS;
+
+    vSimboloUnidade := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.uCom;
+
+    Uni.Close;
+    Uni.Open;
+
+    If Uni.Locate('unisimbolo', Trim(lowercase(vSimboloUnidade)), [loCaseInsensitive]) Then
+    Begin
+      itmunicodigo.AsInteger := Self.uniunicodigo.AsInteger;
+    End
+    Else
+    Begin
+      try
+        vSimboloUnidade := ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].prod.uCom;
+        Application.CreateForm(Tfdescsimb, fdescsimb);
+        fdescsimb.unisimbolo.Text := vSimboloUnidade;
+        if fdescsimb.ShowModal = mrOk then
+        begin
+          Uni.Append;
+          uniunisimbolo.AsString := vSimboloUnidade;
+          uniuninome.AsString := vIdentificacaoUnidade;
+          Uni.Post;
+        end;
+      finally
+        FreeAndNil(fdescsimb);
+      end;
+
+      Uni.Close;
+      Uni.Open;
+
+      If Uni.Locate('unisimbolo', Trim(lowercase(vSimboloUnidade)), [loCaseInsensitive]) Then
+        itmunicodigo.AsInteger := Self.uniunicodigo.AsInteger;
+    End;
+
+    icm.Close;
+    icm.Open;
+    alicm := CurrToStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.det[i].Imposto.ICMS.pICMS);
+
+    If (lowercase(alicm) <> 'ff') And (lowercase(alicm) <> 'nn') And (lowercase(alicm) <> 'ii') Then
+      If Length(alicm) = 1 Then
+        alicm := FormatFloat('00', StrToInt(alicm));
+
+    If icm.Locate('icmaliquotas', alicm, [loCaseInsensitive]) Then
+    Begin
+      itmicmcodigo.AsString := Self.icmicmcodigo.AsString;
+    End
+    Else
+    Begin
+      icm.Append;
+      icmicmcodigo.AsString := alicm;
+      icmicmaliquotas.AsString := alicm;
+      icm.Post;
+      itmicmcodigo.AsString := Self.icmicmcodigo.AsString;
+    End;
+
+    iv := Self.itmitmchave.AsInteger;
+
+    if registromesoutroscustos.AsCurrency <> 0 then
+      itmitmoutroscustos.AsFloat := (itmitmtotal.AsCurrency / registromestotal.AsCurrency) * registromesoutroscustos.AsCurrency;
+
+    itmtdfcodigo.AsString:='RE';
+
+    itm.Post;
+
+    lbMenssagem.Caption := 'Item salvo';
+    Application.ProcessMessages;
+
+  End;
+  // end;
+End;
+
+Function Tfinfe.codigocst(item: Integer): String;
+Var
+  cd: String;
+  og: String;
+Begin
+  case ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.ICMS.orig of
+    oeNacional:
+      og := '0';
+    oeEstrangeiraImportacaoDireta:
+      og := '1';
+    oeEstrangeiraAdquiridaBrasil:
+      og := '2';
+    oeNacionalConteudoImportacaoSuperior40:
+      og := '3';
+    oeNacionalProcessosBasicos:
+      og := '4';
+    oeNacionalConteudoImportacaoInferiorIgual40:
+      og := '5';
+    oeEstrangeiraImportacaoDiretaSemSimilar:
+      og := '6';
+    oeEstrangeiraAdquiridaBrasilSemSimilar:
+      og := '7';
+    oeNacionalConteudoImportacaoSuperior70:
+      og := '8';
+  end;
+
+  case ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.ICMS.CST of
+    cst00:
+      cd := '00';
+    cst10, cstPart10:
+      cd := '10';
+    cst20:
+      cd := '20';
+    cst30:
+      cd := '30';
+    cst40:
+      cd := '40';
+    cst41:
+      cd := '41';
+    cst45:
+      cd := '45';
+    cst50:
+      cd := '50';
+    cst51:
+      cd := '51';
+    cst60:
+      cd := '60';
+    cstRep60:
+      cd := '60';
+    cst70:
+      cd := '70';
+    cst80:
+      cd := '80';
+    cst81:
+      cd := '81';
+    cst90:
+      cd := '90';
+    cstPart90:
+      cd := '90';
+  end;
+
+  case ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.ICMS.CSOSN of
+    csosn101:
+      Begin
+        og := '1';
+        cd := '01';
+      End;
+    csosn102:
+      Begin
+        og := '1';
+        cd := '02';
+      End;
+    csosn103:
+      Begin
+        og := '1';
+        cd := '03';
+      End;
+    csosn201:
+      Begin
+        og := '2';
+        cd := '01';
+      End;
+    csosn202:
+      Begin
+        og := '2';
+        cd := '02';
+      End;
+    csosn203:
+      Begin
+        og := '2';
+        cd := '03';
+      End;
+    csosn300:
+      Begin
+        og := '3';
+        cd := '00';
+      End;
+    csosn400:
+      Begin
+        og := '4';
+        cd := '00';
+      End;
+    csosn500:
+      Begin
+        og := '5';
+        cd := '00';
+      End;
+    csosn900:
+      Begin
+        og := '9';
+        cd := '00';
+      End;
+  end;
+
+  Result := og + cd;
+
+End;
+
+procedure Tfinfe.FormCreate(Sender: TObject);
+begin
+  Self.Width := 520;
+  Self.Height := 140;
+  // finfe.vsomes := False;
+end;
+
+procedure Tfinfe.FormShow(Sender: TObject);
+begin
+  importar.Enabled := true;
+end;
+
+Function Tfinfe.codigocsi(item: Integer): String;
+Var
+  cd: String;
+Begin
+
+  If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi00 Then
+  Begin
+    cd := '00';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi49 Then
+  Begin
+    cd := '49';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi50 Then
+  Begin
+    cd := '49'; //
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi99 Then
+  Begin
+    cd := '99';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi01 Then
+  Begin
+    cd := '01';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi02 Then
+  Begin
+    cd := '02';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi03 Then
+  Begin
+    cd := '03';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi04 Then
+  Begin
+    cd := '04';
+  End
+
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi05 Then
+  Begin
+    cd := '05';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi51 Then
+  Begin
+    cd := '01'; // verificar
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi52 Then
+  Begin
+    cd := '52';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi53 Then
+  Begin
+    cd := '53';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi54 Then
+  Begin
+    cd := '54';
+  End
+  Else If ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.IPI.CST = ipi55 Then
+  Begin
+    cd := '55';
+  End;
+
+  Result := cd;
+
+End;
+
+Function Tfinfe.codigocsp(item: Integer): String;
+Var
+  cd: String;
+Begin
+
+  Case ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.PIS.CST Of
+    pis01:
+      cd := '01';
+    pis02:
+      cd := '02';
+    pis03:
+      cd := '03';
+    pis04:
+      cd := '04';
+    pis05:
+      cd := '05';
+    pis06:
+      cd := '06';
+    pis07:
+      cd := '07';
+    pis08:
+      cd := '08';
+    pis09:
+      cd := '09';
+
+    pis49:
+      cd := '49';
+    pis50:
+      cd := '50';
+    pis51:
+      cd := '51';
+    pis52:
+      cd := '52';
+    pis53:
+      cd := '53';
+    pis54:
+      cd := '54';
+    pis55:
+      cd := '55';
+    pis56:
+      cd := '56';
+
+    pis60:
+      cd := '60';
+    pis61:
+      cd := '61';
+    pis62:
+      cd := '62';
+    pis63:
+      cd := '63';
+    pis64:
+      cd := '64';
+    pis65:
+      cd := '65';
+    pis66:
+      cd := '66';
+    pis67:
+      cd := '67';
+
+    pis70:
+      cd := '70';
+    pis71:
+      cd := '71';
+    pis72:
+      cd := '72';
+    pis73:
+      cd := '73';
+    pis74:
+      cd := '74';
+    pis75:
+      cd := '75';
+    pis98:
+      cd := '98';
+    pis99:
+      cd := '99';
+
+  End;
+
+  Result := cd;
+
+End;
+
+procedure Tfinfe.Button1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+Function Tfinfe.codigocsf(item: Integer): String;
+Var
+  cd: String;
+Begin
+
+  Case ACBrNFeImp.NotasFiscais.Items[0].NFe.det[item].Imposto.COFINS.CST Of
+    cof01:
+      cd := '01';
+    cof02:
+      cd := '02';
+    cof03:
+      cd := '03';
+    cof04:
+      cd := '04';
+    cof05:
+      cd := '05';
+    cof06:
+      cd := '06';
+    cof07:
+      cd := '07';
+    cof08:
+      cd := '08';
+    cof09:
+      cd := '09';
+    cof49:
+      cd := '49';
+    cof50:
+      cd := '50';
+    cof51:
+      cd := '51';
+    cof52:
+      cd := '52';
+    cof53:
+      cd := '53';
+    cof54:
+      cd := '54';
+    cof55:
+      cd := '55';
+    cof56:
+      cd := '56';
+
+    cof60:
+      cd := '60';
+    cof61:
+      cd := '61';
+    cof62:
+      cd := '62';
+    cof63:
+      cd := '63';
+    cof64:
+      cd := '64';
+    cof65:
+      cd := '65';
+    cof66:
+      cd := '66';
+    cof67:
+      cd := '67';
+
+    cof70:
+      cd := '70';
+    cof71:
+      cd := '71';
+    cof72:
+      cd := '72';
+    cof73:
+      cd := '73';
+    cof74:
+      cd := '74';
+    cof75:
+      cd := '75';
+    cof98:
+      cd := '98';
+    cof99:
+      cd := '99';
+
+  End;
+
+  Result := cd;
+
+End;
+
+function Tfinfe.LocalizaArquivo(chave: String): String;
+var
+  vArquivo: String;
+begin
+  (* Adicionar rotina para localizar arquivo pela chave *)
+
+  vArquivo := RetornaArqXMLNFe(chave);
+
+  { vArquivo := 'NFe' + chave + '.xml';
+    vArquivo := ExtractFilePath(Application.ExeName) + 'xml-recebidos\' + vArquivo;
+
+    If not FileExists(vArquivo) Then
+    Begin
+    vArquivo := chave + '-nfe' + '.xml';
+    vArquivo := ExtractFilePath(Application.ExeName) + 'xml-recebidos\' + vArquivo;
+    If not FileExists(vArquivo) Then
+    Begin
+    vArquivo := chave + '-proc' + '.xml';
+    vArquivo := ExtractFilePath(Application.ExeName) + 'xml-recebidos\' + vArquivo;
+    If not FileExists(vArquivo) Then
+    Begin
+    vArquivo := chave + '-procNFe' + '.xml';
+    vArquivo := ExtractFilePath(Application.ExeName) + 'xml-recebidos\' + vArquivo;
+    If not FileExists(vArquivo) Then
+    Begin
+    vArquivo := chave + '.xml';
+    vArquivo := ExtractFilePath(Application.ExeName) + 'xml-recebidos\' + vArquivo;
+    If not FileExists(vArquivo) Then
+    vArquivo := '';
+    End;
+    End;
+    End;
+    End; }
+
+  If not FileExists(vArquivo) Then
+    Application.MessageBox(PChar('Arquivo da NFE não localizado!'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+
+  Result := vArquivo;
+end;
+
+procedure Tfinfe.LocalizaEntidade(CPFCNPJ: String; var EtdCodigo: Integer);
+var
+  vTipoPessoa: Integer;
+begin
+  ValidaCPFCNPJ(CPFCNPJ, vTipoPessoa);
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT etdcodigo FROM etd WHERE etddoc1 = ' + QuotedStr(CPFCNPJ);
+  consulta.Open;
+
+  EtdCodigo := consulta.FieldByName('etdcodigo').AsInteger;
+end;
+
+Procedure Tfinfe.ValidaCPFCNPJ(var Documento: String; var TipoPessoa: Integer);
+begin
+  if Length(Documento) = 11 then
+  begin
+    TipoPessoa := 1;
+    ACBrValidador1.TipoDocto := docCPF;
+  end
+  else
+  begin
+    TipoPessoa := 2;
+    ACBrValidador1.TipoDocto := docCNPJ;
+  end;
+
+  ACBrValidador1.Documento := Documento;
+  ACBrValidador1.Validar;
+  Documento := ACBrValidador1.Formatar;
+end;
+
+procedure Tfinfe.VerificaTransportador;
+var
+  vDoc1Transp: string;
+  vTipoPessoa: Integer;
+begin
+  vDoc1Transp := SoNumeros(Self.ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.CNPJCPF);
+
+  If vDoc1Transp = '' Then
+    Exit;
+
+  (* Carrega código da Entidade para VAR vpEtdCodigo *)
+  LocalizaEntidade(vDoc1Transp, vpEtdTransp);
+
+  If vpEtdTransp = 0 Then
+  Begin
+    If Not etd.Active Then
+      etd.Open;
+
+    etd.Append;
+    etdetdidentificacao.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.xNome);
+    etdetdapelido.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.xNome);
+    etdetddeletar.AsInteger := 0;
+
+    etdetddatacad.AsFloat := Date;
+    etdetddataalt.AsFloat := Date;
+
+    (* Carrega CPF ou CNPJ formatado e Tipo de Pessoa *)
+    ValidaCPFCNPJ(vDoc1Transp, vTipoPessoa);
+
+    etdtpecodigo.AsInteger := vTipoPessoa;
+    etdetddoc1.AsString := vDoc1Transp;
+
+    etd.Post;
+
+    vpEtdTransp := etdetdcodigo.AsInteger;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT cdd.cddcodigo, ufs.ufscodigo FROM cdd INNER JOIN ufs ON ufs.ufscodigo = cdd.ufscodigo WHERE ';
+    consulta.SQL.Add('ufssigla = ' + QuotedStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.UF) + ' AND ');
+    consulta.SQL.Add('cddnome = ' + QuotedStr(BuscaTroca(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.xMun, CHR(39), CHR(39) + CHR(39))));
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+    begin
+
+      If Not edr.Active Then
+        edr.Open;
+
+      edr.Append;
+      edrtedcodigo.AsInteger := 1;
+      edretdcodigo.AsInteger := vpEtdTransp;
+      edredrrua.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.xEnder);
+      edredrnumero.AsString := ' ';
+      edredrbairro.AsString := ' ';
+      edredrinscest.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.Transp.Transporta.IE;
+
+      edrcddcodigo.AsInteger := consulta.Fields[0].AsInteger;
+      edrufscodigo.AsString := consulta.Fields[1].AsString;
+      edredrcep.AsString := '0';
+      edr.Post;
+    end;
+
+  End;
+
+  etv.Close;
+  etv.SQL.Text := 'SELECT * FROM etv WHERE etdcodigo = ' + IntToStr(vpEtdTransp) + ' AND tvicodigo = ' + IntToStr(tviTransportador);
+  etv.Open;
+
+  If etv.IsEmpty Then
+  Begin
+    etv.Append;
+    etvetdcodigo.AsInteger := vpEtdTransp;
+    etvtvicodigo.AsInteger := tviTransportador;
+    etv.Post;
+  End;
+
+end;
+
+procedure Tfinfe.VerificaEmitente;
+var
+  vDoc1Emitente: string;
+  vTipoPessoa: Integer;
+  vNovaEtd: Boolean;
+begin
+  If Not etd.Active Then
+    etd.Open;
+
+  vDoc1Emitente := SoNumeros(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.CNPJCPF);
+
+  (* Carrega código da Entidade para VAR vpEtdCodigo *)
+  LocalizaEntidade(vDoc1Emitente, vpEtdEmitente);
+
+  If vpEtdEmitente = 0 Then
+  Begin
+    etd.Append;
+    vNovaEtd := true;
+  End
+  Else
+  Begin
+    etd.Close;
+    etd.SQL.Text := 'SELECT * FROM etd WHERE etdcodigo = ' + IntToStr(vpEtdEmitente);
+    etd.Open;
+
+    vNovaEtd := False;
+    etd.Edit;
+  End;
+
+  etdetdidentificacao.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.xNome);
+
+  If etdetdapelido.AsString = '' Then
+    etdetdapelido.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.xNome);
+
+  etdetddeletar.AsInteger := 0;
+  etdetddatacad.AsFloat := Date;
+  etdetddataalt.AsFloat := Date;
+
+  (* Formata CPF/CNPJ e carrega Tipo de Pessoa *)
+  ValidaCPFCNPJ(vDoc1Emitente, vTipoPessoa);
+
+  etdetddoc1.AsString := vDoc1Emitente;
+  etdtpecodigo.AsInteger := vTipoPessoa;
+
+  etd.Post;
+  vpEtdEmitente := etdetdcodigo.AsInteger;
+
+  (* VÍNCULO *)
+  if vNovaEtd then
+  begin
+    If Not etv.Active Then
+      etv.Open;
+
+    etv.Append;
+    etvetdcodigo.AsInteger := vpEtdEmitente;
+    etvtvicodigo.AsInteger := tviFornecedor;
+    etv.Post;
+  end;
+
+  (* ENDEREÇO *)
+  If Not edr.Active Then
+    edr.Open;
+
+  if vNovaEtd then
+    edr.Append
+  else
+    edr.Edit;
+
+  edrtedcodigo.AsInteger := 1;
+  edretdcodigo.AsInteger := vpEtdEmitente;
+  edredrrua.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.xLgr);
+  edredrnumero.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.nro;
+  edredrbairro.AsString := UTF8Decode(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.xBairro);
+  edredrinscest.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.IE;
+  edrcddcodigo.AsString := IntToStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.cMun);
+  edredrcep.AsString := IntToStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.CEP);
+  edrufscodigo.AsString := copy(IntToStr(ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.cMun), 1, 2);
+  edr.Post;
+
+  (* EMAIL *)
+  If Not ete.Active Then
+    ete.Open;
+
+  if vNovaEtd then
+    ete.Append
+  else
+    ete.Edit;
+
+  eteetdcodigo.AsInteger := vpEtdEmitente;
+  eteeteemail.AsString := 'Solicitar ao fornecedor';
+  ete.Post;
+
+  (* TELEFONE *)
+  If Not etf.Active Then
+    etf.Open;
+
+  if vNovaEtd then
+    etf.Append
+  else
+    etf.Edit;
+
+  etfetdcodigo.AsInteger := vpEtdEmitente;
+  etfttfcodigo.AsInteger := 1;
+  etfetftelefone.AsString := ACBrNFeImp.NotasFiscais.Items[0].NFe.Emit.EnderEmit.fone;
+  etf.Post;
+end;
+
+function Tfinfe.RetornaArqXMLNFe(vChave: String): String;
+var
+  FL: TFileListBox;
+  SL: TStringList;
+  i: Integer;
+  vlArquivo: string;
+  vlNovoArquivo: string;
+begin
+  if NOT DirectoryExists(ExtractFilePath(Application.ExeName) + 'xml-recebidos') then
+  begin
+    ShowMessage('Atenção!' + #13 + 'Não foi localizada a pasta ' + ExtractFilePath(Application.ExeName) + 'xml-recebidos para importação dos XMLS.');
+    Result := '';
+    Exit;
+  end;
+  FL := TFileListBox.Create(Self);
+  SL := TStringList.Create;
+
+  try
+
+    FL.Parent := Self;
+    FL.Directory := ExtractFilePath(Application.ExeName) + 'xml-recebidos';
+    FL.Mask := '*.xml';
+    FL.Update;
+
+    for i := 0 to FL.Items.Count - 1 do
+    begin
+      SL.Clear;
+      SL.LoadFromFile(FL.Items[i]);
+
+      if pos(vChave, SL.Text) = 0 then
+        Continue;
+
+      vlArquivo := FL.Directory + '\' + FL.Items[i];
+      vlNovoArquivo := FL.Directory + '\' + vChave + '.xml';
+      RenameFile(vlArquivo, vlNovoArquivo);
+      Result := vlNovoArquivo;
+      Break;
+    end;
+  finally
+    FL.Free;
+    SL.Free;
+  end;
+end;
+
+end.

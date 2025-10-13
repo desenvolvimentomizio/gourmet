@@ -1,0 +1,37 @@
+inherited Form1_LgXhdpiPh: TForm1_LgXhdpiPh
+  ClientHeight = 695
+  ClientWidth = 450
+  Fill.Kind = Solid
+  DesignerMasterStyle = 0
+  inherited Panel3: TPanel
+    Size.Width = 450.000000000000000000
+    Size.Height = 645.000000000000000000
+    inherited ImageControl3: TImageControl
+      Size.Width = 350.000000000000000000
+      Size.Height = 545.000000000000000000
+      inherited RcMensagem: TRoundRect
+        Position.Y = 463.000000000000000000
+        Size.Width = 290.000000000000000000
+        inherited lbMensagem: TLabel
+          Size.Width = 290.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+  end
+  inherited Rectangle2: TRectangle
+    Size.Width = 450.000000000000000000
+    inherited btConfiguracao: TButton
+      Position.X = 402.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+    end
+  end
+  inherited tmRelaogio: TTimer [2]
+  end
+  inherited DSRestConnection1: TDSRestConnection [3]
+  end
+  inherited BarcodeScanner1: TBarcodeScanner [4]
+  end
+end

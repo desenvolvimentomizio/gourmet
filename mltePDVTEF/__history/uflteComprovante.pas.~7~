@@ -1,0 +1,96 @@
+unit uflteComprovante;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TflteComprovante = class(TForm)
+    plformulario: TPanel;
+    plCentro: TPanel;
+    plTitulo: TPanel;
+    plMensagem: TLabel;
+    plvalor: TPanel;
+    Panel2: TPanel;
+    btOK: TBitBtn;
+    btCancel: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+  private
+    vpLarguraTela: Integer;
+    vpAlturaTela: Integer;
+
+    procedure AjustaaoMonitor;
+
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  flteComprovante: TflteComprovante;
+
+implementation
+
+{$R *.dfm}
+
+procedure TflteComprovante.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+end;
+
+procedure TflteComprovante.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    try
+      ModalResult:=MrOK;
+    except
+    //  ModalResult:=mrCancel;
+    end;
+
+  End
+  Else If Key = #27 Then
+  Begin
+      Key := #0;
+    //  ModalResult:=mrCancel;
+  End;
+
+end;
+
+procedure TflteComprovante.FormShow(Sender: TObject);
+begin
+  AjustaaoMonitor;
+end;
+
+
+procedure TflteComprovante.AjustaaoMonitor;
+begin
+
+  if vpLarguraTela = 0 then
+    vpLarguraTela := screen.Width;
+
+  if vpAlturaTela = 0 then
+    vpAlturaTela := screen.Height;
+
+  WindowState := wsMaximized;
+
+  scaled := True;
+   Height := Longint(Height) * Longint(screen.Height) DIV vpAlturaTela;
+   Width := Longint(Width) * Longint(screen.Width) DIV vpLarguraTela;
+    scaleBy(screen.Width, vpLarguraTela);
+
+  plCentro.left:=(vpLarguraTela div 2) - (plCentro.Width div 2);
+  plCentro.top:=(vpAlturaTela div 2) - (plCentro.Height div 2);
+
+end;
+
+
+end.

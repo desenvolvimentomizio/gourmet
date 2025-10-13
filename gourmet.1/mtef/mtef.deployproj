@@ -1,0 +1,544 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+    <ProjectExtensions>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <PropertyGroup/>
+    <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <ItemGroup Condition="'$(Platform)'=='iOSDevice32'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win32'">
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vclx250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\unidac250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>unidac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_Serial.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_Serial.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\dac250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>dac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_Serial.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_Serial.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_Diversos.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_Diversos.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_TEFD.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_TEFD.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vcl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyCore250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>IndyCore250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vclie250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>dbrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vcl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentes\acbr\Lib\Delphi\LibD25\ACBr_synapse.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_synapse.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>designide250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_OpenSSL.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_OpenSSL.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\unidac250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>unidac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndySystem250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>IndySystem250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="c:\mizio\modulos\mtef.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\modulos\</RemoteDir>
+            <RemoteName>mtef.bpl</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>dsnap250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>xmlrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vclie250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcldb250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vcldb250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vclactnband250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentes\acbr\Lib\Delphi\LibD25\ACBr_Diversos.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_Diversos.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentes\acbr\Lib\Delphi\LibD25\ACBr_TEFD.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_TEFD.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcldb250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vcldb250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentes\acbr\Lib\Delphi\LibD25\ACBr_OpenSSL.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_OpenSSL.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>designide250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_Comum.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_Comum.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="c:\mizio\modulos\mtef.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>mtef.bpl</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyProtocols250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>IndyProtocols250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vclactnband250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>rtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentes\acbr\Lib\Delphi\LibD25\ACBr_Comum.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>ACBr_Comum.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\componentesX101\acbr\Lib\Delphi\LibD25\ACBr_synapse.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>ACBr_synapse.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\dac250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>dac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>vclimg250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndySystem250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>IndySystem250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vclimg250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyCore250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>IndyCore250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>dsnap250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\PngComponents250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>PngComponents250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>dbrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\NativeExcelDXTokyo.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>NativeExcelDXTokyo.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>vclx250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\PngComponents250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\bpls\</RemoteDir>
+            <RemoteName>PngComponents250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>rtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>xmlrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyProtocols250.bpl" Condition="'$(Config)'=='Base'">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>IndyProtocols250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Linux64'"/>
+    <ItemGroup Condition="'$(Platform)'=='OSX32'">
+        <DeployFile Include="$(BDS)\Redist\osx32\libcgsqlite3.dylib">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>libcgsqlite3.dylib</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+            <RemoteDir>mtef\</RemoteDir>
+            <RemoteName>libcgunwind.1.0.dylib</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Android'"/>
+    <ItemGroup Condition="'$(Platform)'=='iOSSimulator'">
+        <DeployFile Include="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib">
+            <RemoteDir>mtef.app\</RemoteDir>
+            <RemoteName>libcgunwind.1.0.dylib</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\iossimulator\libPCRE.dylib">
+            <RemoteDir>mtef.app\</RemoteDir>
+            <RemoteName>libPCRE.dylib</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
+</Project>

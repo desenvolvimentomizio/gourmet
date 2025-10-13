@@ -1,0 +1,26 @@
+program MizioContingencia;
+
+uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
+  Vcl.Forms,
+  ufGerContiNFCe in 'ufGerContiNFCe.pas' {fGerContiNFCe},
+  ufuncoes in '..\funcoes\ufuncoes.pas';
+
+{$R *.res}
+
+begin
+
+  //  ReportMemoryLeaksOnShutdown := true;
+
+
+
+
+  Application.Initialize;
+ // Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfGerContiNFCe, fGerContiNFCe);
+  Application.Run;
+end.

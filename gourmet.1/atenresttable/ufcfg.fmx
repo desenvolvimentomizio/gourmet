@@ -1,0 +1,74 @@
+object fcfg: Tfcfg
+  Left = 0
+  Top = 0
+  Caption = 'Configura'#231#227'o'
+  ClientHeight = 172
+  ClientWidth = 438
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [dkDesktop, dkiPhone, dkiPad]
+  DesignerMobile = False
+  DesignerWidth = 0
+  DesignerHeight = 0
+  DesignerDeviceName = ''
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object Button1: TButton
+    Height = 22.000000000000000000
+    Position.X = 336.000000000000000000
+    Position.Y = 128.000000000000000000
+    TabOrder = 0
+    Text = 'Cancela'
+    Width = 80.000000000000000000
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Height = 22.000000000000000000
+    Position.X = 240.000000000000000000
+    Position.Y = 128.000000000000000000
+    TabOrder = 1
+    Text = 'Confirma'
+    Width = 80.000000000000000000
+    OnClick = Button2Click
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 2
+    Font.Size = 30.000000000000000000
+    Position.X = 224.000000000000000000
+    Position.Y = 8.000000000000000000
+    Width = 57.000000000000000000
+    Height = 35.000000000000000000
+    StyledSettings = [ssFamily, ssStyle, ssFontColor]
+    KillFocusByReturn = False
+  end
+  object Edit2: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 3
+    Font.Size = 30.000000000000000000
+    Position.X = 224.000000000000000000
+    Position.Y = 56.000000000000000000
+    Width = 193.000000000000000000
+    Height = 35.000000000000000000
+    StyledSettings = [ssFamily, ssStyle, ssFontColor]
+    KillFocusByReturn = False
+  end
+  object Label1: TLabel
+    Font.Size = 25.000000000000000000
+    StyledSettings = [ssFamily, ssStyle, ssFontColor]
+    Height = 30.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 16.000000000000000000
+    Text = 'N'#250'mero Terminal'
+    Width = 241.000000000000000000
+  end
+  object Label2: TLabel
+    Font.Size = 25.000000000000000000
+    StyledSettings = [ssFamily, ssStyle, ssFontColor]
+    Height = 30.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 56.000000000000000000
+    Text = 'IP do Servidor'
+    Width = 225.000000000000000000
+  end
+end

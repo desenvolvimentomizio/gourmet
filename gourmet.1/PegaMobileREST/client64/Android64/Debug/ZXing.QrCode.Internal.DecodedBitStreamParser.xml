@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.DecodedBitStreamParser" platform="Android">
+  <class name="TDecodedBitStreamParser" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="44">
+    <devnotes>
+       <summary> <p>QR Codes can encode text as bits in one of several modes, and can use multiple modes
+       in one QR Code. This class decodes the bits back into text.</p>
+      
+       <p>See ISO 18004:2006, 6.4.3 - 6.4.7</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="ALPHANUMERIC_CHARS" type="TArray&lt;System.Char&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="49">
+        <devnotes>
+           <summary>
+           See ISO 18004:2006, 6.4.4 Table 5
+           </summary>
+        </devnotes>
+      </field>
+      <field name="GB2312_SUBSET" type="Integer" visibility="private" varflags="class" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="52" />
+      <procedure name="InitializeClass" visibility="private" procflags="class" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="54">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="class" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="55">
+      </procedure>
+      <function name="decodeAlphanumericSegment" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="57">
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <parameter name="count" type="Integer" />
+          <parameter name="fc1InEffect" type="Boolean" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeByteSegment" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="61">
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <parameter name="count" type="Integer" />
+          <parameter name="currentCharacterSetECI" type="TCharacterSetECI" paramflags="const" />
+          <parameter name="byteSegments" type="IByteSegments" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeHanziSegment" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="74">
+        <devnotes>
+           <summary>
+           See specification GBT 18284-2000
+           </summary>
+           <param name="bits">The bits.</param>
+           <param name=>The result.</param>
+           <param name="count">The count.</param>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <parameter name="count" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeKanjiSegment" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="77">
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <parameter name="count" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="decodeNumericSegment" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="80">
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <parameter name="res" type="TStringBuilder" paramflags="const" />
+          <parameter name="count" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="parseECIValue" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="83">
+        <parameters>
+          <parameter name="bits" type="TBitSource" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="toAlphaNumericChar" visibility="private" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="84">
+        <parameters>
+          <parameter name="value" type="Integer" paramflags="const" />
+          <retval type="Char" />
+        </parameters>
+      </function>
+      <function name="decode" visibility="public" procflags="static" file="ZXing.QrCode.Internal.DecodedBitStreamParser.pas" line="86">
+        <parameters>
+          <parameter name="bytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="version" type="TVersion" paramflags="const" />
+          <parameter name="ecLevel" type="TErrorCorrectionLevel" paramflags="const" />
+          <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" paramflags="const" />
+          <retval type="TDecoderResult" />
+        </parameters>
+      </function>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

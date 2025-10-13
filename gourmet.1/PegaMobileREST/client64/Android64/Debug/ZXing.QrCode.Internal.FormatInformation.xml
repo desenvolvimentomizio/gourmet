@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.FormatInformation" platform="Android">
+  <class name="TFormatInformation" sealed="true" file="ZXing.QrCode.Internal.FormatInformation.pas" line="40">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'TFormatInformation' -->
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FErrorCorrectionLevel" type="TErrorCorrectionLevel" visibility="private" size="8" offset="8" file="ZXing.QrCode.Internal.FormatInformation.pas" line="42" />
+      <field name="FDataMask" type="Byte" visibility="private" size="1" offset="16" file="ZXing.QrCode.Internal.FormatInformation.pas" line="43" />
+      <field name="FORMAT_INFO_MASK_QR" type="Integer" visibility="private" varflags="class" file="ZXing.QrCode.Internal.FormatInformation.pas" line="46" />
+      <field name="FORMAT_INFO_DECODE_LOOKUP" type="TArray&lt;System.TArray&lt;System.Integer&gt;&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.FormatInformation.pas" line="49">
+        <devnotes>
+           <summary> See ISO 18004:2006, Annex C, Table C.1</summary>
+        </devnotes>
+      </field>
+      <field name="BITS_SET_IN_HALF_BYTE" type="TArray&lt;System.Integer&gt;" visibility="private" varflags="class" file="ZXing.QrCode.Internal.FormatInformation.pas" line="52">
+        <devnotes>
+           <summary> Offset i holds the number of 1 bits in the binary representation of i</summary>
+        </devnotes>
+      </field>
+      <procedure name="InitializeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.FormatInformation.pas" line="54">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="static" file="ZXing.QrCode.Internal.FormatInformation.pas" line="55">
+      </procedure>
+      <function name="doDecodeFormatInformation" visibility="private" procflags="static" file="ZXing.QrCode.Internal.FormatInformation.pas" line="57">
+        <parameters>
+          <parameter name="maskedFormatInfo1" type="Integer" paramflags="const" />
+          <parameter name="maskedFormatInfo2" type="Integer" paramflags="const" />
+          <retval type="TFormatInformation">
+            <devnotes>
+<!-- Badly formed XML comment ignored for member 'TFormatInformation' -->
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.FormatInformation.pas" line="60">
+        <parameters>
+          <parameter name="formatInfo" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <function name="Equals" visibility="public" procflags="override" file="ZXing.QrCode.Internal.FormatInformation.pas" line="62">
+        <parameters>
+          <parameter name="o" type="TObject" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetHashCode" visibility="public" procflags="override" file="ZXing.QrCode.Internal.FormatInformation.pas" line="63">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="numBitsDiffering" visibility="public" procflags="static" file="ZXing.QrCode.Internal.FormatInformation.pas" line="64">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <parameter name="b" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="decodeFormatInformation" visibility="public" procflags="static" file="ZXing.QrCode.Internal.FormatInformation.pas" line="75">
+        <devnotes>
+           <summary>
+           Decodes the format information.
+           </summary>
+           <param name="maskedFormatInfo1">format info indicator, with mask still applied</param>
+           <param name="maskedFormatInfo2">The masked format info2.</param>
+           <returns>
+           information about the format it specifies, or <code>null</code>
+           if doesn't seem to match any known pattern
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="maskedFormatInfo1" type="Integer" paramflags="const" />
+          <parameter name="maskedFormatInfo2" type="Integer" paramflags="const" />
+          <retval type="TFormatInformation">
+            <devnotes>
+<!-- Badly formed XML comment ignored for member 'TFormatInformation' -->
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <property name="ErrorCorrectionLevel" visibility="public" read="FErrorCorrectionLevel" type="TErrorCorrectionLevel" file="ZXing.QrCode.Internal.FormatInformation.pas" line="78" />
+      <property name="DataMask" visibility="public" read="FDataMask" type="Byte" file="ZXing.QrCode.Internal.FormatInformation.pas" line="80" />
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

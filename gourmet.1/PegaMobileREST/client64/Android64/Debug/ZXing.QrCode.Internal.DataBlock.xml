@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.DataBlock" platform="Android">
+  <class name="TDataBlock" sealed="true" file="ZXing.QrCode.Internal.DataBlock.pas" line="35">
+    <devnotes>
+       <summary> <p>Encapsulates a block of data within a QR Code. QR Codes may split their data into
+       multiple blocks, each of which is a unit of data and error-correction codewords. Each
+       is represented by an instance of this class.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="Fcodewords" type="TArray&lt;System.Byte&gt;" visibility="private" size="8" offset="8" file="ZXing.QrCode.Internal.DataBlock.pas" line="37" />
+      <field name="FnumDataCodewords" type="Integer" visibility="private" size="4" offset="16" file="ZXing.QrCode.Internal.DataBlock.pas" line="38" />
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.DataBlock.pas" line="40">
+        <parameters>
+          <parameter name="codewords" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="NumDataCodewords" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.QrCode.Internal.DataBlock.pas" line="42">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="getDataBlocks" visibility="public" procflags="static" file="ZXing.QrCode.Internal.DataBlock.pas" line="58">
+        <devnotes>
+           <summary> <p>When QR Codes use multiple data blocks, they are actually interleaved.
+           That is, the first byte of data block 1 to n is written, then the second bytes, and so on. This
+           method will separate the data into original blocks.</p>
+          
+           </summary>
+           <param name="rawCodewords">bytes as read directly from the QR Code
+           </param>
+           <param name="version">version of the QR Code
+           </param>
+           <param name="ecLevel">error-correction level of the QR Code
+           </param>
+           <returns> {@link TDataBlock}s containing original bytes, &quot;de-interleaved&quot; from representation in the
+           QR Code
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="rawCodewords" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="version" type="TVersion" paramflags="const" />
+          <parameter name="ecLevel" type="TErrorCorrectionLevel" paramflags="const" />
+          <retval type="TArray&lt;ZXing.QrCode.Internal.DataBlock.TDataBlock&gt;" />
+        </parameters>
+      </function>
+      <property name="codewords" visibility="public" read="Fcodewords" type="TArray&lt;System.Byte&gt;" file="ZXing.QrCode.Internal.DataBlock.pas" line="61" />
+      <property name="numDataCodewords" visibility="public" read="FnumDataCodewords" type="Integer" file="ZXing.QrCode.Internal.DataBlock.pas" line="62" />
+    </members>
+  </class>
+</namespace>

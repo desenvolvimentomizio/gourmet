@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXIng.ByteSegments" platform="Android">
+  <interface name="IByteSegments" GUID="{0994FC90-E8F5-40D8-8A48-9B05DFFF2635}" ancestor="IInterface" file="ZXing.ByteSegments.pas" line="9">
+    <devnotes>
+       <summary>
+        implements the ByteSegments (which was declared as a TList&lt;TArray<Byte>&gt;
+        throughout the code as reference-counted interface object)
+       </summary>
+    </devnotes>
+    <function name="Count" visibility="public" procflags="abstract virtual" file="ZXing.ByteSegments.pas" line="11">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <procedure name="Clear" visibility="public" procflags="abstract virtual" file="ZXing.ByteSegments.pas" line="12">
+    </procedure>
+    <function name="GetCapacity" visibility="public" procflags="abstract virtual" file="ZXing.ByteSegments.pas" line="13">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <procedure name="SetCapacity" visibility="public" procflags="abstract virtual" file="ZXing.ByteSegments.pas" line="14">
+      <parameters>
+        <parameter name="Value" type="Integer" paramflags="const" />
+      </parameters>
+    </procedure>
+    <property name="Capacity" visibility="public" read="GetCapacity" write="SetCapacity" type="Integer" file="ZXing.ByteSegments.pas" line="15" />
+    <function name="Add" visibility="public" procflags="abstract virtual" file="ZXing.ByteSegments.pas" line="16">
+      <parameters>
+        <parameter name="item" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+  </interface>
+  <function name="ByteSegmentsCreate" visibility="public" file="ZXing.ByteSegments.pas" line="43">
+    <parameters>
+      <retval type="IByteSegments">
+        <devnotes>
+           <summary>
+            implements the ByteSegments (which was declared as a TList&lt;TArray<Byte>&gt;
+            throughout the code as reference-counted interface object)
+           </summary>
+        </devnotes>
+      </retval>
+    </parameters>
+  </function>
+</namespace>

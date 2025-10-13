@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.BitArray" platform="Android">
+  <interface name="IBitArray" GUID="{3D65F451-E408-4015-A637-73CD05877BCB}" ancestor="IInterface" file="ZXing.Common.BitArray.pas" line="25">
+    <function name="GetBit" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="28">
+      <parameters>
+        <parameter name="i" type="Integer" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="SetBit" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="29">
+      <parameters>
+        <parameter name="i" type="Integer" />
+        <parameter name="Value" type="Boolean" />
+      </parameters>
+    </procedure>
+    <function name="GetBits" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="30">
+      <parameters>
+        <retval type="TArray&lt;System.Integer&gt;" />
+      </parameters>
+    </function>
+    <function name="Size" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="32">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="SizeInBytes" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="33">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <property name="Self[i]" visibility="public" read="GetBit" write="SetBit" type="Boolean" file="ZXing.Common.BitArray.pas" line="35" />
+    <property name="Bits" visibility="public" read="GetBits" type="TArray&lt;System.Integer&gt;" file="ZXing.Common.BitArray.pas" line="36" />
+    <function name="getNextSet" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="38">
+      <parameters>
+        <parameter name="from" type="Integer" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getNextUnset" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="39">
+      <parameters>
+        <parameter name="from" type="Integer" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <procedure name="setBulk" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="41">
+      <parameters>
+        <parameter name="i" type="Integer" />
+        <parameter name="newBits" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="setRange" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="42">
+      <parameters>
+        <parameter name="start" type="Integer" />
+        <parameter name="ending" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="appendBit" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="43">
+      <parameters>
+        <parameter name="bit" type="Boolean" />
+      </parameters>
+    </procedure>
+    <procedure name="Reverse" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="44">
+    </procedure>
+    <procedure name="clear" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="45">
+    </procedure>
+    <function name="isRange" visibility="public" procflags="abstract virtual" file="ZXing.Common.BitArray.pas" line="47">
+      <parameters>
+        <parameter name="start" type="Integer" />
+        <parameter name="ending" type="Integer" />
+        <parameter name="value" type="Boolean" paramflags="const" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+  </interface>
+  <class name="TBitArrayHelpers" file="ZXing.Common.BitArray.pas" line="50">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <function name="CreateBitArray" visibility="public" procflags="class overload" file="ZXing.Common.BitArray.pas" line="51">
+        <parameters>
+          <retval type="IBitArray" />
+        </parameters>
+      </function>
+      <function name="CreateBitArray" visibility="public" procflags="class overload" file="ZXing.Common.BitArray.pas" line="52">
+        <parameters>
+          <parameter name="Size" type="Integer" paramflags="const" />
+          <retval type="IBitArray" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

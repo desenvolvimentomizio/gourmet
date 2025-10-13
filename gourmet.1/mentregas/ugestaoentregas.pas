@@ -1,0 +1,220 @@
+unit ugestaoentregas;
+
+interface
+
+uses
+  RESTRequest4D,
+  System.SysUtils,
+  REST.Types,
+  System.JSON,
+  System.DateUtils;
+
+  Const
+    ATOKEN='6719a86650227621bed7c680c09b4c69ce559765b70f6cd9e729ae1b8efc46a6';
+
+procedure enviaPedido(aCNPJ:String;aNrPedido:String; aNome:String; aEndereco:String;
+                    aTotal:Double; aMetodo:String);
+procedure removePedido(aTelefoneEntregador:String; aChavePedido:String; aEmpresaID:String);
+
+implementation
+
+uses
+  Vcl.Dialogs, System.Character;
+
+function CleanHiddenChars(const S: string; KeepCRLF: Boolean = False; CompressSpaces: Boolean = False): string;
+var
+  ch: Char;
+  prevIsSpace: Boolean;
+begin
+  Result := '';
+  prevIsSpace := False;
+
+  for ch in S do
+  begin
+    // Remove BOM e zero-width
+    if (ch = #$FEFF) or   // BOM / ZWNBSP
+       (ch = #$200B) or   // zero width space
+       (ch = #$200C) or   // zero width non-joiner
+       (ch = #$200D) or   // zero width joiner
+       (ch = #$2060) then // word joiner
+      Continue;
+
+    // NBSP vira espaço normal
+   // if ch = #$00A0 then
+   //   ch := ' ';
+
+    // Controle: remove, exceto CR/LF/TAB se quiser manter
+    if TCharacter.IsControl(ch) then
+    begin
+      if KeepCRLF and ((ch = #13) or (ch = #10) or (ch = #9)) then
+      begin
+        Result := Result + ch;
+        prevIsSpace := False;
+      end;
+      Continue;
+    end;
+
+    // Opcional: comprimir espaços consecutivos
+    if CompressSpaces and (ch = ' ') then
+    begin
+      if not prevIsSpace then
+      begin
+        Result := Result + ' ';
+        prevIsSpace := True;
+      end;
+      Continue;
+    end;
+
+    Result := Result + ch;
+    prevIsSpace := (ch = ' ');
+  end;
+
+  // Ajuste final: tira espaços nas pontas
+   Result:=stringreplace(Result,'\"','"',[rfReplaceAll, rfIgnoreCase]);
+
+  Result := Result.Trim;
+end;
+
+
+function GerarJSON(aCNPJ:String; aNrPedido:String; aNome:String; aEndereco:String;
+                    aTotal:Double; aMetodo:String):String;
+var
+  RootObj, OrderObj: TJSONObject;
+  OrdersArr: TJSONArray;
+  ISODate: string;
+begin
+  // Pega a data/hora no formato ISO 8601
+  ISODate := DateToISO8601(TTimeZone.Local.ToUniversalTime(Now), True);
+
+  RootObj := TJSONObject.Create;
+  try
+    OrdersArr := TJSONArray.Create;
+
+    // Pedido 1
+    OrderObj := TJSONObject.Create;
+    OrderObj.AddPair('id', TJSONString.Create(aNrPedido));
+    OrderObj.AddPair('customer_name', aNome);
+    OrderObj.AddPair('address', CleanHiddenChars(aEndereco));
+    OrderObj.AddPair('total', TJSONNumber.Create(aTotal));
+    OrderObj.AddPair('payment_method', aMetodo);
+    OrderObj.AddPair('status', 'novo');
+    OrderObj.AddPair('created_at', ISODate);
+    OrderObj.AddPair('updated_at', ISODate);
+    OrdersArr.AddElement(OrderObj);
+
+
+    // Adiciona o array ao objeto raiz
+    RootObj.AddPair('orders', OrdersArr);
+
+
+  finally
+    Result:=RootObj.ToString;
+ //   RootObj.Free; // Libera memória
+  end;
+end;
+
+function ParseJSONObjectStrict(const S: string): TJSONObject;
+var
+  V: TJSONValue;
+begin
+  // Use o overload de bytes para evitar problemas de BOM/encoding
+  V := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(S), 0);
+  if not Assigned(V) then
+    raise Exception.Create('JSON inválido');
+
+  if not (V is TJSONObject) then
+  begin
+    try
+      raise Exception.CreateFmt('JSON não é um objeto (é %s)', [V.ClassName]);
+    finally
+      V.Free;
+    end;
+  end;
+
+  // transfere a posse para o chamador
+  Result := TJSONObject(V);
+end;
+
+
+procedure enviaPedido(aCNPJ:String; aNrPedido:String; aNome:String; aEndereco:String;
+                    aTotal:Double; aMetodo:String);
+var
+  oPedido:String;
+  joPedido:TJsonObject;
+  LResponse: IResponse;
+  ISODate: string;
+  a:string;
+
+begin
+  oPedido:=GerarJSON(aCNPJ,aNrPedido,aNome, aEndereco, aTotal,aMetodo);
+ // oPedido:=stringreplace(oPedido,'\"','"',[rfReplaceAll, rfIgnoreCase]);
+  joPedido:=TJSONObject.Create;
+  joPedido :=TJSONObject.ParseJSONValue(oPedido) as TJSONObject;
+  a:=joPedido.ToString;
+  try
+    try
+    // Faz o POST
+    LResponse := TRequest.New
+      .BaseURL('https://api.entregas.miziosistemas.com.br/pedidos/feed')
+      .AddHeader('Content-Type', 'application/json')
+      .AddHeader('X-Webhook-Token', ATOKEN)
+      .AddBody(joPedido.ToString,TRESTContentType.ctAPPLICATION_JSON ) // corpo JSON
+      .Post;
+
+      Showmessage(LResponse.Content);
+    // Checa resultado
+    if LResponse.StatusCode = 200 then
+    begin
+
+    end;
+    except
+      on e: Exception do
+      begin
+        Showmessage(e.Message);
+      end;
+    end;
+
+  finally
+   // oPedido.Free;
+  end;
+
+end;
+
+procedure removePedido(aTelefoneEntregador:String; aChavePedido:String; aEmpresaID:String);
+var
+  LResponse: IResponse;
+  ISODate: string;
+  LJSON: TJSONObject;
+begin
+// Gera o timestamp ISO 8601 (UTC = True, Local = False)
+  ISODate := DateToISO8601(Now, False);
+
+  // Monta o JSON
+  LJSON := TJSONObject.Create;
+  try
+    LJSON.AddPair('external_id', TJSONString.Create(aChavePedido));
+    LJSON.AddPair('operator_phone',aTelefoneEntregador);
+    LJSON.AddPair('bussiness_id',aEmpresaID);
+    LJSON.AddPair('timestamp', ISODate);
+
+    // Faz o POST
+    LResponse := TRequest.New
+      .BaseURL('https://api.entregas.miziosistemas.com.br/pedidos/revert')
+      .AddHeader('Content-Type', 'application/json')
+      .AddHeader('X-Webhook-Token', ATOKEN)
+      .AddBody(LJSON.ToJSON) // corpo JSON
+      .Post;
+
+    // Checa resultado
+    if LResponse.StatusCode = 200 then
+    begin
+
+    end;
+
+  finally
+    LJSON.Free;
+  end;
+
+end;
+
+end.

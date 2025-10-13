@@ -1,0 +1,122 @@
+unit uflteFormaCredito;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TflteFormaCredito = class(TForm)
+    plformulario: TPanel;
+    plCentro: TPanel;
+    Panel2: TPanel;
+    btOK: TBitBtn;
+    btCancel: TBitBtn;
+    plTitulo: TPanel;
+    plMensagem: TLabel;
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btOKClick(Sender: TObject);
+    procedure btCancelClick(Sender: TObject);
+  private
+    { Private declarations }
+    vpLarguraTela: Integer;
+    vpAlturaTela: Integer;
+
+    procedure AjustaaoMonitor;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    vpPodeFechar:Boolean;
+
+  end;
+
+var
+  flteFormaCredito: TflteFormaCredito;
+
+implementation
+
+{$R *.dfm}
+
+procedure TflteFormaCredito.btCancelClick(Sender: TObject);
+begin
+  vpPodeFechar:=True;
+  ModalResult:=mrCancel;
+end;
+
+procedure TflteFormaCredito.btOKClick(Sender: TObject);
+begin
+  vpPodeFechar:=True;
+  ModalResult:=MrOK;
+end;
+
+procedure TflteFormaCredito.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  CanClose := vpPodeFechar;
+
+end;
+
+
+procedure TflteFormaCredito.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+
+  if  Key = 27 then
+  begin
+    vpPodeFechar:=fALSE;
+    Abort;
+  end;
+
+end;
+
+procedure TflteFormaCredito.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    try
+      vpPodeFechar:=true;
+      ModalResult:=MrOK;
+    except
+    //  ModalResult:=mrCancel;
+    end;
+
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    vpPodeFechar:=fALSE;
+  End;
+
+end;
+
+procedure TflteFormaCredito.AjustaaoMonitor;
+begin
+
+  if vpLarguraTela = 0 then
+    vpLarguraTela := screen.Width;
+
+  if vpAlturaTela = 0 then
+    vpAlturaTela := screen.Height;
+
+  WindowState := wsMaximized;
+
+  scaled := True;
+   Height := Longint(Height) * Longint(screen.Height) DIV vpAlturaTela;
+   Width := Longint(Width) * Longint(screen.Width) DIV vpLarguraTela;
+    scaleBy(screen.Width, vpLarguraTela);
+
+  plCentro.left:=(vpLarguraTela div 2) - (plCentro.Width div 2);
+  plCentro.top:=(vpAlturaTela div 2) - (plCentro.Height div 2);
+
+end;
+
+
+end.

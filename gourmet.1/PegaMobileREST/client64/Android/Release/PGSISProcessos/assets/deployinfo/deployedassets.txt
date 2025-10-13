@@ -1,0 +1,2 @@
+.\assets\internal\erro.mp3
+.\assets\internal\acerto.mp3

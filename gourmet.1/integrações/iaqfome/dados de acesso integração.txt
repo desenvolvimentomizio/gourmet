@@ -1,0 +1,97 @@
+Boa Tarde Daniel
+
+Para fazer pedido teste
+link para pedidos de teste: http://sandbox-raimundo.aiqfome.com:8765/
+
+Dados de cliente teste:
+usuario: daniel.mizio@gmail.com
+senha: p3g$su5S1st3ma%
+
+Para acessar a plataforma do restaurante
+
+ --  link para acessar os restaurante: http://18.117.153.55:8787/
+link para acessar os restaurante: http://3.138.157.136:8787/
+usuario: daniel@pegasussistemas.com.br
+--- usuario: daniel@miziosistemas.com.br
+senha: p3g$su5S1st3ma%
+
+Token de acesso a api
+
+Client ID
+mizio  
+
+Client Secret
+69014ac1-c8a7-4a11-b891-7290558fb18b
+
+Cupom teste para o ambiente sandbox
+
+TESTEVALOR - 10 reais
+
+TESTEPORCENTAGEM - 10%
+
+Link da api em sandbox: http://sandbox-raimundo.aiqfome.com:8889/alfredo/
+
+Link da documentação da api: https://app.swaggerhub.com/apis-docs/aiq6/api-aiqfome/1.0.0
+
+segue em anexo:
+
+- documentação de apoio da api
+
+- collections
+
+Qualquer dúvida estou à disposição.
+
+Att
+
+Em qua., 15 de set. de 2021 às 15:57, Daniel de Souza <daniel@miziosistemas.com.br> escreveu:
+
+    Boa tarde
+
+    Iniciando o processo de integração:
+
+         Gostaria de inicia o processo de integração
+
+    Informe o seu ip externo no qual vai acessar nossa api em sandbox
+
+         189.113.123.127
+
+    Restaurante teste que são clientes de vocês e estão no aiqfome que
+    possamos nos basear no cardápio
+
+         https://www.aiqfome.com/MT/sorriso/pizzaria-kuskao
+
+         https://www.aiqfome.com/MT/sorriso/dinhos-pizza
+
+
+    Daniel de souza
+
+    Mizio Sistemas
+
+    Sorriso - MT
+
+
+
+    -- 
+    Este email foi escaneado pelo Avast antivírus.
+    https://www.avast.com/antivirus
+
+
+
+-- 
+
+	
+
+lucas cavalli
+analista de negócios • vertical food delivery
+empresa do grupo magalu
+whatsapp 44-9-8812-0920
+
+ 
+ministério do aiq. adverte: este email pode conter infos confidenciais. se você recebeu por engano, avisa nóis e apaga, por favor; o conteúdo desse email não pode ser copiado ou divulgado, segredin nosso. apesar de passarmos alkingel nos servidores e tomarmos todos os cuidados pra garantir que nenhum vírus esteja presente nesse e-mail, o aiq. não poderá aceitar a responsa por quaisquer perdas ou danos causados por esse email ou por seus anexos, oks?
+
+
+
+
+‘Esta mensagem é direcionada apenas para os endereços constantes no cabeçalho inicial. Se você não está listado nos endereços constantes no cabeçalho, pedimos-lhe que desconsidere completamente o conteúdo dessa mensagem e cuja cópia, encaminhamento e/ou execução das ações citadas estão imediatamente anuladas e proibidas’.
+
+ ‘Apesar do Magazine Luiza tomar todas as precauções razoáveis para assegurar que nenhum vírus esteja presente nesse e-mail, a empresa não poderá aceitar a responsabilidade por quaisquer perdas ou danos causados por esse e-mail ou por seus anexos’.

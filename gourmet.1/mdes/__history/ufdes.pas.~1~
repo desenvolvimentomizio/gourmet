@@ -1,0 +1,352 @@
+unit ufdes;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, Data.DB, DBAccess, Uni,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, Vcl.Controls, Vcl.ExtCtrls,
+  System.Classes, System.SysUtils, Winapi.Messages, uFuncoes, Dialogs,
+  VirtualTable, MemDS, jPeg, Vcl.Graphics;
+
+type
+  Tfdes = class(TForm)
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    Label2: TLabel;
+    Label1: TLabel;
+    Label3: TLabel;
+    percentual: TDBEdit;
+    valor: TDBEdit;
+    liquido: TDBEdit;
+    Ddes: tunidatasource;
+    des: TVirtualTable;
+    desdespercentual: TFloatField;
+    desdesvalor: TFloatField;
+    desdesliquido: TFloatField;
+    desdesbruto: TFloatField;
+    PlTitulo: TPanel;
+    Label4: TLabel;
+    plpercmax: TPanel;
+    bruto: TDBEdit;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+    procedure valorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure bcancelaClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure percentualKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure liquidoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure liquidoEnter(Sender: TObject);
+    procedure liquidoExit(Sender: TObject);
+  private
+    Fzcone: tuniconnection;
+    function autorizado(motivo: String): Boolean;
+
+    { Private declarations }
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+  public
+    { Public declarations }
+    vpOrcChave: String;
+    vpMesChave: String;
+    vpTdeCodigo: String;
+
+    vpUsrCodigo: String;
+    vvalor: Double;
+    vpercen: Double;
+    vdesconto: string;
+    vpercmax: Double;
+
+  end;
+
+  TAutorizacao = function(AOwner: TComponent; Conexao: tuniconnection; vusuario: string; vactcodigo: string = ''; vmotivo: string = ''; vtdecodigo: String = '';
+    vorcchave: String = ''; vmeschave: String = ''; vltecodigo: String = ''; vddfcodigo: String = ''; vForcaLogin: Boolean = false; vtabela: string = '';
+    vregistro: string = ''): string;
+
+var
+  fdes: Tfdes;
+
+implementation
+
+{$R *.dfm}
+
+function ajustadesconto(AOwner: TComponent; Conexao: tuniconnection; vdesconto, vPercentual, vvalor, vBruto, vtipo, vusrcodigo, vpermax: string; vtdecodigo: String = '';
+  vorcchave: String = ''; vmeschave: String = ''): string;
+var
+  vretorno: string;
+  i: integer;
+begin
+
+  try
+    vretorno := '0$';
+    fdes := Tfdes.Create(AOwner);
+    fdes.zcone := Conexao;
+    fdes.vpUsrCodigo := vusrcodigo;
+
+    fdes.vpTdeCodigo := vtdecodigo;
+    fdes.vpOrcChave := vorcchave;
+    fdes.vpMesChave := vmeschave;
+
+    fdes.name := 'fdes';
+
+    fdes.des.Close;
+    fdes.des.Open;
+    fdes.des.Append;
+    fdes.desdespercentual.AsFloat := StrToFloat(vPercentual);
+    fdes.Label3.Caption := vtipo;
+    fdes.vpercmax := StrToFloat(vpermax);
+    fdes.plpercmax.Caption := vpermax + ' %';
+
+    fdes.vpercen := fdes.desdespercentual.AsFloat;
+    fdes.desdesvalor.AsFloat := StrToCurr(vdesconto);
+    fdes.vvalor := StrToCurr(vdesconto);
+
+    if vtipo = 'Geral' then
+    begin
+      fdes.PlTitulo.Caption := 'Desconto Geral';
+      fdes.desdesbruto.AsFloat := StrToCurr(vvalor);
+    end
+    else
+    begin
+      fdes.PlTitulo.Caption := 'Desconto No Item';
+      fdes.desdesbruto.AsFloat := StrToCurr(vBruto);
+    end;
+
+    if fdes.ShowModal = mrOk then
+      vretorno := fdes.valor.Field.AsString + '$' + fdes.liquido.Field.AsString + '#' + fdes.percentual.Field.AsString + '@'
+    else
+      vretorno := '';
+
+    Result := vretorno;
+
+  finally
+    FreeAndNil(fdes);
+  end;
+end;
+
+exports ajustadesconto;
+
+procedure Tfdes.bcancelaClick(Sender: TObject);
+begin
+  vdesconto := '0';
+  ModalResult := mrCancel;
+end;
+
+procedure Tfdes.bconfirmaClick(Sender: TObject);
+begin
+  if not autorizado('desconto#' + FloatToStr(percentual.Field.AsFloat)) then
+  begin
+    percentual.SetFocus;
+    Exit;
+  end;
+  if liquido.Field.AsCurrency < 0 then
+  begin
+    Showmessage('Não é possível Valor Líquido do Item NEGATIVO!');
+    percentual.SetFocus;
+    Exit;
+  end;
+  if valor.Field.AsCurrency > bruto.Field.AsCurrency then
+  begin
+    Showmessage('Não é possível Valor de Desconto maior que o Valor Base!');
+    percentual.SetFocus;
+    Exit;
+  end;
+
+  vdesconto := valor.Field.AsString;
+  ModalResult := mrOk;
+end;
+
+procedure Tfdes.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = '\' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    bcancela.Click;
+  End;
+end;
+
+procedure Tfdes.FormShow(Sender: TObject);
+var
+  (* Utilizdos para chamar valorKeyUp(Sender, vKey, vShift); *)
+  vKey: Word;
+  vShift: TShiftState;
+begin
+
+  vKey := 0;
+  vShift := [];
+
+  vpercen := 0;
+  vdesconto := '0';
+
+  If desdespercentual.AsFloat <> 0 Then
+  Begin
+    vpercen := desdespercentual.AsFloat;
+    Self.desdesvalor.AsCurrency := fdes.desdesbruto.AsCurrency * (desdespercentual.AsFloat / 100);
+  End;
+
+  desdesliquido.AsCurrency := desdesbruto.AsCurrency - Self.desdesvalor.AsCurrency;
+
+  if Self.desdespercentual.AsFloat < 0 then
+  begin
+    desdesvalor.AsFloat := 0;
+    Self.desdespercentual.AsFloat := 0;
+    desdesliquido.AsFloat := 0;
+  end;
+
+  if desdesvalor.AsFloat > 0 then
+    valorKeyUp(Sender, vKey, vShift);
+end;
+
+procedure Tfdes.liquidoEnter(Sender: TObject);
+begin
+  if (Self.percentual.Field.AsFloat = 0) then
+    liquido.Field.AsCurrency := bruto.Field.AsCurrency;
+end;
+
+procedure Tfdes.liquidoExit(Sender: TObject);
+begin
+  if liquido.Field.AsCurrency = 0 then
+  begin
+    Self.bconfirma.Enabled := false;
+    Self.bcancela.SetFocus;
+  end
+  else
+  begin
+    if bconfirma.Enabled then
+      bconfirma.SetFocus;
+  end;
+end;
+
+procedure Tfdes.liquidoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  Try
+    valor.Field.AsCurrency := bruto.Field.AsCurrency - StrToCurr(liquido.Text);
+    vpercen := desdespercentual.AsFloat;
+    Self.percentual.Field.AsFloat := (Self.valor.Field.AsCurrency / bruto.Field.AsCurrency) * 100;
+    if valor.Field.AsCurrency < 0 then
+    begin
+      valor.Field.AsCurrency := 0;
+      Self.percentual.Field.AsFloat := 0;
+      Self.bconfirma.Enabled := false;
+    end
+    else
+      Self.bconfirma.Enabled := True;
+  Except
+  End;
+
+  if liquido.Field.AsFloat = 0 then
+    Self.bconfirma.Enabled := false;
+end;
+
+procedure Tfdes.percentualKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  vper: string;
+  i: Word;
+  shiftstate: TShiftState;
+begin
+
+  i := Key;
+  shiftstate := Shift;
+  Try
+    vper := Self.percentual.Text;
+    vper := buscatroca(vper, '.', '');
+    vper := buscatroca(vper, '.', '');
+    vper := buscatroca(vper, '.', '');
+    vper := buscatroca(vper, ',', '.');
+
+    Self.desdesvalor.AsCurrency := desdesbruto.AsCurrency * (StrToCurr(vper) / 100);
+  Except
+  End;
+
+  desdesliquido.AsCurrency := (desdesbruto.AsCurrency - Self.desdesvalor.AsCurrency);
+
+  if Self.desdespercentual.AsCurrency < 0 then
+  begin
+    Self.desdesvalor.AsFloat := 0;
+    Self.desdespercentual.AsFloat := 0;
+    desdesliquido.AsFloat := 0;
+  end;
+
+end;
+
+procedure Tfdes.valorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  vval: string;
+  sval: Double;
+  pval: Double;
+begin
+  Try
+
+    if Self.valor.Text = '' then
+    begin
+      Self.valor.Text := '0'
+    end;
+
+    vval := Self.valor.Text;
+    vval := buscatroca(vval, '.', '');
+    vval := buscatroca(vval, '.', '');
+    vval := buscatroca(vval, '.', '');
+    sval := StrToFloat(vval);
+    vval := buscatroca(vval, ',', '.');
+    pval := (sval / desdesbruto.AsCurrency) * 100;
+    percentual.Field.AsFloat := pval;
+
+  Except
+  End;
+
+  desdesliquido.AsCurrency := (desdesbruto.AsCurrency - sval);
+
+  if Self.desdespercentual.AsFloat < 0 then
+  begin
+    Self.desdesvalor.AsFloat := 0;
+    Self.desdespercentual.AsFloat := 0;
+    desdesliquido.AsFloat := 0;
+  end;
+
+end;
+
+function Tfdes.autorizado(motivo: String): Boolean;
+var
+  auto: TAutorizacao;
+  vRetornoUsr: string;
+  vLiberacao: Boolean;
+  Pack: Cardinal;
+begin
+  vLiberacao := True;
+
+  Pack := LoadPackage('modulos\mlia.bpl');
+  if Pack <> 0 then
+    try
+      @auto := GetProcAddress(Pack, PChar('liberacao'));
+
+      if Assigned(auto) then
+      begin
+        vRetornoUsr := auto(Application, Self.zcone, vpUsrCodigo, '', motivo, vpTdeCodigo, vpOrcChave, vpMesChave);
+
+        if (vRetornoUsr = '0') or (vRetornoUsr = '') then // retornou NÃO AUTORIZADO
+          vLiberacao := false;
+      end;
+    finally
+      DoUnLoadPackage(Application, Pack);
+    end;
+
+  Result := vLiberacao;
+end;
+
+end.

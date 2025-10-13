@@ -1,0 +1,940 @@
+inherited fraspd: Tfraspd
+  Width = 1229
+  Height = 599
+  ExplicitWidth = 1229
+  ExplicitHeight = 599
+  inherited PlGeral: TPanel
+    Width = 1229
+    Height = 599
+    ExplicitWidth = 1090
+    ExplicitHeight = 599
+    inherited SplBotoes: TSplitter
+      Height = 579
+      ExplicitHeight = 579
+    end
+    inherited PlBotoes: TPanel
+      Height = 579
+      ExplicitHeight = 579
+      inherited PlInfo: TPanel
+        Top = 559
+        ExplicitTop = 559
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 556
+        ExplicitHeight = 556
+        inherited ImageLogoBase: TImage
+          Top = 500
+          ExplicitTop = 500
+        end
+      end
+    end
+    inherited PlLista: TPanel
+      Width = 1085
+      Height = 579
+      ExplicitWidth = 946
+      ExplicitHeight = 579
+      inherited SplLista: TSplitter
+        Top = 548
+        Width = 1085
+        ExplicitTop = 548
+        ExplicitWidth = 946
+      end
+      inherited SpFilter: TSplitter
+        Width = 1085
+        ExplicitWidth = 946
+      end
+      inherited PlRodaPe: TPanel
+        Top = 553
+        Width = 1085
+        ExplicitTop = 553
+        ExplicitWidth = 946
+        object plemail: TPanel
+          Left = 0
+          Top = 0
+          Width = 369
+          Height = 26
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 0
+          Visible = False
+          object Image3: TImage
+            Left = 0
+            Top = 0
+            Width = 25
+            Height = 26
+            Align = alLeft
+            Picture.Data = {
+              0954506E67496D61676589504E470D0A1A0A0000000D49484452000000180000
+              00180806000000E0773DF8000003844944415478DAA55669485451143E67724B
+              2753CBC4A228D052FF6414FDCCA60503A3D4284D4514138C4A85D2AC3135EB87
+              B8A08E6D4399206905B9B488F9A7C9FE050951A42D8611D230E586FBD8CCDCCE
+              7DE3D337AB535D38F7DD77DFBBE73BDF77CEBDEF21386B4995A1D42792ED218B
+              205B3DFF6488AC97EC05D903683EF7C5910B74E0380410CB6974081893D178F1
+              3DC698702F5E018C347E42E37C683ADBBF344072553A2DA8A3053E160E1D0388
+              73D3343A43200D8E01922A0BA92F85FF6B4524D9555B80A4CA748AA25E98B38D
+              CE1506D27186C804173407786B57967F03E07245F29C8800ADD4C78A3E82FDE5
+              A04A554048909F4B9AF4EBC620BB5103DAD149E9743B49158F422922F649ABA5
+              31EB00EBEB1FC09AF65760E21159E64ABC17AE325A921BBB8B856F5A8FA9EA2E
+              3E23ADAE70A4AAB92424564253A33CCABE0D6A31A3E621984C26A7127180FADC
+              04B63128001517D500F2550CDC3C44B98A38030D0DA3A4DC34CA633030A805EE
+              36A396408C26BBD2C896C9A03E2701F406236C5917088AF3D7390302090070F7
+              E2AF7473063A1AACB16670A4448DCAC47D1020F766C4044D82528B0C28724691
+              A36E6C02CA1F69588B320D15053716197AAF04F094FFE40C8CD6FB8133882F51
+              C3E8E43454651E2690E5302F973972998CCB02DC79414307F8CBBDA1B530CDCC
+              606103904B4F1FC6197000990D8362358E10C0DA005FF6EE661E3E7DFD4100A1
+              17D89D9C048CD919C1224F55E28F917181654BA11503733339968800BC3CDCA0
+              A334935D68E8C0BD91A1B07FDB661E1AEB7CD3872FDF7F6565E9311853741B66
+              E70C8E007E71009EE4DDD600A755F7F15E5E3249F08C75F57C12E62336040959
+              E8FDAE13AA287A471896A51F84948A2676ED64BC3D806E9E035EA697AD7310EC
+              EB0939B7DAA0ABE7A3D34D16BD3D0C6AB3E2404B5259E4C09C871284E315A194
+              359B8DA69F1CC76C027065A3A9B2E298A7BB1BA656354B19F08A08372F4CAE6A
+              A507B12240B09F0F53A5446148E00AA943BB00C251A11D62140C7216128036E8
+              AC8EB73CEC00BC2D284E8D02E8A7E0AF1BE20CF55B09A0DFF971CDD599196730
+              3BE1FA696A6676829CDF05EB0D4652993F38DCB174F1DC340A6C9606E0CE8BC9
+              F995053236F43813803A1BB90C7A8089617261FF5C9AFF06648B913B06107362
+              EFA36F98E3200C9811ADAAE531593ED7DC06D769B278092326922DFEB6180D00
+              93C3C360FC6DFE6D61F4DBF2BCFAB323177F0080A4F1C0DD1046AA0000000049
+              454E44AE426082}
+            ExplicitLeft = 2
+            ExplicitTop = 2
+            ExplicitHeight = 22
+          end
+          object plSutuacao: TPanel
+            Left = 25
+            Top = 0
+            Width = 193
+            Height = 26
+            Align = alLeft
+            Alignment = taLeftJustify
+            BevelOuter = bvNone
+            BorderWidth = 2
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object mostra: TProgressBar
+            Left = 224
+            Top = 3
+            Width = 137
+            Height = 17
+            TabOrder = 1
+          end
+        end
+      end
+      inherited PlFiltros: TPanel
+        Width = 1085
+        ExplicitWidth = 946
+      end
+      inherited PlSelecao: TPanel
+        Width = 1085
+        ExplicitWidth = 946
+        inherited GBPlSelecao: TGroupBox
+          Width = 1081
+          ExplicitWidth = 942
+          inherited DBLista: TDBGrid
+            Width = 974
+          end
+        end
+      end
+      inherited PnlGrid: TPanel
+        Width = 1085
+        Height = 419
+        ExplicitWidth = 946
+        ExplicitHeight = 419
+        inherited DBGLista: TDBGrid
+          Width = 1085
+          Height = 394
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ativo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spdchave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spdexercicio'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spddatainicial'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spddatafinal'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spddatabalanco'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spdregistro'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spdenvio'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ivtgerado'
+              Width = 86
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ivdgerado'
+              Width = 112
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'spdpasta'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 394
+          Width = 1085
+          ExplicitTop = 394
+          ExplicitWidth = 946
+        end
+      end
+    end
+    inherited PlTitulo: TPanel
+      Width = 1229
+      ExplicitWidth = 1090
+      inherited plid: TPanel
+        Left = 779
+        Caption = '04-05-000'
+        ExplicitLeft = 640
+      end
+      inherited PlSair: TPanel
+        Left = 1023
+        ExplicitLeft = 884
+      end
+    end
+  end
+  inherited acoes: TActionList
+    Left = 836
+    inherited ActIncluir: TAction
+      OnExecute = ActIncluirExecute
+    end
+    inherited ActAlterar: TAction
+      OnExecute = ActAlterarExecute
+    end
+    object ActVendasnosCartoes: TAction [3]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Vendas nos Cart'#244'es'
+      OnExecute = ActVendasnosCartoesExecute
+    end
+    object ActGerarInventario: TAction
+      Category = 'Gera'#231#227'o'
+      Caption = 'Gerar Invent'#225'rio'
+      OnExecute = ActGerarInventarioExecute
+    end
+    object ActSpedFiscal: TAction
+      Category = 'SPED Fiscal'
+      Caption = 'Gerar SPED'
+      OnExecute = ActSpedFiscalExecute
+    end
+    object ActSpedEmail: TAction
+      Category = 'SPED Fiscal'
+      Caption = 'Enviar Email'
+      OnExecute = ActSpedEmailExecute
+    end
+    object ActSpedContribuicoes: TAction
+      Category = 'SPED Contribui'#231#245'es'
+      Caption = 'Gerar SPED'
+      OnExecute = ActSpedContribuicoesExecute
+    end
+  end
+  inherited mdl: TUniQuery
+    Left = 300
+    Top = 240
+  end
+  inherited dau: TUniQuery
+    Left = 244
+    Top = 208
+  end
+  inherited act: TUniQuery
+    Left = 200
+    Top = 208
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  spdchave,'
+      '  spdexercicio,'
+      '  spddatainicial,'
+      '  spddatafinal,'
+      '  spddatabalanco,'
+      '  pcccodigo,'
+      '  spdativo,'
+      '  IF(spdativo = '#39'1'#39', '#39'A'#39', '#39' '#39') AS ativo,'
+      '  spdregistro,'
+      '  spdenvio,'
+      '  spdpasta,'
+      ' IF( (SELECT'
+      
+        '      COUNT(ivtchave) FROM ivt WHERE ivt.spdchave=spd.spdchave )' +
+        '>0,'#39'Sim'#39','#39'N'#227'o'#39') ivtgerado,'
+      ' IF( (SELECT'
+      
+        '      COUNT(ivdchave) FROM ivd WHERE ivd.spdchave=spd.spdchave )' +
+        '>0,'#39'Sim'#39','#39'N'#227'o'#39') ivdgerado'
+      'FROM spd')
+    Left = 552
+    Top = 196
+    object uqtabelaspdchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'spdchave'
+    end
+    object uqtabelaspdexercicio: TIntegerField
+      DisplayLabel = 'Exerc'#237'cio'
+      FieldName = 'spdexercicio'
+      Required = True
+    end
+    object uqtabelaspddatainicial: TDateField
+      DisplayLabel = 'Data Inicial'
+      FieldName = 'spddatainicial'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object uqtabelaspddatafinal: TDateField
+      DisplayLabel = 'Data Final'
+      FieldName = 'spddatafinal'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object uqtabelaspddatabalanco: TDateField
+      DisplayLabel = 'Data Balan'#231'o'
+      FieldName = 'spddatabalanco'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object uqtabelaspdativo: TIntegerField
+      FieldName = 'spdativo'
+    end
+    object uqtabelaativo: TStringField
+      FieldName = 'ativo'
+      Size = 1
+    end
+    object uqtabelaspdregistro: TDateTimeField
+      DisplayLabel = 'Gera'#231#227'o'
+      FieldName = 'spdregistro'
+    end
+    object uqtabelaspdenvio: TDateTimeField
+      DisplayLabel = 'Enviado'
+      FieldName = 'spdenvio'
+    end
+    object uqtabelaspdpasta: TStringField
+      DisplayLabel = 'Localiza'#231#227'o do arquivo do SPED'
+      FieldName = 'spdpasta'
+      Size = 250
+    end
+    object uqtabelaivtgerado: TStringField
+      DisplayLabel = 'Invent'#225'rio Fiscal'
+      FieldName = 'ivtgerado'
+      Size = 5
+    end
+    object uqtabelaivdgerado: TStringField
+      DisplayLabel = 'Invent'#225'rio N'#227'o Fiscal'
+      FieldName = 'ivdgerado'
+      Size = 5
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited FechaFiltro: TTimer
+    Top = 275
+  end
+  inherited XMLDocument1: TXMLDocument
+    Left = 792
+    Top = 229
+  end
+  object cfgemail: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  /*Principal*/'
+      '  cfgmcfg.cfgcodigo,'
+      '  cfgmcfg.cfgetdempresa,'
+      ''
+      '  /*Entradas*/'
+      '  cfgment.cfgprouso,'
+      '  cfgment.cfgtoeusofora,'
+      '  cfgment.cfgtoeusointe,'
+      ''
+      '  /*Sa'#237'das*/'
+      '  cfgmsai.cfgtoecuffora,'
+      '  cfgmsai.cfgtoecufinte,'
+      ''
+      '  /*Emiss'#227'o NFe*/'
+      '  cfgmnfe.cfgviasnfe,'
+      '  cfgmnfe.cfgnumeronfe,'
+      '  cfgmnfe.cfgserienfe,'
+      '  cfgmnfe.cfgnumeronfce,'
+      '  cfgmnfe.cfgserienfce,'
+      '  cfgmnfe.cfgobs1,'
+      '  cfgmnfe.cfgobs2,'
+      '  cfgmnfe.cfgobs3,'
+      '  cfgmnfe.cfgobs4,'
+      '  cfgmnfe.cfgdescrinfe,'
+      '  cfgmnfe.cfgnumecertif,'
+      '  cfgmnfe.cfgsenhacertificado,'
+      '  cfgmnfe.cfgmodonfe,'
+      ''
+      ''
+      '  /*Email*/'
+      '  cfgmnfe.cfgemailnfe,'
+      '  cfgmnfe.cfgemailservidornfe,'
+      '  cfgmnfe.cfgemailsenhanfe,'
+      '  cfgmnfe.cfgmailportnfe,'
+      '  cfgmnfe.cfgemailusatls,'
+      ''
+      '  /*SPED*/'
+      '  cfgmcfg.crtcodigo,'
+      '  cfgmspd.cfgcstterceiros,'
+      ''
+      '  /*Dados da Empresa*/'
+      '  etd.etdapelido,'
+      '  etd.etdidentificacao,'
+      '  etd.etddoc1,'
+      ''
+      '  edr.ufscodigo,'
+      '  edr.cddcodigo,'
+      '  edr.edrinscest,'
+      '  edr.edrrua,'
+      '  edr.edrnumero,'
+      '  edr.edrbairro,'
+      '  edr.edrcep,'
+      '  cdd.cddnome,'
+      '  ufs.ufssigla,'
+      ''
+      '  etf.etftelefone,'
+      '  '
+      '  /*Box-e - Dom'#237'nio Sistemas*/'
+      '  ctd.ctdemail,'
+      '  ctd.ctdboxedominio,'
+      ' cfgmensagempdv,'
+      '  cfgtrmimpfis1,'
+      '  cfgtrmimpfis2,'
+      '  cfgtrmtef1,'
+      '  cfgtrmtef2,'
+      '  cfgimpnfe1,'
+      '  cfgimpnfe2,'
+      '  cfgimpnfc1,'
+      '  cfgimpnfc2,'
+      '  cfgimpnfc3,'
+      '  cfgservarqnfes,'
+      '  cfg.cfgusanfc,'
+      '  ete.eteemail'
+      'FROM cfgmcfg,'
+      '     ufs,'
+      '     etd,'
+      '     cfgmnfe,'
+      '     cfgment,'
+      '     edr,'
+      '     cfg,'
+      '     cfgmspd,'
+      '     etf,'
+      '     cdd,'
+      '     cfgmsai,'
+      '     ctd,'
+      '     ete'
+      'WHERE cfg.cfgcodigo = ctd.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmsai.cfgcodigo'
+      'AND ufs.ufscodigo = edr.ufscodigo'
+      'AND cfg.cfgcodigo = cfgmcfg.cfgcodigo'
+      'AND etd.etdcodigo = etf.etdcodigo'
+      'AND ete.etdcodigo = etd.etdcodigo and eteenvianfe=1'
+      'AND etf.ttfcodigo = 1'
+      'AND edr.cddcodigo = cdd.cddcodigo'
+      'AND cfg.cfgcodigo = cfgment.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
+      'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND etd.etdcodigo = edr.etdcodigo'
+      'AND edr.tedcodigo = 1'
+      'AND cfg.cfgcodigo = cfgmspd.cfgcodigo'
+      'AND cfg.flacodigo = :flacodigo'
+      'order by etecodigo limit 1')
+    Left = 243
+    Top = 84
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object IntegerField1: TIntegerField
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object cfgcfgmensagempdv: TStringField
+      FieldName = 'cfgmensagempdv'
+      Size = 50
+    end
+    object cfgcfgtrmimpfis1: TIntegerField
+      FieldName = 'cfgtrmimpfis1'
+      Required = True
+    end
+    object cfgcfgtrmimpfis2: TIntegerField
+      FieldName = 'cfgtrmimpfis2'
+      Required = True
+    end
+    object cfgcfgtrmtef1: TIntegerField
+      FieldName = 'cfgtrmtef1'
+      Required = True
+    end
+    object cfgcfgtrmtef2: TIntegerField
+      FieldName = 'cfgtrmtef2'
+      Required = True
+    end
+    object cfgcfgimpnfe1: TIntegerField
+      FieldName = 'cfgimpnfe1'
+      Required = True
+    end
+    object cfgcfgimpnfe2: TIntegerField
+      FieldName = 'cfgimpnfe2'
+      Required = True
+    end
+    object cfgcfgimpnfc1: TIntegerField
+      FieldName = 'cfgimpnfc1'
+      Required = True
+    end
+    object cfgcfgimpnfc2: TIntegerField
+      FieldName = 'cfgimpnfc2'
+      Required = True
+    end
+    object cfgcfgimpnfc3: TIntegerField
+      FieldName = 'cfgimpnfc3'
+      Required = True
+    end
+    object cfgcfgservarqnfes: TStringField
+      FieldName = 'cfgservarqnfes'
+      Size = 100
+    end
+    object cfgcfgnumecertif: TStringField
+      FieldName = 'cfgnumecertif'
+      Size = 100
+    end
+    object cfgcfgsenhacertificado: TStringField
+      FieldName = 'cfgsenhacertificado'
+      Size = 50
+    end
+    object cfgcfgetdempresa: TIntegerField
+      FieldName = 'cfgetdempresa'
+    end
+    object cfgcfgprouso: TIntegerField
+      FieldName = 'cfgprouso'
+      Required = True
+    end
+    object cfgcfgtoeusofora: TIntegerField
+      FieldName = 'cfgtoeusofora'
+      Required = True
+    end
+    object cfgcfgtoeusointe: TIntegerField
+      FieldName = 'cfgtoeusointe'
+      Required = True
+    end
+    object cfgcfgtoecuffora: TIntegerField
+      FieldName = 'cfgtoecuffora'
+    end
+    object cfgcfgtoecufinte: TIntegerField
+      FieldName = 'cfgtoecufinte'
+    end
+    object cfgcfgviasnfe: TIntegerField
+      FieldName = 'cfgviasnfe'
+      Required = True
+    end
+    object cfgcfgnumeronfe: TIntegerField
+      FieldName = 'cfgnumeronfe'
+      Required = True
+    end
+    object cfgcfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Size = 5
+    end
+    object cfgcfgobs1: TIntegerField
+      FieldName = 'cfgobs1'
+      Required = True
+    end
+    object cfgcfgobs2: TIntegerField
+      FieldName = 'cfgobs2'
+      Required = True
+    end
+    object cfgcfgobs3: TIntegerField
+      FieldName = 'cfgobs3'
+      Required = True
+    end
+    object cfgcfgobs4: TIntegerField
+      FieldName = 'cfgobs4'
+      Required = True
+    end
+    object cfgcfgdescrinfe: TIntegerField
+      FieldName = 'cfgdescrinfe'
+      Required = True
+    end
+    object cfgcfgemailnfe: TStringField
+      FieldName = 'cfgemailnfe'
+      Size = 50
+    end
+    object cfgcfgemailservidornfe: TStringField
+      FieldName = 'cfgemailservidornfe'
+      Size = 50
+    end
+    object cfgcfgemailsenhanfe: TStringField
+      FieldName = 'cfgemailsenhanfe'
+      Size = 50
+    end
+    object cfgcfgmailportnfe: TStringField
+      FieldName = 'cfgmailportnfe'
+      Required = True
+      Size = 5
+    end
+    object cfgcfgemailusatls: TIntegerField
+      FieldName = 'cfgemailusatls'
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'crtcodigo'
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'cfgcstterceiros'
+      Size = 3
+    end
+    object cfgetdapelido: TStringField
+      FieldName = 'etdapelido'
+      Size = 100
+    end
+    object cfgetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      Required = True
+      Size = 50
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+    end
+    object cfgufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Required = True
+      Size = 10
+    end
+    object cfgcddcodigo: TStringField
+      FieldName = 'cddcodigo'
+      Required = True
+      Size = 10
+    end
+    object cfgedrinscest: TStringField
+      FieldName = 'edrinscest'
+      Required = True
+    end
+    object cfgedrrua: TStringField
+      FieldName = 'edrrua'
+      Required = True
+      Size = 50
+    end
+    object cfgedrnumero: TStringField
+      FieldName = 'edrnumero'
+      Required = True
+      Size = 10
+    end
+    object cfgedrbairro: TStringField
+      FieldName = 'edrbairro'
+      Required = True
+      Size = 60
+    end
+    object cfgedrcep: TStringField
+      FieldName = 'edrcep'
+      Required = True
+      Size = 10
+    end
+    object cfgcddnome: TStringField
+      FieldName = 'cddnome'
+      Required = True
+      Size = 50
+    end
+    object cfgufssigla: TStringField
+      FieldName = 'ufssigla'
+      Required = True
+      Size = 3
+    end
+    object cfgetftelefone: TStringField
+      FieldName = 'etftelefone'
+      Required = True
+    end
+    object cfgctdboxedominio: TStringField
+      FieldName = 'ctdboxedominio'
+      Size = 200
+    end
+    object cfgcfgmodonfe: TIntegerField
+      FieldName = 'cfgmodonfe'
+    end
+    object cfgemailctdemail: TStringField
+      FieldName = 'ctdemail'
+      Size = 200
+    end
+    object cfgemaileteemail: TStringField
+      FieldName = 'eteemail'
+      Size = 200
+    end
+  end
+  object pegasusonline: TUniConnection
+    ProviderName = 'MySQL'
+    Port = 3306
+    Database = 'publica_pegasus'
+    Username = 'root'
+    Server = 'mysql.pegasussistemas.com.br'
+    LoginPrompt = False
+    Left = 868
+    Top = 207
+    EncryptedPassword = 'AFFF9AFF98FF9EFF8CFF8AFF8CFFC6FFC8FFCCFF'
+  end
+  object pegasus_gab: TUniQuery
+    Connection = pegasusonline
+    SQL.Strings = (
+      'SELECT'
+      '  pegasus_gabchave,'
+      '  pegasus_gabdoc1,'
+      '  pegasus_gabnome,'
+      '  pegasus_gabbackup,'
+      '  pegasus_gabcontigencia,'
+      '  pegasus_gabversao,'
+      '  pegasus_gabenviosped'
+      'FROM gab'
+      '  where pegasus_gabdoc1=:pegasus_gabdoc1')
+    Left = 908
+    Top = 279
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'pegasus_gabdoc1'
+        Value = nil
+      end>
+    object pegasus_gabpegasus_gabchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'pegasus_gabchave'
+    end
+    object pegasus_gabpegasus_gabdoc1: TStringField
+      FieldName = 'pegasus_gabdoc1'
+      Required = True
+      Size = 50
+    end
+    object pegasus_gabpegasus_gabnome: TStringField
+      FieldName = 'pegasus_gabnome'
+      Size = 255
+    end
+    object pegasus_gabpegasus_gabbackup: TDateField
+      FieldName = 'pegasus_gabbackup'
+    end
+    object pegasus_gabpegasus_gabcontigencia: TDateField
+      FieldName = 'pegasus_gabcontigencia'
+    end
+    object pegasus_gabpegasus_gabversao: TStringField
+      FieldName = 'pegasus_gabversao'
+      Size = 50
+    end
+    object pegasus_gabpegasus_gabenviosped: TDateTimeField
+      FieldName = 'pegasus_gabenviosped'
+      Required = True
+    end
+  end
+  object mad: TUniQuery
+    Connection = pegasusonline
+    SQL.Strings = (
+      'SELECT'
+      '  mad.madchave,'
+      '  mad.spdchave,'
+      '  mad.etdcodigo,'
+      '  mad.madvalorccredito,'
+      '  mad.madvalorcdebito,'
+      '  mad.madapurccredito,'
+      '  mad.madapurcdebito,'
+      '  adc.adcidentificacao,'
+      '  adc.adcencerramento'
+      'FROM mad,adc'
+      '  where spdchave=:spdchave'
+      ' and mad.etdcodigo=adc.etdcodigo'
+      ' and mad.etdcodigo=:etdcodigo')
+    Left = 576
+    Top = 395
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'spdchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object madmadchave: TIntegerField
+      FieldName = 'madchave'
+    end
+    object madspdchave: TIntegerField
+      FieldName = 'spdchave'
+    end
+    object madetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object madmadvalorccredito: TFloatField
+      FieldName = 'madvalorccredito'
+    end
+    object madmadvalorcdebito: TFloatField
+      FieldName = 'madvalorcdebito'
+    end
+    object madmadapurccredito: TFloatField
+      FieldName = 'madapurccredito'
+    end
+    object madmadapurcdebito: TFloatField
+      FieldName = 'madapurcdebito'
+    end
+    object madadcencerramento: TDateField
+      FieldName = 'adcencerramento'
+    end
+  end
+  object adc: TUniQuery
+    Connection = pegasusonline
+    SQL.Strings = (
+      
+        'select adccodigo, adcidentificacao, etdcodigo, adcencerramento f' +
+        'rom adc'
+      
+        'where adc.etdcodigo IN (SELECT etdcodigo FROM etd WHERE tsecodig' +
+        'o<>9)'
+      '')
+    Left = 640
+    Top = 395
+    object adcadccodigo: TIntegerField
+      FieldName = 'adccodigo'
+    end
+    object adcadcidentificacao: TStringField
+      FieldName = 'adcidentificacao'
+      Size = 50
+    end
+    object adcetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object adcadcencerramento: TDateField
+      FieldName = 'adcencerramento'
+    end
+  end
+  object csv: TUniQuery
+    Connection = pegasusonline
+    SQL.Strings = (
+      'SELECT'
+      '  csvchave,'
+      '  csv.etdcodigo,'
+      '  etdidentificacao,'
+      '  csvnumero,'
+      '  csvemissao,'
+      '  csvregistro,'
+      '  csvvalor,'
+      '  csvdesconto,'
+      '  csvgeral,'
+      '  tcsidentificacao,'
+      '  rfichave,'
+      '  csvvencimento'
+      'FROM csv,'
+      '     etd,'
+      '     tcs'
+      'WHERE csv.etdcodigo = etd.etdcodigo'
+      'AND csv.tcscodigo = tcs.tcscodigo'
+      'AND csv.csvregistro BETWEEN :datainicial and :datafinal')
+    Left = 760
+    Top = 435
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'datainicial'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'datafinal'
+        Value = nil
+      end>
+  end
+  object ivt: TUniQuery
+    Connection = pegasusonline
+    SQL.Strings = (
+      
+        'SELECT COUNT(ivt.spdchave) FROM ivt,spd WHERE ivt.spdchave=spd.s' +
+        'pdchave'
+      'and spd.spddatabalanco=:databalanco')
+    Left = 832
+    Top = 475
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'databalanco'
+        Value = nil
+      end>
+  end
+  object IdIOHandlerStream1: TIdIOHandlerStream
+    Host = 'servpegftp001s.pegasussistemas.com.br'
+    MaxLineAction = maException
+    Port = 21
+    FreeStreams = False
+    Left = 600
+    Top = 480
+  end
+  object IdLogFile1: TIdLogFile
+    Filename = 'c:\pegasus\emai.txt'
+    Left = 724
+    Top = 480
+  end
+  object SMTP: TIdSMTP
+    OnDisconnected = SMTPDisconnected
+    OnWorkBegin = SMTPWorkBegin
+    OnConnected = SMTPConnected
+    SASLMechanisms = <>
+    Left = 160
+    Top = 104
+  end
+  object IO_OpenSSL: TIdSSLIOHandlerSocketOpenSSL
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    ReadTimeout = 30000
+    SSLOptions.Method = sslvSSLv23
+    SSLOptions.SSLVersions = [sslvSSLv2, sslvSSLv3, sslvTLSv1]
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 160
+    Top = 160
+  end
+  object IdMessage1: TIdMessage
+    AttachmentEncoding = 'UUE'
+    BccList = <>
+    CCList = <>
+    Encoding = meDefault
+    FromList = <
+      item
+      end>
+    Recipients = <>
+    ReplyTo = <>
+    ConvertPreamble = True
+    Left = 160
+    Top = 216
+  end
+end

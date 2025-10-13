@@ -1,0 +1,20 @@
+Producao.exe: 00009E90: 17:37:44 []:>--------------------------------------------------------------<
+Producao.exe: 00009E90: 17:37:44 [TUniServerModule]:Server First Init.
+Producao.exe: 00009E90: 17:37:44 [TUniServerModule]:Debug Mode = ON
+Producao.exe: 00009E90: 17:37:44 [TUniServerModule]:Starting HTTP Server on Port: 8078...
+Producao.exe: 00009E90: 17:37:44 [TUniServerModule]:HTTP Server Started on Port: 8078
+Producao.exe: 0000BCA4: 17:37:44 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000B494: 17:37:44 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 000047D8: 17:37:45 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 00000870: 17:37:45 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000B624: 17:37:45 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 00003188: 17:37:45 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000B654: 17:37:46 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000A3B0: 17:37:46 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 00003A30: 17:37:46 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000BD3C: 17:37:47 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 00007B30: 17:37:47 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000A09C: 17:37:47 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000BEE0: 17:37:47 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 0000487C: 17:37:47 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. (Session not found: qD3zDv7MVT105775320 ) : Addr: $007FE69E
+Producao.exe: 00007B30: 17:38:11 [127.0.0.1]:EDatabaseError : imm: Cannot perform this operation on a closed dataset : Addr: $00691B76

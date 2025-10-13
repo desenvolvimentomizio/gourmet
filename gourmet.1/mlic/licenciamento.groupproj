@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9D9155FA-E79A-4F34-A94F-19EF2EF94BDC}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="mlic.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="app_use_dll.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="mlic">
+        <MSBuild Projects="mlic.dproj"/>
+    </Target>
+    <Target Name="mlic:Clean">
+        <MSBuild Projects="mlic.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mlic:Make">
+        <MSBuild Projects="mlic.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="app_use_dll">
+        <MSBuild Projects="app_use_dll.dproj"/>
+    </Target>
+    <Target Name="app_use_dll:Clean">
+        <MSBuild Projects="app_use_dll.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="app_use_dll:Make">
+        <MSBuild Projects="app_use_dll.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="mlic;app_use_dll"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="mlic:Clean;app_use_dll:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="mlic:Make;app_use_dll:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

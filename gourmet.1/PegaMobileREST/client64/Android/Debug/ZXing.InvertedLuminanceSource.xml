@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.InvertedLuminanceSource" platform="Android">
+  <class name="TInvertedLuminanceSource" sealed="true" file="ZXing.InvertedLuminanceSource.pas" line="29">
+    <ancestor name="TLuminanceSource" namespace="ZXing.LuminanceSource">
+      <methodref name="Create" visibility="public" procflags="constructor virtual" />
+      <methodref name="Matrix" visibility="public" procflags="abstract virtual">
+      </methodref>
+      <methodref name="getRow" visibility="public" procflags="abstract virtual">
+      </methodref>
+      <methodref name="crop" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="invert" visibility="public" procflags="virtual" />
+      <methodref name="ToString" visibility="public" procflags="override" />
+      <methodref name="RotateSupported" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CropSupported" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="InversionSupported" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="rotateCounterClockwise" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="rotateCounterClockwise45" visibility="public" procflags="virtual">
+      </methodref>
+      <propertyref name="Height" visibility="public">
+      </propertyref>
+      <propertyref name="Width" visibility="public">
+      </propertyref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="delegate" type="TLuminanceSource" visibility="private" size="4" offset="12" file="ZXing.InvertedLuminanceSource.pas" line="31" />
+      <field name="invertedMatrix" type="TArray&lt;System.Byte&gt;" visibility="private" size="4" offset="16" file="ZXing.InvertedLuminanceSource.pas" line="32" />
+      <constructor name="Create" visibility="public" file="ZXing.InvertedLuminanceSource.pas" line="34">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+          <parameter name="delegate" type="TLuminanceSource" />
+        </parameters>
+      </constructor>
+      <function name="crop" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="36">
+        <devnotes>
+           <summary>
+           Returns a new object with cropped image data. Implementations may keep a reference to the
+           original data rather than a copy. Only callable if CropSupported is true.
+           </summary>
+           <param name="left">The left coordinate, 0 &lt;= left &lt; Width.</param>
+           <param name="top">The top coordinate, 0 &lt;= top &lt;= Height.</param>
+           <param name="width">The width of the rectangle to crop.</param>
+           <param name="height">The height of the rectangle to crop.</param>
+           <returns>
+           A cropped version of this object.
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="left" type="Integer" paramflags="const" />
+          <parameter name="top" type="Integer" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="getRow" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="37">
+        <devnotes>
+           <summary>
+           Fetches one row of luminance data from the underlying platform's bitmap. Values range from
+           0 (black) to 255 (white). Because Java does not have an unsigned byte type, callers will have
+           to bitwise and with 0xff for each value. It is preferable for implementations of this method
+           to only fetch this row rather than the whole image, since no 2D Readers may be installed and
+           getMatrix() may never be called.
+           </summary>
+           <param name="y">The row to fetch, 0 &lt;= y &lt; Height.</param>
+           <param name="row">An optional preallocated array. If null or too small, it will be ignored.
+           Always use the returned object, and ignore the .length of the array.</param>
+           <returns>
+           An array containing the luminance data.
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="y" type="Integer" paramflags="const" />
+          <parameter name="row" type="TArray&lt;System.Byte&gt;" />
+          <retval type="TArray&lt;System.Byte&gt;" />
+        </parameters>
+      </function>
+      <function name="rotateCounterClockwise" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="38">
+        <parameters>
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="rotateCounterClockwise45" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="39">
+        <parameters>
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="invert" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="41">
+        <parameters>
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="Matrix" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="42">
+        <devnotes>
+           <summary>
+           Fetches luminance data for the underlying bitmap. Values should be fetched using:
+           int luminance = array[y * width + x] &amp; 0xff;
+           </summary>
+           <returns> A row-major 2D array of luminance values. Do not use result.length as it may be
+           larger than width * height bytes on some platforms. Do not modify the contents
+           of the result.
+             </returns>
+        </devnotes>
+        <parameters>
+          <retval type="TArray&lt;System.Byte&gt;" />
+        </parameters>
+      </function>
+      <function name="CropSupported" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="43">
+        <devnotes>
+           <summary>
+           </summary>
+           <returns> Whether this subclass supports cropping.</returns>
+        </devnotes>
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="RotateSupported" visibility="public" procflags="override" file="ZXing.InvertedLuminanceSource.pas" line="44">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

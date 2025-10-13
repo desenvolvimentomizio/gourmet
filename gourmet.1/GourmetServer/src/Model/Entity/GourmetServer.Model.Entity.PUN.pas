@@ -1,0 +1,281 @@
+unit GourmetServer.Model.Entity.PUN;
+
+interface
+
+{$TYPEINFO ON}
+
+Uses
+  SimpleAttributes;
+
+type
+
+  [Tabela('pun')]
+  TPUNPRO = Class
+  private
+    fpuncodigo: integer;
+ procedure setpuncodigo(const Value: integer);
+  public
+    constructor create;
+    destructor destroy; override;
+  published
+
+    [campo('puncodigo')]
+    property puncodigo: integer read fpuncodigo write setpuncodigo;
+  End;
+
+  [Tabela('pun')]
+  TPUN = Class
+  private
+    fpuncodigo: integer;
+    fprocodigo: integer;
+    funicodigo: integer;
+    fdgrcodigo: integer;
+    fpunidentificacao: String;
+    funicodigobase: integer;
+    fpunmultiplicador: Double;
+    fpunquantidade: Double;
+    fpunprecoav: Currency;
+    fpunprecoap: Currency;
+    fpuncusto: Double;
+    fpunmargem: Double;
+    fpunpesobruto: Double;
+    fpunpesoliq: Double;
+    fpunbarra: String;
+    ftuncodigo: integer;
+    fpununitrib: integer;
+    fpunqtdtrib: Double;
+    fpunbarrasistema: integer;
+    fpunmargemap: Double;
+    fpunpercacresavap: Double;
+    fpunbarraposi: String;
+    fpunbase: Double;
+    fstgcodigo: integer;
+    fsipcodigo: integer;
+    fpcoprocodigo: integer;
+
+    procedure setpuncodigo(const Value: integer);
+    procedure setprocodigo(const Value: integer);
+    procedure setunicodigo(const Value: integer);
+    procedure setdgrcodigo(const Value: integer);
+    procedure setpunidentificacao(const Value: String);
+    procedure setunicodigobase(const Value: integer);
+    procedure setpunmultiplicador(const Value: Double);
+    procedure setpunquantidade(const Value: Double);
+    procedure setpunprecoav(const Value: Currency);
+    procedure setpunprecoap(const Value: Currency);
+    procedure setpuncusto(const Value: Double);
+    procedure setpunmargem(const Value: Double);
+    procedure setpunpesobruto(const Value: Double);
+    procedure setpunpesoliq(const Value: Double);
+    procedure setpunbarra(const Value: String);
+    procedure settuncodigo(const Value: integer);
+    procedure setpununitrib(const Value: integer);
+    procedure setpunqtdtrib(const Value: Double);
+    procedure setpunbarrasistema(const Value: integer);
+    procedure setpunmargemap(const Value: Double);
+    procedure setpunpercacresavap(const Value: Double);
+    procedure setpunbarraposi(const Value: String);
+    procedure setpunbase(const Value: Double);
+    procedure setstgcodigo(const Value: integer);
+    procedure setsipcodigo(const Value: integer);
+    procedure setpcoprocodigo(const Value: integer);
+
+  public
+    constructor create;
+    destructor destroy; override;
+  published
+
+    [campo('puncodigo'), PK, AutoInc]
+    property puncodigo: integer read fpuncodigo write setpuncodigo;
+
+    property procodigo: integer read fprocodigo write setprocodigo;
+    property unicodigo: integer read funicodigo write setunicodigo;
+    property dgrcodigo: integer read fdgrcodigo write setdgrcodigo;
+    property punidentificacao: String read fpunidentificacao write setpunidentificacao;
+    property unicodigobase: integer read funicodigobase write setunicodigobase;
+    property punmultiplicador: Double read fpunmultiplicador write setpunmultiplicador;
+    property punquantidade: Double read fpunquantidade write setpunquantidade;
+    property punprecoav: Currency read fpunprecoav write setpunprecoav;
+    property punprecoap: Currency read fpunprecoap write setpunprecoap;
+    property puncusto: Double read fpuncusto write setpuncusto;
+    property punmargem: Double read fpunmargem write setpunmargem;
+    property punpesobruto: Double read fpunpesobruto write setpunpesobruto;
+    property punpesoliq: Double read fpunpesoliq write setpunpesoliq;
+    property punbarra: String read fpunbarra write setpunbarra;
+    property tuncodigo: integer read ftuncodigo write settuncodigo;
+    property pununitrib: integer read fpununitrib write setpununitrib;
+    property punqtdtrib: Double read fpunqtdtrib write setpunqtdtrib;
+    property punbarrasistema: integer read fpunbarrasistema write setpunbarrasistema;
+    property punmargemap: Double read fpunmargemap write setpunmargemap;
+    property punpercacresavap: Double read fpunpercacresavap write setpunpercacresavap;
+    property punbarraposi: String read fpunbarraposi write setpunbarraposi;
+    property punbase: Double read fpunbase write setpunbase;
+    property stgcodigo: integer read fstgcodigo write setstgcodigo;
+    property sipcodigo: integer read fsipcodigo write setsipcodigo;
+    property pcoprocodigo: integer read fpcoprocodigo write setpcoprocodigo;
+
+  End;
+
+implementation
+
+{ CDD }
+
+constructor TPUN.create;
+begin
+
+end;
+
+destructor TPUN.destroy;
+begin
+  inherited;
+end;
+
+procedure TPUN.setdgrcodigo(const Value: integer);
+begin
+  fdgrcodigo := Value;
+end;
+
+procedure TPUN.setpcoprocodigo(const Value: integer);
+begin
+  fpcoprocodigo := Value;
+end;
+
+procedure TPUN.setprocodigo(const Value: integer);
+begin
+  fprocodigo := Value;
+end;
+
+procedure TPUN.setpunbarra(const Value: String);
+begin
+  fpunbarra := Value;
+end;
+
+procedure TPUN.setpunbarraposi(const Value: String);
+begin
+  fpunbarraposi := Value;
+end;
+
+procedure TPUN.setpunbarrasistema(const Value: integer);
+begin
+  fpunbarrasistema := Value;
+end;
+
+procedure TPUN.setpunbase(const Value: Double);
+begin
+  fpunbase := Value;
+end;
+
+procedure TPUN.setpuncodigo(const Value: integer);
+begin
+  fpuncodigo := Value;
+end;
+
+procedure TPUN.setpuncusto(const Value: Double);
+begin
+  fpuncusto := Value;
+end;
+
+procedure TPUN.setpunidentificacao(const Value: String);
+begin
+  fpunidentificacao := Value;
+end;
+
+procedure TPUN.setpunmargem(const Value: Double);
+begin
+  fpunmargem := Value;
+end;
+
+procedure TPUN.setpunmargemap(const Value: Double);
+begin
+  fpunmargemap := Value;
+end;
+
+procedure TPUN.setpunmultiplicador(const Value: Double);
+begin
+  fpunmultiplicador := Value;
+end;
+
+procedure TPUN.setpunpercacresavap(const Value: Double);
+begin
+  fpunpercacresavap := Value;
+end;
+
+procedure TPUN.setpunpesobruto(const Value: Double);
+begin
+  fpunpesobruto := Value;
+end;
+
+procedure TPUN.setpunpesoliq(const Value: Double);
+begin
+  fpunpesoliq := Value;
+end;
+
+procedure TPUN.setpunprecoap(const Value: Currency);
+begin
+  fpunprecoap := Value;
+end;
+
+procedure TPUN.setpunprecoav(const Value: Currency);
+begin
+  fpunprecoav := Value;
+end;
+
+procedure TPUN.setpunqtdtrib(const Value: Double);
+begin
+  fpunqtdtrib := Value;
+end;
+
+procedure TPUN.setpunquantidade(const Value: Double);
+begin
+  fpunquantidade := Value;
+end;
+
+procedure TPUN.setpununitrib(const Value: integer);
+begin
+  fpununitrib := Value;
+end;
+
+procedure TPUN.setsipcodigo(const Value: integer);
+begin
+  fsipcodigo := Value;
+end;
+
+procedure TPUN.setstgcodigo(const Value: integer);
+begin
+  fstgcodigo := Value;
+end;
+
+procedure TPUN.settuncodigo(const Value: integer);
+begin
+  ftuncodigo := Value;
+end;
+
+procedure TPUN.setunicodigo(const Value: integer);
+begin
+  funicodigo := Value;
+end;
+
+procedure TPUN.setunicodigobase(const Value: integer);
+begin
+  funicodigobase := Value;
+end;
+
+{ TPUNPRO }
+
+constructor TPUNPRO.create;
+begin
+
+end;
+
+destructor TPUNPRO.destroy;
+begin
+
+  inherited;
+end;
+
+procedure TPUNPRO.setpuncodigo(const Value: integer);
+begin
+   FPUNCODIGO:=Value;
+end;
+
+end.

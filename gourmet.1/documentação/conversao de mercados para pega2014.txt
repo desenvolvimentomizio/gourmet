@@ -1,0 +1,13 @@
+processo de conversao de mercados:
+
+1 - criaçao de uma nova base com origem no script de base vazia.sql.
+2 - abrir o novo programa para criar e atualizar as tabelas e procedimentos.
+3 - aplicar a sql de transferencia do cddcodigo para o clicodibge ( update cli set clicodibge=cddcodigo)
+4 - aplicar a sql de ajuste do etccodigo ( update cli set etccodigo=3 where etccodigo>=4)
+5 - aplicar a sql de ajuste do tpeletra ( update cli set tpeletra='F'  where tpeletra='A' )
+6 - aplicar a sql de cricao do campo para compatibildiade, nao vai dados ( alter table pro add column procfo varchar(50) )
+6 - Modificado o campo maridentificao para nao ter indice unico
+7 - Modificado o campo grpidentificao para nao ter indice unico
+8 - adicionar o grupo de produtos 0 - Verificar
+9 - adicionar a marca de produtos 0 - Verificar
+ 

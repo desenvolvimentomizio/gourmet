@@ -1,0 +1,827 @@
+unit ufracre;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrarfi, Vcl.DBCtrls, VirtualTable, Data.DB, MemDS,
+  DBAccess, Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList,
+  Vcl.Buttons, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.pngimage, Vcl.Controls, Vcl.Dialogs,
+  System.SysUtils, uFuncoes, uPegaBase, Vcl.Graphics, System.ImageList,
+  Vcl.ImgList, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
+
+type
+  Tfracre = class(Tfrarfi)
+    ActRecebimento: TAction;
+    ActDetalhes: TAction;
+    plEtdInfo: TPanel;
+    edr: TUniQuery;
+    edredrendereco: TStringField;
+    Dedr: TDataSource;
+    etf: TUniQuery;
+    Detf: TDataSource;
+    etfetftelefone: TStringField;
+    etd: TUniQuery;
+    etdetdapelido: TStringField;
+    Detd: TDataSource;
+    Panel1: TPanel;
+    etdapelido: TDBText;
+    edrendereco: TDBText;
+    etftelefone: TDBText;
+    ActEstorno: TAction;
+    mfirfi: TUniQuery;
+    mfirfimfichave: TIntegerField;
+    mUtiliatarios: TMenuItem;
+    AjustaFilial1: TMenuItem;
+    mfiflacodigo: TIntegerField;
+    mfirfiflacodigo: TIntegerField;
+    mfirfimfidata: TDateField;
+    mfirfimfivalor: TFloatField;
+    Dmfirfi: TDataSource;
+    Ditm: TUniDataSource;
+    itm: TUniQuery;
+    itmitmchave: TIntegerField;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmpronome: TStringField;
+    itmunisimbolo: TStringField;
+    itmitmvalor: TFloatField;
+    itmitmquantidade: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmtotal: TFloatField;
+    itmcfocfop: TStringField;
+    itmitmaliqipi: TFloatField;
+    itmitmtotalliq: TFloatField;
+    itmtoecodigo: TIntegerField;
+    itmproncm: TStringField;
+    itmcstcodigo: TStringField;
+    itmcspcodigo: TStringField;
+    itmitmpis: TFloatField;
+    itmitmcofins: TFloatField;
+    PlItens: TPanel;
+    listaitm: TDBGrid;
+    plTituloItensDetalhe: TPanel;
+    btOcultaExibeDetalhe: TSpeedButton;
+    uqtabelaorcchave: TIntegerField;
+    uqtabelaclbvendedor: TIntegerField;
+    ActVencimento: TAction;
+    titcan: TUniQuery;
+    uqtabelarfiinclusao: TDateTimeField;
+    GBDesconto: TGroupBox;
+    pldesconto: TPanel;
+    GBLiquido: TGroupBox;
+    plliquido: TPanel;
+    GBMulta: TGroupBox;
+    plMulta: TPanel;
+    GBJuros: TGroupBox;
+    plJuros: TPanel;
+    qtotais: TUniQuery;
+    qtotaisrfichave: TIntegerField;
+    qtotaisetdidentificacao: TStringField;
+    qtotaisrfivencimento: TDateField;
+    qtotaisrfivalor: TFloatField;
+    qtotaissrfidentificacao: TStringField;
+    qtotaisrfidtultbaixa: TDateField;
+    qtotaismfivalor: TFloatField;
+    qtotaisrebjuros: TFloatField;
+    qtotaismulta: TFloatField;
+    qtotaisdesconto: TFloatField;
+    qtotaisctacodigo: TIntegerField;
+    qtotaisctaidentificacao: TStringField;
+    qtotaismdacodigo: TIntegerField;
+    qtotaismdaidentificacao: TStringField;
+    qtotaistmfcodigo: TIntegerField;
+    AjustarCentrodeCusto1: TMenuItem;
+    Splitter2: TSplitter;
+    DBGridPcr: TDBGrid;
+    Dpcr: TDataSource;
+    pcr: TUniQuery;
+    pcrpcrchave: TIntegerField;
+    pcrtitcodigo: TIntegerField;
+    pcrpcgcodigo: TIntegerField;
+    pcrpcgestrutural: TStringField;
+    pcrpcgidentificacao: TStringField;
+    pcrphgcodigo: TIntegerField;
+    pcrphgidentificacao: TStringField;
+    pcrpcrvalor: TFloatField;
+    pcrpcrcomplhist: TStringField;
+    mcg: TUniQuery;
+    mcgmcgchave: TIntegerField;
+    mcgccgcodigo: TIntegerField;
+    mcgccgidentificacao: TStringField;
+    mcgmcgvalor: TFloatField;
+    mcgmcgdata: TDateField;
+    mcgmcgsituacao: TIntegerField;
+    mcgrfichave: TIntegerField;
+    mcggccidentificacao: TStringField;
+    cfgcfgusactb: TIntegerField;
+    cfgcfgctbusaccg: TIntegerField;
+    lte: TUniQuery;
+    lteltechave: TIntegerField;
+    lteltesituacao: TIntegerField;
+    uqtabelaclbidentificacao: TStringField;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActRecebimentoExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure DBGListaEdrDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBListaEtfDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActEstornoExecute(Sender: TObject);
+    procedure ActDetalhesExecute(Sender: TObject);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure ActCancelarExecute(Sender: TObject);
+    procedure AjustaFilial1Click(Sender: TObject);
+    procedure btOcultaExibeDetalheClick(Sender: TObject);
+    procedure ActVencimentoExecute(Sender: TObject);
+    procedure AjustarCentrodeCusto1Click(Sender: TObject);
+
+  private
+    procedure CalculaTotais;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure Carregar; override;
+    procedure AjustaBotoesCamEst;
+  end;
+
+var
+  fracre: Tfracre;
+
+  // Início ID do Módulo fracre
+const
+  vPlIdMd = '02.02.15.005-01';
+  vPlTitMdl = 'Contas a Receber';
+
+  // Fim ID do Módulo fracre
+
+implementation
+
+{$R *.dfm}
+
+uses ufcre, ufcremlt;
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracre := Tfracre.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracre := Tfracre.Create(pCargaFrame);
+  try
+    fracre.CriaAcoesDeAcesso;
+  finally
+    fracre.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfracre.ActAlterarExecute(Sender: TObject);
+begin
+  if uqtabelatficodigo.AsInteger = tfiCartao then
+  begin
+    Application.MessageBox(PChar('Registros do tipo "Cartão" não podem ser alterados.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+  begin
+    Application.MessageBox(PChar('Registros já foi baixado, não pode ser alterado.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+  if uqtabelabolnossonumero.Asstring <> '' then
+  begin
+    Application.MessageBox(PChar('Boleto já gerado do registro, não pode ser alterado.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  if uqtabelarfirepetir.AsInteger <> 1 then
+  begin
+    CriaFormulario(Tfcre, self.uqtabelarfichave.Asstring, '');
+  end
+  else
+    CriaFormulario(Tfcremlt, self.uqtabelatitcodigo.Asstring, '');
+end;
+
+procedure Tfracre.ActAtualizarExecute(Sender: TObject);
+begin
+  uqtabela.ParamByName('clbcodigo').AsInteger := acesso.Usuario;
+  inherited;
+  CalculaTotais;
+
+  AjustaBotoesCamEst;
+
+  GbGeral.Align := alRight;
+  gbjurosvencido.Align := alRight;
+  GBPrincipal.Align := alRight;
+  GBRecebidos.Align := alRight;
+  GBTotal.Align := alRight;
+
+  GBTotal.Align := alLeft;
+  GBRecebidos.Align := alLeft;
+  GBPrincipal.Align := alLeft;
+  gbjurosvencido.Align := alLeft;
+  GbGeral.Align := alLeft;
+
+  GBVencidos.Visible:=false;
+  GBEmAberto.Visible:=false;
+
+end;
+
+procedure Tfracre.ActCancelarExecute(Sender: TObject);
+var
+  vlAcao: string;
+begin
+  inherited;
+  if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+  begin
+    Application.MessageBox(PChar('Somente Parcelas com situação "Em Aberto" podem ser Canceladas.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  if uqtabelameschave.AsInteger > 0 then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT mes.sdecodigo from mes where meschave=' + uqtabelameschave.Asstring;
+    consulta.Open;
+
+    if consulta.Fields[0].Asstring <> '02' then
+    begin
+      Application.MessageBox(PChar('Parcela originada de Vendas ativa, não pode ser cancelada.'), 'Atenção', MB_ICONWARNING + MB_OK);
+      Exit;
+    end;
+  end;
+
+  if uqtabelarngchave.AsInteger > 0 then
+  begin
+    Application.MessageBox(PChar('Parcela originada de Renegociação não pode ser cancelada.'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  if Application.MessageBox(PChar('Você realmente deseja Cancelar essa parcela?'), 'Atenção', MB_ICONQUESTION + MB_YESNO) = IDNO then
+    Exit;
+
+  vlAcao := IntToStr((Sender as TAction).Tag);
+
+  if RegistroAcessoOperacao(vlAcao, 'Registro') then
+  begin
+    if uqtabelasrfcodigo.AsInteger = srfEmAberto then
+    begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'UPDATE rfi r SET r.srfcodigo = ' + IntToStr(srfCancelado) + ' WHERE r.rfichave = ' + uqtabelarfichave.Asstring;
+      consulta.ExecSQL;
+
+      titcan.Close;
+      titcan.SQL.Text := 'SELECT SUM(rfivalor) rfivalor FROM rfi WHERE titcodigo=' + uqtabelatitcodigo.Asstring + ' AND srfcodigo<>9';
+      titcan.Open;
+      if (not titcan.IsEmpty) and (titcan.FieldByName('rfivalor').Asstring <> '') then
+      begin
+
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE tit SET titvalor = ' + ' (SELECT SUM(rfivalor) FROM rfi WHERE titcodigo=' + uqtabelatitcodigo.Asstring +
+          ' AND srfcodigo<>9) ' + ' WHERE titcodigo = ' + uqtabelatitcodigo.Asstring;
+        consulta.ExecSQL;
+      end
+      else
+      begin
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE tit SET srfcodigo= 9 WHERE titcodigo = ' + uqtabelatitcodigo.Asstring;
+        consulta.ExecSQL;
+      end;
+
+      ActAtualizar.Execute;
+    end;
+
+  end
+  else
+  begin
+    ShowMessage('Usuário não autorizado!');
+  end;
+
+end;
+
+procedure Tfracre.ActDetalhesExecute(Sender: TObject);
+begin
+  inherited;
+  if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+  begin
+    chamabaixas('mmfi', 'formuver', self.uqtabelarfichave.Asstring);
+  end;
+
+end;
+
+procedure Tfracre.AjustaBotoesCamEst;
+var
+  vlEnabled: Boolean;
+begin
+  try
+    vlEnabled := False;
+
+    if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+      vlEnabled := True;
+
+    if PlBotoes.FindComponent('bActDetalhes') <> nil then
+      if PlBotoes.FindComponent('bActDetalhes') is TBitBtn then
+        (PlBotoes.FindComponent('bActDetalhes') as TBitBtn).Enabled := vlEnabled;
+
+    if PlBotoes.FindComponent('bActEstorno') <> nil then
+      if PlBotoes.FindComponent('bActEstorno') is TBitBtn then
+        (PlBotoes.FindComponent('bActEstorno') as TBitBtn).Enabled := vlEnabled;
+  except
+  end;
+end;
+
+procedure Tfracre.AjustaFilial1Click(Sender: TObject);
+begin
+  inherited;
+  uqtabela.First;
+  while not uqtabela.Eof do
+  begin
+    mfirfi.Close;
+    mfirfi.ParamByName('rfichave').AsInteger := uqtabelarfichave.AsInteger;
+    mfirfi.Open;
+
+    while not mfirfi.Eof do
+    begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'update mfi set flacodigo=' + uqtabelaflacodigo.Asstring + ' where mfichave=' + mfirfimfichave.Asstring;
+      consulta.ExecSQL;
+
+      mfirfi.Next;
+    end;
+
+    uqtabela.Next;
+  end;
+  ShowMessage('Atualização realizada com seucesso!');
+end;
+
+procedure Tfracre.AjustarCentrodeCusto1Click(Sender: TObject);
+begin
+  inherited;
+  uqtabela.First;
+  while not uqtabela.Eof do
+  begin
+
+    uqtabela.Next;
+  end;
+
+end;
+
+procedure Tfracre.btOcultaExibeDetalheClick(Sender: TObject);
+begin
+  inherited;
+  {if btOcultaExibeDetalhe.Caption = '>' then
+  begin
+    btOcultaExibeDetalhe.Caption := '<';
+    PlItens.Width := 722;
+  end
+  else
+  begin
+    btOcultaExibeDetalhe.Caption := '>';
+    PlItens.Width := 22;
+  end;                       }
+
+end;
+
+procedure Tfracre.CalculaTotais;
+var
+  vlrTotal: double;
+  vlrEstaPago: double;
+  vlrEmAberto: double;
+  vlrVencido: double;
+  vlrTotalGeral: double;
+  vlrTotalPrincipal: double;
+  vlrTotalJuros: double;
+
+  vlRecNo: Integer;
+  vlHoje: Tdate;
+
+  // da fran 19/12/2018 a caca
+  vlrfivalor: currency;
+  // vlmfivalor: currency;
+  vlrebjuros: currency;
+  vlmulta: currency;
+  vldesconto: currency;
+
+begin
+
+  qtotais.Connection := ZCone;
+
+  // da fran 19/12/2018 a caca
+  vlrfivalor := 0;
+  // vlmfivalor := 0;
+  vlrebjuros := 0;
+  vlmulta := 0;
+  vldesconto := 0;
+
+  vlrTotal := 0;
+  vlrEstaPago := 0;
+  vlrEmAberto := 0;
+  vlrVencido := 0;
+  vlrTotalGeral := 0;
+  vlrTotalPrincipal := 0;
+  vlrTotalJuros := 0;
+
+  vlHoje := StrToDate(hoje(Application, ZCone));
+
+  (* Condição para a query uqTotais respeitar os mesmos filtros de uqTabela *)
+
+  { vpSQLTotaisOrigem := Copy(uqTotais.SQL.Text, 1, Pos('WHERE rfi.tfdcodigo = :tfdcodigo', uqTotais.SQL.Text) + 32);
+    vpSQLTotaisOrigem := vpSQLTotaisOrigem + ' ' + Copy(uqtabela.SQL.Text, Pos('WHERE rfi.tfdcodigo = :tfdcodigo', uqtabela.SQL.Text) + 32, Length(uqtabela.SQL.Text));
+
+    uqTotais.Close;
+    uqTotais.SQL.Text := vpSQLTotaisOrigem;
+    uqTotais.SQL.Add('AND rfi.srfcodigo <> 9');
+    uqTotais.SQL.Add('AND rfi.flacodigo=:flacodigo');
+
+    uqTotais.Params[0].AsInteger := vtfdcodigo;
+    uqTotais.Params[1].AsInteger := Acesso.Filial;
+
+    uqTotais.FilterSQL := uqtabela.FilterSQL;
+    uqTotais.Open;
+
+    vlrTotal := uqTotaisrfivalor.AsFloat;
+    vlrEstaPago := uqTotaisrfibaixadocapital.AsFloat;
+    vlrEmAberto := uqTotaisrfisaldocapital.AsFloat;
+    vlrVencido := uqTotaisrfivencidos.AsFloat; }
+
+  { * if uqtabela.Active then
+    begin
+
+    try
+
+    vlRecNo := uqtabela.RecNo;
+    uqtabela.DisableControls;
+    uqtabela.First;
+    while not uqtabela.Eof do
+    begin
+
+    if (uqtabelasrfcodigo.AsInteger <> srfCancelado) then
+    begin
+
+    if (qtotais.FieldByName('tmfcodigo').AsInteger <> tmfBaixaRenegociado) and (qtotais.FieldByName('tmfcodigo').AsInteger <> tmfBaixaJurosMultaRenegociado) then
+    begin
+    qtotais.Close;
+    qtotais.ParamByName('rfichave').AsInteger := uqtabelarfichave.AsInteger;
+    qtotais.Open;
+
+    vlrfivalor := vlrfivalor + qtotais.FieldByName('rfivalor').AsCurrency;
+    vlmfivalor := vlmfivalor + qtotais.FieldByName('mfivalor').AsCurrency;
+    vlrebjuros := vlrebjuros + qtotais.FieldByName('rebjuros').AsCurrency;
+    vlmulta := vlmulta + qtotais.FieldByName('multa').AsCurrency;
+    vldesconto := vldesconto + qtotais.FieldByName('desconto').AsCurrency;
+
+    end;
+
+    vlrTotal := vlrTotal + uqtabelarfivalor.AsCurrency;
+    vlrEstaPago := vlrEstaPago + uqtabelarfibaixadocapital.AsCurrency + uqtabelarfijuros.AsCurrency + uqtabelarfimulta.AsCurrency;
+    vlrEmAberto := vlrEmAberto + uqtabelarfisaldogeral.AsCurrency;
+    if self.uqtabelarfivencimento.AsFloat <= vlHoje then
+    begin
+    vlrVencido := vlrVencido + uqtabelarfisaldogeral.AsCurrency;
+    vlrTotalPrincipal := vlrTotalPrincipal + uqtabelarfisaldocapital.AsCurrency;
+    vlrTotalJuros := vlrTotalJuros + uqtabelarfijuros.AsCurrency;
+
+    end;
+
+    vlrTotalGeral := vlrTotalGeral + uqtabelarfisaldogeral.AsCurrency;
+
+    end;
+
+    uqtabela.Next;
+    end;
+
+    finally
+    try
+    uqtabela.RecNo := vlRecNo;
+
+    except
+
+    uqtabela.First;
+    end;
+    uqtabela.EnableControls;
+
+    end;
+
+    end;   * }
+
+  vlRecNo := uqtabela.RecNo;
+  uqtabela.DisableControls;
+  uqtabela.First;
+  while not uqtabela.Eof do
+  begin
+
+    if (uqtabelasrfcodigo.AsInteger <> srfCancelado) then
+    begin
+
+      if (lowercase(uqtabelasrfcodigo.Asstring) <> 'renegociado') then
+      begin
+
+        { qtotais.Close;
+          qtotais.ParamByName('rfichave').AsInteger := uqtabelarfichave.AsInteger;
+          qtotais.Open; }
+
+        vlrfivalor := vlrfivalor + uqtabelarfivalor.AsCurrency;
+        // vlmfivalor := vlmfivalor + qtotais.FieldByName('mfivalor').AsCurrency;
+
+        if (lowercase(uqtabelasrfidentificacao.Asstring) <> 'em aberto') then
+        begin
+          vlrebjuros := vlrebjuros + uqtabelarfijuros.AsCurrency;
+
+          vlrEstaPago := vlrEstaPago + uqtabelarfibaixadocapital.AsCurrency; // + uqtabelarfijuros.AsCurrency + uqtabelarfimulta.AsCurrency;
+          vlmulta := vlmulta + uqtabelarfimulta.AsCurrency;
+          vldesconto := vldesconto + uqtabelarfidesconto.AsCurrency;
+          vlrTotal := vlrTotal + uqtabelarfivalor.AsCurrency;
+        end;
+        vlrEmAberto := vlrEmAberto + uqtabelarfisaldogeral.AsCurrency;
+
+        if self.uqtabelarfivencimento.AsFloat <= vlHoje then
+        begin
+          vlrVencido := vlrVencido + uqtabelarfisaldogeral.AsCurrency;
+          vlrTotalPrincipal := vlrTotalPrincipal + uqtabelarfisaldocapital.AsCurrency;
+          vlrTotalJuros := vlrTotalJuros + uqtabelarfijuros.AsCurrency;
+
+        end;
+
+      end;
+      vlrTotalGeral := vlrTotalGeral + uqtabelarfisaldogeral.AsCurrency;
+
+    end;
+    vlrTotalGeral := vlrTotalPrincipal + vlrTotalJuros;
+    plvencidovencido.Caption := formatfloat('##,###,##0.00', vlrTotalPrincipal);
+    pljurosvencido.Caption := formatfloat('##,###,##0.00', vlrTotalJuros);
+    pltotal.Caption := formatfloat('##,###,##0.00', vlrTotal);
+    plEstaPago.Caption := formatfloat('##,###,##0.00', vlrEstaPago);
+    plemaberto.Caption := formatfloat('##,###,##0.00', vlrEmAberto);
+    plvencido.Caption := formatfloat('##,###,##0.00', vlrVencido);
+    pltotalGeral.Caption := formatfloat('##,###,##0.00', vlrTotalGeral);
+
+    pltotal.Caption := formatfloat('##,###,##0.00', vlrfivalor);
+    pldesconto.Caption := formatfloat('##,###,##0.00', vldesconto);
+    // plliquido.Caption := formatfloat('##,###,##0.00', vlmfivalor);
+    plMulta.Caption := formatfloat('##,###,##0.00', vlmulta);
+    plJuros.Caption := formatfloat('##,###,##0.00', vlrebjuros);
+
+    uqtabela.Next;
+  end;
+
+  uqtabela.RecNo := vlRecNo;
+  uqtabela.EnableControls;
+
+  plvencidovencido.Caption := formatfloat('##,###,##0.00', vlrTotalPrincipal);
+  pljurosvencido.Caption := formatfloat('##,###,##0.00', vlrTotalJuros);
+  pltotal.Caption := formatfloat('##,###,##0.00', vlrTotal);
+  plEstaPago.Caption := formatfloat('##,###,##0.00', vlrEstaPago);
+  plemaberto.Caption := formatfloat('##,###,##0.00', vlrEmAberto);
+  plvencido.Caption := formatfloat('##,###,##0.00', vlrVencido);
+  pltotalGeral.Caption := formatfloat('##,###,##0.00', vlrTotalGeral);
+
+  pltotal.Caption := formatfloat('##,###,##0.00', vlrfivalor);
+  pldesconto.Caption := formatfloat('##,###,##0.00', vldesconto);
+  // plliquido.Caption := formatfloat('##,###,##0.00', vlmfivalor);
+  plMulta.Caption := formatfloat('##,###,##0.00', vlmulta);
+  plJuros.Caption := formatfloat('##,###,##0.00', vlrebjuros);
+  // plEstaPago.Caption := formatfloat('##,###,##0.00', vlmfivalor + vlmulta + vlrebjuros);
+
+  Application.ProcessMessages;
+
+end;
+
+procedure Tfracre.Carregar;
+begin
+  vtfdcodigo := tfdReceber;
+
+  inherited;
+
+  AjustaBotoesCamEst;
+
+  if PlBotoes.FindComponent('b' + spbEmAberto.Name) <> nil then
+    TSpeedButton(PlBotoes.FindComponent('b' + spbEmAberto.Name)).Down := True;
+
+  if (vtfdcodigo = tfdPagar) or (cfgcfgusabol.AsInteger = 0) then
+    DeletarColuna('bolnossonumero', DBGLista);
+
+end;
+
+procedure Tfracre.ActEstornoExecute(Sender: TObject);
+var
+  vlAcao: string;
+begin
+  inherited;
+  if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+  begin
+
+    vlAcao := IntToStr((Sender as TAction).Tag);
+
+    if RegistroAcessoOperacao(vlAcao, 'Registro') then
+    begin
+      if uqtabelasrfcodigo.AsInteger <> srfEmAberto then
+      begin
+        if mostrabaixas('mmfi', 'formuest', self.uqtabelarfichave.Asstring) <> '' then
+        begin
+
+          titcan.Close;
+          titcan.SQL.Text := 'select rfichave from rfi where titcodigo=' + uqtabelatitcodigo.Asstring;
+          titcan.Open;
+
+          titcan.First;
+          while not titcan.Eof do
+          begin
+            consulta.Close;
+            consulta.SQL.Text := 'update mfi set mfisituacao=0 where rfichave=' + titcan.FieldByName('rfichave').Asstring;
+            consulta.ExecSQL;
+
+            lte.Close;
+            lte.ParamByName('rfichave').Asstring := titcan.FieldByName('rfichave').Asstring;
+            lte.Open;
+
+            if not lte.IsEmpty then
+            begin
+              lte.Edit;
+              lteltesituacao.AsInteger := 1;
+              lte.Post;
+            end;
+
+            titcan.Next;
+          end;
+
+        end;
+        self.ActAtualizar.Execute;
+
+      end;
+
+    end
+    else
+    begin
+      ShowMessage('Usuário não autorizado!');
+    end;
+  end
+  else
+  begin
+    ShowMessage('Somente títulos baixados podem ser estornados!');
+  end;
+end;
+
+procedure Tfracre.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfcremlt, '', '');
+
+end;
+
+procedure Tfracre.ActRecebimentoExecute(Sender: TObject);
+var
+  vlEtdCodigo: string;
+
+begin
+
+  vlEtdCodigo := uqtabelaetdcodigo.Asstring;
+
+  inherited;
+  chamabaixas('mbrr', 'Receb', IntToStr(tfdReceber), vlEtdCodigo);
+  self.ActAtualizar.Execute;
+end;
+
+procedure Tfracre.ActVencimentoExecute(Sender: TObject);
+var
+  smsg: String;
+  vlNovoVencimento: string;
+  vlDia: Tdate;
+begin
+  inherited;
+
+  vlNovoVencimento := InputBox('Vencimento: Formato DD/MM/AAAA', 'Ajustar o vencimento paraa seguinte data : ', '');
+  try
+    vlDia := StrToDate(vlNovoVencimento);
+
+  except
+    ShowMessage('Data invalida!');
+    Exit;
+  end;
+
+  smsg := 'Deseja realmente alterar a data de ' + uqtabelarfivencimento.Asstring + ' para ' + DateToStr(vlDia) + ' ?';
+
+  If Application.MessageBox(PChar(smsg), 'Atenção, confirma alteração:', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'update rfi set rfivencimento=' + QuotedStr(ajustadata(DateToStr(vlDia))) + ' where rfichave=' + uqtabelarfichave.Asstring;
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'update mfi set mfisituacao=0 where rfichave=' + uqtabelarfichave.Asstring;
+    consulta.ExecSQL;
+
+    ActAtualizar.Execute;
+
+    ShowMessage('Ajuste de data realizado com sucesso!');
+
+  End;
+
+end;
+
+procedure Tfracre.DBGListaEdrDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+
+end;
+
+procedure Tfracre.DBListaEtfDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  inherited gridzebrado(Sender, Rect, DataCol, Column, State);
+
+end;
+
+procedure Tfracre.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  edr.Close;
+  edr.Params[0].Asstring := self.uqtabelaedrcodigo.Asstring;
+  edr.Params[1].Asstring := self.uqtabelaetdcodigo.Asstring;
+  edr.Open;
+
+  etf.Close;
+  etf.Params[0].Asstring := self.uqtabelaetdcodigo.Asstring;
+  etf.Open;
+
+  etd.Close;
+  etd.Params[0].Asstring := self.uqtabelaetdcodigo.Asstring;
+  etd.Open;
+
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := acesso.Filial;
+  cfg.Open;
+
+  if uqtabelameschave.Asstring <> '' then
+  begin
+    PlItens.Visible := True;
+
+    itm.Close;
+    itm.ParamByName('meschave').Asstring := uqtabelameschave.Asstring;
+    itm.Open;
+
+    if itm.IsEmpty then
+      PlItens.Visible := False;
+
+  end
+  else
+    PlItens.Visible := False;
+
+  if dstabela.DataSet.Active then
+  begin
+    if self.cfgcfgusactb.AsInteger in [1, 9] then
+    begin
+      pcr.Close;
+      pcr.Params[0].AsInteger := uqtabelatitcodigo.AsInteger;
+      pcr.Open;
+      Dpcr.DataSet := pcr;
+
+      if pcr.RecordCount > 0 then
+      begin
+        DBGridPcr.Visible := True;
+      end
+      else
+      begin
+        DBGridPcr.Visible := False;
+      end;
+
+    end
+    else
+    begin
+
+      if (self.cfgcfgusactb.AsInteger = 0) and (cfgcfgctbusaccg.AsInteger = 1) then
+      begin
+        mcg.Close;
+        mcg.ParamByName('mcgchaveorigem').AsInteger := uqtabelatitcodigo.AsInteger;
+        mcg.ParamByName('rfichave').AsInteger := uqtabelarfichave.AsInteger;
+        mcg.Open;
+
+        if mcg.RecordCount > 0 then
+        begin
+          DBGridPcr.Visible := True;
+        end
+        else
+        begin
+          DBGridPcr.Visible := False;
+        end;
+
+        Dpcr.DataSet := mcg;
+      end;
+    end;
+  end;
+
+  AjustaBotoesCamEst;
+
+end;
+
+end.

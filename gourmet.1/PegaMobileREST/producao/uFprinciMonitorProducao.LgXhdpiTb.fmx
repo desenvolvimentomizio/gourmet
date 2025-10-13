@@ -1,0 +1,40 @@
+inherited FprinciMonitorProducao_LgXhdpiTb: TFprinciMonitorProducao_LgXhdpiTb
+  ClientHeight = 829
+  ClientWidth = 480
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 480.000000000000000000
+    inherited Label1: TLabel
+      Size.Width = 311.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited lbRelogio: TLabel
+      Position.X = 359.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited ListViewPedidos: TListView
+    Size.Width = 480.000000000000000000
+    Size.Height = 781.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.Font.Size = 18.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail1.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail2.TextVertAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail3.TextColor = claBrown
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Font.Size = 18.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Font.StyleExt = {00070000000000000004000000}
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.TextAlign = Trailing
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.Width = 198.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.MultiDetail4.PlaceOffset.X = 246.000000000000000000
+  end
+  inherited ListView1: TListView
+    Position.Y = 829.000000000000000000
+    Size.Width = 480.000000000000000000
+    ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
+      item
+        AppearanceObjectName = 'Text1'
+        AppearanceClassName = 'TTextObjectAppearance'
+      end>
+  end
+end

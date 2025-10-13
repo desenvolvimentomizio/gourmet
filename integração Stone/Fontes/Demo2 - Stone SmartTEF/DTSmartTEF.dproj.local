@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/10/03 08:44:52.000.929,=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/10/14 13:01:55.000.320,=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/10/14 13:02:28.000.812,=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/10/14 13:02:54.000.280,=D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\UntPDVApi.pas</Transaction>
+    <Transaction>2024/10/14 13:03:14.000.306,D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\Unit1.pas=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/10/14 13:03:14.000.306,D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\Unit1.fmx=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2024/10/14 13:03:24.000.125,D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\DTSmartTEF.dproj=C:\Users\tiago\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/10/14 13:03:30.000.416,D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\Unit1.pas=</Transaction>
+    <Transaction>2024/10/14 13:05:48.000.805,=D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\untSTONEIntent.pas</Transaction>
+    <Transaction>2024/10/14 13:07:41.000.988,=D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\uFancyDialog.pas</Transaction>
+    <Transaction>2024/10/14 13:09:03.000.566,=D:\Dropbox\FONTES FMX\Integracoes\DTStone - Curso de integração\Demo2 - Stone SmartTEF\USession.pas</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android="4AC82QN10" Android64="4AC82QN10"/>
+	</ActiveMobileDevice>
+	<BT_BuildType>Debug</BT_BuildType>
+</BorlandProject>

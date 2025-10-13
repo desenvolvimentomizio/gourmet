@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{11938CAD-40F4-4ABC-818F-5081FCAC8A45}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GourmetAIQ.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\GourmetServer\GourmetServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="monitor\src\MonitorIntegracao.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GourmetAIQ">
+        <MSBuild Projects="GourmetAIQ.dproj"/>
+    </Target>
+    <Target Name="GourmetAIQ:Clean">
+        <MSBuild Projects="GourmetAIQ.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetAIQ:Make">
+        <MSBuild Projects="GourmetAIQ.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GourmetServer">
+        <MSBuild Projects="..\GourmetServer\GourmetServer.dproj"/>
+    </Target>
+    <Target Name="GourmetServer:Clean">
+        <MSBuild Projects="..\GourmetServer\GourmetServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetServer:Make">
+        <MSBuild Projects="..\GourmetServer\GourmetServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MonitorIntegracao">
+        <MSBuild Projects="monitor\src\MonitorIntegracao.dproj"/>
+    </Target>
+    <Target Name="MonitorIntegracao:Clean">
+        <MSBuild Projects="monitor\src\MonitorIntegracao.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MonitorIntegracao:Make">
+        <MSBuild Projects="monitor\src\MonitorIntegracao.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GourmetAIQ;GourmetServer;MonitorIntegracao"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GourmetAIQ:Clean;GourmetServer:Clean;MonitorIntegracao:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GourmetAIQ:Make;GourmetServer:Make;MonitorIntegracao:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

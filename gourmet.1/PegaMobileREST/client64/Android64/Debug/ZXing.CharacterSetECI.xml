@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.CharacterSetECI" platform="Android">
+  <class name="TECI" file="ZXing.CharacterSetECI.pas" line="26">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="value_Renamed" type="Integer" visibility="private" size="4" offset="8" file="ZXing.CharacterSetECI.pas" line="28" />
+      <constructor name="Create" visibility="private" file="ZXing.CharacterSetECI.pas" line="29">
+        <parameters>
+          <parameter name="value_Renamed" type="Integer" />
+        </parameters>
+      </constructor>
+      <function name="getECIByValue" visibility="public" procflags="static" file="ZXing.CharacterSetECI.pas" line="31">
+        <parameters>
+          <parameter name="value_Renamed" type="Integer" />
+          <retval type="TECI" />
+        </parameters>
+      </function>
+      <property name="value" visibility="public" read="value_Renamed" type="Integer" file="ZXing.CharacterSetECI.pas" line="32" />
+    </members>
+  </class>
+  <class name="TCharacterSetECI" sealed="true" file="ZXing.CharacterSetECI.pas" line="35">
+    <ancestor name="TECI" namespace="ZXing.CharacterSetECI">
+      <methodref name="Create" visibility="private" procflags="constructor" />
+      <methodref name="getECIByValue" visibility="public" procflags="static" />
+      <propertyref name="value" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FEncodingName" type="string" visibility="class private" size="8" offset="16" file="ZXing.CharacterSetECI.pas" line="37" />
+      <field name="NAME_TO_ECI" type="TDictionary&lt;System.string,ZXing.CharacterSetECI.TCharacterSetECI&gt;" visibility="class private" varflags="class" file="ZXing.CharacterSetECI.pas" line="38" />
+      <field name="VALUE_TO_ECI" type="TDictionary&lt;System.Integer,ZXing.CharacterSetECI.TCharacterSetECI&gt;" visibility="class private" varflags="class" file="ZXing.CharacterSetECI.pas" line="39" />
+      <field name="AllocatedInstances" type="TObjectList&lt;ZXing.CharacterSetECI.TCharacterSetECI&gt;" visibility="class private" varflags="class" file="ZXing.CharacterSetECI.pas" line="45">
+        <devnotes>
+          <summary>
+           this objectlist is just for doing proper deallocation of TCharacterSetECI instances under Win32/Win64,
+           without having to mess with TInterfacedObject. Since instances are meant to exist for the whole program life, there's no need of doing
+           anything much more complicated than this.
+           </summary>
+        </devnotes>
+      </field>
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" file="ZXing.CharacterSetECI.pas" line="47">
+      </procedure>
+      <constructor name="Create" visibility="class private" file="ZXing.CharacterSetECI.pas" line="48">
+        <parameters>
+          <parameter name="value" type="Integer" />
+          <parameter name="encodingName" type="string" />
+        </parameters>
+      </constructor>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" file="ZXing.CharacterSetECI.pas" line="49">
+      </procedure>
+      <procedure name="addCharacterSet" visibility="class private" procflags="static" file="ZXing.CharacterSetECI.pas" line="51">
+        <parameters>
+          <parameter name="value" type="Integer" />
+          <parameter name="encodingNames" type="TArray&lt;System.string&gt;" />
+        </parameters>
+      </procedure>
+      <property name="encodingName" visibility="public" read="FEncodingName" type="string" default="0" file="ZXing.CharacterSetECI.pas" line="55" />
+      <function name="getCharacterSetECIByName" visibility="public" procflags="static" file="ZXing.CharacterSetECI.pas" line="57">
+        <parameters>
+          <parameter name="name" type="string" />
+          <retval type="TCharacterSetECI" />
+        </parameters>
+      </function>
+      <function name="getCharacterSetECIByValue" visibility="public" procflags="static" file="ZXing.CharacterSetECI.pas" line="59">
+        <parameters>
+          <parameter name="value" type="Integer" />
+          <retval type="TCharacterSetECI" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

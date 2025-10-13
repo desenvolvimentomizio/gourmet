@@ -1,0 +1,73 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Demo - Requisi'#231#227'o de pagamento (Smart TEF)'
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 114
+    Height = 15
+    Caption = 'Forma de pagamento'
+  end
+  object Label2: TLabel
+    Left = 239
+    Top = 8
+    Width = 26
+    Height = 15
+    Caption = 'Valor'
+  end
+  object Memo1: TMemo
+    Left = 8
+    Top = 58
+    Width = 608
+    Height = 375
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 448
+    Top = 28
+    Width = 168
+    Height = 25
+    Cursor = crHandPoint
+    Caption = 'Solicitar pagamento'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object cboPagamento: TComboBox
+    Left = 8
+    Top = 29
+    Width = 225
+    Height = 23
+    Cursor = crHandPoint
+    Style = csDropDownList
+    ItemIndex = 0
+    TabOrder = 2
+    Text = 'CARTAO DE CREDITO A VISTA'
+    Items.Strings = (
+      'CARTAO DE CREDITO A VISTA'
+      'CARTAO DE CREDITO 2X'
+      'CARTAO DE DEBITO'
+      'PIX')
+  end
+  object edtValor: TEdit
+    Left = 239
+    Top = 29
+    Width = 74
+    Height = 23
+    Alignment = taRightJustify
+    TabOrder = 3
+    Text = '2,70'
+  end
+end

@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.RGBLuminanceSource" platform="Android">
+  <const name="Unknown" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="45">
+    <devnotes>
+       <summary>
+       format of the byte[] isn't known. RGBLuminanceSource tries to determine the best possible value
+       </summary>
+    </devnotes>
+    <value>
+      Unknown
+    </value>
+  </const>
+  <const name="Gray8" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="49">
+    <devnotes>
+       <summary>
+       grayscale array, the byte array is a luminance array with 1 byte per pixel
+       </summary>
+    </devnotes>
+    <value>
+      Gray8
+    </value>
+  </const>
+  <const name="RGB24" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="53">
+    <devnotes>
+       <summary>
+       3 bytes per pixel with the channels red, green and blue
+       </summary>
+    </devnotes>
+    <value>
+      RGB24
+    </value>
+  </const>
+  <const name="RGB32" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="57">
+    <devnotes>
+       <summary>
+       4 bytes per pixel with the channels red, green and blue
+       </summary>
+    </devnotes>
+    <value>
+      RGB32
+    </value>
+  </const>
+  <const name="ARGB32" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="61">
+    <devnotes>
+       <summary>
+       4 bytes per pixel with the channels alpha, red, green and blue
+       </summary>
+    </devnotes>
+    <value>
+      ARGB32
+    </value>
+  </const>
+  <const name="BGR24" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="65">
+    <devnotes>
+       <summary>
+       3 bytes per pixel with the channels blue, green and red
+       </summary>
+    </devnotes>
+    <value>
+      BGR24
+    </value>
+  </const>
+  <const name="BGR32" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="69">
+    <devnotes>
+       <summary>
+       4 bytes per pixel with the channels blue, green and red
+       </summary>
+    </devnotes>
+    <value>
+      BGR32
+    </value>
+  </const>
+  <const name="BGRA32" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="73">
+    <devnotes>
+       <summary>
+       4 bytes per pixel with the channels blue, green, red and alpha
+       </summary>
+    </devnotes>
+    <value>
+      BGRA32
+    </value>
+  </const>
+  <const name="RGB565" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="77">
+    <devnotes>
+       <summary>
+       2 bytes per pixel, 5 bit red, 6 bits green and 5 bits blue
+       </summary>
+    </devnotes>
+    <value>
+      RGB565
+    </value>
+  </const>
+  <const name="RGBA32" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="81">
+    <devnotes>
+       <summary>
+       4 bytes per pixel with the channels red, green, blue and alpha
+       </summary>
+    </devnotes>
+    <value>
+      RGBA32
+    </value>
+  </const>
+  <enum name="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="41">
+    <devnotes>
+       <summary>
+       enumeration of supported bitmap format which the RGBLuminanceSource can process
+       </summary>
+    </devnotes>
+    <element value="0" name="Unknown" file="ZXing.RGBLuminanceSource.pas" line="45">
+      <devnotes>
+         <summary>
+         format of the byte[] isn't known. RGBLuminanceSource tries to determine the best possible value
+         </summary>
+      </devnotes>
+    </element>
+    <element value="1" name="Gray8" file="ZXing.RGBLuminanceSource.pas" line="49">
+      <devnotes>
+         <summary>
+         grayscale array, the byte array is a luminance array with 1 byte per pixel
+         </summary>
+      </devnotes>
+    </element>
+    <element value="2" name="RGB24" file="ZXing.RGBLuminanceSource.pas" line="53">
+      <devnotes>
+         <summary>
+         3 bytes per pixel with the channels red, green and blue
+         </summary>
+      </devnotes>
+    </element>
+    <element value="3" name="RGB32" file="ZXing.RGBLuminanceSource.pas" line="57">
+      <devnotes>
+         <summary>
+         4 bytes per pixel with the channels red, green and blue
+         </summary>
+      </devnotes>
+    </element>
+    <element value="4" name="ARGB32" file="ZXing.RGBLuminanceSource.pas" line="61">
+      <devnotes>
+         <summary>
+         4 bytes per pixel with the channels alpha, red, green and blue
+         </summary>
+      </devnotes>
+    </element>
+    <element value="5" name="BGR24" file="ZXing.RGBLuminanceSource.pas" line="65">
+      <devnotes>
+         <summary>
+         3 bytes per pixel with the channels blue, green and red
+         </summary>
+      </devnotes>
+    </element>
+    <element value="6" name="BGR32" file="ZXing.RGBLuminanceSource.pas" line="69">
+      <devnotes>
+         <summary>
+         4 bytes per pixel with the channels blue, green and red
+         </summary>
+      </devnotes>
+    </element>
+    <element value="7" name="BGRA32" file="ZXing.RGBLuminanceSource.pas" line="73">
+      <devnotes>
+         <summary>
+         4 bytes per pixel with the channels blue, green, red and alpha
+         </summary>
+      </devnotes>
+    </element>
+    <element value="8" name="RGB565" file="ZXing.RGBLuminanceSource.pas" line="77">
+      <devnotes>
+         <summary>
+         2 bytes per pixel, 5 bit red, 6 bits green and 5 bits blue
+         </summary>
+      </devnotes>
+    </element>
+    <element value="9" name="RGBA32" file="ZXing.RGBLuminanceSource.pas" line="81">
+      <devnotes>
+         <summary>
+         4 bytes per pixel with the channels red, green, blue and alpha
+         </summary>
+      </devnotes>
+    </element>
+  </enum>
+  <class name="TRGBLuminanceSource" file="ZXing.RGBLuminanceSource.pas" line="86">
+    <devnotes>
+       <summary>
+       Luminance source class which support different formats of images.
+       </summary>
+    </devnotes>
+    <ancestor name="TBaseLuminanceSource" namespace="ZXing.BaseLuminanceSource">
+      <methodref name="CreateLuminanceSource" visibility="protected" procflags="abstract virtual" />
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload" />
+      <methodref name="getRow" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="rotateCounterClockwise" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="rotateCounterClockwise45" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="crop" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="Matrix" visibility="public" procflags="override" />
+      <methodref name="RotateSupported" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="InversionSupported" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="CropSupported" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="invert" visibility="public" procflags="override">
+      </methodref>
+      <ancestor name="TLuminanceSource" namespace="ZXing.LuminanceSource">
+        <methodref name="Create" visibility="public" procflags="constructor virtual" />
+        <methodref name="Matrix" visibility="public" procflags="abstract virtual">
+        </methodref>
+        <methodref name="getRow" visibility="public" procflags="abstract virtual">
+        </methodref>
+        <methodref name="crop" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="invert" visibility="public" procflags="virtual" />
+        <methodref name="ToString" visibility="public" procflags="override" />
+        <methodref name="RotateSupported" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CropSupported" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="InversionSupported" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="rotateCounterClockwise" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="rotateCounterClockwise45" visibility="public" procflags="virtual">
+        </methodref>
+        <propertyref name="Height" visibility="public">
+        </propertyref>
+        <propertyref name="Width" visibility="public">
+        </propertyref>
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <function name="DetermineBitmapFormat" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="88">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+          <retval type="TBitmapFormat">
+            <devnotes>
+               <summary>
+               enumeration of supported bitmap format which the RGBLuminanceSource can process
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="CalculateLuminanceRGB24" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="91">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceRGB32" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="92">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceRGBA32" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="93">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceRGB565" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="94">
+        <parameters>
+          <parameter name="rgb565RawData" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceBGR24" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="96">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceBGR32" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="97">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceBGRA32" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="98">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CalculateLuminanceARGB32" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="100">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetBitmapFormat" visibility="private" file="ZXing.RGBLuminanceSource.pas" line="102">
+        <parameters>
+          <retval type="TBitmapFormat">
+            <devnotes>
+               <summary>
+               enumeration of supported bitmap format which the RGBLuminanceSource can process
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="CreateLuminanceSource" visibility="protected" procflags="override" file="ZXing.RGBLuminanceSource.pas" line="104">
+        <devnotes>
+           <summary>
+           Should create a new luminance source with the right class type.
+           The method is used in methods crop and rotate.
+           </summary>
+           <param name="newLuminances">The new luminances.</param>
+           <param name="width">The width.</param>
+           <param name="height">The height.</param>
+           <returns></returns>
+        </devnotes>
+        <parameters>
+          <parameter name="newLuminances" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+          <retval type="TLuminanceSource">
+            <devnotes>
+               <summary>
+               The purpose of this class hierarchy is to abstract different bitmap implementations across
+               platforms into a standard interface for requesting greyscale luminance values. The interface
+               only provides immutable methods; therefore crop and rotation create copies. This is to ensure
+               that one Reader does not modify the original luminance source and leave it in an unknown state
+               for other Readers in the chain.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="CalculateLuminance" visibility="protected" file="ZXing.RGBLuminanceSource.pas" line="106">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="bitmapFormat" type="TBitmapFormat" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.RGBLuminanceSource.pas" line="109">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'Create' -->
+        </devnotes>
+        <parameters>
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.RGBLuminanceSource.pas" line="110">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.RGBLuminanceSource.pas" line="112">
+        <parameters>
+          <parameter name="rgbRawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+          <parameter name="bitmapFormat" type="TBitmapFormat" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="CreateFromBitmap" visibility="public" file="ZXing.RGBLuminanceSource.pas" line="114">
+        <parameters>
+          <parameter name="sourceBitmap" type="TBitmap" paramflags="const" />
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <property name="BitmapFormat" visibility="public" read="GetBitmapFormat" type="TBitmapFormat" file="ZXing.RGBLuminanceSource.pas" line="117" />
+    </members>
+  </class>
+</namespace>

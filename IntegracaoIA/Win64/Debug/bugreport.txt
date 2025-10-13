@@ -1,0 +1,50 @@
+date/time          : 2025-07-12, 09:05:31, 970ms
+computer name      : DESKTOP-OCRHP1I
+user name          : daniel
+registered owner   : daniel@miziosistemas.com.br
+operating system   : Windows 10 x64 build 19045
+system language    : Portuguese
+system up time     : 3 days 5 hours
+program up time    : 1 second
+processors         : 8x Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+physical memory    : 2087/16024 MB (free/total)
+free disk space    : (C:) 10,72 GB
+display mode       : 1842x1036, 32 bit
+process id         : $4b10
+allocated memory   : 68,22 MB
+largest free block : 131021,95 GB
+executable         : Project2.exe
+exec. date/time    : 2025-07-12 09:05
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.1
+callstack crc      : $debc21f9, $82df19e2, $82df19e2
+exception number   : 1
+exception class    : EFDException
+exception message  : [FireDAC][Phys][MySQL]-314. Cannot load vendor library [libmysql.dll, libmariadb or libmysqld.dll]. Não foi possível encontrar o módulo especificado Hint: check it is in the PATH or application EXE directories, and has x64 bitness.
+
+main thread ($5730):
+009575eb +13b Project2.exe FireDAC.Stan.Error          540  +8 FDException
+0095e79b +49b Project2.exe FireDAC.Stan.Util          2123 +65 TFDLibrary.LoadLibrary
+0095e169 +059 Project2.exe FireDAC.Stan.Util          2032  +2 TFDLibrary.Load
+00b6c400 +140 Project2.exe FireDAC.Phys.MySQLWrapper   590 +15 TMySQLLib.Load
+00b81b86 +0d6 Project2.exe FireDAC.Phys.MySQL          370 +10 TFDPhysMySQLDriver.InternalLoad
+00b46dd4 +0f4 Project2.exe FireDAC.Phys               1927 +13 TFDPhysDriver.Load
+00b46faf +02f Project2.exe FireDAC.Phys               1951  +3 TFDPhysDriver.Employ
+00b4cd6f +01f Project2.exe FireDAC.Phys               3323  +1 TFDPhysConnection.ConnectBase
+00b4ce59 +019 Project2.exe FireDAC.Phys               3351  +4 TFDPhysConnection.DoConnect
+00b4dd4a +1ca Project2.exe FireDAC.Phys               3525 +29 TFDPhysConnection.Open
+00a2eadb +02b Project2.exe FireDAC.Comp.Client        3995  +2 TFDCustomConnection.DoInternalLogin
+00a2fef3 +193 Project2.exe FireDAC.Comp.Client        4214 +15 TFDCustomConnection.DoConnect
+00916874 +064 Project2.exe Data.DB                    3544  +9 TCustomConnection.SetConnected
+00a2fc21 +031 Project2.exe FireDAC.Comp.Client        4181  +4 TFDCustomConnection.SetConnected
+00b97ae1 +0e1 Project2.exe Unit2                       675  +8 TForm2.FormCreate
+007c90b3 +033 Project2.exe Vcl.Forms                  3986  +3 TCustomForm.DoCreate
+007c8a68 +018 Project2.exe Vcl.Forms                  3867  +1 TCustomForm.AfterConstruction
+0040e68d +01d Project2.exe System                    19300  +2 @AfterConstruction
+007c8906 +226 Project2.exe Vcl.Forms                  3857 +37 TCustomForm.Create
+007d9a66 +086 Project2.exe Vcl.Forms                 11147 +13 TApplication.CreateForm
+00b9852d +04d Project2.exe Project2                     13  +3 initialization
+7ffbcb48 +00e KERNEL32.DLL                                     BaseThreadInitThunk
+7ffbcc47 +01b ntdll.dll                                        RtlUserThreadStart
+

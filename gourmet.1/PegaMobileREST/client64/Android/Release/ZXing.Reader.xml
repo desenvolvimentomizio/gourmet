@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Reader" platform="Android">
+  <interface name="IReader" ancestor="IInterface">
+    <devnotes>
+<!-- Badly formed XML comment ignored for member 'IReader' -->
+    </devnotes>
+    <function name="decode" visibility="public" procflags="abstract overload virtual">
+      <devnotes>
+         <summary>
+         Locates and decodes a barcode in some format within an image.
+         </summary>
+         <param name="image">image of barcode to decode</param>
+         <returns>String which the barcode encodes</returns>
+      </devnotes>
+      <parameters>
+        <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+        <retval type="TReadResult" />
+      </parameters>
+    </function>
+    <function name="decode" visibility="public" procflags="abstract overload virtual">
+      <devnotes>
+<!-- Badly formed XML comment ignored for member 'decode' -->
+      </devnotes>
+      <parameters>
+        <parameter name="image" type="TBinaryBitmap" paramflags="const" />
+        <parameter name="hints" type="TDictionary&lt;ZXing.DecodeHintType.TDecodeHintType,System.TObject&gt;" />
+        <retval type="TReadResult" />
+      </parameters>
+    </function>
+    <procedure name="Reset" visibility="public" procflags="abstract virtual">
+      <devnotes>
+         <summary>
+         Resets any internal state the implementation has after a decode, to prepare it
+         for reuse.
+         </summary>
+      </devnotes>
+    </procedure>
+  </interface>
+</namespace>

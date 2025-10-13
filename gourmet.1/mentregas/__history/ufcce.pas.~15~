@@ -1,0 +1,225 @@
+unit ufcce;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmbase, System.ImageList, Vcl.ImgList,
+  PngImageList, System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.Buttons, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, ufuncoes;
+
+type
+  Tfcce = class(Tfrmbase)
+    registroccechave: TIntegerField;
+    registrocznchave: TIntegerField;
+    registrocceabertura: TDateTimeField;
+    Label1: TLabel;
+    ccechave: TDBEdit;
+    Label2: TLabel;
+    clbcodigo: TDBEdit;
+    registroclbcodigo: TIntegerField;
+    clb: TUniQuery;
+    clbclbcodigo: TIntegerField;
+    clbclbidentificacao: TStringField;
+    registroclbidentificacao: TStringField;
+    registroccevalorabertura: TFloatField;
+    Label3: TLabel;
+    ccevalorabertura: TDBEdit;
+    adc: TUniQuery;
+    adcadccodigo: TIntegerField;
+    adcadcchaveintegracao: TStringField;
+    btSelecionarMaquinaPOS: TButton;
+    pss: TUniQuery;
+    pssposidentificacao: TStringField;
+    pssposcodigo: TIntegerField;
+    pssposnumeroserie: TStringField;
+    posnumeroserie: TDBText;
+    DSpos: TDataSource;
+    pssposcelularentregador: TStringField;
+    Label4: TLabel;
+    poscelularentregador: TDBEdit;
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure clbcodigoExit(Sender: TObject);
+    procedure clbcodigoChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btSelecionarMaquinaPOSClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vpFncCodigo: string;
+  end;
+
+var
+  fcce: Tfcce;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfcce.bconfirmaClick(Sender: TObject);
+begin
+
+  if clbcodigo.Field.AsString <> '' then
+  begin
+    if poscelularentregador.Field.Text='' then
+    begin
+      ShowMessage('É necessário informar o número de celular de trabalho para hoje do entregador!');
+      exit;
+    end;
+
+    if (pss.State=dsinsert) or (pss.State=dsedit) then
+      pss.Post;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT clbcodigo from clb where fnccodigo=' + vpFncCodigo + ' and clbcodigo=' + clbcodigo.Field.AsString;
+    consulta.Open;
+
+    if consulta.IsEmpty then
+    begin
+      Showmessage('Este colaborador não é um ENTREGADOR!, não pode abrir caixa!');
+      exit;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT clbcodigo from clb where clbativo=0 and  clbcodigo=' + clbcodigo.Field.AsString;
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+    begin
+      Showmessage('Este colaborador esta INATIVO!, não pode abrir caixa!');
+      exit;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT ccechave from cce where ccefechamento IS NULL and cznchave=' + vChaveMestre + ' and  clbcodigo=' +
+      clbcodigo.Field.AsString;
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+    begin
+      Showmessage('Este colaborador já esta com seu caixa aberto!');
+      exit;
+    end
+    else
+    begin
+
+      inherited;
+
+    end;
+
+  end;
+end;
+
+procedure Tfcce.btSelecionarMaquinaPOSClick(Sender: TObject);
+var
+  vlposcodigo:string;
+begin
+  inherited;
+  vlposcodigo:=MostraLista('mpos','clbcodigo='+clbcodigo.Field.AsString);
+
+
+
+  if vlposcodigo<>'' then
+  begin
+
+    consulta.close;
+    consulta.SQL.Text:='update pos set  clbcodigo='+clbcodigo.Field.AsString+ ' where poscodigo='+vlposcodigo;
+    consulta.ExecSQL ;
+
+
+    pss.Close;
+    pss.ParamByName('clbcodigo').AsString:=clbcodigo.Field.AsString;
+    pss.Open;
+
+    if not pss.IsEmpty then
+      posnumeroserie.Visible:=true
+    else
+      posnumeroserie.Visible:=False;
+  end
+  else
+     posnumeroserie.Visible:=False;
+
+end;
+
+procedure Tfcce.clbcodigoChange(Sender: TObject);
+begin
+  inherited;
+
+  txtFiltro := 'fnccodigo=' + vpFncCodigo + '  and clbativo=' + QuotedStr('1');
+end;
+
+procedure Tfcce.clbcodigoExit(Sender: TObject);
+begin
+  inherited;
+  if ActiveControl = bcancela then
+    exit;
+
+  if clbcodigo.Field.AsString <> '' then
+  begin
+    validasaida(Sender);
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT clbcodigo from clb where clbativo=' + QuotedStr('0') + ' and  clbcodigo=' + clbcodigo.Field.AsString;
+    consulta.Open;
+
+    if not consulta.IsEmpty then
+    begin
+      Showmessage('Este colaborador esta INATIVO!, não pode abrir caixa!');
+      clbcodigo.SetFocus;
+    end
+    else
+    begin
+
+      inherited;
+    end;
+
+  end
+  else
+  begin
+    inherited;
+    if findcomponent('spdbclbcodigo') <> nil then
+    begin
+      (findcomponent('spdbclbcodigo') as TBitBtn).Click;
+    end;
+
+  end;
+
+end;
+
+procedure Tfcce.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  adc.close;
+  adc.Open;
+
+  if trim(adc.FieldByName('adcchaveintegracao').AsString)<>'' then
+  begin
+
+  end
+  else
+  begin
+
+  end;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select fnccodigo from fnc where fncidentificacao=' + QuotedStr('ENTREGADOR') + ' order by fnccodigo limit 1';
+  consulta.Open;
+
+  vpFncCodigo := '';
+  vpFncCodigo := consulta.FieldByName('fnccodigo').AsString;
+
+  if vpFncCodigo = '' then
+    vpFncCodigo := '10';
+
+end;
+
+procedure Tfcce.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  registrocceabertura.AsString := agora(application, ZCone);
+  registrocznchave.AsString := vChaveMestre;
+end;
+
+end.

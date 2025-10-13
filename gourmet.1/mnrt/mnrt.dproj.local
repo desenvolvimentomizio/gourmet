@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/09/30 14:33:16.000.895,=rtl.dcp</Transaction>
+    <Transaction>2025/09/30 14:33:55.000.545,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\fontes_mercato\mercato\mnrt\mnrt.dproj</Transaction>
+    <Transaction>2025/09/30 14:36:22.000.807,=C:\fontes_mercato\mercato\mnrt\ufrabase.pas</Transaction>
+    <Transaction>2025/09/30 14:37:02.000.687,=C:\fontes_mercato\mercato\mnrt\Unit1.pas</Transaction>
+    <Transaction>2025/09/30 14:37:02.000.172,=C:\fontes_gourmet\gourmet.1\base\ufrabase.pas</Transaction>
+    <Transaction>2025/09/30 14:39:13.000.024,C:\fontes_gourmet\gourmet.1\base\ufrabase.pas=</Transaction>
+    <Transaction>2025/09/30 14:39:26.000.905,=C:\fontes_mercato\mercato\mnrt\Unit1.pas</Transaction>
+    <Transaction>2025/09/30 14:39:26.000.550,=C:\fontes_mercato\mercato\base\ufrabase.pas</Transaction>
+    <Transaction>2025/09/30 14:39:58.000.927,C:\fontes_mercato\mercato\mnrt\Unit1.pas=C:\fontes_mercato\mercato\mnrt\ufranrt.pas</Transaction>
+    <Transaction>2025/09/30 14:39:58.000.927,C:\fontes_mercato\mercato\mnrt\Unit1.dfm=C:\fontes_mercato\mercato\mnrt\ufranrt.dfm</Transaction>
+    <Transaction>2025/10/07 14:09:49.000.564,=C:\fontes_mercato\mercato\base\ulfrmbase.pas</Transaction>
+    <Transaction>2025/10/07 14:09:49.000.722,=C:\fontes_mercato\mercato\mnrt\Unit1.pas</Transaction>
+    <Transaction>2025/10/07 14:11:51.000.112,C:\fontes_mercato\mercato\mnrt\ulfranrt.dfm=C:\fontes_mercato\mercato\mnrt\Unit1.dfm</Transaction>
+    <Transaction>2025/10/07 14:11:51.000.112,C:\fontes_mercato\mercato\mnrt\ulfranrt.pas=C:\fontes_mercato\mercato\mnrt\Unit1.pas</Transaction>
+    <Transaction>2025/10/07 14:18:45.000.182,C:\fontes_mercato\mercato\mnrt\ulnrt.dfm=C:\fontes_mercato\mercato\mnrt\ulfranrt.dfm</Transaction>
+    <Transaction>2025/10/07 14:18:45.000.182,C:\fontes_mercato\mercato\mnrt\ulnrt.pas=C:\fontes_mercato\mercato\mnrt\ulfranrt.pas</Transaction>
+    <Transaction>2025/10/10 16:36:18.000.557,C:\fontes_gourmet\gourmet.1\mnrt\ulnrt.pas=</Transaction>
+    <Transaction>2025/10/10 16:36:38.000.146,=C:\fontes_gourmet\gourmet.1\base\ulfrmbase.pas</Transaction>
+    <Transaction>2025/10/10 16:36:38.000.296,=C:\fontes_gourmet\gourmet.1\mnrt\Unit1.pas</Transaction>
+    <Transaction>2025/10/10 16:37:24.000.894,C:\fontes_gourmet\gourmet.1\mnrt\Unit1.dfm=C:\fontes_gourmet\gourmet.1\mnrt\ulnrt.dfm</Transaction>
+    <Transaction>2025/10/10 16:37:24.000.894,C:\fontes_gourmet\gourmet.1\mnrt\Unit1.pas=C:\fontes_gourmet\gourmet.1\mnrt\ulnrt.pas</Transaction>
+  </Transactions>
+</BorlandProject>

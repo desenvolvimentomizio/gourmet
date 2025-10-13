@@ -1,0 +1,113 @@
+unit ProducaoUPServer.controller.IMPproduzido;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  idHashMessageDigest,
+  DataSet.Serialize,
+  ProducaoUPServer.Model.DAOGeneric,
+  ProducaoUPServer.Model.Entity.CZN,
+  ProducaoUPServer.Model.Entity.IMP;
+
+procedure Registry(App: THorse);
+procedure V1GetEstatisticasID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetProdutividaID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+procedure Registry(App: THorse);
+begin
+  App.Get('/v1/impestatistica/:id', V1GetEstatisticasID);
+  App.Get('/v1/impprodutores/:id', V1GetProdutividaID);
+end;
+
+
+
+procedure V1GetProdutividaID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TIMPST>;
+  FCZN: IDAOGeneric<TCZN>;
+  vlCznChave: string;
+  vlSepCodigo: String;
+begin
+
+  FCZN := TDAOGeneric<TCZN>.new;
+  FCZN.DAO.SQL.Fields('cznchave').Where('cznfechamento is null').&End.Find;
+
+  vlCznChave := FCZN.DataSet.Fields[0].AsString;
+
+  vlSepCodigo := Req.Params.Items['id'];
+
+  FDAO := TDAOGeneric<TIMPST>.new;
+  FDAO.DAO.SQL.Fields('imp.sepcodigo codigo,  clb.clbidentificacao produtor, sum(impquantidade) quantidade,  SUM(immpontos) pontos')
+    .Join('INNER JOIN clb ON imp.clbcodigo = clb.clbcodigo')
+
+  .Where('if(' + vlSepCodigo + '=0, imp.sepcodigo<>0, imp.sepcodigo=' + vlSepCodigo +
+    ') and imp.cznchave=' + vlCznChave)
+
+    .groupby('clb.clbidentificacao')
+    .orderby('SUM(immpontos) desc,  SUM(impquantidade) desc')
+    .&End.Find;
+
+  if not FDAO.DataSet.IsEmpty then
+  begin
+    Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+  end
+  else
+  begin
+    Res.Status(204);
+  end;
+end;
+
+
+
+procedure V1GetEstatisticasID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TIMPST>;
+  FCZN: IDAOGeneric<TCZN>;
+  vlCznChave: string;
+  vlSepCodigo: String;
+begin
+
+  FCZN := TDAOGeneric<TCZN>.new;
+  FCZN.DAO.SQL.Fields('cznchave').Where('cznfechamento is null').&End.Find;
+
+  vlCznChave := FCZN.DataSet.Fields[0].AsString;
+
+  vlSepCodigo := Req.Params.Items['id'];
+
+  // vlCznChave:=Req.Params.Items['cznchave'];
+
+  FDAO := TDAOGeneric<TIMPST>.new;
+  FDAO.DAO.SQL.Fields
+    ('imp.mitcodigo codigo,  count(impquantidade) quantidade, '+
+     '  CONCAT(FLOOR(MAX(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal))/60),'':'',LPAD(MOD(MAX(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal)),60),2,''0''))  maiortempo, '+
+     '  CONCAT(FLOOR(MIN(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal))/60),'':'',LPAD(MOD(MIN(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal)),60),2,''0'')) menortempo, '  +
+     '  CONCAT(FLOOR(ROUND(AVG(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal)), 0)/60),'':'',LPAD(MOD(ROUND(AVG(TIMESTAMPDIFF(MINUTE, imp.impinicio, imp.impfinal)), 0),60),2,''0''))  mediatempo ')
+   .Where('if(' + vlSepCodigo + '=0, imp.sepcodigo<>0, imp.sepcodigo=' + vlSepCodigo +
+    ') and imp.cznchave=' + vlCznChave).groupby('imp.mitcodigo').&End.Find;
+
+
+
+  if not FDAO.DataSet.IsEmpty then
+  begin
+    Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+  end
+  else
+  begin
+    Res.Status(204);
+  end;
+end;
+
+end.

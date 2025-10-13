@@ -1,0 +1,429 @@
+inherited fadc: Tfadc
+  ActiveControl = adcidentificacao
+  Caption = 'Administradora de Cart'#245'es '
+  ClientHeight = 340
+  ClientWidth = 649
+  ExplicitWidth = 665
+  ExplicitHeight = 379
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 311
+    Width = 649
+    ExplicitTop = 311
+    ExplicitWidth = 649
+    inherited bconfirma: TBitBtn
+      Left = 495
+      ExplicitLeft = 495
+    end
+    inherited bcancela: TBitBtn
+      Left = 570
+      ExplicitLeft = 570
+    end
+    inherited bfechar: TBitBtn
+      Left = 430
+      ExplicitLeft = 430
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 649
+    Height = 311
+    ExplicitWidth = 649
+    ExplicitHeight = 311
+    inherited Principal: TTabSheet
+      ExplicitWidth = 641
+      ExplicitHeight = 283
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = adccodigo
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 33
+        Width = 62
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Identifica'#231#227'o'
+        FocusControl = adcidentificacao
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 60
+        Width = 81
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Cliente Vinculado'
+        FocusControl = etdcodigo
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 87
+        Width = 120
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Liquida Automaticamente'
+        FocusControl = adcliquidaautomatico
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 114
+        Width = 128
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Encerramento do Contrato'
+        FocusControl = adcencerramento
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 141
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Cart'#227'o pr'#243'prio'
+        FocusControl = adcpropria
+      end
+      object lbebdccodigo: TLabel
+        Left = 288
+        Top = 141
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Bandeira'
+        FocusControl = bdccodigo
+      end
+      object Label7: TLabel
+        Left = 8
+        Top = 168
+        Width = 82
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Cr'#233'dito na Conta'
+        FocusControl = ctacodigo
+      end
+      object Label8: TLabel
+        Left = 8
+        Top = 195
+        Width = 135
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Chave de Integra'#231#227'o/Token'
+        FocusControl = adcchaveintegracao
+      end
+      object Label9: TLabel
+        Left = 8
+        Top = 222
+        Width = 146
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome do Servi'#231'o/Identifica'#231#227'o'
+      end
+      object adccodigo: TDBEdit
+        Left = 171
+        Top = 3
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adccodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object adcidentificacao: TDBEdit
+        Left = 171
+        Top = 30
+        Width = 438
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcidentificacao'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object etdcodigo: TDBEdit
+        Left = 171
+        Top = 57
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etdcodigo'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object adcliquidaautomatico: TDBEdit
+        Left = 171
+        Top = 84
+        Width = 33
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcliquidaautomatico'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+      object adcencerramento: TDBEdit
+        Left = 171
+        Top = 111
+        Width = 96
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcencerramento'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object adcpropria: TDBEdit
+        Left = 171
+        Top = 138
+        Width = 33
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcpropria'
+        DataSource = DSRegistro
+        TabOrder = 5
+      end
+      object bdccodigo: TDBEdit
+        Left = 342
+        Top = 138
+        Width = 35
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'bdccodigo'
+        DataSource = DSRegistro
+        TabOrder = 6
+      end
+      object ctacodigo: TDBEdit
+        Left = 171
+        Top = 165
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'ctacodigo'
+        DataSource = DSRegistro
+        TabOrder = 7
+      end
+      object adcchaveintegracao: TDBEdit
+        Left = 171
+        Top = 192
+        Width = 438
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcchaveintegracao'
+        DataSource = DSRegistro
+        TabOrder = 8
+      end
+      object adcserviconome: TDBComboBox
+        Left = 171
+        Top = 222
+        Width = 110
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'adcserviconome'
+        DataSource = DSRegistro
+        Items.Strings = (
+          'MIZIO'
+          'SUPERTEF')
+        TabOrder = 9
+      end
+    end
+  end
+  inherited lbcodigojanela: TPanel
+    Left = 322
+    ExplicitLeft = 322
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 268
+    Top = 8
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      
+        'select adccodigo, adcidentificacao, etdcodigo, adcliquidaautomat' +
+        'ico, adcencerramento, adcpropria, bdccodigo,ctacodigo,adcchavein' +
+        'tegracao, adcserviconome from adc where adccodigo=:adccodigo')
+    Left = 340
+    Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'adccodigo'
+        Value = nil
+      end>
+    object registroadccodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'adccodigo'
+    end
+    object registroadcidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'adcidentificacao'
+      Required = True
+      Size = 50
+    end
+    object registroetdcodigo: TIntegerField
+      DisplayLabel = 'Fornecedor Vinculado'
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object registroetdidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'etdidentificacao'
+      LookupDataSet = etd
+      LookupKeyFields = 'etdcodigo'
+      LookupResultField = 'etdidentificacao'
+      KeyFields = 'etdcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registroadcliquidaautomatico: TIntegerField
+      DisplayLabel = 'Liquida Automaticamente'
+      FieldName = 'adcliquidaautomatico'
+      Required = True
+    end
+    object registrosenadcliquidaauto: TStringField
+      FieldKind = fkLookup
+      FieldName = 'senadcliquidaauto'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'adcliquidaautomatico'
+      Size = 5
+      Lookup = True
+    end
+    object registroadcencerramento: TDateField
+      DisplayLabel = 'Encerramento do Contrato'
+      FieldName = 'adcencerramento'
+    end
+    object registroadcpropria: TIntegerField
+      FieldName = 'adcpropria'
+      Required = True
+    end
+    object registrosenadcpropria: TStringField
+      FieldKind = fkLookup
+      FieldName = 'senadcpropria'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'adcpropria'
+      Size = 5
+      Lookup = True
+    end
+    object registrobdccodigo: TIntegerField
+      FieldName = 'bdccodigo'
+    end
+    object registrobdcidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'bdcidentificacao'
+      LookupDataSet = bdc
+      LookupKeyFields = 'bdccodigo'
+      LookupResultField = 'bdcidentificacao'
+      KeyFields = 'bdccodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registroctacodigo: TIntegerField
+      DisplayLabel = 'Cr'#233'dito na Conta'
+      FieldName = 'ctacodigo'
+    end
+    object registroctaidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ctaidentificacao'
+      LookupDataSet = cta
+      LookupKeyFields = 'ctacodigo'
+      LookupResultField = 'ctaidentificacao'
+      KeyFields = 'ctacodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registroadcchaveintegracao: TStringField
+      DisplayLabel = 'Chave de Integra'#231#227'o/Token'
+      FieldName = 'adcchaveintegracao'
+      Size = 200
+    end
+    object registroadcserviconome: TStringField
+      DisplayLabel = 'Nome do Servi'#231'o/Identifica'#231#227'o'
+      FieldName = 'adcserviconome'
+      Size = 200
+    end
+  end
+  inherited dcp: TUniQuery
+    Left = 416
+    Top = 172
+  end
+  inherited dtb: TUniQuery
+    Left = 484
+    Top = 156
+  end
+  inherited coa: TUniQuery
+    Left = 528
+    Top = 164
+  end
+  inherited err: TUniQuery
+    Left = 568
+    Top = 204
+  end
+  inherited BalloonHint: TBalloonHint
+    Left = 452
+    Top = 176
+  end
+  inherited dau: TUniQuery
+    Left = 604
+    Top = 204
+  end
+  inherited lou: TUniQuery
+    Left = 392
+    Top = 288
+  end
+  object etd: TUniQuery
+    SQL.Strings = (
+      'select etdcodigo, etdidentificacao from etd')
+    Left = 608
+    Top = 124
+    object etdetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object etdetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+  end
+  object sen: TUniQuery
+    SQL.Strings = (
+      'select sencodigo, senidentificacao from sen')
+    Left = 520
+    Top = 16
+    object sensencodigo: TIntegerField
+      FieldName = 'sencodigo'
+    end
+    object sensenidentificacao: TStringField
+      FieldName = 'senidentificacao'
+      Size = 5
+    end
+  end
+  object bdc: TUniQuery
+    SQL.Strings = (
+      'select bdccodigo, bdcidentificacao from bdc')
+    Left = 452
+    Top = 112
+    object bdcbdccodigo: TIntegerField
+      FieldName = 'bdccodigo'
+    end
+    object bdcbdcidentificacao: TStringField
+      FieldName = 'bdcidentificacao'
+      Size = 50
+    end
+  end
+  object cta: TUniQuery
+    SQL.Strings = (
+      'select ctacodigo, ctaidentificacao from cta where tctcodigo=2')
+    Left = 604
+    Top = 56
+    object ctactacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object ctactaidentificacao: TStringField
+      FieldName = 'ctaidentificacao'
+      Size = 50
+    end
+  end
+end

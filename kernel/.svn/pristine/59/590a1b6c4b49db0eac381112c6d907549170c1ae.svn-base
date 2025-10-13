@@ -1,0 +1,1442 @@
+﻿inherited fitmcpr: Tfitmcpr
+  ActiveControl = procodigo
+  Caption = 'Item de Compra'
+  ClientHeight = 563
+  ClientWidth = 645
+  ExplicitWidth = 661
+  ExplicitHeight = 602
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 534
+    Width = 645
+    ExplicitTop = 534
+    ExplicitWidth = 645
+    inherited bconfirma: TBitBtn
+      Left = 491
+      ExplicitLeft = 491
+    end
+    inherited bcancela: TBitBtn
+      Left = 566
+      ExplicitLeft = 566
+    end
+    inherited bfechar: TBitBtn
+      Left = 426
+      ExplicitLeft = 426
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 645
+    Height = 534
+    ExplicitWidth = 645
+    ExplicitHeight = 534
+    inherited Principal: TTabSheet
+      ExplicitWidth = 637
+      ExplicitHeight = 506
+      object Label15: TLabel
+        Left = 8
+        Top = 6
+        Width = 63
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Item da Nota'
+        FocusControl = itmitem
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 33
+        Width = 85
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Tipo de Opera'#231#227'o'
+        FocusControl = toecodigo
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 60
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo do Produto'
+        FocusControl = procodigo
+      end
+      object Label18: TLabel
+        Left = 8
+        Top = 87
+        Width = 83
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CFOP Destina'#231#227'o'
+        FocusControl = cfocfopdestinacao
+      end
+      object Label1: TLabel
+        Left = 8
+        Top = 140
+        Width = 94
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Unidade de Compra'
+        FocusControl = unicodigo
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 168
+        Width = 56
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Quantidade'
+        FocusControl = itmquantidade
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 195
+        Width = 80
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Valor do Item R$'
+        FocusControl = itmvalor
+      end
+      object Label13: TLabel
+        Left = 285
+        Top = 194
+        Width = 61
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Desconto R$'
+        FocusControl = itmdesconto
+      end
+      object Label14: TLabel
+        Left = 435
+        Top = 194
+        Width = 80
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Total do Item R$'
+        FocusControl = itmtotal
+      end
+      object Label16: TLabel
+        Left = 501
+        Top = 167
+        Width = 54
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Embalagem'
+        FocusControl = puncodigo
+        Visible = False
+      end
+      object litmcontendo: TLabel
+        Left = 413
+        Top = 140
+        Width = 54
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Contendo'
+        FocusControl = itmcontendo
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clNavy
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lnomeunidadebase: TLabel
+        Left = 538
+        Top = 140
+        Width = 46
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Unidade'
+        FocusControl = itmcontendo
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clNavy
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label22: TLabel
+        Left = 8
+        Top = 112
+        Width = 55
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo CST'
+        FocusControl = cstcodigo
+      end
+      object itmitem: TDBEdit
+        Left = 136
+        Top = 3
+        Width = 36
+        Height = 21
+        ParentCustomHint = False
+        TabStop = False
+        DataField = 'itmitem'
+        DataSource = DSRegistro
+        Enabled = False
+        TabOrder = 0
+      end
+      object toecodigo: TDBEdit
+        Left = 136
+        Top = 30
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'toecodigo'
+        DataSource = DSRegistro
+        TabOrder = 1
+        OnEnter = toecodigoEnter
+      end
+      object procodigo: TDBEdit
+        Left = 136
+        Top = 57
+        Width = 59
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'procodigo'
+        DataSource = DSRegistro
+        TabOrder = 2
+        OnEnter = procodigoEnter
+        OnExit = procodigoExit
+      end
+      object cfocfopdestinacao: TDBEdit
+        Left = 136
+        Top = 84
+        Width = 59
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfocfopdestinacao'
+        DataSource = DSRegistro
+        TabOrder = 3
+        OnExit = cfocfopdestinacaoExit
+      end
+      object unicodigo: TDBEdit
+        Left = 136
+        Top = 138
+        Width = 59
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'unicodigo'
+        DataSource = DSRegistro
+        TabOrder = 5
+        OnEnter = unicodigoEnter
+        OnExit = unicodigoExit
+      end
+      object itmquantidade: TDBEdit
+        Left = 136
+        Top = 165
+        Width = 125
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'itmquantidade'
+        DataSource = DSRegistro
+        TabOrder = 7
+        OnChange = itmquantidadeChange
+        OnEnter = itmquantidadeEnter
+      end
+      object itmvalor: TDBEdit
+        Left = 136
+        Top = 192
+        Width = 125
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'itmvalor'
+        DataSource = DSRegistro
+        TabOrder = 8
+        OnChange = itmvalorChange
+        OnExit = itmvalorExit
+      end
+      object itmdesconto: TDBEdit
+        Left = 352
+        Top = 191
+        Width = 64
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'itmdesconto'
+        DataSource = DSRegistro
+        TabOrder = 9
+        OnChange = itmdescontoChange
+        OnExit = itmdescontoExit
+      end
+      object itmtotal: TDBEdit
+        Left = 521
+        Top = 191
+        Width = 81
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'itmtotal'
+        DataSource = DSRegistro
+        TabOrder = 10
+        OnChange = itmtotalChange
+        OnEnter = itmtotalEnter
+        OnExit = itmtotalExit
+      end
+      object puncodigo: TDBEdit
+        Left = 561
+        Top = 164
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        DataField = 'puncodigo'
+        DataSource = DSRegistro
+        TabOrder = 11
+        Visible = False
+        OnEnter = puncodigoEnter
+      end
+      object itmcontendo: TDBEdit
+        Left = 473
+        Top = 137
+        Width = 59
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'itmcontendo'
+        DataSource = DSRegistro
+        TabOrder = 6
+        OnExit = itmcontendoExit
+      end
+      object plultimacompra: TPanel
+        Left = 11
+        Top = 248
+        Width = 610
+        Height = 31
+        CustomHint = BalloonHint
+        BevelOuter = bvLowered
+        Color = 4227327
+        ParentBackground = False
+        TabOrder = 12
+        Visible = False
+        object Label4: TLabel
+          Left = 174
+          Top = 9
+          Width = 107
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Data da '#250'ltima compra'
+        end
+        object Label17: TLabel
+          Left = 363
+          Top = 9
+          Width = 111
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = #218'ltimo custo de compra'
+        end
+        object unisimbolo: TDBText
+          Left = 560
+          Top = 9
+          Width = 35
+          Height = 17
+          CustomHint = BalloonHint
+          DataField = 'unisimbolo'
+          DataSource = Dultcpr
+        end
+        object mesregistro: TDBEdit
+          Left = 288
+          Top = 6
+          Width = 68
+          Height = 21
+          CustomHint = BalloonHint
+          TabStop = False
+          Color = clYellow
+          DataField = 'mesregistro'
+          DataSource = Dultcpr
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 4210816
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object ultitmcusto: TDBEdit
+          Left = 481
+          Top = 6
+          Width = 73
+          Height = 21
+          CustomHint = BalloonHint
+          TabStop = False
+          Color = clYellow
+          DataField = 'itmcusto'
+          DataSource = Dultcpr
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 4210816
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object plAlterouPreco: TPanel
+          Left = 1
+          Top = 1
+          Width = 167
+          Height = 29
+          CustomHint = BalloonHint
+          Align = alLeft
+          BevelOuter = bvNone
+          Caption = 'Alterado Pre'#231'o'
+          Color = 191
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clYellow
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 2
+        end
+      end
+      object GBOutrosValores: TGroupBox
+        Left = 3
+        Top = 305
+        Width = 610
+        Height = 51
+        CustomHint = BalloonHint
+        Caption = ' Outros Valores '
+        TabOrder = 13
+        object Label23: TLabel
+          Left = 301
+          Top = 24
+          Width = 49
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Outras R$'
+          FocusControl = itmoutras
+        end
+        object Label24: TLabel
+          Left = 152
+          Top = 23
+          Width = 50
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Seguro R$'
+          FocusControl = itmseguro
+        end
+        object Label25: TLabel
+          Left = 10
+          Top = 23
+          Width = 42
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Frete R$'
+          FocusControl = itmfrete
+        end
+        object Label26: TLabel
+          Left = 437
+          Top = 24
+          Width = 85
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Outros Custos R$'
+          FocusControl = itmoutroscustos
+        end
+        object itmoutras: TDBEdit
+          Left = 356
+          Top = 20
+          Width = 75
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmoutras'
+          DataSource = DSRegistro
+          TabOrder = 2
+          OnExit = itmoutrasExit
+          OnKeyPress = FormKeyPress
+        end
+        object itmseguro: TDBEdit
+          Left = 208
+          Top = 20
+          Width = 75
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmseguro'
+          DataSource = DSRegistro
+          TabOrder = 1
+          OnExit = itmseguroExit
+          OnKeyPress = FormKeyPress
+        end
+        object itmfrete: TDBEdit
+          Left = 58
+          Top = 20
+          Width = 75
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmfrete'
+          DataSource = DSRegistro
+          TabOrder = 0
+          OnExit = itmfreteExit
+          OnKeyPress = FormKeyPress
+        end
+        object itmoutroscustos: TDBEdit
+          Left = 528
+          Top = 20
+          Width = 75
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmoutroscustos'
+          DataSource = DSRegistro
+          TabOrder = 3
+          OnExit = itmoutroscustosExit
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object GBTributacao: TGroupBox
+        Left = 11
+        Top = 378
+        Width = 610
+        Height = 105
+        CustomHint = BalloonHint
+        Caption = ' Tributa'#231#227'o '
+        TabOrder = 14
+        object Label21: TLabel
+          Left = 12
+          Top = 21
+          Width = 82
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Base do ICMS R$'
+        end
+        object Label20: TLabel
+          Left = 12
+          Top = 48
+          Width = 116
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Base do ICMS Subst. R$'
+        end
+        object Label10: TLabel
+          Left = 12
+          Top = 75
+          Width = 83
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Percentual de IPI'
+        end
+        object Label12: TLabel
+          Left = 209
+          Top = 75
+          Width = 72
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Valor do IPI R$'
+        end
+        object Label11: TLabel
+          Left = 207
+          Top = 48
+          Width = 109
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Percentual ICMS Subst'
+        end
+        object Label7: TLabel
+          Left = 226
+          Top = 21
+          Width = 67
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Al'#237'quota ICMS'
+        end
+        object Label8: TLabel
+          Left = 421
+          Top = 21
+          Width = 83
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Valor do ICMS R$'
+        end
+        object Label9: TLabel
+          Left = 391
+          Top = 48
+          Width = 113
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Valor do ICMS Subst R$'
+        end
+        object Label19: TLabel
+          Left = 363
+          Top = 75
+          Width = 84
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Custo do Item R$'
+          FocusControl = itmcusto
+        end
+        object DBText1: TDBText
+          Left = 581
+          Top = 75
+          Width = 17
+          Height = 17
+          CustomHint = BalloonHint
+          DataField = 'unisimbolo'
+          DataSource = Dultcpr
+        end
+        object itmbicm: TDBEdit
+          Left = 133
+          Top = 18
+          Width = 75
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmbicm'
+          DataSource = DSRegistro
+          TabOrder = 0
+        end
+        object itmbicms: TDBEdit
+          Left = 133
+          Top = 45
+          Width = 65
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmbicms'
+          DataSource = DSRegistro
+          TabOrder = 3
+        end
+        object itmaliqipi: TDBEdit
+          Left = 133
+          Top = 72
+          Width = 53
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmaliqipi'
+          DataSource = DSRegistro
+          TabOrder = 6
+        end
+        object icmcodigo: TDBEdit
+          Left = 299
+          Top = 18
+          Width = 29
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'icmcodigo'
+          DataSource = DSRegistro
+          TabOrder = 1
+        end
+        object itmaliqicms: TDBEdit
+          Left = 323
+          Top = 45
+          Width = 53
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmaliqicms'
+          DataSource = DSRegistro
+          TabOrder = 4
+        end
+        object itmipi: TDBEdit
+          Left = 287
+          Top = 72
+          Width = 70
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmipi'
+          DataSource = DSRegistro
+          TabOrder = 7
+        end
+        object itmicm: TDBEdit
+          Left = 510
+          Top = 18
+          Width = 88
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmicm'
+          DataSource = DSRegistro
+          TabOrder = 2
+          OnEnter = itmicmEnter
+        end
+        object itmicms: TDBEdit
+          Left = 510
+          Top = 45
+          Width = 88
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'itmicms'
+          DataSource = DSRegistro
+          TabOrder = 5
+        end
+        object itmcusto: TDBEdit
+          Left = 453
+          Top = 72
+          Width = 124
+          Height = 21
+          CustomHint = BalloonHint
+          TabStop = False
+          Color = clBtnFace
+          DataField = 'itmcusto'
+          DataSource = DSRegistro
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 8
+        end
+      end
+      object cstcodigo: TDBEdit
+        Left = 136
+        Top = 111
+        Width = 43
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cstcodigo'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+    end
+  end
+  inherited lbcodigojanela: TPanel
+    Caption = '03-03-003'
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 260
+    Top = 60
+  end
+  inherited cfg: TUniQuery
+    SQL.Strings = (
+      
+        'Select ufs.ufssigla, etd.etddoc1, cfgment.cfgprouso,  cfgmnfe.cf' +
+        'gobs1, cfgmnfe.cfgobs2, cfgmnfe.cfgobs3,cfgcstterceiros,cfgajust' +
+        'acusto,'
+      
+        'cfgmnfe.cfgobs4, cfgmcfg.cfgetdempresa,cfgmnfe.cfgserienfe,cfgmn' +
+        'fe.cfgnumecertif, cfgmnfe.cfgserienfe, cfgment.cfgtoeusofora, cf' +
+        'gment.cfgtoeusointe'
+      
+        'From cfgmcfg, ufs, etd, cfgmnfe, cfgment, edr, cfg, cfgmspd wher' +
+        'e ufs.ufscodigo = edr.ufscodigo and cfg.cfgcodigo=cfgmcfg.cfgcod' +
+        'igo'
+      
+        'and cfg.cfgcodigo=cfgment.cfgcodigo and cfg.cfgcodigo=cfgmnfe.cf' +
+        'gcodigo and etd.etdcodigo=cfgmcfg.cfgetdempresa and etd.etdcodig' +
+        'o=edr.etdcodigo and edr.tedcodigo=1 and cfg.cfgcodigo=cfgmspd.cf' +
+        'gcodigo')
+    Left = 364
+    Top = 28
+    object cfgufssigla: TStringField
+      FieldName = 'ufssigla'
+      Required = True
+      Size = 3
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+      ReadOnly = True
+    end
+    object cfgcfgprouso: TIntegerField
+      FieldName = 'cfgprouso'
+      ReadOnly = True
+      Required = True
+    end
+    object cfgcfgobs1: TIntegerField
+      FieldName = 'cfgobs1'
+    end
+    object cfgcfgobs2: TIntegerField
+      FieldName = 'cfgobs2'
+    end
+    object cfgcfgobs3: TIntegerField
+      FieldName = 'cfgobs3'
+    end
+    object cfgcfgobs4: TIntegerField
+      FieldName = 'cfgobs4'
+    end
+    object cfgcfgetdempresa: TIntegerField
+      FieldName = 'cfgetdempresa'
+    end
+    object cfgcfgnumecertif: TStringField
+      FieldName = 'cfgnumecertif'
+      Size = 30
+    end
+    object cfgcfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Size = 5
+    end
+    object cfgcfgajustacusto: TIntegerField
+      FieldName = 'cfgajustacusto'
+    end
+  end
+  inherited consulta: TUniQuery
+    Left = 364
+    Top = 152
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  itmchave,'
+      '  meschave,'
+      '  itmitem,'
+      '  procodigo,'
+      '  cstcodigo,'
+      '  itmdesccomple,'
+      '  itmquantidade,'
+      '  itmvalor,'
+      '  itmdesconto,'
+      '  itmmovifisico,'
+      '  toecodigo,'
+      '  cfocfop,'
+      '  icmcodigo,'
+      '  itmbicm,'
+      '  itmaliqicm,'
+      '  itmicm,'
+      '  itmbicms,'
+      '  itmaliqicms,'
+      '  itmicms,'
+      '  itmapuipi,'
+      '  csicodigo,'
+      '  ceicodigo,'
+      '  itmbipi,'
+      '  itmaliqipi,'
+      '  itmipi,'
+      '  cspcodigo,'
+      '  itmbpis,'
+      '  itmaliqpis,'
+      '  itmquantpis,'
+      '  itmaliqpisvalor,'
+      '  itmpis,'
+      '  csfcodigo,'
+      '  itmbcofins,'
+      '  itmaliqcofins,'
+      '  itmquantcofins,'
+      '  itmaliqcofinsvalor,'
+      '  itmcofins,'
+      '  pcccodigo,'
+      '  itmtotal,'
+      '  unicodigo,'
+      '  itmicmsvalor,'
+      '  puncodigo,'
+      '  itmcontendo,'
+      '  cfocfopdestinacao,'
+      '  unicodigobase,'
+      '  itmcusto,'
+      '  itmfrete,'
+      '  itmseguro,'
+      '  itmoutras,'
+      '  itmoutroscustos,'
+      '  flacodigo,'
+      '  tdfcodigo'
+      'FROM itm'
+      'WHERE itmchave = :itmchave AND'
+      'meschave = :meschave')
+    BeforePost = registroBeforePost
+    Left = 232
+    Top = 124
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itmchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object registroitmchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'itmchave'
+    end
+    object registromeschave: TIntegerField
+      DisplayLabel = 'Nr. Registro'
+      FieldName = 'meschave'
+    end
+    object registroitmitem: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'itmitem'
+    end
+    object registrotoecodigo: TIntegerField
+      DisplayLabel = 'Tipo de Opera'#231#227'o'
+      FieldName = 'toecodigo'
+      Required = True
+    end
+    object registrotoeidentificação: TStringField
+      FieldKind = fkLookup
+      FieldName = 'toeidentifica'#231#227'o'
+      LookupDataSet = toe
+      LookupKeyFields = 'toecodigo'
+      LookupResultField = 'toeidentificacao'
+      KeyFields = 'toecodigo'
+      Size = 60
+      Lookup = True
+    end
+    object registroprocodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo do Produto'
+      FieldName = 'procodigo'
+      Required = True
+    end
+    object registropronome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'pronome'
+      LookupDataSet = pro
+      LookupKeyFields = 'procodigo'
+      LookupResultField = 'pronome'
+      KeyFields = 'procodigo'
+      Size = 60
+      Lookup = True
+    end
+    object registrocfocfop: TStringField
+      DisplayLabel = 'CFOP'
+      FieldName = 'cfocfop'
+      Required = True
+      Size = 5
+    end
+    object registrounicodigo: TIntegerField
+      DisplayLabel = 'Unidade de Compra'
+      FieldName = 'unicodigo'
+      Required = True
+    end
+    object registrouninome: TStringField
+      DisplayWidth = 18
+      FieldKind = fkLookup
+      FieldName = 'uninome'
+      LookupDataSet = uni
+      LookupKeyFields = 'unicodigo'
+      LookupResultField = 'uninome'
+      KeyFields = 'unicodigo'
+      Size = 18
+      Lookup = True
+    end
+    object registroitmquantidade: TFloatField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'itmquantidade'
+      Required = True
+      DisplayFormat = '#,#####0.0000'
+      EditFormat = '#,#####0.0000'
+    end
+    object registroitmvalor: TFloatField
+      DisplayLabel = 'Valor do Item R$'
+      FieldName = 'itmvalor'
+      Required = True
+      DisplayFormat = '#,##0.0000000'
+      EditFormat = '#,##0.0000000'
+    end
+    object registroitmdesconto: TFloatField
+      DisplayLabel = 'Desconto R$'
+      FieldName = 'itmdesconto'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmtotal: TFloatField
+      DisplayLabel = 'Valor do Item R$'
+      FieldName = 'itmtotal'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmfrete: TFloatField
+      DisplayLabel = 'Frete R$'
+      FieldName = 'itmfrete'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmseguro: TFloatField
+      DisplayLabel = 'Seguro R$'
+      FieldName = 'itmseguro'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmoutras: TFloatField
+      DisplayLabel = 'Outras R$'
+      FieldName = 'itmoutras'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmbicm: TFloatField
+      DisplayLabel = 'Base do ICMS'
+      FieldName = 'itmbicm'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroicmcodigo: TStringField
+      DisplayLabel = 'Al'#237'quota do ICMS'
+      FieldName = 'icmcodigo'
+      Required = True
+      Size = 3
+    end
+    object registroicmaliquotas: TStringField
+      FieldKind = fkLookup
+      FieldName = 'icmaliquotas'
+      LookupDataSet = icm
+      LookupKeyFields = 'icmcodigo'
+      LookupResultField = 'icmaliquotas'
+      KeyFields = 'icmcodigo'
+      Size = 5
+      Lookup = True
+    end
+    object registroitmicm: TFloatField
+      DisplayLabel = 'Valor do ICMS'
+      FieldName = 'itmicm'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmbicms: TFloatField
+      DisplayLabel = 'Base do ICMS Substitui'#231#227'o'
+      FieldName = 'itmbicms'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmaliqicms: TFloatField
+      DisplayLabel = 'Percentual ICMS Subst'
+      FieldName = 'itmaliqicms'
+      Required = True
+    end
+    object registroitmicms: TFloatField
+      DisplayLabel = 'Valor do ICMS Subst R$'
+      FieldName = 'itmicms'
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object registroitmaliqipi: TFloatField
+      DisplayLabel = 'Percentual de IPI'
+      FieldName = 'itmaliqipi'
+      Required = True
+    end
+    object registroitmipi: TFloatField
+      DisplayLabel = 'Percentual de IPI'
+      FieldName = 'itmipi'
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object registrocstcodigo: TStringField
+      DisplayLabel = 'C'#243'digo CST'
+      FieldName = 'cstcodigo'
+      Required = True
+      Size = 3
+    end
+    object registrocstidentificacao: TStringField
+      DisplayLabel = 'C'#243'digo de Situa'#231#227'o Tribut'#225'ria'
+      FieldKind = fkLookup
+      FieldName = 'cstidentificacao'
+      LookupDataSet = cst
+      LookupKeyFields = 'cstcodigo'
+      LookupResultField = 'cstidentificacao'
+      KeyFields = 'cstcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registroitmdesccomple: TStringField
+      FieldName = 'itmdesccomple'
+      Size = 250
+    end
+    object registroitmmovifisico: TStringField
+      FieldName = 'itmmovifisico'
+      FixedChar = True
+      Size = 1
+    end
+    object registroitmaliqicm: TStringField
+      FieldName = 'itmaliqicm'
+      Size = 6
+    end
+    object registroitmapuipi: TStringField
+      FieldName = 'itmapuipi'
+      FixedChar = True
+      Size = 1
+    end
+    object registrocsicodigo: TStringField
+      FieldName = 'csicodigo'
+      Size = 2
+    end
+    object registroceicodigo: TStringField
+      FieldName = 'ceicodigo'
+      Size = 5
+    end
+    object registroitmbipi: TFloatField
+      FieldName = 'itmbipi'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registropuncodigo: TIntegerField
+      FieldName = 'puncodigo'
+    end
+    object registropunidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'punidentificacao'
+      LookupDataSet = pun
+      LookupKeyFields = 'puncodigo'
+      LookupResultField = 'punidentificacao'
+      KeyFields = 'puncodigo'
+      Size = 30
+      Lookup = True
+    end
+    object registrocspcodigo: TStringField
+      FieldName = 'cspcodigo'
+      Size = 3
+    end
+    object registroitmpis: TFloatField
+      FieldName = 'itmpis'
+    end
+    object registroitmbpis: TFloatField
+      FieldName = 'itmbpis'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmaliqpis: TFloatField
+      FieldName = 'itmaliqpis'
+    end
+    object registroitmquantpis: TFloatField
+      FieldName = 'itmquantpis'
+    end
+    object registroitmaliqpisvalor: TFloatField
+      FieldName = 'itmaliqpisvalor'
+    end
+    object registrocsfcodigo: TStringField
+      FieldName = 'csfcodigo'
+      Size = 3
+    end
+    object registroitmbcofins: TFloatField
+      FieldName = 'itmbcofins'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registroitmaliqcofins: TFloatField
+      FieldName = 'itmaliqcofins'
+    end
+    object registroitmquantcofins: TFloatField
+      FieldName = 'itmquantcofins'
+    end
+    object registroitmaliqcofinsvalor: TFloatField
+      FieldName = 'itmaliqcofinsvalor'
+    end
+    object registroitmcofins: TFloatField
+      FieldName = 'itmcofins'
+    end
+    object registropcccodigo: TStringField
+      FieldName = 'pcccodigo'
+      Size = 60
+    end
+    object registrounicodigobase: TIntegerField
+      FieldName = 'unicodigobase'
+    end
+    object registrocfocfopdestinacao: TStringField
+      FieldName = 'cfocfopdestinacao'
+      Required = True
+      Size = 5
+    end
+    object registrocfoidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'cfoidentificacao'
+      LookupDataSet = cfo
+      LookupKeyFields = 'cfocfop'
+      LookupResultField = 'cfoidentificacao'
+      KeyFields = 'cfocfopdestinacao'
+      Size = 50
+      Lookup = True
+    end
+    object registroitmcontendo: TFloatField
+      FieldName = 'itmcontendo'
+      Required = True
+    end
+    object registroitmcusto: TFloatField
+      FieldName = 'itmcusto'
+      DisplayFormat = '#,##0.0000000'
+      EditFormat = '#,##0.0000000'
+    end
+    object registroflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object registroitmoutroscustos: TFloatField
+      FieldName = 'itmoutroscustos'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object registrotdfcodigo: TStringField
+      FieldName = 'tdfcodigo'
+      Size = 3
+    end
+  end
+  inherited dcp: TUniQuery
+    Left = 336
+    Top = 8
+  end
+  inherited dtb: TUniQuery
+    Left = 220
+    Top = 48
+  end
+  inherited coa: TUniQuery
+    Left = 300
+    Top = 44
+  end
+  inherited pfr: TUniQuery
+    Left = 408
+    Top = 20
+  end
+  inherited psf: TUniQuery
+    Top = 40
+  end
+  inherited dcl: TUniQuery
+    Left = 580
+    Top = 60
+  end
+  inherited cau: TUniQuery
+    Left = 428
+    Top = 28
+  end
+  inherited err: TUniQuery
+    Left = 352
+    Top = 92
+  end
+  inherited BalloonHint: TBalloonHint
+    Left = 284
+    Top = 65524
+  end
+  inherited cpg: TUniQuery
+    Left = 516
+    Top = 0
+  end
+  inherited cpc: TUniQuery
+    Left = 493
+    Top = 57
+  end
+  object vconsulta: TUniQuery
+    Left = 220
+  end
+  object icm: TUniQuery
+    SQL.Strings = (
+      'select icmcodigo, icmaliquotas from icm')
+    Left = 308
+    Top = 96
+    object icmicmcodigo: TStringField
+      FieldName = 'icmcodigo'
+      Size = 3
+    end
+    object icmicmaliquotas: TStringField
+      FieldName = 'icmaliquotas'
+      Size = 8
+    end
+  end
+  object uni: TUniQuery
+    SQL.Strings = (
+      'select unicodigo, uninome,unisimbolo from uni')
+    Left = 384
+    Top = 68
+    object uniunicodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'unicodigo'
+    end
+    object uniuninome: TStringField
+      FieldName = 'uninome'
+    end
+    object uniunisimbolo: TStringField
+      FieldName = 'unisimbolo'
+      Size = 5
+    end
+  end
+  object toe: TUniQuery
+    SQL.Strings = (
+      'select toecodigo, toeidentificacao from toe')
+    Left = 336
+    Top = 92
+    object toetoecodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'toecodigo'
+    end
+    object toetoeidentificacao: TStringField
+      FieldName = 'toeidentificacao'
+      Size = 100
+    end
+  end
+  object pro: TUniQuery
+    SQL.Strings = (
+      'select procodigo, pronome from pro')
+    Left = 444
+    Top = 68
+    object proprocodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'procodigo'
+    end
+    object propronome: TStringField
+      FieldName = 'pronome'
+      Size = 150
+    end
+  end
+  object pun: TUniQuery
+    SQL.Strings = (
+      'Select * from pun')
+    Left = 460
+    Top = 20
+    object punpuncodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'puncodigo'
+    end
+    object punpunidentificacao: TStringField
+      FieldName = 'punidentificacao'
+      Size = 30
+    end
+    object punprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object pununicodigo: TIntegerField
+      FieldName = 'unicodigo'
+      Required = True
+    end
+    object pununicodigobase: TIntegerField
+      FieldName = 'unicodigobase'
+    end
+    object punpunmultiplicador: TFloatField
+      FieldName = 'punmultiplicador'
+      Required = True
+    end
+    object punpunquantidade: TFloatField
+      FieldName = 'punquantidade'
+      Required = True
+    end
+    object punpunprecoav: TFloatField
+      FieldName = 'punprecoav'
+      Required = True
+    end
+    object punpunprecoap: TFloatField
+      FieldName = 'punprecoap'
+      Required = True
+    end
+    object punpuncusto: TFloatField
+      FieldName = 'puncusto'
+      Required = True
+    end
+    object punpunmargem: TFloatField
+      FieldName = 'punmargem'
+      Required = True
+    end
+    object punpunpesobruto: TFloatField
+      FieldName = 'punpesobruto'
+      Required = True
+    end
+    object punpunpesoliq: TFloatField
+      FieldName = 'punpesoliq'
+      Required = True
+    end
+    object pundgrcodigo: TIntegerField
+      FieldName = 'dgrcodigo'
+      Required = True
+    end
+    object punpunbarra: TStringField
+      FieldName = 'punbarra'
+      Size = 50
+    end
+    object puntuncodigo: TIntegerField
+      FieldName = 'tuncodigo'
+    end
+    object punpununitrib: TIntegerField
+      FieldName = 'pununitrib'
+    end
+    object punpunqtdtrib: TFloatField
+      FieldName = 'punqtdtrib'
+    end
+  end
+  object cst: TUniQuery
+    SQL.Strings = (
+      'select cstcodigo, cstidentificacao from cst')
+    Left = 492
+    Top = 32
+    object cstcstcodigo: TStringField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cstcodigo'
+      Size = 3
+    end
+    object cstcstidentificacao: TStringField
+      DisplayLabel = 'C'#243'digo de Situa'#231#227'o Tribut'#225'ria'
+      FieldName = 'cstidentificacao'
+      Size = 100
+    end
+  end
+  object cfo: TUniQuery
+    SQL.Strings = (
+      'select cfocfop, cfoidentificacao from cfo')
+    Left = 480
+    Top = 76
+    object cfocfocfop: TStringField
+      FieldName = 'cfocfop'
+      Size = 5
+    end
+    object cfocfoidentificacao: TStringField
+      FieldName = 'cfoidentificacao'
+      Size = 200
+    end
+  end
+  object ultcpr: TUniQuery
+    SQL.Strings = (
+      
+        'select mesregistro, (itmcusto/ itmcontendo) as itmcusto, unisimb' +
+        'olo '
+      'from mes, itm, uni,toe where '
+      'mes.toecodigo=toe.toecodigo and '
+      'toe.ttocodigo=1 and '
+      'mes.meschave=itm.meschave and '
+      'itm.unicodigobase=uni.unicodigo and '
+      ' sdecodigo<>'#39'02'#39' and'
+      'procodigo=:procodigo  '
+      ' ORDER BY itmchave DESC LIMIT 1')
+    Left = 604
+    Top = 300
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'procodigo'
+        Value = nil
+      end>
+    object ultcprmesregistro: TDateField
+      FieldName = 'mesregistro'
+    end
+    object ultcpritmcusto: TFloatField
+      FieldName = 'itmcusto'
+    end
+    object ultcprunisimbolo: TStringField
+      FieldName = 'unisimbolo'
+      Size = 5
+    end
+  end
+  object Dultcpr: TUniDataSource
+    DataSet = ultcpr
+    Left = 568
+    Top = 304
+  end
+  object toecst: TUniQuery
+    SQL.Strings = (
+      
+        'select toecodigo, toeidentificacao, toecfopsaida,cstcodigo,csico' +
+        'digo,csfcodigo,cspcodigo from toe where toecodigo=:toecodigo')
+    Left = 404
+    Top = 104
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'toecodigo'
+        Value = nil
+      end>
+    object toecsttoecodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'toecodigo'
+    end
+    object toecsttoeidentificacao: TStringField
+      FieldName = 'toeidentificacao'
+      Size = 100
+    end
+    object toecsttoecfopsaida: TStringField
+      FieldName = 'toecfopsaida'
+      Size = 5
+    end
+    object toecstcstcodigo: TStringField
+      FieldName = 'cstcodigo'
+      Size = 3
+    end
+    object toecstcsicodigo: TStringField
+      FieldName = 'csicodigo'
+      Size = 3
+    end
+    object toecstcsfcodigo: TStringField
+      FieldName = 'csfcodigo'
+      Size = 3
+    end
+    object toecstcspcodigo: TStringField
+      FieldName = 'cspcodigo'
+      Size = 3
+    end
+  end
+end

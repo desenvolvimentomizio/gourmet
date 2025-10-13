@@ -1,0 +1,230 @@
+object fMonitorIntegracao: TfMonitorIntegracao
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Monitor Integra'#231#227'o'
+  ClientHeight = 706
+  ClientWidth = 745
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pltopo: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 739
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    ExplicitWidth = 246
+    object plCznchave: TPanel
+      AlignWithMargins = True
+      Left = 616
+      Top = 4
+      Width = 119
+      Height = 33
+      Align = alRight
+      Caption = 'Cozinha: FECHADA'
+      ParentBackground = False
+      TabOrder = 0
+      ExplicitLeft = 123
+    end
+    object plRelogio: TPanel
+      AlignWithMargins = True
+      Left = 523
+      Top = 4
+      Width = 87
+      Height = 33
+      Align = alRight
+      Caption = '00:00:00'
+      TabOrder = 1
+      ExplicitLeft = 30
+    end
+  end
+  object plTopo2: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 50
+    Width = 739
+    Height = 41
+    Align = alTop
+    TabOrder = 1
+    ExplicitWidth = 246
+    object plSituacao: TPanel
+      AlignWithMargins = True
+      Left = 616
+      Top = 4
+      Width = 119
+      Height = 33
+      Align = alRight
+      Caption = 'Loja'
+      TabOrder = 0
+      ExplicitLeft = 123
+    end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Top = 94
+    Width = 745
+    Height = 612
+    Align = alClient
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 2
+    ExplicitLeft = 232
+    ExplicitTop = 136
+    ExplicitWidth = 185
+    ExplicitHeight = 89
+  end
+  object tmInicializar: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tmInicializarTimer
+    Left = 72
+    Top = 8
+  end
+  object conexao: TUniConnection
+    ProviderName = 'MySQL'
+    Port = 3306
+    Database = 'danielentrega'
+    Options.AllowImplicitConnect = False
+    Username = 'root'
+    Server = '192.168.5.159'
+    LoginPrompt = False
+    Left = 773
+    Top = 332
+    EncryptedPassword = '87FF9BFF9EFFC6FFC8FFCCFF'
+  end
+  object MySQLUniProvider: TMySQLUniProvider
+    Left = 765
+    Top = 443
+  end
+  object UniSQLMonitor1: TUniSQLMonitor
+    Left = 760
+    Top = 377
+  end
+  object cfg: TUniQuery
+    Connection = conexao
+    SQL.Strings = (
+      'SELECT'
+      '  cfgmcfg.cfgcodigo,'
+      '  etd.etddoc1,'
+      '  cfgmgoutokenaiq,'
+      '  cfgmgourefreshaiq,'
+      '  cfgmgouvalidadeaiq,'
+      '  cfgmgouidlojaaiq,'
+      '  cfgmgouemaillojaaiq,'
+      '  cfgmgousenhalojaaiq,'
+      '  cfgmgousituacaolojaaiq'
+      ''
+      'FROM cfgmcfg,'
+      '     etd,'
+      '     cfgmgou'
+      'WHERE etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND cfgmcfg.cfgcodigo = cfgmgou.cfgcodigo'
+      'AND cfgmcfg.cfgcodigo = :flacodigo LIMIT 1')
+    Left = 68
+    Top = 148
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object cfgcfgcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+    end
+    object cfgcfgmgoutokenaiq: TStringField
+      FieldName = 'cfgmgoutokenaiq'
+      ReadOnly = True
+      Size = 5000
+    end
+    object cfgcfgmgourefreshaiq: TStringField
+      FieldName = 'cfgmgourefreshaiq'
+      ReadOnly = True
+      Size = 5000
+    end
+    object cfgcfgmgouvalidadeaiq: TDateTimeField
+      FieldName = 'cfgmgouvalidadeaiq'
+      ReadOnly = True
+    end
+    object cfgcfgmgouidlojaaiq: TStringField
+      FieldName = 'cfgmgouidlojaaiq'
+      ReadOnly = True
+      Size = 200
+    end
+    object cfgcfgmgouemaillojaaiq: TStringField
+      FieldName = 'cfgmgouemaillojaaiq'
+      ReadOnly = True
+      Size = 250
+    end
+    object cfgcfgmgousenhalojaaiq: TStringField
+      FieldName = 'cfgmgousenhalojaaiq'
+      ReadOnly = True
+      Size = 250
+    end
+    object cfgcfgmgousituacaolojaaiq: TStringField
+      FieldName = 'cfgmgousituacaolojaaiq'
+      ReadOnly = True
+      Size = 255
+    end
+  end
+  object consulta: TUniQuery
+    Connection = conexao
+    Left = 24
+    Top = 144
+  end
+  object tmRelogio: TTimer
+    Enabled = False
+    OnTimer = tmRelogioTimer
+    Left = 56
+    Top = 56
+  end
+  object orcs: TUniQuery
+    Connection = conexao
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '  orc.orcchave,'
+      '  LPAD(CONVERT(imm.immnumepedido, char), 4, '#39'0'#39') AS pdgnumero'
+      'FROM orc,'
+      '     ito,'
+      '     imm,'
+      '     czn'
+      'WHERE  orc.moccodigo IN (7, 9, 10) /*para entrega*/'
+      'AND orc.orcchave = ito.orcchave'
+      'AND ito.itochave = imm.itochave'
+      'AND imm.clbcodigoent = 0'
+      'AND imm.immnumepedido < 5000'
+      'AND imm.cznchave = czn.cznchave'
+      'AND cznfechamento IS NULL'
+      'AND orcstatusintegracao=0'
+      ''
+      'GROUP BY imm.immnumepedido'
+      'ORDER BY imm.immnumepedido')
+    Left = 208
+    Top = 171
+    object orcsorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object orcspdgnumero: TStringField
+      DisplayLabel = 'N'#250'merp'
+      FieldName = 'pdgnumero'
+      ReadOnly = True
+      Size = 4
+    end
+  end
+end

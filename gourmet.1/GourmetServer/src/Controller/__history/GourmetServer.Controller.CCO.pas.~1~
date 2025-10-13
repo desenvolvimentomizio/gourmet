@@ -1,0 +1,77 @@
+unit GourmetServer.Controller.CCO;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CCO;
+
+function ManutencaoCCo(vContaCorrente: TJsonObject): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+function ManutencaoCCo(vContaCorrente: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TCCO>;
+  FCCO: TCCO;
+  vccochave: Integer;
+  a:string;
+begin
+  FDAO := TDAOGeneric<TCCO>.New;
+  FCCO := TCCO.Create;
+  FCCO.ccochave := vContaCorrente.getvalue('ccochave', '').ToInteger;
+  FCCO.ctacodigo := vContaCorrente.getvalue('ctacodigo', '').ToInteger;
+  FCCO.toccodigo := vContaCorrente.getvalue('toccodigo', '').ToInteger;
+  FCCO.cedcodigo := vContaCorrente.getvalue('cedcodigo', '').ToInteger;
+  FCCO.clbcodigo := vContaCorrente.getvalue('clbcodigo', '').ToInteger;
+  FCCO.tficodigo := vContaCorrente.getvalue('tficodigo', '').ToInteger;
+  FCCO.moecodigo := vContaCorrente.getvalue('moecodigo', '').ToInteger;
+  FCCO.ccoemissao := strtodate(vContaCorrente.getvalue('ccoemissao', ''));
+  FCCO.ccovencimento := strtodate(vContaCorrente.getvalue('ccovencimento', ''));
+  FCCO.cconumero := vContaCorrente.getvalue('cconumero', '');
+  FCCO.ccohistorico := vContaCorrente.getvalue('ccohistorico', '');
+  FCCO.ccovalor := StrToCurr(vContaCorrente.getvalue('ccovalor', ''));
+  FCCO.ccochaveorig := vContaCorrente.getvalue('ccochaveorig', '').ToInteger;
+  FCCO.ccochavedest := vContaCorrente.getvalue('ccochavedest', '').ToInteger;
+  FCCO.ccoconciliado := vContaCorrente.getvalue('ccoconciliado', '').ToInteger;
+  FCCO.ccoextenso := vContaCorrente.getvalue('ccoextenso', '');
+  FCCO.etdcodigo := vContaCorrente.getvalue('etdcodigo', '').ToInteger;
+  FCCO.ccofavorecido := vContaCorrente.getvalue('ccofavorecido', '');
+  FCCO.ccodatamov := strtodate(vContaCorrente.getvalue('ccodatamov', ''));
+  FCCO.ccodataregistro := strtodate(vContaCorrente.getvalue('ccodataregistro', ''));
+  a:=vContaCorrente.getvalue('ccohoraregistro', '');
+  FCCO.ccohoraregistro := strtotime(vContaCorrente.getvalue('ccohoraregistro', ''));
+ // FCCO.phgcodigo := vContaCorrente.getvalue('phgcodigo', '').ToInteger;
+  FCCO.flacodigo := vContaCorrente.getvalue('flacodigo', '').ToInteger;
+  FCCO.ccoregistro := vContaCorrente.getvalue('ccoregistro', '').ToInteger;
+
+  if vccochave = 0 then
+  // incluir novo
+  begin
+    FCCO.ccochave := 0;
+    FDAO.DAO.Insert(FCCO);
+    FDAO.DAO.LastID;
+    vccochave := FDAO.DataSet.FieldByName('ccochave').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FCCO.ccochave := vccochave;
+    FDAO.DAO.Update(FCCO);
+  end;
+  result := vccochave;
+
+end;
+
+end.

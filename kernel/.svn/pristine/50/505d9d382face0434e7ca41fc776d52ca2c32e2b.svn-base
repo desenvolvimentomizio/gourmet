@@ -1,0 +1,23 @@
+program MizioBackup;
+
+uses
+  Vcl.Forms,
+  uAutoBackup in 'uAutoBackup.pas' {frmAutoBackup},
+  uConexaoModulo in 'uConexaoModulo.pas' {conexaoDM: TDataModule},
+  uConfigura in 'uConfigura.pas' {frmConfig},
+  uCloudComunicacao in '..\cloud\uCloudComunicacao.pas',
+  uMizioCloudDAV in '..\cloud\uMizioCloudDAV.pas',
+  uFormComunicacao in '..\cloud\uFormComunicacao.pas' {FormComunicacao},
+  PJResFile in 'PJResFile.pas';
+
+{$R *.res}
+{$R MizioBackupDLLs.res}
+
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmAutoBackup, frmAutoBackup);
+  Application.CreateForm(TconexaoDM, conexaoDM);
+  Application.Run;
+end.

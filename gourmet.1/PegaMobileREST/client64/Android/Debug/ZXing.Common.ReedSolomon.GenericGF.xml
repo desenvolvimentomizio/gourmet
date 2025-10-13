@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.ReedSolomon.GenericGF" platform="Android">
+  <interface name="IGenericGFPoly" GUID="{9E56C626-16C5-4A5A-99B5-84559780EB9D}" ancestor="IInterface" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="31">
+    <function name="get_Degree" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="34">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="get_isZero" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="35">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="get_field" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="36">
+      <parameters>
+        <retval type="TGenericGF">
+          <devnotes>
+             <summary>
+               <p>This class contains utility methods for performing mathematical operations over
+             the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+               <p>Throughout this package, elements of the GF are represented as an {@code int}
+             for convenience and speed (but at the cost of memory).
+               </p>
+             </summary>
+          </devnotes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="get_coefficients" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="37">
+      <parameters>
+        <retval type="TArray&lt;System.Integer&gt;" />
+      </parameters>
+    </function>
+    <property name="coefficients" visibility="public" read="get_coefficients" type="TArray&lt;System.Integer&gt;" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="39" />
+    <property name="degree" visibility="public" read="get_Degree" type="Integer" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="40" />
+    <property name="isZero" visibility="public" read="get_isZero" type="Boolean" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="41" />
+    <property name="Field" visibility="public" read="get_field" type="TGenericGF" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="42" />
+    <function name="addOrSubtract" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="44">
+      <parameters>
+        <parameter name="other" type="IGenericGFPoly" />
+        <retval type="IGenericGFPoly" />
+      </parameters>
+    </function>
+    <function name="divide" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="45">
+      <parameters>
+        <parameter name="other" type="IGenericGFPoly" />
+        <retval type="TArray&lt;ZXing.Common.ReedSolomon.GenericGF.IGenericGFPoly&gt;" />
+      </parameters>
+    </function>
+    <function name="evaluateAt" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="46">
+      <parameters>
+        <parameter name="a" type="Integer" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getCoefficient" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="47">
+      <parameters>
+        <parameter name="degree" type="Integer" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="multiply" visibility="public" procflags="abstract overload virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="49">
+      <parameters>
+        <parameter name="scalar" type="Integer" />
+        <retval type="IGenericGFPoly" />
+      </parameters>
+    </function>
+    <function name="multiply" visibility="public" procflags="abstract overload virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="50">
+      <parameters>
+        <parameter name="other" type="IGenericGFPoly" />
+        <retval type="IGenericGFPoly" />
+      </parameters>
+    </function>
+    <function name="multiplyByMonomial" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="52">
+      <parameters>
+        <parameter name="degree" type="Integer" />
+        <parameter name="coefficient" type="Integer" />
+        <retval type="IGenericGFPoly" />
+      </parameters>
+    </function>
+    <function name="ToString" visibility="public" procflags="abstract virtual" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="55">
+      <parameters>
+        <retval type="string" />
+      </parameters>
+    </function>
+  </interface>
+  <class name="TGenericGF" sealed="true" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="65">
+    <devnotes>
+       <summary>
+         <p>This class contains utility methods for performing mathematical operations over
+       the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+         <p>Throughout this package, elements of the GF are represented as an {@code int}
+       for convenience and speed (but at the cost of memory).
+         </p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FexpTable" type="TArray&lt;System.Integer&gt;" visibility="private" size="4" offset="4" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="67" />
+      <field name="FGeneratorBase" type="Integer" visibility="private" size="4" offset="8" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="68" />
+      <field name="FlogTable" type="TArray&lt;System.Integer&gt;" visibility="private" size="4" offset="12" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="69" />
+      <field name="FZero" type="IGenericGFPoly" visibility="private" size="4" offset="16" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="70" />
+      <field name="FOne" type="IGenericGFPoly" visibility="private" size="4" offset="20" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="71" />
+      <field name="Fprimitive" type="Integer" visibility="private" size="4" offset="24" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="72" />
+      <field name="Fsize" type="Integer" visibility="private" size="4" offset="28" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="73" />
+      <function name="get_GeneratorBase" visibility="private" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="75">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="get_One" visibility="private" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="76">
+        <parameters>
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="get_Zero" visibility="private" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="77">
+        <parameters>
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="get_Size" visibility="private" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="78">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="get_AZTEC_DATA_10" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="80">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_AZTEC_DATA_12" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="81">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_AZTEC_DATA_6" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="82">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_AZTEC_PARAM" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="83">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_QR_CODE_FIELD_256" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="84">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_DATA_MATRIX_FIELD_256" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="85">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="InitializeClass" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="86">
+      </procedure>
+      <procedure name="FinalizeClass" visibility="private" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="87">
+      </procedure>
+      <field name="AZTEC_DATA_10" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="89" />
+      <field name="AZTEC_DATA_12" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="90" />
+      <field name="AZTEC_DATA_6" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="91" />
+      <field name="AZTEC_PARAM" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="92" />
+      <field name="DATA_MATRIX_FIELD_256" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="93" />
+      <field name="QR_CODE_FIELD_256" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="94" />
+      <field name="MAXICODE_FIELD_64" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="95" />
+      <field name="AZTEC_DATA_8" type="TGenericGF" visibility="public" varflags="class" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="96" />
+      <constructor name="Create" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="98">
+        <parameters>
+          <parameter name="primitive" type="Integer" />
+          <parameter name="size" type="Integer" />
+          <parameter name="genBase" type="Integer" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="99">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="101">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="addOrSubtract" visibility="public" procflags="static" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="103">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <parameter name="b" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="multiply" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="104">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <parameter name="b" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="buildMonomial" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="105">
+        <parameters>
+          <parameter name="degree" type="Integer" />
+          <parameter name="coefficient" type="Integer" />
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="log" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="107">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="exp" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="108">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="inverse" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="109">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <property name="GeneratorBase" visibility="public" read="get_GeneratorBase" type="Integer" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="111" />
+      <property name="size" visibility="public" read="get_Size" type="Integer" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="112" />
+      <property name="One" visibility="public" read="get_One" type="IGenericGFPoly" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="113" />
+      <property name="Zero" visibility="public" read="get_Zero" type="IGenericGFPoly" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="114" />
+    </members>
+  </class>
+  <class name="TGenericGFPoly" sealed="true" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="118">
+    <ancestor name="TInterfacedObject" namespace="System">
+      <interfaces>
+        <implements name="IInterface" />
+      </interfaces>
+      <methodref name="GetRefCount" visibility="private" procflags="inline">
+      </methodref>
+      <methodref name="__MarkDestroying" visibility="protected" procflags="static inline">
+      </methodref>
+      <methodref name="QueryInterface" visibility="protected">
+      </methodref>
+      <methodref name="_AddRef" visibility="protected">
+      </methodref>
+      <methodref name="_Release" visibility="protected">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="override">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class override">
+      </methodref>
+      <propertyref name="RefCount" visibility="public">
+      </propertyref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+    <interfaces>
+      <implements name="IGenericGFPoly" />
+    </interfaces>
+    <members>
+      <field name="Fcoefficients" type="TArray&lt;System.Integer&gt;" visibility="private" size="4" offset="12" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="120" />
+      <field name="Ffield" type="TGenericGF" visibility="private" size="4" offset="16" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="121" />
+      <function name="get_Degree" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="123">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="get_isZero" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="124">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="get_field" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="125">
+        <parameters>
+          <retval type="TGenericGF">
+            <devnotes>
+               <summary>
+                 <p>This class contains utility methods for performing mathematical operations over
+               the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
+                 <p>Throughout this package, elements of the GF are represented as an {@code int}
+               for convenience and speed (but at the cost of memory).
+                 </p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="get_coefficients" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="126">
+        <parameters>
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <property name="coefficients" visibility="public" read="get_coefficients" type="TArray&lt;System.Integer&gt;" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="128" />
+      <property name="degree" visibility="public" read="get_Degree" type="Integer" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="129" />
+      <property name="isZero" visibility="public" read="get_isZero" type="Boolean" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="130" />
+      <property name="Field" visibility="public" read="get_field" type="TGenericGF" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="131" />
+      <constructor name="Create" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="133">
+        <devnotes>
+           /////////////////////////////////////////////////////////////////////////////
+        </devnotes>
+        <parameters>
+          <parameter name="Field" type="TGenericGF" />
+          <parameter name="coefficients" type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="134">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="addOrSubtract" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="135">
+        <parameters>
+          <parameter name="other" type="IGenericGFPoly" />
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="divide" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="136">
+        <parameters>
+          <parameter name="other" type="IGenericGFPoly" />
+          <retval type="TArray&lt;ZXing.Common.ReedSolomon.GenericGF.IGenericGFPoly&gt;" />
+        </parameters>
+      </function>
+      <function name="evaluateAt" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="137">
+        <parameters>
+          <parameter name="a" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="getCoefficient" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="138">
+        <parameters>
+          <parameter name="degree" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="multiply" visibility="public" procflags="overload" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="140">
+        <parameters>
+          <parameter name="scalar" type="Integer" />
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="multiply" visibility="public" procflags="overload" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="141">
+        <parameters>
+          <parameter name="other" type="IGenericGFPoly" />
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="multiplyByMonomial" visibility="public" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="143">
+        <parameters>
+          <parameter name="degree" type="Integer" />
+          <parameter name="coefficient" type="Integer" />
+          <retval type="IGenericGFPoly" />
+        </parameters>
+      </function>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.Common.ReedSolomon.GenericGF.pas" line="146">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

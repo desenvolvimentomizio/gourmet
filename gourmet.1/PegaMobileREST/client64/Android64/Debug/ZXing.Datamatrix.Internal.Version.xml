@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Datamatrix.Internal.Version" platform="Android">
+  <class name="TVersion" sealed="true" file="ZXing.Datamatrix.Internal.Version.pas" line="35">
+    <devnotes>
+       <summary>
+       The Version object encapsulates attributes about a particular
+       size Data Matrix Code.
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <class name="TECB" visibility="public" alias="ZXing.Datamatrix.Internal.Version.TECB" file="ZXing.Datamatrix.Internal.Version.pas" line="43">
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+        <members>
+          <field name="Fcount" type="Integer" visibility="private" size="4" offset="8" file="ZXing.Datamatrix.Internal.Version.pas" line="45" />
+          <field name="FdataCodewords" type="Integer" visibility="private" size="4" offset="12" file="ZXing.Datamatrix.Internal.Version.pas" line="46" />
+          <constructor name="Create" visibility="public" file="ZXing.Datamatrix.Internal.Version.pas" line="48">
+            <parameters>
+              <parameter name="count" type="Integer" />
+              <parameter name="dataCodewords" type="Integer" />
+            </parameters>
+          </constructor>
+          <property name="count" visibility="public" read="Fcount" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="50" />
+          <property name="dataCodewords" visibility="public" read="FdataCodewords" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="51" />
+        </members>
+      </class>
+      <class name="TECBlocks" visibility="public" alias="ZXing.Datamatrix.Internal.Version.TECBlocks" file="ZXing.Datamatrix.Internal.Version.pas" line="60">
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+        <members>
+          <field name="_ecBlocksValue" type="TArray&lt;ZXing.Datamatrix.Internal.Version.TVersion.TECB&gt;" visibility="private" size="8" offset="8" file="ZXing.Datamatrix.Internal.Version.pas" line="62" />
+          <field name="_ecCodewords" type="Integer" visibility="private" size="4" offset="16" file="ZXing.Datamatrix.Internal.Version.pas" line="63" />
+          <property name="ECBBlocksValue" visibility="public" read="_ecBlocksValue" type="TArray&lt;ZXing.Datamatrix.Internal.Version.TVersion.TECB&gt;" file="ZXing.Datamatrix.Internal.Version.pas" line="65" />
+          <property name="ECCodewords" visibility="public" read="_ecCodewords" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="66" />
+          <constructor name="Create" visibility="public" file="ZXing.Datamatrix.Internal.Version.pas" line="68">
+            <parameters>
+              <parameter name="ECCodewords" type="Integer" />
+              <parameter name="ecBlocks" type="TVersion.TECB" />
+            </parameters>
+          </constructor>
+          <constructor name="Create" visibility="public" file="ZXing.Datamatrix.Internal.Version.pas" line="69">
+            <parameters>
+              <parameter name="ECCodewords" type="Integer" />
+              <parameter name="ecBlocks1" type="TVersion.TECB" />
+              <parameter name="ecBlocks2" type="TVersion.TECB" />
+            </parameters>
+          </constructor>
+          <destructor name="Destroy" visibility="public" file="ZXing.Datamatrix.Internal.Version.pas" line="71">
+            <parameters>
+            </parameters>
+          </destructor>
+        </members>
+      </class>
+      <field name="FdataRegionSizeColumns" type="Integer" visibility="private" size="4" offset="8" file="ZXing.Datamatrix.Internal.Version.pas" line="75" />
+      <field name="FdataRegionSizeRows" type="Integer" visibility="private" size="4" offset="12" file="ZXing.Datamatrix.Internal.Version.pas" line="76" />
+      <field name="FecBlocks" type="TVersion.TECBlocks" visibility="private" size="8" offset="16" file="ZXing.Datamatrix.Internal.Version.pas" line="77" />
+      <field name="FsymbolSizeColumns" type="Integer" visibility="private" size="4" offset="24" file="ZXing.Datamatrix.Internal.Version.pas" line="78" />
+      <field name="FsymbolSizeRows" type="Integer" visibility="private" size="4" offset="28" file="ZXing.Datamatrix.Internal.Version.pas" line="79" />
+      <field name="FtotalCodewords" type="Integer" visibility="private" size="4" offset="32" file="ZXing.Datamatrix.Internal.Version.pas" line="80" />
+      <field name="FversionNumber" type="Integer" visibility="private" size="4" offset="36" file="ZXing.Datamatrix.Internal.Version.pas" line="81" />
+      <field name="buildVersions" type="TArray&lt;ZXing.Datamatrix.Internal.Version.TVersion&gt;" visibility="private" varflags="class" file="ZXing.Datamatrix.Internal.Version.pas" line="83" />
+      <procedure name="ClassInit" visibility="private" procflags="static" file="ZXing.Datamatrix.Internal.Version.pas" line="84">
+      </procedure>
+      <procedure name="ClassFinal" visibility="private" procflags="static" file="ZXing.Datamatrix.Internal.Version.pas" line="85">
+      </procedure>
+      <function name="GetBuildVersions" visibility="private" procflags="static" file="ZXing.Datamatrix.Internal.Version.pas" line="86">
+        <devnotes>
+           <summary>
+           See ISO 16022:2006 5.5.1 Table 7
+           </summary>
+        </devnotes>
+        <parameters>
+          <retval type="TArray&lt;ZXing.Datamatrix.Internal.Version.TVersion&gt;" />
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="private" file="ZXing.Datamatrix.Internal.Version.pas" line="88">
+        <parameters>
+          <parameter name="versionNumber" type="Integer" />
+          <parameter name="symbolSizeRows" type="Integer" />
+          <parameter name="symbolSizeColumns" type="Integer" />
+          <parameter name="dataRegionSizeRows" type="Integer" />
+          <parameter name="dataRegionSizeColumns" type="Integer" />
+          <parameter name="ecBlocks" type="TVersion.TECBlocks" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.Datamatrix.Internal.Version.pas" line="92">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.Datamatrix.Internal.Version.pas" line="93">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="getVersionForDimensions" visibility="public" procflags="class" file="ZXing.Datamatrix.Internal.Version.pas" line="94">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'getVersionForDimensions' -->
+        </devnotes>
+        <parameters>
+          <parameter name="numRows" type="Integer" />
+          <parameter name="numColumns" type="Integer" />
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               The Version object encapsulates attributes about a particular
+               size Data Matrix Code.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <property name="dataRegionSizeColumns" visibility="public" read="FdataRegionSizeColumns" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="97" />
+      <property name="dataRegionSizeRows" visibility="public" read="FdataRegionSizeRows" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="98" />
+      <property name="ecBlocks" visibility="public" read="FecBlocks" type="TVersion.TECBlocks" file="ZXing.Datamatrix.Internal.Version.pas" line="99" />
+      <property name="symbolSizeColumns" visibility="public" read="FsymbolSizeColumns" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="100" />
+      <property name="symbolSizeRows" visibility="public" read="FsymbolSizeRows" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="101" />
+      <property name="totalCodewords" visibility="public" read="FtotalCodewords" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="102" />
+      <property name="versionNumber" visibility="public" read="FversionNumber" type="Integer" file="ZXing.Datamatrix.Internal.Version.pas" line="103" />
+      <procedure name="Create@" visibility="class private" procflags="class constructor noself" generated="true">
+      </procedure>
+      <procedure name="Destroy@" visibility="class private" procflags="class destructor noself" generated="true">
+      </procedure>
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2022/05/02 09:58:03.681,=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/05/02 09:58:32.931,C:\fontes\kernel\gercontigencianfce\uftempo.dfm=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/05/02 09:58:32.931,C:\fontes\kernel\gercontigencianfce\uftempo.pas=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/05/02 09:58:42.806,C:\fontes\kernel\gercontigencianfce\MizioContigencia.dproj=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/05/02 09:58:49.942,C:\fontes\kernel\gercontigencianfce\uftempo.pas=</Transaction>
+    <Transaction>2022/05/02 09:58:59.165,=C:\fontes\kernel\gercontigencianfce\ufGerContiNFCe.pas</Transaction>
+    <Transaction>2022/05/02 10:00:11.603,=C:\fontes\kernel\funcoes\ufuncoes.pas</Transaction>
+    <Transaction>2022/05/02 10:00:32.962,=C:\fontes\kernel\cloud\uCloudComunicacao.pas</Transaction>
+    <Transaction>2022/05/02 10:00:33.087,=C:\fontes\kernel\cloud\uFormComunicacao.pas</Transaction>
+    <Transaction>2022/05/02 10:00:33.165,=C:\fontes\kernel\cloud\uMizioCloudDAV.pas</Transaction>
+  </Transactions>
+</BorlandProject>

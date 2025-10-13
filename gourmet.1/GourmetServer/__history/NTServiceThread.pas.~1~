@@ -1,0 +1,475 @@
+{ *
+  A Windows NT Service Thread
+  ===========================
+
+  Author          Kim Sandell
+  Email: kim.sandell@nsftele.com
+  * }
+unit NTServiceThread;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Vcl.Forms, DateUtils;
+
+type
+  TNTServiceThread = class(TThread)
+    procedure VerificaPrograma(vPrograma: string; vTitulo: string; vLocal: string);
+    procedure CarregaListaProgramas;
+  private
+
+    procedure ExecutaPrograma(vPrograma: string);
+    function ExecutarEEsperar(NomeArquivo: String): boolean;
+    procedure AgendarPrograma(vPrograma, vTitulo, vLocal: string);
+    procedure DesAgendarPrograma(vTitulo: string);
+    procedure ScheduleRemove(const ATaskName: string);
+    procedure ScheduleRunAtStartup(const ATaskName, AFileName, AUserAccount: string);
+    { Private declarations }
+  public
+    { Public declarations }
+    vpTitulo: string;
+    vpUsuarioComputador: String;
+    vpLocal: string;
+
+    Interval: Integer;
+    ListaProgramas: TStringList;
+
+    procedure Execute; override;
+
+  published
+    { Published declarations }
+  end;
+
+implementation
+
+uses
+  TlHelp32, System.Generics.Collections, ShellApi;
+
+function SoLetra(Const Texto: String): String;
+//
+// Remove numeros de uma string deixando apenas letras
+//
+var
+  I: Integer;
+  S: string;
+begin
+  S := '';
+  for I := 1 To Length(Texto) Do
+  begin
+    if (Texto[I] in ['a' .. 'Z']) or (Texto[I] = ' ') then
+    begin
+      S := S + Copy(Texto, I, 1);
+    end;
+  end;
+  result := S;
+end;
+
+procedure doSaveLog(Msg: string);
+var
+  loLista: TStringList;
+begin
+  try
+    loLista := TStringList.Create;
+    try
+      if fileexists(extractfilepath(application.ExeName) + 'logs\MizioGuardian.log') then
+      begin
+        loLista.LoadFromFile(extractfilepath(application.ExeName) + 'logs\MizioGuardian.log');
+      end;
+
+      loLista.Add(timetostr(now) + ':' + Msg);
+    except
+      on e: Exception do
+        loLista.Add(timetostr(now) + ': Erro' + Msg);
+    end;
+  finally
+    loLista.SaveToFile(extractfilepath(application.ExeName) + 'logs\MizioGuardian.log');
+    loLista.Free;
+  end;
+
+end;
+
+procedure TNTServiceThread.ExecutaPrograma(vPrograma: string);
+var
+  lStartUpInfo: TStartUpInfo;
+  lProcesso: TProcessInformation;
+begin
+
+  // Inicializa a estrutura TStartUpInfo
+  // indicando formato de abertura da janela
+  // e setando os atributos obrigatórios
+  // de serem inicializados.
+  With lStartUpInfo do
+  begin
+    cb := 2048;
+    lpReserved := NIL;
+    lpDesktop := NIL;
+    lpTitle := NIL;
+    dwFlags := STARTF_USESHOWWINDOW;
+    wShowWindow := SW_NORMAL; // SW_Hide; //para não aparecer na tela!
+    cbReserved2 := 0;
+    lpReserved2 := NIL;
+  end;
+
+  if CreateProcess(NIL, PChar(vPrograma), NIL, NIL, False, 0, NIL, nil, lStartUpInfo, lProcesso) then
+  begin
+    doSaveLog(timetostr(now) + ' 109 Executou ' + vPrograma);
+  end
+  else
+  begin
+    doSaveLog(timetostr(now) + ' 113 Falha de execução ' + vPrograma);
+  end;
+
+end;
+
+procedure TNTServiceThread.CarregaListaProgramas;
+var
+  vlarq: TStringList;
+begin
+  try
+    ListaProgramas := TStringList.Create;
+
+    try
+      if fileexists(extractfilepath(application.ExeName) + 'MizioGuardian.ini') then
+      begin
+        ListaProgramas.LoadFromFile(extractfilepath(application.ExeName) + 'MizioGuardian.ini');
+        vpUsuarioComputador := ListaProgramas.Strings[0];
+        vpUsuarioComputador := TRIM(Copy(vpUsuarioComputador, POS('=', vpUsuarioComputador) + 1, 200));
+
+      end
+      else
+      begin
+        try
+          vlarq := TStringList.Create;
+        finally
+          vlarq.Add('USUARIO=USUARIODOMICRO');
+          vlarq.Add('MizioUpdate.exe;' + extractfilepath(application.ExeName));
+          vlarq.SaveToFile(extractfilepath(application.ExeName) + 'MizioGuardian.ini');
+          vlarq.Free;
+        end;
+
+      end;
+
+    except
+      on e: Exception do
+        doSaveLog(timetostr(now) + ': Erro' + e.Message);
+    end;
+  finally
+
+  end;
+
+end;
+
+function RetornaPID(exeFileName: string): Integer;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+begin
+  result := -1;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if (UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) = UpperCase(exeFileName)) or
+      (UpperCase(FProcessEntry32.szExeFile) = UpperCase(exeFileName)) then
+    begin
+      result := FProcessEntry32.th32ProcessID;
+      break;
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+
+Function RetornaListaprocessosFilhos(aIDProcessoPai: Integer): TList<Integer>;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+begin
+  result := TList<Integer>.Create;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, aIDProcessoPai);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if FProcessEntry32.th32ParentProcessID = aIDProcessoPai then
+    begin
+      result.Add(FProcessEntry32.th32ProcessID);
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+
+{ TNTServiceThread }
+
+procedure TNTServiceThread.Execute;
+var
+  TimeOut: Integer;
+  I: Integer;
+  vlLinha: string;
+  vlPalavra: string;
+  vlPrograma: string;
+
+  vlarqchave: string;
+
+begin
+
+  doSaveLog('Serviço executado');
+  { }
+  ListaProgramas := TStringList.Create;
+  CarregaListaProgramas;
+
+  vlarqchave := vpLocal + vpTitulo + '.key';
+
+  if fileexists(vlarqchave) then
+  begin
+    deletefile(vlarqchave);
+  end;
+
+  { Do NOT free on termination - The Serivce frees the Thread }
+  FreeOnTerminate := False;
+
+  { Set Interval }
+  TimeOut := Interval * 4;
+
+  { Main Loop }
+  try
+    while not Terminated do
+    begin
+
+      { Decrement timeout }
+      Dec(TimeOut);
+
+      if (TimeOut = 0) then
+      begin
+
+        { Reset timer }
+        TimeOut := Interval * 4;
+
+        for I := 1 to ListaProgramas.Count - 1 do
+        begin
+
+          vlLinha := ListaProgramas[I];
+
+          if POS(';', vlLinha) > 0 then
+          begin
+            vlPrograma := TRIM(Copy(vlLinha, 1, POS(';', vlLinha) - 1));
+            vpTitulo := Copy(vlPrograma, 1, POS('.', vlPrograma) - 1);
+            vlLinha := TRIM(Copy(vlLinha, POS(';', vlLinha) + 1, Length(vlLinha)));
+            if POS(';', vlLinha) > 0 then
+            begin
+              vpLocal := TRIM(Copy(vlLinha, 1, POS(';', vlLinha) - 1));
+            end
+            else
+            begin
+              vpLocal := vlLinha;
+            end;
+
+            VerificaPrograma(vlPrograma, vpTitulo, vpLocal);
+
+          end;
+        end;
+
+      end;
+      { Wait 1/4th of a second }
+      Sleep(15000);
+    end;
+  except
+    on e: Exception do; // TODO: Exception logging...
+  end;
+  { Terminate the Thread - This signals Terminated=True }
+  Terminate;
+end;
+
+function TNTServiceThread.ExecutarEEsperar(NomeArquivo: String): boolean;
+var
+  Sh: TShellExecuteInfo;
+  CodigoSaida: DWORD;
+  vHandle: Cardinal;
+begin
+  FillChar(Sh, SizeOf(Sh), 0);
+  Sh.cbSize := SizeOf(TShellExecuteInfo);
+  with Sh do
+  begin
+    fMask := SEE_MASK_NOCLOSEPROCESS;
+    Wnd := application.Handle;
+    SetProcessAffinityMask(Wnd, $01);
+    lpVerb := nil;
+    lpFile := PChar(NomeArquivo);
+    nShow := SW_HIDE;
+  end;
+  if ShellExecuteEx(@Sh) then
+  begin
+    repeat
+      application.ProcessMessages;
+      GetExitCodeProcess(Sh.hProcess, CodigoSaida);
+    until not(CodigoSaida = STILL_ACTIVE);
+    result := True;
+  end
+  else
+    result := False;
+end;
+
+procedure TNTServiceThread.ScheduleRemove(const ATaskName: string);
+begin
+  ShellExecute(0, nil, 'schtasks', PChar('/Delete /tn "' + ATaskName + '" ' + '/f'), nil, SW_HIDE);
+
+end;
+
+procedure TNTServiceThread.ScheduleRunAtStartup(const ATaskName: string; const AFileName: string; const AUserAccount: string);
+
+begin
+
+  ShellExecute(0, nil, 'schtasks', PChar('/create   /sc MINUTE  /mo 1 /tn "' + ATaskName + '" ' + '/tr "' + AFileName + '"  /ru "' + AUserAccount +
+    '" /f '), nil, SW_HIDE);
+
+  doSaveLog('Linha ' + PChar('/create   /sc MINUTE  /mo 1 /tn "' + ATaskName + '" ' + '/tr "' + AFileName + '"  /ru "' + AUserAccount + '" /f  '));
+
+
+  // ShellExecute(0, nil, 'schtasks', PChar('/create   /sc MINUTE  /mo 1 /tn "' + ATaskName + '" ' + '/tr "' + AFileName + '"  /ru "' + AUserAccount +
+  // '" /f /z '), nil, SW_HIDE);
+
+end;
+
+function WUserName: String;
+var
+  nSize: DWORD;
+begin
+  nSize := 1024;
+  SetLength(result, nSize);
+  if GetUserName(PChar(result), nSize) then
+    SetLength(result, nSize - 1)
+  else
+    RaiseLastOSError;
+end;
+
+procedure TNTServiceThread.DesAgendarPrograma(vTitulo: string);
+begin
+  ScheduleRemove(vTitulo);
+
+end;
+
+procedure TNTServiceThread.AgendarPrograma(vPrograma: string; vTitulo: string; vLocal: string);
+var
+  vlTextoArquivoBat: TStringList;
+  vlArquivoBat: String;
+  vlUser: string;
+begin
+  if vTitulo <> '' then
+  begin
+    vlUser := WUserName;
+    vlArquivoBat := ChangeFileExt(vPrograma, '.bat');
+
+    doSaveLog(' Mudou o nome de '+vPrograma+ '  para ' + vlArquivoBat);
+
+    try
+
+      vlTextoArquivoBat := TStringList.Create;
+      vlTextoArquivoBat.Clear;
+      vlTextoArquivoBat.Add('start ' + vLocal + '\' + vPrograma);
+      vlTextoArquivoBat.Add('exit');
+      vlTextoArquivoBat.SaveToFile(vLocal + '\' + vlArquivoBat);
+
+      ScheduleRunAtStartup(vTitulo, vLocal + '\' + vPrograma, vpUsuarioComputador);
+
+    finally
+      vlTextoArquivoBat.Free;
+    end;
+
+  end;
+end;
+
+procedure TNTServiceThread.VerificaPrograma(vPrograma: string; vTitulo: string; vLocal: string);
+var
+  vlarqchave: string;
+  vlLocalBase: string;
+begin
+
+  vlarqchave := vLocal + '\' + vTitulo + '.key';
+  vlLocalBase := Copy(vLocal, 4, 200);
+  vlLocalBase := StringReplace(vlLocalBase, '\', '', []);
+
+  // verifica se houve erro na criação
+  if fileexists(vlarqchave) then
+  begin
+
+    deletefile(vlarqchave);
+    DesAgendarPrograma(UpperCase(vTitulo + '_' + vlLocalBase));
+
+  end
+  else
+  begin
+
+    if not fileexists(vlarqchave) then
+    begin
+      doSaveLog(' Não Achou a chave em  ' + vlarqchave);
+      Sleep(1000);
+      if not fileexists(vlarqchave) then
+      begin
+
+        Sleep(1000);
+        if not fileexists(vlarqchave) then
+        begin
+
+          Sleep(1000);
+          if not fileexists(vlarqchave) then
+          begin
+
+            Sleep(1000);
+            if not fileexists(vlarqchave) then
+            begin
+
+              Sleep(1000);
+              if not fileexists(vlarqchave) then
+              begin
+                Sleep(1000);
+                if not fileexists(vlarqchave) then
+                begin
+                  doSaveLog('347 Vai executar ' + vLocal + '\' + vPrograma);
+
+                  if vTitulo <> '' then
+                  begin
+                    AgendarPrograma(vPrograma, UpperCase(vTitulo + '_' + vlLocalBase), vLocal);
+                    doSaveLog('352 Agendou o ' + vPrograma + ' ' + vTitulo + '_' + vlLocalBase + ' ' + vLocal);
+                    deletefile(vlarqchave);
+                  end;
+                end
+                else
+                begin
+                  exit;
+                end;
+
+              end
+              else
+              begin
+                exit;
+              end;
+            end
+            else
+            begin
+              exit;
+            end;
+
+          end
+          else
+          begin
+            exit;
+          end;
+
+        end
+        else
+        begin
+          exit;
+        end;
+
+      end;
+    end;
+
+  end;
+
+end;
+
+end.

@@ -1,0 +1,76 @@
+unit ufratng;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrabase, Data.DB, System.ImageList,
+  Vcl.ImgList, Vcl.ExtCtrls, VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus,
+  System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.Mask, Vcl.DBCtrls, Vcl.Imaging.pngimage,uPegaBase;
+
+type
+  Tfratng = class(Tfrabase)
+    uqtabelatngcodigo: TIntegerField;
+    uqtabelatngidentificacao: TStringField;
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActAlterarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fratng: Tfratng;
+
+
+  // Início ID do Módulo fracpa
+const
+  vPlIdMd = '00.00.00.000-01';
+  vPlTitMdl = 'Núcleos Gerenciais';
+
+  // Fim ID do Módulo fracpa
+
+
+implementation
+
+uses
+  uftng;
+
+{$R *.dfm}
+
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fratng := Tfratng.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fratng := Tfratng.Create(pCargaFrame);
+  try
+    fratng.CriaAcoesDeAcesso;
+  finally
+    fratng.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfratng.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tftng,uqtabelatngcodigo.AsString, '');
+end;
+
+procedure Tfratng.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tftng, '', '');
+end;
+
+end.

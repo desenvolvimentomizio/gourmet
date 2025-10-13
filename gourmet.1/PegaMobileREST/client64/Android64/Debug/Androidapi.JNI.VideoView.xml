@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="Androidapi.JNI.VideoView" platform="Android">
+  <interface name="JMediaControllerClass" GUID="{DF006611-A831-4E6D-92EF-9D03B98C99E0}" ancestor="JFrameLayoutClass" file="Androidapi.JNI.VideoView.pas" line="31">
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="33">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="attrs" type="JAttributeSet" />
+        <retval type="JMediaController">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="34">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="useFastForward" type="Boolean" />
+        <retval type="JMediaController">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="35">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <retval type="JMediaController">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+  </interface>
+  <interface name="JMediaController" GUID="{18253CF1-90C2-43A0-A928-490468F4DD1A}" ancestor="JFrameLayout" file="Androidapi.JNI.VideoView.pas" line="39">
+    <attributes>
+      <attribute name="JavaSignatureAttribute" />
+    </attributes>
+    <function name="dispatchKeyEvent" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="41">
+      <parameters>
+        <parameter name="event" type="JKeyEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="getAccessibilityClassName" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="42">
+      <parameters>
+        <retval type="JCharSequence">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <procedure name="hide" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="43">
+    </procedure>
+    <function name="isShowing" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="44">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="onFinishInflate" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="45">
+    </procedure>
+    <function name="onTouchEvent" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="46">
+      <parameters>
+        <parameter name="event" type="JMotionEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="onTrackballEvent" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="47">
+      <parameters>
+        <parameter name="ev" type="JMotionEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="setAnchorView" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="48">
+      <parameters>
+        <parameter name="view" type="JView" />
+      </parameters>
+    </procedure>
+    <procedure name="setEnabled" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="49">
+      <parameters>
+        <parameter name="enabled" type="Boolean" />
+      </parameters>
+    </procedure>
+    <procedure name="setMediaPlayer" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="50">
+      <parameters>
+        <parameter name="player" type="JMediaController_MediaPlayerControl" />
+      </parameters>
+    </procedure>
+    <procedure name="setPrevNextListeners" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="51">
+      <parameters>
+        <parameter name="next" type="JView_OnClickListener" />
+        <parameter name="prev" type="JView_OnClickListener" />
+      </parameters>
+    </procedure>
+    <procedure name="show" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="52">
+    </procedure>
+    <procedure name="show" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="53">
+      <parameters>
+        <parameter name="timeout" type="Integer" />
+      </parameters>
+    </procedure>
+  </interface>
+  <class name="TJMediaController" file="Androidapi.JNI.VideoView.pas" line="55">
+    <ancestor name="{Androidapi.JNIBridge}TJavaGenericImport&lt;Androidapi.JNI.VideoView.JMediaControllerClass,Androidapi.JNI.VideoView.JMediaController&gt;" namespace="Androidapi.JNI.VideoView">
+      <methodref name="GetJavaClass" visibility="class private" procflags="static">
+      </methodref>
+      <methodref name="Alloc" visibility="class private" procflags="static overload">
+      </methodref>
+      <methodref name="Destroy@" visibility="class private" procflags="class destructor noself">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <propertyref name="JavaClass" visibility="public">
+      </propertyref>
+      <methodref name="Create" visibility="public" procflags="static">
+      </methodref>
+      <methodref name="GetClsID" visibility="public" procflags="static">
+      </methodref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+  </class>
+  <interface name="JMediaController_MediaPlayerControlClass" GUID="{31BC739A-5B96-48E4-B4D9-7486683FA117}" ancestor="IJavaClass" file="Androidapi.JNI.VideoView.pas" line="57">
+  </interface>
+  <interface name="JMediaController_MediaPlayerControl" GUID="{57C4DECE-8BAC-4153-ACEB-919DF5FE6844}" ancestor="IJavaInstance" file="Androidapi.JNI.VideoView.pas" line="62">
+    <attributes>
+      <attribute name="JavaSignatureAttribute" />
+    </attributes>
+    <function name="canPause" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="64">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="canSeekBackward" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="65">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="canSeekForward" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="66">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="getAudioSessionId" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="67">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getBufferPercentage" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="68">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getCurrentPosition" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="69">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getDuration" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="70">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="isPlaying" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="71">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="pause" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="72">
+    </procedure>
+    <procedure name="seekTo" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="73">
+      <parameters>
+        <parameter name="pos" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="start" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="74">
+    </procedure>
+  </interface>
+  <class name="TJMediaController_MediaPlayerControl" file="Androidapi.JNI.VideoView.pas" line="76">
+    <ancestor name="{Androidapi.JNIBridge}TJavaGenericImport&lt;Androidapi.JNI.VideoView.JMediaController_MediaPlayerControlClass,Androidapi.JNI.VideoView.JMediaController_MediaPlayerControl&gt;" namespace="Androidapi.JNI.VideoView">
+      <methodref name="GetJavaClass" visibility="class private" procflags="static">
+      </methodref>
+      <methodref name="Alloc" visibility="class private" procflags="static overload">
+      </methodref>
+      <methodref name="Destroy@" visibility="class private" procflags="class destructor noself">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <propertyref name="JavaClass" visibility="public">
+      </propertyref>
+      <methodref name="Create" visibility="public" procflags="static">
+      </methodref>
+      <methodref name="GetClsID" visibility="public" procflags="static">
+      </methodref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+  </class>
+  <interface name="JVideoViewClass" GUID="{E393C1DD-943D-4190-B984-25FF211E020F}" ancestor="JSurfaceViewClass" file="Androidapi.JNI.VideoView.pas" line="78">
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="80">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <retval type="JVideoView">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="81">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="attrs" type="JAttributeSet" />
+        <retval type="JVideoView">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="82">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="attrs" type="JAttributeSet" />
+        <parameter name="defStyleAttr" type="Integer" />
+        <retval type="JVideoView">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="init" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="83">
+      <parameters>
+        <parameter name="context" type="JContext" />
+        <parameter name="attrs" type="JAttributeSet" />
+        <parameter name="defStyleAttr" type="Integer" />
+        <parameter name="defStyleRes" type="Integer" />
+        <retval type="JVideoView">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+  </interface>
+  <interface name="JVideoView" GUID="{03A73FEC-6252-431B-904E-67581CD109DF}" ancestor="JSurfaceView" file="Androidapi.JNI.VideoView.pas" line="87">
+    <attributes>
+      <attribute name="JavaSignatureAttribute" />
+    </attributes>
+    <procedure name="addSubtitleSource" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="89">
+      <parameters>
+        <parameter name="is_" type="JInputStream" />
+        <parameter name="format" type="JMediaFormat" />
+      </parameters>
+    </procedure>
+    <function name="canPause" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="90">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="canSeekBackward" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="91">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="canSeekForward" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="92">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="draw" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="93">
+      <parameters>
+        <parameter name="canvas" type="JCanvas" />
+      </parameters>
+    </procedure>
+    <function name="getAccessibilityClassName" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="94">
+      <parameters>
+        <retval type="JCharSequence">
+          <attributes>
+            <attribute name="JavaSignatureAttribute" />
+          </attributes>
+        </retval>
+      </parameters>
+    </function>
+    <function name="getAudioSessionId" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="95">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getBufferPercentage" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="96">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getCurrentPosition" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="97">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="getDuration" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="98">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="isPlaying" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="99">
+      <parameters>
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="onKeyDown" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="100">
+      <parameters>
+        <parameter name="keyCode" type="Integer" />
+        <parameter name="event" type="JKeyEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="onTouchEvent" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="101">
+      <parameters>
+        <parameter name="ev" type="JMotionEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="onTrackballEvent" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="102">
+      <parameters>
+        <parameter name="ev" type="JMotionEvent" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <procedure name="pause" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="103">
+    </procedure>
+    <function name="resolveAdjustedSize" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="104">
+      <parameters>
+        <parameter name="desiredSize" type="Integer" />
+        <parameter name="measureSpec" type="Integer" />
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <procedure name="resume" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="105">
+    </procedure>
+    <procedure name="seekTo" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="106">
+      <parameters>
+        <parameter name="msec" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="setAudioAttributes" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="107">
+      <parameters>
+        <parameter name="attributes" type="JAudioAttributes" />
+      </parameters>
+    </procedure>
+    <procedure name="setAudioFocusRequest" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="108">
+      <parameters>
+        <parameter name="focusGain" type="Integer" />
+      </parameters>
+    </procedure>
+    <procedure name="setMediaController" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="109">
+      <parameters>
+        <parameter name="controller" type="JMediaController" />
+      </parameters>
+    </procedure>
+    <procedure name="setOnCompletionListener" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="110">
+      <parameters>
+        <parameter name="l" type="JMediaPlayer_OnCompletionListener" />
+      </parameters>
+    </procedure>
+    <procedure name="setOnErrorListener" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="111">
+      <parameters>
+        <parameter name="l" type="JMediaPlayer_OnErrorListener" />
+      </parameters>
+    </procedure>
+    <procedure name="setOnInfoListener" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="112">
+      <parameters>
+        <parameter name="l" type="JMediaPlayer_OnInfoListener" />
+      </parameters>
+    </procedure>
+    <procedure name="setOnPreparedListener" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="113">
+      <parameters>
+        <parameter name="l" type="JMediaPlayer_OnPreparedListener" />
+      </parameters>
+    </procedure>
+    <procedure name="setVideoPath" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="114">
+      <parameters>
+        <parameter name="path" type="JString" />
+      </parameters>
+    </procedure>
+    <procedure name="setVideoURI" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="115">
+      <parameters>
+        <parameter name="uri" type="Jnet_Uri" />
+      </parameters>
+    </procedure>
+    <procedure name="setVideoURI" visibility="public" procflags="abstract overload virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="116">
+      <parameters>
+        <parameter name="uri" type="Jnet_Uri" />
+        <parameter name="headers" type="JMap" />
+      </parameters>
+    </procedure>
+    <procedure name="start" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="117">
+    </procedure>
+    <procedure name="stopPlayback" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="118">
+    </procedure>
+    <procedure name="suspend" visibility="public" procflags="abstract virtual" callconv="cdecl" file="Androidapi.JNI.VideoView.pas" line="119">
+    </procedure>
+  </interface>
+  <class name="TJVideoView" file="Androidapi.JNI.VideoView.pas" line="121">
+    <ancestor name="{Androidapi.JNIBridge}TJavaGenericImport&lt;Androidapi.JNI.VideoView.JVideoViewClass,Androidapi.JNI.VideoView.JVideoView&gt;" namespace="Androidapi.JNI.VideoView">
+      <methodref name="GetJavaClass" visibility="class private" procflags="static">
+      </methodref>
+      <methodref name="Alloc" visibility="class private" procflags="static overload">
+      </methodref>
+      <methodref name="Destroy@" visibility="class private" procflags="class destructor noself">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <methodref name="Wrap" visibility="public" procflags="static overload">
+      </methodref>
+      <propertyref name="JavaClass" visibility="public">
+      </propertyref>
+      <methodref name="Create" visibility="public" procflags="static">
+      </methodref>
+      <methodref name="GetClsID" visibility="public" procflags="static">
+      </methodref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public" procflags="constructor">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="DisposeOf" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="InitInstance" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassParent" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public" procflags="class overload">
+        </methodref>
+        <methodref name="MethodName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="QualifiedClassName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public" procflags="overload">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+        </methodref>
+        <methodref name="UnitName" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="UnitScope" visibility="public" procflags="class">
+        </methodref>
+        <methodref name="Equals" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="ToString" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Dispatch" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="NewInstance" visibility="public" procflags="class virtual">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+        </methodref>
+        <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+        </methodref>
+        <methodref name="GetDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+        </methodref>
+        <propertyref name="Disposed" visibility="protected">
+        </propertyref>
+      </ancestor>
+    </ancestor>
+  </class>
+</namespace>

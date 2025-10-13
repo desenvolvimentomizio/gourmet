@@ -1,0 +1,1458 @@
+unit ufitmcpr;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Data.DB, Vcl.StdCtrls, Vcl.DBCtrls,
+  Vcl.Mask, Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes,
+  System.Actions, Vcl.ActnList, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ExtCtrls, Vcl.Dialogs, System.SysUtils, uFuncoes, uBuscaProduto, System.ImageList;
+
+type
+  Tfitmcpr = class(Tfrmbase)
+    vconsulta: tuniquery;
+    icm: tuniquery;
+    icmicmcodigo: TStringField;
+    icmicmaliquotas: TStringField;
+    Uni: tuniquery;
+    uniunicodigo: TIntegerField;
+    uniuninome: TStringField;
+    uniunisimbolo: TStringField;
+    toe: tuniquery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    pro: tuniquery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    pun: tuniquery;
+    punpuncodigo: TIntegerField;
+    punpunidentificacao: TStringField;
+    punprocodigo: TIntegerField;
+    pununicodigo: TIntegerField;
+    pununicodigobase: TIntegerField;
+    punpunmultiplicador: TFloatField;
+    punpunquantidade: TFloatField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpuncusto: TFloatField;
+    punpunmargem: TFloatField;
+    punpunpesobruto: TFloatField;
+    punpunpesoliq: TFloatField;
+    pundgrcodigo: TIntegerField;
+    punpunbarra: TStringField;
+    cst: tuniquery;
+    cstcstcodigo: TStringField;
+    cstcstidentificacao: TStringField;
+    cfo: tuniquery;
+    cfocfocfop: TStringField;
+    cfocfoidentificacao: TStringField;
+    registroitmchave: TIntegerField;
+    registromeschave: TIntegerField;
+    registroitmitem: TIntegerField;
+    registroprocodigo: TIntegerField;
+    registropronome: TStringField;
+    registrounicodigo: TIntegerField;
+    registrouninome: TStringField;
+    registrocstcodigo: TStringField;
+    registrocstidentificacao: TStringField;
+    registroitmdesccomple: TStringField;
+    registroitmquantidade: TFloatField;
+    registroitmvalor: TFloatField;
+    registroitmdesconto: TFloatField;
+    registroitmmovifisico: TStringField;
+    registrotoecodigo: TIntegerField;
+    registrotoeidentificação: TStringField;
+    registrocfocfop: TStringField;
+    registrocfoidentificacao: TStringField;
+    registroitmbicm: TFloatField;
+    registroicmcodigo: TStringField;
+    registroicmaliquotas: TStringField;
+    registroitmaliqicm: TStringField;
+    registroitmicm: TFloatField;
+    registroitmbicms: TFloatField;
+    registroitmaliqicms: TFloatField;
+    registroitmicms: TFloatField;
+    registroitmapuipi: TStringField;
+    registrocsicodigo: TStringField;
+    registroceicodigo: TStringField;
+    registroitmbipi: TFloatField;
+    registropuncodigo: TIntegerField;
+    registropunidentificacao: TStringField;
+    registroitmaliqipi: TFloatField;
+    registroitmipi: TFloatField;
+    registrocspcodigo: TStringField;
+    registroitmpis: TFloatField;
+    registroitmbpis: TFloatField;
+    registroitmaliqpis: TFloatField;
+    registroitmquantpis: TFloatField;
+    registroitmaliqpisvalor: TFloatField;
+    registrocsfcodigo: TStringField;
+    registroitmbcofins: TFloatField;
+    registroitmaliqcofins: TFloatField;
+    registroitmquantcofins: TFloatField;
+    registroitmaliqcofinsvalor: TFloatField;
+    registroitmcofins: TFloatField;
+    registropcccodigo: TStringField;
+    registroitmtotal: TFloatField;
+    registrounicodigobase: TIntegerField;
+    registrocfocfopdestinacao: TStringField;
+    registroitmcontendo: TFloatField;
+    registroitmcusto: TFloatField;
+    registroitmfrete: TFloatField;
+    Label15: TLabel;
+    itmitem: TDBEdit;
+    toecodigo: TDBEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    procodigo: TDBEdit;
+    cfocfopdestinacao: TDBEdit;
+    Label18: TLabel;
+    unicodigo: TDBEdit;
+    Label1: TLabel;
+    Label5: TLabel;
+    itmquantidade: TDBEdit;
+    Label6: TLabel;
+    itmvalor: TDBEdit;
+    Label13: TLabel;
+    itmdesconto: TDBEdit;
+    Label14: TLabel;
+    itmtotal: TDBEdit;
+    Label16: TLabel;
+    puncodigo: TDBEdit;
+    litmcontendo: TLabel;
+    itmcontendo: TDBEdit;
+    lnomeunidadebase: TLabel;
+    puntuncodigo: TIntegerField;
+    cfgufssigla: TStringField;
+    cfgetddoc1: TStringField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgserienfe: TStringField;
+    plultimacompra: TPanel;
+    Label4: TLabel;
+    mesregistro: TDBEdit;
+    Label17: TLabel;
+    ultitmcusto: TDBEdit;
+    ultcpr: tuniquery;
+    Dultcpr: tunidatasource;
+    ultcprmesregistro: TDateField;
+    ultcpritmcusto: TFloatField;
+    ultcprunisimbolo: TStringField;
+    unisimbolo: TDBText;
+    registroitmoutras: TFloatField;
+    registroitmseguro: TFloatField;
+    GBOutrosValores: TGroupBox;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    itmoutras: TDBEdit;
+    itmseguro: TDBEdit;
+    itmfrete: TDBEdit;
+    GBTributacao: TGroupBox;
+    Label21: TLabel;
+    Label20: TLabel;
+    Label10: TLabel;
+    Label12: TLabel;
+    Label11: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    itmbicm: TDBEdit;
+    itmbicms: TDBEdit;
+    itmaliqipi: TDBEdit;
+    icmcodigo: TDBEdit;
+    itmaliqicms: TDBEdit;
+    itmipi: TDBEdit;
+    itmicm: TDBEdit;
+    itmicms: TDBEdit;
+    Label19: TLabel;
+    itmcusto: TDBEdit;
+    punpununitrib: TIntegerField;
+    punpunqtdtrib: TFloatField;
+    DBText1: TDBText;
+    plAlterouPreco: TPanel;
+    Label22: TLabel;
+    cstcodigo: TDBEdit;
+    registroflacodigo: TIntegerField;
+    registroitmoutroscustos: TFloatField;
+    itmoutroscustos: TDBEdit;
+    Label26: TLabel;
+    cfgcfgajustacusto: TIntegerField;
+    toecst: tuniquery;
+    toecsttoecodigo: TIntegerField;
+    toecsttoeidentificacao: TStringField;
+    toecsttoecfopsaida: TStringField;
+    toecstcstcodigo: TStringField;
+    toecstcsicodigo: TStringField;
+    toecstcsfcodigo: TStringField;
+    toecstcspcodigo: TStringField;
+    registrotdfcodigo: TStringField;
+    procedure bconfirmaClick(Sender: TObject);
+    procedure DSRegistroDataChange(Sender: TObject; Field: TField);
+    procedure FormShow(Sender: TObject);
+    procedure itmbicmEnter(Sender: TObject);
+    procedure itmicmEnter(Sender: TObject);
+    procedure itmipiEnter(Sender: TObject);
+    procedure itmquantidadeChange(Sender: TObject);
+    procedure itmquantidadeEnter(Sender: TObject);
+    procedure itmtotalEnter(Sender: TObject);
+    procedure puncodigoEnter(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure registroBeforePost(DataSet: TDataSet);
+    procedure unicodigoEnter(Sender: TObject);
+    procedure unicodigoExit(Sender: TObject);
+    procedure toecodigoEnter(Sender: TObject);
+    procedure procodigoEnter(Sender: TObject);
+    procedure procodigoExit(Sender: TObject);
+    procedure itmvalorChange(Sender: TObject);
+    procedure itmdescontoChange(Sender: TObject);
+    procedure itmtotalExit(Sender: TObject);
+    procedure itmvalorExit(Sender: TObject);
+    procedure itmcontendoExit(Sender: TObject);
+    procedure itmdescontoExit(Sender: TObject);
+    procedure itmfreteExit(Sender: TObject);
+    procedure itmseguroExit(Sender: TObject);
+    procedure itmoutrasExit(Sender: TObject);
+    procedure itmoutroscustosExit(Sender: TObject);
+    procedure itmtotalChange(Sender: TObject);
+    procedure cfocfopdestinacaoExit(Sender: TObject);
+  private
+    vpEmissaoPropria: Boolean;
+    procedure ajustaicm;
+    procedure AjustaItmCusto;
+    { Private declarations }
+  public
+    { Public declarations }
+    vitmcontendo: double;
+    voutroscustos: double;
+    vpufsetd: string;
+    vpufscfg: string;
+
+  end;
+
+var
+  fitmcpr: Tfitmcpr;
+
+  // Início ID do Módulo fracpr
+const
+  vPlIdMd = '02.04.08.001-04';
+
+
+  // Fim ID do Módulo fracpr
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfitmcpr.bconfirmaClick(Sender: TObject);
+Var
+  qtd: double;
+  vst: String;
+  cun: String;
+  vpuncodigo: String;
+
+  vmultiplicador: double;
+  valicm: String;
+  pode: Boolean;
+Begin
+  if psituacao.Caption = 'Incluindo' then
+  begin
+    if registrocfocfop.AsString = '' then
+    begin
+      registrocfocfop.AsString := cfocfopdestinacao.Field.AsString;
+    end;
+  end
+  else
+  begin
+    registrocfocfopdestinacao.AsString := cfocfopdestinacao.Field.AsString;
+
+  end;
+
+  qtd := self.itmquantidade.Field.AsFloat;
+  vst := self.psituacao.Caption;
+  cun := self.unicodigo.Field.AsString;
+
+  pode := True;
+
+  valicm := sonumeros(icmcodigo.Field.AsString);
+  If (valicm <> '') and (valicm <> '00') Then
+  Begin
+    If self.itmbicm.Field.AsFloat <= 0 Then
+    Begin
+      showmessage('Favor informar a Base do ICMS R$!');
+      pode := False;
+    End;
+  End;
+
+  If pode Then
+  Begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'select toecfopsaida from toe where toecodigo=' + self.toecodigo.Field.AsString;
+    consulta.Open;
+
+    if registro.State = dsbrowse then
+      registro.Edit;
+
+    // registrocfocfopdestinacao.AsString := consulta.fields[0].AsString;
+    consulta.Close;
+
+    If itmicm.Field.AsFloat > 0 Then
+      self.registroitmbicm.AsFloat := self.itmtotal.Field.AsFloat
+    Else
+      self.registroitmbicm.AsFloat := 0;
+
+    If itmipi.Field.AsFloat > 0 Then
+      self.registroitmbipi.AsFloat := self.itmtotal.Field.AsFloat
+    Else
+      self.registroitmbipi.AsFloat := 0;
+
+    // Inherited;
+
+    consulta.Close;
+    consulta.SQL.Text := 'update itm set itmcontendo=' + stringreplace(itmcontendo.Field.AsString, ',', '.', []) + ' where itmitem=' +
+      itmitem.Field.AsString + ' and meschave=' + vChaveMestre;
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+    consulta.Open;
+
+    If self.unicodigo.Field.AsString <> consulta.fields[0].AsString Then
+    Begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'select puncodigo from pun where procodigo=' + self.procodigo.Field.AsString + ' and unicodigo=' +
+        self.unicodigo.Field.AsString + ' and  punmultiplicador=' + buscatroca(floattostr(self.vitmcontendo), ',', '.');
+      consulta.Open;
+      vpuncodigo := consulta.fields[0].AsString;
+
+      If consulta.RecordCount = 0 Then
+      Begin
+
+        consulta.Close;
+        consulta.SQL.Text :=
+          'select unisimbolo,pro.unicodigo,punmargem from  uni,pro,pun where pro.procodigo=pun.procodigo and pun.unicodigo=uni.unicodigo  and  pro.unicodigo=uni.unicodigo and  pro.procodigo='
+          + self.registroprocodigo.AsString;
+        consulta.Open;
+
+        pun.Append;
+        punprocodigo.AsInteger := self.registroprocodigo.AsInteger;
+        pununicodigo.AsInteger := self.registrounicodigo.AsInteger;
+
+        punpunmultiplicador.AsFloat := self.registroitmcontendo.AsFloat;
+
+        punpuncusto.AsFloat := self.registroitmvalor.AsFloat;
+
+        punpunquantidade.AsFloat := 0;
+        puntuncodigo.AsInteger := 0;
+
+        punpunmargem.AsFloat := self.consulta.fields[2].AsFloat;
+
+        punpunprecoav.AsFloat := punpuncusto.AsFloat + (punpuncusto.AsFloat * punpunmargem.AsFloat / 100);
+        punpunprecoap.AsFloat := punpuncusto.AsFloat + (punpuncusto.AsFloat * punpunmargem.AsFloat / 100);
+
+        punpunpesobruto.AsFloat := 0;
+        punpunpesoliq.AsFloat := 0;
+
+        pundgrcodigo.AsInteger := 1;
+
+        pununicodigobase.AsInteger := self.consulta.fields[1].AsInteger;
+
+        punpunbarra.AsString := GeraProdutoBarra(application, self.registroprocodigo.AsInteger, pununicodigo.AsInteger);
+
+        (* Identifica Unidade e Quantidade Tributária *)
+        consulta.Close;
+        consulta.SQL.Text := 'SELECT pro.unicodigo, pro.prounitrib, pro.proqtdtrib FROM pro WHERE ';
+        consulta.SQL.Add('pro.procodigo = ' + registroprocodigo.AsString);
+        consulta.Open;
+
+        if registrounicodigo.AsInteger = consulta.fields[0].AsInteger then
+        begin
+          punpununitrib.AsInteger := consulta.fields[1].AsInteger;
+          punpunqtdtrib.AsFloat := consulta.fields[2].AsFloat;
+        end
+        else
+        begin
+          punpununitrib.AsInteger := consulta.fields[1].AsInteger;
+          punpunqtdtrib.AsFloat := consulta.fields[2].AsFloat * self.punpunmultiplicador.AsFloat;
+        end;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select unisimbolo,pro.unicodigo from  uni,pro where pro.unicodigo=uni.unicodigo and  pro.procodigo=' +
+          self.registroprocodigo.AsString;
+        consulta.Open;
+        punpunidentificacao.AsString := punpunmultiplicador.AsString + 'x' + consulta.fields[0].AsString;
+        pun.Post;
+
+
+        // registro.Edit;
+        // self.criabusca(self.puncodigo, self.registropunidentificacao);
+
+        consulta.Close;
+        consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+        consulta.Open;
+
+        self.registrounicodigobase.AsInteger := self.consulta.fields[0].AsInteger;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select * from pun where procodigo=' + self.procodigo.Field.AsString + ' and unicodigo=' +
+          self.registrounicodigobase.AsString;
+        consulta.Open;
+
+        puncodigo.Field.AsString := punpuncodigo.AsString;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+        consulta.Open;
+
+        self.registrounicodigobase.AsInteger := self.consulta.fields[0].AsInteger;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select puncodigo, punmultiplicador from pun where unicodigo=' + self.registrounicodigobase.AsString + ' and procodigo='
+          + self.registroprocodigo.AsString;
+        consulta.Open;
+
+        pun.Close;
+        pun.Filtersql := 'procodigo=' + self.registroprocodigo.AsString;
+        pun.Open;
+
+        pun.First;
+        while not pun.Eof do
+        begin
+
+          if cfgcfgajustacusto.AsInteger = 1 then
+          begin
+            if self.registrounicodigobase.AsInteger = pununicodigo.AsInteger then
+            begin
+              pun.Edit;
+              punpuncusto.AsFloat := itmcusto.Field.AsFloat; // * self.punpunmultiplicador.AsFloat;
+              pun.Post;
+            end;
+
+          end;
+
+          pun.Next;
+        end;
+
+
+
+
+        // registro.Post;
+
+      End
+      Else
+      Begin
+        { * ajuste de preço de custo para notas digitas * }
+
+        consulta.Close;
+        consulta.SQL.Text := 'select ttecodigo from toe where toecodigo=' + self.toecodigo.Field.AsString;
+        consulta.Open;
+
+        if self.consulta.fields[0].AsInteger = tteEntrada then
+        begin
+
+          pun.Close;
+          pun.Filtersql := 'puncodigo=' + vpuncodigo;
+          pun.Open;
+
+          if cfgcfgajustacusto.AsInteger = 1 then
+          begin
+            pun.Edit;
+            punpuncusto.AsFloat := self.registroitmvalor.AsFloat;
+            pun.Post;
+          end;
+
+          { pun.Close;
+            pun.Filtersql := '';
+            pun.Open; }
+        end;
+
+        // registro.Edit;
+        puncodigo.Field.AsString := vpuncodigo;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+        consulta.Open;
+
+        self.registrounicodigobase.AsInteger := self.consulta.fields[0].AsInteger;
+
+        consulta.Close;
+        consulta.SQL.Text := 'select puncodigo, punmultiplicador from pun where unicodigo=' + self.registrounicodigobase.AsString + ' and procodigo='
+          + self.registroprocodigo.AsString;
+        consulta.Open;
+
+        pun.Close;
+        pun.Filtersql := 'procodigo=' + self.registroprocodigo.AsString;
+        pun.Open;
+
+        pun.First;
+        while not pun.Eof do
+        begin
+
+          if cfgcfgajustacusto.AsInteger = 1 then
+          begin
+            if self.registrounicodigobase.AsInteger = pununicodigo.AsInteger then
+            begin
+              pun.Edit;
+              punpuncusto.AsFloat := itmcusto.Field.AsFloat; // * self.punpunmultiplicador.AsFloat;
+              pun.Post;
+            end;
+
+          end;
+
+          pun.Next;
+        end;
+
+        { * FINAL  - Daniel 29/12/2014 }
+
+        If Uni.Locate('unicodigo', self.registrounicodigobase.AsInteger, []) Then
+        Begin
+          // registroitmcontendo.AsFloat := self.consulta.Fields[1].AsFloat;
+        End;
+
+        // registro.Post;
+      End;
+    End
+    Else
+    Begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'select puncodigo from pun where procodigo=' + self.procodigo.Field.AsString + ' and unicodigo=' +
+        self.unicodigo.Field.AsString;
+      consulta.Open;
+      vpuncodigo := consulta.fields[0].AsString;
+
+      // registro.Edit;
+      puncodigo.Field.AsString := vpuncodigo;
+      { * ajuste de preço de custo para notas digitas * }
+      consulta.Close;
+      consulta.SQL.Text := 'select ttecodigo from toe where toecodigo=' + self.toecodigo.Field.AsString;
+      consulta.Open;
+
+      if self.consulta.fields[0].AsInteger = tteEntrada then
+      begin
+        pun.Close;
+        pun.Filtersql := 'puncodigo=' + vpuncodigo;
+        pun.Open;
+
+        if cfgcfgajustacusto.AsInteger = 1 then
+        begin
+          pun.Edit;
+          punpuncusto.AsFloat := self.registroitmvalor.AsFloat;
+          pun.Post;
+        end;
+
+        { pun.Close;
+          pun.FilterSQL  :='';
+          pun.Open; }
+      end;
+
+      consulta.Close;
+      consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+      consulta.Open;
+
+      self.registrounicodigobase.AsInteger := self.consulta.fields[0].AsInteger;
+
+      consulta.Close;
+      consulta.SQL.Text := 'select puncodigo, punmultiplicador from pun where unicodigo=' + self.registrounicodigobase.AsString + ' and procodigo=' +
+        self.registroprocodigo.AsString;
+      consulta.Open;
+      vmultiplicador := consulta.fields[1].AsFloat;
+
+      { * INICIO  - Daniel 29/12/2014
+        Ajuste de preço de custo para
+        todas uniodades do produto deste pun* }
+
+      pun.Close;
+      pun.Filtersql := 'procodigo=' + self.registroprocodigo.AsString;
+      pun.Open;
+
+      if cfgcfgajustacusto.AsInteger = 1 then
+      begin
+        pun.First;
+        while not pun.Eof do
+        begin
+          if self.registrounicodigobase.AsInteger = pununicodigo.AsInteger then
+          begin
+            pun.Edit;
+            punpuncusto.AsFloat := itmcusto.Field.AsFloat; // * self.punpunmultiplicador.AsFloat;
+            pun.Post;
+          end;
+
+          pun.Next;
+        end;
+
+      end;
+      { * FINAL  - Daniel 29/12/2014 }
+
+      // If Uni.Locate('unicodigo', self.registrounicodigobase.AsInteger, []) Then
+      // Begin
+      // registrounicodigo.AsInteger := uniunicodigo.AsInteger;
+      // registroitmcontendo.AsFloat := vmultiplicador;
+      // End;
+
+
+      // registro.Post;
+
+    End;
+ //   registroitmtotal.AsCurrency := registroitmtotal.AsCurrency + registroitmdesconto.AsCurrency;
+
+    Inherited;
+    self.Retorno := '1';
+    self.vpRetorno := '1';
+
+  End;
+
+end;
+
+procedure Tfitmcpr.cfocfopdestinacaoExit(Sender: TObject);
+var
+  vlcfop: string;
+  vltdfcodigo: string;
+  vltemcodigo: integer;
+begin
+  inherited;
+
+  If psituacao.Caption = 'Alterando' Then
+  Begin
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT toecfopsaida, tdfcodigo,temcodigo FROM mes INNER JOIN toe ON mes.toecodigo = toe.toecodigo WHERE meschave=' +
+      vChaveMestre;
+    consulta.Open;
+    vlcfop := '';
+    vltdfcodigo := '';
+    vltemcodigo := 0;
+
+    vltemcodigo := consulta.FieldByName('temcodigo').AsInteger;
+    vltdfcodigo := consulta.FieldByName('tdfcodigo').AsString;
+    vlcfop := consulta.FieldByName('toecfopsaida').AsString;
+    if (vlcfop <> '') and (vltdfcodigo = tdfReservado) and (vltemcodigo = temImportada) then
+    begin
+      // cfocfopdestinacao.Field.AsString := vlcfop;
+      vlcfop := cfocfopdestinacao.Field.AsString;
+    end;
+
+    consulta.close;
+    consulta.sql.Text:='select toecodigo from toe where toecfopsaida='+QuotedStr(vlcfop);
+    consulta.Open;
+
+    toecodigo.Field.AsString:=consulta.FieldByName('toecodigo').AsString;
+
+  End;
+
+end;
+
+procedure Tfitmcpr.DSRegistroDataChange(Sender: TObject; Field: TField);
+Var
+  vunicodigobase: String;
+  vuninome: String;
+Begin
+  Inherited;
+
+end;
+
+procedure Tfitmcpr.FormShow(Sender: TObject);
+var
+  i: integer;
+  vlCstCodigo: string;
+  vletdcodigo: string;
+begin
+
+  IdModulo := vPlIdMd;
+
+  inherited;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select etdcodigo from mes where meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  vletdcodigo := consulta.fields[0].AsString;
+
+  consulta.Close;
+  consulta.SQL.Text := 'Select ufs.ufssigla, edr.tedcodigo, etd.etdcodigo ' + ' From cdd Inner Join ufs On ufs.ufscodigo = cdd.ufscodigo Inner Join '
+    + ' edr On cdd.cddcodigo = edr.cddcodigo Inner Join  etd On etd.etdcodigo = edr.etdcodigo ' + ' Where edr.tedcodigo = 1 and etd.etdcodigo=' +
+    vletdcodigo;
+  consulta.Open;
+
+  vpufsetd := consulta.fields[0].AsString;
+
+  plAlterouPreco.Visible := False;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select ttmcodigo,cstcodigo from toe where toecodigo=' + self.toecodigo.Field.AsString;
+  consulta.Open;
+
+  vlCstCodigo := consulta.FieldByName('cstcodigo').AsString;
+
+  vpEmissaoPropria := consulta.fields[0].AsInteger = 0;
+
+  if vpEmissaoPropria then
+  begin
+    registrocstcodigo.AsString := vlCstCodigo;
+  end
+  else
+  begin
+    registrocstcodigo.AsString := vlCstCodigo;
+    if self.procodigo.Field.AsString <> '' then
+    begin
+      consulta.Close;
+      consulta.SQL.Text := 'select cstcodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+      consulta.Open;
+      if consulta.FieldByName('cstcodigo').AsString <> '' then
+      begin
+        registrocstcodigo.AsString := consulta.FieldByName('cstcodigo').AsString;
+      end;
+    end;
+
+  end;
+
+  for i := 0 To ComponentCount - 1 do
+    if (Components[i] Is TDBEdit) then
+      if TDBEdit(Components[i]).Parent = GBTributacao then
+        if vpEmissaoPropria then
+        begin
+          TDBEdit(Components[i]).Enabled := False;
+          TDBEdit(Components[i]).TabStop := False;
+          TDBEdit(Components[i]).ReadOnly := True;
+          TDBEdit(Components[i]).Color := $FFD8B0;
+        end;
+
+  { itmtotal.TabStop := False;
+    itmtotal.ReadOnly := True;
+    itmtotal.Color := $FFD8B0; }
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT mesicm, mesicms, mesipi FROM mes WHERE meschave = ' + self.vChaveMestre;
+  consulta.Open;
+
+  If consulta.fields[0].AsFloat > 0 Then
+  Begin
+    itmbicm.Enabled := True;
+    icmcodigo.Enabled := True;
+    itmicm.Enabled := True;
+  End
+  Else
+  Begin
+    itmbicm.Field.AsFloat := 0;
+    icmcodigo.Field.AsString := '00';
+    itmicm.Field.AsFloat := 0;
+    itmbicm.Enabled := False;
+    icmcodigo.Enabled := False;
+    itmicm.Enabled := False;
+  End;
+
+  If consulta.fields[1].AsFloat > 0 Then
+  Begin
+    itmbicms.Enabled := True;
+    itmaliqicms.Enabled := True;
+    itmicms.Enabled := True;
+  End
+  Else
+  Begin
+    itmbicms.Field.AsFloat := 0;
+    itmaliqicms.Field.AsFloat := 0;
+    itmicms.Field.AsFloat := 0;
+    itmbicms.Enabled := False;
+    itmaliqicms.Enabled := False;
+    itmicms.Enabled := False;
+  End;
+
+  { If consulta.fields[2].AsFloat > 0 Then
+    Begin }
+  itmaliqipi.Enabled := True;
+  itmipi.Enabled := True;
+  { End
+    Else
+    Begin
+    itmaliqipi.Field.AsFloat := 0;
+    itmipi.Field.AsFloat := 0;
+    itmaliqipi.Enabled := False;
+    itmipi.Enabled := False;
+    End; }
+
+  if psituacao.Caption = 'Alterando' then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'select temcodigo from mes where meschave=' + registromeschave.AsString;
+    consulta.Open;
+
+    itmcontendo.Enabled := True;
+    GBTributacao.Enabled := False;
+    if consulta.FieldByName('temcodigo').AsInteger <> 3 then
+    begin
+      itmquantidade.Enabled := True;
+      itmvalor.Enabled := True;
+      itmdesconto.Enabled := True;
+      itmtotal.Enabled := True;
+      cfocfopdestinacao.Enabled := False;
+      GBOutrosValores.Enabled := True;
+
+    end
+    else
+    begin
+      itmquantidade.Enabled := False;
+      itmvalor.Enabled := False;
+      itmdesconto.Enabled := False;
+      itmtotal.Enabled := False;
+      cstcodigo.Enabled := False;
+      unicodigo.Enabled := False;
+      cfocfopdestinacao.Enabled := True;
+      GBOutrosValores.Enabled := False;
+    end;
+
+  end;
+
+end;
+
+procedure Tfitmcpr.itmbicmEnter(Sender: TObject);
+begin
+  inherited;
+  itmbicm.Field.AsFloat := itmtotal.Field.AsFloat;
+end;
+
+procedure Tfitmcpr.itmcontendoExit(Sender: TObject);
+begin
+  inherited;
+  if self.ActiveControl = bcancela then
+    Exit;
+
+  validasaida(Sender);
+
+  if (itmcontendo.Field.Text = '') or (itmcontendo.Field.Text = '0,00') then
+  begin
+    showmessage('Este campo necessita quantidade!');
+    itmcontendo.SetFocus;
+
+  end;
+  if psituacao.Caption = 'Alterando' then
+  begin
+    AjustaItmCusto;
+  end;
+
+end;
+
+procedure Tfitmcpr.itmdescontoChange(Sender: TObject);
+begin
+  inherited;
+  ajustaicm;
+end;
+
+procedure Tfitmcpr.itmdescontoExit(Sender: TObject);
+begin
+  inherited;
+  itmtotal.Field.AsCurrency := itmvalor.Field.AsFloat * itmquantidade.Field.AsFloat - itmdesconto.Field.AsFloat;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmfreteExit(Sender: TObject);
+begin
+  inherited;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmicmEnter(Sender: TObject);
+begin
+  inherited;
+  ajustaicm;
+end;
+
+procedure Tfitmcpr.itmipiEnter(Sender: TObject);
+Var
+  vtotfre: double;
+  vtotvlr: double;
+  vperc: double;
+Begin
+  Inherited;
+
+  vtotfre := 0;
+  vtotvlr := 0;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select mesfrete, mesvalor from mes where meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  vtotfre := consulta.fields[0].AsCurrency;
+  vtotvlr := consulta.fields[1].AsCurrency;
+
+  vperc := (itmtotal.Field.AsCurrency / vtotvlr);
+  registroitmfrete.AsCurrency := (vtotfre * vperc);
+
+  itmipi.Field.AsCurrency := ((itmtotal.Field.AsCurrency + (registroitmfrete.AsCurrency)) * (itmaliqipi.Field.AsFloat / 100))
+
+end;
+
+procedure Tfitmcpr.itmoutrasExit(Sender: TObject);
+begin
+  inherited;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmoutroscustosExit(Sender: TObject);
+begin
+  inherited;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmquantidadeChange(Sender: TObject);
+begin
+  inherited;
+  ajustaicm;
+
+end;
+
+procedure Tfitmcpr.itmquantidadeEnter(Sender: TObject);
+begin
+  inherited;
+  If self.itmcontendo.Field.AsString = '' Then
+    self.itmcontendo.Field.AsFloat := vitmcontendo;
+end;
+
+procedure Tfitmcpr.itmseguroExit(Sender: TObject);
+begin
+  inherited;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmtotalChange(Sender: TObject);
+begin
+  inherited;
+  AjustaItmCusto;
+
+end;
+
+procedure Tfitmcpr.itmtotalEnter(Sender: TObject);
+begin
+  inherited;
+
+  itmtotal.Field.AsCurrency := itmvalor.Field.AsFloat * itmquantidade.Field.AsFloat - itmdesconto.Field.AsFloat;
+
+  ajustaicm;
+end;
+
+procedure Tfitmcpr.itmtotalExit(Sender: TObject);
+begin
+  inherited;
+  self.validasaida(Sender);
+
+  // itmvalor.Field.AsFloat := itmtotal.Field.AsFloat / itmquantidade.Field.AsFloat;
+
+end;
+
+procedure Tfitmcpr.itmvalorChange(Sender: TObject);
+begin
+  inherited;
+  ajustaicm;
+end;
+
+procedure Tfitmcpr.itmvalorExit(Sender: TObject);
+begin
+  inherited;
+  self.validasaida(Sender);
+
+  If registro.State = dsinsert Then
+  Begin
+    self.ultcpr.Close;
+    self.ultcpr.Params[0].AsInteger := self.procodigo.Field.AsInteger;
+    self.ultcpr.Open;
+
+    if (ultcpr.RecordCount = 1) and (self.ultcpritmcusto.AsFloat > 0) then
+    begin
+
+      if self.ultcpritmcusto.AsCurrency <> self.itmvalor.Field.AsCurrency then
+      begin
+        plAlterouPreco.Visible := True;
+        plultimacompra.Visible := True
+      end
+      else
+      begin
+        plAlterouPreco.Visible := False;
+        plultimacompra.Visible := False;
+      end;
+    end;
+
+  end;
+  AjustaItmCusto;
+
+  try
+    itmtotal.Field.AsCurrency := itmvalor.Field.AsCurrency * itmquantidade.Field.AsFloat - itmdesconto.Field.AsFloat;
+  except
+  end;
+
+end;
+
+procedure Tfitmcpr.procodigoEnter(Sender: TObject);
+{ var
+  vetdcodigo: string;
+  vetdcfg: string;
+
+  ufsetd: string;
+  ufscfg: string; }
+begin
+  inherited;
+
+  { consulta.Close;
+    consulta.SQL.Text := 'select etdcodigo from mes where meschave=' + self.vChaveMestre;
+    consulta.Open;
+
+    vetdcodigo := consulta.fields[0].AsString;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select toecfopsaida,ttmcodigo from toe where toecodigo=' + self.toecodigo.Field.AsString;
+    consulta.Open;
+
+    if (vetdcodigo = self.cfgcfgetdempresa.AsString) or (consulta.fields[1].AsString = '0') then
+    begin
+    cfocfopdestinacao.Field.AsString := consulta.fields[0].AsString;
+    cfocfopdestinacao.ReadOnly := True;
+    cfocfopdestinacao.TabStop := False;
+    cfocfopdestinacao.Enabled := False;
+    end
+    else
+    begin
+    cfocfopdestinacao.ReadOnly := False;
+    cfocfopdestinacao.TabStop := True;
+    cfocfopdestinacao.Enabled := True;
+    end; }
+
+end;
+
+procedure Tfitmcpr.procodigoExit(Sender: TObject);
+var
+  vlCstCodigo: string;
+begin
+  inherited;
+  self.validasaida(Sender);
+
+  If registro.State = dsinsert Then
+  Begin
+    self.ultcpr.Close;
+    self.ultcpr.Params[0].AsInteger := self.procodigo.Field.AsInteger;
+    self.ultcpr.Open;
+
+    if (ultcpr.RecordCount = 1) and (self.ultcpritmcusto.AsFloat > 0) then
+      plultimacompra.Visible := True
+    else
+      plultimacompra.Visible := False;
+  End;
+
+  if vpEmissaoPropria then
+  begin
+    If registro.State = dsinsert Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'select toecfopsaida from toe where toecodigo=' + self.toecodigo.Field.AsString;
+      consulta.Open;
+
+      self.registrocfocfopdestinacao.AsString := consulta.fields[0].AsString;
+      cfocfopdestinacao.Field.AsString := self.registrocfocfopdestinacao.AsString;
+      cfocfopdestinacao.ReadOnly := True;
+      cfocfopdestinacao.TabStop := False;
+      unicodigo.SetFocus;
+    End;
+  end
+  else
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'select tdfcodigo,temcodigo from mes where meschave=' + vChaveMestre;
+    consulta.Open;
+    if (consulta.fields[0].AsString = 'RE') and (consulta.FieldByName('temcodigo').AsInteger <> 3) then
+    begin
+
+      consulta.Close;
+      consulta.SQL.Text := 'select toecfopsaida from toe where toecodigo=' + self.toecodigo.Field.AsString;
+      consulta.Open;
+
+      self.registrocfocfopdestinacao.AsString := consulta.fields[0].AsString;
+      cfocfopdestinacao.Field.AsString := self.registrocfocfopdestinacao.AsString;
+      cfocfopdestinacao.ReadOnly := True;
+      cfocfopdestinacao.TabStop := False;
+      unicodigo.SetFocus;
+
+    end
+    else
+    begin
+
+      cfocfopdestinacao.ReadOnly := False;
+      cfocfopdestinacao.TabStop := True;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'select ttmcodigo,cstcodigo from toe where toecodigo=' + self.toecodigo.Field.AsString;
+    consulta.Open;
+    vlCstCodigo := consulta.FieldByName('cstcodigo').AsString;
+
+    vpEmissaoPropria := consulta.fields[0].AsInteger = 0;
+
+    if vpEmissaoPropria then
+      registrocstcodigo.AsString := vlCstCodigo
+    else
+    begin
+
+      registrocstcodigo.AsString := vlCstCodigo;
+
+      if self.procodigo.Field.AsString <> '' then
+      begin
+        consulta.Close;
+        consulta.SQL.Text := 'select cstcodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+        consulta.Open;
+        if consulta.FieldByName('cstcodigo').AsString <> '' then
+        begin
+          registrocstcodigo.AsString := consulta.FieldByName('cstcodigo').AsString;
+        end;
+
+      end;
+
+    end;
+
+  end;
+end;
+
+procedure Tfitmcpr.puncodigoEnter(Sender: TObject);
+begin
+  inherited;
+  self.pun.Filter := 'procodigo=' + self.procodigo.Field.AsString;
+  self.pun.Filtered := True;
+
+end;
+
+procedure Tfitmcpr.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  cfg.Close;
+  cfg.Open;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select toecodigo from mes where meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  self.registrotoecodigo.AsString := self.consulta.fields[0].AsString;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select count(itmchave) from itm where meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  self.registroitmitem.AsInteger := self.consulta.fields[0].AsInteger + 1;
+
+  self.registroitmmovifisico.AsInteger := 1;
+  self.registroitmbicms.AsFloat := 0;
+  self.registroitmicms.AsFloat := 0;
+  self.registroitmdesconto.AsCurrency := 0;
+  self.registroitmipi.AsCurrency := 0;
+  self.registroitmbipi.AsCurrency := 0;
+  self.registroitmbicm.AsFloat := 0;
+  self.registroflacodigo.AsInteger := acesso.Filial;
+
+  icmcodigo.Field.AsString := '00';
+  itmbicm.Field.AsFloat := 0;
+  itmicm.Field.AsFloat := 0;
+  itmbicms.Field.AsFloat := 0;
+  itmaliqicms.Field.AsFloat := 0;
+  itmicms.Field.AsFloat := 0;
+  itmaliqipi.Field.AsFloat := 0;
+  itmipi.Field.AsFloat := 0;
+  itmfrete.Field.AsFloat := 0;
+  itmseguro.Field.AsFloat := 0;
+  itmoutras.Field.AsFloat := 0;
+  itmoutroscustos.Field.AsFloat := 0;
+
+end;
+
+procedure Tfitmcpr.registroBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select icmaliquotas from icm where icmcodigo=''' + self.icmcodigo.Field.AsString + '''';
+  consulta.Open;
+
+  If (consulta.fields[0].AsString <> 'II') And (consulta.fields[0].AsString <> 'FF') And (consulta.fields[0].AsString <> 'NN') Then
+  Begin
+
+    registroitmaliqicm.AsString := consulta.fields[0].AsString;
+
+    If consulta.fields[0].AsString = '0,01' Then
+    Begin
+      registroitmicm.AsString := '0';
+    End
+    Else
+    Begin
+      registroitmicm.AsString := consulta.fields[0].AsString;;
+    End;
+  End
+  Else
+  Begin
+    registroitmaliqicm.AsString := consulta.fields[0].AsString;
+    registroitmicm.AsString := '0';
+  End;
+
+  toecst.Close;
+  toecst.ParamByName('toecodigo').AsInteger := toecodigo.Field.AsInteger;
+  toecst.Open;
+
+  // cst
+  // registrocstcodigo.AsString := toecstcstcodigo.AsString;
+
+  // ipi
+
+  registroitmapuipi.AsInteger := 1;
+  registrocsicodigo.AsString := toecstcsicodigo.AsString;
+  registroceicodigo.AsString := '0';
+
+  // cofins
+  registroitmcofins.AsFloat := 0;
+  registroitmaliqcofinsvalor.AsFloat := 0;
+  registroitmquantcofins.AsFloat := 0;
+  registroitmaliqcofins.AsFloat := 0;
+  registroitmbcofins.AsFloat := 0;
+  registrocsfcodigo.AsString := toecstcsfcodigo.AsString;
+
+  // pis
+  registroitmpis.AsFloat := 0;
+  registroitmaliqpisvalor.AsFloat := 0;
+  registroitmquantpis.AsFloat := 0;
+  registroitmaliqpis.AsFloat := 0;
+  registroitmbpis.AsFloat := 0;
+  registrocspcodigo.AsString := toecstcspcodigo.AsString;
+  registropcccodigo.AsString := '3.01.01.03.03.00.00';
+
+end;
+
+procedure Tfitmcpr.toecodigoEnter(Sender: TObject);
+var
+  vetdcodigo: string;
+  vetdcfg: string;
+
+begin
+  inherited;
+
+
+  // toeorigem 1 2 ou 3 são para entradas
+
+  // 1 e 5 dentro do estado
+  // 2 2 6 para fora do estado
+
+  If vpufsetd = self.cfgufssigla.AsString Then
+  Begin
+    // dentro do estado
+    if vetdcodigo = self.cfgcfgetdempresa.AsString then
+      self.txtFiltro := ' toeorigem=''1'' and ttmcodigo=0 and ttecodigo=0'
+    else
+      self.txtFiltro := ' toeorigem=''1'' and ttecodigo=0';
+  End
+  Else
+  Begin
+    // fora do estado
+    if vetdcodigo = self.cfgcfgetdempresa.AsString then
+      self.txtFiltro := ' toeorigem=''2'' and ttmcodigo=0 and ttecodigo=0'
+    else
+      self.txtFiltro := ' toeorigem=''2'' and ttecodigo=0';
+  End;
+end;
+
+procedure Tfitmcpr.unicodigoEnter(Sender: TObject);
+begin
+  inherited;
+  self.txtFiltro := 'tuncodigo=' + '0' + ' or tuncodigo=' + '1' + ' or tuncodigo=' + '9';
+
+end;
+
+procedure Tfitmcpr.unicodigoExit(Sender: TObject);
+var
+  vuninome: string;
+  vunicodigobase: string;
+
+begin
+  inherited;
+  if unicodigo.Field.AsString <> '' then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'select unicodigo from pro where procodigo=' + self.procodigo.Field.AsString;
+    consulta.Open;
+
+    if consulta.fields[0].AsInteger = unicodigo.Field.AsInteger then
+    begin
+      self.itmcontendo.Field.AsInteger := 1;
+      self.itmcontendo.Enabled := False;
+      self.itmcontendo.ReadOnly := True;
+    end
+    else
+    begin
+      if psituacao.Caption = 'Incluindo' then
+      begin
+        self.itmcontendo.Field.AsString := '';
+      end;
+      self.itmcontendo.Enabled := True;
+      self.itmcontendo.ReadOnly := False;
+      itmcontendo.Visible := True;
+      litmcontendo.Visible := True;
+      lnomeunidadebase.Visible := True;
+    end;
+
+    if itmcontendo.Enabled then
+    begin
+      itmcontendo.SetFocus;
+    end
+    else
+    begin
+      if itmquantidade.Enabled then
+        itmquantidade.SetFocus
+      else
+      begin
+
+      end;
+    end;
+
+  end;
+  self.validasaida(Sender);
+
+  if self.ActiveControl = bcancela then
+    Exit;
+
+  If self.unicodigo.Field.AsString <> '' Then
+  Begin
+
+    If self.registroprocodigo.AsString <> '' Then
+    Begin
+      vconsulta.Close;
+      vconsulta.SQL.Text := 'select pro.unicodigo, uni.uninome from pro,uni where pro.unicodigo=uni.unicodigo and  procodigo=' +
+        self.registroprocodigo.AsString;
+      vconsulta.Open;
+
+      vuninome := self.vconsulta.fields[1].AsString;
+
+      If Not vconsulta.IsEmpty Then
+      Begin
+
+        If self.unicodigo.Field.AsInteger <> self.vconsulta.fields[0].AsInteger Then
+        Begin
+          vunicodigobase := self.vconsulta.fields[0].AsString;
+
+          itmcontendo.Visible := True;
+          litmcontendo.Visible := True;
+          lnomeunidadebase.Visible := True;
+
+          self.lnomeunidadebase.Caption := self.vconsulta.fields[1].AsString;
+
+          vconsulta.Close;
+          vconsulta.SQL.Text := 'select puncodigo, punmultiplicador from pun where unicodigo=' + self.unicodigo.Field.AsString + ' and procodigo=' +
+            self.registroprocodigo.AsString;
+          vconsulta.Open;
+
+          If Not vconsulta.IsEmpty Then
+          Begin
+            vitmcontendo := self.vconsulta.fields[1].AsFloat;
+            self.lnomeunidadebase.Caption := vuninome;
+
+            itmcontendo.Visible := True;
+            litmcontendo.Visible := True;
+            lnomeunidadebase.Visible := True;
+
+          End
+          Else
+          Begin
+            itmcontendo.Visible := True;
+            litmcontendo.Visible := True;
+            lnomeunidadebase.Visible := True;
+
+            vitmcontendo := 1;
+          End;
+        End
+        Else
+        Begin
+          self.lnomeunidadebase.Caption := '';
+          itmcontendo.Visible := False;
+          litmcontendo.Visible := False;
+          lnomeunidadebase.Visible := False;
+        End;
+      End;
+    End;
+
+  End;
+
+end;
+
+Procedure Tfitmcpr.ajustaicm;
+Begin
+  If (self.registro.State = dsinsert) Or (self.registro.State = dsedit) Then
+  Begin
+    // itmtotal.Field.AsFloat := TBRound((self.itmvalor.Field.Ascurrency * self.itmquantidade.Field.AsFloat) - self.itmdesconto.Field.Ascurrency, 2);
+    If self.icmcodigo.Field.AsString <> '' Then
+    Begin
+      consulta.Close;
+      consulta.SQL.Text := 'select icmaliquotas from icm where icmcodigo=' + self.icmcodigo.Field.AsString;
+      consulta.Open;
+
+      If (consulta.fields[0].AsString <> 'II') And (consulta.fields[0].AsString <> 'FF') And (consulta.fields[0].AsString <> 'NN') Then
+      Begin
+        If (consulta.fields[0].AsString = '0,01') Or (consulta.fields[0].AsString = '00') Then
+          itmicm.Field.AsFloat := 0
+        Else
+          itmicm.Field.AsFloat := self.itmtotal.Field.AsFloat * (consulta.fields[0].AsFloat / 100);
+      End
+      Else
+        itmicm.Field.AsFloat := 0;
+    End;
+  End;
+End;
+
+procedure Tfitmcpr.AjustaItmCusto;
+var
+  voutros: double;
+  vtotal: double;
+  vdivi: double;
+begin
+  voutros := 0;
+  vtotal := 0;
+  vdivi := 0;
+  consulta.Close;
+  consulta.SQL.Text := 'select (mesfrete+mesoutras+messeguro) as outros,mesvalor from mes where meschave=' + self.vChaveMestre;
+  consulta.Open;
+  voutros := consulta.fields[0].AsFloat;
+  vtotal := consulta.fields[1].AsFloat;
+
+  if (self.registroprocodigo.AsString <> '') and (pununicodigobase.AsString <> '') then
+  begin
+    if itmtotal.Field.AsFloat > 0 then
+    begin
+      // try
+      if registro.State <> dsbrowse then
+      begin
+
+        voutroscustos := (itmtotal.Field.AsFloat / vtotal);
+        voutroscustos := voutros * voutroscustos;
+        { if pununicodigobase.AsString <> unicodigo.Field.AsString then
+          begin }
+        consulta.Close;
+        consulta.SQL.Text := 'select punmultiplicador from pun where pun.procodigo=' + self.registroprocodigo.AsString + ' and pun.unicodigo=' +
+          pununicodigobase.AsString;
+        consulta.Open;
+        vdivi := consulta.fields[0].AsFloat;
+        { end; }
+        itmcusto.Field.AsFloat := TBRound(((itmvalor.Field.AsFloat - (itmdesconto.Field.AsFloat / self.itmquantidade.Field.AsFloat)) +
+          (itmfrete.Field.AsFloat / self.itmquantidade.Field.AsFloat) + (itmoutras.Field.AsFloat / self.itmquantidade.Field.AsFloat) +
+          (itmseguro.Field.AsFloat / self.itmquantidade.Field.AsFloat) + (itmicms.Field.AsFloat / self.itmquantidade.Field.AsFloat) +
+          (self.itmipi.Field.AsFloat / self.itmquantidade.Field.AsFloat) + (self.itmoutroscustos.Field.AsFloat / self.itmquantidade.Field.AsFloat)) /
+          itmcontendo.Field.AsFloat, 3);
+
+        // if vdivi > 0 then
+        //  itmcusto.Field.AsFloat := itmcusto.Field.AsFloat / vdivi;
+        // except
+
+      end;
+    end;
+  end;
+end;
+
+end.

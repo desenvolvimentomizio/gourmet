@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/18 09:49:15.000.767,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/18 19:05:35.000.974,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/04 18:37:12.000.462,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/16 17:57:00.000.364,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/17 17:33:42.000.922,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/05/04 09:55:14.000.518,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/05/04 09:56:25.000.505,C:\projetos\GourmetUP\MizioUP\src\ufrmPrincipal.pas=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/05/04 09:56:25.000.505,C:\projetos\GourmetUP\MizioUP\src\ufrmPrincipal.fmx=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.fmx</Transaction>
+    <Transaction>2024/05/04 09:56:34.000.114,C:\projetos\GourmetUP\MizioUP\src\MizioUP.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2024/05/04 10:39:08.000.720,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 10:41:12.000.828,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.setor.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 10:58:58.000.561,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:00:02.000.683,C:\projetos\GourmetUP\MizioUP\src\Models\MizioUP.Models.produtividade.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:09:29.000.092,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:11:00.000.878,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.produtividade.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:46:13.000.505,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:46:48.000.390,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.Base.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:49:27.000.918,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/04 11:49:52.000.444,C:\projetos\GourmetUP\MizioUP\src\Models\MizioUP.Models.Configuracoes.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/07 16:49:09.000.450,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/07 16:49:54.000.585,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Services\MizioUP.Services.conexao.pas</Transaction>
+    <Transaction>2024/05/07 17:22:18.000.938,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.Base.pas=</Transaction>
+    <Transaction>2024/05/08 10:54:35.000.902,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 10:55:27.000.667,C:\projetos\GourmetUP\MizioUP\src\Services\MizioUP.Services.estilo.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 14:13:53.000.121,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 14:14:41.000.543,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.setor.pas=</Transaction>
+    <Transaction>2024/05/08 14:14:53.000.048,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.setor.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 16:09:42.000.498,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 16:10:18.000.180,C:\projetos\GourmetUP\MizioUP\src\Services\MizioUP.Services.uListview.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 17:15:13.000.125,C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewsetor.pas=C:\projetos\GourmetUP\MizioUP\src\Services\MizioUP.Services.uListview.pas</Transaction>
+    <Transaction>2024/05/08 17:18:53.000.151,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 17:19:16.000.341,C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewcolaborador.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 18:04:31.000.937,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/08 18:05:01.000.495,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.colaborador.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/09 11:09:47.000.145,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/09 11:10:09.000.495,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewpedido.pas</Transaction>
+    <Transaction>2024/05/09 11:11:52.000.167,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/09 11:12:12.000.509,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.pedido.pas</Transaction>
+    <Transaction>2024/05/10 16:39:08.000.413,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/10 16:39:34.000.472,C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewposicao.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/10 16:50:23.000.003,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/11 10:24:18.000.670,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/11 10:24:45.000.789,C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.produtor.pas=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/11 10:26:43.000.427,C:\projetos\GourmetUP\MizioUP\src\Models\MizioUP.Models.produtividade.pas=</Transaction>
+    <Transaction>2024/05/11 10:37:04.000.109,C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewprodutor.pas=C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.uListviewposicao.pas</Transaction>
+    <Transaction>2024/05/17 11:16:42.000.733,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/17 11:17:09.000.347,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.producao.pas</Transaction>
+    <Transaction>2024/05/18 14:44:33.000.112,=C:\componentes\FastMM4\FastMM4.pas</Transaction>
+    <Transaction>2024/05/18 16:17:27.000.513,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/18 16:18:10.000.744,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Views\ProducaoUP.Views.notificacao.pas</Transaction>
+    <Transaction>2024/05/18 16:18:31.000.285,C:\projetos\GourmetUP\MizioUP\src\Views\ProducaoUP.Views.notificacao.pas=C:\projetos\GourmetUP\MizioUP\src\Views\MizioUP.Views.notificacao.pas</Transaction>
+    <Transaction>2024/05/18 18:06:47.000.980,=C:\projetos\GourmetUP\MizioUP\src\Unit1.pas</Transaction>
+    <Transaction>2024/05/18 18:07:14.000.969,C:\projetos\GourmetUP\MizioUP\src\Unit1.pas=C:\projetos\GourmetUP\MizioUP\src\Controllers\MizioUP.Controllers.statusconexao.pas</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5" Android="G000N607909606W1" Android64="G000N607909606W1"/>
+	</ActiveMobileDevice>
+</BorlandProject>

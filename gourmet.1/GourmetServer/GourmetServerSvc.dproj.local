@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/08/03 17:31:41.000.146,C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\fontes\gourmet.1\GourmetServer\uGourmetServerSvc.dfm</Transaction>
+    <Transaction>2022/08/03 17:32:01.000.699,C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\fontes\gourmet.1\GourmetServer\GourmetServerSvc.dproj</Transaction>
+    <Transaction>2023/12/27 15:08:38.000.951,=C:\fontes\gourmet.1\GourmetServer\src\Service\GourmetServer.Service.Conexoes.pas</Transaction>
+  </Transactions>
+</BorlandProject>

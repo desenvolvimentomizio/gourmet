@@ -1,0 +1,784 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+    <ProjectExtensions>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <PropertyGroup/>
+    <ItemGroup Condition="'$(Platform)'=='Win32'">
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>xmlrtl250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\fsDB25.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>fsDB25.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>rtl250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\frx25.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>frx25.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclimg250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\inet250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>inet250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_PCNComum.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_PCNComum.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclactnband250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dbrtl250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclie250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dbrtl250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vcl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\mgourmet.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>mgourmet.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclimg250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\PngComponentsD250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>PngComponentsD250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>designide250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\fs25.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>fs25.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\fqb250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>fqb250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>designide250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>xmlrtl250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\unidac250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>unidac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndySystem250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>IndySystem250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\CEF4Delphi.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>CEF4Delphi.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vcl250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dsnap250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclie250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dsnap250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclie250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACSqliteDriver250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>FireDACSqliteDriver250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_synapse.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_synapse.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>xmlrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dbrtl250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclactnband250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(gourmet1)\dcu\mnfe.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>\modulos\</RemoteDir>
+            <RemoteName>mnfe.bpl</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_Integrador.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_Integrador.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_OpenSSL.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_OpenSSL.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclie250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclie250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACCommonDriver250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>FireDACCommonDriver250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dsnap250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcldb250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vcldb250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\Whats4Delphi.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>Whats4Delphi.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_Comum.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_Comum.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vcl250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\soaprtl250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>soaprtl250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>designide250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclx250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="c:\mizio\modulos\mnfe.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>mnfe.bpl</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>rtl250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\soaprtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>soaprtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyProtocols250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>IndyProtocols250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACCommon250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>FireDACCommon250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\frxe25.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>frxe25.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclactnband250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_Diversos.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_Diversos.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\inet250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>inet250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dsnap250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclactnband250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclactnband250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>rtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>rtl250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_DFeComum.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_DFeComum.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_TCP.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_TCP.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\soaprtl250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>soaprtl250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\dac250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dac250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_NFe.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_NFe.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Windows\system32\frxDB25.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>frxDB25.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\NativeExcelDXTokyo.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>NativeExcelDXTokyo.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyCore250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>IndyCore250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclimg250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vcl250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>dbrtl250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDSCOMMONDIR)\Bpl\ACBr_NFeDanfeFR.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>ACBr_NFeDanfeFR.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\soaprtl250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>soaprtl250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\designide250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>designide250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclx250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\inet250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>inet250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclimg250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.de" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclx250.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDAC250.bpl" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>FireDAC250.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>vclx250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\inet250.ja" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>inet250.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl250.fr" Condition="'$(Config)'=='Release'">
+            <RemoteDir>mnfe\</RemoteDir>
+            <RemoteName>xmlrtl250.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Android'"/>
+</Project>

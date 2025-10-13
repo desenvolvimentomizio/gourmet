@@ -1,0 +1,83 @@
+unit MizioUP.Services.conexao;
+
+interface
+
+uses
+
+  FMX.Objects,inifiles;
+
+  function LerIPServidorREST: string;
+  procedure GravarIPServidorREST(vIPServidorREST: string);
+
+type
+  TServiceUtils = class
+    private
+    public
+      class procedure ResourceImage( aResource : String; aImage : TImage );
+
+  end;
+
+
+
+implementation
+
+uses
+  System.Classes, System.Types, System.SysUtils, FMX.Dialogs;
+
+{ TServiceUtils }
+
+class procedure TServiceUtils.ResourceImage(aResource: String; aImage: TImage);
+var
+  Resource : TResourceStream;
+begin
+  Resource := TResourceStream.Create(HInstance, aResource, RT_RCDATA);
+  try
+    aImage.Bitmap.LoadFromStream(Resource);
+  finally
+    Resource.Free;
+  end;
+end;
+
+
+procedure GravarIPServidorREST(vIPServidorREST: string);
+var
+  loIniFIle: TInifile;
+begin
+
+  try
+    loIniFIle := TInifile.Create(System.SysUtils.GetCurrentDir + PathDelim + 'config.ini');
+
+    loIniFIle.WriteString('config', 'IPServidorREST', vIPServidorREST);
+    loIniFIle.Free;
+
+  except
+    on E: Exception do
+    ShowMessage('Erro: ' + E.Message );
+  end;
+end;
+
+function LerIPServidorREST: string;
+var
+  loIniFIle: TInifile;
+  vlIPServidorREST: string;
+begin
+
+  try
+
+    loIniFIle := TInifile.Create(System.SysUtils.GetCurrentDir + PathDelim + 'config.ini');
+
+    vlIPServidorREST := loIniFIle.ReadString('config', 'IPServidorREST', '');
+
+    loIniFIle.Free;
+    Result := vlIPServidorREST;
+
+  except
+    on E: Exception do
+    ShowMessage('Erro: ' + E.Message );
+  end;
+
+end;
+
+
+
+end.

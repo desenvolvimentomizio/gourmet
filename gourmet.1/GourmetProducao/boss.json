@@ -1,0 +1,26 @@
+{
+	"name": "ServerHorse",
+	"description": "",
+	"version": "1.0.0",
+	"homepage": "",
+	"mainsrc": "./",
+	"projects": [],
+	"dependencies": {
+		"github.com/hashload/handle-exception": "^0.1.4",
+		"github.com/hashload/horse": "^v2.0.1",
+		"github.com/hashload/horse-logger": "^0.1.5",
+		"github.com/hashload/horse-octet-stream": "^1.9.4",
+		"https://github.com/bittencourtthulio/horse-cachecontrol": ">0.0.0",
+		"https://github.com/bittencourtthulio/horse-etag": "^1.0.0",
+		"https://github.com/bittencourtthulio/horse-paginate": "^1.0.2",
+		"https://github.com/bittencourtthulio/router4delphi": "^1.0.1",
+		"https://github.com/bittencourtthulio/simpleorm": "^2.02.04",
+		"https://github.com/danieleteti/delphiredisclient": "^v2.0",
+		"https://github.com/ezequieljuliano/datasetconverter4delphi": ">0.0.0",
+		"https://github.com/gabrielbaltazar/gbswagger": "^2.1.0",
+		"https://github.com/hashload/horse-basic-auth": "^v1.1.2",
+		"https://github.com/hashload/horse-cors": "^1.0.2",
+		"https://github.com/hashload/jhonson": "^1.0.6",
+		"https://github.com/viniciussanchez/dataset-serialize": "^v2.2.9"
+	}
+}

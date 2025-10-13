@@ -1,0 +1,45 @@
+unit uConexaoModulo;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, MemDS, DBAccess, Uni,
+  Inifiles, UniProvider, MySQLUniProvider, Vcl.ExtCtrls, forms;
+
+type
+  TconexaoDM = class(TDataModule)
+    gab: TUniQuery;
+    cfg: TUniQuery;
+    cfgcfgdoc1: TStringField;
+    cfgetdapelido: TStringField;
+    conexaoweb: TUniConnection;
+    local: TUniConnection;
+    MySQLUniProvider1: TMySQLUniProvider;
+    gabgabchave: TIntegerField;
+    gabgabdoc1: TStringField;
+    gabgabnome: TStringField;
+    gabgabbackup: TDateField;
+    gabgabcontigencia: TDateTimeField;
+    gabgabcontigencias: TIntegerField;
+    gabgabpendentes: TIntegerField;
+    gabgabrelease: TIntegerField;
+    gabgabenviosped: TDateTimeField;
+    gabgabatualizacao: TDateTimeField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  conexaoDM: TconexaoDM;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+uses uAutoBackup, uConfigura;
+
+{$R *.dfm}
+
+end.

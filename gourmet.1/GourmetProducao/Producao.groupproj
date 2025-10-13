@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BE71FBA7-BBA1-4296-A3F0-2518C3C5A991}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ProducaoUPServerSrv.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ProducaoUPServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Monitor\GourmetMonitorProducao.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\MizioProducao\src\MizioProducao.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ProducaoUPServerSrv">
+        <MSBuild Projects="ProducaoUPServerSrv.dproj"/>
+    </Target>
+    <Target Name="ProducaoUPServerSrv:Clean">
+        <MSBuild Projects="ProducaoUPServerSrv.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProducaoUPServerSrv:Make">
+        <MSBuild Projects="ProducaoUPServerSrv.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ProducaoUPServer">
+        <MSBuild Projects="ProducaoUPServer.dproj"/>
+    </Target>
+    <Target Name="ProducaoUPServer:Clean">
+        <MSBuild Projects="ProducaoUPServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProducaoUPServer:Make">
+        <MSBuild Projects="ProducaoUPServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GourmetMonitorProducao">
+        <MSBuild Projects="Monitor\GourmetMonitorProducao.dproj"/>
+    </Target>
+    <Target Name="GourmetMonitorProducao:Clean">
+        <MSBuild Projects="Monitor\GourmetMonitorProducao.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GourmetMonitorProducao:Make">
+        <MSBuild Projects="Monitor\GourmetMonitorProducao.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MizioProducao">
+        <MSBuild Projects="..\MizioProducao\src\MizioProducao.dproj"/>
+    </Target>
+    <Target Name="MizioProducao:Clean">
+        <MSBuild Projects="..\MizioProducao\src\MizioProducao.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MizioProducao:Make">
+        <MSBuild Projects="..\MizioProducao\src\MizioProducao.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ProducaoUPServerSrv;ProducaoUPServer;GourmetMonitorProducao;MizioProducao"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ProducaoUPServerSrv:Clean;ProducaoUPServer:Clean;GourmetMonitorProducao:Clean;MizioProducao:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ProducaoUPServerSrv:Make;ProducaoUPServer:Make;GourmetMonitorProducao:Make;MizioProducao:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

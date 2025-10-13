@@ -1,0 +1,1535 @@
+{ rotas em uso
+'http://localhost:8100/v1/atualizacozinha' REVISADA - TELA
+'http://localhost:8100/v1/cadastraimpressora' REVISADA- ARQUIVO
+'http://localhost:8100/v1/statusimpressora'  REVISADA - PAINEL
+'http://localhost:8100/v1/statusimpressao'  REVISADA
+'http://localhost:8100/v1/statusimpressoras' REVISADA - PAINEL
+
+'http://localhost:8100/v1/arquivoimpressao'
+}
+
+
+unit ufPrinciMizioServIMpressoras;
+
+interface
+
+uses
+  System.SysUtils,
+
+  System.Generics.Collections,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Horse,
+  Json,
+  Horse.Jhonson,
+  Horse.OctetStream,
+  Horse.CORS,
+  System.StrUtils,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  ACBrBase,
+   Winapi.IpHlpApi, Winapi.IpRtrMib, Winapi.Winsock,
+
+  ACBrPosPrinter, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, IdBaseComponent,
+  IdAntiFreezeBase, IdAntiFreeze;
+
+
+
+type
+  TfPrinciMizioServImpressoras = class(TForm)
+    mmLogs: TMemo;
+    tmInicialiar: TTimer;
+    ACBrPosPrinter1: TACBrPosPrinter;
+    mmFilaSalao: TMemo;
+    plFilaSalao: TPanel;
+    plTituloFilaSalao: TPanel;
+    plFilaEntrega: TPanel;
+    mmFilaEntrega: TMemo;
+    plTituloFilaEntrega: TPanel;
+    tmEnviaImpressora: TTimer;
+    plTopo: TPanel;
+    plStatusImpressoras: TPanel;
+    plTituloStatusImpressoras: TPanel;
+    plRelagio: TPanel;
+    plListaImpressoras: TPanel;
+    plImp2: TPanel;
+    plImp1: TPanel;
+    plImp3: TPanel;
+    plImp4: TPanel;
+    plImp5: TPanel;
+    plImp7: TPanel;
+    plImp6: TPanel;
+    plImp9: TPanel;
+    plImp10: TPanel;
+    plImp8: TPanel;
+    impressoras: TFDMemTable;
+    impressorasID: TStringField;
+    impressorascodigo: TStringField;
+    impressorasporta: TStringField;
+    impressorasidentificacao: TStringField;
+    impressorasestado: TStringField;
+    plCozinha: TPanel;
+    tmCarregaListaPedidos: TTimer;
+    IdAntiFreeze1: TIdAntiFreeze;
+    ACBrPosPrinter2: TACBrPosPrinter;
+    ACBrPosPrinter3: TACBrPosPrinter;
+    ACBrPosPrinter4: TACBrPosPrinter;
+    ACBrPosPrinter5: TACBrPosPrinter;
+    ACBrPosPrinter6: TACBrPosPrinter;
+    ACBrPosPrinter7: TACBrPosPrinter;
+    ACBrPosPrinter8: TACBrPosPrinter;
+    ACBrPosPrinter9: TACBrPosPrinter;
+    ACBrPosPrinter10: TACBrPosPrinter;
+    procedure tmInicialiarTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure tmEnviaImpressoraTimer(Sender: TObject);
+    procedure tmCarregaListaPedidosTimer(Sender: TObject);
+  private
+    vpCozinha:String;
+    vpImprimeSalao: Boolean;
+    vpImprimeEntrega: Boolean;
+
+    procedure InicializaServidor;
+    procedure ConfiguraImpressora(aID:String; aPorta: String);
+    function EstadoImpressora(aID:String;aPosPrinter:TACBrPosPrinter; aPorta:String): String;
+    function AtualizaPaineisImpressoras(const aListaImpressoras: TJsonArray; const aEstadoImpressoras:TJsonArray):Boolean;
+
+    function AjustaEstadoImpressoras(const aEstadoImpressoras:TJsonArray):boolean;
+    function AjustaPainelImpressora(const aID:String):boolean;
+
+
+    procedure AtualizaPainel(aID: String; aCorFundo, aCorFonte: TColor; aTitulo:String;
+                             aCodigo:Integer; aPorta:String;aEstado:String);
+    function statusImpressoras(aListaImpressoras: TJsonArray): TJsonArray;
+    function statusimpressao(aOrigem, aPedido, aCozinha: string;aPortaImpressora:String): THTTPStatus;
+    procedure ImprimirArquivo(aID: String;aNomeArquivo: string);
+    function arquivoimpressao(aOrigem, aPedido, aCozinha: string;aPortaImpressora:String; aArquivo:TStringList; aID:String): THTTPStatus;
+    procedure RemoveArquivoDaFila(aMemoLista:TMemo; aNomeArquivo:String);
+    function StatusImpressora(aID: String): String;
+    function AtualizaPainelImpressora(aPorta:String): Boolean;
+
+    function CadastraImpressora(aImpressora: TJsonObject): Boolean;
+    procedure GravarLog(Texto: string);
+
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+
+type
+  ICMP_ECHO_REPLY = record
+    Address: DWORD;
+    Status: DWORD;
+    RoundTripTime: DWORD;
+    DataSize: Word;
+    Reserved: Word;
+    Data: Pointer;
+    Options: record
+      Ttl: Byte;
+      Tos: Byte;
+      Flags: Byte;
+      OptionsSize: Byte;
+      OptionsData: PByte;
+    end;
+  end;
+  PICMP_ECHO_REPLY = ^ICMP_ECHO_REPLY;
+
+
+  TICMP_OPTIONS = record
+    Ttl: Byte;
+    Tos: Byte;
+    Flags: Byte;
+    OptionsSize: Byte;
+    OptionsData: PByte;
+  end;
+
+function IcmpCreateFile: THandle; stdcall; external 'icmp.dll';
+function IcmpCloseHandle(IcmpHandle: THandle): Boolean; stdcall; external 'icmp.dll';
+function IcmpSendEcho(IcmpHandle: THandle; DestinationAddress: DWORD; RequestData: Pointer;
+  RequestSize: Word; RequestOptions: Pointer; ReplyBuffer: Pointer;
+  ReplySize: DWORD; Timeout: DWORD): DWORD; stdcall; external 'icmp.dll';
+
+
+
+
+
+type
+  TFileSearcher = class(TThread)
+  private
+    { Private declarations }
+    FPath, FMask: string;
+    FIncludeSubDir: boolean;
+    FItemToAdd: string;
+    function FindFiles: integer;
+    procedure UpdateTheMemo;
+  public
+    constructor Create(CreateSuspended: boolean; const Path, Mask: string; IncludeSubDir: boolean);
+  protected
+    procedure Execute; override;
+  end;
+
+
+
+var
+  fPrinciMizioServImpressoras: TfPrinciMizioServImpressoras;
+  App: THorse;
+
+
+implementation
+
+{$R *.dfm}
+
+function PingIP(const AHost: string): Boolean;
+var
+  hIcmp: THandle;
+  IPAddr: DWORD;
+  Reply: ICMP_ECHO_REPLY;
+  Options: TICMP_OPTIONS;
+begin
+  Result := False;
+
+  IPAddr := inet_addr(PAnsiChar(AnsiString(AHost)));
+  if IPAddr = INADDR_NONE then Exit;
+
+  hIcmp := IcmpCreateFile;
+  if hIcmp = INVALID_HANDLE_VALUE then Exit;
+
+  try
+    FillChar(Options, SizeOf(Options), 0);
+    Options.Ttl := 128;
+
+    FillChar(Reply, SizeOf(Reply), 0);
+
+    if IcmpSendEcho(hIcmp, IPAddr, nil, 0, @Options, @Reply, SizeOf(Reply), 1000) > 0 then
+    begin
+      Result := (Reply.Status = 0); // 0 = IP_SUCCESS
+    end;
+  finally
+    IcmpCloseHandle(hIcmp);
+  end;
+end;
+
+
+
+
+
+function CleanJsonString(const JsonString: string): string;
+var
+  I: Integer;
+  SB: TStringBuilder;
+begin
+  SB := TStringBuilder.Create;
+  for I := 1 to Length(JsonString) do
+  begin
+    if CharInSet(JsonString[I], [' ', #9, #10, #13]) then
+      Continue //Pula espaços, tabs, CRs e LFs
+    else
+      SB.Append(JsonString[I]);
+  end;
+  Result := SB.ToString;
+  SB.Free;
+end;
+
+procedure TfPrinciMizioServImpressoras.GravarLog(Texto: string);
+var
+  NomeArquivo: string;
+  CaminhoArquivo: string;
+  ArquivoTexto: TextFile;
+begin
+  try
+    // Define o nome do arquivo, por exemplo: erro.txt ou acao.txt
+    NomeArquivo := vpCozinha + '.txt';
+
+    // Verifica se o diretório de logs e se não existir já cria o mesmo
+    if not DirectoryExists(ExtractFilePath(ParamStr(0))+'logs\') then
+      ForceDirectories(ExtractFilePath(ParamStr(0))+'logs\');
+
+    // Define o caminho onde o arquivo será salvo (no mesmo diretório da aplicação)
+      CaminhoArquivo := ExtractFilePath(ParamStr(0))+'logs\' + NomeArquivo;
+
+    // Associa o nome ao manipulador de arquivo
+    AssignFile(ArquivoTexto, CaminhoArquivo);
+
+    // Se o arquivo já existir, abre para acrescentar, senão cria novo
+    if FileExists(CaminhoArquivo) then
+      Append(ArquivoTexto)
+    else
+      Rewrite(ArquivoTexto);
+
+    // Escreve a mensagem no arquivo com timestamp
+    WriteLn(ArquivoTexto, FormatDateTime('yyyy-mm-dd hh:nn:ss', Now) + ' - ' + Texto);
+
+    // Fecha o arquivo
+    CloseFile(ArquivoTexto);
+  Except
+
+  end;
+end;
+
+
+
+procedure TfPrinciMizioServImpressoras.FormShow(Sender: TObject);
+begin
+  tmInicialiar.Enabled := True;
+end;
+
+
+function TfPrinciMizioServImpressoras.AjustaPainelImpressora(const aID: String): boolean;
+var
+  vlID:integer;
+  vlTciPorta:String;
+  vlTciCodigo:Integer;
+  vlStatus:String;
+  vlIdentificacao:String;
+  vlEstadoImpressora:TJSONObject;
+
+begin
+  try
+    Result:=False;
+
+    if not impressoras.Active then
+     exit;
+
+    if impressoras.locate('ID',aID,[]) then
+    begin
+
+      if self.FindComponent('ACBrPosPrinter'+aID)<>nil then
+      begin
+
+        vlTciPorta:=impressorasporta.AsString;
+        vlStatus:=EstadoImpressora(aID, self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter,  vlTciPorta);
+        vlID:=impressorasID.AsInteger;
+
+        vlIdentificacao:= impressorasidentificacao.AsString;
+        vlTciCodigo :=impressorascodigo.AsInteger;
+
+        if vlTciPorta<>'' then
+        begin
+
+          case vlStatus.ToInteger of
+            0: AtualizaPainel(vlID.ToString,clYellow,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus );
+            1: AtualizaPainel(vlID.ToString,clgreen,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+            2: AtualizaPainel(vlID.ToString,clnavy,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+            5: AtualizaPainel(vlID.ToString,clnavy,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+            7: AtualizaPainel(vlID.ToString,clGray,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+            8: AtualizaPainel(vlID.ToString,clGray,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+            3: AtualizaPainel(vlID.ToString,clblack,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatus);
+          end;
+           Result:=True;
+        end;
+      end;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Result:=False;
+       GravarLog('L-242 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+end;
+
+
+
+function TfPrinciMizioServImpressoras.arquivoimpressao(aOrigem:string; aPedido:String;aCozinha:string;aPortaImpressora:String; aArquivo:TStringList; aID:String):THTTPStatus;
+var
+  vlOrigem:String;
+  vlPedido:String;
+  vlCozinha:String;
+  vlNomeArquivo:String;
+  vlNomeArquivoPed:String;
+  vlNomeArquivoImp:String;
+  vlNomeArquivoOk:String;
+
+
+begin
+  try
+    vlOrigem:=aOrigem;
+    vlPedido:=aPedido;
+    vlCozinha:=aCozinha;
+
+    if not DirectoryExists(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem) then
+      ForceDirectories(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem);
+
+    vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'-'+aID+'.ped';
+    vlNomeArquivoImp:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'-'+aID+'.imp';
+    vlNomeArquivoOk:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'-'+aID+'.ok';
+
+
+
+    if (not fileexists(vlNomeArquivo)) and (not fileexists(vlNomeArquivoImp)) and (not fileexists(vlNomeArquivoOk)) then
+    begin
+      if trim(aArquivo.Text)<>'' then
+      begin
+        aArquivo.SaveToFile(vlNomeArquivo);
+        Result:=THTTPStatus.Created;  // 201
+      end;
+    end
+    else
+       Result:=THTTPStatus.Accepted;  // 202
+
+  except
+    on E: Exception do
+    begin
+       Result:=THTTPStatus.NotExtended;  // 510
+       GravarLog('L-227 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+end;
+
+
+
+
+
+
+function TfPrinciMizioServImpressoras.statusimpressao(aOrigem:string; aPedido:String;aCozinha:string;aPortaImpressora:String):THTTPStatus;
+var
+  vlOrigem:String;
+  vlPedido:String;
+  vlCozinha:String;
+  vlNomeArquivo:String;
+begin
+  try
+  vlOrigem:=aOrigem;
+  vlPedido:=aPedido;
+  vlCozinha:=aCozinha;
+
+  if not DirectoryExists(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem) then
+    ForceDirectories(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem);
+
+
+  vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'.ok';
+  if fileexists(vlNomeArquivo) then
+  begin
+    Result:=THTTPStatus.OK;
+  end
+  else
+  begin
+    vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'.txt';
+    if fileexists(vlNomeArquivo) then
+    begin
+      Result:=THTTPStatus.Accepted;
+    end
+    else
+    begin
+      vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'_'+aPortaImpressora+'.imp';
+      if fileexists(vlNomeArquivo) then
+      begin
+        Result:=THTTPStatus.Accepted;
+      end
+      else
+      begin
+        vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vlCozinha+'\'+vlOrigem+'\' +vlPedido+'.ped';
+        if fileexists(vlNomeArquivo) then
+        begin
+          Result:=THTTPStatus.Accepted;
+        end
+        else
+        begin
+          if not fileexists(vlNomeArquivo) then
+          begin
+            Result:=THTTPStatus.NoContent;
+          end;
+        end;
+      end;
+    end;
+  end;
+  except
+  on E: Exception do
+    begin
+       Result:=THTTPStatus.NotExtended;  // 510
+       GravarLog('L-293 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+end;
+
+
+
+procedure TfPrinciMizioServImpressoras.InicializaServidor;
+var
+  vlImpressoras:TJsonArray;
+  vlImpressora:TJsonObject;
+  vlEstadoImpressoras:TJsonArray;
+  vlEstadoImpressora:String;
+
+  vlPortaImpressora:String;
+  vlOrigem:String;
+  vlPedido:String;
+  vlCozinha:String;
+  vlCodigo:String;
+  vlID:String;
+
+  vlArquivo : TStringList;
+  vlNomeArquivo:String;
+
+begin
+
+  try
+
+    App := THorse.Create;
+    App.Use(Jhonson);
+    App.Use(CORS);
+
+    app.Get('/status',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Res.Status(THTTPStatus.OK).Send('{"status": "online"}');
+        end);
+
+    app.Post('/v1/atualizacozinha',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Req.Headers.TryGetValue('cozinha',vlCozinha);
+          vpCozinha:=vlCozinha;
+          plCozinha.Caption:='Cozinha: '+vpCozinha;
+        end);
+
+    app.Post('/v1/atualizaimpressoras',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Req.Headers.TryGetValue('cozinha',vlCozinha);
+
+          vpCozinha:=vlCozinha;
+          plCozinha.Caption:='Cozinha: '+vpCozinha;
+
+          vlImpressoras :=Req.Body<TJSONArray>;
+          vlEstadoImpressoras:=TJsonArray.Create;
+
+
+          if AtualizaPaineisImpressoras(vlImpressoras,vlEstadoImpressoras ) then
+          begin
+            Res.Content(vlEstadoImpressoras);
+          end;
+        end);
+
+
+    app.Post('/v1/cadastraimpressora',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+           vlImpressora :=Req.Body<TJSONObject>;
+          if  CadastraImpressora(vlImpressora) then
+          begin
+             res.Status(200);
+          end;
+        end);
+
+
+    app.Post('/v1/atualizaimpressora',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Req.Headers.TryGetValue('porta',vlPortaImpressora);
+
+          if AtualizaPaineisImpressoras(vlImpressoras,vlEstadoImpressoras ) then
+          begin
+            Res.Content(vlEstadoImpressoras);
+          end;
+        end);
+
+
+    app.Post('/v1/statusimpressoras',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Req.Headers.TryGetValue('cozinha',vlCozinha);
+
+          vpCozinha:=vlCozinha;
+          plCozinha.Caption:='Cozinha: '+vpCozinha;
+
+          vlImpressoras :=Req.Body<TJSONArray>;
+          Res.Content(statusImpressoras(vlImpressoras));
+        end);
+
+    app.Post('/v1/statusimpressora',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Req.Headers.TryGetValue('id',vlID);
+          vlEstadoImpressora:=StatusImpressora(vlID);
+          Res.Content(TJSONObject.create.AddPair('estado',vlEstadoImpressora) );
+        end);
+
+
+
+
+    app.Post('/v1/statusimpressao',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+
+          Req.Headers.TryGetValue('origem',vlOrigem);
+          Req.Headers.TryGetValue('pedido',vlPedido);
+          Req.Headers.TryGetValue('cozinha',vlCozinha);
+          Req.Headers.TryGetValue('porta',vlPortaImpressora);
+
+          vpCozinha:=vlCozinha;
+          plCozinha.Caption:='Cozinha: '+vpCozinha;
+
+          Res.Status(statusimpressao(vlOrigem, vlPedido, vlCozinha,vlPortaImpressora ));
+        end);
+
+
+    app.Post('/v1/arquivoimpressao',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+
+          Req.Headers.TryGetValue('origem',vlOrigem);
+          Req.Headers.TryGetValue('pedido',vlPedido);
+          Req.Headers.TryGetValue('cozinha',vlCozinha);
+          Req.Headers.TryGetValue('porta',vlPortaImpressora);
+          Req.Headers.TryGetValue('ID',vlID);
+
+          vpCozinha:=vlCozinha;
+          plCozinha.Caption:='Cozinha: '+vpCozinha;
+
+          try
+            vlArquivo :=TStringList.Create;
+            vlArquivo.Text:=Req.body;
+
+            Res.Status(ArquivoImpressao(vlOrigem, vlPedido, vlCozinha,vlPortaImpressora, vlArquivo, vlID));
+          finally
+            vlArquivo.Free;
+          end;
+
+        end);
+
+    app.Post('/v1/statusfilasimpressao',
+        procedure(Req: THorseRequest; Res: THorseResponse)
+        begin
+          Res.Content(TJsonObject.Create
+                                 .AddPair('salao',mmFilaSalao.Lines.Text)
+                                 .AddPair('entrega',mmFilaEntrega.Lines.Text))
+                                  ;
+        end);
+
+    App.Listen(8100,
+    procedure
+      begin
+         mmLogs.Lines.Add('Versão: 25.27.500.10');
+         mmLogs.Lines.Add(Format('Servidor de IMPRESSORAS DE REDE esta rodando %s:%d', [THorse.Host, THorse.Port]));
+      end);
+
+  except
+    on E: Exception do
+      GravarLog('L-416 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+
+end;
+
+procedure TfPrinciMizioServImpressoras.tmCarregaListaPedidosTimer(Sender: TObject);
+var
+ sr:TFileSearcher;
+ vlPath:String;
+ vlOrigem:String;
+begin
+
+  tmCarregaListaPedidos.Enabled:=false;
+
+  try
+    vlPath:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vpCozinha+'\entrega\';
+    sr:=TFileSearcher.Create(true,vlPath,'*.ped',false);
+    sr.Execute;
+    sr.Destroy;
+  except
+    on E: Exception do
+       GravarLog('L-438 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+  try
+    vlPath:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vpCozinha+'\salao\';
+    sr:=TFileSearcher.Create(true,vlPath,'*.ped',false);
+    sr.Execute;
+    sr.Destroy;
+  except
+    on E: Exception do
+       GravarLog('L-448 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+
+ tmCarregaListaPedidos.Enabled:=True;
+
+end;
+
+
+
+procedure TfPrinciMizioServImpressoras.tmEnviaImpressoraTimer(Sender: TObject);
+var
+  vlEstadoImpressoras:TJsonArray;
+  i:Integer;
+  vlNomeArquivo:String;
+  vlID:String;
+begin
+
+  try
+    try
+      tmEnviaImpressora.Enabled:=False;
+
+      if not impressoras.Active then
+        exit;
+
+      plRelagio.Caption:=TimeToStr(time());
+
+      if (mmFilaSalao.Lines.Count=0) and (mmFilaEntrega.Lines.Count=0)  then
+      begin
+          vlEstadoImpressoras:=TJsonArray.Create;
+          AjustaEstadoImpressoras(vlEstadoImpressoras);
+          vlEstadoImpressoras.Free;
+      end;
+
+
+      if vpImprimeSalao then
+      begin
+        vpImprimeEntrega:=True;
+        vpImprimeSalao:=False;
+        mmFilaSalao.Color:=clWhite;
+        mmFilaEntrega.Color:=clYellow;
+
+        if mmFilaSalao.Lines.Count>0 then
+        begin
+          vlNomeArquivo:=mmFilaSalao.Lines[0];
+          if fileexists(vlNomeArquivo) then
+          begin
+            vlID:='';
+            vlID:= copy(vlNomeArquivo,pos('-',vlNomeArquivo)+1,length(vlNomeArquivo));
+            vlID:= copy(vlID,1,pos('.',vlID)-1);
+            ImprimirArquivo(vlID ,vlNomeArquivo);
+          end;
+
+        end;
+
+      end
+      else
+      begin
+        vpImprimeEntrega:=False;
+        vpImprimeSalao:=True;
+        mmFilaSalao.Color:=clYellow;
+        mmFilaEntrega.Color:=clWhite;
+
+        if mmFilaEntrega.Lines.Count>0 then
+        begin
+          vlNomeArquivo:=mmFilaEntrega.Lines[0];
+          vlNomeArquivo:=ChangeFileExt(vlNomeArquivo,'.imp');
+          vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vpCozinha+'\entrega\' +vlNomeArquivo;
+
+          if fileexists(vlNomeArquivo) then
+          begin
+            vlID:='';
+            vlID:= copy(vlNomeArquivo,pos('-',vlNomeArquivo)+1,length(vlNomeArquivo));
+            vlID:= copy(vlID,1,pos('.',vlID)-1);
+
+            ImprimirArquivo(vlID,vlNomeArquivo);
+          end;
+
+        end;
+
+
+      end;
+
+    finally
+      tmEnviaImpressora.Enabled:=True;
+    end;
+
+  except
+    on E: Exception do
+       GravarLog('L-526 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+end;
+
+procedure TfPrinciMizioServImpressoras.tmInicialiarTimer(Sender: TObject);
+begin
+  try
+    tmInicialiar.Enabled := False;
+
+    if not DirectoryExists(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras') then
+      ForceDirectories(ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras');
+
+    InicializaServidor;
+
+    tmEnviaImpressora.Enabled := True;
+
+    tmCarregaListaPedidos.Enabled := True;
+
+  except
+    on E: Exception do
+       GravarLog('L-753 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+end;
+
+procedure TfPrinciMizioServImpressoras.ConfiguraImpressora(aID:String; aPorta: String);
+begin
+  try
+    if FindComponent('ACBrPosPrinter'+aID)<>Nil then
+    begin
+
+      if (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Ativo then
+        ACBrPosPrinter1.Desativar;
+
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Porta  := 'TCP:'+aPorta+':9100';
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Modelo := ppEscPosEpson;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).LinhasBuffer := 0;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).LinhasEntreCupons := 0;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).EspacoEntreLinhas := 0;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ColunasFonteNormal := 64;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ControlePorta := True;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).CortaPapel := True;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).TraduzirTags := True;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).IgnorarTags := False;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).PaginaDeCodigo := TACBrPosPaginaCodigo( 2 );
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigBarras.MostrarCodigo := True;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigBarras.LarguraLinha := 0;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigBarras.Altura := 0;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigQRCode.Tipo := 2;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigQRCode.LarguraModulo := 4;
+      (FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).ConfigQRCode.ErrorLevel := 0;
+
+    end;
+  except
+    on E: Exception do
+       GravarLog('L-580 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+end;
+
+procedure TfPrinciMizioServImpressoras.RemoveArquivoDaFila(aMemoLista:TMemo; aNomeArquivo:String);
+var
+  I, L: Integer;
+var
+  MyText: string;
+  StringToReplace: string;
+  ReplacementString: string;
+
+begin
+  try
+    MyText := aMemoLista.Lines.Text;
+    StringToReplace := aNomeArquivo;
+    ReplacementString := '';
+      aMemoLista.Lines.Text :=trim( MyText.Replace(StringToReplace, ReplacementString,
+        [rfReplaceAll, rfIgnoreCase]));
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + 'error raised, with message: ' + E.Message);
+    end;
+  end;
+
+
+end;
+
+
+
+
+
+procedure TfPrinciMizioServImpressoras.ImprimirArquivo(aID: String;aNomeArquivo: string);
+var
+  vlNomeArquivo:String;
+  vlPortaImpressora:String;
+  vlStatusImpressora:String;
+
+var
+  vlArquivo:TStringList;
+begin
+  try
+    vlNomeArquivo:='';
+    vlPortaImpressora:='';
+
+
+    vlNomeArquivo:=aNomeArquivo;
+    vlPortaImpressora:=trim(copy(aNomeArquivo,pos('_',aNomeArquivo)+1,200));
+    vlPortaImpressora:=copy(vlPortaImpressora,1,Length(vlPortaImpressora));
+    vlPortaImpressora:=copy(vlPortaImpressora,1,pos('-',vlPortaImpressora)-1);
+
+
+    vlArquivo:=TStringList.Create;
+    if self.FindComponent('ACBrPosPrinter'+aID)<>nil then
+    begin
+      vlStatusImpressora:=EstadoImpressora(aID,self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter, vlPortaImpressora);
+
+    end;
+
+    if not impressoras.Active then
+      exit;
+
+
+    if impressoras.Locate('porta',vlPortaImpressora,[]) then
+    begin
+
+      if vlStatusImpressora='1' then
+      begin
+        if PingIP(vlPortaImpressora) then
+        begin
+          impressoras.Edit;
+          impressorasestado.AsInteger:=5;  // imprimindo
+          impressoras.Post;
+
+
+       //  ConfiguraImpressora(aID,vlPortaImpressora);
+       //   ACBrPosPrinter1.ArqLOG := ParamStr(0)+'logs\'+vpCozinha+'_impressora.txt' ;
+       //   ACBrPosPrinter1.Ativar;
+
+          if self.FindComponent('ACBrPosPrinter'+aID)<>Nil then
+          begin
+            try
+              if not (self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Ativo then
+                (self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Ativar;
+
+              vlArquivo:=TStringList.Create;
+              vlArquivo.LoadFromFile(aNomeArquivo);
+
+              vlNomeArquivo:=ChangeFileExt(vlNomeArquivo,'.imp');
+              vlNomeArquivo:=ExtractFilePath(application.ExeName)+'\MizioServidorImpressoras\'+vpCozinha+'\salao\' +vlNomeArquivo;
+
+
+              (self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Buffer.Text := vlArquivo.Text;
+              (self.FindComponent('ACBrPosPrinter'+aID) as TACBrPosPrinter).Imprimir;
+
+              vlNomeArquivo:=ChangeFileExt(aNomeArquivo,'.ok');
+
+              RenameFile(aNomeArquivo,vlNomeArquivo);
+              vlNomeArquivo:=ChangeFileExt(aNomeArquivo,'.ped');
+
+              if pos('salao',vlNomeArquivo)>0 then
+                RemoveArquivoDaFila(mmFilaSalao,ExtractFileName(vlNomeArquivo))
+              else
+                RemoveArquivoDaFila(mmFilaEntrega,ExtractFileName(vlNomeArquivo));
+
+              impressoras.Edit;
+              impressorasestado.AsInteger:=1;  // Livre
+              impressoras.Post;
+
+            finally
+              vlArquivo.Free;
+            end;
+        end;
+        end;
+      end;
+    end;
+
+  except
+    on E: Exception do
+       GravarLog('L-679 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+
+  end;
+end;
+
+procedure TfPrinciMizioServImpressoras.AtualizaPainel(aID:String; aCorFundo:TColor;aCorFonte:TColor;
+                                                        aTitulo:String; aCodigo:Integer; aPorta:String;aEstado:String);
+begin
+  try
+
+    case aID.ToInteger of
+      1:
+        begin
+          plImp1.Color:=aCorFundo;
+          plImp1.Font.Color:=aCorFonte;
+          plImp1.Caption:=aTitulo;
+          plImp1.Hint:=aPorta;
+          plImp1.Tag:=aCodigo;
+          plImp1.HelpKeyword:=aEstado;
+        end;
+      2:
+        begin
+          plImp2.Color:=aCorFundo;
+          plImp2.Font.Color:=aCorFonte;
+          plImp2.Caption:=aTitulo;
+          plImp2.Hint:=aPorta;
+          plImp2.Tag:=aCodigo;
+          plImp2.HelpKeyword:=aEstado;
+
+        end;
+      3:
+        begin
+          plImp3.Color:=aCorFundo;
+          plImp3.Font.Color:=aCorFonte;
+          plImp3.Caption:=aTitulo;
+          plImp3.Hint:=aPorta;
+          plImp3.Tag:=aCodigo;
+          plImp3.HelpKeyword:=aEstado;
+
+        end;
+      4:
+        begin
+          plImp4.Color:=aCorFundo;
+          plImp4.Font.Color:=aCorFonte;
+          plImp4.Caption:=aTitulo;
+          plImp4.Hint:=aPorta;
+          plImp4.Tag:=aCodigo;
+          plImp4.HelpKeyword:=aEstado;
+
+        end;
+      5:
+        begin
+          plImp5.Color:=aCorFundo;
+          plImp5.Font.Color:=aCorFonte;
+          plImp5.Caption:=aTitulo;
+          plImp5.Hint:=aPorta;
+          plImp5.Tag:=aCodigo;
+          plImp5.HelpKeyword:=aEstado;
+
+        end;
+      6:
+        begin
+          plImp6.Color:=aCorFundo;
+          plImp6.Font.Color:=aCorFonte;
+          plImp6.Caption:=aTitulo;
+          plImp6.Hint:=aPorta;
+          plImp6.Tag:=aCodigo;
+          plImp6.HelpKeyword:=aEstado;
+
+        end;
+      7:
+        begin
+          plImp7.Color:=aCorFundo;
+          plImp7.Font.Color:=aCorFonte;
+          plImp7.Caption:=aTitulo;
+          plImp7.Hint:=aPorta;
+          plImp7.Tag:=aCodigo;
+          plImp7.HelpKeyword:=aEstado;
+
+        end;
+      8:
+        begin
+          plImp8.Color:=aCorFundo;
+          plImp8.Font.Color:=aCorFonte;
+          plImp8.Caption:=aTitulo;
+          plImp8.Hint:=aPorta;
+          plImp8.Tag:=aCodigo;
+          plImp8.HelpKeyword:=aEstado;
+
+        end;
+      9:
+        begin
+          plImp9.Color:=aCorFundo;
+          plImp9.Font.Color:=aCorFonte;
+          plImp9.Caption:=aTitulo;
+          plImp9.Hint:=aPorta;
+          plImp9.Tag:=aCodigo;
+          plImp9.HelpKeyword:=aEstado;
+
+        end;
+      10:
+        begin
+          plImp10.Color:=aCorFundo;
+          plImp10.Font.Color:=aCorFonte;
+          plImp10.Caption:=aTitulo;
+          plImp10.Hint:=aPorta;
+          plImp10.Tag:=aCodigo;
+          plImp10.HelpKeyword:=aEstado;
+
+        end;
+    end;
+
+  except
+    on E: Exception do
+       GravarLog('L-774 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+end;
+
+
+function TfPrinciMizioServImpressoras.AjustaEstadoImpressoras(const aEstadoImpressoras:TJsonArray):boolean;
+var
+  vlID:integer;
+  vlTciPorta:String;
+  vlTciCodigo:Integer;
+  vlStatusImpressora:String;
+  vlIdentificacao:String;
+  vlEstadoImpressora:TJSONObject;
+
+begin
+  try
+    Result:=False;
+
+
+    if not impressoras.Active then
+     exit;
+
+
+    impressoras.First;
+    while not impressoras.eof do
+    begin
+
+      vlTciPorta:=impressorasporta.AsString;
+      vlID:=impressorasID.AsInteger;
+      vlStatusImpressora:=EstadoImpressora(vlID.ToString,self.FindComponent('ACBrPosPrinter'+vlID.ToString) as TACBrPosPrinter, vlTciPorta);
+
+
+      vlIdentificacao:= impressorasidentificacao.AsString;
+      vlTciCodigo :=impressorascodigo.AsInteger;
+
+      if vlTciPorta<>'' then
+      begin
+
+        case vlStatusImpressora.ToInteger of
+          0:
+          begin
+            AtualizaPainel(vlID.ToString,clYellow,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+            GravarLog(DateTimeToStr(Now())+' Falha conexão: '+vlIdentificacao+' Codigo: '+vlTciCodigo.ToString+ 'Porta: '+ vlTciPorta);
+          end;
+          1: AtualizaPainel(vlID.ToString,clgreen,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+          2:
+          begin
+            AtualizaPainel(vlID.ToString,clnavy,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+            GravarLog(DateTimeToStr(Now())+' Pouco Papel: '+vlIdentificacao+' Codigo: '+vlTciCodigo.ToString+ 'Porta: '+ vlTciPorta);
+          end;
+          5: AtualizaPainel(vlID.ToString,clnavy,clWhite,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+          7:
+          begin
+            AtualizaPainel(vlID.ToString,clGray,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+            GravarLog(DateTimeToStr(Now())+' Tampa aberta: '+vlIdentificacao+' Codigo: '+vlTciCodigo.ToString+ 'Porta: '+ vlTciPorta);
+          end;
+          8:
+          begin
+            AtualizaPainel(vlID.ToString,clGray,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+            GravarLog(DateTimeToStr(Now())+' Tampa aberta: '+vlIdentificacao+' Codigo: '+vlTciCodigo.ToString+ 'Porta: '+ vlTciPorta);
+          end;
+          3:
+          begin
+            AtualizaPainel(vlID.ToString,clblack,clred,vlIdentificacao,vlTciCodigo,vlTciPorta,vlStatusImpressora);
+            GravarLog(DateTimeToStr(Now())+' ERRO : '+vlIdentificacao+' Codigo: '+vlTciCodigo.ToString+ 'Porta: '+ vlTciPorta);
+          end;
+        end;
+
+        impressoras.Edit;
+        impressorasestado.AsInteger:=vlStatusImpressora.ToInteger;
+        impressoras.Post;
+
+        vlEstadoImpressora:=TJSONObject.Create;
+        vlEstadoImpressora.AddPair('ID',vlID.ToString);
+        vlEstadoImpressora.AddPair('codigo',vlTciCodigo.ToString);
+        vlEstadoImpressora.AddPair('estado',vlStatusImpressora);
+        vlEstadoImpressora.AddPair('porta',vlTciPorta);
+        vlEstadoImpressora.AddPair('identificacao',vlIdentificacao);
+
+        aEstadoImpressoras.add(vlEstadoImpressora);
+
+      end;
+      impressoras.Next;
+
+    end;
+
+  {  if not impressoras.IsEmpty then
+      impressoras.SaveToFile(extractfilepath(application.ExeName)+'\estadoimpressoras.dat',TFdStorageFormat.sfJSON);}
+
+
+    Result:=True;
+  except
+    on E: Exception do
+    begin
+      Result:=False;
+       GravarLog('L-839 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+end;
+
+Function TfPrinciMizioServImpressoras.StatusImpressora(aID:String):String;
+begin
+
+  try
+
+    Result:='';
+
+    if aID='' then
+      exit;
+
+    if plListaImpressoras.FindChildControl('plImp'+aID)<>nil then
+    begin
+
+      if plListaImpressoras.FindChildControl('plImp'+aID) is TPanel then
+      begin
+         Result:=(plListaImpressoras.FindChildControl('plImp'+aID) as TPanel).HelpKeyword;
+      end;
+    end;
+
+  except
+  on E: Exception do
+    begin
+        GravarLog('L-905 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+       Result:='';
+    end;
+  end;
+
+end;
+
+
+Function TfPrinciMizioServImpressoras.statusimpressoras(aListaImpressoras: TJsonArray):TJsonArray;
+var
+
+
+  i:integer;
+  vlID:String;
+  vlTciCodigo:String;
+  vlTciPorta:String;
+  vlMitIdentificacao:String;
+  vlEstado:String;
+  Value: TJSONValue;
+
+  vlEstadoImpressora:TJSONObject;
+  vlEstadoImpressoras:TJsonArray;
+
+begin
+  try
+
+    Result:=nil;
+
+    If aListaImpressoras.Count=0 then
+       exit;
+
+    vlEstadoImpressoras:=nil;
+
+    if (aListaImpressoras.Count>0) then
+       vlEstadoImpressoras:=TJsonArray.Create;
+
+    for I := 0 to aListaImpressoras.Count-1 do
+    begin
+
+      Value:= aListaImpressoras.Items[I];
+
+      vlID:=Value.GetValue<String>('ID') ;
+      vlTciCodigo:=Value.GetValue<String>('codigo');
+      vlTciPorta:=Value.GetValue<String>('porta') ;
+      vlMitIdentificacao:=Value.GetValue<String>('identificacao') ;
+
+      vlEstado:=StatusImpressora(vlID);
+
+      if impressoras.locate('ID',vlID,[]) then
+      begin
+        vlEstadoImpressora:=TJSONObject.Create;
+        vlEstadoImpressora.AddPair('ID',vlID);
+        vlEstadoImpressora.AddPair('codigo',vlTciCodigo);
+        vlEstadoImpressora.AddPair('estado',vlEstado);
+        vlEstadoImpressora.AddPair('porta',vlTciPorta);
+        vlEstadoImpressora.AddPair('identificacao',vlMitIdentificacao);
+
+        vlEstadoImpressoras.add(vlEstadoImpressora);
+      end;
+
+    end;
+
+    Result:=vlEstadoImpressoras;
+
+  except
+  on E: Exception do
+    begin
+        GravarLog('L-1186 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+       Result:=Nil;
+    end;
+  end;
+
+end;
+
+Function TfPrinciMizioServImpressoras.CadastraImpressora(aImpressora:TJsonObject):Boolean;
+var
+  i:integer;
+  vlID:String;
+  vlTciCodigo:String;
+  vlTciPorta:String;
+  vlMitIdentificacao:String;
+
+begin
+
+  try
+   Result:=False;
+
+   if not impressoras.Active then
+       impressoras.Open;
+
+
+    vlID:=aImpressora.GetValue<String>('ID') ;
+    vlTciCodigo:=aImpressora.GetValue<String>('codigo');
+    vlTciPorta:=aImpressora.GetValue<String>('porta') ;
+    vlMitIdentificacao:=aImpressora.GetValue<String>('identificacao') ;
+
+    if impressoras.locate('ID',vlID,[]) then
+    begin
+       impressoras.Edit
+    end
+    else
+    begin
+      impressoras.Append;
+      impressorasestado.AsString:='0';
+      impressorasID.AsString:=vlID;
+    end;
+
+
+    impressorascodigo.AsString:=vlTciCodigo;
+    impressorasporta.AsString:=vlTciPorta;
+    impressorasidentificacao.AsString:=vlMitIdentificacao;
+    impressoras.Post;
+
+    AjustaPainelImpressora(vlID);
+
+    Result:=True;
+
+  except
+    on E: Exception do
+    begin
+      Result:=False;
+       GravarLog('L-978 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+
+end;
+
+
+
+Function TfPrinciMizioServImpressoras.AtualizaPaineisImpressoras(const aListaImpressoras: TJsonArray; const aEstadoImpressoras:TJsonArray):Boolean;
+var
+  i:integer;
+  vlID:String;
+  vlTciCodigo:String;
+  vlTciPorta:String;
+  vlMitIdentificacao:String;
+  Value: TJSONValue;
+
+begin
+
+  try
+     Result:=False;
+
+     if not impressoras.Active then
+         impressoras.Open;
+
+    for I := 0 to aListaImpressoras.Count-1 do
+    begin
+
+
+      Value:= aListaImpressoras.Items[I];
+
+      vlID:=Value.GetValue<String>('ID') ;
+      vlTciCodigo:=Value.GetValue<String>('codigo');
+      vlTciPorta:=Value.GetValue<String>('porta') ;
+      vlMitIdentificacao:=Value.GetValue<String>('identificacao') ;
+
+      if impressoras.locate('ID',vlID,[]) then
+      begin
+         impressoras.Edit
+      end
+      else
+      begin
+        impressoras.Append;
+        impressorasestado.AsString:='0';
+        impressorasID.AsString:=vlID;
+      end;
+
+
+      impressorascodigo.AsString:=vlTciCodigo;
+      impressorasporta.AsString:=vlTciPorta;
+      impressorasidentificacao.AsString:=vlMitIdentificacao;
+      impressoras.Post;
+
+    end;
+
+
+    Result:=AjustaEstadoImpressoras(aEstadoImpressoras);
+
+
+  except
+    on E: Exception do
+    begin
+      Result:=False;
+       GravarLog('L-978 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+
+end;
+
+Function TfPrinciMizioServImpressoras.AtualizaPainelImpressora(aPorta:String):Boolean;
+var
+  i:integer;
+  vlID:String;
+  vlTciCodigo:String;
+  vlTciPorta:String;
+  vlMitIdentificacao:String;
+  Value: TJSONValue;
+
+begin
+
+  try
+     Result:=False;
+
+     if not impressoras.Active then
+      Exit;
+
+      if impressoras.locate('porta',aPorta,[]) then
+      begin
+        vlID:=impressorasID.AsString;
+
+
+        Result:=True;
+      end;
+
+
+  except
+    on E: Exception do
+    begin
+      Result:=False;
+       GravarLog('L-1100 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+function TfPrinciMizioServImpressoras.EstadoImpressora(aID:String;aPosPrinter:TACBrPosPrinter; aPorta:String): String;
+var
+  vlStatusPOS:TACBrPosPrinterStatus;
+
+begin
+
+  try
+    if PingIP(aPorta) then
+    begin
+
+
+
+      if not aPosPrinter.Ativo then
+      begin
+        ConfiguraImpressora(aID,aPorta);
+        aPosPrinter.ArqLOG := ParamStr(0)+'logs\'+vpCozinha+'_impressora'+aPosPrinter.Name+'.txt' ;
+        aPosPrinter.Ativar ;
+      end;
+
+      if aPosPrinter.Ativo then
+      begin
+        vlStatusPOS:= aPosPrinter.LerStatusImpressora;
+
+        if stTampaAberta in vlStatusPOS then
+         Result:='7'
+        else if stPoucoPapel in vlStatusPOS then
+          Result:='2'
+        else if stSemPapel in vlStatusPOS then
+          Result:='3'
+        else if stGavetaAberta in vlStatusPOS then
+          Result:='4'
+        else if stImprimindo in vlStatusPOS then
+          Result:='5'
+        else if stOffLine in vlStatusPOS then
+          Result:='6'
+        else if stErroLeitura in vlStatusPOS then
+         Result:='8'
+        else if stErro in vlStatusPOS then
+          Result:='0'
+        else
+         Result:='1';
+
+      end
+      else
+        Result:='0';
+
+    end
+    else
+      Result:='0';
+
+  except
+  on E: Exception do
+    begin
+       GravarLog('L-1047 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+       GravarLog('L-1048 '+DateTimeToStr(Now())+' '+aPorta);
+
+      if ACBrPosPrinter1.Ativo then
+        ACBrPosPrinter1.Desativar;
+
+      result:='0';
+    end;
+
+  end;
+
+end;
+
+
+
+
+
+// busca de pedidos nas pastas:
+
+constructor TFileSearcher.Create(CreateSuspended: boolean; const Path, Mask: string;
+  IncludeSubDir: boolean);
+begin
+  inherited Create(CreateSuspended);
+  FPath := Path;
+  FMask := Mask;
+  FIncludeSubDir := IncludeSubDir;
+end;
+
+procedure TFileSearcher.Execute;
+begin
+  FindFiles;
+end;
+
+procedure TFileSearcher.UpdateTheMemo;
+var
+  vlNomeArquivo:string;
+begin
+  try
+    if pos('entrega',FPath)>0 then
+      fPrinciMizioServImpressoras.mmFilaEntrega.Lines.Add(ExtractFileName(FItemToAdd))
+    else
+      fPrinciMizioServImpressoras.mmFilaSalao.Lines.Add(ExtractFileName(FItemToAdd));
+
+    vlNomeArquivo:=ChangeFileExt(FItemToAdd,'.imp');
+    RenameFile(FItemToAdd,vlNomeArquivo);
+  except
+    on E: Exception do
+    begin
+
+    end;
+
+  end;
+end;
+
+function TFileSearcher.FindFiles: integer;
+var
+  FindResult: integer;
+  SearchRec: TSearchRec;
+  ThisPath: string;
+begin
+  ThisPath := FPath;
+  Result := 0;
+  FindResult := FindFirst(FPath + FMask, faAnyFile and not faDirectory, SearchRec);
+  while FindResult = 0 do
+  begin
+    FItemToAdd := FPath + SearchRec.Name;
+    Synchronize(UpdateTheMemo);
+    Result := Result + 1;
+    FindResult := FindNext(SearchRec);
+  end;
+  System.SysUtils.FindClose(SearchRec);
+  if not FIncludeSubDir then
+    Exit;
+  FindResult := FindFirst(IncludeTrailingBackslash(ThisPath) + '*.*', faDirectory, SearchRec);
+  while FindResult = 0 do
+  begin
+    if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
+    begin
+      FPath := IncludeTrailingBackslash(ThisPath + SearchRec.Name);
+      FIncludeSubDir := true;
+      Result := Result + FindFiles();
+    end;
+
+    FindResult := FindNext(SearchRec);
+  end;
+  System.SysUtils.FindClose(SearchRec);
+
+end;
+
+
+
+
+
+
+end.

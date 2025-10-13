@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3889837E-BFBE-4B0E-9C5C-E6DB50B033E3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MizioImpressoras\MizioImpressoras.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MonitorMizioImpressoras\MonitorMizioImpressoras.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MizioServidorImpressoras\MizioServidorImpressoras.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MonitorMizioServidorImpressoras\MonitorMizioServidorImpressoras.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MizioImpressoras">
+        <MSBuild Projects="MizioImpressoras\MizioImpressoras.dproj"/>
+    </Target>
+    <Target Name="MizioImpressoras:Clean">
+        <MSBuild Projects="MizioImpressoras\MizioImpressoras.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MizioImpressoras:Make">
+        <MSBuild Projects="MizioImpressoras\MizioImpressoras.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MonitorMizioImpressoras">
+        <MSBuild Projects="MonitorMizioImpressoras\MonitorMizioImpressoras.dproj"/>
+    </Target>
+    <Target Name="MonitorMizioImpressoras:Clean">
+        <MSBuild Projects="MonitorMizioImpressoras\MonitorMizioImpressoras.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MonitorMizioImpressoras:Make">
+        <MSBuild Projects="MonitorMizioImpressoras\MonitorMizioImpressoras.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MizioServidorImpressoras">
+        <MSBuild Projects="MizioServidorImpressoras\MizioServidorImpressoras.dproj"/>
+    </Target>
+    <Target Name="MizioServidorImpressoras:Clean">
+        <MSBuild Projects="MizioServidorImpressoras\MizioServidorImpressoras.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MizioServidorImpressoras:Make">
+        <MSBuild Projects="MizioServidorImpressoras\MizioServidorImpressoras.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MonitorMizioServidorImpressoras">
+        <MSBuild Projects="MonitorMizioServidorImpressoras\MonitorMizioServidorImpressoras.dproj"/>
+    </Target>
+    <Target Name="MonitorMizioServidorImpressoras:Clean">
+        <MSBuild Projects="MonitorMizioServidorImpressoras\MonitorMizioServidorImpressoras.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MonitorMizioServidorImpressoras:Make">
+        <MSBuild Projects="MonitorMizioServidorImpressoras\MonitorMizioServidorImpressoras.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MizioImpressoras;MonitorMizioImpressoras;MizioServidorImpressoras;MonitorMizioServidorImpressoras"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MizioImpressoras:Clean;MonitorMizioImpressoras:Clean;MizioServidorImpressoras:Clean;MonitorMizioServidorImpressoras:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MizioImpressoras:Make;MonitorMizioImpressoras:Make;MizioServidorImpressoras:Make;MonitorMizioServidorImpressoras:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

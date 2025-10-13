@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/11/26 14:23:25.000.945,C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.aiq.CFGGOU.pas=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.aiq.AIQ.pas</Transaction>
+    <Transaction>2021/11/28 10:48:02.000.936,C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.aiq.AIQ.pas=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\Entity\aiq\GourmetServer.Model.Entity.aiq.AIQ.pas</Transaction>
+    <Transaction>2022/02/15 19:23:05.000.283,C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.dfm=C:\fontes\gourmet.1\aiq\Unit1.dfm</Transaction>
+    <Transaction>2022/02/15 19:23:25.000.486,C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.grp.grp=C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.grp</Transaction>
+    <Transaction>2022/02/15 19:23:25.000.486,C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.grp.dfm=C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.dfm</Transaction>
+    <Transaction>2022/07/30 16:57:13.000.861,C:\fontes\gourmet.1\aiq\Unit1.dfm=C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.czn.dfm</Transaction>
+    <Transaction>2023/05/26 15:14:03.000.959,C:\fontes\gourmet.1\aiq\DataModule\GourmetAIQ.DataModulo.ccx.dfm=C:\fontes\gourmet.1\aiq\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

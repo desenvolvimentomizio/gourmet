@@ -1,0 +1,34 @@
+inherited Form1_iPhone55in: TForm1_iPhone55in
+  ClientHeight = 716
+  ClientWidth = 414
+  DesignerMasterStyle = 0
+  inherited Panel3: TPanel
+    Size.Width = 414.000000000000000000
+    Size.Height = 666.000000000000000000
+    inherited ImageControl3: TImageControl
+      Size.Width = 314.000000000000000000
+      Size.Height = 566.000000000000000000
+      inherited RcMensagem: TRoundRect
+        Position.Y = 484.000000000000000000
+        Size.Width = 254.000000000000000000
+        inherited lbMensagem: TLabel
+          Size.Width = 254.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+  end
+  inherited Rectangle2: TRectangle
+    Size.Width = 414.000000000000000000
+    inherited btConfiguracao: TButton
+      Position.X = 282.000000000000000000
+      Size.Width = 44.000000000000000000
+    end
+    inherited Edit1: TEdit
+      Position.X = 326.000000000000000000
+    end
+    inherited Label1: TLabel
+      Size.Width = 272.000000000000000000
+    end
+  end
+end

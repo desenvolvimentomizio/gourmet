@@ -1,0 +1,650 @@
+unit UntIngredienteComum;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, db,
+  Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ComCtrls;
+
+type
+  TFrmIngredienteComum = class(TForm)
+    Panel1: TPanel;
+    Panel11: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    DBGrid3: TDBGrid;
+    Panel6: TPanel;
+    Label1: TLabel;
+    Panel7: TPanel;
+    PnSabores: TPanel;
+    Panel10: TPanel;
+    Panel12: TPanel;
+    Label6: TLabel;
+    Panel9: TPanel;
+    BtnCardRetornar: TButton;
+    Button2: TButton;
+    PnMesas: TPanel;
+    Panel8: TPanel;
+    Panel16: TPanel;
+    Panel17: TPanel;
+    PcAdicionais: TPageControl;
+    TabItensSelecionados: TTabSheet;
+    DBGrid1: TDBGrid;
+    Panel13: TPanel;
+    Panel14: TPanel;
+    TabItensdisponiveis: TTabSheet;
+    DBGridAdicionais: TDBGrid;
+    Panel18: TPanel;
+    Panel19: TPanel;
+    Button3: TButton;
+    Panel20: TPanel;
+    Panel21: TPanel;
+    EdtBuscaItem: TEdit;
+    Label7: TLabel;
+    Button4: TButton;
+    DBText1: TDBText;
+    Button7: TButton;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Label4: TLabel;
+    DBEdit2: TDBEdit;
+    Label5: TLabel;
+    Button6: TButton;
+    EdtQtde: TDBEdit;
+    Label2: TLabel;
+    Button5: TButton;
+    Panel15: TPanel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    EdtCopos: TDBEdit;
+    EdtPratos: TDBEdit;
+    Panel22: TPanel;
+    DBMemo1: TDBMemo;
+    Label3: TLabel;
+    PanelBpr: TPanel;
+    DBGrid2: TDBGrid;
+    Panel24: TPanel;
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure EdtBuscaItemChange(Sender: TObject);
+    procedure EdtBuscaItemEnter(Sender: TObject);
+    procedure DBGridAdicionaisDblClick(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure DBGrid3Exit(Sender: TObject);
+    procedure DBGrid1Exit(Sender: TObject);
+    procedure TabItensdisponiveisShow(Sender: TObject);
+    procedure BtnCardRetornarClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGridAdicionaisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid3KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtQtdeExit(Sender: TObject);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid3KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EdtBuscaItemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EdtCoposExit(Sender: TObject);
+    procedure EdtPratosExit(Sender: TObject);
+    procedure EdtCoposEnter(Sender: TObject);
+    procedure EdtPratosEnter(Sender: TObject);
+    procedure DBGrid3Enter(Sender: TObject);
+    procedure DBGrid2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    procedure MostraTab(Tab: TTabSheet);
+    procedure IncluirItemAdicional;
+    procedure ConfirmaItem;
+    procedure PreparaInclusao;
+
+  public
+    { Public declarations }
+    vpSbrCodigo: Integer;
+    vpConfirma: boolean;
+  end;
+
+var
+  FrmIngredienteComum: TFrmIngredienteComum;
+
+implementation
+
+uses
+  UntDmDados, UntPrincipal;
+
+{$R *.dfm}
+
+procedure TFrmIngredienteComum.BtnCardRetornarClick(Sender: TObject);
+begin
+{ if EdtQtde.Field.AsFloat>99 then
+ begin
+   showmessage('Quantidade acima de 99, não permitida!');
+   exit;
+ end;
+}
+
+
+  if not DmDados.Dbpr.DataSet.IsEmpty then
+  begin
+
+    DmDados.tbrd.append;
+    DmDados.tbrdsfnid.AsInteger :=dmdados.itoitoitem.AsInteger+1;
+    DmDados.tbrdsfncodigo.AsInteger := 0;
+    DmDados.tbrdbrdcodigo.AsInteger := DmDados.Dbpr.DataSet.FieldByName('brdcodigo').AsInteger;
+    DmDados.tbrd.post;
+    // DmDados.tbrd.ApplyUpdates;
+
+  end;
+
+  if (DmDados.dsbr.DataSet.State = dsEdit) or (DmDados.dsbr.DataSet.State = dsInsert) then
+  begin
+    DmDados.dsbr.DataSet.post;
+  end;
+
+  if (DmDados.dvtsbradc.DataSet.State = dsEdit) or (DmDados.dvtsbradc.DataSet.State = dsInsert) then
+  begin
+    DmDados.dvtsbradc.DataSet.post;
+  end;
+
+  ConfirmaItem;
+end;
+
+procedure TFrmIngredienteComum.Button1Click(Sender: TObject);
+begin
+  if not DmDados.vtsbradc.Active then
+    DmDados.vtsbradc.Open;
+
+  if not DmDados.sbr.IsEmpty then
+    MostraTab(TabItensdisponiveis)
+  else
+    ShowMessage('Não possui ingredientes para esse item !');
+end;
+
+procedure TFrmIngredienteComum.Button2Click(Sender: TObject);
+begin
+  vpConfirma := False;
+  Close;
+end;
+
+procedure TFrmIngredienteComum.Button3Click(Sender: TObject);
+begin
+  IncluirItemAdicional
+end;
+
+procedure TFrmIngredienteComum.Button4Click(Sender: TObject);
+begin
+  if DmDados.vtsbradc.IsEmpty then
+    DmDados.vtsbradc.Close;
+
+  MostraTab(TabItensSelecionados);
+end;
+
+procedure TFrmIngredienteComum.Button5Click(Sender: TObject);
+begin
+  if DmDados.titoqtde.AsInteger >= 1 then
+    DmDados.titoqtde.AsInteger := DmDados.titoqtde.AsInteger + 1;
+end;
+
+procedure TFrmIngredienteComum.Button6Click(Sender: TObject);
+begin
+  if DmDados.titoqtde.AsInteger > 1 then
+    DmDados.titoqtde.AsInteger := DmDados.titoqtde.AsInteger - 1;
+end;
+
+procedure TFrmIngredienteComum.ConfirmaItem;
+var
+  vlisiitem: Integer;
+
+  vlorcorcchave: Integer;
+  vlClbCodigo: Integer;
+  vlflacodigo: Integer;
+
+begin
+  if (Length(EdtQtde.Text) > 0) and (StrToInt(EdtQtde.Text) = 0) then
+    Exit;
+
+  if DmDados.tito.State in [dsInsert, dsEdit] then
+  begin
+    if PanelBpr.Visible then
+      DmDados.titosfncodigo.AsInteger := 0;
+    DmDados.tito.post;
+
+    DmDados.tito.ApplyUpdates;
+
+    if not DmDados.sbr.IsEmpty then
+    begin
+      if not DmDados.tisi.Active then
+        DmDados.tisi.Open;
+
+      // gravando saberes e ingredients
+      DmDados.sbr.DisableControls;
+
+      DmDados.sbr.First;
+      vlisiitem := 1;
+      while not DmDados.sbr.Eof do
+      begin
+        if (DmDados.sbrtsicodigo.AsInteger <> DmDados.Usuario.tsicodigo) then
+        begin
+          DmDados.tisi.append;
+          DmDados.tisisbrcodigo.AsInteger := DmDados.sbrsbrcodigo.AsInteger;
+          DmDados.tisiprocodigo.AsInteger := DmDados.sbrprocodigo.AsInteger;
+          DmDados.tisitsicodigo.AsInteger := DmDados.sbrtsicodigo.AsInteger;
+          DmDados.tisiisiitem.AsInteger := vlisiitem; // titosfnid.AsInteger;
+          DmDados.tisiisitipo.AsInteger := DmDados.sbrtipo.AsInteger;
+          DmDados.tisisfnid.AsInteger := DmDados.titosfnid.AsInteger;
+          DmDados.tisiisiquantidade.AsInteger := 1;
+          if DmDados.bprbprchave.AsString <> '' then
+          begin
+            DmDados.tisibprchave.AsInteger := DmDados.bprbprchave.AsInteger;
+          end
+          else
+          begin
+            DmDados.tisibprchave.AsInteger := 0;
+          end;
+
+          DmDados.tisisfncodigo.AsInteger := 0;
+
+          if Length(DmDados.titoobs.AsString) > 0 then
+            DmDados.tisiobs.AsString := DmDados.titoobs.AsString;
+          DmDados.tisi.post;
+        end;
+        DmDados.sbr.Next;
+        vlisiitem := vlisiitem + 1;
+      end;
+      DmDados.sbr.EnableControls;
+      DmDados.sbr.Close;
+      vlisiitem := 1;
+      if DmDados.vtsbradc.Active then
+      begin
+        DmDados.vtsbradc.DisableControls;
+        if not DmDados.vtsbradc.IsEmpty then
+        begin
+          DmDados.vtsbradc.First;
+          while not DmDados.vtsbradc.Eof do
+          begin
+            DmDados.tisi.append;
+            DmDados.tisisbrcodigo.AsInteger := vpSbrCodigo; // vtsbradcsbrcodigo.AsInteger;
+            DmDados.tisiprocodigo.AsInteger := DmDados.vtsbradcprocodigo.AsInteger;
+            DmDados.tisitsicodigo.AsInteger := DmDados.vtsbradctsicodigo.AsInteger;
+            DmDados.tisiisiitem.AsInteger := vlisiitem;
+            DmDados.tisiisitipo.AsInteger := 1;
+            DmDados.tisisfnid.AsInteger := DmDados.titosfnid.AsInteger;
+            if DmDados.vtsbradctsitipo.AsInteger = 1 then
+            begin
+              DmDados.tisiisiquantidade.AsInteger := DmDados.vtsbradctsicodigo.AsInteger;
+              DmDados.tisitsicodigo.AsInteger := 3;
+            end
+            else
+            begin
+              DmDados.tisiisiquantidade.AsInteger := 1;
+            end;
+            if DmDados.bprbprchave.AsString <> '' then
+            begin
+              DmDados.tisibprchave.AsInteger := DmDados.bprbprchave.AsInteger;
+            end
+            else
+            begin
+              DmDados.tisibprchave.AsInteger := 0;
+            end;
+
+            DmDados.tisisfncodigo.AsInteger := 0;
+            if Length(DmDados.titoobs.AsString) > 0 then
+              DmDados.tisiobs.AsString := DmDados.titoobs.AsString;
+            DmDados.tisi.post;
+            DmDados.vtsbradc.Next;
+            vlisiitem := vlisiitem + 1;
+          end;
+        end;
+        DmDados.vtsbradc.EnableControls;
+      end;
+    end;
+
+    if DmDados.tisi.Active then
+      DmDados.tisi.ApplyUpdates;
+
+    // borda produtos fracionados
+    if DmDados.tbrd.Active then
+      DmDados.tbrd.ApplyUpdates;
+
+    vlorcorcchave := DmDados.orcorcchave.AsInteger;
+    vlClbCodigo := DmDados.Usuario.ClbCodigo;
+    vlflacodigo := DmDados.cfgmcfgflacodigo.AsInteger;
+
+    DmDados.MobGravaItens.Close;
+    DmDados.MobGravaItens.Params[0].AsInteger := DmDados.orcorcchave.AsInteger;
+    DmDados.MobGravaItens.Params[1].AsInteger := DmDados.Usuario.ClbCodigo;
+    DmDados.MobGravaItens.Params[2].AsInteger := DmDados.cfgmcfgflacodigo.AsInteger;
+    DmDados.MobGravaItens.Params[3].AsInteger := 2; // tipo 2 para gravar itens do tipo gourmet
+
+    DmDados.MobGravaItens.ExecProc;
+    if DmDados.MobGravaItens.Fields[0].AsInteger = 0 then
+    begin
+      if DmDados.vtItens.Active then
+      begin
+        DmDados.vtItens.EmptyDataSet;
+      end;
+    end
+    else
+      ShowMessage(DmDados.MobGravaItens.Fields[1].AsString);
+  end;
+  PreparaInclusao;
+  vpConfirma := True;
+  Close;
+
+end;
+
+procedure TFrmIngredienteComum.EdtQtdeExit(Sender: TObject);
+begin
+  if Length(EdtQtde.Text) = 0 then
+    DmDados.titoqtde.AsInteger := 1;
+
+  // EdtQtde.Text := '1';
+end;
+
+procedure TFrmIngredienteComum.EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not(Key in ['0' .. '9', Chr(8)]) then
+    Key := #0
+end;
+
+procedure TFrmIngredienteComum.DBGrid1Exit(Sender: TObject);
+begin
+  if DmDados.vtsbradc.State in [dsInsert, dsEdit] then
+    if DmDados.vtsbradcpronome.AsString = '' then
+      DmDados.vtsbradc.Cancel;
+
+  if DmDados.vtsbradc.State = dsEdit then
+    DmDados.vtsbradc.post;
+end;
+
+procedure TFrmIngredienteComum.DBGrid1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 Then
+    if DmDados.vtsbradc.State = dsInsert then
+    begin
+      Key := 0;
+      DmDados.vtsbradc.Cancel;
+    end;
+
+  If (((Shift = [ssCtrl]) And (Key = 46))) or ((ssCtrl in Shift) and (Key = VK_DELETE)) Then
+    Abort;
+end;
+
+procedure TFrmIngredienteComum.DBGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 Then
+    if DmDados.vtsbradc.State = dsInsert then
+    begin
+      Key := 0;
+      DmDados.vtsbradc.Cancel;
+    end;
+end;
+
+procedure TFrmIngredienteComum.DBGrid2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  If (((Shift = [ssCtrl]) And (Key = 46))) or ((ssCtrl in Shift) and (Key = VK_DELETE)) Then
+    Abort;
+end;
+
+procedure TFrmIngredienteComum.DBGridAdicionaisDblClick(Sender: TObject);
+begin
+  IncluirItemAdicional;
+end;
+
+procedure TFrmIngredienteComum.DBGridAdicionaisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = 38) and (DmDados.Adc.Bof) Then
+  begin
+    Key := 0;
+    EdtBuscaItem.SelectAll;
+    EdtBuscaItem.SetFocus;
+  end;
+  If (((Shift = [ssCtrl]) And (Key = 46))) or ((ssCtrl in Shift) and (Key = VK_DELETE)) Then
+    Abort;
+end;
+
+procedure TFrmIngredienteComum.DBGrid3Enter(Sender: TObject);
+begin
+  if not(DmDados.sbr.State in [dsInsert, dsEdit]) then
+    DmDados.sbr.Edit;
+
+end;
+
+procedure TFrmIngredienteComum.DBGrid3Exit(Sender: TObject);
+begin
+  if DmDados.sbr.State in [dsInsert, dsEdit] then
+    if DmDados.sbrpronome.AsString = '' then
+      DmDados.sbr.Cancel;
+
+  if DmDados.sbr.State = dsEdit then
+    DmDados.sbr.post;
+end;
+
+procedure TFrmIngredienteComum.DBGrid3KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 Then
+    if DmDados.sbr.State = dsInsert then
+    begin
+      Key := 0;
+      DmDados.sbr.Cancel;
+    end;
+
+  If (((Shift = [ssCtrl]) And (Key = 46))) or ((ssCtrl in Shift) and (Key = VK_DELETE)) Then
+    Abort;
+end;
+
+procedure TFrmIngredienteComum.DBGrid3KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 Then
+    if DmDados.sbr.State = dsInsert then
+    begin
+      Key := 0;
+      DmDados.sbr.Cancel;
+    end;
+end;
+
+procedure TFrmIngredienteComum.EdtBuscaItemChange(Sender: TObject);
+begin
+  if not DmDados.Adc.IsEmpty then
+    DmDados.Adc.Locate('pronome', EdtBuscaItem.Text, [loCaseInsensitive, loPartialKey]);
+end;
+
+procedure TFrmIngredienteComum.EdtBuscaItemEnter(Sender: TObject);
+begin
+  EdtBuscaItem.Clear;
+end;
+
+procedure TFrmIngredienteComum.EdtBuscaItemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 Then
+  begin
+    Key := 0;
+    DBGridAdicionais.SetFocus
+  end;
+end;
+
+procedure TFrmIngredienteComum.EdtCoposEnter(Sender: TObject);
+begin
+  EdtCopos.SelectAll;
+end;
+
+procedure TFrmIngredienteComum.EdtCoposExit(Sender: TObject);
+begin
+  if Length(EdtCopos.Text) = 0 then
+    DmDados.titocopos.AsInteger := 0;
+end;
+
+procedure TFrmIngredienteComum.EdtPratosEnter(Sender: TObject);
+begin
+  EdtPratos.SelectAll;
+end;
+
+procedure TFrmIngredienteComum.EdtPratosExit(Sender: TObject);
+begin
+  if Length(EdtPratos.Text) = 0 then
+    DmDados.titopratos.AsInteger := 0;
+end;
+
+procedure TFrmIngredienteComum.FormShow(Sender: TObject);
+begin
+  // variavel de controle
+  vpConfirma := False;
+
+  // busca dados do quantidade de ingredientes
+  if not DmDados.tsi.Active then
+    DmDados.tsi.Open;
+
+  // abre tabela virtual de ingredientes adicionais
+  if not DmDados.vtsbradc.Active then
+    DmDados.vtsbradc.Open
+  else
+  begin
+    if DmDados.vtsbradc.Active then
+    begin
+      DmDados.vtsbradc.EmptyDataSet;
+    end;
+  end;
+
+  // Posicionando no primeiro registro
+  DmDados.sbr.First;
+
+  DmDados.bpr.Close;
+  DmDados.bpr.ParamByName('procodigo').AsInteger := DmDados.sbrsbrprocodigo.AsInteger;
+  DmDados.bpr.Open;
+
+  if not DmDados.bpr.IsEmpty then
+  begin
+    PanelBpr.Visible := True;
+  end
+  else
+  begin
+    PanelBpr.Visible := False;
+  end;
+
+  // ativa aba principal
+  MostraTab(TabItensSelecionados);
+  if EdtQtde.Field.AsString='' then
+  begin
+  EdtQtde.Field.AsInteger := 1;
+  end;
+
+end;
+
+procedure TFrmIngredienteComum.IncluirItemAdicional;
+begin
+  with DmDados do
+  begin
+    if not Adc.IsEmpty then
+    begin
+      { if (sbr.Locate('procodigo', Adcprocodigo.AsInteger, [])) then
+        begin
+        ShowMessage('Esse ingrediente faz parte da lista principal !');
+        MostraTab(TabItensSelecionados);
+        Exit;
+        end; }
+
+      if not(vtsbradc.Locate('procodigo', Adcprocodigo.AsInteger, [])) then
+      begin
+        if tsi.Locate('tsicodigo', Usuario.tsicodigo, []) then
+        begin
+          vtsbradc.append;
+          vtsbradcprocodigo.AsInteger := Adcprocodigo.AsInteger;
+          vtsbradcpronome.AsString := Adcpronome.AsString;
+          vtsbradctsicodigo.AsInteger := 1;
+          vtsbradcsbrcodigo.AsInteger := vpSbrCodigo; // sbrprocodigo.AsInteger;
+          vtsbradctsitipo.AsInteger := 1;
+          vtsbradc.post;
+        end;
+      end
+      else
+        ShowMessage('Ingrediente já adicionado')
+    end;
+    MostraTab(TabItensSelecionados);
+  end;
+end;
+
+procedure TFrmIngredienteComum.MostraTab(Tab: TTabSheet);
+var
+  vlGrpCodigo: string;
+  vlProCodigo: string;
+begin
+  // desabilitando TabSheets
+  TabItensdisponiveis.TabVisible := False;
+  TabItensSelecionados.TabVisible := False;
+
+  // Abrindo Grupos do Cardapio
+  if Tab = TabItensdisponiveis then
+  begin
+
+    // mostra ingredientes adicionais
+    with DmDados do
+    begin
+      // abrindo lista de ingredientes adicionais
+
+      consulta.Close;
+      consulta.SQL.Text := 'select grpcodigo,procodigo from sbr where sbrcodigo=' + self.vpSbrCodigo.ToString;
+      consulta.Open;
+
+      if consulta.FieldByName('grpcodigo').AsString <> '' then
+      begin
+        vlGrpCodigo := consulta.FieldByName('grpcodigo').AsString;
+      end
+      else
+      begin
+        consulta.Close;
+        consulta.SQL.Text := 'select grpcodigo,procodigo from sbr where sbrcodigo=' + self.vpSbrCodigo.ToString;
+        consulta.Open;
+
+        vlProCodigo := consulta.FieldByName('procodigo').AsString;
+        consulta.Close;
+        consulta.SQL.Text := 'select grpcodigo,procodigo from pro where procodigo=' + vlProCodigo;
+        consulta.Open;
+
+        vlGrpCodigo := consulta.FieldByName('grpcodigo').AsString;
+
+      end;
+
+      Adc.Close;
+      Adc.Params[0].AsInteger := Usuario.tsicodigo;
+      Adc.Params[1].AsString := vlGrpCodigo;
+      Adc.Open;
+
+      if Adc.IsEmpty then
+      begin
+        ShowMessage('Não Existe adicionais cadastrados !');
+        PcAdicionais.ActivePage := TabItensSelecionados;
+        Exit;
+      end;
+    end;
+  end;
+  Tab.TabVisible := True;
+  PcAdicionais.ActivePage := Tab;
+end;
+
+procedure TFrmIngredienteComum.PreparaInclusao;
+begin
+  with DmDados do
+  begin
+    { tito.Close;
+      tito.Open; }
+    if not vtsbradc.IsEmpty then
+    begin
+      if DmDados.vtsbradc.Active then
+      begin
+        vtsbradc.EmptyDataSet;
+      end;
+    end;
+  end;
+end;
+
+procedure TFrmIngredienteComum.TabItensdisponiveisShow(Sender: TObject);
+begin
+  EdtBuscaItem.Clear;
+  EdtBuscaItem.SetFocus;
+end;
+
+end.

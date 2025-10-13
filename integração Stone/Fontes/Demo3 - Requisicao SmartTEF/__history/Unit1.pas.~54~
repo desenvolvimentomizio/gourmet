@@ -1,0 +1,130 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,system.Net.HttpClient,system.JSON;
+
+type
+  TForm1 = class(TForm)
+    Memo1: TMemo;
+    Button1: TButton;
+    cboPagamento: TComboBox;
+    edtValor: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure Button1Click(Sender: TObject);
+  private
+    function valor(pValor: string): string;
+
+  public
+
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+uses
+  System.Net.URLClient;
+
+{$R *.dfm}
+
+function TForm1.valor(pValor: string): string;
+begin
+  pValor := StringReplace(pValor, ',', '.', [rfReplaceAll]);
+  Result := StringReplace(pValor, '.', '' , [rfReplaceAll]);
+end;
+procedure TForm1.Button1Click(Sender: TObject);
+var
+httpClient    : THTTPClient;
+requestStream : TStringStream;
+Response      : IHTTPResponse;
+Parcelas      : string;
+ValorPagoStr  : string;
+xValTransacao : integer;
+obj,objR      : TJSONObject;
+messageValue  : TJSONValue;
+begin
+         httpClient                    := THTTPClient.Create;
+         HttpClient.ContentType        := 'application/json';
+         HttpClient.Accept             := '/';
+         HttpClient.SendTimeout        := 120000;
+         HttpClient.FResponseTimeout   := 120000;
+         HttpClient.FConnectionTimeout := 120000;
+         requestStream                 := TStringStream.Create;
+
+         if cboPagamento.ItemIndex = 1 then
+          Parcelas := '2'
+         else
+          Parcelas := '1';
+
+
+         Response                      := httpClient.post('http://192.168.1.47:9911/Pagamento',requestStream, nil,
+                                           TNetHeaders.Create(
+                                                            TNameValuePair.Create('tipopagamento'   ,cboPagamento.Text),
+                                                            TNameValuePair.Create('valor' , valor(edtValor.Text) ),
+                                                            TNameValuePair.Create('parcelas' , Parcelas) ,
+                                                            TNameValuePair.Create('pedido' , '112233')
+                                                            )
+                                                            );
+
+         // Tenta parsear o JSON de resposta
+        obj := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONObject;
+
+        if Assigned(obj) then
+        try
+          // Adiciona o status no Memo, verificando se a chave "status" existe
+          if Assigned(obj.GetValue('status')) then
+            Memo1.Lines.Add('status: ' + obj.GetValue('status').Value)
+          else
+            Memo1.Lines.Add('status não encontrado no JSON');
+
+          // Extrair o valor da chave "message", que contém um JSON em formato de string
+          messageValue := obj.GetValue('message');
+
+          if Assigned(messageValue) then
+          begin
+            // Parsear o conteúdo da chave "message" como um novo objeto JSON
+            objR := TJSONObject.ParseJSONValue(messageValue.Value) as TJSONObject;
+
+            if Assigned(objR) then
+            try
+              // Inserir cada valor do JSON interno no Memo
+              if Assigned(objR.GetValue('NSU')) then
+                Memo1.Lines.Add('NSU: ' + objR.GetValue('NSU').Value);
+
+              if Assigned(objR.GetValue('TipoTransacao')) then
+                Memo1.Lines.Add('TipoTransacao: ' + objR.GetValue('TipoTransacao').Value);
+
+              if Assigned(objR.GetValue('Bandeira')) then
+                Memo1.Lines.Add('Bandeira: ' + objR.GetValue('Bandeira').Value);
+
+              if Assigned(objR.GetValue('NomeAdquirente')) then
+                Memo1.Lines.Add('NomeAdquirente: ' + objR.GetValue('NomeAdquirente').Value);
+
+              if Assigned(objR.GetValue('CnpjAdquirente')) then
+                Memo1.Lines.Add('CnpjAdquirente: ' + objR.GetValue('CnpjAdquirente').Value);
+            finally
+              objR.Free; // Libera o objeto JSON aninhado
+            end
+            else
+              Memo1.Lines.Add('Erro: mensagem JSON inválida');
+          end
+          else
+            Memo1.Lines.Add('message não encontrado no JSON');
+        finally
+          obj.Free; // Libera o objeto JSON principal
+        end
+        else
+          Memo1.Lines.Add('Erro ao processar o JSON principal');
+
+
+         Memo1.Lines.Add(StringOfChar('=',50));
+end;
+
+
+
+end.

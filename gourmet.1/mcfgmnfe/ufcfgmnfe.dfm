@@ -1,0 +1,1079 @@
+inherited fcfgmnfe: Tfcfgmnfe
+  ActiveControl = cfgserienfce
+  Caption = 'Configura'#231#245'es de NFes'
+  ClientHeight = 630
+  ClientWidth = 975
+  ExplicitWidth = 991
+  ExplicitHeight = 669
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label16: TLabel [0]
+    Left = 12
+    Top = 203
+    Width = 136
+    Height = 13
+    CustomHint = BalloonHint
+    Caption = 'Certificado Digital do tipo A1'
+  end
+  inherited pbotoes: TPanel
+    Top = 601
+    Width = 975
+    TabOrder = 1
+    ExplicitTop = 601
+    ExplicitWidth = 897
+    inherited bconfirma: TBitBtn
+      Left = 821
+      ExplicitLeft = 743
+    end
+    inherited bcancela: TBitBtn
+      Left = 896
+      ExplicitLeft = 818
+    end
+    inherited bfechar: TBitBtn
+      Left = 756
+      ExplicitLeft = 678
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 975
+    Height = 601
+    TabOrder = 0
+    ExplicitWidth = 897
+    ExplicitHeight = 601
+    inherited Principal: TTabSheet
+      ExplicitWidth = 967
+      ExplicitHeight = 573
+      object Bevel2: TBevel
+        Left = 3
+        Top = 438
+        Width = 570
+        Height = 122
+        CustomHint = BalloonHint
+      end
+      object Label28: TLabel
+        Left = 8
+        Top = 222
+        Width = 61
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'S'#233'rie da NFE'
+        FocusControl = cfgserienfe
+      end
+      object Label29: TLabel
+        Left = 232
+        Top = 222
+        Width = 142
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'N'#250'mero da '#250'ltima NFE emitida'
+        FocusControl = cfgnumeronfe
+      end
+      object Label60: TLabel
+        Left = 492
+        Top = 222
+        Width = 52
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nr. de Vias'
+        FocusControl = cfgviasnfe
+      end
+      object Label30: TLabel
+        Left = 8
+        Top = 249
+        Width = 110
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Certificado Digital NF-e'
+        FocusControl = cfgnumecertif
+      end
+      object Label34: TLabel
+        Left = 10
+        Top = 447
+        Width = 99
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Primeira Observa'#231#227'o'
+        FocusControl = cfgobs1
+      end
+      object Label35: TLabel
+        Left = 10
+        Top = 474
+        Width = 103
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Segunda Observa'#231#227'o'
+        FocusControl = cfgobs2
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 303
+        Width = 156
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Descri'#231#227'o reduzida dos produtos'
+        FocusControl = cfgnumecertif
+      end
+      object Label6: TLabel
+        Left = 10
+        Top = 503
+        Width = 100
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Terceira Observa'#231#227'o'
+        FocusControl = cfgobs3
+      end
+      object Label7: TLabel
+        Left = 10
+        Top = 530
+        Width = 95
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Quarta Observa'#231#227'o'
+        FocusControl = cfgobs4
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 413
+        Width = 147
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = ' Oberva'#231#245'es padr'#245'es das NFs '
+        Transparent = False
+      end
+      object Label9: TLabel
+        Left = 8
+        Top = 31
+        Width = 78
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'S'#233'rie da NFC - e'
+        FocusControl = cfgserienfce
+      end
+      object Label10: TLabel
+        Left = 253
+        Top = 31
+        Width = 153
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'N'#250'mero da '#250'ltima NFC-e emitida'
+        FocusControl = cfgnumeronfce
+      end
+      object Label11: TLabel
+        Left = 8
+        Top = 85
+        Width = 123
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '1'#186' C'#243'digo SCS de NFC - e'
+        FocusControl = cfgserienfce
+      end
+      object Label12: TLabel
+        Left = 8
+        Top = 112
+        Width = 123
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = '2'#186' C'#243'digo SCS de NFC - e'
+        FocusControl = cfgserienfce
+      end
+      object Label13: TLabel
+        Left = 271
+        Top = 330
+        Width = 103
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Diret'#243'rio NFEs/NFCEs'
+        FocusControl = cfgnumecertif
+      end
+      object SPSelecionarioDiretorioNFEs: TSpeedButton
+        Left = 550
+        Top = 327
+        Width = 23
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = '...'
+        OnClick = SPSelecionarioDiretorioNFEsClick
+      end
+      object Label14: TLabel
+        Left = 8
+        Top = 139
+        Width = 117
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Certificado Digital NFC-e'
+        FocusControl = cfgnumecertifa1
+      end
+      object Label15: TLabel
+        Left = 8
+        Top = 58
+        Width = 67
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CSC/ID Token'
+        FocusControl = cfgIdtokennfce
+      end
+      object Label17: TLabel
+        Left = 8
+        Top = 166
+        Width = 133
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Senha Certificado Digital A1'
+        FocusControl = cfgsenhacertificadoa1
+      end
+      object Label18: TLabel
+        Left = 276
+        Top = 276
+        Width = 30
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Senha'
+        FocusControl = cfgsenhacertificado
+        Visible = False
+      end
+      object Label22: TLabel
+        Left = 492
+        Top = 31
+        Width = 52
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nr. de Vias'
+        FocusControl = cfgviasnfce
+      end
+      object Label26: TLabel
+        Left = 8
+        Top = 276
+        Width = 149
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Utiliza'#231#227'o do c'#243'digo CEST ativo'
+        FocusControl = cfgcestativo
+      end
+      object Label27: TLabel
+        Left = 8
+        Top = 330
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Vers'#227'o da NFE'
+        FocusControl = cfgversao
+      end
+      object Label36: TLabel
+        Left = 8
+        Top = 359
+        Width = 111
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Texto axiliar para email'
+      end
+      object Label37: TLabel
+        Left = 287
+        Top = 166
+        Width = 108
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Arquivo Certificado A1'
+      end
+      object cfgserienfe: TDBEdit
+        Left = 179
+        Top = 219
+        Width = 31
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgserienfe'
+        DataSource = DSRegistro
+        TabOrder = 8
+      end
+      object cfgnumeronfe: TDBEdit
+        Left = 380
+        Top = 219
+        Width = 60
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgnumeronfe'
+        DataSource = DSRegistro
+        TabOrder = 9
+      end
+      object cfgviasnfe: TDBEdit
+        Left = 550
+        Top = 219
+        Width = 23
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgviasnfe'
+        DataSource = DSRegistro
+        TabOrder = 10
+      end
+      object cfgnumecertif: TDBEdit
+        Left = 179
+        Top = 246
+        Width = 309
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgnumecertif'
+        DataSource = DSRegistro
+        TabOrder = 11
+      end
+      object bbuscacerti: TButton
+        Left = 494
+        Top = 246
+        Width = 80
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Busca'
+        TabOrder = 12
+        OnClick = bbuscacertiClick
+      end
+      object cfgobs1: TDBEdit
+        Left = 179
+        Top = 444
+        Width = 43
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgobs1'
+        DataSource = DSRegistro
+        TabOrder = 18
+      end
+      object cfgobs2: TDBEdit
+        Left = 179
+        Top = 471
+        Width = 44
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgobs2'
+        DataSource = DSRegistro
+        TabOrder = 19
+      end
+      object cfgdescrinfe: TDBEdit
+        Left = 179
+        Top = 300
+        Width = 31
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgdescrinfe'
+        DataSource = DSRegistro
+        TabOrder = 15
+      end
+      object cfgobs3: TDBEdit
+        Left = 179
+        Top = 500
+        Width = 43
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgobs3'
+        DataSource = DSRegistro
+        TabOrder = 20
+      end
+      object cfgobs4: TDBEdit
+        Left = 179
+        Top = 527
+        Width = 44
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgobs4'
+        DataSource = DSRegistro
+        TabOrder = 21
+      end
+      object cfgserienfce: TDBEdit
+        Left = 179
+        Top = 28
+        Width = 31
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgserienfce'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object cfgnumeronfce: TDBEdit
+        Left = 412
+        Top = 28
+        Width = 60
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgnumeronfce'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object Panel1: TPanel
+        Left = 8
+        Top = 2
+        Width = 565
+        Height = 20
+        CustomHint = BalloonHint
+        BevelOuter = bvLowered
+        Caption = 
+          'Configura'#231#245'es para utiliza'#231#227'o da Nota Fiscal ao Consumidor Eletr' +
+          #244'nica NFCe'
+        Color = 12615680
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 22
+      end
+      object Panel2: TPanel
+        Left = 8
+        Top = 193
+        Width = 565
+        Height = 20
+        CustomHint = BalloonHint
+        BevelOuter = bvLowered
+        Caption = 'Configura'#231#245'es para utiliza'#231#227'o da Nota Fiscal Eletr'#244'nica NFE'
+        Color = 12615680
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 23
+      end
+      object cfgtoken1nfce: TDBEdit
+        Left = 179
+        Top = 82
+        Width = 309
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgtoken1nfce'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+      object cfgtoken2nfce: TDBEdit
+        Left = 179
+        Top = 109
+        Width = 309
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgtoken2nfce'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object cfgservargnfes: TDBEdit
+        Left = 380
+        Top = 327
+        Width = 164
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgservarqnfes'
+        DataSource = DSRegistro
+        TabOrder = 16
+      end
+      object cfgnumecertifa1: TDBEdit
+        Left = 179
+        Top = 136
+        Width = 309
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgnumecertifa1'
+        DataSource = DSRegistro
+        TabOrder = 5
+      end
+      object bbuscacertia1: TButton
+        Left = 494
+        Top = 136
+        Width = 80
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Busca'
+        TabOrder = 6
+        OnClick = bbuscacertia1Click
+      end
+      object cfgmodonfe: TDBRadioGroup
+        Left = 380
+        Top = 273
+        Width = 193
+        Height = 32
+        CustomHint = BalloonHint
+        Caption = ' Modo de Emiss'#227'o '
+        Columns = 2
+        DataField = 'cfgmodonfe'
+        DataSource = DSRegistro
+        Items.Strings = (
+          'Produ'#231#227'o'
+          'Homologa'#231#227'o')
+        TabOrder = 14
+        TabStop = True
+        Values.Strings = (
+          '1'
+          '2')
+      end
+      object cfgIdtokennfce: TDBEdit
+        Left = 179
+        Top = 55
+        Width = 45
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgIdtokennfce'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object cfgsenhacertificadoa1: TDBEdit
+        Left = 179
+        Top = 163
+        Width = 94
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgsenhacertificadoa1'
+        DataSource = DSRegistro
+        TabOrder = 7
+        OnExit = cfgsenhacertificadoa1Exit
+      end
+      object cfgsenhacertificado: TDBEdit
+        Left = 312
+        Top = 273
+        Width = 57
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgsenhacertificado'
+        DataSource = DSRegistro
+        TabOrder = 13
+        Visible = False
+        OnExit = cfgsenhacertificadoExit
+      end
+      object cfgviasnfce: TDBEdit
+        Left = 550
+        Top = 28
+        Width = 23
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgviasnfce'
+        DataSource = DSRegistro
+        TabOrder = 24
+      end
+      object cfgcestativo: TDBEdit
+        Left = 179
+        Top = 273
+        Width = 25
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgcestativo'
+        DataSource = DSRegistro
+        TabOrder = 25
+      end
+      object cfgversao: TDBEdit
+        Left = 179
+        Top = 327
+        Width = 69
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgversao'
+        DataSource = DSRegistro
+        TabOrder = 26
+      end
+      object cfgtextoemail: TDBMemo
+        Left = 179
+        Top = 354
+        Width = 394
+        Height = 44
+        CustomHint = BalloonHint
+        DataField = 'cfgtextoemail'
+        DataSource = DSRegistro
+        ScrollBars = ssBoth
+        TabOrder = 17
+      end
+      object btBuscaA1: TButton
+        Left = 494
+        Top = 163
+        Width = 80
+        Height = 22
+        CustomHint = BalloonHint
+        Caption = 'Carrega A1'
+        TabOrder = 27
+        OnClick = btBuscaA1Click
+      end
+      object cfgcertificadoa1: TDBMemo
+        Left = 408
+        Top = 163
+        Width = 80
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgcertificadoa1'
+        DataSource = DSRegistro
+        TabOrder = 28
+      end
+    end
+    object TSConfigEmail: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'Configura'#231#227'o Email'
+      ImageIndex = 1
+      object Bevel1: TBevel
+        Left = 8
+        Top = 27
+        Width = 565
+        Height = 127
+        CustomHint = BalloonHint
+      end
+      object Label8: TLabel
+        Left = 21
+        Top = 21
+        Width = 169
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = ' Dados para envio de email da NFE '
+        Transparent = False
+      end
+      object Label31: TLabel
+        Left = 12
+        Top = 51
+        Width = 131
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Servidor para envio de NFE'
+        FocusControl = cfgemailservidornfe
+      end
+      object Label1: TLabel
+        Left = 423
+        Top = 51
+        Width = 26
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Porta'
+        FocusControl = cfgemailservidornfe
+      end
+      object Label32: TLabel
+        Left = 12
+        Top = 78
+        Width = 115
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Email para envio de NFE'
+        FocusControl = cfgemailnfe
+      end
+      object Label33: TLabel
+        Left = 12
+        Top = 105
+        Width = 137
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Senha do Servidor email NFE'
+        FocusControl = cfgemailsenhanfe
+      end
+      object Label4: TLabel
+        Left = 12
+        Top = 132
+        Width = 158
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = ' Autentica'#231#227'o do servidor emails '
+      end
+      object cfgemailservidornfe: TDBEdit
+        Left = 179
+        Top = 48
+        Width = 229
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgemailservidornfe'
+        DataSource = DSRegistro
+        TabOrder = 0
+        OnExit = cfgemailservidornfeExit
+      end
+      object cfgmailporta: TDBEdit
+        Left = 455
+        Top = 48
+        Width = 37
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgmailportnfe'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object cfgemailnfe: TDBEdit
+        Left = 179
+        Top = 75
+        Width = 312
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgemailnfe'
+        DataSource = DSRegistro
+        TabOrder = 2
+        OnExit = cfgemailnfeExit
+      end
+      object cfgemailsenhanfe: TDBEdit
+        Left = 179
+        Top = 102
+        Width = 109
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgemailsenhanfe'
+        DataSource = DSRegistro
+        PasswordChar = '#'
+        TabOrder = 3
+        OnExit = cfgemailsenhanfeExit
+      end
+      object cfgemailusatls: TDBEdit
+        Left = 179
+        Top = 129
+        Width = 66
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cfgemailusatls'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+    end
+  end
+  inherited lbcodigojanela: TPanel
+    Caption = '01-01-002'
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 796
+    Top = 96
+  end
+  inherited cfg: TUniQuery
+    Left = 656
+    Top = 100
+  end
+  inherited consulta: TUniQuery
+    Left = 716
+    Top = 104
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'select * from cfgmnfe where cfgcodigo=:cfgcodigo')
+    Left = 764
+    Top = 52
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cfgcodigo'
+        Value = nil
+      end>
+    object registrocfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object registrocfgcfop: TStringField
+      FieldName = 'cfgcfop'
+      Required = True
+      Size = 5
+    end
+    object registrocfgviasnfe: TIntegerField
+      FieldName = 'cfgviasnfe'
+      Required = True
+    end
+    object registrocfgnumecertif: TStringField
+      FieldName = 'cfgnumecertif'
+      Size = 50
+    end
+    object registrocfgobs1: TIntegerField
+      FieldName = 'cfgobs1'
+    end
+    object registrotofidentificacao1: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tofidentificacao1'
+      LookupDataSet = tof
+      LookupKeyFields = 'tofcodigo'
+      LookupResultField = 'tofidentificacao'
+      KeyFields = 'cfgobs1'
+      Size = 50
+      Lookup = True
+    end
+    object registrocfgobs2: TIntegerField
+      FieldName = 'cfgobs2'
+    end
+    object registrotofidentificacao2: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tofidentificacao2'
+      LookupDataSet = tof
+      LookupKeyFields = 'tofcodigo'
+      LookupResultField = 'tofidentificacao'
+      KeyFields = 'cfgobs2'
+      Size = 50
+      Lookup = True
+    end
+    object registrocfgobs3: TIntegerField
+      FieldName = 'cfgobs3'
+    end
+    object registrotofidentificacao3: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tofidentificacao3'
+      LookupDataSet = tof
+      LookupKeyFields = 'tofcodigo'
+      LookupResultField = 'tofidentificacao'
+      KeyFields = 'cfgobs3'
+      Size = 50
+      Lookup = True
+    end
+    object registrocfgobs4: TIntegerField
+      FieldName = 'cfgobs4'
+    end
+    object registrotofidentificacao4: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tofidentificacao4'
+      LookupDataSet = tof
+      LookupKeyFields = 'tofcodigo'
+      LookupResultField = 'tofidentificacao'
+      KeyFields = 'cfgobs4'
+      Size = 50
+      Lookup = True
+    end
+    object registrocfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Required = True
+      Size = 5
+    end
+    object registrocfgnumeronfe: TIntegerField
+      FieldName = 'cfgnumeronfe'
+      Required = True
+    end
+    object registrocfgemailnfe: TStringField
+      FieldName = 'cfgemailnfe'
+      Required = True
+      Size = 50
+    end
+    object registrocfgemailservidornfe: TStringField
+      FieldName = 'cfgemailservidornfe'
+      Required = True
+      Size = 50
+    end
+    object registrocfgemailsenhanfe: TStringField
+      FieldName = 'cfgemailsenhanfe'
+      Required = True
+      Size = 50
+    end
+    object registrocfgemailusatls: TIntegerField
+      FieldName = 'cfgemailusatls'
+      Required = True
+    end
+    object registrotlsidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tlsidentificacao'
+      LookupDataSet = tls
+      LookupKeyFields = 'tlscodigo'
+      LookupResultField = 'tlsidentificacao'
+      KeyFields = 'cfgemailusatls'
+      Size = 25
+      Lookup = True
+    end
+    object registrocfgdescrinfe: TIntegerField
+      FieldName = 'cfgdescrinfe'
+      Required = True
+    end
+    object registrosendescrinfe: TStringField
+      FieldKind = fkLookup
+      FieldName = 'sendescrinfe'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'cfgdescrinfe'
+      Required = True
+      Size = 5
+      Lookup = True
+    end
+    object registrocfgmailportnfe: TStringField
+      FieldName = 'cfgmailportnfe'
+      Required = True
+      Size = 5
+    end
+    object registrocfgserienfce: TStringField
+      FieldName = 'cfgserienfce'
+      Size = 5
+    end
+    object registrocfgnumeronfce: TIntegerField
+      FieldName = 'cfgnumeronfce'
+    end
+    object registrocfgtoken1nfce: TStringField
+      FieldName = 'cfgtoken1nfce'
+      Size = 50
+    end
+    object registrocfgtoken2nfce: TStringField
+      FieldName = 'cfgtoken2nfce'
+      Size = 50
+    end
+    object registrocfgservarqnfes: TStringField
+      FieldName = 'cfgservarqnfes'
+      Size = 100
+    end
+    object registrocfgnumecertifa1: TStringField
+      FieldName = 'cfgnumecertifa1'
+      Size = 100
+    end
+    object registrocfgmodonfe: TIntegerField
+      FieldName = 'cfgmodonfe'
+    end
+    object registrocfgIdtokennfce: TStringField
+      FieldName = 'cfgIdtokennfce'
+      Size = 6
+    end
+    object registrocfgsenhacertificado: TStringField
+      FieldName = 'cfgsenhacertificado'
+      Size = 50
+    end
+    object registrocfgsenhacertificadoa1: TStringField
+      FieldName = 'cfgsenhacertificadoa1'
+      Size = 50
+    end
+    object registrocfgviasnfce: TIntegerField
+      FieldName = 'cfgviasnfce'
+    end
+    object registrocfgnumeronfsv: TIntegerField
+      DisplayLabel = 'N'#250'mero da '#250'ltima NFSV-e emitida'
+      FieldName = 'cfgnumeronfsv'
+    end
+    object registrocfgserienfsv: TStringField
+      DisplayLabel = 'S'#233'rie da NFSV-e'
+      FieldName = 'cfgserienfsv'
+      Size = 5
+    end
+    object registrocfgviasnfsv: TIntegerField
+      DisplayLabel = 'Nr. de Vias'
+      FieldName = 'cfgviasnfsv'
+    end
+    object registrocfgcestativo: TIntegerField
+      DisplayLabel = 'CEST ativo'
+      FieldName = 'cfgcestativo'
+      Required = True
+    end
+    object registrosencfgcestativo: TStringField
+      FieldKind = fkLookup
+      FieldName = 'sencfgcestativo'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'cfgcestativo'
+      Size = 5
+      Lookup = True
+    end
+    object registrocfgversao: TStringField
+      DisplayLabel = 'Vers'#227'o da NFE'
+      FieldName = 'cfgversao'
+      Required = True
+      Size = 15
+    end
+    object registrocfgtextoemail: TStringField
+      DisplayLabel = 'Texto axiliar para email'
+      FieldName = 'cfgtextoemail'
+      Size = 250
+    end
+    object registrocfgcertificadoa1: TBlobField
+      FieldName = 'cfgcertificadoa1'
+    end
+    object registrocfgpercentualpis: TFloatField
+      DisplayLabel = 'Percentual para o PIS'
+      FieldName = 'cfgpercentualpis'
+      Required = True
+    end
+    object registrocfgpercentualcofins: TFloatField
+      DisplayLabel = 'Percentual para o COFINS'
+      FieldName = 'cfgpercentualcofins'
+      Required = True
+    end
+    object registrocfgmodoautenticacao: TIntegerField
+      FieldName = 'cfgmodoautenticacao'
+    end
+  end
+  inherited dcp: TUniQuery
+    Left = 700
+    Top = 65532
+  end
+  inherited dtb: TUniQuery
+    Left = 664
+    Top = 65532
+  end
+  inherited coa: TUniQuery
+    Left = 620
+    Top = 65528
+  end
+  inherited pfr: TUniQuery
+    Left = 736
+    Top = 228
+  end
+  inherited psf: TUniQuery
+    Left = 728
+    Top = 168
+  end
+  inherited dcl: TUniQuery
+    Left = 668
+    Top = 156
+  end
+  inherited cau: TUniQuery
+    Left = 676
+    Top = 296
+  end
+  inherited err: TUniQuery
+    Left = 648
+  end
+  inherited BalloonHint: TBalloonHint
+    Left = 736
+    Top = 288
+  end
+  inherited acoesfrm: TActionList
+    Left = 596
+    Top = 52
+  end
+  inherited cpg: TUniQuery
+    Left = 676
+    Top = 448
+  end
+  inherited cpc: TUniQuery
+    Left = 717
+    Top = 417
+  end
+  inherited lou: TUniQuery
+    Left = 760
+    Top = 352
+  end
+  inherited stg: TUniQuery
+    Left = 884
+    Top = 304
+  end
+  inherited consultashema: TUniQuery
+    Left = 892
+    Top = 424
+  end
+  inherited stgid: TUniQuery
+    Left = 836
+    Top = 232
+  end
+  inherited cfgalterado: TUniQuery
+    Left = 780
+    Top = 528
+  end
+  object tof: TUniQuery
+    SQL.Strings = (
+      'select tofcodigo, tofidentificacao from tof')
+    Left = 660
+    Top = 368
+    object toftofcodigo: TIntegerField
+      FieldName = 'tofcodigo'
+    end
+    object toftofidentificacao: TStringField
+      FieldName = 'tofidentificacao'
+      Size = 350
+    end
+  end
+  object sen: TUniQuery
+    SQL.Strings = (
+      'select sencodigo, senidentificacao from sen')
+    Left = 688
+    Top = 388
+    object sensencodigo: TIntegerField
+      FieldName = 'sencodigo'
+    end
+    object sensenidentificacao: TStringField
+      FieldName = 'senidentificacao'
+      Size = 5
+    end
+  end
+  object tls: TUniQuery
+    SQL.Strings = (
+      'select tlscodigo, tlsidentificacao from tls')
+    Left = 628
+    Top = 376
+    object tlstlscodigo: TIntegerField
+      FieldName = 'tlscodigo'
+    end
+    object tlstlsidentificacao: TStringField
+      FieldName = 'tlsidentificacao'
+      Size = 25
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Left = 508
+    Top = 113
+  end
+end

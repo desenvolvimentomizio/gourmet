@@ -1,0 +1,1379 @@
+inherited fratdv: Tfratdv
+  Width = 1043
+  Height = 690
+  ExplicitWidth = 1043
+  ExplicitHeight = 690
+  inherited PlGeral: TPanel
+    Width = 1043
+    Height = 690
+    ExplicitWidth = 1043
+    ExplicitHeight = 690
+    inherited SplBotoes: TSplitter
+      Height = 670
+      ExplicitHeight = 664
+    end
+    inherited PlBotoes: TPanel
+      Height = 670
+      ExplicitHeight = 670
+      inherited ImageLogoBase: TImage
+        Top = 591
+        ExplicitTop = 585
+      end
+      inherited PlInfo: TPanel
+        Top = 652
+        ExplicitTop = 652
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 591
+        ExplicitHeight = 591
+      end
+    end
+    inherited PlLista: TPanel
+      Width = 899
+      Height = 670
+      ExplicitWidth = 899
+      ExplicitHeight = 670
+      inherited SplLista: TSplitter
+        Top = 505
+        Width = 899
+        Visible = True
+        ExplicitTop = 549
+        ExplicitWidth = 899
+      end
+      inherited SpFilter: TSplitter
+        Width = 899
+        ExplicitWidth = 899
+      end
+      inherited PlRodaPe: TPanel
+        Top = 510
+        Width = 899
+        Height = 160
+        Visible = True
+        ExplicitTop = 510
+        ExplicitWidth = 899
+        ExplicitHeight = 160
+        object plDetalheTroca: TPanel
+          Left = 0
+          Top = 125
+          Width = 899
+          Height = 35
+          Align = alBottom
+          BorderWidth = 3
+          TabOrder = 0
+          object PlTotal: TPanel
+            AlignWithMargins = True
+            Left = 692
+            Top = 7
+            Width = 200
+            Height = 21
+            Align = alRight
+            Alignment = taRightJustify
+            BevelOuter = bvNone
+            Caption = 'Total Itens R$ 0,00'
+            Color = 12615680
+            Font.Charset = EASTEUROPE_CHARSET
+            Font.Color = clWhite
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object bLimpaItens: TButton
+            Left = 4
+            Top = 4
+            Width = 181
+            Height = 27
+            Align = alLeft
+            Caption = 'Limpa itens a devolver'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+            OnClick = bLimpaItensClick
+          end
+        end
+        object listatroca: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 899
+          Height = 125
+          Align = alClient
+          BorderStyle = bsNone
+          Color = clCream
+          DataSource = Didt
+          DrawingStyle = gdsGradient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          PopupMenu = MenuManutencao
+          TabOrder = 1
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          OnDrawColumnCell = listatrocaDrawColumnCell
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'idtchave'
+              Width = 55
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'procodigo'
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'pronome'
+              Width = 192
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'unisimbolo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'idtvalor'
+              Title.Caption = 'Vlr Unit.'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'idtquantidade'
+              Width = 60
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'idttotal'
+              Width = 106
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'idtdesconto'
+              Title.Caption = 'Desc.'
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'idttotal'
+              Title.Caption = 'Total Liquido'
+              Width = 88
+              Visible = True
+            end>
+        end
+      end
+      inherited PlFiltros: TPanel
+        Width = 899
+        ExplicitWidth = 899
+        inherited BvlSeparador: TBevel
+          Left = 1296
+          ExplicitLeft = 1296
+        end
+        inherited PlEdTextoBusca: TPanel
+          Left = 41
+          ExplicitLeft = 41
+          inherited GrBTextoProcurar: TGroupBox
+            inherited PlGbEdtBusca: TPanel
+              inherited edbusca: TEdit
+                Color = 11206655
+              end
+            end
+          end
+        end
+        inherited PlBotaoFiltro: TPanel
+          Left = 766
+          Visible = False
+          ExplicitLeft = 766
+        end
+        inherited PlBotaoFiltroEsp2: TPanel
+          Left = 846
+          ExplicitLeft = 846
+        end
+        inherited PlBotaoFiltroEsp: TScrollBox
+          Left = 1300
+          ExplicitLeft = 1300
+        end
+        inherited plseparador: TPanel
+          Left = 341
+          Width = 425
+          BorderWidth = 3
+          ExplicitLeft = 341
+          ExplicitWidth = 425
+          object gbProdutoATrocar: TGroupBox
+            Left = 3
+            Top = 3
+            Width = 419
+            Height = 45
+            Align = alClient
+            Caption = ' Produto a ser Trocado: '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            Padding.Bottom = 1
+            ParentFont = False
+            TabOrder = 0
+            object PlGbEdtBuscaProduto: TPanel
+              Left = 2
+              Top = 15
+              Width = 415
+              Height = 27
+              Align = alClient
+              BevelOuter = bvNone
+              BorderWidth = 3
+              Padding.Bottom = 1
+              TabOrder = 0
+              object Image3: TImage
+                Left = 137
+                Top = 3
+                Width = 32
+                Height = 20
+                Align = alLeft
+                Center = True
+                Picture.Data = {
+                  07544269746D617036030000424D360300000000000036000000280000001000
+                  000010000000010018000000000000030000C40E0000C40E0000000000000000
+                  0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFFFFFFFFFFF7F0E6A65D00A65D00D7B88CFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F3EAA65D00BE7807C78209A7
+                  5E02FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  F8F0E4B56C00C9891ED49729B56C00E4CDA8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFFFFFFFFFFFFFFFFFFFFFFFFFAF4EABE7908D29630E1AC4BBE7908DEC08AFF
+                  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFDFBFEFDFCFEFCF9FFFFFFFCF8F1C27C09
+                  DFAA4CEDC06BC27C09E4CA98FFFFFFFFFFFFFFFFFFFFFFFFF1E4CFD5B184B983
+                  3EB47B32B57D33CEAA7ACD8B18CD8B18F3C979CD8B18E6CC98FFFFFFFFFFFFFF
+                  FFFFFFFFFFEFE0CAAD6E18C49049F2DBB2F8E7C4F2DDB3D4AB6CA7650FB97714
+                  CB8714E5C68AFFFFFFFFFFFFFFFFFFFFFFFFF2E7D6B2741CEDD3A8FFF1D3FFF1
+                  D3FFF1D3FFF1D3FFEFCEF0D8AEAA660CCB8714FFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFFE1C8A0C59042FFF5DEFFF4DBF3CD86F2CC83F2CC84FFF4DBFFF4DBC59042
+                  D2AC75FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCC9E5AF7E5C8FEF3DDF5D8A0F5D6
+                  9CF5D79FF5D79EF5D599FEF3DDF7E5C8BF8630FEFCF6FFFFFFFFFFFFFFFFFFFF
+                  FFFFC99949FEF3D9FEF4E0F7DFB2F7E0B4F7E0B3F7E0B4F7DFB0FCF3E4FDF3DA
+                  C3882DFAEDD6FFFFFFFFFFFFFFFFFFFFFFFFD1A560EFDEC1FFFDF7FAEACCF9E8
+                  C7FAE9C8F9E8C8FAE8C7FEF6E8EDDBBDC68E35FEFEFBFFFFFFFFFFFFFFFFFFFF
+                  FFFFE1C59ACA933BFFFFFFFFFCF6FDF3E1FCF2DEFCF2DFFEF8EDFFFFFFCA933B
+                  DCB77BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF3E8D8CD9639F1E4CDFFFFFFFFFF
+                  FFFFFFFFFFFFFFFFFFFFF4E9D5C07D0DF0E2CCFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFFFFFFFFF2E6D4CF973CD19D49F9F3E8FFFAEFFBF7F0DCB373C68319F7EEDB
+                  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF3E8D8E9D1A6D7A9
+                  57CA8C20D3A047DEBA7BF2E5CDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                  FFFF}
+                OnClick = Image3Click
+              end
+              object pronome: TDBText
+                Left = 169
+                Top = 3
+                Width = 243
+                Height = 20
+                Align = alClient
+                DataField = 'pronome'
+                DataSource = dsprotroca
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+                ExplicitLeft = 168
+                ExplicitWidth = 244
+              end
+              object PlGbEdtCodigoBusca: TPanel
+                Left = 3
+                Top = 3
+                Width = 51
+                Height = 20
+                Align = alLeft
+                Alignment = taLeftJustify
+                BevelOuter = bvNone
+                Caption = 'C'#243'digo'
+                TabOrder = 0
+              end
+              object Panel1: TPanel
+                Left = 117
+                Top = 3
+                Width = 20
+                Height = 20
+                Align = alLeft
+                BevelOuter = bvNone
+                Caption = 'X'
+                Color = clWhite
+                ParentBackground = False
+                TabOrder = 1
+                OnClick = btLimpaBuscaClick
+              end
+              object procodigo: TDBEdit
+                Left = 54
+                Top = 3
+                Width = 63
+                Height = 20
+                Align = alLeft
+                BevelOuter = bvNone
+                BorderStyle = bsNone
+                DataField = 'procodigo'
+                DataSource = dsprotroca
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 2
+              end
+            end
+          end
+        end
+        object Panel2: TPanel
+          Left = 0
+          Top = 0
+          Width = 41
+          Height = 51
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 5
+        end
+      end
+      inherited PlSelecao: TPanel
+        Width = 899
+        ExplicitWidth = 899
+        inherited GBPlSelecao: TGroupBox
+          Width = 895
+          ExplicitWidth = 895
+          inherited DBLista: TDBGrid
+            Width = 788
+          end
+        end
+      end
+      inherited PnlGrid: TPanel
+        Width = 899
+        Height = 376
+        ExplicitWidth = 899
+        ExplicitHeight = 376
+        inherited DBGLista: TDBGrid
+          Width = 899
+          Height = 213
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'meschave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesregistro'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdcodigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdidentificacao'
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tdfidentificacao'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesnumero'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesvalor'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mesdesconto'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mestotal'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 213
+          Width = 899
+          Height = 163
+          Visible = True
+          ExplicitTop = 213
+          ExplicitWidth = 899
+          ExplicitHeight = 163
+          object plTituloItensDetalhe: TPanel
+            Left = 1
+            Top = 1
+            Width = 897
+            Height = 20
+            Align = alTop
+            BevelOuter = bvLowered
+            Caption = 'Itens de Vendas'
+            Color = 4210816
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clYellow
+            Font.Height = -12
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object listaitm: TDBGrid
+            Left = 1
+            Top = 21
+            Width = 897
+            Height = 141
+            Align = alClient
+            BorderStyle = bsNone
+            Color = clCream
+            DataSource = Ditm
+            DrawingStyle = gdsGradient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+            ParentFont = False
+            PopupMenu = MenuManutencao
+            TabOrder = 1
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -13
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            OnDrawColumnCell = listaitmDrawColumnCell
+            OnDblClick = listaitmDblClick
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'itmchave'
+                Width = 55
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'procodigo'
+                Width = 50
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'pronome'
+                Width = 192
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'unisimbolo'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmvalor'
+                Title.Caption = 'Vlr Unit.'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmquantidade'
+                Width = 60
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmtotal'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmdesconto'
+                Title.Caption = 'Desc.'
+                Width = 50
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmtotalliq'
+                Title.Caption = 'Total Liquido'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'toecodigo'
+                Visible = True
+              end>
+          end
+        end
+      end
+    end
+    inherited PlTitulo: TPanel
+      Width = 1043
+      ExplicitWidth = 1043
+      inherited plid: TPanel
+        Left = 593
+        ExplicitLeft = 593
+      end
+      inherited PlSair: TPanel
+        Left = 837
+        ExplicitLeft = 837
+      end
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT distinct m.meschave'
+      '     , e.etdidentificacao'
+      '     , s.sdeidentificacao'
+      '     , t.tdfidentificacao'
+      '     , t1.toeidentificacao'
+      '     , m.mesemissao'
+      '     , m.mesnumero'
+      '     , m.etdcodigo'
+      '     , m.messerie'
+      '     , m.tdfcodigo'
+      '     , m.mesvalor'
+      '     , m.mesdesconto'
+      '     , m.mestotal'
+      '     , m.temcodigo'
+      '     , m.clbcodigo'
+      '     , c2.clbidentificacao AS clboperador'
+      '     , m.trmcodigo'
+      '     , mesprotocolo'
+      '     , m.sdecodigo'
+      '     , m.mesdatanfe'
+      '     , t1.ttocodigo'
+      '     , m.mesregistro'
+      '     , m.clbvendedor'
+      '     , c1.clbidentificacao'
+      '     , m1.orcchave'
+      '     , t2.temidentificacao'
+      '     , TIME(mesinclusao)   AS meshora'
+      '     , f.flasigla'
+      '     , m.flacodigo'
+      '     , m.mesprodutos'
+      '     , m.messervicos'
+      ''
+      '  FROM mes m'
+      '  JOIN etd e        ON m.etdcodigo = e.etdcodigo'
+      '  JOIN itm i        ON m.meschave  = i.meschave'
+      '  JOIN sde s        ON m.sdecodigo = s.sdecodigo'
+      '  JOIN tdf t        ON m.tdfcodigo = t.tdfcodigo'
+      '  JOIN toe t1       ON m.toecodigo = t1.toecodigo'
+      '  JOIN tem t2       ON m.temcodigo = t2.temcodigo'
+      '  JOIN fla f        ON m.flacodigo = f.flacodigo'
+      '  JOIN clb c        ON m.clbcodigo = c.clbcodigo'
+      '  LEFT JOIN clb c1  ON m.clbvendedor = c1.clbcodigo'
+      '  LEFT JOIN clb c2  ON m.clbcodigo = c2.clbcodigo'
+      '  JOIN trm t3       ON m.trmcodigo = t3.trmcodigo'
+      
+        '  LEFT JOIN mor m1  ON m.meschave = m1.meschave and m1.flacodigo' +
+        '=:flacodigo'
+      
+        ' WHERE t1.ttecodigo IN (1) AND m.flacodigo=:flacodigo and m.sdec' +
+        'odigo='#39'00'#39
+      '  and m.mesregistro>= DATE_ADD(CURDATE(), INTERVAL -365 DAY)'
+      ' -- Filtros')
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object uqtabelameschave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'meschave'
+    end
+    object uqtabelamesemissao: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'mesemissao'
+      EditMask = '!99/99/0000;1;_'
+    end
+    object uqtabelatdfidentificacao: TStringField
+      DisplayLabel = 'Tipo Documento'
+      FieldName = 'tdfidentificacao'
+      Size = 50
+    end
+    object uqtabelamesnumero: TIntegerField
+      DisplayLabel = 'Nr. Documento'
+      FieldName = 'mesnumero'
+    end
+    object uqtabelaetdcodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etdcodigo'
+    end
+    object uqtabelaetdidentificacao: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+    object uqtabelamesvalor: TFloatField
+      DisplayLabel = 'Total R$'
+      FieldName = 'mesvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelamesdesconto: TFloatField
+      DisplayLabel = 'Desconto R$'
+      FieldName = 'mesdesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelamestotal: TFloatField
+      DisplayLabel = 'Total L'#237'quido R$'
+      FieldName = 'mestotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelasdeidentificacao: TStringField
+      DisplayLabel = 'Situa'#231#227'o Documento'
+      FieldName = 'sdeidentificacao'
+      Required = True
+      Size = 50
+    end
+    object uqtabelatoeidentificacao: TStringField
+      DisplayLabel = 'Destina'#231#227'o'
+      FieldName = 'toeidentificacao'
+      Required = True
+      Size = 50
+    end
+    object uqtabelamesserie: TStringField
+      DisplayLabel = 'S'#233'rie'
+      FieldName = 'messerie'
+      Size = 5
+    end
+    object uqtabelaclbcodigo: TIntegerField
+      DisplayLabel = 'Operador(a)'
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object uqtabelatrmcodigo: TIntegerField
+      DisplayLabel = 'Trm'
+      FieldName = 'trmcodigo'
+      Required = True
+    end
+    object uqtabelamesprotocolo: TStringField
+      FieldName = 'mesprotocolo'
+      Size = 50
+    end
+    object uqtabelasdecodigo: TStringField
+      DisplayLabel = 'C'#243'digo da Situa'#231#227'o'
+      FieldName = 'sdecodigo'
+      Size = 2
+    end
+    object uqtabelamesdatanfe: TDateField
+      DisplayLabel = 'Data NFE'
+      FieldName = 'mesdatanfe'
+    end
+    object uqtabelatemcodigo: TIntegerField
+      DisplayLabel = 'Cod. Est'#225'gio'
+      FieldName = 'temcodigo'
+    end
+    object uqtabelatdfcodigo: TStringField
+      FieldName = 'tdfcodigo'
+      Size = 3
+    end
+    object uqtabelattocodigo: TIntegerField
+      FieldName = 'ttocodigo'
+    end
+    object uqtabelamesregistro: TDateField
+      DisplayLabel = 'Registro'
+      FieldName = 'mesregistro'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object uqtabelaclbvendedor: TIntegerField
+      DisplayLabel = 'C'#243'd. Vendedor(a)'
+      FieldName = 'clbvendedor'
+    end
+    object uqtabelaclbidentificacao: TStringField
+      DisplayLabel = 'Vendedor(a)'
+      FieldName = 'clbidentificacao'
+      Origin = 'teste'
+      Size = 30
+    end
+    object uqtabelaorcchave: TIntegerField
+      DisplayLabel = 'Nr. Atendimento'
+      FieldName = 'orcchave'
+    end
+    object uqtabelatemidentificacao: TStringField
+      DisplayLabel = 'Est'#225'gio'
+      FieldName = 'temidentificacao'
+      Size = 30
+    end
+    object uqtabelaclboperador: TStringField
+      DisplayLabel = 'Operador(a)'
+      FieldName = 'clboperador'
+      Size = 35
+    end
+    object uqtabelameshora: TTimeField
+      DisplayLabel = 'Hora Registro'
+      FieldName = 'meshora'
+    end
+    object uqtabelaflasigla: TStringField
+      DisplayLabel = 'Fla'
+      FieldName = 'flasigla'
+      Size = 3
+    end
+    object uqtabelamesprodutos: TFloatField
+      DisplayLabel = 'Produtos R$'
+      FieldName = 'mesprodutos'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelamesservicos: TFloatField
+      DisplayLabel = 'Servi'#231'os R$'
+      FieldName = 'messervicos'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabelaflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited Dsfi: TUniDataSource
+    Left = 568
+    Top = 444
+  end
+  inherited sfi: TUniQuery
+    Left = 468
+    Top = 488
+  end
+  inherited ImageList1: TImageList
+    Bitmap = {
+      494C010103000800800010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000EDED
+      ED001D1D1D000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000001818
+      1800272727000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000007F7F7F007F7F7F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000002A2A
+      2A002A2A2A000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000007F7F7F0000000000000000007F7F7F00000000000000
+      0000000000000000000000000000000000000000000000000000FDFDFD001C1C
+      1C001C1C1C00FDFDFD0000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000006F6F6F006F6F6F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000007F7F7F00000000000000000000000000000000007F7F7F000000
+      0000000000000000000000000000000000000000000000000000282828000000
+      0000000000002828280000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000007F7F7F0000000000000000007F7F7F00000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00007F7F7F000000000000000000000000000000000000000000000000007F7F
+      7F00000000000000000000000000000000000000000035353500000000000000
+      0000000000000000000035353500000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000007F7F7F00000000000000000000000000000000007F7F7F000000
+      0000000000000000000000000000000000000000000000000000000000007F7F
+      7F00000000000000000000000000000000000000000000000000000000000000
+      00007F7F7F000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000E1E1E100E1E1E1000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00006F6F6F000000000000000000000000000000000000000000000000006F6F
+      6F000000000000000000000000000000000000000000000000007F7F7F000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000007F7F7F0000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000DDDDDD001313130013131300DDDD
+      DD00000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000007F7F7F00000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000007F7F7F00000000000000000000000000000000000000
+      0000000000000000000000000000F7F7F7001919190000000000000000001919
+      1900F7F7F7000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000007F7F7F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000007F7F7F000000000000000000000000000000
+      00000000000000000000E4E4E400070707000000000000000000000000000000
+      000007070700E4E4E40000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000DBDBDB0010101000000000000000000000000000000000000000
+      00000000000010101000DBDBDB00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000009C9C9C00737373007F7F7F007F7F7F007F7F7F007F7F7F007F7F
+      7F007F7F7F00737373009C9C9C00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF00FFFFFFFFFFFF0000FFFFFFFFFFFF0000
+      FFFFFFFFE7FF0000FFFFFFFFE7FF0000FFFFFE7FE7FF0000FFFFFC3FC3FF0000
+      FE7FF81FC3FF0000FC3FF00F81FF0000F81FE007FF9F0000F00FC003FF0F0000
+      FFFF8001FE070000FFFF0000FC030000FFFFFFFFF8010000FFFFFFFFF8010000
+      FFFFFFFFFFFF0000FFFFFFFFFFFF000000000000000000000000000000000000
+      000000000000}
+  end
+  object itm: TUniQuery
+    SQL.Strings = (
+      'SELECT itm.itmchave'
+      '     , itm.meschave'
+      '     , itm.itmitem'
+      '     , itm.procodigo'
+      '     , itm.flacodigo'
+      '     , itm.unicodigo'
+      '     , IF(imv.vrpcodigo > 0'
+      '         , (SELECT vv.pronome'
+      '              FROM v_vrp vv'
+      '             WHERE vv.vrpcodigo = imv.vrpcodigo) '
+      '         , IF(tImc.clbidentificacao IS NOT NULL'
+      '             , CONCAT(pro.pronome, '#39' - '#39', tImc.clbidentificacao)'
+      '             , pro.pronome))            AS pronome'
+      '     , uni.unisimbolo'
+      '     , itm.itmquantidade'
+      '     , itm.itmvalor'
+      '     , itm.itmdesconto'
+      '     , itm.itmtotal'
+      '     , (itm.itmtotal - itm.itmdesconto) AS itmtotalliq'
+      '     , itm.cfocfop'
+      '     , itm.itmaliqipi'
+      '     , itm.toecodigo'
+      '     , pro.proncm'
+      '  FROM      itm'
+      '  LEFT JOIN imv ON itm.itmchave  = imv.itmchave'
+      '  JOIN      pro ON itm.procodigo = pro.procodigo'
+      '  JOIN      pun ON itm.puncodigo = pun.puncodigo'
+      '  JOIN      uni ON pun.unicodigo = uni.unicodigo'
+      '  '
+      '  -- Identifica o T'#233'cnico da OS'
+      '  LEFT JOIN (SELECT i.itmchave'
+      '                  , c.clbidentificacao'
+      '               FROM imc i'
+      '               JOIN clb c ON i.clbcodigo = c.clbcodigo'
+      
+        '                AND c.fnccodigo = 5) tImc ON itm.itmchave = tImc' +
+        '.itmchave'
+      ' '
+      ' WHERE itm.meschave = :meschave')
+    MasterSource = DSTabela
+    MasterFields = 'meschave'
+    DetailFields = 'meschave'
+    Options.DetailDelay = 40
+    Constraints = <>
+    Left = 868
+    Top = 412
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object itmitmchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'itmchave'
+      ReadOnly = True
+    end
+    object itmmeschave: TIntegerField
+      FieldName = 'meschave'
+      ReadOnly = True
+      Required = True
+    end
+    object itmitmitem: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'itmitem'
+      ReadOnly = True
+      Required = True
+    end
+    object itmprocodigo: TIntegerField
+      DisplayLabel = 'Produto'
+      FieldName = 'procodigo'
+      ReadOnly = True
+      Required = True
+    end
+    object itmpronome: TStringField
+      DisplayLabel = 'Identifica'#231#227'o do Produto / Servi'#231'o'
+      FieldName = 'pronome'
+      Required = True
+      Size = 150
+    end
+    object itmunisimbolo: TStringField
+      DisplayLabel = 'UN'
+      FieldName = 'unisimbolo'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 6
+    end
+    object itmitmvalor: TFloatField
+      DisplayLabel = 'Vlr Unit R$'
+      FieldName = 'itmvalor'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmitmquantidade: TFloatField
+      DisplayLabel = 'Quant.'
+      FieldName = 'itmquantidade'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmitmdesconto: TFloatField
+      DisplayLabel = 'Desc. R$'
+      FieldName = 'itmdesconto'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmitmtotal: TFloatField
+      DisplayLabel = 'Total Item R$'
+      FieldName = 'itmtotal'
+      ReadOnly = True
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmcfocfop: TStringField
+      DisplayLabel = 'CFOP'
+      FieldName = 'cfocfop'
+      ReadOnly = True
+      Required = True
+      Size = 5
+    end
+    object itmitmaliqipi: TFloatField
+      DisplayLabel = 'IPI'
+      FieldName = 'itmaliqipi'
+      DisplayFormat = '#,#0.0'
+      EditFormat = '#,#0.0'
+    end
+    object itmitmtotalliq: TFloatField
+      DisplayLabel = 'Total'
+      FieldName = 'itmtotalliq'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmtoecodigo: TIntegerField
+      DisplayLabel = 'Opera'#231#227'o'
+      FieldName = 'toecodigo'
+    end
+    object itmproncm: TStringField
+      DisplayLabel = 'NCM'
+      FieldName = 'proncm'
+      Size = 8
+    end
+    object itmflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object itmunicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+  end
+  object Ditm: TUniDataSource
+    DataSet = itm
+    OnDataChange = DitmDataChange
+    Left = 904
+    Top = 412
+  end
+  object mdt: TUniQuery
+    SQL.Strings = (
+      
+        'select mdtchave, mdtregistro, clbcodigo, meschaveorigem from mdt' +
+        ' limit 0')
+    Constraints = <>
+    Left = 808
+    Top = 456
+    object mdtmdtchave: TIntegerField
+      FieldName = 'mdtchave'
+    end
+    object mdtmdtregistro: TDateField
+      FieldName = 'mdtregistro'
+    end
+    object mdtclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object mdtmeschaveorigem: TIntegerField
+      FieldName = 'meschaveorigem'
+    end
+  end
+  object idt: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  idt.idtchave,'
+      '  idt.mdtchave,'
+      '  idt.itmchave,'
+      '  idt.meschave,'
+      '  idt.flacodigo,'
+      '  idt.idtquantidade,'
+      '  idt.idtmotivo,'
+      '  idt.unicodigo,'
+      '  idt.idtvalor,'
+      '  idt.idtdesconto,'
+      '  idt.idttotal,'
+      '  itm.procodigo, '
+      '  pro.pronome,'
+      '  uni.unisimbolo'
+      'FROM idt,itm,pro, uni'
+      ' where idt.itmchave=itm.itmchave and idt.flacodigo=itm.flacodigo'
+      'and itm.procodigo=pro.procodigo and itm.unicodigo=pro.unicodigo'
+      'and uni.unicodigo=itm.unicodigo and idt.mdtchave=:mdtchave')
+    MasterSource = Dmdt
+    MasterFields = 'mdtchave'
+    DetailFields = 'mdtchave'
+    Constraints = <>
+    Left = 760
+    Top = 464
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'mdtchave'
+        Value = nil
+      end>
+    object idtidtchave: TIntegerField
+      DisplayLabel = 'Nr.Chave'
+      FieldName = 'idtchave'
+    end
+    object idtmdtchave: TIntegerField
+      FieldName = 'mdtchave'
+    end
+    object idtitmchave: TIntegerField
+      FieldName = 'itmchave'
+    end
+    object idtmeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+    object idtflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object idtidtquantidade: TFloatField
+      DisplayLabel = 'Quant.'
+      FieldName = 'idtquantidade'
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object idtidtmotivo: TStringField
+      FieldName = 'idtmotivo'
+      Size = 250
+    end
+    object idtunicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+    object idtidtvalor: TFloatField
+      DisplayLabel = 'Total do Item R$'
+      FieldName = 'idtvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object idtidtdesconto: TFloatField
+      FieldName = 'idtdesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object idtidttotal: TFloatField
+      DisplayLabel = 'Total do Item R$'
+      FieldName = 'idttotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object idtprocodigo: TIntegerField
+      DisplayLabel = 'Produto'
+      FieldName = 'procodigo'
+    end
+    object idtpronome: TStringField
+      DisplayLabel = 'Identifica'#231#227'o do Produto / Servi'#231'o'
+      FieldName = 'pronome'
+      Size = 80
+    end
+    object idtunisimbolo: TStringField
+      DisplayLabel = 'UN'
+      FieldName = 'unisimbolo'
+      Size = 5
+    end
+  end
+  object Didt: TDataSource
+    DataSet = idt
+    Left = 720
+    Top = 466
+  end
+  object midt: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  idtchave,'
+      '  itmchave,'
+      '  meschave,'
+      '  flacodigo,'
+      '  idtquantidade,'
+      '  idtmotivo,'
+      '  unicodigo,'
+      '  idtvalor,'
+      '  idtdesconto,'
+      '  idttotal,'
+      '  mdtchave'
+      'FROM idt limit 0')
+    Constraints = <>
+    Left = 880
+    Top = 474
+    object midtidtchave: TIntegerField
+      DisplayLabel = 'Nr.Chave'
+      FieldName = 'idtchave'
+    end
+    object midtmdtchave: TIntegerField
+      FieldName = 'mdtchave'
+    end
+    object midtitmchave: TIntegerField
+      FieldName = 'itmchave'
+    end
+    object midtmeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+    object midtflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object midtidtquantidade: TFloatField
+      DisplayLabel = 'Quant.'
+      FieldName = 'idtquantidade'
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object midtidtmotivo: TStringField
+      FieldName = 'idtmotivo'
+      Size = 250
+    end
+    object midtunicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+    object midtidtvalor: TFloatField
+      DisplayLabel = 'Total do Item R$'
+      FieldName = 'idtvalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object midtidtdesconto: TFloatField
+      FieldName = 'idtdesconto'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object midtidttotal: TFloatField
+      DisplayLabel = 'Total do Item R$'
+      FieldName = 'idttotal'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  object Dmdt: TDataSource
+    DataSet = mdt
+    Left = 632
+    Top = 506
+  end
+  object protroca: TVirtualTable
+    Constraints = <>
+    Left = 696
+    Top = 211
+    Data = {04000000000000000000}
+    object protrocaprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object protrocapronome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'pronome'
+      LookupDataSet = pro
+      LookupKeyFields = 'procodigo'
+      LookupResultField = 'pronome'
+      KeyFields = 'procodigo'
+      Size = 80
+      Lookup = True
+    end
+  end
+  object pro: TUniQuery
+    SQL.Strings = (
+      'select procodigo, pronome from pro')
+    Constraints = <>
+    Left = 800
+    Top = 283
+    object proprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object propronome: TStringField
+      FieldName = 'pronome'
+      Size = 80
+    end
+  end
+  object dsprotroca: TUniDataSource
+    DataSet = protroca
+    Left = 792
+    Top = 219
+  end
+  object qitm: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT SUM(itmquantidade) AS itmquantidade FROM itm WHERE  itm.f' +
+        'lacodigo=:flacodigo and itm.meschave=:meschave AND itm.procodigo' +
+        '=:procodigo;')
+    Constraints = <>
+    Left = 224
+    Top = 432
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'procodigo'
+        Value = nil
+      end>
+    object qitmitmquantidade: TFloatField
+      FieldName = 'itmquantidade'
+    end
+  end
+  object jitm: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT SUM(idt.idtquantidade) AS itmquantidade FROM idt,itm WHER' +
+        'E idt.itmchave=itm.itmchave  and idt.meschave=:meschave AND idt.' +
+        'flacodigo=:flacodigo and mdtchave=:mdtchave AND itm.procodigo=:p' +
+        'rocodigo')
+    Constraints = <>
+    Left = 272
+    Top = 432
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'mdtchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'procodigo'
+        Value = nil
+      end>
+    object jitmitmquantidade: TFloatField
+      FieldName = 'itmquantidade'
+    end
+  end
+  object Dqitm: TDataSource
+    DataSet = qitm
+    Left = 224
+    Top = 480
+  end
+  object Djitm: TDataSource
+    DataSet = jitm
+    Left = 288
+    Top = 488
+  end
+end

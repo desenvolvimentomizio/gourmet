@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/11/23 11:02:22.000.262,=C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas</Transaction>
+    <Transaction>2024/11/23 11:02:41.000.817,C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas=C:\fontes_gourmet\gourmet.1\TermGourmet\UntDesconto.pas</Transaction>
+    <Transaction>2024/11/23 11:02:41.000.817,C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.dfm=C:\fontes_gourmet\gourmet.1\TermGourmet\UntDesconto.dfm</Transaction>
+    <Transaction>2024/11/25 13:49:48.000.595,=C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas</Transaction>
+    <Transaction>2024/11/25 13:50:05.000.233,C:\fontes_gourmet\gourmet.1\TermGourmet\ufdetralhestone.pas=C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas</Transaction>
+    <Transaction>2024/11/25 13:50:05.000.233,C:\fontes_gourmet\gourmet.1\TermGourmet\ufdetralhestone.dfm=C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.dfm</Transaction>
+    <Transaction>2024/11/26 10:58:14.000.439,=C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas</Transaction>
+    <Transaction>2024/11/26 10:58:32.000.287,C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.dfm=C:\fontes_gourmet\gourmet.1\TermGourmet\ufRefeicao.dfm</Transaction>
+    <Transaction>2024/11/26 10:58:32.000.287,C:\fontes_gourmet\gourmet.1\TermGourmet\Unit2.pas=C:\fontes_gourmet\gourmet.1\TermGourmet\ufRefeicao.pas</Transaction>
+  </Transactions>
+</BorlandProject>

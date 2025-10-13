@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{6FCFEDA3-40C6-4F50-807B-DA74F78DCF15}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PegaMobileGourmet.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\PegaServerGourmet\PegaServerGourmet.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PegaMobileGourmet">
+        <MSBuild Projects="PegaMobileGourmet.dproj"/>
+    </Target>
+    <Target Name="PegaMobileGourmet:Clean">
+        <MSBuild Projects="PegaMobileGourmet.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PegaMobileGourmet:Make">
+        <MSBuild Projects="PegaMobileGourmet.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PegaServerGourmet">
+        <MSBuild Projects="..\PegaServerGourmet\PegaServerGourmet.dproj"/>
+    </Target>
+    <Target Name="PegaServerGourmet:Clean">
+        <MSBuild Projects="..\PegaServerGourmet\PegaServerGourmet.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PegaServerGourmet:Make">
+        <MSBuild Projects="..\PegaServerGourmet\PegaServerGourmet.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PegaMobileGourmet;PegaServerGourmet"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PegaMobileGourmet:Clean;PegaServerGourmet:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PegaMobileGourmet:Make;PegaServerGourmet:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

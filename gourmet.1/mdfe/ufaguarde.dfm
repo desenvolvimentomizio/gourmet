@@ -1,0 +1,41 @@
+object faguarde: Tfaguarde
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Processando'
+  ClientHeight = 71
+  ClientWidth = 211
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 211
+    Height = 71
+    Align = alClient
+    Caption = 'AGUARDE . . .'
+    Color = 12615680
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    ExplicitLeft = 32
+    ExplicitTop = 32
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+  end
+end

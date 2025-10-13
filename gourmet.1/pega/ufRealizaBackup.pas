@@ -1,0 +1,312 @@
+unit ufRealizaBackup;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, ShellAPI,
+  Vcl.WinXCtrls, Vcl.ComCtrls, Vcl.Imaging.pngimage;
+
+type
+  TfRealizaBackup = class(TForm)
+    pbotoes: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    mostra: TProgressBar;
+    mensagens: TMemo;
+    Label1: TLabel;
+    LMENSAGEM: TLabel;
+    Label2: TLabel;
+    ActivityIndicator1: TActivityIndicator;
+    Label3: TLabel;
+    procedure bcancelaClick(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    procedure BackupExec;
+    function ManipulaTXT(LocalTxt, Tipo, Parametro: string): string;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpHora: string;
+    vpApelido: String;
+    vpCnpj: String;
+    vpLoginCli: string;
+    vpSenhaCli: string;
+    vpPortaCli: string;
+    vpServidorCli: string;
+    vpBancoCli: string;
+    vpPastaDestino: string;
+
+  end;
+
+var
+  fRealizaBackup: TfRealizaBackup;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfRealizaBackup.bcancelaClick(Sender: TObject);
+begin
+  modalresult := mrcancel;
+end;
+
+procedure TfRealizaBackup.bconfirmaClick(Sender: TObject);
+
+begin
+  vpPastaDestino := '';
+  with TFileOpenDialog.Create(nil) do
+  begin
+    try
+      Title := 'Selecione a Pasta para salvar a cópia de segurança';
+      Options := [fdoPickFolders, fdoPathMustExist, fdoForceFileSystem]; // YMMV
+      OkButtonLabel := 'Selecionar';
+      DefaultFolder := extractfilepath(application.ExeName);
+      FileName := DefaultFolder;
+      if Execute then
+      begin
+        vpPastaDestino := FileName;
+      end;
+    finally
+      Free;
+    end;
+
+  end;
+
+  if vpPastaDestino <> '' then
+  begin
+
+    bconfirma.Enabled := false;
+    bcancela.Enabled := false;
+    Label1.Caption := 'A G U A R D E . . .';
+    Label1.Font.color := clnavy;
+    Label2.Caption := '';
+    LMENSAGEM.Caption := 'Sua cópia de segurança será realizada agora.';
+    LMENSAGEM.Font.color := clnavy;
+    self.color := clWhite;
+    application.ProcessMessages;
+
+    BackupExec;
+  end;
+
+  modalresult := mrok;
+end;
+
+procedure TfRealizaBackup.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := cafree;
+end;
+
+function ExecutarEEsperar(NomeArquivo: String): boolean;
+var
+  Sh: TShellExecuteInfo;
+  CodigoSaida: DWORD;
+  vHandle: Cardinal;
+begin
+  FillChar(Sh, sizeof(Sh), 0);
+  Sh.cbSize := sizeof(TShellExecuteInfo);
+  with Sh do
+  begin
+    fMask := SEE_MASK_NOCLOSEPROCESS;
+    Wnd := application.Handle;
+    SetProcessAffinityMask(Wnd, $01);
+    lpVerb := nil;
+    lpFile := PChar(NomeArquivo);
+    nShow := SW_HIDE;
+  end;
+  if ShellExecuteEx(@Sh) then
+  begin
+    repeat
+      application.ProcessMessages;
+      GetExitCodeProcess(Sh.hProcess, CodigoSaida);
+    until not(CodigoSaida = STILL_ACTIVE);
+    Result := true;
+  end
+  else
+    Result := false;
+end;
+
+function TfRealizaBackup.ManipulaTXT(LocalTxt, Tipo, Parametro: string): string;
+var
+  arq: Textfile;
+  vlCaminhoAPP: string;
+begin
+
+  vlCaminhoAPP := extractfilepath(application.ExeName);
+
+  if (Tipo = 'Gravar') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Rewrite(arq);
+    Write(arq, Parametro);
+    CloseFile(arq);
+  end;
+
+  if (Tipo = 'Escrita') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Append(arq);
+    Writeln(arq, Parametro);
+    CloseFile(arq);
+  end;
+
+  if (Tipo = 'Leitura') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Reset(arq);
+    While not Eof(arq) do
+    begin
+      Readln(arq, Result);
+    end;
+  end;
+
+end;
+
+procedure TfRealizaBackup.BackupExec;
+
+var { Diretorios dos Bats }
+  DirBatDump, DirBatOrigem, DirBatXml, HoraBat2: string;
+  ErroEnvio: boolean;
+var { Complementares }
+  OrigemArq, XmlArq: string;
+
+var
+  E: Exception;
+  AppName: PChar;
+
+var
+  vlCaminhoAPP: string;
+  vlDirBackup: string;
+
+  vlArquivoSQL7znaPasta: boolean;
+  vlArquivoxml7znaPasta: boolean;
+
+begin
+
+  mensagens.Visible := true;
+
+  mostra.Max := 10;
+  mostra.Visible := true;
+
+  mostra.Position := 1;
+
+  vlDirBackup := vpPastaDestino;
+
+  vlCaminhoAPP := extractfilepath(application.ExeName);
+
+  if not DirectoryExists(vlCaminhoAPP + 'Temp') then
+    ForceDirectories(vlCaminhoAPP + 'Temp');
+
+  if not DirectoryExists(vlCaminhoAPP + 'TempArq') then
+    ForceDirectories(vlCaminhoAPP + 'TempArq');
+
+  vpHora := FormatDateTime('ddmmyyyyhhnnss', now);
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+
+  ManipulaTXT(vlCaminhoAPP + 'Temp\ExecDump.bat', 'Gravar', vlCaminhoAPP + 'config\mysqldump -h ' + vpServidorCli + ' ' + vpBancoCli +
+    ' --skip-add-locks --skip-lock-tables  --ignore-table=' + vpBancoCli + '.mesxml    --routines --user=' + vpLoginCli + ' --password=' + vpSenhaCli
+    + ' --port=' + vpPortaCli + ' >' + vlCaminhoAPP + 'relat\copia.sql');
+
+  mostra.Position := 2;
+
+  ManipulaTXT(vlCaminhoAPP + 'Temp\ExecOrigem.bat', 'Gravar', vlCaminhoAPP + 'config\7z.exe  a -t7z ' + vlCaminhoAPP + 'TempArq\Origem-' + vpCnpj +
+    '-' + vpHora + 'B.7z ' + vlCaminhoAPP + 'relat\copia.sql');
+
+  mostra.Position := 3;
+
+  ManipulaTXT(vlCaminhoAPP + 'Temp\ExecXml.bat', 'Gravar', vlCaminhoAPP + 'config\7z.exe  a -t7z ' + vlCaminhoAPP + 'TempArq\XMLTerc-' + vpCnpj + '-'
+    + vpHora + 'B.7z ' + vlCaminhoAPP + 'xml-recebidos\*.*');
+
+  mostra.Position := 4;
+
+  DirBatDump := vlCaminhoAPP + 'Temp\ExecDump.bat';
+  DirBatOrigem := vlCaminhoAPP + 'Temp\ExecOrigem.bat';
+  DirBatXml := vlCaminhoAPP + 'Temp\ExecXml.bat';
+
+  mensagens.Lines.Add(datetimetostr(now) + ' Preparando pastas.');
+
+  if not DirectoryExists(vlCaminhoAPP + 'relat') then
+    ForceDirectories(vlCaminhoAPP + 'relat');
+
+  OrigemArq := vlCaminhoAPP + 'TempArq\Origem-' + vpCnpj + '-' + vpHora + 'B.7z';
+  XmlArq := vlCaminhoAPP + 'TempArq\XMLTerc-' + vpCnpj + '-' + vpHora + 'B.7z';
+
+  mensagens.Lines.Add(datetimetostr(now) + ' Criando cópia de dados.');
+
+  ActivityIndicator1.animate := true;
+  ExecutarEEsperar(DirBatDump);
+  mostra.Position := 5;
+  ActivityIndicator1.animate := false;
+
+  mensagens.Lines.Add(datetimetostr(now) + ' Comprimindo arquivo da cópia.');
+
+  ActivityIndicator1.animate := true;
+  ExecutarEEsperar(DirBatOrigem);
+  mostra.Position := 6;
+  ActivityIndicator1.animate := false;
+
+  ActivityIndicator1.animate := true;
+  ExecutarEEsperar(DirBatXml);
+  mostra.Position := 7;
+  ActivityIndicator1.animate := false;
+
+  { Criar .BAT para Mover|Copiar Arquivos para os destinos para salvar }
+
+  if not DirectoryExists(vlDirBackup) then
+  begin
+    ForceDirectories(vlDirBackup);
+  end;
+
+  ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat', 'Gravar', 'Move ' + OrigemArq + ' ' + vlDirBackup);
+  ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat', 'Gravar', 'Move ' + XmlArq + ' ' + vlDirBackup);
+
+  mensagens.Lines.Add(datetimetostr(now) + ' Ajustando cópia na pasta de destino.');
+
+  ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat');
+
+  mostra.Position := 8;
+
+  if fileexists(vlDirBackup + '\' + extractfilename(OrigemArq)) then
+  begin
+    vlArquivoSQL7znaPasta := true;
+  end;
+
+  ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat');
+
+  mostra.Position := 9;
+
+  if fileexists(vlDirBackup + '\' + extractfilename(XmlArq)) then
+  begin
+    vlArquivoxml7znaPasta := true;
+  end;
+
+  { Fim }
+
+  try
+    { Preparar para finalizar rotina do backup }
+
+    deletefile(DirBatOrigem);
+    deletefile(DirBatXml);
+    deletefile(DirBatDump);
+
+    deletefile(vlCaminhoAPP + 'Temp\ExecDump.bat');
+    deletefile(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat');
+    deletefile(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat');
+    deletefile(vlCaminhoAPP + 'Temp\ExecCopyArqO.bat');
+    deletefile(vlCaminhoAPP + 'Temp\ExecCopyArqX.bat');
+
+  except
+  end;
+  mensagens.Lines.Add(datetimetostr(now) + ' Cópia encerrada com sucesso.');
+
+  mostra.Position := 10;
+
+  sleep(500);
+
+  mostra.Visible := false;
+
+end;
+
+end.

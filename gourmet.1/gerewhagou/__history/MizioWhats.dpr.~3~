@@ -1,0 +1,38 @@
+program MizioWhats;
+
+
+{$I cef.inc}
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  uCEFApplication,
+  uFprinciMizioWhats in 'uFprinciMizioWhats.pas' {FprinciMizioWhats};
+
+{$R *.res}
+
+begin
+
+  CreateGlobalCEFApp;
+
+  GlobalCEFApp.FrameworkDirPath := 'cef';
+  GlobalCEFApp.ResourcesDirPath := 'cef';
+  GlobalCEFApp.LocalesDirPath := 'cef\locales';
+  GlobalCEFApp.cache := 'cef\cache';
+  GlobalCEFApp.UserDataPath := 'cef\User Data';
+  GlobalCEFApp.Locale := 'pt-BR';
+  GlobalCEFApp.AcceptLanguageList := 'pt-BR,pt-BR;q=0.9,en-US;q=0.8,en;q=0.7';
+
+  if GlobalCEFApp.StartMainProcess then
+  begin
+
+    Application.Initialize;
+    Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFprinciMizioWhats, FprinciMizioWhats);
+    Application.Run;
+  end;
+  DestroyGlobalCEFApp;
+
+
+
+end.

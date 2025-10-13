@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.ReedSolomon.ReedSolomonDecoder" platform="Android">
+  <class name="TReedSolomonDecoder" sealed="true" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="33">
+    <devnotes>
+       <summary>
+       Implements Reed-Solomon encoding, as the name implies.
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <constructor name="Create" visibility="public" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="35">
+        <parameters>
+          <parameter name="field" type="TGenericGF" />
+        </parameters>
+      </constructor>
+      <function name="decode" visibility="public" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="37">
+        <parameters>
+          <parameter name="received" type="TArray&lt;System.Integer&gt;" />
+          <parameter name="twoS" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="findErrorLocations" visibility="class private" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="39">
+        <parameters>
+          <parameter name="errorLocator" type="IGenericGFPoly" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="findErrorMagnitudes" visibility="class private" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="41">
+        <parameters>
+          <parameter name="errorEvaluator" type="IGenericGFPoly" />
+          <parameter name="errorLocations" type="TArray&lt;System.Integer&gt;" />
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="runEuclideanAlgorithm" visibility="private" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="44">
+        <parameters>
+          <parameter name="a" type="IGenericGFPoly" />
+          <parameter name="b" type="IGenericGFPoly" />
+          <parameter name="pR" type="Integer" />
+          <retval type="TArray&lt;ZXing.Common.ReedSolomon.GenericGF.IGenericGFPoly&gt;" />
+        </parameters>
+      </function>
+      <field name="field" type="TGenericGF" visibility="class private" size="8" offset="8" file="ZXing.Common.ReedSolomon.ReedSolomonDecoder.pas" line="48" />
+    </members>
+  </class>
+</namespace>

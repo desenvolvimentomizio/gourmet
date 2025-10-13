@@ -1,0 +1,14 @@
+program DTSmartTEF;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  UntPDVApi in 'UntPDVApi.pas' {FrmPDVApi};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TFrmPDVApi, FrmPDVApi);
+  Application.Run;
+end.

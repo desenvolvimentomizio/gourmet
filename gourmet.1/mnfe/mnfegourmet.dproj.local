@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/10/23 09:34:57.000.146,=C:\fontes_gourmet\gourmet.1\mnfe\Unit1.pas</Transaction>
+    <Transaction>2024/10/23 09:36:50.000.867,C:\fontes_gourmet\gourmet.1\mnfe\ufaguarde.pas=C:\fontes_gourmet\gourmet.1\mnfe\Unit1.pas</Transaction>
+    <Transaction>2024/10/23 09:36:50.000.867,C:\fontes_gourmet\gourmet.1\mnfe\ufaguarde.dfm=C:\fontes_gourmet\gourmet.1\mnfe\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

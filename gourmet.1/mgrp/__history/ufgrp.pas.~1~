@@ -1,0 +1,101 @@
+unit ufgrp;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes, System.Actions,
+  Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ExtCtrls, System.ImageList, Vcl.Dialogs;
+
+type
+  Tfgrp = class(Tfrmbase)
+    registrogrpcodigo: TIntegerField;
+    registrogrpidentificacao: TStringField;
+    Label1: TLabel;
+    grpcodigo: TDBEdit;
+    grpidentificacao: TDBEdit;
+    Label2: TLabel;
+    registrotgrcodigo: TIntegerField;
+    tgr: TUniQuery;
+    tgrtgrcodigo: TIntegerField;
+    tgrtgridentificacao: TStringField;
+    registrotgridentificacao: TStringField;
+    cgr: TUniQuery;
+    cgrcgrcodigo: TIntegerField;
+    cgrcgridentificacao: TStringField;
+    registrocgrcodigo: TIntegerField;
+    registrocgridentificacao: TStringField;
+    Label4: TLabel;
+    cgrcodigo: TDBEdit;
+    registroimgcodigo: TIntegerField;
+    registrogrpremoto: TIntegerField;
+    sen: TUniQuery;
+    sensencodigo: TIntegerField;
+    sensenidentificacao: TStringField;
+    registrosengrpremoto: TStringField;
+    Label5: TLabel;
+    grpremoto: TDBEdit;
+    Label6: TLabel;
+    grpordem: TDBEdit;
+    registrogrpordem: TIntegerField;
+    grpimagem: TDBImage;
+    btCarregaImagem: TButton;
+    Label7: TLabel;
+    registrogrpimagem: TBlobField;
+    OpenPictureDialog: TOpenDialog;
+    procedure FormShow(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure btCarregaImagemClick(Sender: TObject);
+  private
+  public
+    { Public declarations }
+  end;
+
+var
+  fgrp: Tfgrp;
+
+  // Início ID do Módulo fragrp
+const
+  vPlIdMd = '01.01.05.005-02';
+
+  // Fim ID do Módulo fragrp
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfgrp.btCarregaImagemClick(Sender: TObject);
+var
+  BlobField: TBlobField;
+  FileName: string;
+begin
+  if OpenPictureDialog.Execute then
+  begin
+
+    BlobField := registro.FieldByName('grpimagem') as TBlobField;
+    FileName := OpenPictureDialog.FileName;
+    BlobField.LoadFromFile(FileName);
+  end;
+
+end;
+
+procedure Tfgrp.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+  inherited;
+end;
+
+procedure Tfgrp.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  if self.cgrcodigo.Visible = false then
+  begin
+    registrocgrcodigo.AsInteger := 1;
+  end;
+
+  registrotgrcodigo.AsInteger := 1;
+
+end;
+
+end.

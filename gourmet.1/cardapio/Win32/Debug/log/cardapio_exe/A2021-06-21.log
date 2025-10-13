@@ -1,0 +1,5 @@
+Cardapio.exe: 0000279C: 17:29:29 []:>--------------------------------------------------------------<
+Cardapio.exe: 0000279C: 17:29:29 [TUniServerModule]:Server First Init.
+Cardapio.exe: 0000279C: 17:29:29 [TUniServerModule]:Debug Mode = ON
+Cardapio.exe: 0000279C: 17:29:29 [TUniServerModule]:Starting HTTP Server on Port: 8077...
+Cardapio.exe: 0000279C: 17:29:29 [TUniServerModule]:HTTP Server Started on Port: 8077

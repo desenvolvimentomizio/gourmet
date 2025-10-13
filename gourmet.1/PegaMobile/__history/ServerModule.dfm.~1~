@@ -1,0 +1,31 @@
+object UniServerModule: TUniServerModule
+  OldCreateOrder = False
+  TempFolder = 'temp\'
+  SessionTimeout = 600000000
+  Title = 'Gourmet 3.5'
+  SuppressErrors = []
+  Bindings = <>
+  MainFormDisplayMode = mfPage
+  CustomCSS.Strings = (
+    '.Fonte1: {font-size: 15px;'
+    '    color: black;'
+    '    font-weight: bold;}'
+    ''
+    ''
+    ''
+    '.Fonte11 {border-radius:10px;'
+    '    background-color: rgb(211,235,225) !important;'
+    '    border: 1px solid rgb(142,28,36); }')
+  SSL.SSLOptions.RootCertFile = 'root.pem'
+  SSL.SSLOptions.CertFile = 'cert.pem'
+  SSL.SSLOptions.KeyFile = 'key.pem'
+  SSL.SSLOptions.Method = sslvTLSv1_1
+  SSL.SSLOptions.SSLVersions = [sslvTLSv1_1]
+  SSL.SSLOptions.Mode = sslmUnassigned
+  SSL.SSLOptions.VerifyMode = []
+  SSL.SSLOptions.VerifyDepth = 0
+  ConnectionFailureRecovery.ErrorMessage = 'Connection Error'
+  ConnectionFailureRecovery.RetryMessage = 'Retrying...'
+  Height = 150
+  Width = 215
+end

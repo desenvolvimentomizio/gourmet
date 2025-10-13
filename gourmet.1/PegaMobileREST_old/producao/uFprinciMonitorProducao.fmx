@@ -1,0 +1,137 @@
+object FprinciMonitorProducao: TFprinciMonitorProducao
+  Left = 0
+  Top = 0
+  Caption = 'Monitor de Produ'#231#227'o'
+  ClientHeight = 652
+  ClientWidth = 473
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object ToolBar1: TToolBar
+    Size.Width = 473.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object Label1: TLabel
+      Align = Client
+      StyledSettings = [Family, FontColor]
+      Size.Width = 304.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 15.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.HorzAlign = Center
+      Text = 'Gourmet - Monitor de Produ'#231#227'o'
+      TabOrder = 2
+    end
+    object btConfiguracao: TButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'drawertoolbutton'
+      TabOrder = 3
+      Text = 'btConfiguracao'
+      OnClick = btConfiguracaoClick
+    end
+    object lbRelogio: TLabel
+      Align = Right
+      StyledSettings = [Family, FontColor]
+      Position.X = 352.000000000000000000
+      Size.Width = 121.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 25.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.HorzAlign = Center
+      Text = '00:00:00'
+      TabOrder = 1
+    end
+  end
+  object Temporizador: TTimer
+    Enabled = False
+    OnTimer = TemporizadorTimer
+    Left = 224
+    Top = 160
+  end
+  object ListViewPedidos: TListView
+    ItemAppearanceClassName = 'TMultiDetailItemAppearance'
+    ItemEditAppearanceClassName = 'TMultiDetailShowCheckAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    EditMode = True
+    Align = Client
+    Size.Width = 473.000000000000000000
+    Size.Height = 554.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 14
+    CanSwipeDelete = False
+    DeleteButtonText = ''
+  end
+  object Rectangle1: TRectangle
+    Align = Bottom
+    Position.Y = 602.000000000000000000
+    Size.Width = 473.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    object sbSelecionarColavoradores: TSpeedButton
+      Align = Right
+      Position.X = 400.000000000000000000
+      Size.Width = 73.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'composetoolbuttonbordered'
+      Text = 'sbSelecionarColavoradores'
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = DMDados.pedidos
+    ScopeMappings = <>
+    Left = 304
+    Top = 344
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 204
+    Top = 333
+    object LinkFillControlToField: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Track = False
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'pronome'
+      AutoFill = True
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+    object LinkListControlToField1: TLinkListControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'pronome'
+      Control = ListViewPedidos
+      FillExpressions = <
+        item
+          SourceMemberName = 'pdgnumero'
+          ControlMemberName = 'Detail1'
+        end
+        item
+          SourceMemberName = 'tempo'
+          ControlMemberName = 'Detail2'
+        end
+        item
+          SourceMemberName = 'mitidentificacao'
+          ControlMemberName = 'Detail4'
+        end
+        item
+          SourceMemberName = 'horapedido'
+          ControlMemberName = 'Detail3'
+        end>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+  end
+end

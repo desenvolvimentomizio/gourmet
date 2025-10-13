@@ -1,0 +1,946 @@
+unit UFprinciWhaGou;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, inifiles,System.Math,Winapi.TlHelp32,Winapi.ShellAPI,
+    //############ ATENCAO AQUI ####################
+  //units adicionais obrigatorias
+   uTWPPConnect.ConfigCEF, uTWPPConnect,            uTWPPConnect.Constant,      uTWPPConnect.JS,     uWPPConnectDecryptFile,
+   uTWPPConnect.Console,   uTWPPConnect.Diversos,   uTWPPConnect.AdjustNumber,  uTWPPConnect.Config, uTWPPConnect.Classes,
+   uTWPPConnect.Emoticons, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.Imaging.pngimage, Data.DB, DBAccess, Uni, UniProvider, MySQLUniProvider,
+  MemDS;
+
+type
+  TFprinciWhaGou = class(TForm)
+    WPPConnect1: TWPPConnect;
+    Panel1: TPanel;
+    SpeedButton3: TSpeedButton;
+    Button1: TButton;
+    StatusBar1: TStatusBar;
+    whatsOn: TImage;
+    whatsOff: TImage;
+    lblNumeroConectado: TLabel;
+    Label3: TLabel;
+    MySQLUniProvider: TMySQLUniProvider;
+    Conexao: TUniConnection;
+    Inicializar: TTimer;
+    czn: TUniQuery;
+    czncznchave: TIntegerField;
+    tmVerificarPedidos: TTimer;
+    tmVerificarSaidas: TTimer;
+    tmVerificarRetornos: TTimer;
+    MensagensEnviadas: TMemo;
+    plHora: TLabel;
+    immpedido: TUniQuery;
+    immpedidoorcchave: TIntegerField;
+    immpedidofoacodigo: TIntegerField;
+    immpedidostocodigo: TIntegerField;
+    immpedidorelarquivo: TBlobField;
+    immpedidoorcobs: TStringField;
+    immpedidoorcgeralav: TFloatField;
+    immpedidogricodigo: TIntegerField;
+    immpedidogrpcodigo: TIntegerField;
+    immpedidoimmchave: TIntegerField;
+    orc: TUniQuery;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmgoumensapedido0: TStringField;
+    cfgcfgmgoumensasaida0: TStringField;
+    cfgcfgmgoumensaretorno0: TStringField;
+    cfgcfgmgoumensapedido1: TStringField;
+    cfgcfgmgoumensasaida1: TStringField;
+    cfgcfgmgoumensaretorno1: TStringField;
+    cfgcfgmgoumensapedido2: TStringField;
+    cfgcfgmgoumensasaida2: TStringField;
+    cfgcfgmgoumensaretorno2: TStringField;
+    cfgcfgmgoumensapedido3: TStringField;
+    cfgcfgmgoumensasaida3: TStringField;
+    cfgcfgmgoumensaretorno3: TStringField;
+    cfgcfgmgoumensapedido4: TStringField;
+    cfgcfgmgoumensasaida4: TStringField;
+    cfgcfgmgoumensaretorno4: TStringField;
+    cfgcfgmgoumensapedido5: TStringField;
+    cfgcfgmgoumensasaida5: TStringField;
+    cfgcfgmgoumensaretorno5: TStringField;
+    cfgcfgmgoumensapedido6: TStringField;
+    cfgcfgmgoumensasaida6: TStringField;
+    cfgcfgmgoumensaretorno6: TStringField;
+    cfgcfgmgoumensapedido7: TStringField;
+    cfgcfgmgoumensasaida7: TStringField;
+    cfgcfgmgoumensaretorno7: TStringField;
+    cfgcfgmgoumensapedido8: TStringField;
+    cfgcfgmgoumensasaida8: TStringField;
+    cfgcfgmgoumensaretorno8: TStringField;
+    cfgcfgmgoumensapedido9: TStringField;
+    cfgcfgmgoumensasaida9: TStringField;
+    cfgcfgmgoumensaretorno9: TStringField;
+    cfgcfgmgoustatuswhats: TDateTimeField;
+    lblStatus: TLabel;
+    imm: TUniQuery;
+    itopedido: TUniQuery;
+    itopedidoorcchave: TIntegerField;
+    itopedidoimmnumepedido: TIntegerField;
+    itopedidotcicodigo: TIntegerField;
+    itopedidotciporta: TStringField;
+    itopedidomitidentificacao: TStringField;
+    itopedidofoacodigo: TIntegerField;
+    itopedidopedidoaux: TIntegerField;
+    itopedidoitochave: TIntegerField;
+    gri: TUniQuery;
+    immsaida: TUniQuery;
+    immsaidaorcchave: TIntegerField;
+    immsaidafoacodigo: TIntegerField;
+    immsaidastocodigo: TIntegerField;
+    immsaidarelarquivo: TBlobField;
+    immsaidaorcobs: TStringField;
+    immsaidaorcgeralav: TFloatField;
+    immsaidagricodigo: TIntegerField;
+    immsaidagrpcodigo: TIntegerField;
+    immsaidaimmchave: TIntegerField;
+    immretorno: TUniQuery;
+    immretornoorcchave: TIntegerField;
+    immretornofoacodigo: TIntegerField;
+    immretornostocodigo: TIntegerField;
+    immretornorelarquivo: TBlobField;
+    immretornoorcobs: TStringField;
+    immretornoorcgeralav: TFloatField;
+    immretornogricodigo: TIntegerField;
+    immretornogrpcodigo: TIntegerField;
+    immretornoimmchave: TIntegerField;
+    Button2: TButton;
+    Panel2: TPanel;
+    mmErros: TMemo;
+    tmCheckOnline: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure WPPConnect1GetStatus(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure InicializarTimer(Sender: TObject);
+    procedure tmVerificarPedidosTimer(Sender: TObject);
+    procedure tmVerificarSaidasTimer(Sender: TObject);
+    procedure tmVerificarRetornosTimer(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure WPPConnect1Connected(Sender: TObject);
+    procedure WPPConnect1ErroAndWarning(Sender: TObject; const PError,
+      PInfoAdc: string);
+    procedure WPPConnect1GetStatusMessage(const Result: TResponseStatusMessage);
+    procedure WPPConnect1UpdateJS(Sender: TObject);
+    procedure WPPConnect1GetHistorySyncProgress(
+      const GetHistorySyncProgress: TResponsegetHistorySyncProgress);
+    procedure FormShow(Sender: TObject);
+    procedure tmCheckOnlineTimer(Sender: TObject);
+    procedure WPPConnect1RetErrorWhiteScreen(Sender: TObject; Response: string);
+  private
+    { Private declarations }
+    FChatID: string;
+    whatsappsms, TentativaConexao, Count_QrCodeDesconectouErroCache: integer;
+
+    function conectabanco: Boolean;
+    procedure VerificaPedidos;
+    function NotificaCliente(aOrcChave: string; aTipoNotificacao:String): Boolean;
+    procedure SalvaHoraNotificacao(aOrcChave: string; aTipoNotificacao:String);
+    procedure VerificaRetornos;
+    procedure VerificaSaidas;
+    function killtask(ExeFileName: string): Integer;
+    procedure CriarArquivoBAT_ReiniciaAplicacao;
+    procedure VerificaWhatsApp;
+  public
+    { Public declarations }
+    vpCznChave:String;
+
+    vpTopo: String;
+    vpEsquerda: String;
+    vpLargura: String;
+    vpAltura: String;
+    vpTelefoneTeste:String;
+
+  end;
+
+var
+  FprinciWhaGou: TFprinciWhaGou;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFprinciWhaGou.Button1Click(Sender: TObject);
+begin
+ if not WPPConnect1.Auth(false) then
+  Begin
+
+    WPPConnect1.FormQrCodeType := TFormQrCodeType.Ft_Http;
+    WPPConnect1.FormQrCodeStart;
+  End;
+
+  if not WPPConnect1.FormQrCodeShowing then
+     WPPConnect1.FormQrCodeShowing := True;
+end;
+
+procedure TFprinciWhaGou.Button2Click(Sender: TObject);
+var
+  options : string;
+begin
+
+  try
+
+    if not WPPConnect1.Auth then
+    begin
+      Showmessage('Whats off');
+      Exit;
+    end;
+
+    options := 'createChat: true';
+    //Opicional Não Utilizar para primeira mensagem, somente para contatos que já houve alguma interação
+
+    WPPConnect1.setKeepAlive('true'); //Marca como Online
+    WPPConnect1.markIsComposing('6692350049', '1000'); //Digitando 5 Segundos
+    WPPConnect1.SendTextMessageEx('6692350049', 'Mensagem de teste', options, '123');
+    MensagensEnviadas.Lines.Add('Mensagem de teate enviada: '+'6692350049');
+
+    WPPConnect1.setKeepAlive('true'); //Marca como Online
+    WPPConnect1.markIsComposing(vpTelefoneTeste, '1000'); //Digitando 5 Segundos
+    WPPConnect1.SendTextMessageEx(vpTelefoneTeste, 'Mensagem de teste', options, '124');
+    MensagensEnviadas.Lines.Add('Mensagem de teate enviada: '+vpTelefoneTeste);
+
+  finally
+
+  end;
+
+end;
+
+function TFprinciWhaGou.killtask(ExeFileName: string): Integer;
+const
+  PROCESS_TERMINATE = $0001;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+begin
+  Result := 0;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if ((UpperCase(ExtractFileName(FProcessEntry32.szExeFile))
+      = UpperCase(ExeFileName)) or (UpperCase(FProcessEntry32.szExeFile)
+      = UpperCase(ExeFileName))) then
+      Result := Integer(TerminateProcess(OpenProcess(PROCESS_TERMINATE, BOOL(0),
+        FProcessEntry32.th32ProcessID), 0));
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+
+
+procedure TFprinciWhaGou.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  //if TWPPConnect1.IsConnected then
+  WPPConnect1.ShutDown;
+  Sleep(500);
+  killtask('GereWhaGou.exe')
+
+end;
+
+procedure TFprinciWhaGou.FormCreate(Sender: TObject);
+begin
+    GlobalCEFApp.LogConsoleActive := true;
+end;
+
+
+procedure TFprinciWhaGou.FormShow(Sender: TObject);
+begin
+  if not WPPConnect1.Auth(False) then
+  Begin
+    WPPConnect1.FormQrCodeType :=Ft_Desktop;
+    WPPConnect1.FormQrCodeStart;
+  End
+  else
+  begin
+    Inicializar.Enabled          := True;
+  end;
+
+
+end;
+
+procedure TFprinciWhaGou.InicializarTimer(Sender: TObject);
+var
+  i: Integer;
+begin
+  inicializar.ENABLED := False;
+
+  for i := 0 to self.ComponentCount - 1 do
+  begin
+    if self.Components[i] is TUniQuery then
+    begin
+      (self.Components[i] as TUniQuery).Connection := Conexao;
+    end;
+
+  end;
+
+  if conectabanco then
+  begin
+
+    czn.close;
+    czn.Open;
+
+    vpCznChave := formatfloat('000000', czncznchave.AsInteger);
+
+
+    tmVerificarPedidos.ENABLED := True;
+    tmVerificarSaidas.ENABLED := True;
+    tmVerificarRetornos.ENABLED := True;
+    tmCheckOnline.Enabled:=true;
+
+    statusbar1.Panels[2].Text:=conexao.Database;
+
+
+
+  end;
+
+end;
+
+procedure TFprinciWhaGou.tmVerificarPedidosTimer(Sender: TObject);
+begin
+  try
+
+    czn.close;
+    czn.Open;
+
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    tmVerificarPedidos.ENABLED := False;
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaPedidos;
+
+
+    end;
+
+  finally
+    tmVerificarPedidos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.tmVerificarRetornosTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarRetornos.ENABLED := False;
+
+     czn.close;
+    czn.Open;
+
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaRetornos;
+
+    end;
+
+  finally
+    tmVerificarRetornos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.tmVerificarSaidasTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarSaidas.ENABLED := False;
+
+    czn.close;
+    czn.Open;
+
+    cfg.close;
+    cfg.Open;
+
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaSaidas;
+
+    end;
+
+  finally
+    tmVerificarSaidas.ENABLED := True;
+  end;
+
+
+end;
+
+procedure TFprinciWhaGou.WPPConnect1Connected(Sender: TObject);
+begin
+  lblNumeroConectado.Caption :=  WPPConnect1.MyNumber;
+end;
+
+procedure TFprinciWhaGou.WPPConnect1ErroAndWarning(Sender: TObject;
+  const PError, PInfoAdc: string);
+begin
+
+mmErros.Lines.Add( '401 Erro: '+PInfoAdc);
+end;
+
+procedure TFprinciWhaGou.WPPConnect1GetHistorySyncProgress(
+  const GetHistorySyncProgress: TResponsegetHistorySyncProgress);
+begin
+  mmErros.Lines.Add( '411 Sincronização '+GetHistorySyncProgress.Name+ ' '+ GetHistorySyncProgress.progress.ToString);
+end;
+
+procedure TFprinciWhaGou.WPPConnect1GetStatus(Sender: TObject);
+begin
+  if not Assigned(Sender) Then
+     Exit;
+
+  // TStatusType
+
+  if (TWPPConnect(Sender).Status = Inject_Initialized) or
+     (TWPPConnect(Sender).Status = Inject_IsReady) or
+     (TWPPConnect(Sender).Status = Server_Connected) then
+  begin
+    lblStatus.Caption            := 'Online';
+    lblStatus.Font.Color         := $0000AE11;
+    SpeedButton3.Enabled         := true;
+    Inicializar.Enabled          := True;
+  end else
+  begin
+    SpeedButton3.Enabled         := false;
+    lblStatus.Caption            := 'Offline';
+    //lblStatus.Font.Color       := $002894FF;
+    lblStatus.Font.Color         := clGrayText;
+    Inicializar.Enabled          := False;
+
+  end;
+
+  StatusBar1.Panels[1].Text  := lblStatus.Caption;
+  whatsOn.Visible            := SpeedButton3.enabled;
+  whatsOff.Visible           := Not whatsOn.Visible;
+
+
+//  Label3.Visible := False;
+  case TWPPConnect(Sender).status of
+    Server_ConnectedDown       : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_Disconnected        : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_Disconnecting       : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_Connected           : Label3.Caption := '';
+    Server_Connecting          : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Inject_Initializing        : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Inject_Initialized         : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_ConnectingNoPhone   : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_ConnectingReaderCode: Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Server_TimeOut             : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Inject_Destroying          : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+    Inject_Destroy             : Label3.Caption := TWPPConnect(Sender).StatusToStr;
+  end;
+  mmErros.Lines.Add(Label3.Caption);
+
+ // If Label3.Caption <> '' Then
+ //    Label3.Visible := true;
+
+
+  If TWPPConnect(Sender).Status in [Server_ConnectingNoPhone, Server_TimeOut] Then
+  Begin
+    if TWPPConnect(Sender).FormQrCodeType = Ft_Desktop then
+    Begin
+       if TWPPConnect(Sender).Status = Server_ConnectingNoPhone then
+          WPPConnect1.FormQrCodeStop;
+    end else
+    Begin
+      if TWPPConnect(Sender).Status = Server_ConnectingNoPhone then
+      Begin
+        if not TWPPConnect(Sender).FormQrCodeShowing then
+           TWPPConnect(Sender).FormQrCodeShowing := True;
+      end else
+      begin
+        TWPPConnect(Sender).FormQrCodeReloader;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.WPPConnect1GetStatusMessage(
+  const Result: TResponseStatusMessage);
+begin
+  mmErros.Lines.Add( '475 Status: '+Result.status);
+end;
+
+procedure TFprinciWhaGou.WPPConnect1RetErrorWhiteScreen(Sender: TObject;
+  Response: string);
+var
+  caminho : string;
+  NomeAplicacao: string;
+begin
+  NomeAplicacao := ExtractFileName(Application.ExeName);
+  NomeAplicacao := Copy(NomeAplicacao,1, pos('.exe', NomeAplicacao) -1);
+
+
+  if not (FileExists(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat')) then
+  begin
+    CriarArquivoBAT_ReiniciaAplicacao;
+    SleepNoFreeze(1000);
+  end;
+
+  //Forçar Reiniciar a Aplicação  / Force Restart the Application
+  ShellExecute(handle,'open',PChar(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat'), '','',SW_MINIMIZE);
+
+end;
+
+procedure TFprinciWhaGou.WPPConnect1UpdateJS(Sender: TObject);
+begin
+  mmErros.Lines.Add( '481 Atualização JS');
+end;
+
+function TFprinciWhaGou.conectabanco: Boolean;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+Begin
+  result := False;
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  With arquini Do
+  Begin
+
+    vpTopo := arquini.ReadString('GourmetAIQ', 'Top', '0');
+    vpEsquerda := arquini.ReadString('GourmetAIQ', 'Left', '0');
+    vpLargura := arquini.ReadString('GourmetAIQ', 'Width', '350');
+    vpAltura := arquini.ReadString('GourmetAIQ', 'Height', '350');
+
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+    vpTelefoneTeste := ReadString('posi', 'telefoneteste', '');
+
+  End;
+  arquini.Free;
+
+  Self.Top := vpTopo.ToInteger;
+  Self.Left := vpEsquerda.ToInteger;
+  Self.Width := vpLargura.ToInteger;
+  Self.Height := vpAltura.ToInteger;
+
+
+  Conexao.Connected := False;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := True;
+
+  if not Conexao.Connected then
+  begin
+    ShowMessage('Falha de conexão com o Banco de Dados. Verifique as configurações do gourmeterp.ini');
+    Application.Terminate;
+  end
+  else
+  begin
+    result := True;
+  end;
+
+End;
+
+procedure TFprinciWhaGou.VerificaPedidos;
+var
+  vlTentativas: Integer;
+
+begin
+
+
+  immpedido.close;
+  immpedido.ParamByName('cznchave').AsString := vpCznChave;
+  immpedido.Open;
+
+  vlTentativas := 0;
+
+
+  immpedido.First;
+
+  while not immpedido.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immpedidogrpcodigo.AsString;
+    gri.Open;
+
+
+
+    if NotificaCliente(immpedidoorcchave.AsString, 'pedido') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immpedido.Next;
+      end;
+    end;
+  end;
+
+end;
+
+
+procedure TFprinciWhaGou.VerificaSaidas;
+var
+  vlTentativas: Integer;
+
+begin
+
+  czn.close;
+  czn.Open;
+
+  immsaida.close;
+  immsaida.ParamByName('cznchave').AsString := vpCznChave;
+  immsaida.Open;
+
+  vlTentativas := 0;
+
+
+  // notificacao da saida
+  immsaida.First;
+
+  while not immsaida.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immsaidagrpcodigo.AsString;
+    gri.Open;
+
+
+    if NotificaCliente(immsaidaorcchave.AsString, 'saida') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immsaida.Next;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.VerificaRetornos;
+var
+  vlTentativas: Integer;
+
+begin
+
+  vpCznChave := czncznchave.AsString;
+
+  immretorno.close;
+  immretorno.ParamByName('cznchave').AsString := vpCznChave;
+  immretorno.Open;
+
+  vlTentativas := 0;
+
+  // notificacao da retorno
+  immretorno.First;
+  while not immretorno.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immretornogrpcodigo.AsString;
+    gri.Open;
+
+
+    if NotificaCliente(immretornoorcchave.AsString, 'retorno') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immretorno.Next;
+      end;
+    end;
+  end;
+
+end;
+
+
+
+
+
+function TFprinciWhaGou.NotificaCliente(aOrcChave: string; aTipoNotificacao:String): Boolean;
+var
+
+  vlTemWhats: Boolean;
+  vlTelefone: string;
+  vlIrandomico: string;
+
+  options: string;
+  vlTempoDigitacao:Integer;
+
+begin
+
+  Result := True;
+
+  cfg.close;
+  cfg.Open;
+
+  if aOrcChave <> '' then
+  begin
+
+    orc.close;
+    orc.ParamByName('orcchave').AsString := aOrcChave;
+    orc.Open;
+
+
+    if Length(orc.FieldByName('orctelefone').AsString) >= 11 then
+    begin
+      vlTelefone :=  orc.FieldByName('orctelefone').AsString;
+      if Length(vlTelefone) >= 11 then
+      begin
+        vlTelefone:=copy(vlTelefone,1,2)+copy(vlTelefone,3,8)
+      end;
+
+      vlTemWhats := True;
+    end
+    else
+    begin
+      // não tem whats vai só registar hora do pedido
+      SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
+      vlTemWhats := False;
+    end;
+
+
+
+
+    if vlTemWhats then
+    begin
+      sleep(RandomRange(50, 500));
+
+      if pos(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' +  vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString, MensagensEnviadas.Lines.Text) = 0 then
+      begin
+
+        vlTelefone:=orc.FieldByName('orctelefone').AsString;
+        vlTelefone:=copy(vlTelefone,1,2)+copy(vlTelefone,4,10);
+
+        MensagensEnviadas.Lines.add(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' + vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString);
+
+        vlIrandomico := IntToStr(RandomRange(0, 9));
+        vlIrandomico := '0';
+
+        options := 'createChat: true';
+
+        WPPConnect1.setKeepAlive('true'); //Marca como Online
+        vlTempoDigitacao:=RandomRange(1000, 5000);
+
+        WPPConnect1.markIsComposing(vlTelefone, vlTempoDigitacao.ToString); //Digitando de 1 a 5 Segundos
+
+        WPPConnect1.SendTextMessageEx(vlTelefone,  cfg.FieldByName('cfgmgoumensa'+lowercase(aTipoNotificacao) + vlIrandomico).AsString, options,vpCznChave+vlTempoDigitacao.ToString {'123'});
+
+        SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
+
+      end;
+    end;
+  end;
+end;
+
+procedure TFprinciWhaGou.SalvaHoraNotificacao(aOrcChave: string; aTipoNotificacao:String);
+begin
+  imm.close;
+  imm.SQL.Text := 'select imwchave, imwhoranotificadopedido, imwhorasaidadopedido, imwhoraentregadopedido from imw where itochave in (select itochave from ito where orcchave=' + aOrcChave + ')';
+  imm.Open;
+  while not imm.Eof do
+  begin
+    itopedido.close;
+    itopedido.ParamByName('orcchave').AsString := aOrcChave;
+    itopedido.Open;
+    if itopedido.Locate('orcchave', aOrcChave, []) then
+    begin
+
+      try
+
+        imm.Edit;
+
+        if aTipoNotificacao='pedido' then
+          imm.FieldByName('imwhoranotificadopedido').AsFloat := now
+        else if aTipoNotificacao='saida' then
+          imm.FieldByName('imwhorasaidadopedido').AsFloat := now
+        else
+          imm.FieldByName('imwhoraentregadopedido').AsFloat := now;
+
+        imm.Post;
+
+      except
+        imm.cancel;
+      end;
+    end;
+    imm.Next;
+  end;
+end;
+
+
+procedure TFprinciWhaGou.tmCheckOnlineTimer(Sender: TObject);
+begin
+  tmCheckOnline.Enabled := False;
+
+  VerificaWhatsApp;
+
+  tmCheckOnline.Enabled := True;
+end;
+
+procedure TFprinciWhaGou.VerificaWhatsApp;
+var
+  caminho : string;
+  NomeAplicacao: string;
+Begin
+  NomeAplicacao := ExtractFileName(Application.ExeName);
+  NomeAplicacao := Copy(NomeAplicacao,1, pos('.exe', NomeAplicacao) -1);
+
+  try
+    if (WPPConnect1.MyNumber = Null) or (WPPConnect1.MyNumber = '')  then
+    Begin
+      Exit;
+    End
+    else
+    Begin
+      if whatsappsms = 0 then
+      Begin
+        if TentativaConexao >= 2 then
+        begin
+          lblStatus.Caption := 'Offline';
+          Label3.Caption := 'Offline Test CheckNumber';
+          lblStatus.Font.Color := $002894FF;
+          lblStatus.Font.Color := clGrayText;
+          whatsOff.Visible := True;
+          whatsOn.Visible := False;
+          SpeedButton3.Enabled := True;
+        end;
+
+        if TentativaConexao >= 2 then
+        begin
+          WPPConnect1.RebootWPP;
+        end
+        else
+        if TentativaConexao >= 3 then
+        begin //Reiniciar Aplicação
+          //Executar Arquivo BAT para Reiniciar Aplicação em Caso de Bug
+          if not (FileExists(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat')) then
+          begin
+            CriarArquivoBAT_ReiniciaAplicacao;
+            SleepNoFreeze(1000);
+          end;
+          //Forçar Reiniciar a Aplicação
+          ShellExecute(handle,'open',PChar(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat'), '','',SW_MINIMIZE);
+          Exit;
+        end;
+      End;
+    End;
+  except on E: Exception do
+  end;
+End;
+
+
+procedure TFprinciWhaGou.CriarArquivoBAT_ReiniciaAplicacao;
+var
+  nomearq: string;
+  NomeAplicacao: string;
+  arq: TextFile;
+begin
+  try
+    NomeAplicacao := ExtractFileName(Application.ExeName);
+    NomeAplicacao := Copy(NomeAplicacao,1, pos('.exe', NomeAplicacao) -1);
+
+    nomearq := ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat';
+    AssignFile(arq, nomearq);
+    try
+      if FileExists(nomearq) then
+        Append(arq)
+      else
+        Rewrite(arq);
+
+      Writeln(arq, 'taskkill /F /IM ' + NomeAplicacao + '.exe');
+      Writeln(arq, 'timeout /t 10 /nobreak'); //10 Segundos
+      //Writeln(arq, 'Copy ' + ExtractFilePath(Application.ExeName) + 'Temp\AtualizadorAutomatico.exe ' + ExtractFilePath(Application.ExeName) + 'AtualizadorAutomatico.exe');
+      Writeln(arq, 'start ' + ExtractFilePath(Application.ExeName) + NomeAplicacao + '.exe');
+
+      Flush(arq);
+    finally
+      CloseFile(arq);
+      //gravar_log('  Arquivo "Reinicia' + NomeAplicacao + '.bat", criado com sucesso! ');
+    end;
+  except
+  end;
+
+end;
+
+
+
+end.

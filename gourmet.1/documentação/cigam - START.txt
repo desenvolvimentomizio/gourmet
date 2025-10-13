@@ -1,0 +1,271 @@
+Gestão Financeira
+
+Objetivos e Benefícios
+Gerar o setor financeiro da empresa com visões em contas financeiras, contábeis e gerenciais, permitindo acompanhamento histórico com síntese financeira ou previsão com fluxo financeiro em longo prazo, automatizando as operações e decisões do dia-a-dia, e muitas outras informações gerenciais importantes no processo de tomada de decisão.
+
+Características
+Contas a pagar e receber;
+Controle de caixa e bancos;
+Gerenciamento de Comissões;
+EDI bancário (CNAB e FEBRABAN) para cobrança, pagamento e custódia de cheques;
+Emissão de cheques e ordens de pagamento;
+Pagamentos e recebimentos totais e parciais;
+Fluxo financeiro diário, semanal, agenda e gráfico;
+Síntese financeira por conta financeira, contábil e gerencial;
+Inversão e interpolação gerencial;
+Controle de crédito por cliente;
+Cheques pré-datados e devolvidos;
+Controle e acompanhamento de previsões;
+Retenções de impostos e contribuições;
+Unificação de pagamentos e recebimentos;
+Controle de adiantamentos a fornecedores, representantes e clientes;
+Cálculo de juros, multas, descontos, variação monetária, etc.;
+Controle de verbas por conta contábil e gerencial integrado ao Planejamento Financeiro;
+Diário auxiliar e Posição de clientes e fornecedores.
+
+
+Vendas/CRM
+
+Objetivos e Benefícios
+Acompanha o processo de vendas, do primeiro contato com o cliente até a efetivação do pedido, gerenciando a agenda da equipe de vendas com a situação de cada contato. Com recurso de CRM permite ainda a conceituação e manutenção de todo o histórico de dados e contatos com cada cliente garantindo um bom relacionamento com este. Todo o processo de vendas é avaliado e acompanhado pela qualidade e resultado de cada venda. Emissão e envio automático da proposta e estatísticas deste processo como previsão de faturamento, vendas e margens por produto, cliente, vendedor, região, evento, representante, etc.
+
+Características
+Agenda de contatos;
+Gerenciamento dos contatos e orçamentos;
+Controle de atividades por telemarketing/operador/vendedor;
+CRM integração de todas as informações para gerenciamento do relacionamento com o cliente;
+Geração de propostas e acompanhamento;
+Pesquisa de mercado;
+Estatística de atendimento;
+Controle de eventos comerciais;
+Gerencia volumes e margens de vendas;
+Estatísticas e Informações gerenciais dos contatos e vendas.
+
+
+Faturamento/Pedidos
+
+Objetivos e Benefícios
+Gerencia as vendas, validando datas de entrega, previsão financeira, limites de crédito, saldos por pedido e cliente, garantindo o processo e a administração da carteira de vendas.
+
+Características
+Nota Fiscal Eletrônica;
+Cálculo da promessa de entrega dos pedidos, com base na capacidade produtiva;
+Previsão financeira;
+Acompanhamento da margem de venda por item e pedido;
+Limite de créditos em pedidos e notas fiscais;
+Controles e limites de preços e descontos;
+Gerencia a aprovação de crédito direta ou remota;
+Certificados de qualidade e inspeção;
+Efetivações parciais, totais ou em lote dos pedidos;
+Controle de saldos por itens e clientes; 
+Controle de saldos de estoque e disponibilidade de entrega;
+Controles múltiplos de comissões; 
+Cálculo automático dos impostos; 
+Tabela de preço padrão ou por cliente; 
+EDI (transferência eletrônica de dados) para pedidos; 
+Emissão detalhada com lote, validade, grade, numero de série, características, etc.
+Mapas de faturamento; 
+Sistema de informação gerencial de pedidos e faturamento.
+
+
+Gestão de Materiais
+
+Objetivos e Benefícios
+Gerencia o estoque físico e financeiro da organização, desde a matéria prima até o produto pronto. O controle e a classificação do estoque podem ser totalmente parametrizados de acordo com os critérios previamente estabelecidos. Possibilitando assim, uma administração de materiais dinâmica e otimizada.
+
+Características
+Estoque físico e financeiro; 
+Controle por unidade de negócio, centros de armazenagem, característica, lotes, grades, número de série, embalagens, etc.; 
+Controle de ordens e demandas (encomendas e reservas), disponibilidade ao longo do tempo;
+Estoque com configurador de Produto, permitindo controle de estoque simplificado de itens com características variáveis; 
+Endereçamento de locais de armazenagem; 
+Registro de inventário em qualquer período; 
+Demonstração da evolução do custo médio e estoque físico; 
+Parametrização de regras de custo envolvendo impostos por espécie de movimento; 
+Composição de 'kits'; 
+Integração contábil da movimentação de estoque por conta gerencial;
+Contagem cíclica;
+Apropriação de Custo Real;
+Automatização da geração de código inteligente.
+
+
+
+Suprimento/Compras
+
+Objetivos e Benefícios
+Gerencia as solicitações, cotações, ordens de compras e notas de entradas de forma prática e otimizada, evitando retrabalhos no processo. Permite ao comprador um acesso ágil das informações gerenciais, que necessita para o bom planejamento de compras da empresa. 
+
+Características
+Gerencia limites de verbas de compras;
+Controle completo do processo de aprovação de compras; 
+Emissão de solicitações, cotações e ordens de compras;
+Controle e envio personalizado de solicitação e ordem de compra;
+Previsão financeira;
+Alocação das compras por diversos centros de custos;
+Efetivações parciais e totais de ordens de compras, mantendo controle de saldos por itens e fornecedores; 
+Emissão automatizada da notas de entradas e financeiro;
+Tabela de preços de compras; 
+Controle da disponibilidade de estoque de produtos comprados; 
+Gerenciamento de materiais por lotes, validade, grade, número de série e configurador de produto; 
+Cálculo automático dos impostos; 
+Cálculo de preços de custo e médio; 
+Entrada automática de bens patrimoniais no módulo Patrimonial
+
+
+Escrita Fiscal
+
+Objetivos e Benefícios
+Gerencia e faz acompanhamento da complexa legislação fiscal brasileira, permitindo a geração das obrigações fiscais, relatórios e arquivos legais.
+Mantém o controle sobre os livros fiscais de todos os impostos, trata a tributação de todos os Estados da Federação e é totalmente integrado aos demais módulos.
+
+Características
+Emissão de livros de registros de entrada, saída e apurações dos impostos;
+Trata todas as formas de retenção previstas na legislação brasileira;
+Gera todas as informações fiscais a nível municipal, estadual e federal, especialmente nos diversos formatos eletrônicos regulados pelas normas e legislação: ICMS; IPI; ISS; PIS/COFINS; IN86; Sintegra; ATOs COTEPE, etc.;
+Nota Fiscal Eletrônica de Serviços do Município de São Paulo;
+Nota Fiscal Eletrônica a nível Nacional.
+
+
+Contabilidade
+
+Objetivos e Benefícios
+Atua como um instrumento de abrangência e flexibilidade na escrituração e gerenciamento das informações contábeis das empresas. Oferece recursos múltiplos para maior produtividade dos usuários, e eficiência na administração e gerenciamento contábil.
+
+Características
+Coleta lançamentos contábeis e executa a escrituração contábil de múltiplos períodos e exercícios em aberto; 
+Permite plano de contas por empresa ou padrão utilizado por várias empresas; 
+Plano de lançamentos padrões; 
+Encerramento de exercício por periodicidade; 
+Consulta e relatórios consolidados por empresa ou individualizados por estabelecimento; 
+Consolidação de balanços de diversas pessoas jurídicas; 
+Rateios pré-definidos de contas por área, departamento, centro de custo, produto, etc., com taxas fixas e variáveis; 
+Apura resultados sob diferentes prismas, tais como: departamento, centro de custo, unidade de negócios, projeto, etc.; 
+Gerador de relatórios com fórmulas, gerando índices tais como: índice de liquidez corrente, rotação média de estoque, capital de giro líquido, índice de lucratividade, índice de eficiência, rentabilidade do patrimônio líquido, etc., com exportação para planilhas, gráficos e ferramentas de BI, 
+Fornece diversas visões gerenciais das informações contábeis, enriquecendo o processo de tomada de decisão, 
+Gera arquivos para atender à IN 68 e 86, 
+Emite balancetes diários e gera documentos em arquivos, atendendo normas do BACEN, 
+Integração com o LALUR.
+
+Controle Patrimonial
+
+Objetivos e Benefícios
+Ferramenta com grande abrangência e flexibilidade na administração e gerenciamento do patrimônio da empresa. Agrega valor aos investimentos e potencializa os resultados dos ativos operacionais.
+
+Características
+Definições pelo usuário de máscaras para os códigos dos bens; 
+Definição de planta de localização para os bens; 
+Faz cálculos de depreciação e atualização monetária em qualquer moeda ou índice; permite baixa total ou parcial do bem; 
+Possibilidade de incluir bens em períodos já calculados; 
+Bloqueio/ Desbloqueio do cálculo de depreciação; 
+Permite exclusão de cálculos no período e para os bens definidos pelo usuário;
+Transferências, empréstimos, devoluções e mudanças de taxas por data; 
+Alteração da taxa de depreciação; Controle de depreciação acelerada e incentivada; 
+Permite fazer integralização de capital; 
+Controle de seguradoras e apólices de seguro; 
+Controle e reformas efetuadas sobre os bens (reavaliações); 
+Controle e emissão do CIAP; Controle de garantias; 
+Possibilidade de entradas de dados e inventários com coletor via código de barras; 
+Faz lançamentos para contabilização. 
+Status dos bens através de indicadores visuais por cores.
+
+
+Contratos
+
+Objetivos e Benefícios
+Gestão de contratos a receber e pagar, facilitando os controles de contratos com clientes e fornecedores, e receitas e despesas periódicas, simplificando o fluxo financeiro e a gestão das contas a pagar e receber. Permite o controle saldos vinculados, gerando previsões de receitas e despesas no módulo Gestão Financeira, e a emissão automática das Notas Fiscais no Módulo de Faturamento.
+
+Características
+Controle financeiro de contratos de cobrança e de pagamentos;
+Reajuste de valores;
+Controle histórico de adendos e alterações
+Faturamento de contratos por período;
+Pré-formatação das regras, observações do faturamento;
+Gerencia contratos com terceiros e vinculados;
+Inclusão de itens de quantidade variável (billing);
+Controle dos objetos e produtos de contrato.
+
+
+
+Gestão de Serviços
+
+Objetivos e Benefícios
+Gerencia os serviços internos ou externos de manutenção de produtos industrializados ou revendidos, alocando os serviços por equipe. Facilita o planejamento, distribuição e acompanhamento das atividades, orçamento, execução e faturamento.
+
+Características
+Gerenciamento de prestação de serviços;
+Emissão e controle de ordens de serviço;
+Permite identificar reclames, defeitos, causas e soluções;
+Separa a ordem em itens, materiais e atividades;
+Efetua o faturamento individual ou em grupo de itens ou ordens;
+Controla garantias de ordens e de fabricantes;
+Gerencia calendário de atividades por técnico;
+Permite acompanhamento do histórico dos serviços executados e peças substituídas por produto e por cliente;
+Organiza as atividades e seqüência de execução (workflow);
+Administra acompanhamentos (contatos) por ordens enviando e-mails automáticos;
+Gerencia manutenções programadas e preventivas.
+Integrado ao módulo de Web Serviços permite a geração e acompanhamento das ordens de serviços pela internet.
+
+
+Engenharia de Produto
+
+Objetivos e Benefícios
+Organiza e detalha o processo produtivo bem como especifica suas etapas por área, processos, recursos, matérias-primas, tempos, setup e regras, facilitando a roterização, o custeio, planejamento e documentação do produto em cada etapa. A flexibilidade da engenharia, associada aos recursos do módulo configurador de produto, simplifica a estrutura de produtos mais complexos e características variáveis, permitindo produtos personalizados através de pré-definições na própria engenharia, ou de pré-definições estipuladas no momento da venda do item. 
+
+Características
+Definição de roteiros;
+Cadastro de engenharia em níveis, regras e configurador de produto;
+Organização por área, processo, recursos, insumos;
+Alocação para custos ou planejamento e recursos críticos
+Cadastro Hierárquico ou preferencial de recursos para alocações; 
+Gerencia os recursos existentes e cria vínculo com ferramentas; 
+Influência direta com a capacidade de produção (Fator Padrão); 
+Calendários Padrão, Alocação e de Recursos Críticos;
+Detalha formação e detalhes das ordens de produção, roteiros e instrução de trabalho.
+
+
+Planejamento de Materiais
+
+Objetivos e Benefícios
+Planejamento da produção, análise de demandas de pedidos e parâmetros de reposição, gerando ordens de compra e produção em função das regras e parâmetros universais do MRP, agiliza o processo de analise de necessidade e liberação de ordens. Sua velocidade do planejamento simplifica e automatiza o processo produtivo, eliminando falhas e atrasos no processo produtivo, integrando os departamentos de produção compras e suprimentos.
+
+Características
+Planejamento da produção;
+Planejamento de materiais; 
+Tratamento de políticas de cobertura de estoque totalmente parametrizável; 
+Avalia todas as demandas e ordens em andamento e planejadas (conceito de reserva e encomenda); 
+Adota todos os conceitos de ponto de reposição, estoque mínimo e MRP, integrado com as políticas de cobertura de estoque.
+Liberação de solicitações ou ordens de compra;
+Liberação e manutenção de ordens de produção;
+Geração de rancho e suprimento da produção.
+
+
+Controle de Produção
+
+Objetivos e Benefícios
+Gerencia a emissão de ordens e controla as etapas de produção, permitindo o acompanhamento da produção prevista x realizada. Controla as ordens e talões ou cartões de produção, automatizando com código de barras, fazendo ainda a alocação dos recursos necessários, permitindo gerenciar e rastreabilidade da produção e a produtividade, evitando atrasos de produção ou entrega.
+
+Características
+Emissão e controle de ordens e talões ou cartões de produção de acordo com a definição da engenharia; 
+Mantém a rastreabilidade da produção, assim como documentação e emissão de procedimentos e instruções de trabalho; 
+Acompanhamento da produção por código de Barras;
+Registro dos tempos de cada processo e controle de consumos; 
+Alocação de recursos para uma programação mais detalhada da produção;
+Realocação de ordens e recursos.
+
+
+
+Gestão de Lojas
+
+Objetivos e Benefícios
+Gerencia a loja, planeja cada unidade comercial respeitando suas características locais, objetivando a fidelização do cliente com atendimento rápido e objetivo. Planejamento do Mix de produtos da loja, clientes, promoções e crediário com segurança no fechamento financeiro. Movimentação de estoque e sincronismo entre lojas.
+
+Características
+Pedido de vendas de Balcão com monitoramento de margem por item e pedido;
+Emissão de ECF;
+TEF (Transferência Eletrônica de Fundos) Visa, Redecard e Amex integrada ao ECF; 
+Recebimento eletrônico TEF;
+Controle de crediário;
+Controle de recebimentos e prazos;
+Troca/ Devolução;
+Estatísticas e movimentações;
+Relatórios gerenciais e de controle.

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.DecoderResult" platform="Android">
+  <class name="TDecoderResult" file="ZXing.DecoderResult.pas" line="27">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <function name="GetStructuredAppend" visibility="private" file="ZXing.DecoderResult.pas" line="29">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <field name="ByteSegments" type="IByteSegments" visibility="public" size="8" offset="8" file="ZXing.DecoderResult.pas" line="31" />
+      <field name="ECLevel" type="string" visibility="public" size="8" offset="16" file="ZXing.DecoderResult.pas" line="32" />
+      <field name="Erasures" type="Integer" visibility="public" size="4" offset="24" file="ZXing.DecoderResult.pas" line="33" />
+      <field name="ErrorsCorrected" type="Integer" visibility="public" size="4" offset="28" file="ZXing.DecoderResult.pas" line="34" />
+      <field name="Other" type="TObject" visibility="public" size="8" offset="32" file="ZXing.DecoderResult.pas" line="35" />
+      <field name="RawBytes" type="TArray&lt;System.Byte&gt;" visibility="public" size="8" offset="40" file="ZXing.DecoderResult.pas" line="36" />
+      <field name="StructuredAppendParity" type="Integer" visibility="public" size="4" offset="48" file="ZXing.DecoderResult.pas" line="37" />
+      <field name="StructuredAppendSequenceNumber" type="Integer" visibility="public" size="4" offset="52" file="ZXing.DecoderResult.pas" line="38" />
+      <field name="Text" type="string" visibility="public" size="8" offset="56" file="ZXing.DecoderResult.pas" line="39" />
+      <constructor name="Create" visibility="public" file="ZXing.DecoderResult.pas" line="41">
+        <parameters>
+          <parameter name="RawBytes" type="TArray&lt;System.Byte&gt;" />
+          <parameter name="Text" type="string" paramflags="const" />
+          <parameter name="ByteSegments" type="IByteSegments" />
+          <parameter name="ECLevel" type="string" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.DecoderResult.pas" line="43">
+        <parameters>
+          <parameter name="RawBytes" type="TArray&lt;System.Byte&gt;" />
+          <parameter name="Text" type="string" paramflags="const" />
+          <parameter name="ByteSegments" type="IByteSegments" />
+          <parameter name="ECLevel" type="string" />
+          <parameter name="saSequence" type="Integer" />
+          <parameter name="saParity" type="Integer" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.DecoderResult.pas" line="46">
+        <parameters>
+        </parameters>
+      </destructor>
+      <property name="StructuredAppend" visibility="public" read="GetStructuredAppend" type="Boolean" file="ZXing.DecoderResult.pas" line="48" />
+    </members>
+  </class>
+</namespace>

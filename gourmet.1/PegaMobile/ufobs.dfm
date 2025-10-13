@@ -1,0 +1,59 @@
+object fobs: Tfobs
+  Left = 0
+  Top = 0
+  ClientHeight = 480
+  ClientWidth = 320
+  Caption = 'Observa'#231#227'o'
+  OnShow = UnimFormShow
+  TitleButtons = <>
+  PixelsPerInch = 96
+  TextHeight = 13
+  ScrollPosition = 0
+  ScrollHeight = 47
+  PlatformData = {}
+  object Paineltopo: TUnimPanel
+    Left = 0
+    Top = 0
+    Width = 320
+    Height = 49
+    Hint = ''
+    Align = alTop
+    object UnimBitBtnCancela: TUnimBitBtn
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 53
+      Height = 41
+      Hint = ''
+      Align = alLeft
+      IconCls = 'arrow_left'
+      Caption = ''
+      OnClick = UnimBitBtnCancelaClick
+    end
+    object UnimBitBtnConfirma: TUnimBitBtn
+      AlignWithMargins = True
+      Left = 263
+      Top = 4
+      Width = 53
+      Height = 41
+      Hint = ''
+      Align = alRight
+      IconCls = 'add'
+      Caption = ''
+      OnClick = UnimBitBtnConfirmaClick
+      ExplicitLeft = 292
+      ExplicitTop = 3
+    end
+  end
+  object Obs: TUnimDBMemo
+    Left = 0
+    Top = 49
+    Width = 320
+    Height = 144
+    Hint = ''
+    DataField = 'Obs'
+    DataSource = UniMainModule.dVtiItens
+    Align = alTop
+    TabOrder = 1
+  end
+end

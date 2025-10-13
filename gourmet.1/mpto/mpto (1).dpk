@@ -1,0 +1,47 @@
+package mpto;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeg;
+
+contains
+  ufrapto in 'ufrapto.pas' {frapto: TFrame},
+  ufpto in 'ufpto.pas' {fpto},
+  BSPInter in 'BSPInter.pas',
+  IndexSearchInter in 'IndexSearchInter.pas',
+  IndexSearchType in 'IndexSearchType.pas',
+  NBioAPI_Type in 'NBioAPI_Type.pas',
+  Rotinas in 'Rotinas.pas',
+  ufbiome in 'ufbiome.pas' {fbiome},
+  SynoAPIEx in 'SynoAPIEx.pas',
+  ufMensagemLeitor in 'ufMensagemLeitor.pas' {fMensagemLeitor};
+
+end.

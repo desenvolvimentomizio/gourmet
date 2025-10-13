@@ -1,0 +1,471 @@
+unit ufitmaje;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Data.DB, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes,
+  System.Actions, Vcl.ActnList, MemDS, DBAccess, Uni, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ExtCtrls, System.SysUtils, Dialogs, System.ImageList, ufuncoes,System.DateUtils;
+
+type
+  Tfitmaje = class(Tfrmbase)
+    registroitmchave: TIntegerField;
+    registromeschave: TIntegerField;
+    registroitmitem: TIntegerField;
+    registrotoecodigo: TIntegerField;
+    registroprocodigo: TIntegerField;
+    registrocfocfop: TStringField;
+    registrounicodigo: TIntegerField;
+    registroitmquantidade: TFloatField;
+    registroitmvalor: TFloatField;
+    registroitmdesconto: TFloatField;
+    registroitmtotal: TFloatField;
+    registroitmfrete: TFloatField;
+    registroitmseguro: TFloatField;
+    registroitmoutras: TFloatField;
+    registroitmbicm: TFloatField;
+    registroicmcodigo: TStringField;
+    registroitmicm: TFloatField;
+    registroitmbicms: TFloatField;
+    registroitmaliqicms: TFloatField;
+    registroitmicms: TFloatField;
+    registroitmaliqipi: TFloatField;
+    registroitmipi: TFloatField;
+    registrocstcodigo: TStringField;
+    registroitmdesccomple: TStringField;
+    registroitmmovifisico: TStringField;
+    registroicmaliquotas: TStringField;
+    registroitmaliqicm: TStringField;
+    registroitmapuipi: TStringField;
+    registrocsicodigo: TStringField;
+    registroceicodigo: TStringField;
+    registroitmbipi: TFloatField;
+    registropuncodigo: TIntegerField;
+    registropunidentificacao: TStringField;
+    registrocspcodigo: TStringField;
+    registroitmpis: TFloatField;
+    registroitmbpis: TFloatField;
+    registroitmaliqpis: TFloatField;
+    registroitmquantpis: TFloatField;
+    registroitmaliqpisvalor: TFloatField;
+    registrocsfcodigo: TStringField;
+    registroitmbcofins: TFloatField;
+    registroitmaliqcofins: TFloatField;
+    registroitmquantcofins: TFloatField;
+    registroitmaliqcofinsvalor: TFloatField;
+    registroitmcofins: TFloatField;
+    registropcccodigo: TStringField;
+    registrounicodigobase: TIntegerField;
+    registrocfocfopdestinacao: TStringField;
+    registroitmcontendo: TFloatField;
+    registroitmcusto: TFloatField;
+    registroitmicmsvalor: TFloatField;
+    registroitmquanticontada: TFloatField;
+    Label15: TLabel;
+    itmitem: TDBEdit;
+    Label3: TLabel;
+    procodigo: TDBEdit;
+    Label5: TLabel;
+    itmquanticontada: TDBEdit;
+    pro: TUniQuery;
+    proprocodigo: TIntegerField;
+    propronome: TStringField;
+    pun: TUniQuery;
+    punpuncodigo: TIntegerField;
+    punpunidentificacao: TStringField;
+    punprocodigo: TIntegerField;
+    pununicodigo: TIntegerField;
+    pununicodigobase: TIntegerField;
+    punpunmultiplicador: TFloatField;
+    punpunquantidade: TFloatField;
+    punpunprecoav: TFloatField;
+    punpunprecoap: TFloatField;
+    punpuncusto: TFloatField;
+    punpunmargem: TFloatField;
+    punpunpesobruto: TFloatField;
+    punpunpesoliq: TFloatField;
+    pundgrcodigo: TIntegerField;
+    punpunbarra: TStringField;
+    puntuncodigo: TIntegerField;
+    punpununitrib: TIntegerField;
+    punpunqtdtrib: TFloatField;
+    cfgufssigla: TStringField;
+    cfgetddoc1: TStringField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgserienfe: TStringField;
+    cfgcfgcstterceiros: TStringField;
+    cfgcfgcsosn: TStringField;
+    registropronome: TStringField;
+    icm: TUniQuery;
+    icmicmcodigo: TStringField;
+    icmicmaliquotas: TStringField;
+    Label1: TLabel;
+    unicodigo: TDBEdit;
+    Label2: TLabel;
+    itmquantidade: TDBEdit;
+    proprosaldodisp: TFloatField;
+    Label4: TLabel;
+    Dpro: TDataSource;
+    plprosaldodisp: TPanel;
+    saldo: TUniQuery;
+    cfgcfgproinativsaldozero: TIntegerField;
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure procodigoExit(Sender: TObject);
+    procedure itmquanticontadaExit(Sender: TObject);
+    procedure registroBeforePost(DataSet: TDataSet);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    procedure CalculaSaldoProduto(vProCodigo:String);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fitmaje: Tfitmaje;
+
+implementation
+
+{$R *.dfm}
+
+// Início ID do Módulo faje
+const
+  vPlIdMd = '02.04.05.002-03';
+
+procedure Tfitmaje.itmquanticontadaExit(Sender: TObject);
+begin
+  inherited;
+
+  if self.ActiveControl = bcancela then
+    Exit;
+
+  self.ValidaSaida(Sender);
+
+  if itmquanticontada.Field.asFloat<0 then
+  begin
+    ShowMessage('Atenção. Não pode ser informado valor Negativo!');
+    itmquanticontada.Field.AsString:='';
+    itmquanticontada.SetFocus;
+  end;
+
+  if (StrToFloat(plprosaldodisp.Caption) - itmquanticontada.Field.AsFloat) < 0 then
+  begin
+    itmquantidade.Field.AsFloat := (StrToFloat(plprosaldodisp.Caption) - itmquanticontada.Field.AsFloat) * -1;
+
+    consulta.Close;
+    consulta.sql.Text := 'select toecodigo,toecfopsaida from toe where toecfopsaida=' + chr(39) + '1.000' + chr(39);
+    consulta.Open;
+
+    registrotoecodigo.AsString := consulta.fields[0].AsString;
+    registrocfocfop.AsString := consulta.fields[1].AsString;
+    registrocfocfopdestinacao.AsString := consulta.fields[1].AsString;
+  end
+  else if (StrToFloat(plprosaldodisp.Caption) - itmquanticontada.Field.AsFloat) = 0 then
+  begin
+    itmquantidade.Field.AsFloat := (StrToFloat(plprosaldodisp.Caption) - itmquanticontada.Field.AsFloat);
+
+    consulta.Close;
+    consulta.sql.Text := 'select toecodigo,toecfopsaida from toe where toecfopsaida=' + chr(39) + '5.000' + chr(39);
+    consulta.Open;
+
+    registrotoecodigo.AsString := consulta.fields[0].AsString;
+    registrocfocfop.AsString := consulta.fields[1].AsString;
+    registrocfocfopdestinacao.AsString := consulta.fields[1].AsString;
+  end
+
+  else
+  begin
+    itmquantidade.Field.AsFloat := (StrToFloat(plprosaldodisp.Caption) - itmquanticontada.Field.AsFloat);
+    consulta.Close;
+    consulta.sql.Text := 'select toecodigo,toecfopsaida from toe where toecfopsaida=' + chr(39) + '5.000' + chr(39);
+    consulta.Open;
+    registrotoecodigo.AsString := consulta.fields[0].AsString;
+    registrocfocfop.AsString := consulta.fields[1].AsString;
+    registrocfocfopdestinacao.AsString := consulta.fields[1].AsString;
+  end;
+end;
+
+procedure Tfitmaje.procodigoExit(Sender: TObject);
+begin
+  inherited;
+  self.ValidaSaida(Sender);
+  if self.procodigo.Field.AsString = '' then
+    Exit;
+
+   CalculaSaldoProduto(procodigo.Field.AsString);
+
+
+  consulta.Close;
+  consulta.sql.Text := 'select mes.mesregistro,itm.itmquantidade from mes,itm where mes.tdfcodigo=' + chr(39) + 'AE' + chr(39) +
+    ' and mes.meschave=itm.meschave and itm.procodigo=' + self.procodigo.Field.AsString + ' ORDER BY  mes.mesregistro desc limit 1';
+  consulta.Open;
+
+  if consulta.fields[0].AsFloat = date then
+  begin
+    Application.MessageBox(PChar('Este produto tem uma contagem registrada para esta data!' + #13 + #13 + 'Quantidade: ' + consulta.FieldByName('itmquantidade')
+      .AsString), 'Registro duplicada', MB_ICONWARNING + MB_OK);
+
+    self.procodigo.Field.AsString := '';
+    self.procodigo.SetFocus;
+    Exit;
+  end;
+
+  consulta.Close;
+  consulta.sql.Text := 'SELECT pro.unicodigo, pro.prosaldodisp, pun.punmultiplicador, pun.puncodigo ';
+  consulta.sql.Add('FROM pun INNER JOIN pro ON pun.procodigo = pro.procodigo ');
+  consulta.sql.Add('AND pro.unicodigo = pun.unicodigo ');
+  consulta.sql.Add('and pro.procodigo=' + self.procodigo.Field.AsString);
+  consulta.Open;
+
+  registrounicodigo.AsString := self.consulta.fields[0].AsString;
+  registrounicodigobase.AsString := self.consulta.fields[0].AsString;
+  registroitmcontendo.AsFloat := self.consulta.fields[2].AsFloat;
+  registropuncodigo.AsInteger := self.consulta.fields[3].AsInteger;
+  plprosaldodisp.Caption := self.consulta.fields[1].AsString;
+  consulta.Close;
+end;
+
+procedure Tfitmaje.bconfirmaClick(Sender: TObject);
+begin
+  inherited;
+  if procodigo.Field.AsString<>'' then
+   CalculaSaldoProduto(procodigo.Field.AsString);
+end;
+
+procedure Tfitmaje.CalculaSaldoProduto(vProCodigo:String);
+var
+  r: Integer;
+  i: Integer;
+  vlSaldo: Double;
+  vlSpdChave: Integer;
+
+  vlSaldoDisp: Double;
+
+begin
+
+  try
+    consulta.Close;
+    consulta.SQL.Text := 'SELECT   spdchave,  spdexercicio,  spddatainicial,  spddatafinal,  spddatabalanco, ';
+    consulta.SQL.Add('pcccodigo,   spdativo,  spdmotivoinv,  spdvalortotal,  spdarquivo,  spdgeracao,  flacodigo,  spdpasta, ');
+    consulta.SQL.Add(' spdregistro,  spdenvio FROM spd order by spdchave limit 1');
+    consulta.Open;
+
+    if consulta.IsEmpty then
+    begin
+      vlSpdChave := 1;
+      consulta.Append;
+      consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+      consulta.FieldByName('spdexercicio').AsString := FormatDateTime('yyyy', StrToDate(hoje(Application, zcone)));
+      consulta.FieldByName('spddatainicial').AsFloat := StrToDate(hoje(Application, zcone));
+      consulta.FieldByName('spddatafinal').AsFloat := EndOfTheMonth(consulta.FieldByName('spddatainicial').AsFloat);
+      consulta.FieldByName('spddatabalanco').AsFloat := consulta.FieldByName('spddatafinal').AsFloat;
+      consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+      consulta.FieldByName('spdativo').AsString := '1';
+      consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+      consulta.Post;
+
+    end
+    else
+    begin
+      vlSpdChave := consulta.FieldByName('spdchave').asinteger;
+    end;
+
+
+
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT   ivtchave,  spdchave,  procodigo,  pcccodigo,  ivtquantidade,';
+      consulta.SQL.Add('ivtvalor,   ivttotal,  ivtproprietario,  ivtdescricao,  etdcodigo,  flacodigo, ivtregistro FROM ivt where procodigo=' + vProCodigo);
+      consulta.Open;
+
+      if consulta.IsEmpty then
+      begin
+
+        consulta.Append;
+        consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+        consulta.FieldByName('procodigo').asString := vProCodigo;
+        consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+        consulta.FieldByName('ivtquantidade').asinteger := 0;
+        consulta.FieldByName('ivtvalor').asinteger := 0;
+        consulta.FieldByName('ivttotal').asinteger := 0;
+        consulta.FieldByName('ivtproprietario').asinteger := 1;
+        consulta.FieldByName('ivtdescricao').AsString := 'Inventário de inclusão do produto';
+        consulta.FieldByName('etdcodigo').AsString := '1';
+        consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+        consulta.FieldByName('ivtregistro').AsDatetime:=strtodatetime( '01/01/2000 00:00:01');
+        consulta.Post;
+      end;
+
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT   ivdchave,  spdchave,  procodigo,  pcccodigo,  ivdquantidade,';
+      consulta.SQL.Add('ivdvalor,   ivdtotal,  ivdproprietario,  ivddescricao,  etdcodigo,  flacodigo FROM ivd where procodigo=' + vProCodigo);
+      consulta.Open;
+
+      if consulta.IsEmpty then
+      begin
+
+        consulta.Append;
+        consulta.FieldByName('spdchave').asinteger := vlSpdChave;
+        consulta.FieldByName('procodigo').asstring := vProCodigo;
+        consulta.FieldByName('pcccodigo').AsString := '1.01.03.01.01';
+        consulta.FieldByName('ivdquantidade').asinteger := 0;
+        consulta.FieldByName('ivdvalor').asinteger := 0;
+        consulta.FieldByName('ivdtotal').asinteger := 0;
+        consulta.FieldByName('ivdproprietario').asinteger := 1;
+        consulta.FieldByName('ivddescricao').AsString := 'Inventário de inclusão do produto';
+        consulta.FieldByName('etdcodigo').AsString := '1';
+        consulta.FieldByName('flacodigo').AsString := Acesso.Filial.ToString;
+        consulta.Post;
+
+      end;
+
+
+      vlSaldo := 0;
+      consulta.Close;
+      consulta.SQL.Text := 'select calcSaldoProduto(' + vProCodigo + ')';
+      consulta.Open;
+      vlSaldo := consulta.Fields[0].AsFloat;
+
+      vlSaldoDisp := 0;
+      consulta.Close;
+      consulta.SQL.Text := 'select calcSaldoProdutoDisp(' + vProCodigo + ')';
+      consulta.Open;
+      vlSaldoDisp := consulta.Fields[0].AsFloat;
+
+      consulta.Close;
+      consulta.SQL.Text := 'UPDATE pro SET prosaldo = ' + buscatroca(floattostr(vlSaldo), ',', '.') + ', prosaldodisp =  ' + buscatroca(floattostr(vlSaldoDisp), ',', '.') +
+        ' where procodigo=' + vProCodigo;
+      consulta.ExecSQL;
+      {
+      if cfgcfgproinativsaldozero.asinteger = 1 then
+      begin
+
+        saldo.Close;
+        saldo.SQL.Text := 'CALL AjustaSitacaoProduto(' + vProCodigo + ', IF((select prosaldo from pro where procodigo=' + vProCodigo + ')=0,2,1) )';
+        saldo.ExecSQL;
+
+        saldo.Close;
+        saldo.SQL.Text := 'CALL AjustaSitacaoProduto(' + vProCodigo + ', IF((select prosaldodisp from pro where procodigo=' + vProCodigo +
+          ')=0,2,1) )';
+        saldo.ExecSQL;
+
+      end;
+      }
+
+    consulta.Close;
+    consulta.SQL.Text := 'UPDATE vrp v SET v.vrpsaldo = calcSaldoVariacao(v.vrpcodigo);';
+    consulta.ExecSQL;
+
+  finally
+
+  end;
+
+
+
+end;
+
+
+procedure Tfitmaje.registroAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  cfg.Close;
+  cfg.Open;
+
+  consulta.Close;
+  consulta.sql.Text := 'select mes.toecodigo,toecfopsaida from mes,toe where mes.toecodigo=toe.toecodigo and meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  self.registrotoecodigo.AsString := self.consulta.fields[0].AsString;
+  self.registrocfocfop.AsString := self.consulta.fields[1].AsString;
+
+  consulta.Close;
+  consulta.sql.Text := 'select count(itmchave) from itm where meschave=' + self.vChaveMestre;
+  consulta.Open;
+
+  self.registroitmitem.AsInteger := self.consulta.fields[0].AsInteger + 1;
+
+  self.registroitmmovifisico.AsInteger := 1;
+  self.registroitmbicms.AsFloat := 0;
+  self.registroitmicms.AsFloat := 0;
+  self.registroitmdesconto.Ascurrency := 0;
+  self.registroitmipi.Ascurrency := 0;
+  self.registroitmbipi.Ascurrency := 0;
+  self.registroitmbicm.AsFloat := 0;
+  registroicmcodigo.AsString := '00';
+  registroitmbicm.AsFloat := 0;
+  registroitmicm.AsFloat := 0;
+  registroitmbicms.AsFloat := 0;
+  registroitmaliqicms.AsFloat := 0;
+  registroitmicms.AsFloat := 0;
+  registroitmaliqipi.AsFloat := 0;
+  registroitmipi.AsFloat := 0;
+  registroitmfrete.AsFloat := 0;
+  registroitmseguro.AsFloat := 0;
+  registroitmoutras.AsFloat := 0;
+  registroitmvalor.AsFloat := 0;
+  registroitmdesconto.AsFloat := 0;
+  registroitmtotal.AsFloat := 0;
+
+  registrocstcodigo.AsString := cfgcfgcsosn.AsString;
+
+  // ipi
+
+  registroitmapuipi.AsInteger := 1;
+  registrocsicodigo.AsString := '99';
+  registroceicodigo.AsString := '0';
+
+  // cofins
+  registroitmcofins.AsFloat := 0;
+  registroitmaliqcofinsvalor.AsFloat := 0;
+  registroitmquantcofins.AsFloat := 0;
+  registroitmaliqcofins.AsFloat := 0;
+  registroitmbcofins.AsFloat := 0;
+  registrocsfcodigo.AsString := '99';
+
+  // pis
+  registroitmpis.AsFloat := 0;
+  registroitmaliqpisvalor.AsFloat := 0;
+  registroitmquantpis.AsFloat := 0;
+  registroitmaliqpis.AsFloat := 0;
+  registroitmbpis.AsFloat := 0;
+  registrocspcodigo.AsString := '99';
+  registropcccodigo.AsString := '3.01.01.03.03.00.00';
+
+end;
+
+procedure Tfitmaje.registroBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+
+  consulta.Close;
+  consulta.sql.Text := 'select icmaliquotas from icm where icmcodigo=''' + self.registroicmcodigo.AsString + '''';
+  consulta.Open;
+
+  If (consulta.fields[0].AsString <> 'II') And (consulta.fields[0].AsString <> 'FF') And (consulta.fields[0].AsString <> 'NN') Then
+  Begin
+
+    registroitmaliqicm.AsString := consulta.fields[0].AsString;
+
+    If consulta.fields[0].AsString = '0,01' Then
+    Begin
+      registroitmicm.AsString := '0';
+    End
+    Else
+    Begin
+      registroitmicm.AsString := consulta.fields[0].AsString;;
+    End;
+  End
+  Else
+  Begin
+    registroitmaliqicm.AsString := consulta.fields[0].AsString;
+    registroitmicm.AsString := '0';
+  End;
+end;
+
+end.

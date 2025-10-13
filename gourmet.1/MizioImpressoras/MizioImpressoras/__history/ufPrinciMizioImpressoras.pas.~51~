@@ -1,0 +1,1853 @@
+unit ufPrinciMizioImpressoras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  UniProvider, MySQLUniProvider, Data.DB, DBAccess, Uni, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Registry,Inifiles, Vcl.ComCtrls, MemDS, json, RESTRequest4D;
+
+type
+  TfPrinciMizioImpressoras = class(TForm)
+    Conexao: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    plCozinhaTopo: TPanel;
+    plHora: TPanel;
+    Button3: TButton;
+    plTopo: TPanel;
+    sbTop: TScrollBox;
+    Panel1: TPanel;
+    mmFilaPedidos: TMemo;
+    plTituloListaPedidos: TPanel;
+    plFalhaBanco: TPanel;
+    erros: TMemo;
+    pedidos: TMemo;
+    inicializar: TTimer;
+    tmVerificarPedidos: TTimer;
+    mensagens: TStatusBar;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmgoupedidelivery: TIntegerField;
+    cfgcfgmgoupedideliveryaux: TIntegerField;
+    czn: TUniQuery;
+    czncznchave: TIntegerField;
+    gri: TUniQuery;
+    gritcicodigo: TIntegerField;
+    gritciporta: TStringField;
+    grimitidentificacao: TStringField;
+    grigripedidoaux: TIntegerField;
+    grisit: TUniQuery;
+    tcisituacao: TUniQuery;
+    imm: TUniQuery;
+    immorcchave: TIntegerField;
+    immfoacodigo: TIntegerField;
+    immstocodigo: TIntegerField;
+    immrelarquivo: TBlobField;
+    immorcobs: TStringField;
+    immorcgeralav: TFloatField;
+    immgricodigo: TIntegerField;
+    immgrpcodigo: TIntegerField;
+    immimmchave: TIntegerField;
+    immimmnumepedido: TIntegerField;
+    ito: TUniQuery;
+    itoorcchave: TIntegerField;
+    itoimmnumepedido: TIntegerField;
+    itotcicodigo: TIntegerField;
+    itotciporta: TStringField;
+    itofoacodigo: TIntegerField;
+    itopedidoaux: TIntegerField;
+    itoitochave: TIntegerField;
+    itoimmchave: TIntegerField;
+    itomitidentificacao: TStringField;
+    immtempo: TUniQuery;
+    consulta: TUniQuery;
+    situacao: TUniQuery;
+    sqlimprime: TUniQuery;
+    sqlimprimegriimprimeauto: TIntegerField;
+    sqlimprimefnccodigo: TIntegerField;
+    sqlimprimegripedidoaux: TIntegerField;
+    sqlimprimeimmchave: TIntegerField;
+    sqlimprimetcicodigo: TIntegerField;
+    sqlimprimeimmnumepedido: TIntegerField;
+    jaimpresso: TUniQuery;
+    vias: TUniQuery;
+    imw: TUniQuery;
+    imwimwchave: TIntegerField;
+    imwitochave: TIntegerField;
+    imwimwhoranotificadopedido: TDateTimeField;
+    imwimwhorasaidadopedido: TDateTimeField;
+    imwimwhoraentregadopedido: TDateTimeField;
+    itoaux: TUniQuery;
+    itoauxorcchave: TIntegerField;
+    itoauximmnumepedido: TIntegerField;
+    itoauxtcicodigo: TIntegerField;
+    itoauxtciporta: TStringField;
+    itoauxfoacodigo: TIntegerField;
+    itoauxpedidoaux: TIntegerField;
+    itoauxitochave: TIntegerField;
+    itoauximmchave: TIntegerField;
+    itoauxmitidentificacao: TStringField;
+    itoauxveri: TUniQuery;
+    itoauxveriorcchave: TIntegerField;
+    itoauxveriimmnumepedido: TIntegerField;
+    itoauxveritcicodigo: TIntegerField;
+    itoauxveritciporta: TStringField;
+    itoauxverifoacodigo: TIntegerField;
+    itoauxveripedidoaux: TIntegerField;
+    itoauxveriitochave: TIntegerField;
+    itoauxveriimmchave: TIntegerField;
+    immaux: TUniQuery;
+    immauxorcchave: TIntegerField;
+    immauxfoacodigo: TIntegerField;
+    immauxstocodigo: TIntegerField;
+    immauxrelarquivo: TBlobField;
+    immauxorcobs: TStringField;
+    immauxorcgeralav: TFloatField;
+    immauxgricodigo: TIntegerField;
+    immauxgrpcodigo: TIntegerField;
+    immauximmchave: TIntegerField;
+    immauximmnumepedido: TIntegerField;
+    itoauxveriimmhoraimpressoaux: TDateTimeField;
+    tmVerificarStatusImpressoras: TTimer;
+    plCozinha: TPanel;
+    plServidorImpressoras: TPanel;
+    grigrisituacao: TIntegerField;
+    plImp1: TPanel;
+    plImp2: TPanel;
+    plImp3: TPanel;
+    plImp4: TPanel;
+    plImp5: TPanel;
+    plImp6: TPanel;
+    plImp8: TPanel;
+    plImp7: TPanel;
+    plImp9: TPanel;
+    plImp10: TPanel;
+    griid: TIntegerField;
+    grigricodigo: TIntegerField;
+    immtcicodigo: TIntegerField;
+    grigriimprimeauto: TIntegerField;
+    procedure FormShow(Sender: TObject);
+    procedure inicializarTimer(Sender: TObject);
+    procedure tmVerificarPedidosTimer(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure tmVerificarStatusImpressorasTimer(Sender: TObject);
+  private
+
+    procedure RunOnStartup(sProgTitle, sCmdLine: String; bRunOnce: Boolean);
+    procedure AjustaPaines;
+    procedure ConectaBanco;
+
+    function AjustaSituacaoCozinha: Boolean;
+
+    procedure VerificaPedidos;
+    function ImprimePedido(vOrcChave: string; vImprime: Integer = 1; vpedidoaux: Integer = 0; vimmchave: Integer = 0; vID: Integer =1): Boolean;
+    procedure VerificaPedidosAux;
+    function ImprimePedidoaux(vOrcChave: string; vImprime: Integer = 1; vpedidoaux: Integer = 0; vimmchave: Integer = 0; vID:Integer=1): Boolean;
+    function ConsultaPaineisImpressorasServidor(aImpressoras: TJsonArray): TJsonArray;
+
+    procedure inicializaImpressoras;
+    function EnviaTextoPedidoServidor(aTexto: TStrings; aOrigem, aNumeroPedido,
+      aPortaImpressora:String; aID:Integer): Integer;
+
+
+  //  function ConsultaStatusPedido(aOrigem:String; aNumeroPedido:String):Integer;
+
+    function ConsultaStatusPedidoServidor(aOrigem:String; aNumeroPedido:String;aPorta:String; aID:String): Integer;
+    procedure AjustaPedidoImpresso(aOrcChave, aNumeroPedido,
+      aTciCodigo: String);
+    procedure VerificaStatusImpressoras;
+
+    function inicializaImpressoraServidor(aImpressoras: TJsonObject): Boolean;
+    function ConsultaImpressoraServidor(aID: String;aPorta:String): String;
+    procedure atualizacozinhaServidor(aCozinha: String);
+    procedure AjustaPaineisImpressora(vID, vlIdentificacao, vlTciPorta: string;
+      vlRetorno: Integer);
+    { Private declarations }
+  public
+    { Public declarations }
+    vpServidorImpressoras:String;
+    vpErroImpressora:Boolean;
+    vpImpressora : String;
+    vpCozinhaAberta:Boolean;
+    vpCznChave:String;
+    vpCozinha:String;
+    vpPastaDia:String;
+  end;
+
+const
+  stTampaAberta=7;
+  stPoucoPapel=2;
+  stSemPapel=3;
+  stGavetaAberta=4;
+  stImprimindo=5;
+  stOffLine=6;
+  stErroLeitura=8;
+  stErro=0;
+  StLivre=1;
+
+
+var
+  fPrinciMizioImpressoras: TfPrinciMizioImpressoras;
+
+implementation
+
+uses
+  System.DateUtils, ufImpressora01, System.StrUtils;
+
+{$R *.dfm}
+
+Procedure TfPrinciMizioImpressoras.RunOnStartup(sProgTitle, sCmdLine: String; bRunOnce: Boolean);
+Var
+  sKey: String;
+  Reg: TRegIniFile;
+Begin
+  Try
+    If (bRunOnce) Then
+      sKey := 'MizioImpressoras'
+    Else
+      sKey := '';
+    Reg := TRegIniFile.Create('');
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    Reg.WriteString('Software\Microsoft\Windows\CurrentVersion\Run' + sKey + #0, sProgTitle, sCmdLine);
+
+    Reg.Free;
+  Except
+    on E: Exception do
+    begin
+      Reg.Free;
+      erros.Lines.Add('L-195 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+
+
+  End;
+End;
+
+procedure TfPrinciMizioImpressoras.VerificaPedidos;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlID: Integer;
+  vlPedido: string;
+  vlOrigem:String;
+  vlNumeroPedido:String;
+//  vlTciCodigo:String;
+  vlPorta:String;
+
+  vlStatusArquivo:Integer;
+  vlImpressoraLivre:Boolean;
+
+begin
+
+
+  mmFilaPedidos.Lines.Clear;
+
+  imm.close;
+  imm.ParamByName('cznchave').AsString := vpCznChave;
+  if vpImpressora <> '999' then
+  begin
+    imm.FilterSQL := 'gri.tcicodigo=' + vpImpressora;
+  end;
+  imm.Open;
+
+  vlTentativas := 0;
+
+
+  imm.First;
+  while not imm.Eof do
+  begin
+    vlPedido := 'Pedido: ' + formatfloat('00000', immimmnumepedido.AsInteger);// + '-' + immgricodigo.AsString;
+
+    if pos(vlPedido, mmFilaPedidos.Lines.Text) = 0 then
+    begin
+      mmFilaPedidos.Lines.Add(vlPedido);
+    end;
+
+
+    imm.Next;
+  end;
+
+  plTituloListaPedidos.Caption := 'Pedidos na Fila: ' + inttostr(mmFilaPedidos.Lines.Count);
+  plTituloListaPedidos.Repaint;
+
+
+  imm.First;
+  while not imm.Eof do
+  begin
+
+
+    vlID:=0;
+
+    if gri.locate('tcicodigo',immtcicodigo.AsString,[]) then
+    begin
+      vlID:=gri.FieldByName('id').AsInteger;
+    end;
+
+    vlPedido := 'Pedido: ' + formatfloat('00000', immimmnumepedido.AsInteger);// + '-' + immgricodigo.AsString;
+
+    if (gri.FieldByName('griimprimeauto').AsInteger=1) and (vlID<>0) then
+    begin
+
+        // .ok THTTPStatus.OK  200
+        // .ok THTTPStatus.Accepted  202
+        // .txt THTTPStatus.Processing  102
+        // .imp THTTPStatus.Processing  102
+
+        //  não achou THTTPStatus.NoContent 204
+
+      vlOrigem:=ifthen(immimmnumepedido.AsInteger<=4999,'entrega','salao');
+      vlNumeroPedido :=immimmnumepedido.AsString;
+
+      plTituloListaPedidos.Caption:='Verificando ...';
+      plTituloListaPedidos.Repaint;
+
+      vlImpressoraLivre:=False;
+      if self.FindComponent('plimp' +vlID.ToString )<>nil then
+      begin
+        if self.FindComponent('plimp' +vlID.ToString ) is TPanel then
+        begin
+          if (self.FindComponent('plimp' +vlID.ToString ) as Tpanel).Color=clgreen then
+          begin
+            vlImpressoraLivre:=True;
+          end
+          else
+            vlImpressoraLivre:=False;
+        end;
+      end;
+
+      if vlImpressoraLivre then
+      begin
+      if gri.locate('id',vlID,[]) then
+      begin
+        vlPorta:= gritciporta.AsString;
+        vlID:=griid.AsInteger;
+
+        if Self.FindComponent('plimp'+vlID.ToString)<>nil then
+        begin
+
+          vlStatusArquivo:=ConsultaStatusPedidoServidor(vlOrigem,formatfloat('00000', vlNumeroPedido.ToInteger),vlPorta, vlID.ToString);
+
+          plTituloListaPedidos.Caption := 'Pedidos na Fila: ' + inttostr(mmFilaPedidos.Lines.Count);
+          plTituloListaPedidos.Repaint;
+        end;
+
+        if vlStatusArquivo=204 then
+        begin
+          if vlImpressoraLivre then
+          begin
+
+            if self.FindComponent('plimp' +vlID.ToString )<>nil then
+            begin
+              if self.FindComponent('plimp' +vlID.ToString ) is TPanel then
+              begin
+                  ImprimePedido(immorcchave.AsString, 1, 0, immimmchave.AsInteger, vlID)
+              end;
+            end;
+          end;
+        end
+        else if vlStatusArquivo=200 then
+        begin
+           AjustaPedidoImpresso(immorcchave.AsString,vlNumeroPedido,immtcicodigo.AsString);
+
+          exit;
+        end;
+
+
+      end
+      else
+        imm.Next;
+
+      end
+      else
+        imm.Next;
+
+    end
+    else
+      imm.Next;
+  end;
+end;
+
+procedure RemoverLinhasComPalavra(Memo: TMemo; const Palavra: string);
+var
+  I: Integer;
+begin
+  for I := Memo.Lines.Count - 1 downto 0 do
+  begin
+    if ContainsText(Memo.Lines[I], Palavra) then
+      Memo.Lines.Delete(I);
+  end;
+end;
+
+procedure TfPrinciMizioImpressoras.AjustaPedidoImpresso(aOrcChave:String;aNumeroPedido:String;aTciCodigo:String );
+var
+  vlOrcChave:String;
+begin
+
+  try
+  ito.close;
+  ito.Params[0].AsString := aOrcChave;
+  ito.Open;
+
+ // consulta.close;
+ // consulta.SQL.Text := 'update imm set immhoraimpresso=NOW() where immchave in (select immchave from tped where orcchave=' +
+ //                       aOrcChave +  ' and immnumepedido=' +  aNumeroPedido + ' and tcicodigo=' + aTciCodigo + ')';
+ // consulta.ExecSQL;
+
+  consulta.close;
+  consulta.SQL.Text := 'update imm set immhoraimpresso=NOW() where immnumepedido=' +  aNumeroPedido + ' and tcicodigo=' + aTciCodigo;
+  consulta.ExecSQL;
+
+
+  RemoverLinhasComPalavra( mmFilaPedidos, aNumeroPedido);
+
+  finally
+
+  end;
+
+
+end;
+
+procedure TfPrinciMizioImpressoras.AjustaPaineisImpressora(vID: string; vlIdentificacao: string; vlTciPorta: string; vlRetorno: Integer);
+begin
+  try
+    if vID='' then
+    exit;
+    if  (self.FindComponent('plimp' + vID) is TPanel) then
+    begin
+      case vlRetorno of
+        stImprimindo:
+          begin
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clnavy;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clWhite;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( IMPRIMINDO )';
+          end;
+        StLivre:
+          begin
+            // impressora ativa e on-line
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clgreen;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clWhite;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao;
+          end;
+        stPoucoPapel:
+          begin
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clYellow;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clred;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( POUCO PAPEL' + ' )';
+          end;
+        stTampaAberta:
+          begin
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clGray;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clred;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( TAMPA ABERTA' + ' )';
+          end;
+        stSemPapel:
+          begin
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clblack;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clYellow;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( SEM PAPEL )';
+          end;
+        stErro:
+          begin
+           // vpErroImpressora:=true;
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clblack;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clred;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( ERRO )';
+          end;
+        stOffLine:
+          begin
+           // vpErroImpressora:=true;
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clblack;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clred;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( SEM CONEXAO )';
+          end;
+        stErroLeitura:
+          begin
+           // vpErroImpressora:=true;
+            (self.FindComponent('plimp' + vID) as TPanel).Color := clblack;
+            (self.FindComponent('plimp' + vID) as TPanel).Font.Color := clred;
+            (self.FindComponent('plimp' + vID) as TPanel).Caption := vlIdentificacao + ' ( ERRO LEITURA )';
+          end;
+
+      end;
+      application.ProcessMessages;
+    end;
+  except
+    on E: Exception do
+    begin
+      erros.Lines.Add('L-378 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+    end;
+  end;
+
+
+end;
+
+
+
+
+
+
+procedure TfPrinciMizioImpressoras.Button3Click(Sender: TObject);
+begin
+  tmVerificarPedidos.Enabled:=false;
+  tmVerificarStatusImpressoras.Enabled:=false;
+  application.Terminate;
+end;
+
+
+
+
+
+
+function TfPrinciMizioImpressoras.ImprimePedido(vOrcChave: string; vImprime: Integer = 1; vpedidoaux: Integer = 0; vimmchave: Integer = 0; vID: Integer =1): Boolean;
+var
+  vlNomeArq: string;
+
+  vlNumePedido: Integer;
+  vlRetorno: Integer;
+  vporta: string;
+
+  vlRetornoStr: string;
+
+  vlIdentificacao: string;
+  vlTciPorta: string;
+  vlTciCodigo: string;
+  vlTentativas: Integer;
+  vlItoChave: String;
+  vltciatual: string;
+  vlTentivas: Integer;
+  vlImmChave: string;
+  vlImmHoraPedido: TDatetime;
+
+  DataI: TDatetime;
+  DataF: TDatetime;
+  DifDias: double;
+  vlDifTempo: string;
+  vlimms: string;
+  vltcis: string;
+
+  vlGricodigo: string;
+  vlOrcChave: string;
+
+  vlImprime:Integer;
+
+begin
+  result := false;
+
+  if pos('-', vOrcChave) > 0 then
+  begin
+    vlGricodigo := trim(copy(vOrcChave, pos('-', vOrcChave) + 1, 20));
+    vlOrcChave := trim(copy(vOrcChave, 1, pos('-', vOrcChave) - 1));
+  end
+  else
+  begin
+    vlGricodigo := '';
+    vlOrcChave := vOrcChave;
+  end;
+
+  ito.close;
+  ito.Params[0].AsString := vlOrcChave;
+  ito.Open;
+
+  vlImmChave := ito.FieldByName('immchave').AsString;
+
+  if ito.IsEmpty then
+  begin
+    result := True;
+    exit;
+  end;
+
+  immtempo.close;
+  immtempo.SQL.Text := 'select immhorapedido from imm where immchave=' + vlImmChave;
+  immtempo.Open;
+
+  vlImmHoraPedido := immtempo.FieldByName('ImmHoraPedido').AsFloat;
+
+
+  vlTentativas := 0;
+  vltciatual := '';
+
+  while not ito.Eof do
+  begin
+
+    vlNumePedido := ito.FieldByName('immnumepedido').AsInteger;
+    vporta := ito.FieldByName('tciporta').AsString;
+    vlTciCodigo := ito.FieldByName('tcicodigo').AsString;
+    vlIdentificacao := ito.FieldByName('mitidentificacao').AsString;
+    vlTciPorta := ito.FieldByName('tciporta').AsString;
+
+    sqlimprime.close;
+    sqlimprime.ParamByName('itochave').AsInteger := itoitochave.AsInteger;
+    sqlimprime.Open;
+
+    vlImprime:= sqlimprimegriimprimeauto.AsInteger;
+
+    jaimpresso.close;
+    jaimpresso.SQL.Text :=
+      'select immchave, immhorapedido from imm where immchave in (select immchave from imm, ito where imm.itochave=ito.itochave and orcchave=' +
+      vOrcChave + ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + '  and immhoraimpresso is not null )';
+    jaimpresso.Open;
+
+    if (vImprime = 1) and ((jaimpresso.IsEmpty)) then
+    begin
+
+      consulta.close;
+      consulta.SQL.Text := 'select immchave from imm where immchave in (select immchave from tped where orcchave=' + vOrcChave +
+        ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+      consulta.Open;
+
+      consulta.First;
+      while not consulta.Eof do
+      begin
+        vlimms := vlimms + consulta.FieldByName('immchave').AsString + ',';
+        consulta.Next;
+      end;
+      vlimms := copy(vlimms, 1, length(vlimms) - 1);
+
+      consulta.close;
+      consulta.SQL.Text := 'SELECT count(immchave) from gri,imm,ito,pro WHERE ito.itochave=imm.itochave and ' +
+        'ito.procodigo=pro.procodigo AND pro.grpcodigo=gri.grpcodigo AND gri.gripedidoaux=1 and ' +
+        'immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' + inttostr(vlNumePedido) +
+        ' and gri.tcicodigo=' + vlTciCodigo + ')';
+      consulta.Open;
+
+      consulta.close;
+      consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+        ' where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+        inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+      consulta.ExecSQL;
+
+
+
+      if vlimms <> '' then
+      begin
+
+        fImpressora01:=TfImpressora01.create(self);
+        fImpressora01.fzcone:=Conexao;
+        if EnviaTextoPedidoServidor(
+                        fImpressora01.GeraTextoPedido(immorcchave.AsString,vlTciCodigo),
+                        IfThen(vlNumePedido<=4999,'entrega', 'salao'), formatFloat('00000', vlNumePedido),vlTciPorta,vID)=201 then
+        begin
+
+          vlimms := '';
+          vltciatual := vlTciCodigo;
+
+          try
+
+            imw.close;
+            imw.ParamByName('itochave').AsInteger := itoitochave.AsInteger;
+            imw.Open;
+
+            if imw.IsEmpty then
+            begin
+              imw.Append;
+              imwitochave.AsInteger := itoitochave.AsInteger;
+              imw.Post;
+            end;
+
+          except
+
+            on E: Exception do
+            begin
+              pedidos.Lines.Add('------------------');
+              pedidos.Lines.Add('Exception class name = ' + E.ClassName);
+              pedidos.Lines.Add('Exception message = ' + E.Message);
+              pedidos.Lines.Add('L-551 ERRO Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
+              pedidos.Lines.Add('------------------');
+
+            end;
+
+          end;
+
+          consulta.close;
+          consulta.SQL.Text := 'select tped.immchave, imm.itochave from tped, imm where tped.immchave=imm.immchave  and  tped.orcchave=' +
+            vOrcChave + ' and tped.immnumepedido=' + inttostr(vlNumePedido) + ' and tped.tcicodigo=' + vlTciCodigo;
+          consulta.Open;
+
+          // REMOVER SERVIÇOS, PRECISARÁ SER REVISADO
+            vlItoChave := '';
+            vlItoChave := consulta.fields[1].AsString;
+
+            consulta.close;
+            consulta.SQL.Text := 'select tpocodigo from pro, ito where pro.procodigo=ito.procodigo and itochave=' + vlItoChave;
+            consulta.Open;
+
+            if consulta.fields[0].AsString = '9' then
+            begin
+              consulta.close;
+              consulta.SQL.Text := 'delete from ito where itototalav=0 and itochave=' + vlItoChave;
+              consulta.ExecSQL;
+            end;
+
+
+
+          fImpressora01.Free;
+          vlTentativas := 0;
+          result := True;
+          break;
+
+        end
+        else
+        begin
+
+          vlTentativas := vlTentativas + 1;
+          erros.Lines.Add('Tentativa: ' + inttostr(vlTentativas) + ' Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' +
+            vlTciCodigo);
+
+          sleep(500);
+
+          if vlTentativas = 2 then
+          begin
+            break;
+          end;
+
+        end;
+
+      end
+      else
+      begin
+
+        ito.Next;
+        vlTentativas := 0;
+        result := True;
+
+      end;
+    end
+    else
+    begin
+
+      try
+
+        consulta.close;
+        consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+          ' , immhoraimpresso=NOW() where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+          inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+        consulta.ExecSQL;
+
+
+        // criado funcionalidade para remover serviço que sejá só para imprimir
+
+        consulta.close;
+        consulta.SQL.Text := 'select tped.immchave, imm.itochave from tped, imm where tped.immchave=imm.immchave  and  tped.orcchave=' +
+          vOrcChave + ' and tped.immnumepedido=' + inttostr(vlNumePedido) + ' and tped.tcicodigo=' + vlTciCodigo;
+        consulta.Open;
+
+        vlItoChave := '';
+        vlItoChave := consulta.fields[1].AsString;
+
+        consulta.close;
+        consulta.SQL.Text := 'select tpocodigo from pro, ito where pro.procodigo=ito.procodigo and itochave=' + vlItoChave;
+        consulta.Open;
+
+        if consulta.fields[0].AsString = '9' then
+        begin
+          consulta.close;
+          consulta.SQL.Text := 'delete from ito where itototalav=0 and itochave=' + vlItoChave;
+          consulta.ExecSQL;
+
+        end;
+
+
+      except
+        on E: Exception do
+        begin
+          pedidos.Lines.Add('------------------');
+          pedidos.Lines.Add('Exception class name = ' + E.ClassName);
+          pedidos.Lines.Add('Exception message = ' + E.Message);
+          pedidos.Lines.Add('L-654 ERRO Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
+          pedidos.Lines.Add('------------------');
+
+        end;
+
+      end;
+
+      pedidos.Lines.Add('Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo + ' Hora: ' +
+        datetimetostr(now()));
+      { salvar no banco que foi impresso }
+      ito.Next;
+      vlTentativas := 0;
+      result := True;
+
+    end;
+
+  end;
+
+  itoauxveri.close;
+  itoauxveri.Params[0].AsString := vlOrcChave;
+  itoauxveri.Filter := '(pedidoaux=1) and (immhoraimpressoaux is null) ';
+  itoauxveri.Filtered := True;
+  itoauxveri.Open;
+
+  itoauxveri.First;
+  while not itoauxveri.Eof do
+  begin
+
+    sqlimprime.close;
+    sqlimprime.ParamByName('itochave').AsInteger := itoauxveriitochave.AsInteger;
+    sqlimprime.Open;
+
+     if sqlimprimegripedidoaux.AsInteger = 1 then
+      begin
+
+      consulta.close;
+      consulta.SQL.Text := 'update imm set tcicodigo=' + sqlimprimetcicodigo.AsString + ' ,immhoraimpresso=null where immchave =' +
+        sqlimprimeimmchave.AsString;
+      consulta.ExecSQL;
+      vpImpressora:= sqlimprimetcicodigo.AsString;
+      VerificaPedidosAux;
+
+       consulta.close;
+      consulta.SQL.Text := 'update imm set tcicodigo=' + sqlimprimetcicodigo.AsString + ' ,immhoraimpresso=now() where immchave =' +
+        sqlimprimeimmchave.AsString;
+      consulta.ExecSQL;
+
+      sleep(500);
+      vpImpressora:='999';
+     end;
+    itoauxveri.Next;
+  end;
+
+end;
+
+procedure TfPrinciMizioImpressoras.VerificaPedidosAux;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+  vlImprime: Integer;
+  vlPedido: string;
+begin
+
+
+  immaux.close;
+  immaux.Connection:=Conexao;
+  immaux.ParamByName('cznchave').AsString := vpCznChave;
+  if vpImpressora <> '999' then
+  begin
+    immaux.FilterSQL := 'gri.tcicodigo=' + vpImpressora;
+  end;
+  immaux.Open;
+
+
+  vlTentativas := 0;
+
+  mmFilaPedidos.Lines.Clear;
+  immaux.First;
+  while not immaux.Eof do
+  begin
+    vlPedido := 'Pedido: ' + formatfloat('0000', immauximmnumepedido.AsInteger) ;
+    if pos(vlPedido, mmFilaPedidos.Lines.Text) = 0 then
+    begin
+      mmFilaPedidos.Lines.Add(vlPedido);
+    end;
+
+    immaux.Next;
+  end;
+
+  plTituloListaPedidos.Caption := 'Pedidos na Fila: ' + inttostr(mmFilaPedidos.Lines.Count);
+  plTituloListaPedidos.Repaint;
+
+  immaux.First;
+  while not immaux.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immauxgrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+    vlPedido := 'Pedido: ' + formatfloat('0000', immauximmnumepedido.AsInteger);
+
+    if ImprimePedidoaux(immauxorcchave.AsString, 1, 1, immauximmchave.AsInteger) then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      immaux.Next;
+    end;
+  end;
+end;
+
+
+
+function TfPrinciMizioImpressoras.ImprimePedidoaux(vOrcChave: string; vImprime: Integer = 1; vpedidoaux: Integer = 0; vimmchave: Integer = 0; vID:Integer=1): Boolean;
+var
+  vlNomeArq: string;
+  vlGerado: Boolean;
+  vlNumePedido: Integer;
+  vlRetorno: Integer;
+  vporta: string;
+  vlRetornoStr: string;
+
+  vlIdentificacao: string;
+  vlTciPorta: string;
+  vlTciCodigo: string;
+  vlTentativas: Integer;
+  vlItoChave: String;
+  vltciatual: string;
+  vlTentivas: Integer;
+  vlImmChave: string;
+  vlImmHoraPedido: TDatetime;
+
+  DataI: TDatetime;
+  DataF: TDatetime;
+  DifDias: double;
+  vlDifTempo: string;
+  vlimms: string;
+  vltcis: string;
+
+  vlGricodigo: string;
+  vlOrcChave: string;
+
+  vlImpressoraLivre:Boolean;
+begin
+  result := false;
+
+  if pos('-', vOrcChave) > 0 then
+  begin
+    vlGricodigo := trim(copy(vOrcChave, pos('-', vOrcChave) + 1, 20));
+    vlOrcChave := trim(copy(vOrcChave, 1, pos('-', vOrcChave) - 1));
+  end
+  else
+  begin
+    vlGricodigo := '';
+    vlOrcChave := vOrcChave;
+  end;
+
+  itoaux.close;
+  itoaux.Params[0].AsString := vlOrcChave;
+  itoaux.Filter := 'pedidoaux=1';
+  itoaux.Filtered := True;
+  itoaux.Open;
+
+  vlImmChave := itoaux.FieldByName('immchave').AsString;
+
+  if itoaux.IsEmpty then
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'update imm set immhoraimpressoaux=NOW() where immchave =' + vimmchave.ToString;
+    consulta.ExecSQL;
+
+    result := True;
+    exit;
+  end;
+
+  if vlImmChave <> '' then
+  begin
+
+    immtempo.close;
+    immtempo.SQL.Text := 'select immhorapedido from imm where immchave=' + vlImmChave;
+    immtempo.Open;
+    vlImmHoraPedido := immtempo.FieldByName('ImmHoraPedido').AsFloat;
+
+  end
+  else
+  begin
+    vlImmHoraPedido := now();
+  end;
+
+  vlTentativas := 0;
+  vltciatual := '';
+  while not itoaux.Eof do
+  begin
+    if itoauxpedidoaux.AsInteger = 1 then
+    begin
+
+      vlNumePedido := itoaux.FieldByName('immnumepedido').AsInteger;
+      vporta := itoaux.FieldByName('tciporta').AsString;
+      vlTciCodigo := itoaux.FieldByName('tcicodigo').AsString;
+
+
+
+
+      vlRetorno := 0;
+      vlRetornoStr :=(self.FindComponent('plimp' + vlTciCodigo) as tpanel).HelpKeyword;
+
+
+
+
+      if vlRetornoStr <> '' then
+        vlRetorno := StrToInt(vlRetornoStr);
+
+      vlIdentificacao := itoaux.FieldByName('mitidentificacao').AsString;
+      vlTciPorta := itoaux.FieldByName('tciporta').AsString;
+
+      if pos('.', vporta) = 0 then
+      begin
+        // não é impressora de REDE
+        vlRetorno := StrToInt('1');
+       // AjustaPainelImpressora(vlTciCodigo, vlIdentificacao, vlTciPorta, vlRetorno);
+
+        consulta.close;
+        consulta.SQL.Text := 'update imm set immhoraimpressoaux=NOW() where immchave in (select immchave from tped where orcchave=' + vOrcChave +
+          ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+        consulta.ExecSQL;
+        result := True;
+        exit;
+
+      end;
+
+
+        situacao.close;
+        situacao.Connection := Conexao;
+        situacao.SQL.Text := 'select gricodigo, grisituacao from gri where tcicodigo=' + vlTciCodigo;
+        situacao.Open;
+
+        vlTentivas := 0;
+        while vlTentivas < 10 do
+        begin
+          try
+            situacao.Edit;
+            situacao.FieldByName('grisituacao').AsString := vlRetornoStr;
+            situacao.Post;
+            break;
+          except
+
+            situacao.Cancel;
+            sleep(500);
+
+            try
+              situacao.Edit;
+              situacao.FieldByName('grisituacao').AsString := vlRetornoStr;
+              situacao.Post;
+            except
+
+              vlTentivas := vlTentivas + 1;
+            end;
+
+          end;
+        end;
+
+        vlImpressoraLivre:=False;
+        if self.FindComponent('plimp' +vlTciCodigo )<>nil then
+        begin
+          if self.FindComponent('plimp' +vlTciCodigo ) is TPanel then
+          begin
+            if (self.FindComponent('plimp' +vlTciCodigo ) as Tpanel).Color=clgreen then
+            begin
+              vlImpressoraLivre:=True;
+            end;
+          end;
+        end;
+
+        if vlImpressoraLivre then // impressora esta liberada
+        begin
+
+          sqlimprime.close;
+          sqlimprime.ParamByName('itochave').AsInteger := itoauxitochave.AsInteger;
+          sqlimprime.Open;
+
+         { if sqlimprimegripedidoaux.AsInteger = 1 then
+          begin
+
+            consulta.close;
+            consulta.SQL.Text := 'update imm set  tcicodigo=' + vlTciCodigo + ' ,immhoraimpressoaux=null where immchave in (' +
+              sqlimprimeimmchave.AsString + ')';
+            consulta.ExecSQL;
+
+          end;}
+
+
+          vlGerado := True;
+
+          if vlGerado then
+          begin
+            jaimpresso.close;
+            jaimpresso.SQL.Text :=
+              'select immchave, immhorapedido from imm where immchave in (select immchave from imm, ito where imm.itochave=ito.itochave and orcchave='
+              + vOrcChave + ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo +
+              '  and immhoraimpressoaux is not null )';
+            jaimpresso.Open;
+
+            if (vImprime = 1) and ((jaimpresso.IsEmpty)) then
+            begin
+
+              if sqlimprimegripedidoaux.AsInteger = 1 then
+              begin
+
+                consulta.close;
+                consulta.SQL.Text := 'update imm set  tcicodigo=' + vlTciCodigo + ' ,immhoraimpressoaux=null where immchave in (' +
+                  sqlimprimeimmchave.AsString + ')';
+                consulta.ExecSQL;
+
+              end;
+
+              consulta.close;
+              consulta.SQL.Text := 'select immchave from imm where immchave in (select immchave from tped where orcchave=' + vOrcChave +
+                ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+              consulta.Open;
+
+              consulta.First;
+              while not consulta.Eof do
+              begin
+                vlimms := vlimms + consulta.FieldByName('immchave').AsString + ',';
+                consulta.Next;
+              end;
+              vlimms := copy(vlimms, 1, length(vlimms) - 1);
+
+              consulta.close;
+              consulta.SQL.Text := 'SELECT count(immchave) from gri,imm,ito,pro WHERE ito.itochave=imm.itochave and ' +
+                'ito.procodigo=pro.procodigo AND pro.grpcodigo=gri.grpcodigo AND gri.gripedidoaux=1 and ' +
+                'immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' + inttostr(vlNumePedido) +
+                ' and gri.tcicodigo=' + vlTciCodigo + ')';
+              consulta.Open;
+
+              consulta.close;
+              consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+                ' ,immhoraimpressoaux=null where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+                inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+              consulta.ExecSQL;
+
+              consulta.close;
+              consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+                '  where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+                inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+              consulta.ExecSQL;
+
+              if vlimms <> '' then
+              begin
+                fImpressora01:=TfImpressora01.create(self);
+                fImpressora01.fzcone:=Conexao;
+                fImpressora01.fPedAuxi :=True;
+
+                fImpressora01.fzcone:=Conexao;
+
+
+                if EnviaTextoPedidoServidor(
+                                fImpressora01.GeraTextoPedido(immorcchave.AsString,vlTciCodigo),
+                                IfThen(vlNumePedido<=4999,'entrega', 'salao'),
+                                formatFloat('00000', vlNumePedido),
+                                vlTciPorta,vID)=201 then
+                begin
+
+
+                  consulta.close;
+                  consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+                    ' ,immhoraimpressoaux=now() where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+                    inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+                  consulta.ExecSQL;
+
+                  vlimms := '';
+                  vltciatual := vlTciCodigo;
+                  sleep(500);
+
+                  try
+
+                    imw.close;
+                    imw.ParamByName('itochave').AsInteger := itoauxitochave.AsInteger;
+                    imw.Open;
+
+                    if imw.IsEmpty then
+                    begin
+                      imw.Append;
+                      imwitochave.AsInteger := itoauxitochave.AsInteger;
+                      imw.Post;
+                    end;
+
+                  except
+
+                    on E: Exception do
+                    begin
+                      pedidos.Lines.Add('------------------');
+                      pedidos.Lines.Add('Exception class name = ' + E.ClassName);
+                      pedidos.Lines.Add('Exception message = ' + E.Message);
+                      pedidos.Lines.Add('L-1039 ERRO Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
+                      pedidos.Lines.Add('------------------');
+
+                    end;
+
+                  end;
+                  DataI := now();
+                  DataF := vlImmHoraPedido;
+                  DifDias := DaySpan(DataF, DataI);
+                  vlDifTempo := inttostr(Trunc(DifDias)) + ' dias, ' + FormatDateTime('h" horas e "n" minutos"', DifDias);
+
+                  pedidos.Lines.Add('Orc: ' + vlOrcChave + ' P: ' + inttostr(vlNumePedido) + ' I: ' + vlTciCodigo + ' Hr: ' + datetimetostr(now()));
+                  pedidos.Lines.Add('Hora Pedido: ' + datetimetostr(vlImmHoraPedido) + ' hora impresso: ' + datetimetostr(now()) + ' Tempo: ' +
+                    vlDifTempo);
+
+                  pedidos.Lines.Add('--------------------------------------------------');
+
+                  consulta.close;
+                  consulta.SQL.Text := 'select tped.immchave, imm.itochave from tped, imm where tped.immchave=imm.immchave  and  tped.orcchave=' +
+                    vOrcChave + ' and tped.immnumepedido=' + inttostr(vlNumePedido) + ' and tped.tcicodigo=' + vlTciCodigo;
+                  consulta.Open;
+
+                  vlItoChave := '';
+                  vlItoChave := consulta.fields[1].AsString;
+
+                  consulta.close;
+                  consulta.SQL.Text := 'select tpocodigo from pro, ito where pro.procodigo=ito.procodigo and itochave=' + vlItoChave;
+                  consulta.Open;
+
+                  if consulta.fields[0].AsString = '9' then
+                  begin
+                    consulta.close;
+                    consulta.SQL.Text := 'delete from ito where itototalav=0 and itochave=' + vlItoChave;
+                    consulta.ExecSQL;
+
+                  end;
+
+                  { salvar no banco que foi impresso }
+                  itoaux.Next;
+                  vlTentativas := 0;
+                  result := True;
+                  fImpressora01.Free;
+
+                end
+                else
+                begin
+                  vlTentativas := vlTentativas + 1;
+                  erros.Lines.Add('Tentativa: ' + inttostr(vlTentativas) + ' Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' +
+                    vlTciCodigo);
+                  sleep(500);
+
+                  if vlTentativas = 2 then
+                  begin
+                    erros.Lines.Add('Não foi possivel a impressão Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' +
+                      vlTciCodigo);
+
+                    break;
+                  end;
+
+                end;
+
+              end
+              else
+              begin
+
+                itoaux.Next;
+                vlTentativas := 0;
+                result := True;
+
+              end;
+
+
+            end
+            else
+            begin
+
+              try
+                if vpedidoaux = 1 then
+                begin
+                  consulta.close;
+                  consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+                    ' , immhoraimpressoaux=NOW() where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+                    inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+                  consulta.ExecSQL;
+
+                end
+                else
+                begin
+
+                  consulta.close;
+                  consulta.SQL.Text := 'update imm set tcicodigo=' + vlTciCodigo +
+                    ' , immhoraimpressoaux=NOW() where immchave in (select immchave from tped where orcchave=' + vOrcChave + ' and immnumepedido=' +
+                    inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
+                  consulta.ExecSQL;
+                end;
+
+                // criado funcionalidade para remover serviço que sejá só para imprimir
+                //
+                //
+
+                consulta.close;
+                consulta.SQL.Text := 'select tped.immchave, imm.itochave from tped, imm where tped.immchave=imm.immchave  and  tped.orcchave=' +
+                  vOrcChave + ' and tped.immnumepedido=' + inttostr(vlNumePedido) + ' and tped.tcicodigo=' + vlTciCodigo;
+                consulta.Open;
+
+                vlItoChave := '';
+                vlItoChave := consulta.fields[1].AsString;
+
+                consulta.close;
+                consulta.SQL.Text := 'select tpocodigo from pro, ito where pro.procodigo=ito.procodigo and itochave=' + vlItoChave;
+                consulta.Open;
+
+                if consulta.fields[0].AsString = '9' then
+                begin
+                  consulta.close;
+                  consulta.SQL.Text := 'delete from ito where itototalav=0 and itochave=' + vlItoChave;
+                  consulta.ExecSQL;
+
+                end;
+
+              except
+                on E: Exception do
+                begin
+                  pedidos.Lines.Add('------------------');
+                  pedidos.Lines.Add('Exception class name = ' + E.ClassName);
+                  pedidos.Lines.Add('Exception message = ' + E.Message);
+                  pedidos.Lines.Add('ERRO Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
+                  pedidos.Lines.Add('------------------');
+
+                end;
+
+              end;
+              pedidos.Lines.Add('Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo + ' Hora: ' +
+                datetimetostr(now()));
+              { salvar no banco que foi impresso }
+              itoaux.Next;
+              vlTentativas := 0;
+              result := True;
+
+            end;
+          end;
+        end
+        else
+        begin
+          result := false;
+          exit;
+        end;
+
+    end
+    else
+    begin
+      itoaux.Next;
+    end;
+  end;
+
+end;
+
+
+
+
+
+
+
+
+
+
+procedure TfPrinciMizioImpressoras.atualizacozinhaServidor(aCozinha:String);
+var
+  LResponse: IResponse;
+
+begin
+  try
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/atualizacozinha')
+                      .AddHeader('cozinha',aCozinha)
+                      .Timeout(1000)
+                    .Post;
+  except
+  on E: Exception do
+    begin
+       erros.Lines.add(datetimetostr(now())+ ' L-1276 '+e.Message);
+    end;
+  end;
+
+
+
+end;
+
+
+procedure TfPrinciMizioImpressoras.tmVerificarPedidosTimer(Sender: TObject);
+begin
+  try
+    try
+
+      tmVerificarPedidos.ENABLED := false;
+      plHora.Caption := timetostr(time);
+
+      if AjustaSituacaoCozinha then
+      begin
+
+        try
+          atualizacozinhaServidor(formatfloat('000000', czncznchave.AsInteger));
+        except
+          vpErroImpressora := True;
+        end;
+
+        if vpErroImpressora then
+        begin
+          sleep(3000);
+          VerificaStatusImpressoras;
+          sleep(3000);
+          inicializaImpressoras;
+        end;
+
+        VerificaPedidos;
+
+      end;
+
+    finally
+      tmVerificarPedidos.ENABLED := True;
+    end;
+  except
+
+  end;
+end;
+
+procedure TfPrinciMizioImpressoras.inicializaImpressoras;
+var
+  vlEstadoImpressoras:TJsonArray;
+  vlEstadoImpressora:TJSONObject;
+  vlID: Integer;
+
+  i:Integer;
+  Value: TJSONValue;
+
+begin
+
+  cfg.close;
+  cfg.Open;
+
+  gri.close;
+  if vpImpressora <> '999' then
+  begin
+    gri.FilterSQL := 'tci.tcicodigo=' + vpImpressora;
+  end;
+
+  gri.Open;
+
+  if not gri.IsEmpty then
+    vlEstadoImpressoras:=TJsonArray.Create;
+
+
+  gri.First;
+  vlID:=1;
+  while not gri.Eof do
+  begin
+
+    vlEstadoImpressora:=TJSONObject.Create;
+
+    vlEstadoImpressora.AddPair('ID',vlID.ToString);
+    vlEstadoImpressora.AddPair('porta',gri.FieldByName('tciporta').AsString);
+    vlEstadoImpressora.AddPair('codigo',gri.FieldByName('tcicodigo').AsString);
+    vlEstadoImpressora.AddPair('identificacao',gri.FieldByName('mitidentificacao').AsString);
+    vlEstadoImpressora.AddPair('estado','0');
+
+    inicializaImpressoraServidor(vlEstadoImpressora);
+    gri.Next;
+
+    vlID:=vlID+1;
+  end;
+
+end;
+
+procedure  TfPrinciMizioImpressoras.VerificaStatusImpressoras;
+var
+  vlEstadoImpressora:String;
+  vlID:Integer;
+  vlEnviarImpressoras:Boolean;
+begin
+
+  try
+
+    cfg.close;
+    cfg.Open;
+
+    gri.close;
+    if vpImpressora <> '999' then
+    begin
+      gri.FilterSQL := 'tci.tcicodigo=' + vpImpressora;
+    end;
+
+    vlEnviarImpressoras:=False;
+    gri.Open;
+
+    for vlID := 1 to gri.RecordCount do
+    begin
+      if gri.locate('id',vlID,[]) then
+      begin
+        vlEstadoImpressora:='0';
+
+        if vlEstadoImpressora<>'' then
+        begin
+          AjustaPaineisImpressora(vlID.ToString,
+                                  gri.FieldByName('mitidentificacao').AsString,
+                                  gri.FieldByName('tciporta').AsString,
+                                  vlEstadoImpressora.ToInteger);
+        end;
+      end;
+    end;
+
+    gri.first;
+    vlID:=1;
+
+    for vlID := 1 to gri.RecordCount do
+    begin
+
+      if gri.locate('id',vlID,[]) then
+      begin
+        vlEstadoImpressora:=ConsultaImpressoraServidor(vlID.tostring,gri.FieldByName('tciporta').AsString);
+        if vlEstadoImpressora<>'' then
+        begin
+          AjustaPaineisImpressora (vlID.ToString,
+                                   gri.FieldByName('mitidentificacao').AsString,
+                                   gri.FieldByName('tciporta').AsString,
+                                   vlEstadoImpressora.ToInteger);
+        end
+        else
+        begin
+          vlEnviarImpressoras:=True;
+          BREAK;
+        end;
+      end;
+
+    end;
+
+    if vlEnviarImpressoras then
+    begin
+      erros.Lines.Add('L-1381 '+DateTimeToStr(Now())+' Vai reenviar as impressoras');
+      sleep(1000);
+      inicializaImpressoras;
+    end;
+
+    plHora.Caption:=timeToStr(time());
+
+  except
+      on E: Exception do
+      erros.Lines.Add('L-1381 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+
+end;
+
+
+
+procedure TfPrinciMizioImpressoras.tmVerificarStatusImpressorasTimer( Sender: TObject);
+begin
+
+  try
+    tmVerificarStatusImpressoras.Enabled:=false;
+    VerificaStatusImpressoras;
+    plHora.Caption:=timeToStr(time());
+    tmVerificarStatusImpressoras.Enabled:=True;
+
+  except
+      on E: Exception do
+      erros.Lines.Add('L-1378 '+DateTimeToStr(Now())+' '+E.ClassName+ ': '+ E.Message);
+  end;
+
+
+end;
+
+procedure TfPrinciMizioImpressoras.FormShow(Sender: TObject);
+begin
+  vpErroImpressora:=False;
+  inicializar.ENABLED := True;
+  Screen.Cursors[crSQLWait] := Screen.Cursors[crDefault];
+
+end;
+
+
+
+procedure TfPrinciMizioImpressoras.AjustaPaines;
+begin
+  { se exite destroi para recriar }
+  cfg.close;
+  cfg.Open;
+
+  gri.close;
+  if vpImpressora <> '999' then
+  begin
+    gri.FilterSQL := 'tci.tcicodigo=' + vpImpressora;
+  end;
+
+  gri.Open;
+
+ // ajustaPaineisImp(gri);
+
+end;
+
+Procedure TfPrinciMizioImpressoras.ConectaBanco;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+  vCaminho: string;
+Begin
+
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  vCaminho := ExtractFilePath(Application.ExeName);
+  With arquini Do
+  Begin
+
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+    vpImpressora := ReadString('posi', 'impressora', '999');
+    vpServidorImpressoras := ReadString('posi', 'servidorimpressoras', '');
+
+    if vpServidorImpressoras='' then
+      vpServidorImpressoras:=vservidor;
+
+    plServidorImpressoras.Caption:='Servidor Impressoras :'+vpServidorImpressoras+':8100';
+
+
+  End;
+  arquini.Free;
+
+  Conexao.Connected := false;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := True;
+
+  mensagens.Panels[0].Text := 'IP: ' + vservidor;
+  mensagens.Panels[1].Text := 'BD: ' + vnomebanco;
+
+  if not Conexao.Connected then
+  begin
+    ShowMessage('Falha de conexão com o Banco de Dados. Verifique as configurações do mizio.ini');
+    Application.Terminate;
+  end ;
+//  else
+//    AjustaPaines;
+
+End;
+
+
+function TfPrinciMizioImpressoras.AjustaSituacaoCozinha: Boolean;
+begin
+
+  result := false;
+
+  czn.close;
+  czn.Open;
+
+  if czn.IsEmpty then
+  begin
+    plCozinha.Caption := 'Atenção: A Cozinha não esta aberta, solicite a abertura da Cozinha!';
+    plCozinha.Font.Color := clYellow;
+    plCozinha.Color := clred;
+
+    vpCozinhaAberta := false;
+    Application.ProcessMessages;
+  end
+  else
+  begin
+
+    { cria pasta para salvar as imagens dos pedidos do dia }
+    vpPastaDia := ExtractFilePath(Application.ExeName) + 'pedidos';
+    vpPastaDia := vpPastaDia + '\' + formatfloat('000000', czncznchave.AsInteger);
+    try
+    if not DirectoryExists(vpPastaDia) then
+    begin
+      ForceDirectories(vpPastaDia);
+    end;
+    except
+
+    end;
+    plCozinha.Caption := 'Cozinha aberta. Bom Trabalho!';
+    plCozinha.Font.Color := clWhite;
+    plCozinha.Color := clgreen;
+    vpCozinha:= formatfloat('000000', czncznchave.AsInteger);
+    plCozinha.Caption:='Cozinha: '+vpCozinha;
+    vpCozinhaAberta := True;
+    Application.ProcessMessages;
+    vpCznChave := czncznchave.AsString;
+  end;
+  result := vpCozinhaAberta;
+
+end;
+
+
+
+procedure TfPrinciMizioImpressoras.inicializarTimer(Sender: TObject);
+var
+  i: Integer;
+begin
+  inicializar.ENABLED := false;
+  // cria um mutex usando um nome único
+  CreateMutex(nil, false, 'MiziIMpressoras.OnlyOne');
+  // verifica se houve erro na criação
+  if GetLastError = ERROR_ALREADY_EXISTS then
+  begin
+    MessageBox(0, 'Este programa já está sendo executado', 'Aviso', MB_ICONSTOP);
+    Halt(0); // cancela execução
+  end
+  else
+  begin
+
+    RunOnStartup('Gerenciador Impressão Mizio Sistemas', Application.ExeName, false);
+
+    for i := 0 to self.ComponentCount - 1 do
+    begin
+      if self.Components[i] is TUniQuery then
+        (self.Components[i] as TUniQuery).Connection := Conexao;
+
+    end;
+
+    conectabanco;
+    czn.Close;
+    czn.Open;
+    atualizacozinhaServidor(formatfloat('000000', czncznchave.AsInteger));
+
+
+    AjustaSituacaoCozinha;
+
+    inicializaImpressoras;
+
+    tmVerificarStatusImpressoras.Enabled := True;
+
+    tmVerificarPedidos.Enabled := True;
+
+  end;
+
+end;
+
+
+
+function TfPrinciMizioImpressoras.ConsultaStatusPedidoServidor(aOrigem:String; aNumeroPedido:String;aPorta:String; aID:String): Integer;
+var
+  LResponse: IResponse;
+
+  begin
+  try
+    result:=0;
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/statusarquivoimpressao')
+                      .AddHeader('origem',aOrigem)
+                      .AddHeader('pedido',aNumeroPedido)
+                      .AddHeader('cozinha',vpCozinha)
+                      .AddHeader('porta',aPorta)
+                      .AddHeader('ID',aID)
+                      .Timeout(1000)
+                    .Post;
+
+
+    result:=LResponse.StatusCode;
+  except
+  on E: Exception do
+    begin
+
+       erros.Lines.add(datetimetostr(now())+ ' L-1613 '+e.Message);
+
+       Result:=LResponse.StatusCode;
+    end;
+  end;
+
+end;
+
+
+
+function TfPrinciMizioImpressoras.EnviaTextoPedidoServidor(aTexto: TStrings; aOrigem:String;
+                                                aNumeroPedido:String;aPortaImpressora:STring; aID:Integer): Integer;
+var
+  LResponse: IResponse;
+
+begin
+  try
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/gravaarquivoimpressao')
+                      .AddBody(aTexto.Text)
+                      .AddHeader('origem',aOrigem)
+                      .AddHeader('pedido',aNumeroPedido)
+                      .AddHeader('porta',aPortaImpressora)
+                      .AddHeader('ID',aID.ToString)
+                      .AddHeader('cozinha',vpCozinha)
+                      .ContentType('text/plain')
+                      .Timeout(1000)
+                    .Post;
+
+    result:=LResponse.StatusCode;
+  except
+  on E: Exception do
+    begin
+       erros.Lines.add(datetimetostr(now())+ ' L-1646 '+e.Message);
+       Result:=LResponse.StatusCode;
+    end;
+  end;
+
+end;
+
+
+function TfPrinciMizioImpressoras.inicializaImpressoraServidor(aImpressoras: TJsonObject): Boolean;
+var
+  LResponse: IResponse;
+begin
+  result:=False;
+  try
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/inicializaimpressora')
+                      .AddBody(aImpressoras)
+                      .ContentType('application/json')
+                      .Timeout(1000)
+                    .Post;
+
+
+    if (LResponse.StatusCode=200) or (LResponse.StatusCode=201) then
+    begin
+      result:=True;
+    end
+    else
+      result:=False;
+
+  except
+  on E: Exception do
+    begin
+
+       erros.Lines.add(datetimetostr(now())+ ' L-1796 '+e.Message);
+       Result:=false;
+    end;
+  end;
+
+end;
+
+
+
+function TfPrinciMizioImpressoras.ConsultaPaineisImpressorasServidor(aImpressoras: TJsonArray): TJsonArray;
+var
+  LResponse: IResponse;
+begin
+
+  try
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/statuspaineisimpressoras')
+                      .AddHeader('cozinha',vpCozinha)
+                      .AddBody(aImpressoras)
+                      .ContentType('application/json')
+                      .Timeout(1000)
+                    .Post;
+
+    result:= TJSONObject.ParseJSONValue(LResponse.Content) as TJSONArray;
+  except
+  on E: Exception do
+    begin
+
+      erros.Lines.Add(DateTimeToStr(Now())+' L-1713 '+E.ClassName+ ': '+ E.Message);
+      Result:=nil;
+    end;
+  end;
+
+end;
+
+function TfPrinciMizioImpressoras.ConsultaImpressoraServidor(aID: String; aPorta:String): String;
+var
+  LResponse: IResponse;
+  vlImpressora:TJSONObject;
+  vlEstado:String;
+begin
+  result:='';
+
+  try
+    LResponse := TRequest.New.BaseURL('http://'+vpServidorImpressoras+':8100/v1/statusimpressora')
+                      .AddHeader('ID',aID)
+                      .AddHeader('porta',aPorta)
+
+                      .Timeout(1000)
+                    .Post;
+
+   vlImpressora:= TJSONObject.ParseJSONValue(LResponse.Content) as TJSONObject;
+   vlEstado:='';
+   vlEstado:= vlImpressora.GetValue('estado',vlEstado);
+   result:=vlEstado;
+
+  except
+  on E: Exception do
+    begin
+      erros.Lines.Add(DateTimeToStr(Now())+' L-1850 '+E.ClassName+ ': '+ E.Message);
+      Result:='';
+    end;
+  end;
+
+end;
+
+
+
+end.

@@ -1,0 +1,241 @@
+inherited fidc: Tfidc
+  ActiveControl = edprocurar
+  Caption = 'Cadastro para Emiss'#227'o de NFCe'
+  ClientHeight = 210
+  ClientWidth = 551
+  ExplicitWidth = 567
+  ExplicitHeight = 249
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 181
+    Width = 551
+    ExplicitTop = 181
+    ExplicitWidth = 551
+    inherited bconfirma: TBitBtn
+      Left = 397
+      Enabled = False
+      ExplicitLeft = 397
+    end
+    inherited bcancela: TBitBtn
+      Left = 472
+      ExplicitLeft = 472
+    end
+    inherited bfechar: TBitBtn
+      Left = 332
+      ExplicitLeft = 332
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 551
+    Height = 181
+    ExplicitWidth = 551
+    ExplicitHeight = 181
+    inherited Principal: TTabSheet
+      ExplicitWidth = 543
+      ExplicitHeight = 153
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = idccodigo
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 60
+        Width = 27
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome'
+        FocusControl = idcnome
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 33
+        Width = 72
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nr. Documento'
+        FocusControl = idcdoc
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 87
+        Width = 24
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'email'
+        FocusControl = idcemail
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 114
+        Width = 85
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Celular / Telefone'
+        FocusControl = idccelular
+      end
+      object sbBuscaCliente: TSpeedButton
+        Left = 198
+        Top = 3
+        Width = 23
+        Height = 21
+        CustomHint = BalloonHint
+        OnClick = sbBuscaClienteClick
+      end
+      object idccodigo: TDBEdit
+        Left = 75
+        Top = 3
+        Width = 55
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'idccodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+        Visible = False
+      end
+      object idcnome: TDBEdit
+        Left = 138
+        Top = 57
+        Width = 351
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'idcnome'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object idcdoc: TDBEdit
+        Left = 138
+        Top = 30
+        Width = 167
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'idcdoc'
+        DataSource = DSRegistro
+        TabOrder = 2
+        OnExit = idcdocExit
+      end
+      object idcemail: TDBEdit
+        Left = 138
+        Top = 84
+        Width = 351
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'idcemail'
+        DataSource = DSRegistro
+        TabOrder = 5
+      end
+      object idccelular: TDBEdit
+        Left = 138
+        Top = 111
+        Width = 225
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'idccelular'
+        DataSource = DSRegistro
+        TabOrder = 6
+      end
+      object Bvalidar: TBitBtn
+        Left = 311
+        Top = 30
+        Width = 68
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 3
+        OnClick = BvalidarClick
+      end
+      object edprocurar: TEdit
+        Left = 138
+        Top = 3
+        Width = 58
+        Height = 21
+        CustomHint = BalloonHint
+        TabOrder = 1
+        OnExit = edprocurarExit
+        OnKeyPress = FormKeyPress
+      end
+    end
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 380
+    Top = 0
+  end
+  inherited cfg: TUniQuery
+    Left = 452
+    Top = 4
+  end
+  inherited consulta: TUniQuery
+    Top = 65532
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'select '
+      ' idccodigo,'
+      '  idcnome,'
+      '  idcdoc,'
+      '  idcemail,'
+      '  idccelular'
+      'from idc'
+      'where idccodigo=:idccodigo')
+    Top = 65528
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'idccodigo'
+        Value = nil
+      end>
+    object registroidccodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'idccodigo'
+    end
+    object registroidcnome: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'idcnome'
+      Required = True
+      Size = 50
+    end
+    object registroidcdoc: TStringField
+      DisplayLabel = 'Nr. Documento'
+      FieldName = 'idcdoc'
+      Required = True
+      Size = 50
+    end
+    object registroidcemail: TStringField
+      DisplayLabel = 'email'
+      FieldName = 'idcemail'
+      Size = 200
+    end
+    object registroidccelular: TStringField
+      DisplayLabel = 'Celular'
+      FieldName = 'idccelular'
+    end
+  end
+  inherited pfr: TUniQuery
+    Left = 528
+    Top = 65524
+  end
+  inherited psf: TUniQuery
+    Left = 592
+    Top = 4
+  end
+  inherited dcl: TUniQuery
+    Left = 540
+    Top = 32
+  end
+  inherited acoesfrm: TActionList
+    Left = 492
+    Top = 65532
+  end
+  object ACBrValidador: TACBrValidador
+    TipoDocto = docInscEst
+    IgnorarChar = './-'
+    Left = 416
+    Top = 48
+  end
+end

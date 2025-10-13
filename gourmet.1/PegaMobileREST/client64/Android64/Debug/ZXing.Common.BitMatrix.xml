@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.BitMatrix" platform="Android">
+  <class name="TBitMatrix" sealed="true" file="ZXing.Common.BitMatrix.pas" line="48">
+    <devnotes>
+       <summary>
+       <p>Represents a 2D matrix of bits. In function arguments below, and throughout the common
+       module, x is the column position, and y is the row position. The ordering is always x, y.
+       The origin is at the top-left.</p>
+       <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
+       with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+       efficiently.</p>
+       <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
+       meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="Fbits" type="TArray&lt;System.Integer&gt;" visibility="private" size="8" offset="8" file="ZXing.Common.BitMatrix.pas" line="50" />
+      <field name="Fheight" type="Integer" visibility="private" size="4" offset="16" file="ZXing.Common.BitMatrix.pas" line="51" />
+      <field name="FrowSize" type="Integer" visibility="private" size="4" offset="20" file="ZXing.Common.BitMatrix.pas" line="52" />
+      <field name="Fwidth" type="Integer" visibility="private" size="4" offset="24" file="ZXing.Common.BitMatrix.pas" line="53" />
+      <function name="getBit" visibility="private" file="ZXing.Common.BitMatrix.pas" line="55">
+        <parameters>
+          <parameter name="x" type="Integer" />
+          <parameter name="y" type="Integer" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="setBit" visibility="private" file="ZXing.Common.BitMatrix.pas" line="56">
+        <parameters>
+          <parameter name="x" type="Integer" />
+          <parameter name="y" type="Integer" />
+          <parameter name="value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="private" file="ZXing.Common.BitMatrix.pas" line="58">
+        <parameters>
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+          <parameter name="rowSize" type="Integer" paramflags="const" />
+          <parameter name="bits" type="TArray&lt;System.Integer&gt;" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.Common.BitMatrix.pas" line="61">
+        <parameters>
+          <parameter name="width" type="Integer" paramflags="const" />
+          <parameter name="height" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.Common.BitMatrix.pas" line="62">
+        <parameters>
+          <parameter name="dimension" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.Common.BitMatrix.pas" line="63">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="clear" visibility="public" file="ZXing.Common.BitMatrix.pas" line="65">
+      </procedure>
+      <function name="Clone" visibility="public" file="ZXing.Common.BitMatrix.pas" line="66">
+        <parameters>
+          <retval type="TObject" />
+        </parameters>
+      </function>
+      <function name="Equals" visibility="public" procflags="override" file="ZXing.Common.BitMatrix.pas" line="67">
+        <parameters>
+          <parameter name="obj" type="TObject" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="flip" visibility="public" file="ZXing.Common.BitMatrix.pas" line="68">
+        <parameters>
+          <parameter name="x" type="Integer" />
+          <parameter name="y" type="Integer" />
+        </parameters>
+      </procedure>
+      <function name="getBottomRightOnBit" visibility="public" file="ZXing.Common.BitMatrix.pas" line="69">
+        <parameters>
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="getEnclosingRectangle" visibility="public" file="ZXing.Common.BitMatrix.pas" line="70">
+        <parameters>
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <function name="GetHashCode" visibility="public" procflags="override" file="ZXing.Common.BitMatrix.pas" line="71">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="getRow" visibility="public" file="ZXing.Common.BitMatrix.pas" line="72">
+        <parameters>
+          <parameter name="y" type="Integer" paramflags="const" />
+          <parameter name="row" type="IBitArray" />
+          <retval type="IBitArray" />
+        </parameters>
+      </function>
+      <function name="getTopLeftOnBit" visibility="public" file="ZXing.Common.BitMatrix.pas" line="73">
+        <parameters>
+          <retval type="TArray&lt;System.Integer&gt;" />
+        </parameters>
+      </function>
+      <procedure name="Rotate180" visibility="public" file="ZXing.Common.BitMatrix.pas" line="74">
+      </procedure>
+      <procedure name="setRegion" visibility="public" file="ZXing.Common.BitMatrix.pas" line="75">
+        <parameters>
+          <parameter name="left" type="Integer" />
+          <parameter name="top" type="Integer" />
+          <parameter name="width" type="Integer" />
+          <parameter name="height" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="setRow" visibility="public" file="ZXing.Common.BitMatrix.pas" line="77">
+        <parameters>
+          <parameter name="y" type="Integer" />
+          <parameter name="row" type="IBitArray" />
+        </parameters>
+      </procedure>
+      <function name="ToBitmap" visibility="public" procflags="overload" file="ZXing.Common.BitMatrix.pas" line="78">
+        <parameters>
+          <retval type="TBitmap" />
+        </parameters>
+      </function>
+      <function name="ToBitmap" visibility="public" procflags="overload" file="ZXing.Common.BitMatrix.pas" line="79">
+        <parameters>
+          <parameter name="format" type="TBarcodeFormat" />
+          <parameter name="content" type="string" />
+          <retval type="TBitmap" />
+        </parameters>
+      </function>
+      <property name="width" visibility="public" read="Fwidth" type="Integer" file="ZXing.Common.BitMatrix.pas" line="82" />
+      <property name="height" visibility="public" read="Fheight" type="Integer" file="ZXing.Common.BitMatrix.pas" line="83" />
+      <property name="Matrix[x][y]" visibility="public" read="getBit" write="setBit" type="Boolean" file="ZXing.Common.BitMatrix.pas" line="84" />
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.Common.BitMatrix.pas" line="86">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,153 @@
+unit ufncm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, Vcl.Forms, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls, Vcl.ExtCtrls, Vcl.Mask,
+  System.Classes, Vcl.Dialogs, uFuncoes;
+
+type
+  Tfncm = class(TForm)
+    Label1: TLabel;
+    proncm: TDBEdit;
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bconfirma: TBitBtn;
+    bcancela: TBitBtn;
+    Dsregistro: tunidatasource;
+    registro: tuniquery;
+    registroprocodigo: TIntegerField;
+    registroproncm: TStringField;
+    pltcgaliqnac: TPanel;
+    tcgaliqnac: TDBText;
+    Label8: TLabel;
+    registrotpocodigo: TIntegerField;
+    tpocodigo: TDBEdit;
+    tcg: tuniquery;
+    tcgtcgncm: TStringField;
+    tcgtcgaliqnac: TFloatField;
+    tcgtcgaliqimp: TFloatField;
+    Dtcg: tunidatasource;
+    consulta: tuniquery;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure DsregistroStateChange(Sender: TObject);
+    procedure bconfirmaClick(Sender: TObject);
+    procedure bcancelaClick(Sender: TObject);
+    procedure proncmExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fncm: Tfncm;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfncm.bcancelaClick(Sender: TObject);
+begin
+  If Dsregistro.DataSet.State <> dsBrowse Then
+    Dsregistro.DataSet.Cancel;
+
+  ModalResult := mrCancel;
+end;
+
+procedure Tfncm.bconfirmaClick(Sender: TObject);
+begin
+
+  if proncm.Text='' then
+  begin
+    Showmessage('Informe o NCM!');
+    exit;
+  end;
+
+  If Dsregistro.DataSet.State <> dsBrowse Then
+  Begin
+    Dsregistro.DataSet.Post;
+  End;
+
+  { * ajusta valores no banco, e marca para enviar carga para pdvs * }
+  consulta.Close;
+  consulta.SQL.Text := 'UPDATE pro SET procarga = 1 WHERE procodigo = ' + registroprocodigo.AsString;
+  consulta.Execsql;
+
+  ModalResult := mrOk;
+end;
+
+procedure Tfncm.DsregistroStateChange(Sender: TObject);
+begin
+  If Dsregistro.DataSet <> Nil Then
+    If Dsregistro.DataSet.State = dsInsert Then
+      psituacao.Caption := 'Incluindo'
+    Else If Dsregistro.DataSet.State = dsEdit Then
+      psituacao.Caption := 'Alterando'
+    Else
+      psituacao.Caption := '';
+end;
+
+procedure Tfncm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = '\' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  End
+  Else If Key = #27 Then
+  Begin
+    Key := #0;
+    bcancela.Click;
+  End;
+end;
+
+procedure Tfncm.FormShow(Sender: TObject);
+begin
+  consulta.Connection := Self.tcg.Connection;
+end;
+
+procedure Tfncm.proncmExit(Sender: TObject);
+begin
+  if self.ActiveControl<>bcancela then
+  begin
+
+  if (Self.tpocodigo.Field.AsInteger <> tpoServicos) and (Self.tpocodigo.Field.AsInteger <> tpoOutras) then
+  begin
+    if Self.proncm.Field.AsString = '' then
+    begin
+        ShowMessage('ATENÇÃO: NCM não pode ser informado em branco!');
+        proncm.SetFocus;
+        exit;
+    end;
+
+
+
+      Self.tcg.Close;
+      Self.tcg.Params[0].AsString := Self.proncm.Field.AsString;
+      Self.tcg.Open;
+
+      if tcg.RecordCount = 0 then
+      begin
+        ShowMessage('ATENÇÃO: NCM inválido, não foi localizada alíquota para este NCM!');
+        proncm.SetFocus;
+      end;
+
+
+  end;
+  end;
+end;
+
+end.

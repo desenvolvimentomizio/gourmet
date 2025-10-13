@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.ResultPoint" platform="Android">
+  <interface name="IResultPoint" GUID="{1E60EDAB-0387-440C-9D8E-4E0CC772C820}" ancestor="IInterface" file="ZXing.ResultPoint.pas" line="38">
+    <devnotes>
+       <summary>
+       To mimic &quot;garbage collection&quot; (or ARC) with old-gen compilers we have to use
+       interfaces. IResultPoint is the interface that maps TResultPoint which is now
+       implemented as a TInterfacedObject descendant which supports automatic deallocation
+       based on reference counting of interface variables.
+       See ZXing.ResultPointImplementation to see the actual implementation of this interface.
+       since we are using automatic reference counting, we don't need the Clone method any more.
+       </summary>
+    </devnotes>
+    <procedure name="SetX" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="41">
+      <parameters>
+        <parameter name="AValue" type="Single" paramflags="const" />
+      </parameters>
+    </procedure>
+    <procedure name="SetY" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="42">
+      <parameters>
+        <parameter name="AValue" type="Single" paramflags="const" />
+      </parameters>
+    </procedure>
+    <function name="GetX" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="43">
+      <parameters>
+        <retval type="Single" />
+      </parameters>
+    </function>
+    <function name="GetY" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="44">
+      <parameters>
+        <retval type="Single" />
+      </parameters>
+    </function>
+    <function name="Equals" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="46">
+      <parameters>
+        <parameter name="other" type="TObject" />
+        <retval type="Boolean" />
+      </parameters>
+    </function>
+    <function name="GetHashCode" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="47">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+    <function name="ToString" visibility="public" procflags="abstract virtual" file="ZXing.ResultPoint.pas" line="48">
+      <parameters>
+        <retval type="string" />
+      </parameters>
+    </function>
+    <property name="x" visibility="public" read="GetX" write="SetX" type="Single" default="0" file="ZXing.ResultPoint.pas" line="50" />
+    <property name="y" visibility="public" read="GetY" write="SetY" type="Single" default="0" file="ZXing.ResultPoint.pas" line="51" />
+  </interface>
+  <class name="TResultPointHelpers" file="ZXing.ResultPoint.pas" line="60">
+    <devnotes>
+       <summary>
+       in order to implement TResultPoint as an interface all static methods
+       have been moved in this static class.
+       this class contains also the CreateResultPoint method that must be used
+       in place of the actual class constructor
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <function name="crossProductZ" visibility="protected" procflags="static" file="ZXing.ResultPoint.pas" line="65">
+        <devnotes>
+           <summary>
+           Returns the z component of the cross product between vectors BC and BA.
+           </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="pointA" type="IResultPoint" paramflags="const" />
+          <parameter name="pointB" type="IResultPoint" paramflags="const" />
+          <parameter name="pointC" type="IResultPoint" paramflags="const" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="CreateResultPoint" visibility="public" procflags="class overload" file="ZXing.ResultPoint.pas" line="71">
+        <devnotes>
+           <summary>
+           Initializes a new instance of <see cref="T:ZXing.ResultPointImplementation.TResultPoint"/> and returns
+           its <see cref="T:ZXing.ResultPoint.IResultPoint"/> interface
+           </summary>
+        </devnotes>
+        <parameters>
+          <retval type="IResultPoint">
+            <devnotes>
+               <summary>
+               To mimic &quot;garbage collection&quot; (or ARC) with old-gen compilers we have to use
+               interfaces. IResultPoint is the interface that maps TResultPoint which is now
+               implemented as a TInterfacedObject descendant which supports automatic deallocation
+               based on reference counting of interface variables.
+               See ZXing.ResultPointImplementation to see the actual implementation of this interface.
+               since we are using automatic reference counting, we don't need the Clone method any more.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="CreateResultPoint" visibility="public" procflags="class overload" file="ZXing.ResultPoint.pas" line="78">
+        <devnotes>
+           <summary>
+           Initializes a new instance of  <see cref="T:ZXing.ResultPointImplementation.TResultPoint"/> and returns
+           its <see cref="T:ZXing.ResultPoint.IResultPoint"/> interface
+           </summary>
+           <param name=>The x.</param>
+           <param name=>The y.</param>
+        </devnotes>
+        <parameters>
+          <parameter name="pX" type="Single" paramflags="const" />
+          <parameter name="pY" type="Single" paramflags="const" />
+          <retval type="IResultPoint">
+            <devnotes>
+               <summary>
+               To mimic &quot;garbage collection&quot; (or ARC) with old-gen compilers we have to use
+               interfaces. IResultPoint is the interface that maps TResultPoint which is now
+               implemented as a TInterfacedObject descendant which supports automatic deallocation
+               based on reference counting of interface variables.
+               See ZXing.ResultPointImplementation to see the actual implementation of this interface.
+               since we are using automatic reference counting, we don't need the Clone method any more.
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="orderBestPatterns" visibility="public" procflags="static" file="ZXing.ResultPoint.pas" line="84">
+        <devnotes>
+           <summary>
+           Orders an array of three ResultPoints in an order [A,B,C] such that AB is less than AC and
+           BC is less than AC and the angle between BC and BA is less than 180 degrees.
+           </summary>
+           <param name="patterns">array of three <see cref="T:ZXing.ResultPoint.IResultPoint" /> to order</param>
+        </devnotes>
+        <parameters>
+          <parameter name="patterns" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="distance" visibility="public" procflags="static" file="ZXing.ResultPoint.pas" line="93">
+        <devnotes>
+           <summary>
+           calculates the distance between two points
+           </summary>
+           <param name="pattern1">first pattern</param>
+           <param name="pattern2">second pattern</param>
+           <returns>
+           distance between two points
+           </returns>
+        </devnotes>
+        <parameters>
+          <parameter name="pattern1" type="IResultPoint" paramflags="const" />
+          <parameter name="pattern2" type="IResultPoint" paramflags="const" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+  <class name="TResultPointEventObject" file="ZXing.ResultPoint.pas" line="106">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FResultPointCallback" type="TResultPointCallback" visibility="private" size="8" offset="4" file="ZXing.ResultPoint.pas" line="108" />
+      <constructor name="Create" visibility="public" file="ZXing.ResultPoint.pas" line="110">
+        <parameters>
+          <parameter name="AEvent" type="TResultPointCallback" paramflags="const" />
+        </parameters>
+      </constructor>
+      <event name="Event" visibility="public" read="FResultPointCallback" type="TResultPointCallback" file="ZXing.ResultPoint.pas" line="112" />
+    </members>
+  </class>
+</namespace>

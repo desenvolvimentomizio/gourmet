@@ -1,0 +1,69 @@
+object lrelat: Tlrelat
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Relat'#243'rios'
+  ClientHeight = 412
+  ClientWidth = 745
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnKeyUp = FormKeyUp
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Button3: TButton
+    Left = 581
+    Top = 382
+    Width = 75
+    Height = 25
+    Caption = 'Visualizar'
+    TabOrder = 0
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 662
+    Top = 382
+    Width = 75
+    Height = 25
+    Caption = 'Sair'
+    TabOrder = 1
+    OnClick = Button4Click
+  end
+  object FileListBox1: TFileListBox
+    Left = 0
+    Top = 0
+    Width = 745
+    Height = 376
+    Align = alTop
+    Color = 16630414
+    FileEdit = nome
+    ItemHeight = 13
+    Mask = '*.fr3'
+    TabOrder = 2
+    OnKeyUp = FormKeyUp
+  end
+  object nome: TEdit
+    Left = 170
+    Top = 328
+    Width = 469
+    Height = 21
+    TabOrder = 3
+    Text = '*.fr3'
+    Visible = False
+  end
+  object bgerador: TButton
+    Left = 8
+    Top = 382
+    Width = 75
+    Height = 25
+    Caption = 'Gerador'
+    TabOrder = 4
+    Visible = False
+    OnClick = bgeradorClick
+  end
+end

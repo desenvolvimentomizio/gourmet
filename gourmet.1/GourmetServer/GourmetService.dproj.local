@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/05/23 15:39:06.000.588,C:\fontes\gourmet.1\GourmetServer\uGourmetService.dfm=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/05/23 15:39:13.000.354,C:\fontes\gourmet.1\GourmetServer\GourmetService.dproj=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/05/23 16:25:23.000.807,=C:\fontes\gourmet.1\GourmetServer\src\Model\GourmetServer.Model.Connection.pas</Transaction>
+    <Transaction>2022/05/23 16:26:54.000.933,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.BPR.pas</Transaction>
+    <Transaction>2022/05/23 16:26:55.000.448,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.CEP.pas</Transaction>
+    <Transaction>2022/05/23 16:26:56.000.240,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.GRI.pas</Transaction>
+    <Transaction>2022/05/23 16:26:57.000.901,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.UFS.pas</Transaction>
+    <Transaction>2022/05/23 16:26:57.000.628,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.SBR.pas</Transaction>
+    <Transaction>2022/05/23 16:26:57.000.041,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\GourmetServer.Model.Entity.MLT.pas</Transaction>
+    <Transaction>2022/05/23 16:27:19.000.604,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.GRP.pas</Transaction>
+    <Transaction>2022/05/23 16:27:19.000.807,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.ImportaCardapioMizio.pas</Transaction>
+    <Transaction>2022/05/23 16:27:19.000.151,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.EDR.pas</Transaction>
+    <Transaction>2022/05/23 16:27:20.000.635,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.ORC.pas</Transaction>
+    <Transaction>2022/05/23 16:27:20.000.823,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.RFI.pas</Transaction>
+    <Transaction>2022/05/23 16:27:20.000.972,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.SBI.pas</Transaction>
+    <Transaction>2022/05/23 16:27:20.000.776,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.PUN.pas</Transaction>
+    <Transaction>2022/05/23 16:27:20.000.917,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.RFM.pas</Transaction>
+    <Transaction>2022/05/23 16:27:21.000.245,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.SFN.pas</Transaction>
+    <Transaction>2022/05/23 16:27:21.000.072,=C:\fontes\gourmet.1\GourmetServer\src\Controller\GourmetServer.Controller.SBR.pas</Transaction>
+    <Transaction>2022/05/23 16:42:42.000.276,=C:\fontes\gourmet.1\GourmetServer\src\Controller\aiq\GourmetServer.Controller.aiq.AIQ.pas</Transaction>
+    <Transaction>2022/05/23 16:42:42.000.357,=C:\fontes\gourmet.1\GourmetServer\src\Controller\aiq\GourmetServer.Controller.aiq.AIQMDA.pas</Transaction>
+    <Transaction>2022/05/23 16:43:11.000.963,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\aiq\GourmetServer.Model.Entity.aiq.AIQCFG.pas</Transaction>
+    <Transaction>2022/05/23 16:43:12.000.041,=C:\fontes\gourmet.1\GourmetServer\src\Model\Entity\aiq\GourmetServer.Model.Entity.aiq.AIQMDA.pas</Transaction>
+  </Transactions>
+</BorlandProject>

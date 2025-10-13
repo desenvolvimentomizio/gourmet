@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.QrCode.Internal.BitMatrixParser" platform="Android">
+  <class name="TBitMatrixParser" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="35">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="BitMatrix" type="TBitMatrix" visibility="private" size="8" offset="8" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="37" />
+      <field name="mirrored" type="Boolean" visibility="private" size="1" offset="16" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="38" />
+      <field name="parsedVersion" type="TVersion" visibility="private" size="8" offset="24" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="39" />
+      <function name="copyBit" visibility="private" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="41">
+        <parameters>
+          <parameter name="i" type="Integer" paramflags="const" />
+          <parameter name="j" type="Integer" paramflags="const" />
+          <parameter name="versionBits" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <field name="parsedFormatInfo" type="TFormatInformation" visibility="public" size="8" offset="32" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="43" />
+      <constructor name="Create" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="45">
+        <parameters>
+          <parameter name="BitMatrix" type="TBitMatrix" paramflags="const" />
+        </parameters>
+      </constructor>
+      <function name="createBitMatrixParser" visibility="public" procflags="static" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="49">
+        <devnotes>
+           <param name="bitMatrix">{@link TBitMatrix} to parse</param>
+           <throws>ReaderException if dimension is not &gt;= 21 and 1 mod 4</throws>
+        </devnotes>
+        <parameters>
+          <parameter name="bitMatrix" type="TBitMatrix" paramflags="const" />
+          <retval type="TBitMatrixParser" />
+        </parameters>
+      </function>
+      <procedure name="mirror" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="53">
+      </procedure>
+      <procedure name="remask" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="58">
+      </procedure>
+      <procedure name="setMirror" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="67">
+        <parameters>
+          <parameter name="mirror" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="readFormatInformation" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="77">
+        <devnotes>
+           <summary> <p>Reads format information from one of its two locations within the QR Code.</p>
+          
+           </summary>
+           <returns> {@link FormatInformation} encapsulating the QR Code's format info
+           </returns>
+           <throws>  ReaderException if both format information locations cannot be parsed as </throws>
+           <summary> the valid encoding of format information
+           </summary>
+        </devnotes>
+        <parameters>
+          <retval type="TFormatInformation">
+            <devnotes>
+               <summary> <p>Encapsulates a QR Code's format information, including the data mask used and
+               error correction level.</p>
+              
+               </summary>
+               <seealso cref="T:ZXing.QrCode.Internal.DataMask.TDataMask">
+               </seealso>
+               <seealso cref="T:ZXing.QrCode.Internal.ErrorCorrectionLevel.TErrorCorrectionLevel">
+               </seealso>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="readVersion" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="87">
+        <devnotes>
+           <summary> <p>Reads version information from one of its two locations within the QR Code.</p>
+          
+           </summary>
+           <returns> {@link Version} encapsulating the QR Code's version
+           </returns>
+           <throws>  ReaderException if both version information locations cannot be parsed as </throws>
+           <summary> the valid encoding of version information
+           </summary>
+        </devnotes>
+        <parameters>
+          <retval type="TVersion">
+            <devnotes>
+               <summary>
+               See ISO 18004:2006 Annex D
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="readCodewords" visibility="public" file="ZXing.QrCode.Internal.BitMatrixParser.pas" line="97">
+        <devnotes>
+           QR Code.</p>
+          
+           </summary>
+           <returns> bytes encoded within the QR Code
+           </returns>
+           <throws>  ReaderException if the exact number of bytes expected is not read </throws>
+        </devnotes>
+        <parameters>
+          <retval type="TArray&lt;System.Byte&gt;" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+</namespace>

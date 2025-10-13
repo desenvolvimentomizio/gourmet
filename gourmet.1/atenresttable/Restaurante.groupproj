@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0523D108-AFD8-44CF-BFB2-4A482259A11E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="servidor\mizioServerRest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Zap.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="mizioServerRest">
+        <MSBuild Projects="servidor\mizioServerRest.dproj"/>
+    </Target>
+    <Target Name="mizioServerRest:Clean">
+        <MSBuild Projects="servidor\mizioServerRest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mizioServerRest:Make">
+        <MSBuild Projects="servidor\mizioServerRest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Zap">
+        <MSBuild Projects="Zap.dproj"/>
+    </Target>
+    <Target Name="Zap:Clean">
+        <MSBuild Projects="Zap.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Zap:Make">
+        <MSBuild Projects="Zap.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="mizioServerRest;Zap"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="mizioServerRest:Clean;Zap:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="mizioServerRest:Make;Zap:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

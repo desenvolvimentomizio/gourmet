@@ -1,0 +1,2999 @@
+object fopm: Tfopm
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Processando'
+  ClientHeight = 533
+  ClientWidth = 634
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PlTitulo: TPanel
+    Left = 0
+    Top = 0
+    Width = 634
+    Height = 26
+    Align = alTop
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    BorderWidth = 6
+    Caption = 'T'#237'tulo'
+    Color = 12615680
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object plid: TPanel
+      Left = 502
+      Top = 6
+      Width = 126
+      Height = 14
+      Align = alRight
+      BevelOuter = bvNone
+      Caption = '00-00-000'
+      Color = clNavy
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+    end
+  end
+  object PlBotoes: TPanel
+    Left = 0
+    Top = 26
+    Width = 139
+    Height = 507
+    Align = alLeft
+    ParentBackground = False
+    TabOrder = 1
+    object ImageLogoBase: TImage
+      Left = 1
+      Top = 427
+      Width = 137
+      Height = 61
+      Align = alBottom
+      AutoSize = True
+      ExplicitTop = 152
+    end
+    object PlInfo: TPanel
+      Left = 1
+      Top = 488
+      Width = 137
+      Height = 18
+      Align = alBottom
+      Alignment = taLeftJustify
+      BevelOuter = bvLowered
+      BorderWidth = 2
+      Caption = 'ProductVersion'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+  end
+  object consulta: TUniQuery
+    Left = 148
+    Top = 32
+  end
+  object orc: TUniQuery
+    SQL.Strings = (
+      'SELECT orcchave'
+      '     , etdcodigo'
+      '     , clbcodigo'
+      '     , fopcodigo'
+      '     , tdecodigo'
+      '     , stocodigo'
+      '     , moccodigo'
+      '     , orcdataabert'
+      '     , orchoraabert'
+      '     , orcdataencerr'
+      '     , orcgeralav'
+      '     , orcgeralap'
+      '     , orcdescontoav'
+      '     , orcdescontoap'
+      '     , orctotalav'
+      '     , orctotalap'
+      '     , orcobs'
+      '     , orcdestimpre'
+      '     , orcnome'
+      '     , orcendereco'
+      '     , orctelefone'
+      '     , orcdescrpagto'
+      '     , orcextenso'
+      '     , orcnomeretirou'
+      '     , tfpcodigo'
+      '     , orcpercdescav'
+      '     , trmcodigo'
+      '     , puocodigo'
+      '     , edritem'
+      '     , clbvendedor'
+      '     , eqpcodigo'
+      '     , tdfcodigo'
+      '     , flacodigo'
+      '     , orcretorno'
+      '     , orcliberadoentrega'
+      '     , oricodigo'
+      '     , clbentregador'
+      '     , ccxchave'
+      '     , orcnumeropedido'
+      '     , cznchave'
+      '     , baicodigo'
+      '     , mdacodigo'
+      'FROM orc o'
+      'WHERE o.orcchave = :orcchave'
+      'and o.flacodigo=:flacodigo')
+    Left = 148
+    Top = 88
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object orcorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object orcetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object orcclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object orcfopcodigo: TIntegerField
+      FieldName = 'fopcodigo'
+    end
+    object orctdecodigo: TIntegerField
+      FieldName = 'tdecodigo'
+      Required = True
+    end
+    object orcstocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object orcmoccodigo: TIntegerField
+      FieldName = 'moccodigo'
+      Required = True
+    end
+    object orcorcdataabert: TDateField
+      FieldName = 'orcdataabert'
+      Required = True
+    end
+    object orcorchoraabert: TTimeField
+      FieldName = 'orchoraabert'
+    end
+    object orcorcdataencerr: TDateField
+      FieldName = 'orcdataencerr'
+    end
+    object orcorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorcgeralap: TFloatField
+      FieldName = 'orcgeralap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorcdescontoav: TFloatField
+      FieldName = 'orcdescontoav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorcdescontoap: TFloatField
+      FieldName = 'orcdescontoap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorctotalav: TFloatField
+      FieldName = 'orctotalav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorctotalap: TFloatField
+      FieldName = 'orctotalap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object orcorcdestimpre: TIntegerField
+      FieldName = 'orcdestimpre'
+    end
+    object orcorcnome: TStringField
+      FieldName = 'orcnome'
+      Size = 50
+    end
+    object orcorcendereco: TStringField
+      FieldName = 'orcendereco'
+      Size = 50
+    end
+    object orcorctelefone: TStringField
+      FieldName = 'orctelefone'
+    end
+    object orcorcdescrpagto: TStringField
+      FieldName = 'orcdescrpagto'
+      Size = 250
+    end
+    object orcorcextenso: TStringField
+      FieldName = 'orcextenso'
+      Size = 2000
+    end
+    object orcorcnomeretirou: TStringField
+      FieldName = 'orcnomeretirou'
+      Size = 30
+    end
+    object orctfpcodigo: TIntegerField
+      FieldName = 'tfpcodigo'
+    end
+    object orcorcpercdescav: TFloatField
+      FieldName = 'orcpercdescav'
+    end
+    object orctrmcodigo: TIntegerField
+      FieldName = 'trmcodigo'
+    end
+    object orcpuocodigo: TIntegerField
+      FieldName = 'puocodigo'
+    end
+    object orcedritem: TIntegerField
+      FieldName = 'edritem'
+    end
+    object orcclbvendedor: TIntegerField
+      FieldName = 'clbvendedor'
+    end
+    object orceqpcodigo: TIntegerField
+      FieldName = 'eqpcodigo'
+    end
+    object orctdfcodigo: TStringField
+      FieldName = 'tdfcodigo'
+      Size = 2
+    end
+    object orcflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object orcorcretorno: TDateTimeField
+      FieldName = 'orcretorno'
+    end
+    object orcorcliberadoentrega: TDateTimeField
+      FieldName = 'orcliberadoentrega'
+    end
+    object orcoricodigo: TIntegerField
+      FieldName = 'oricodigo'
+    end
+    object orcclbentregador: TIntegerField
+      FieldName = 'clbentregador'
+    end
+    object orcccxchave: TIntegerField
+      FieldName = 'ccxchave'
+    end
+    object orcorcnumeropedido: TStringField
+      FieldName = 'orcnumeropedido'
+      Size = 10
+    end
+    object orccznchave: TIntegerField
+      FieldName = 'cznchave'
+    end
+    object orcbaicodigo: TIntegerField
+      FieldName = 'baicodigo'
+    end
+    object orcmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+    end
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT cfgmcfg.cfgetdempresa'
+      '     , etd.etddoc1'
+      '     , edr.ufscodigo'
+      '     , cfgmnfe.cfgserienfe'
+      '     , cfgmspd.cfgpccvenda'
+      '     , cfgmsai.cfgdefinetoeatendimento'
+      '     , cfgtoeinteproducaopropria'
+      '     , cfgtributacaoimendes'
+      '     , cfgmsai.cfgtoemesfora'
+      '     , cfgmsai.cfgtoemesinte'
+      '     , cfgmsai.cfgtoetransflafora'
+      '     , cfgmsai.cfgtoetransflainte'
+      '     , cfgmsai.cfgproinativsaldozero'
+      '     , cfgmcfg.crtcodigo'
+      '     , cfg.cfgusapdv'
+      ''
+      ''
+      ''
+      'FROM cfg'
+      '   , cfgmcfg'
+      '   , cfgmnfe'
+      '   , cfgmspd'
+      '   , cfgmsai'
+      '   , etd'
+      '   , edr'
+      'WHERE cfg.cfgcodigo = cfgmcfg.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmspd.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmsai.cfgcodigo'
+      'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND etd.etdcodigo = edr.etdcodigo'
+      'AND edr.tedcodigo = 1')
+    ReadOnly = True
+    Left = 192
+    Top = 32
+    object cfgufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Size = 2
+    end
+    object cfgcfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Size = 5
+    end
+    object cfgcfgpccvenda: TStringField
+      FieldName = 'cfgpccvenda'
+      Size = 60
+    end
+    object cfgcfgdefinetoeatendimento: TIntegerField
+      DisplayLabel = 'Define TOE no Atendimento'
+      FieldName = 'cfgdefinetoeatendimento'
+      Required = True
+    end
+    object cfgcfgtoemesfora: TIntegerField
+      FieldName = 'cfgtoemesfora'
+    end
+    object cfgcfgtoemesinte: TIntegerField
+      FieldName = 'cfgtoemesinte'
+    end
+    object cfgcfgtoetransflainte: TIntegerField
+      FieldName = 'cfgtoetransflainte'
+    end
+    object cfgcfgtoetransflafora: TIntegerField
+      FieldName = 'cfgtoetransflafora'
+    end
+    object cfgcfgproinativsaldozero: TIntegerField
+      FieldName = 'cfgproinativsaldozero'
+    end
+    object cfgcrtcodigo: TIntegerField
+      FieldName = 'crtcodigo'
+    end
+    object cfgcfgusapdv: TIntegerField
+      FieldName = 'cfgusapdv'
+    end
+    object cfgcfgtributacaoimendes: TIntegerField
+      FieldName = 'cfgtributacaoimendes'
+    end
+    object cfgcfgtoeinteproducaopropria: TIntegerField
+      FieldName = 'cfgtoeinteproducaopropria'
+    end
+  end
+  object mes: TUniQuery
+    SQL.Strings = (
+      'SELECT meschave'
+      '     , etdcodigo'
+      '     , clbcodigo'
+      '     , mesemissao'
+      '     , mesregistro'
+      '     , tdfcodigo'
+      '     , sdecodigo'
+      '     , messerie'
+      '     , mesnumero'
+      '     , meschavenfe'
+      '     , toecodigo'
+      '     , mesvalor'
+      '     , mesdesconto'
+      '     , mestotal'
+      '     , tfpcodigo'
+      '     , refcodigo'
+      '     , mesfrete'
+      '     , messeguro'
+      '     , mesoutras'
+      '     , mesbicm'
+      '     , mesicm'
+      '     , mesbicms'
+      '     , mesicms'
+      '     , mesipi'
+      '     , mespis'
+      '     , mescofins'
+      '     , mespiss'
+      '     , mescofinss'
+      '     , trmcodigo'
+      '     , mesprotocolo'
+      '     , trfcodigo'
+      '     , temcodigo'
+      '     , edritem'
+      '     , messervicos'
+      '     , mesprodutos'
+      '     , clbvendedor'
+      '     , eqpcodigo'
+      '     , flacodigo'
+      '     , fopcodigo '
+      '     , mesinclusao'
+      '     , mesretorno'
+      '     , mesliberadoentrega'
+      '     , mestelefone'
+      '     , oricodigo'
+      '     , clbcodigoent'
+      '     , ccxchave '
+      '     , mesnumeropedido'
+      '     , moccodigo'
+      '     , cznchave'
+      '     , baicodigo'
+      '     , mdacodigo'
+      'FROM mes m'
+      'limit 1')
+    Left = 188
+    Top = 88
+    object mesmeschave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Nr. Chave'
+      FieldName = 'meschave'
+    end
+    object mesetdcodigo: TIntegerField
+      DisplayLabel = 'Fornecedor'
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object mesclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object mesmesemissao: TDateField
+      DisplayLabel = 'Data de Emiss'#227'o'
+      FieldName = 'mesemissao'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object mesmesregistro: TDateField
+      DisplayLabel = 'Data de Entrada'
+      FieldName = 'mesregistro'
+      Required = True
+      EditMask = '!99/99/9999;1;_'
+    end
+    object mestdfcodigo: TStringField
+      DisplayLabel = 'Tipo de Documento'
+      FieldName = 'tdfcodigo'
+      Required = True
+      Size = 2
+    end
+    object messdecodigo: TStringField
+      FieldName = 'sdecodigo'
+      Required = True
+      Size = 2
+    end
+    object mesmesserie: TStringField
+      DisplayLabel = 'S'#233'rie'
+      FieldName = 'messerie'
+      Required = True
+      Size = 5
+    end
+    object mesmesnumero: TIntegerField
+      FieldName = 'mesnumero'
+      Required = True
+    end
+    object mesmeschavenfe: TStringField
+      FieldName = 'meschavenfe'
+      Size = 100
+    end
+    object mestoecodigo: TIntegerField
+      FieldName = 'toecodigo'
+      Required = True
+    end
+    object mesmesvalor: TFloatField
+      FieldName = 'mesvalor'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesdesconto: TFloatField
+      FieldName = 'mesdesconto'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmestotal: TFloatField
+      FieldName = 'mestotal'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mestfpcodigo: TIntegerField
+      FieldName = 'tfpcodigo'
+      Required = True
+    end
+    object mesrefcodigo: TIntegerField
+      FieldName = 'refcodigo'
+      Required = True
+    end
+    object mesmesfrete: TFloatField
+      FieldName = 'mesfrete'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesseguro: TFloatField
+      FieldName = 'messeguro'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesoutras: TFloatField
+      FieldName = 'mesoutras'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesbicm: TFloatField
+      FieldName = 'mesbicm'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesicm: TFloatField
+      FieldName = 'mesicm'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesbicms: TFloatField
+      FieldName = 'mesbicms'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesicms: TFloatField
+      FieldName = 'mesicms'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmesipi: TFloatField
+      FieldName = 'mesipi'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmespis: TFloatField
+      FieldName = 'mespis'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object mesmescofins: TFloatField
+      FieldName = 'mescofins'
+      Required = True
+    end
+    object mesmespiss: TFloatField
+      FieldName = 'mespiss'
+      Required = True
+    end
+    object mesmescofinss: TFloatField
+      FieldName = 'mescofinss'
+      Required = True
+    end
+    object mestrmcodigo: TIntegerField
+      FieldName = 'trmcodigo'
+      Required = True
+    end
+    object mesmesprotocolo: TStringField
+      FieldName = 'mesprotocolo'
+      Size = 50
+    end
+    object mestrfcodigo: TStringField
+      FieldName = 'trfcodigo'
+      Size = 1
+    end
+    object mestemcodigo: TIntegerField
+      FieldName = 'temcodigo'
+    end
+    object mesedritem: TIntegerField
+      FieldName = 'edritem'
+    end
+    object mesmesservicos: TFloatField
+      FieldName = 'messervicos'
+    end
+    object mesmesprodutos: TFloatField
+      FieldName = 'mesprodutos'
+    end
+    object mesclbvendedor: TIntegerField
+      FieldName = 'clbvendedor'
+    end
+    object meseqpcodigo: TIntegerField
+      FieldName = 'eqpcodigo'
+    end
+    object mesflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object mesfopcodigo: TIntegerField
+      FieldName = 'fopcodigo'
+    end
+    object mesmesinclusao: TDateTimeField
+      FieldName = 'mesinclusao'
+    end
+    object mesmesretorno: TDateTimeField
+      FieldName = 'mesretorno'
+    end
+    object mesmesliberadoentrega: TDateTimeField
+      FieldName = 'mesliberadoentrega'
+    end
+    object mesmestelefone: TStringField
+      FieldName = 'mestelefone'
+    end
+    object mesoricodigo: TIntegerField
+      FieldName = 'oricodigo'
+    end
+    object mesclbcodigoent: TIntegerField
+      FieldName = 'clbcodigoent'
+    end
+    object mesccxchave: TIntegerField
+      FieldName = 'ccxchave'
+    end
+    object mesmesnumeropedido: TStringField
+      FieldName = 'mesnumeropedido'
+      Size = 10
+    end
+    object mesmoccodigo: TIntegerField
+      FieldName = 'moccodigo'
+    end
+    object mescznchave: TIntegerField
+      FieldName = 'cznchave'
+    end
+    object mesbaicodigo: TIntegerField
+      FieldName = 'baicodigo'
+    end
+    object mesmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+    end
+  end
+  object ito: TUniQuery
+    SQL.Strings = (
+      'SELECT ito.itochave'
+      '     , ito.orcchave'
+      '     , ito.procodigo'
+      '     , ito.puncodigo'
+      '     , ito.unicodigo'
+      '     , ito.stocodigo'
+      '     , ito.tdecodigo'
+      '     , ito.itoquantidade'
+      '     , ito.itovalorav'
+      '     , ito.itodescontoav'
+      '     , ito.itototalav'
+      '     , ito.itosaldoav'
+      '     , ito.itovalorap'
+      '     , ito.itodescontoap'
+      '     , ito.itototalap'
+      '     , ito.itosaldoap'
+      '     , ito.itocontendo'
+      '     , ito.itoproservico'
+      '     , ito.itoprocomple'
+      '     , ito.itodataalter'
+      '     , ito.itoitem'
+      '     , ito.itogint'
+      '     , ito.itopercdescap'
+      '     , ito.itopercdescav'
+      '     , ito.itoinfadprod'
+      '     , pro.tpocodigo'
+      '     , ito.vrpcodigo'
+      '     , ito.pmpchave'
+      '     , ito.itoacrescimoav'
+      
+        '     , if(orc.stocodigo=88,'#39'00:00'#39', TIME_FORMAT( TIMEDIFF(  imm.' +
+        'immhoraentrega,  CONCAT( DATE_FORMAT(orc.orcdataabert, '#39'%Y-%m-%d' +
+        #39'),'#39' '#39', orc.orchoraabert) ), '#39'%H:%i'#39') ) AS tempoemproducao'
+      
+        '     , if(orc.stocodigo=88,'#39'00:00'#39', TIME_FORMAT( TIMEDIFF( orc.o' +
+        'rcretorno,imm.immhoraentrega ), '#39'%H:%i'#39'))  AS tempoementrega'
+      '     , pcocodigo'
+      '     , itopercentualcombo'
+      '     , clbatendente'
+      ''
+      'FROM ito'
+      '    INNER JOIN imm'
+      '    ON imm.itochave = ito.itochave'
+      '  INNER JOIN pro'
+      '    ON ito.procodigo = pro.procodigo'
+      '  INNER JOIN orc'
+      '    ON orc.orcchave = ito.orcchave'
+      ''
+      
+        'WHERE (ito.stocodigo IN (1, 2, 3) or (ito.stocodigo IN (5) and o' +
+        'rc.moccodigo=7))'
+      
+        'AND ito.orcchave = :orcchave and ito.flacodigo=:flacodigo and (i' +
+        'to.itosaldoav>0 or ito.itosaldoap>0)')
+    Left = 156
+    Top = 140
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object itoitochave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'itochave'
+    end
+    object itoorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object itoprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object itoitovalorav: TFloatField
+      FieldName = 'itovalorav'
+    end
+    object itoitovalorap: TFloatField
+      FieldName = 'itovalorap'
+    end
+    object itoitototalav: TFloatField
+      FieldName = 'itototalav'
+    end
+    object itoitototalap: TFloatField
+      FieldName = 'itototalap'
+    end
+    object itoitosaldoav: TFloatField
+      FieldName = 'itosaldoav'
+    end
+    object itoitosaldoap: TFloatField
+      FieldName = 'itosaldoap'
+    end
+    object itoitoquantidade: TFloatField
+      FieldName = 'itoquantidade'
+    end
+    object itoitodescontoav: TFloatField
+      FieldName = 'itodescontoav'
+    end
+    object itoitodescontoap: TFloatField
+      FieldName = 'itodescontoap'
+    end
+    object itounicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+    object itopuncodigo: TIntegerField
+      FieldName = 'puncodigo'
+    end
+    object itotdecodigo: TIntegerField
+      FieldName = 'tdecodigo'
+    end
+    object itostocodigo: TIntegerField
+      FieldName = 'stocodigo'
+    end
+    object itoitoitem: TIntegerField
+      FieldName = 'itoitem'
+      Required = True
+    end
+    object itoitopercdescav: TFloatField
+      FieldName = 'itopercdescav'
+    end
+    object itoitopercdescap: TFloatField
+      FieldName = 'itopercdescap'
+    end
+    object itoitoprocomple: TStringField
+      FieldName = 'itoprocomple'
+      Size = 250
+    end
+    object itoitogint: TStringField
+      FieldName = 'itogint'
+    end
+    object itoitoproservico: TStringField
+      FieldName = 'itoproservico'
+      Size = 1000
+    end
+    object itoitoinfadprod: TStringField
+      FieldName = 'itoinfadprod'
+      Size = 500
+    end
+    object itoitocontendo: TFloatField
+      FieldName = 'itocontendo'
+    end
+    object itotpocodigo: TIntegerField
+      FieldName = 'tpocodigo'
+    end
+    object itovrpcodigo: TIntegerField
+      FieldName = 'vrpcodigo'
+    end
+    object itopmpchave: TIntegerField
+      FieldName = 'pmpchave'
+    end
+    object itoitoacrescimoav: TCurrencyField
+      FieldName = 'itoacrescimoav'
+    end
+    object itotempoemproducao: TStringField
+      FieldName = 'tempoemproducao'
+      Size = 10
+    end
+    object itotempoementrega: TStringField
+      FieldName = 'tempoementrega'
+      Size = 10
+    end
+    object itopcocodigo: TIntegerField
+      FieldName = 'pcocodigo'
+    end
+    object itoitopercentualcombo: TFloatField
+      FieldName = 'itopercentualcombo'
+    end
+    object itoclbatendente: TIntegerField
+      FieldName = 'clbatendente'
+    end
+  end
+  object itm: TUniQuery
+    SQL.Strings = (
+      'SELECT itmchave'
+      '     , meschave'
+      '     , itmitem'
+      '     , procodigo'
+      '     , cstcodigo'
+      '     , procodigoori'
+      '     , pronomeori'
+      '     , itmdesccomple'
+      '     , itmquantidade'
+      '     , itmvalor'
+      '     , itmdesconto'
+      '     , itmtotal'
+      '     , itmmovifisico'
+      '     , toecodigo'
+      '     , cfocfop'
+      '     , itmbicm'
+      '     , icmcodigo'
+      '     , itmaliqicm'
+      '     , itmicm'
+      '     , itmbicms'
+      '     , itmaliqicms'
+      '     , itmicms'
+      '     , itmapuipi'
+      '     , csicodigo'
+      '     , ceicodigo'
+      '     , itmbipi'
+      '     , itmaliqipi'
+      '     , itmipi'
+      '     , cspcodigo'
+      '     , itmbpis'
+      '     , itmaliqpis'
+      '     , itmpis'
+      '     , itmquantpis'
+      '     , itmaliqpisvalor'
+      '     , itmbcofins'
+      '     , csfcodigo'
+      '     , itmaliqcofins'
+      '     , itmquantcofins'
+      '     , itmaliqcofinsvalor'
+      '     , itmcofins'
+      '     , pcccodigo'
+      '     , unicodigo'
+      '     , puncodigo'
+      '     , progtin'
+      '     , itmcontendo'
+      '     , cfocfopdestinacao'
+      '     , unicodigobase'
+      '     , itmoutras'
+      '     , itmseguro'
+      '     , itmfrete'
+      '     , itmcusto'
+      '     , itmtipodesc'
+      '     , itminfadprod'
+      '     , itmproservico'
+      '     , flacodigo'
+      '     , itochave'
+      '     , itmpercreducaobaseicm'
+      '     , pmpchave'
+      '     , itmtempoproducao'
+      '     , itmtempoentrega'
+      '     , pcocodigo'
+      '     , itmpercentualcombo'
+      '     , clbatendente'
+      '     , clbentregador'
+      '     , oricodigo'
+      '     , itmmva'
+      '     , itmvalofcpicm'
+      '     , itmbasefcpicm'
+      '     , itmpercfcpicm'
+      '     , itmacrescimoav'
+      ''
+      ''
+      ''
+      'FROM itm where meschave=:meschave'
+      '')
+    Left = 192
+    Top = 140
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object itmitmchave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'itmchave'
+    end
+    object itmmeschave: TIntegerField
+      FieldName = 'meschave'
+      Required = True
+    end
+    object itmitmitem: TIntegerField
+      DisplayLabel = 'Nr. Item'
+      FieldName = 'itmitem'
+      Required = True
+    end
+    object itmprocodigo: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'procodigo'
+      Required = True
+    end
+    object itmcstcodigo: TStringField
+      FieldName = 'cstcodigo'
+      Required = True
+      Size = 3
+    end
+    object itmprocodigoori: TStringField
+      DisplayLabel = 'Cod.Forn.'
+      FieldName = 'procodigoori'
+      Size = 30
+    end
+    object itmpronomeori: TStringField
+      DisplayLabel = 'Nome do Produto para o Fornecedor'
+      FieldName = 'pronomeori'
+      Size = 80
+    end
+    object itmitmdesccomple: TStringField
+      FieldName = 'itmdesccomple'
+      Size = 250
+    end
+    object itmitmquantidade: TFloatField
+      DisplayLabel = 'Quant.'
+      FieldName = 'itmquantidade'
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmitmvalor: TFloatField
+      FieldName = 'itmvalor'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmitmdesconto: TFloatField
+      FieldName = 'itmdesconto'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmitmtotal: TFloatField
+      DisplayLabel = 'Total R$'
+      FieldName = 'itmtotal'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object itmitmmovifisico: TStringField
+      FieldName = 'itmmovifisico'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object itmtoecodigo: TIntegerField
+      FieldName = 'toecodigo'
+    end
+    object itmcfocfop: TStringField
+      FieldName = 'cfocfop'
+      Required = True
+      Size = 5
+    end
+    object itmitmbicm: TFloatField
+      FieldName = 'itmbicm'
+      Required = True
+    end
+    object itmicmcodigo: TStringField
+      FieldName = 'icmcodigo'
+      Size = 3
+    end
+    object itmitmaliqicm: TStringField
+      FieldName = 'itmaliqicm'
+      Required = True
+      Size = 6
+    end
+    object itmitmicm: TFloatField
+      FieldName = 'itmicm'
+      Required = True
+    end
+    object itmitmbicms: TFloatField
+      FieldName = 'itmbicms'
+      Required = True
+    end
+    object itmitmaliqicms: TFloatField
+      FieldName = 'itmaliqicms'
+      Required = True
+    end
+    object itmitmicms: TFloatField
+      FieldName = 'itmicms'
+      Required = True
+    end
+    object itmitmapuipi: TStringField
+      FieldName = 'itmapuipi'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object itmcsicodigo: TStringField
+      FieldName = 'csicodigo'
+      Required = True
+      Size = 2
+    end
+    object itmceicodigo: TStringField
+      FieldName = 'ceicodigo'
+      Size = 5
+    end
+    object itmitmbipi: TFloatField
+      FieldName = 'itmbipi'
+      Required = True
+    end
+    object itmitmaliqipi: TFloatField
+      FieldName = 'itmaliqipi'
+      Required = True
+    end
+    object itmitmipi: TFloatField
+      FieldName = 'itmipi'
+      Required = True
+    end
+    object itmcspcodigo: TStringField
+      FieldName = 'cspcodigo'
+      Required = True
+      Size = 3
+    end
+    object itmitmbpis: TFloatField
+      FieldName = 'itmbpis'
+      Required = True
+    end
+    object itmitmaliqpis: TFloatField
+      FieldName = 'itmaliqpis'
+      Required = True
+    end
+    object itmitmpis: TFloatField
+      FieldName = 'itmpis'
+    end
+    object itmitmquantpis: TFloatField
+      FieldName = 'itmquantpis'
+      Required = True
+    end
+    object itmitmaliqpisvalor: TFloatField
+      FieldName = 'itmaliqpisvalor'
+      Required = True
+    end
+    object itmitmbcofins: TFloatField
+      FieldName = 'itmbcofins'
+      Required = True
+    end
+    object itmcsfcodigo: TStringField
+      FieldName = 'csfcodigo'
+      Required = True
+      Size = 3
+    end
+    object itmitmaliqcofins: TFloatField
+      FieldName = 'itmaliqcofins'
+      Required = True
+    end
+    object itmitmquantcofins: TFloatField
+      FieldName = 'itmquantcofins'
+      Required = True
+    end
+    object itmitmaliqcofinsvalor: TFloatField
+      FieldName = 'itmaliqcofinsvalor'
+      Required = True
+    end
+    object itmitmcofins: TFloatField
+      FieldName = 'itmcofins'
+      Required = True
+    end
+    object itmpcccodigo: TStringField
+      FieldName = 'pcccodigo'
+      Required = True
+      Size = 60
+    end
+    object itmunicodigo: TIntegerField
+      FieldName = 'unicodigo'
+      Required = True
+    end
+    object itmpuncodigo: TIntegerField
+      FieldName = 'puncodigo'
+    end
+    object itmprogtin: TStringField
+      FieldName = 'progtin'
+    end
+    object itmitmcontendo: TFloatField
+      DisplayLabel = 'Contendo'
+      FieldName = 'itmcontendo'
+      Required = True
+      DisplayFormat = '#,###0.000'
+      EditFormat = '#,###0.000'
+    end
+    object itmcfocfopdestinacao: TStringField
+      DisplayLabel = 'CFOP Destino'
+      FieldName = 'cfocfopdestinacao'
+      Required = True
+      Size = 5
+    end
+    object itmunicodigobase: TIntegerField
+      DisplayLabel = 'Un Base'
+      FieldName = 'unicodigobase'
+      Required = True
+    end
+    object itmitmoutras: TFloatField
+      FieldName = 'itmoutras'
+    end
+    object itmitmseguro: TFloatField
+      FieldName = 'itmseguro'
+    end
+    object itmitmfrete: TFloatField
+      FieldName = 'itmfrete'
+    end
+    object itmitmcusto: TFloatField
+      FieldName = 'itmcusto'
+    end
+    object itmitmtipodesc: TIntegerField
+      FieldName = 'itmtipodesc'
+    end
+    object itmitminfadprod: TStringField
+      FieldName = 'itminfadprod'
+      Size = 500
+    end
+    object itmitmproservico: TStringField
+      FieldName = 'itmproservico'
+      Size = 1000
+    end
+    object itmflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object itmitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object itmitmpercreducaobaseicm: TFloatField
+      FieldName = 'itmpercreducaobaseicm'
+    end
+    object itmpmpchave: TIntegerField
+      FieldName = 'pmpchave'
+    end
+    object itmitmmva2: TFloatField
+      FieldName = 'itmmva'
+    end
+    object itmitmvalofcpicm: TFloatField
+      FieldName = 'itmvalofcpicm'
+    end
+    object itmitmbasefcpicm: TFloatField
+      FieldName = 'itmbasefcpicm'
+    end
+    object itmitmpercfcpicm: TFloatField
+      FieldName = 'itmpercfcpicm'
+    end
+    object itmitmtempoproducao: TTimeField
+      FieldName = 'itmtempoproducao'
+    end
+    object itmitmtempoentrega: TTimeField
+      FieldName = 'itmtempoentrega'
+    end
+    object itmpcocodigo: TIntegerField
+      FieldName = 'pcocodigo'
+    end
+    object itmitmpercentualcombo: TFloatField
+      FieldName = 'itmpercentualcombo'
+    end
+    object itmclbatendente: TIntegerField
+      FieldName = 'clbatendente'
+    end
+    object itmclbentregador: TIntegerField
+      FieldName = 'clbentregador'
+    end
+    object itmoricodigo: TIntegerField
+      FieldName = 'oricodigo'
+    end
+    object itmitmacrescimoav: TFloatField
+      FieldName = 'itmacrescimoav'
+    end
+  end
+  object mor: TUniQuery
+    SQL.Strings = (
+      'SELECT m.morchave'
+      '     , m.orcchave'
+      '     , m.meschave'
+      '     , m.flacodigo'
+      'FROM mor m'
+      'WHERE m.orcchave = :orcchave')
+    Left = 252
+    Top = 92
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object mororcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object mormeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+    object morflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  object finalizador: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = finalizadorTimer
+    Left = 268
+    Top = 40
+  end
+  object itl: TUniQuery
+    SQL.Strings = (
+      'SELECT i.itlchave'
+      '     , i.clbcodigo'
+      '     , i.itmchave'
+      '     , i.itlpercentual'
+      'FROM itl i'
+      'LIMIT 2')
+    Left = 300
+    Top = 92
+    object itlclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object itlitmchave: TIntegerField
+      FieldName = 'itmchave'
+    end
+    object itlitlpercentual: TFloatField
+      FieldName = 'itlpercentual'
+    end
+  end
+  object tof: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  tofcodigo,'
+      '  tofidentificacao'
+      'FROM tof'
+      'WHERE tofcodigo = :tofcodigo;')
+    Left = 248
+    Top = 144
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tofcodigo'
+        Value = nil
+      end>
+    object toftofcodigo: TIntegerField
+      FieldName = 'tofcodigo'
+    end
+    object toftofidentificacao: TStringField
+      DisplayWidth = 5000
+      FieldName = 'tofidentificacao'
+      Size = 5000
+    end
+  end
+  object tom: TUniQuery
+    SQL.Strings = (
+      'SELECT tomchave'
+      '     , tofcodigo'
+      '     , meschave'
+      '     , tomobs'
+      'FROM tom'
+      'WHERE tomchave = :tomchave;')
+    Left = 288
+    Top = 144
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tomchave'
+        Value = nil
+      end>
+    object tomtomchave: TIntegerField
+      FieldName = 'tomchave'
+    end
+    object tomtofcodigo: TIntegerField
+      FieldName = 'tofcodigo'
+    end
+    object tommeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+  end
+  object vor: TUniQuery
+    SQL.Strings = (
+      'SELECT vor.orcchave'
+      '     , vor.veicodigo'
+      'FROM vor'
+      'WHERE vor.orcchave = :orcchave')
+    Left = 344
+    Top = 88
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object vororcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object vorveicodigo: TIntegerField
+      FieldName = 'veicodigo'
+    end
+  end
+  object vme: TUniQuery
+    SQL.Strings = (
+      'SELECT vme.vmecodigo'
+      '     , vme.veicodigo'
+      '     , vme.meschave'
+      'FROM vme'
+      'WHERE vme.meschave = :meschave')
+    Left = 344
+    Top = 136
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object vmevmecodigo: TIntegerField
+      FieldName = 'vmecodigo'
+    end
+    object vmeveicodigo: TIntegerField
+      FieldName = 'veicodigo'
+    end
+    object vmemeschave: TIntegerField
+      FieldName = 'meschave'
+    end
+  end
+  object ioc: TUniQuery
+    SQL.Strings = (
+      'SELECT i.iocchave'
+      '     , i.clbcodigo'
+      '     , i.itochave'
+      '     , i.iocpercentual'
+      '     , i.flacodigo'
+      'FROM ioc i'
+      'WHERE i.itochave = :itochave')
+    Left = 288
+    Top = 192
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object iociocchave: TIntegerField
+      FieldName = 'iocchave'
+    end
+    object iocclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object iocitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object iociocpercentual: TFloatField
+      FieldName = 'iocpercentual'
+    end
+    object iocflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  object orcdel: TUniQuery
+    SQL.Strings = (
+      'SELECT orcchave'
+      '     , etdcodigo'
+      '     , clbcodigo'
+      '     , fopcodigo'
+      '     , tdecodigo'
+      '     , stocodigo'
+      '     , moccodigo'
+      '     , orcdataabert'
+      '     , orchoraabert'
+      '     , orcdataencerr'
+      '     , orcgeralav'
+      '     , orcgeralap'
+      '     , orcdescontoav'
+      '     , orcdescontoap'
+      '     , orctotalav'
+      '     , orctotalap'
+      '     , orcobs'
+      '     , orcdestimpre'
+      '     , orcnome'
+      '     , orcendereco'
+      '     , orctelefone'
+      '     , orcdescrpagto'
+      '     , orcextenso'
+      '     , orcnomeretirou'
+      '     , tfpcodigo'
+      '     , orcpercdescav'
+      '     , orcpercdescap'
+      '     , trmcodigo'
+      '     , puocodigo'
+      '     , edritem'
+      '     , clbvendedor'
+      '     , eqpcodigo'
+      '     , tdfcodigo'
+      '     , flacodigo'
+      'FROM orc o'
+      'WHERE o.orcchave = :orcchave'
+      'and o.flacodigo=:flacodigo'
+      'and o.stocodigo<>5')
+    Left = 392
+    Top = 48
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object orcdelorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object orcdeletdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object orcdelclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object orcdelfopcodigo: TIntegerField
+      FieldName = 'fopcodigo'
+    end
+    object orcdeltdecodigo: TIntegerField
+      FieldName = 'tdecodigo'
+      Required = True
+    end
+    object orcdelstocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object orcdelmoccodigo: TIntegerField
+      FieldName = 'moccodigo'
+      Required = True
+    end
+    object orcdelorcdataabert: TDateField
+      FieldName = 'orcdataabert'
+      Required = True
+    end
+    object orcdelorchoraabert: TTimeField
+      FieldName = 'orchoraabert'
+    end
+    object orcdelorcdataencerr: TDateField
+      FieldName = 'orcdataencerr'
+    end
+    object orcdelorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorcgeralap: TFloatField
+      FieldName = 'orcgeralap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorcdescontoav: TFloatField
+      FieldName = 'orcdescontoav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorcdescontoap: TFloatField
+      FieldName = 'orcdescontoap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorctotalav: TFloatField
+      FieldName = 'orctotalav'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorctotalap: TFloatField
+      FieldName = 'orctotalap'
+      Required = True
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object orcdelorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object orcdelorcdestimpre: TIntegerField
+      FieldName = 'orcdestimpre'
+    end
+    object orcdelorcnome: TStringField
+      FieldName = 'orcnome'
+      Size = 50
+    end
+    object orcdelorcendereco: TStringField
+      FieldName = 'orcendereco'
+      Size = 50
+    end
+    object orcdelorctelefone: TStringField
+      FieldName = 'orctelefone'
+    end
+    object orcdelorcdescrpagto: TStringField
+      FieldName = 'orcdescrpagto'
+      Size = 250
+    end
+    object orcdelorcextenso: TStringField
+      FieldName = 'orcextenso'
+      Size = 2000
+    end
+    object orcdelorcnomeretirou: TStringField
+      FieldName = 'orcnomeretirou'
+      Size = 30
+    end
+    object orcdeltfpcodigo: TIntegerField
+      FieldName = 'tfpcodigo'
+    end
+    object orcdelorcpercdescav: TFloatField
+      FieldName = 'orcpercdescav'
+    end
+    object orcdelorcpercdescap: TFloatField
+      FieldName = 'orcpercdescap'
+    end
+    object orcdeltrmcodigo: TIntegerField
+      FieldName = 'trmcodigo'
+    end
+    object orcdelpuocodigo: TIntegerField
+      FieldName = 'puocodigo'
+    end
+    object orcdeledritem: TIntegerField
+      FieldName = 'edritem'
+    end
+    object orcdelclbvendedor: TIntegerField
+      FieldName = 'clbvendedor'
+    end
+    object orcdeleqpcodigo: TIntegerField
+      FieldName = 'eqpcodigo'
+    end
+    object orcdeltdfcodigo: TStringField
+      FieldName = 'tdfcodigo'
+      Size = 2
+    end
+    object orcdelflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  object itodel: TUniQuery
+    SQL.Strings = (
+      'SELECT ito.itochave'
+      '     , ito.orcchave'
+      '     , ito.procodigo'
+      '     , ito.puncodigo'
+      '     , ito.unicodigo'
+      '     , ito.stocodigo'
+      '     , ito.tdecodigo'
+      '     , ito.itoquantidade'
+      '     , ito.itovalorav'
+      '     , ito.itodescontoav'
+      '     , ito.itototalav'
+      '     , ito.itosaldoav'
+      '     , ito.itovalorap'
+      '     , ito.itodescontoap'
+      '     , ito.itototalap'
+      '     , ito.itosaldoap'
+      '     , ito.itocontendo'
+      '     , ito.itoproservico'
+      '     , ito.itoprocomple'
+      '     , ito.itodataalter'
+      '     , ito.itoitem'
+      '     , ito.itogint'
+      '     , ito.itopercdescap'
+      '     , ito.itopercdescav'
+      '     , ito.itoinfadprod'
+      '     , pro.tpocodigo'
+      '     , ito.vrpcodigo'
+      'FROM ito'
+      '  INNER JOIN pro'
+      '    ON ito.procodigo = pro.procodigo'
+      'WHERE ito.stocodigo IN (1, 2, 3)'
+      'AND orcchave = :orcchave and flacodigo=:flacodigo')
+    Left = 392
+    Top = 96
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object itodelitochave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'itochave'
+    end
+    object itodelorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object itodelprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object itodelitovalorav: TFloatField
+      FieldName = 'itovalorav'
+    end
+    object itodelitovalorap: TFloatField
+      FieldName = 'itovalorap'
+    end
+    object itodelitototalav: TFloatField
+      FieldName = 'itototalav'
+    end
+    object itodelitototalap: TFloatField
+      FieldName = 'itototalap'
+    end
+    object itodelitosaldoav: TFloatField
+      FieldName = 'itosaldoav'
+    end
+    object itodelitosaldoap: TFloatField
+      FieldName = 'itosaldoap'
+    end
+    object itodelitoquantidade: TFloatField
+      FieldName = 'itoquantidade'
+    end
+    object itodelitodescontoav: TFloatField
+      FieldName = 'itodescontoav'
+    end
+    object itodelitodescontoap: TFloatField
+      FieldName = 'itodescontoap'
+    end
+    object itodelunicodigo: TIntegerField
+      FieldName = 'unicodigo'
+    end
+    object itodelpuncodigo: TIntegerField
+      FieldName = 'puncodigo'
+    end
+    object itodeltdecodigo: TIntegerField
+      FieldName = 'tdecodigo'
+    end
+    object itodelstocodigo: TIntegerField
+      FieldName = 'stocodigo'
+    end
+    object itodelitoitem: TIntegerField
+      FieldName = 'itoitem'
+      Required = True
+    end
+    object itodelitopercdescav: TFloatField
+      FieldName = 'itopercdescav'
+    end
+    object itodelitopercdescap: TFloatField
+      FieldName = 'itopercdescap'
+    end
+    object itodelitoprocomple: TStringField
+      FieldName = 'itoprocomple'
+      Size = 250
+    end
+    object itodelitogint: TStringField
+      FieldName = 'itogint'
+    end
+    object itodelitoproservico: TStringField
+      FieldName = 'itoproservico'
+      Size = 1000
+    end
+    object itodelitoinfadprod: TStringField
+      FieldName = 'itoinfadprod'
+      Size = 500
+    end
+    object itodelitocontendo: TFloatField
+      FieldName = 'itocontendo'
+    end
+    object itodeltpocodigo: TIntegerField
+      FieldName = 'tpocodigo'
+    end
+    object itodelvrpcodigo: TIntegerField
+      FieldName = 'vrpcodigo'
+    end
+  end
+  object tit: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  titcodigo,'
+      '  etdcodigo,'
+      '  tfdcodigo,'
+      '  flacodigo,'
+      '  tficodigo,'
+      '  bcocodigo,'
+      '  carcodigo,'
+      '  titemissao,'
+      '  tithora,'
+      '  clbcodigo,'
+      '  titparcelas,'
+      '  titvctoinicial,'
+      '  titnumero,'
+      '  titvalorparcela,'
+      '  titvalor,'
+      '  tithistorico,'
+      '  srfcodigo,'
+      '  titmoradia,'
+      '  titpercmesmora,'
+      '  titrepetir,'
+      '  titprevisao,'
+      '  moecodigo,'
+      '  titdiasdesc,'
+      '  titvalodesc,'
+      '  titdiasmulta,'
+      '  titpercmulta,'
+      '  titvalomulta,'
+      '  tngcodigo'
+      'FROM tit limit 0')
+    Left = 504
+    Top = 80
+    object tittitcodigo: TIntegerField
+      FieldName = 'titcodigo'
+    end
+    object titetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object tittfdcodigo: TIntegerField
+      FieldName = 'tfdcodigo'
+      Required = True
+    end
+    object titflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object tittficodigo: TIntegerField
+      FieldName = 'tficodigo'
+      Required = True
+    end
+    object titbcocodigo: TStringField
+      FieldName = 'bcocodigo'
+      Required = True
+      Size = 3
+    end
+    object titcarcodigo: TIntegerField
+      FieldName = 'carcodigo'
+      Required = True
+    end
+    object tittitemissao: TDateField
+      FieldName = 'titemissao'
+      Required = True
+    end
+    object tittithora: TTimeField
+      FieldName = 'tithora'
+      Required = True
+    end
+    object titclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object tittitparcelas: TIntegerField
+      FieldName = 'titparcelas'
+      Required = True
+    end
+    object tittitvctoinicial: TDateField
+      FieldName = 'titvctoinicial'
+      Required = True
+    end
+    object tittitnumero: TStringField
+      FieldName = 'titnumero'
+    end
+    object tittitvalorparcela: TFloatField
+      FieldName = 'titvalorparcela'
+      Required = True
+    end
+    object tittitvalor: TFloatField
+      FieldName = 'titvalor'
+      Required = True
+    end
+    object tittithistorico: TStringField
+      FieldName = 'tithistorico'
+      Size = 255
+    end
+    object titsrfcodigo: TIntegerField
+      FieldName = 'srfcodigo'
+      Required = True
+    end
+    object tittitmoradia: TFloatField
+      FieldName = 'titmoradia'
+      Required = True
+    end
+    object tittitpercmesmora: TFloatField
+      FieldName = 'titpercmesmora'
+      Required = True
+    end
+    object tittitrepetir: TIntegerField
+      FieldName = 'titrepetir'
+      Required = True
+    end
+    object tittitprevisao: TIntegerField
+      FieldName = 'titprevisao'
+      Required = True
+    end
+    object titmoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+      Required = True
+    end
+    object tittitdiasdesc: TIntegerField
+      FieldName = 'titdiasdesc'
+    end
+    object tittitvalodesc: TFloatField
+      FieldName = 'titvalodesc'
+      Required = True
+    end
+    object tittitdiasmulta: TIntegerField
+      FieldName = 'titdiasmulta'
+    end
+    object tittitpercmulta: TFloatField
+      FieldName = 'titpercmulta'
+      Required = True
+    end
+    object tittitvalomulta: TFloatField
+      FieldName = 'titvalomulta'
+      Required = True
+    end
+    object tittngcodigo: TIntegerField
+      FieldName = 'tngcodigo'
+    end
+  end
+  object rfi: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  rfichave,'
+      '  titcodigo,'
+      '  etdcodigo,'
+      '  tfdcodigo,'
+      '  flacodigo,'
+      '  tficodigo,'
+      '  bcocodigo,'
+      '  carcodigo,'
+      '  rfiemissao,'
+      '  rfivencimento,'
+      '  rfinumero,'
+      '  rfivalor,'
+      '  rfihistorico,'
+      '  srfcodigo,'
+      '  frrcodigo,'
+      '  rfimoradia,'
+      '  rfipercmesmora,'
+      '  rfirepetir,'
+      '  rfiprevisao,'
+      '  rfivalorparcela,'
+      '  moecodigo,'
+      '  rfidatamulta,'
+      '  rfivalomulta,'
+      '  rfivalodesc,'
+      '  rfidatadesc,'
+      '  rfipercmulta,'
+      '  rfidtultbaixa,'
+      '  rfidtprevisao,'
+      '  rfisituacao,'
+      '  tngcodigo'
+      'FROM rfi where rfichave=rfichave')
+    Left = 504
+    Top = 128
+    object rfirfichave: TIntegerField
+      FieldName = 'rfichave'
+    end
+    object rfititcodigo: TIntegerField
+      FieldName = 'titcodigo'
+      Required = True
+    end
+    object rfietdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object rfitfdcodigo: TIntegerField
+      FieldName = 'tfdcodigo'
+      Required = True
+    end
+    object rfiflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object rfitficodigo: TIntegerField
+      FieldName = 'tficodigo'
+      Required = True
+    end
+    object rfibcocodigo: TStringField
+      FieldName = 'bcocodigo'
+      Required = True
+      Size = 3
+    end
+    object rficarcodigo: TIntegerField
+      FieldName = 'carcodigo'
+      Required = True
+    end
+    object rfirfiemissao: TDateField
+      FieldName = 'rfiemissao'
+      Required = True
+    end
+    object rfirfivencimento: TDateField
+      FieldName = 'rfivencimento'
+      Required = True
+    end
+    object rfirfinumero: TStringField
+      FieldName = 'rfinumero'
+    end
+    object rfirfivalor: TFloatField
+      FieldName = 'rfivalor'
+      Required = True
+    end
+    object rfirfihistorico: TStringField
+      FieldName = 'rfihistorico'
+      Size = 150
+    end
+    object rfisrfcodigo: TIntegerField
+      FieldName = 'srfcodigo'
+      Required = True
+    end
+    object rfifrrcodigo: TIntegerField
+      FieldName = 'frrcodigo'
+      Required = True
+    end
+    object rfirfimoradia: TFloatField
+      FieldName = 'rfimoradia'
+      Required = True
+    end
+    object rfirfipercmesmora: TFloatField
+      FieldName = 'rfipercmesmora'
+      Required = True
+    end
+    object rfirfirepetir: TIntegerField
+      FieldName = 'rfirepetir'
+      Required = True
+    end
+    object rfirfiprevisao: TIntegerField
+      FieldName = 'rfiprevisao'
+      Required = True
+    end
+    object rfirfivalorparcela: TFloatField
+      FieldName = 'rfivalorparcela'
+      Required = True
+    end
+    object rfimoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+      Required = True
+    end
+    object rfirfidatamulta: TDateField
+      FieldName = 'rfidatamulta'
+    end
+    object rfirfivalomulta: TFloatField
+      FieldName = 'rfivalomulta'
+      Required = True
+    end
+    object rfirfivalodesc: TFloatField
+      FieldName = 'rfivalodesc'
+      Required = True
+    end
+    object rfirfidatadesc: TDateField
+      FieldName = 'rfidatadesc'
+    end
+    object rfirfipercmulta: TFloatField
+      FieldName = 'rfipercmulta'
+      Required = True
+    end
+    object rfirfidtultbaixa: TDateField
+      FieldName = 'rfidtultbaixa'
+    end
+    object rfirfidtprevisao: TDateField
+      FieldName = 'rfidtprevisao'
+    end
+    object rfirfisituacao: TIntegerField
+      FieldName = 'rfisituacao'
+      Required = True
+    end
+    object rfitngcodigo: TIntegerField
+      FieldName = 'tngcodigo'
+    end
+  end
+  object rfm: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  rfmchave,'
+      '  rfichave,'
+      '  meschave,'
+      '  flacodigo'
+      'FROM rfm where meschave=:meschave')
+    Left = 504
+    Top = 32
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object rfmrfmchave: TIntegerField
+      FieldName = 'rfmchave'
+    end
+    object rfmrfichave: TIntegerField
+      FieldName = 'rfichave'
+      Required = True
+    end
+    object rfmmeschave: TIntegerField
+      FieldName = 'meschave'
+      Required = True
+    end
+    object rfmflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+  end
+  object lte: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ltechave,'
+      '  tfdcodigo,'
+      '  ltedata,'
+      '  lteprincipal,'
+      '  ltejuros,'
+      '  ltedesconto,'
+      '  ltetotal,'
+      '  lteextenso,'
+      '  ltehistorico,'
+      '  ltemulta,'
+      '  ltesituacao,'
+      '  flacodigo,'
+      '  clbcodigo,'
+      '  ctacodigo,'
+      '  lteregistro,'
+      '  ltetroco'
+      'FROM lte where ltechave=:ltechave')
+    Left = 504
+    Top = 176
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object lteltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object ltetfdcodigo: TIntegerField
+      FieldName = 'tfdcodigo'
+      Required = True
+    end
+    object lteltedata: TDateField
+      FieldName = 'ltedata'
+      Required = True
+    end
+    object ltelteprincipal: TFloatField
+      FieldName = 'lteprincipal'
+      Required = True
+    end
+    object lteltejuros: TFloatField
+      FieldName = 'ltejuros'
+      Required = True
+    end
+    object lteltedesconto: TFloatField
+      FieldName = 'ltedesconto'
+      Required = True
+    end
+    object lteltetotal: TFloatField
+      FieldName = 'ltetotal'
+      Required = True
+    end
+    object ltelteextenso: TStringField
+      FieldName = 'lteextenso'
+      Size = 2000
+    end
+    object lteltehistorico: TStringField
+      FieldName = 'ltehistorico'
+      Size = 100
+    end
+    object lteltemulta: TFloatField
+      FieldName = 'ltemulta'
+      Required = True
+    end
+    object lteltesituacao: TIntegerField
+      FieldName = 'ltesituacao'
+      Required = True
+    end
+    object lteflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object lteclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object ltectacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+    end
+    object ltelteregistro: TDateTimeField
+      FieldName = 'lteregistro'
+    end
+    object lteltetroco: TFloatField
+      FieldName = 'ltetroco'
+    end
+  end
+  object dtl: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  dtlchave,'
+      '  ltechave,'
+      '  cedcodigo,'
+      '  dtlvalor,'
+      '  mdacodigo,'
+      '  dtlvalorinfo,'
+      '  flacodigo'
+      'FROM dtl where ltechave=:ltechave')
+    Left = 544
+    Top = 176
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object dtldtlchave: TIntegerField
+      FieldName = 'dtlchave'
+    end
+    object dtlltechave: TIntegerField
+      FieldName = 'ltechave'
+      Required = True
+    end
+    object dtlcedcodigo: TIntegerField
+      FieldName = 'cedcodigo'
+      Required = True
+    end
+    object dtldtlvalor: TFloatField
+      FieldName = 'dtlvalor'
+      Required = True
+    end
+    object dtlmdacodigo: TIntegerField
+      FieldName = 'mdacodigo'
+      Required = True
+    end
+    object dtldtlvalorinfo: TFloatField
+      FieldName = 'dtlvalorinfo'
+      Required = True
+    end
+    object dtlflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+  end
+  object cco: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ccochave,'
+      '  ctacodigo,'
+      '  toccodigo,'
+      '  cedcodigo,'
+      '  clbcodigo,'
+      '  tficodigo,'
+      '  moecodigo,'
+      '  ccoemissao,'
+      '  ccovencimento,'
+      '  cconumero,'
+      '  ccohistorico,'
+      '  ccovalor,'
+      '  ccochaveorig,'
+      '  ccochavedest,'
+      '  ccoconciliado,'
+      '  ccoextenso,'
+      '  etdcodigo,'
+      '  ccofavorecido,'
+      '  ccodatamov,'
+      '  ccodataregistro,'
+      '  ccohoraregistro,'
+      '  phgcodigo,'
+      '  flacodigo,'
+      '  ccoregistro'
+      'FROM cco where ccochave=:ccochave')
+    Left = 504
+    Top = 224
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ccochave'
+        Value = nil
+      end>
+    object ccoccochave: TIntegerField
+      FieldName = 'ccochave'
+    end
+    object ccoctacodigo: TIntegerField
+      FieldName = 'ctacodigo'
+      Required = True
+    end
+    object ccotoccodigo: TIntegerField
+      FieldName = 'toccodigo'
+      Required = True
+    end
+    object ccocedcodigo: TIntegerField
+      FieldName = 'cedcodigo'
+      Required = True
+    end
+    object ccoclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object ccotficodigo: TIntegerField
+      FieldName = 'tficodigo'
+      Required = True
+    end
+    object ccomoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+      Required = True
+    end
+    object ccoccoemissao: TDateField
+      FieldName = 'ccoemissao'
+      Required = True
+    end
+    object ccoccovencimento: TDateField
+      FieldName = 'ccovencimento'
+      Required = True
+    end
+    object ccocconumero: TStringField
+      FieldName = 'cconumero'
+      Size = 15
+    end
+    object ccoccohistorico: TStringField
+      FieldName = 'ccohistorico'
+      Size = 250
+    end
+    object ccoccovalor: TFloatField
+      FieldName = 'ccovalor'
+      Required = True
+    end
+    object ccoccochaveorig: TIntegerField
+      FieldName = 'ccochaveorig'
+    end
+    object ccoccochavedest: TIntegerField
+      FieldName = 'ccochavedest'
+    end
+    object ccoccoconciliado: TIntegerField
+      FieldName = 'ccoconciliado'
+    end
+    object ccoccoextenso: TStringField
+      FieldName = 'ccoextenso'
+      Size = 2000
+    end
+    object ccoetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object ccoccofavorecido: TStringField
+      FieldName = 'ccofavorecido'
+      Required = True
+      Size = 50
+    end
+    object ccoccodatamov: TDateField
+      FieldName = 'ccodatamov'
+      Required = True
+    end
+    object ccoccodataregistro: TDateField
+      FieldName = 'ccodataregistro'
+    end
+    object ccoccohoraregistro: TTimeField
+      FieldName = 'ccohoraregistro'
+    end
+    object ccophgcodigo: TIntegerField
+      FieldName = 'phgcodigo'
+    end
+    object ccoflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object ccoccoregistro: TIntegerField
+      FieldName = 'ccoregistro'
+    end
+  end
+  object clt: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  cltchave,'
+      '  ccochave,'
+      '  ltechave'
+      'FROM clt where ltechave=:ltechave')
+    Left = 504
+    Top = 272
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ltechave'
+        Value = nil
+      end>
+    object cltcltchave: TIntegerField
+      FieldName = 'cltchave'
+    end
+    object cltccochave: TIntegerField
+      FieldName = 'ccochave'
+      Required = True
+    end
+    object cltltechave: TIntegerField
+      FieldName = 'ltechave'
+      Required = True
+    end
+  end
+  object sbv: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  sbvchave,'
+      '  itmchave,'
+      '  itochave,'
+      '  sbrcodigo,'
+      '  sbvobs,'
+      '  sbvitem,'
+      '  bprchave'
+      'FROM sbv limit 0')
+    Left = 288
+    Top = 296
+    object sbvsbvchave: TIntegerField
+      FieldName = 'sbvchave'
+    end
+    object sbvitmchave: TIntegerField
+      FieldName = 'itmchave'
+    end
+    object sbvsbrcodigo: TIntegerField
+      FieldName = 'sbrcodigo'
+    end
+    object sbvsbvobs: TStringField
+      FieldName = 'sbvobs'
+      Size = 50
+    end
+    object sbvsbvitem: TIntegerField
+      FieldName = 'sbvitem'
+    end
+    object sbvitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object sbvbprchave: TIntegerField
+      FieldName = 'bprchave'
+    end
+  end
+  object sbi: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  sbichave,'
+      '  itochave,'
+      '  sbrcodigo,'
+      '  sbiobs,'
+      '  sbiitem,'
+      '  bprchave'
+      'FROM sbi where itochave=:itochave'
+      ''
+      ''
+      '')
+    Left = 256
+    Top = 296
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object sbisbichave: TIntegerField
+      FieldName = 'sbichave'
+    end
+    object sbiitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object sbisbrcodigo: TIntegerField
+      FieldName = 'sbrcodigo'
+    end
+    object sbisbiobs: TStringField
+      FieldName = 'sbiobs'
+      Size = 50
+    end
+    object sbisbiitem: TIntegerField
+      FieldName = 'sbiitem'
+    end
+    object sbibprchave: TIntegerField
+      FieldName = 'bprchave'
+    end
+  end
+  object mfi: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mfichave,'
+      '  rfichave,'
+      '  tmfcodigo,'
+      '  moecodigo,'
+      '  mfivalor,'
+      '  mfidata,'
+      '  mfihistorico,'
+      '  mfivalorori,'
+      '  mfiparcela,'
+      '  flacodigo,'
+      '  mfisituacao'
+      'FROM mfi')
+    Left = 540
+    Top = 128
+    object mfimfichave: TIntegerField
+      FieldName = 'mfichave'
+    end
+    object mfirfichave: TIntegerField
+      FieldName = 'rfichave'
+    end
+    object mfitmfcodigo: TIntegerField
+      FieldName = 'tmfcodigo'
+    end
+    object mfimoecodigo: TIntegerField
+      FieldName = 'moecodigo'
+    end
+    object mfimfivalor: TFloatField
+      FieldName = 'mfivalor'
+    end
+    object mfimfidata: TDateField
+      FieldName = 'mfidata'
+    end
+    object mfimfihistorico: TStringField
+      FieldName = 'mfihistorico'
+      Size = 50
+    end
+    object mfimfivalorori: TFloatField
+      FieldName = 'mfivalorori'
+    end
+    object mfimfiparcela: TIntegerField
+      FieldName = 'mfiparcela'
+    end
+    object mfiflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+    object mfimfisituacao: TIntegerField
+      FieldName = 'mfisituacao'
+    end
+  end
+  object mlt: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  mltchave,'
+      '  mfichave,'
+      '  ltechave,'
+      '  flacodigo'
+      'FROM mlt')
+    Left = 576
+    Top = 128
+    object mltmltchave: TIntegerField
+      FieldName = 'mltchave'
+    end
+    object mltmfichave: TIntegerField
+      FieldName = 'mfichave'
+    end
+    object mltltechave: TIntegerField
+      FieldName = 'ltechave'
+    end
+    object mltflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+    end
+  end
+  object icm: TUniQuery
+    SQL.Strings = (
+      
+        'select icmcodigo, icmaliquotas from icm where icmcodigo=:icmcodi' +
+        'go')
+    Left = 392
+    Top = 224
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'icmcodigo'
+        Value = nil
+      end>
+    object icmicmcodigo: TStringField
+      FieldName = 'icmcodigo'
+      Size = 3
+    end
+    object icmicmaliquotas: TStringField
+      FieldName = 'icmaliquotas'
+      Size = 5
+    end
+  end
+  object saldo: TUniQuery
+    Left = 352
+    Top = 312
+  end
+  object clb: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  clbcodigo,'
+      '  fnccodigo,'
+      '  clbdescmaximo,'
+      '  clbsenha,'
+      '  clbativo,'
+      '  clbidentificacao,'
+      '  clbsuper,'
+      '  clbpercdispmulta,'
+      '  clbpercdispmora,'
+      '  clbpercdescrfi,'
+      '  clbliberacredito,'
+      '  clbatualizador,'
+      '  clbperccomissao,'
+      '  clbsalvaima,'
+      '  clbsalvasaldo,'
+      '  flacodigo,'
+      '  clbsiphost,'
+      '  clbsipsenha,'
+      '  clbsipusuario,'
+      '  clbsipramal,'
+      '  etdcodigo,'
+      '  clbcodigobio,'
+      '  clbrelogio'
+      'FROM clb'
+      'where clbcodigo=:clbcodigo')
+    Left = 468
+    Top = 380
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'clbcodigo'
+        Value = nil
+      end>
+    object clbclbcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'clbcodigo'
+    end
+    object clbfnccodigo: TIntegerField
+      FieldName = 'fnccodigo'
+      Required = True
+    end
+    object clbclbdescmaximo: TFloatField
+      FieldName = 'clbdescmaximo'
+      Required = True
+    end
+    object clbclbsenha: TStringField
+      FieldName = 'clbsenha'
+      Size = 15
+    end
+    object clbclbativo: TStringField
+      FieldName = 'clbativo'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object clbclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      Size = 30
+    end
+    object clbclbsuper: TIntegerField
+      FieldName = 'clbsuper'
+      Required = True
+    end
+    object clbclbpercdispmulta: TFloatField
+      FieldName = 'clbpercdispmulta'
+      Required = True
+    end
+    object clbclbpercdispmora: TFloatField
+      FieldName = 'clbpercdispmora'
+      Required = True
+    end
+    object clbclbpercdescrfi: TFloatField
+      FieldName = 'clbpercdescrfi'
+      Required = True
+    end
+    object clbclbliberacredito: TIntegerField
+      FieldName = 'clbliberacredito'
+      Required = True
+    end
+    object clbclbatualizador: TIntegerField
+      FieldName = 'clbatualizador'
+      Required = True
+    end
+    object clbclbperccomissao: TFloatField
+      FieldName = 'clbperccomissao'
+      Required = True
+    end
+    object clbclbsalvaima: TIntegerField
+      FieldName = 'clbsalvaima'
+      Required = True
+    end
+    object clbclbsalvasaldo: TIntegerField
+      FieldName = 'clbsalvasaldo'
+      Required = True
+    end
+    object clbflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object clbclbsiphost: TStringField
+      FieldName = 'clbsiphost'
+      Size = 255
+    end
+    object clbclbsipsenha: TStringField
+      FieldName = 'clbsipsenha'
+      Size = 50
+    end
+    object clbclbsipusuario: TStringField
+      FieldName = 'clbsipusuario'
+      Size = 50
+    end
+    object clbclbsipramal: TStringField
+      FieldName = 'clbsipramal'
+      Size = 50
+    end
+    object clbetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object clbclbcodigobio: TStringField
+      FieldName = 'clbcodigobio'
+      Size = 255
+    end
+    object clbclbrelogio: TIntegerField
+      FieldName = 'clbrelogio'
+    end
+  end
+  object imm: TUniQuery
+    SQL.Strings = (
+      'select etdcodigoent '
+      '    FROM imm'
+      '      INNER JOIN ito'
+      '        ON imm.itochave = ito.itochave'
+      'where ito.itochave=:itochave')
+    Left = 440
+    Top = 280
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object immetdcodigoent: TIntegerField
+      FieldName = 'etdcodigoent'
+    end
+  end
+  object cen: TUniQuery
+    SQL.Strings = (
+      
+        'select cenchave,clbcodigo, etdcodigo from cen where etdcodigo=:e' +
+        'tdcodigo')
+    Left = 416
+    Top = 392
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object cencenchave: TIntegerField
+      FieldName = 'cenchave'
+    end
+    object cenclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object cenetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+  end
+  object clbcen: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  clbcodigo,'
+      '  fnccodigo,'
+      '  clbdescmaximo,'
+      '  clbsenha,'
+      '  clbativo,'
+      '  clbidentificacao,'
+      '  clbsuper,'
+      '  clbpercdispmulta,'
+      '  clbpercdispmora,'
+      '  clbpercdescrfi,'
+      '  clbliberacredito,'
+      '  clbatualizador,'
+      '  clbperccomissao,'
+      '  clbsalvaima,'
+      '  clbsalvasaldo,'
+      '  flacodigo,'
+      '  clbsiphost,'
+      '  clbsipsenha,'
+      '  clbsipusuario,'
+      '  clbsipramal,'
+      '  etdcodigo,'
+      '  clbcodigobio,'
+      '  clbrelogio'
+      'FROM clb limit 0')
+    Left = 504
+    Top = 376
+    object clbcenclbcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'clbcodigo'
+    end
+    object clbcenfnccodigo: TIntegerField
+      FieldName = 'fnccodigo'
+      Required = True
+    end
+    object clbcenclbdescmaximo: TFloatField
+      FieldName = 'clbdescmaximo'
+      Required = True
+    end
+    object clbcenclbsenha: TStringField
+      FieldName = 'clbsenha'
+      Size = 15
+    end
+    object clbcenclbativo: TStringField
+      FieldName = 'clbativo'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object clbcenclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      Size = 30
+    end
+    object clbcenclbsuper: TIntegerField
+      FieldName = 'clbsuper'
+      Required = True
+    end
+    object clbcenclbpercdispmulta: TFloatField
+      FieldName = 'clbpercdispmulta'
+      Required = True
+    end
+    object clbcenclbpercdispmora: TFloatField
+      FieldName = 'clbpercdispmora'
+      Required = True
+    end
+    object clbcenclbpercdescrfi: TFloatField
+      FieldName = 'clbpercdescrfi'
+      Required = True
+    end
+    object clbcenclbliberacredito: TIntegerField
+      FieldName = 'clbliberacredito'
+      Required = True
+    end
+    object clbcenclbatualizador: TIntegerField
+      FieldName = 'clbatualizador'
+      Required = True
+    end
+    object clbcenclbperccomissao: TFloatField
+      FieldName = 'clbperccomissao'
+      Required = True
+    end
+    object clbcenclbsalvaima: TIntegerField
+      FieldName = 'clbsalvaima'
+      Required = True
+    end
+    object clbcenclbsalvasaldo: TIntegerField
+      FieldName = 'clbsalvasaldo'
+      Required = True
+    end
+    object clbcenflacodigo: TIntegerField
+      FieldName = 'flacodigo'
+      Required = True
+    end
+    object clbcenclbsiphost: TStringField
+      FieldName = 'clbsiphost'
+      Size = 255
+    end
+    object clbcenclbsipsenha: TStringField
+      FieldName = 'clbsipsenha'
+      Size = 50
+    end
+    object clbcenclbsipusuario: TStringField
+      FieldName = 'clbsipusuario'
+      Size = 50
+    end
+    object clbcenclbsipramal: TStringField
+      FieldName = 'clbsipramal'
+      Size = 50
+    end
+    object clbcenetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object clbcenclbcodigobio: TStringField
+      FieldName = 'clbcodigobio'
+      Size = 255
+    end
+    object clbcenclbrelogio: TIntegerField
+      FieldName = 'clbrelogio'
+    end
+  end
+  object etdcen: TUniQuery
+    SQL.Strings = (
+      'select etdidentificacao from etd where etdcodigo=:etdcodigo')
+    Left = 464
+    Top = 456
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object etdcenetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      Size = 50
+    end
+  end
+  object toe: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  toecodigo,'
+      '  cstcodigo,'
+      '  csicodigo,'
+      '  cspcodigo,'
+      '  cfgpercentualpis,'
+      '  csfcodigo,'
+      '  cfgpercentualcofins'
+      'FROM toe where toecodigo=:toecodigo')
+    Left = 344
+    Top = 272
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'toecodigo'
+        Value = nil
+      end>
+    object toetoecodigo: TIntegerField
+      FieldName = 'toecodigo'
+    end
+    object toecstcodigo: TStringField
+      FieldName = 'cstcodigo'
+      Size = 3
+    end
+    object toecsicodigo: TStringField
+      FieldName = 'csicodigo'
+      Size = 3
+    end
+    object toecspcodigo: TStringField
+      FieldName = 'cspcodigo'
+      Size = 3
+    end
+    object toecfgpercentualpis: TFloatField
+      FieldName = 'cfgpercentualpis'
+    end
+    object toecsfcodigo: TStringField
+      FieldName = 'csfcodigo'
+      Size = 3
+    end
+    object toecfgpercentualcofins: TFloatField
+      FieldName = 'cfgpercentualcofins'
+    end
+  end
+  object isi: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  isichave,'
+      '  sbichave,'
+      '  tsicodigo,'
+      '  procodigo,'
+      '  isitipo,'
+      '  itochave,'
+      '  isiitem,'
+      '  isiquantidade'
+      'FROM isi where sbichave=:sbichave')
+    Left = 256
+    Top = 352
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'sbichave'
+        Value = nil
+      end>
+    object isiisichave: TIntegerField
+      FieldName = 'isichave'
+    end
+    object isisbichave: TIntegerField
+      FieldName = 'sbichave'
+    end
+    object isitsicodigo: TIntegerField
+      FieldName = 'tsicodigo'
+    end
+    object isiprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object isiisitipo: TIntegerField
+      FieldName = 'isitipo'
+    end
+    object isiitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object isiisiitem: TIntegerField
+      FieldName = 'isiitem'
+    end
+    object isiisiquantidade: TIntegerField
+      FieldName = 'isiquantidade'
+    end
+  end
+  object isv: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  isvchave,'
+      '  sbvchave,'
+      '  tsicodigo,'
+      '  procodigo,'
+      '  isvtipo,'
+      '  itochave,'
+      '  itmchave,'
+      '  isvitem,'
+      '  isvquantidade'
+      'FROM isv limit 0')
+    Left = 296
+    Top = 352
+    object isvisvchave: TIntegerField
+      FieldName = 'isvchave'
+    end
+    object isvsbvchave: TIntegerField
+      FieldName = 'sbvchave'
+    end
+    object isvtsicodigo: TIntegerField
+      FieldName = 'tsicodigo'
+    end
+    object isvprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object isvisvtipo: TIntegerField
+      FieldName = 'isvtipo'
+    end
+    object isvitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object isvitmchave: TIntegerField
+      FieldName = 'itmchave'
+    end
+    object isvisvitem: TIntegerField
+      FieldName = 'isvitem'
+    end
+    object isvisvquantidade: TIntegerField
+      FieldName = 'isvquantidade'
+    end
+  end
+  object imp: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  impchave,'
+      '  clbcodigo,'
+      '  itmchave,'
+      '  impinicio,'
+      '  impfinal,'
+      '  itochave'
+      'FROM imp where itochave=:itochave')
+    Left = 168
+    Top = 296
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object impimpchave: TIntegerField
+      FieldName = 'impchave'
+    end
+    object impclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object impitmchave: TIntegerField
+      FieldName = 'itmchave'
+      Required = True
+    end
+    object impitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object impimpinicio: TDateTimeField
+      FieldName = 'impinicio'
+    end
+    object impimpfinal: TDateTimeField
+      FieldName = 'impfinal'
+    end
+  end
+  object taxa: TUniQuery
+    Left = 160
+    Top = 240
+  end
+end

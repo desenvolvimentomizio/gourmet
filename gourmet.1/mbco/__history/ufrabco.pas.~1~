@@ -1,0 +1,68 @@
+unit ufrabco;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, Vcl.Forms, ufrabase, VirtualTable, Data.DB,
+  MemDS, DBAccess, Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList,
+  Vcl.Buttons, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls, Vcl.Imaging.pngimage, Vcl.Controls, uPegaBase, System.ImageList,
+  Vcl.ImgList, Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls, Vcl.Graphics;
+
+type
+  Tfrabco = class(Tfrabase)
+    uqtabelabcocodigo: TStringField;
+    uqtabelabconome: TStringField;
+    ActMostrarTodos: TAction;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActMostrarTodosExecute(Sender: TObject);
+  private
+  public
+    { Public declarations }
+  end;
+
+var
+  frabco: Tfrabco;
+
+  // Início ID do Módulo frabco
+const
+  vPlIdMd = '01.02.07.001-01';
+  vPlTitMdl = 'Bancos';
+
+  // Fim ID do Módulo frabco
+
+implementation
+
+{$R *.dfm}
+
+uses ufbco;
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frabco := Tfrabco.Create(pCargaFrame);
+end;
+
+exports formuFrame;
+
+procedure Tfrabco.ActAlterarExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfbco, self.uqtabelabcocodigo.AsString, '');
+end;
+
+procedure Tfrabco.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfbco, '', '');
+end;
+
+procedure Tfrabco.ActMostrarTodosExecute(Sender: TObject);
+begin
+  inherited;
+  uqtabela.close;
+  uqtabela.SQL.Text:='select bcocodigo, bconome from bco';
+  uqtabela.Open;
+end;
+
+end.

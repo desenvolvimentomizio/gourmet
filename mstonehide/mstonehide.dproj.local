@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/11/01 16:23:17.000.955,=rtl.dcp</Transaction>
+    <Transaction>2024/11/01 16:24:18.000.787,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\fontes_gourmet\gourmet.1\mstonehide\mstonehide.dproj</Transaction>
+    <Transaction>2024/11/01 16:25:33.000.273,=C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas</Transaction>
+    <Transaction>2024/11/01 16:25:44.000.723,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas=C:\fontes_gourmet\gourmet.1\mstonehide\ufStoneHide.pas</Transaction>
+    <Transaction>2024/11/01 16:25:44.000.723,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.dfm=C:\fontes_gourmet\gourmet.1\mstonehide\ufStoneHide.dfm</Transaction>
+    <Transaction>2024/11/01 16:26:34.000.571,C:\fontes_gourmet\gourmet.1\mstonehide\ufStoneHide.pas=</Transaction>
+    <Transaction>2024/11/01 16:27:02.000.489,=C:\fontes_gourmet\gourmet.1\mstonehide\ufstone.pas</Transaction>
+    <Transaction>2024/11/01 16:27:10.000.072,C:\fontes_gourmet\gourmet.1\mstonehide\ufstone.pas=C:\fontes_gourmet\gourmet.1\mstonehide\ufstonehide.pas</Transaction>
+    <Transaction>2024/11/01 16:27:10.000.072,C:\fontes_gourmet\gourmet.1\mstonehide\ufstone.dfm=C:\fontes_gourmet\gourmet.1\mstonehide\ufstonehide.dfm</Transaction>
+    <Transaction>2024/11/01 16:48:08.000.327,=C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas</Transaction>
+    <Transaction>2024/11/01 16:49:22.000.300,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.dfm=C:\fontes_gourmet\gourmet.1\mstonehide\ufrmfstone.dfm</Transaction>
+    <Transaction>2024/11/01 16:49:22.000.300,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas=C:\fontes_gourmet\gourmet.1\mstonehide\ufrmfstone.pas</Transaction>
+    <Transaction>2024/11/01 16:51:59.000.595,C:\fontes_gourmet\gourmet.1\mstonehide\ufrmfstone.pas=</Transaction>
+    <Transaction>2024/11/02 09:42:51.000.991,=C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas</Transaction>
+    <Transaction>2024/11/02 09:43:12.000.347,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.pas=C:\fontes_gourmet\gourmet.1\mstonehide\ufstonepagamentos.pas</Transaction>
+    <Transaction>2024/11/02 09:43:12.000.347,C:\fontes_gourmet\gourmet.1\mstonehide\Unit1.dfm=C:\fontes_gourmet\gourmet.1\mstonehide\ufstonepagamentos.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

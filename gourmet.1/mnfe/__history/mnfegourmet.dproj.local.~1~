@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/03/21 08:04:35.000.373,C:\fontes\kernel\cloud\uCloudPublicaNotas.pas=C:\fontes\gourmet.1\mnfe\Unit2.pas</Transaction>
+    <Transaction>2022/12/12 13:36:36.000.420,C:\fontes\gourmet.1\mnfe\Unit1.dfm=C:\fontes\kernel\mnfe\ufrmNFCe.dfm</Transaction>
+    <Transaction>2022/12/23 15:10:18.000.921,C:\fontes\gourmet.1\mnfe\ufnfce.dfm=C:\fontes\kernel\mnfe\ufnfce.dfm</Transaction>
+    <Transaction>2022/12/23 15:10:46.000.030,C:\fontes\gourmet.1\mnfe\ufnfe.dfm=C:\fontes\kernel\mnfe\ufnfe.dfm</Transaction>
+    <Transaction>2022/12/23 15:11:00.000.187,C:\fontes\gourmet.1\mnfe\ufnfecorrecao.dfm=C:\fontes\kernel\mnfe\ufnfecorrecao.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

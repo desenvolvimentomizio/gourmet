@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.Common.PerspectiveTransform" platform="Android">
+  <class name="TPerspectiveTransform" sealed="true" file="ZXing.Common.PerspectiveTransform.pas" line="33">
+    <devnotes>
+       <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+       destination points, it will compute the transformation implied between them. The code is based
+       directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+       </summary>
+    </devnotes>
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="a11" type="Single" visibility="private" size="4" offset="4" file="ZXing.Common.PerspectiveTransform.pas" line="35" />
+      <field name="a12" type="Single" visibility="private" size="4" offset="8" file="ZXing.Common.PerspectiveTransform.pas" line="36" />
+      <field name="a13" type="Single" visibility="private" size="4" offset="12" file="ZXing.Common.PerspectiveTransform.pas" line="37" />
+      <field name="a21" type="Single" visibility="private" size="4" offset="16" file="ZXing.Common.PerspectiveTransform.pas" line="38" />
+      <field name="a22" type="Single" visibility="private" size="4" offset="20" file="ZXing.Common.PerspectiveTransform.pas" line="39" />
+      <field name="a23" type="Single" visibility="private" size="4" offset="24" file="ZXing.Common.PerspectiveTransform.pas" line="40" />
+      <field name="a31" type="Single" visibility="private" size="4" offset="28" file="ZXing.Common.PerspectiveTransform.pas" line="41" />
+      <field name="a32" type="Single" visibility="private" size="4" offset="32" file="ZXing.Common.PerspectiveTransform.pas" line="42" />
+      <field name="a33" type="Single" visibility="private" size="4" offset="36" file="ZXing.Common.PerspectiveTransform.pas" line="43" />
+      <function name="buildAdjoint" visibility="private" file="ZXing.Common.PerspectiveTransform.pas" line="45">
+        <parameters>
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="times" visibility="private" file="ZXing.Common.PerspectiveTransform.pas" line="46">
+        <parameters>
+          <parameter name="other" type="TPerspectiveTransform" paramflags="const" />
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <constructor name="Create" visibility="public" file="ZXing.Common.PerspectiveTransform.pas" line="48">
+        <parameters>
+          <parameter name="a11" type="Single" paramflags="const" />
+          <parameter name="a21" type="Single" paramflags="const" />
+          <parameter name="a31" type="Single" paramflags="const" />
+          <parameter name="a12" type="Single" paramflags="const" />
+          <parameter name="a22" type="Single" paramflags="const" />
+          <parameter name="a32" type="Single" paramflags="const" />
+          <parameter name="a13" type="Single" paramflags="const" />
+          <parameter name="a23" type="Single" paramflags="const" />
+          <parameter name="a33" type="Single" paramflags="const" />
+        </parameters>
+      </constructor>
+      <function name="quadrilateralToQuadrilateral" visibility="public" procflags="static" file="ZXing.Common.PerspectiveTransform.pas" line="51">
+        <parameters>
+          <parameter name="x0" type="Single" paramflags="const" />
+          <parameter name="y0" type="Single" paramflags="const" />
+          <parameter name="x1" type="Single" paramflags="const" />
+          <parameter name="y1" type="Single" paramflags="const" />
+          <parameter name="x2" type="Single" paramflags="const" />
+          <parameter name="y2" type="Single" paramflags="const" />
+          <parameter name="x3" type="Single" paramflags="const" />
+          <parameter name="y3" type="Single" paramflags="const" />
+          <parameter name="x0p" type="Single" paramflags="const" />
+          <parameter name="y0p" type="Single" paramflags="const" />
+          <parameter name="x1p" type="Single" paramflags="const" />
+          <parameter name="y1p" type="Single" paramflags="const" />
+          <parameter name="x2p" type="Single" paramflags="const" />
+          <parameter name="y2p" type="Single" paramflags="const" />
+          <parameter name="x3p" type="Single" paramflags="const" />
+          <parameter name="y3p" type="Single" paramflags="const" />
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="quadrilateralToSquare" visibility="public" procflags="static" file="ZXing.Common.PerspectiveTransform.pas" line="55">
+        <parameters>
+          <parameter name="x0" type="Single" />
+          <parameter name="y0" type="Single" />
+          <parameter name="x1" type="Single" />
+          <parameter name="y1" type="Single" />
+          <parameter name="x2" type="Single" />
+          <parameter name="y2" type="Single" />
+          <parameter name="x3" type="Single" />
+          <parameter name="y3" type="Single" />
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <function name="squareToQuadrilateral" visibility="public" procflags="static" file="ZXing.Common.PerspectiveTransform.pas" line="59">
+        <parameters>
+          <parameter name="x0" type="Single" paramflags="const" />
+          <parameter name="y0" type="Single" paramflags="const" />
+          <parameter name="x1" type="Single" paramflags="const" />
+          <parameter name="y1" type="Single" paramflags="const" />
+          <parameter name="x2" type="Single" paramflags="const" />
+          <parameter name="y2" type="Single" paramflags="const" />
+          <parameter name="x3" type="Single" paramflags="const" />
+          <parameter name="y3" type="Single" paramflags="const" />
+          <retval type="TPerspectiveTransform">
+            <devnotes>
+               <summary> <p>This class implements a perspective transform in two dimensions. Given four source and four
+               destination points, it will compute the transformation implied between them. The code is based
+               directly upon section 3.4.2 of George Wolberg's &quot;Digital Image Warping&quot;; see pages 54-56.</p>
+               </summary>
+            </devnotes>
+          </retval>
+        </parameters>
+      </function>
+      <procedure name="transformPoints" visibility="public" procflags="overload" file="ZXing.Common.PerspectiveTransform.pas" line="62">
+        <parameters>
+          <parameter name="points" type="TArray&lt;System.Single&gt;" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="transformPoints" visibility="public" procflags="overload" file="ZXing.Common.PerspectiveTransform.pas" line="65">
+        <devnotes>
+           <summary>Convenience method, not optimized for performance. </summary>
+        </devnotes>
+        <parameters>
+          <parameter name="xValues" type="TArray&lt;System.Single&gt;" paramflags="const" />
+          <parameter name="yValues" type="TArray&lt;System.Single&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+</namespace>

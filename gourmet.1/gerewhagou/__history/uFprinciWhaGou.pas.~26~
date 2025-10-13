@@ -1,0 +1,1519 @@
+unit uFprinciWhaGou;
+
+{
+
+
+  Acessa o link:
+
+  https://www.asllam.com.br
+
+  Acessa o link acima:
+
+  usuario: 5566992350049
+  Senha: mizio973
+
+
+  daniel-556699223319-b5cc17d3a35877ca8b76f0b2e07497039c250696
+
+
+}
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage,
+  Data.DB,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  System.NetEncoding,
+  uCEFApplication,
+  Datasnap.DBClient,
+  Vcl.Buttons,
+  IdBaseComponent,
+  IdComponent,
+  IdTCPConnection,
+  IdTCPClient,
+  IdHTTP,
+  IdIntercept,
+  IdLogBase,
+  IdLogEvent,
+  IdIOHandler,
+  IdIOHandlerSocket,
+  IdIOHandlerStack,
+  IdSSL,
+  IdSSLOpenSSL,
+  // System.JSON,
+  inifiles,
+  System.Threading,
+  System.Math,
+
+  // Units Whats
+  uService.WhatsApp,
+  uModel.StatusWhats,
+  uModel.StatusPhone,
+  uModel.ContactWhats,
+  uModel.MessageReceivedWhats,
+  // uHelper.JsonToDataSet,
+
+  Vcl.Menus,
+  frxExportBaseDialog, uModel.LogError, IdAntiFreezeBase, IdAntiFreeze, MemDS,
+  DBAccess, Uni, UniProvider, MySQLUniProvider;
+
+type
+  TFprinciWhaGou = class(TForm)
+    CheckBox2: TCheckBox;
+    CheckBox3: TCheckBox;
+    Image1: TImage;
+    IdHTTP1: TIdHTTP;
+    IdLogEvent1: TIdLogEvent;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
+    DsBroadcast: TDataSource;
+    GroupBox3: TGroupBox;
+    Conexao: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    tmVerificarPedidos: TTimer;
+    inicializar: TTimer;
+    consulta: TUniQuery;
+    Panel1: TPanel;
+    plHora: TPanel;
+    Button17: TButton;
+    Button1: TButton;
+    Button13: TButton;
+    immpedido: TUniQuery;
+    immpedidoorcchave: TIntegerField;
+    immpedidofoacodigo: TIntegerField;
+    immpedidostocodigo: TIntegerField;
+    immpedidorelarquivo: TBlobField;
+    immpedidoorcobs: TStringField;
+    immpedidoorcgeralav: TFloatField;
+    immpedidogricodigo: TIntegerField;
+    immpedidogrpcodigo: TIntegerField;
+    immpedidoimmchave: TIntegerField;
+    czn: TUniQuery;
+    czncznchave: TIntegerField;
+    itopedido: TUniQuery;
+    itopedidoorcchave: TIntegerField;
+    itopedidoimmnumepedido: TIntegerField;
+    itopedidotcicodigo: TIntegerField;
+    itopedidotciporta: TStringField;
+    itopedidomitidentificacao: TStringField;
+    itopedidofoacodigo: TIntegerField;
+    itopedidopedidoaux: TIntegerField;
+    itopedidoitochave: TIntegerField;
+    orc: TUniQuery;
+    Label7: TLabel;
+    LbStatus: TLabel;
+    Memo2: TMemo;
+    IdAntiFreeze1: TIdAntiFreeze;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    immsaida: TUniQuery;
+    immretorno: TUniQuery;
+    immsaidaorcchave: TIntegerField;
+    immsaidafoacodigo: TIntegerField;
+    immsaidastocodigo: TIntegerField;
+    immsaidarelarquivo: TBlobField;
+    immsaidaorcobs: TStringField;
+    immsaidaorcgeralav: TFloatField;
+    immsaidagricodigo: TIntegerField;
+    immsaidagrpcodigo: TIntegerField;
+    immsaidaimmchave: TIntegerField;
+    immretornoorcchave: TIntegerField;
+    immretornofoacodigo: TIntegerField;
+    immretornostocodigo: TIntegerField;
+    immretornorelarquivo: TBlobField;
+    immretornoorcobs: TStringField;
+    immretornoorcgeralav: TFloatField;
+    immretornogricodigo: TIntegerField;
+    immretornogrpcodigo: TIntegerField;
+    immretornoimmchave: TIntegerField;
+    itosaida: TUniQuery;
+    itoretorno: TUniQuery;
+    itosaidaorcchave: TIntegerField;
+    itosaidaimmnumepedido: TIntegerField;
+    itosaidatcicodigo: TIntegerField;
+    itosaidatciporta: TStringField;
+    itosaidamitidentificacao: TStringField;
+    itosaidafoacodigo: TIntegerField;
+    itosaidapedidoaux: TIntegerField;
+    itosaidaitochave: TIntegerField;
+    itoretornoorcchave: TIntegerField;
+    itoretornoimmnumepedido: TIntegerField;
+    itoretornotcicodigo: TIntegerField;
+    itoretornotciporta: TStringField;
+    itoretornomitidentificacao: TStringField;
+    itoretornofoacodigo: TIntegerField;
+    itoretornopedidoaux: TIntegerField;
+    itoretornoitochave: TIntegerField;
+    tmVerificarSaidas: TTimer;
+    tmVerificarRetornos: TTimer;
+    Memo1: TMemo;
+    ImMenu: TImage;
+    cfgcfgmgoumensapedido0: TStringField;
+    cfgcfgmgoumensasaida0: TStringField;
+    cfgcfgmgoumensaretorno0: TStringField;
+    cfgcfgmgoumensapedido1: TStringField;
+    cfgcfgmgoumensasaida1: TStringField;
+    cfgcfgmgoumensaretorno1: TStringField;
+    cfgcfgmgoumensapedido2: TStringField;
+    cfgcfgmgoumensasaida2: TStringField;
+    cfgcfgmgoumensaretorno2: TStringField;
+    cfgcfgmgoumensapedido3: TStringField;
+    cfgcfgmgoumensasaida3: TStringField;
+    cfgcfgmgoumensaretorno3: TStringField;
+    cfgcfgmgoumensapedido4: TStringField;
+    cfgcfgmgoumensasaida4: TStringField;
+    cfgcfgmgoumensaretorno4: TStringField;
+    cfgcfgmgoumensapedido5: TStringField;
+    cfgcfgmgoumensasaida5: TStringField;
+    cfgcfgmgoumensaretorno5: TStringField;
+    cfgcfgmgoumensapedido6: TStringField;
+    cfgcfgmgoumensasaida6: TStringField;
+    cfgcfgmgoumensaretorno6: TStringField;
+    cfgcfgmgoumensapedido7: TStringField;
+    cfgcfgmgoumensasaida7: TStringField;
+    cfgcfgmgoumensaretorno7: TStringField;
+    cfgcfgmgoumensapedido8: TStringField;
+    cfgcfgmgoumensasaida8: TStringField;
+    cfgcfgmgoumensaretorno8: TStringField;
+    cfgcfgmgoumensapedido9: TStringField;
+    cfgcfgmgoumensasaida9: TStringField;
+    cfgcfgmgoumensaretorno9: TStringField;
+    ServiceWhtasApp1: TServiceWhtasApp;
+    bTestar: TButton;
+    cfgcfgmgoustatuswhats: TDateTimeField;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure ServiceWhtasApp1ContactsVerifyAccount(Sender: TObject; const Number: string; Exist: Boolean);
+    procedure ServiceWhtasApp1QrCode(Sender: TObject; const QrCodeBase64: string);
+
+    procedure ServiceWhtasApp1StatusPhone(Sender: TObject; const Status: IStatusPhone);
+    procedure Button13Click(Sender: TObject);
+    procedure ServiceWhtasApp1Started(Sender: TObject; const Started: Boolean);
+    procedure ServiceWhtasApp1StatusContact(Sender: TObject; const Status: string);
+    procedure Button17Click(Sender: TObject);
+    procedure inicializarTimer(Sender: TObject);
+    procedure tmVerificarPedidosTimer(Sender: TObject);
+    procedure tmVerificarSaidasTimer(Sender: TObject);
+    procedure tmVerificarRetornosTimer(Sender: TObject);
+
+    procedure ServiceWhtasApp1Error(Sender: TObject; const Error: IModelLogError);
+    procedure ServiceWhtasApp1QrCodeUpdate(Sender: TObject; const QrCodeBase64: string);
+
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure bTestarClick(Sender: TObject);
+    procedure ServiceWhtasApp1DeliveryMessage(Sender: TObject; const MessageID: string; ack: Integer);
+    procedure ServiceWhtasApp1ReturnSentMessage(Sender: TObject; const myID: string; MessageSent: IMessageReceivedWhats);
+    procedure ServiceWhtasApp1Status(Sender: TObject; const Status: IStatusWhats);
+    procedure ServiceWhtasApp1ReceiveMessage(Sender: TObject; const Contact: IContactWhats; MessageReceived: IMessageReceivedWhats);
+  private
+    bImage, bDocument: Boolean;
+    sImage, sImageName, sTypeImage: string;
+    procedure DecodeFile(const base64: String; const FileName: string);
+
+    function conectabanco: Boolean;
+
+    procedure VerificaPedidos;
+    function ImprimePedido(vOrcChave: string; vImprime: Integer): Boolean;
+    function NotificaSaida(vOrcChave: string; vImprime: Integer): Boolean;
+    function NotificaRetorno(vOrcChave: string; vImprime: Integer): Boolean;
+    function BaixaArqRel(vFoaCodigo: string): String;
+    procedure AnexaPedido(vimagem: string);
+    procedure VerificaSaidas;
+    procedure VerificaRetornos;
+  public
+    { Public declarations }
+    vpCznChave: string;
+
+    vpNumeroCznChave: string;
+
+    vpPastaDia: string;
+  protected
+    FCanClose: Boolean;
+    FClosing: Boolean;
+
+  end;
+
+var
+  FprinciWhaGou: TFprinciWhaGou;
+
+procedure CreateGlobalCEFApp;
+
+implementation
+
+uses uHelper.Base64ToFile;
+
+{$R *.dfm}
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport := True;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
+  // Use Hardware Acceleration when available
+  // GlobalCEFApp.EnableGPU                  := False;
+end;
+
+procedure TrimAppMemorySize;
+var
+  MainHandle: thandle;
+begin
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, False, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+  end;
+  Application.ProcessMessages;
+end;
+
+procedure TFprinciWhaGou.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  ServiceWhtasApp1.StopMonitoringWhtas;
+  sleep(3000);
+  Application.Terminate;
+end;
+
+procedure TFprinciWhaGou.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+  if not(FClosing) then
+  begin
+    FClosing := True;
+    Visible := False;
+    ServiceWhtasApp1.StopMonitoringWhtas;
+    ServiceWhtasApp1.CloseBrowser;
+    Application.Terminate;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.FormCreate(Sender: TObject);
+begin
+  FCanClose := False;
+  FClosing := False;
+  ClientDataSet1.CreateDataSet;
+  ClientDataSet1.Active := True;
+end;
+
+procedure TFprinciWhaGou.FormShow(Sender: TObject);
+begin
+  inicializar.ENABLED := True;
+  Screen.Cursors[crSQLWait] := Screen.Cursors[crDefault];
+  ServiceWhtasApp1.ShowWhatsApp(False);
+end;
+
+procedure TFprinciWhaGou.inicializarTimer(Sender: TObject);
+var
+  i: Integer;
+begin
+  inicializar.ENABLED := False;
+
+  for i := 0 to self.ComponentCount - 1 do
+  begin
+    if self.Components[i] is TUniQuery then
+      (self.Components[i] as TUniQuery).Connection := Conexao;
+
+  end;
+
+  if conectabanco then
+  begin
+
+    czn.close;
+    czn.Open;
+
+    vpCznChave := czncznchave.AsString;
+
+    Button1.Click;
+
+    tmVerificarPedidos.ENABLED := True;
+    tmVerificarSaidas.ENABLED := True;
+    tmVerificarRetornos.ENABLED := True;
+
+  end;
+
+end;
+
+function TFprinciWhaGou.conectabanco: Boolean;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+Begin
+  result := False;
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  With arquini Do
+  Begin
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+
+  End;
+  arquini.Free;
+
+  Conexao.Connected := False;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := True;
+
+  if not Conexao.Connected then
+  begin
+    ShowMessage('Falha de conexão com o Banco de Dados. Verifique as configurações do gourmeterp.ini');
+    Application.Terminate;
+  end
+  else
+  begin
+    result := True;
+  end;
+
+End;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1ContactsVerifyAccount(Sender: TObject; const Number: string; Exist: Boolean);
+var
+  sExist: string;
+begin
+  if Exist then
+  begin
+    sExist := 'True';
+  end
+  else
+  begin
+    sExist := 'False';
+  end;
+  // ShowMessage(Number + ':' + sExist);
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1DeliveryMessage(Sender: TObject; const MessageID: string; ack: Integer);
+begin
+  Memo2.Lines.add(MessageID);
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1Error(Sender: TObject; const Error: IModelLogError);
+begin
+  Memo1.Lines.add(datetimetostr(now()) + ' Erro: ' + Error.Error);
+  //
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1QrCode(Sender: TObject; const QrCodeBase64: string);
+begin
+  ShowMessage(QrCodeBase64);
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1QrCodeUpdate(Sender: TObject; const QrCodeBase64: string);
+begin
+  Memo1.Lines.add(datetimetostr(now()) + ' Novo QR: ' + QrCodeBase64);
+
+end;
+
+procedure salvalogs(vtexto: string; vcznchave: Integer);
+var
+  f: TextFile;
+  vlnomefile: string;
+begin
+
+  vlnomefile := ExtractFilePath(Application.ExeName) + 'whats_' + formatfloat('000000', vcznchave) + '.txt';
+
+  { open a text file }
+  AssignFile(f, vlnomefile);
+  if not fileexists(vlnomefile) then
+
+  begin
+
+    Rewrite(f);
+    CloseFile(f);
+    Append(f);
+  end
+  else
+  begin
+    Append(f);
+
+  end;
+
+  Writeln(f, vtexto);
+  Flush(f); { ensures that the text was actually written to file }
+  { insert code here that would require a Flush before closing the file }
+  CloseFile(f);
+
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1ReceiveMessage(Sender: TObject; const Contact: IContactWhats; MessageReceived: IMessageReceivedWhats);
+begin
+  Memo2.Lines.add(MessageReceived.MESSAGE);
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1ReturnSentMessage(Sender: TObject; const myID: string; MessageSent: IMessageReceivedWhats);
+begin
+  // Memo2.Lines.add(myID);
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1Started(Sender: TObject; const Started: Boolean);
+begin
+  ServiceWhtasApp1.GetStatus;
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1Status(Sender: TObject; const Status: IStatusWhats);
+begin
+  Memo1.Lines.add(Status.MyNumber);
+
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1StatusContact(Sender: TObject; const Status: string);
+begin
+  LbStatus.Caption := Status;
+  if Status = 'Online' then
+  begin
+    LbStatus.Font.Color := clGreen;
+  end
+  else
+  begin
+    LbStatus.Font.Color := clRed;
+  end;
+end;
+
+procedure TFprinciWhaGou.ServiceWhtasApp1StatusPhone(Sender: TObject; const Status: IStatusPhone);
+begin
+  if Status.Connected then
+  begin
+    LbStatus.Font.Color := clGreen;
+    LbStatus.Caption := 'Conectado';
+  end
+  else
+  begin
+    LbStatus.Font.Color := clRed;
+    LbStatus.Caption := 'Desconectado';
+  end;
+end;
+
+procedure TFprinciWhaGou.tmVerificarPedidosTimer(Sender: TObject);
+begin
+  try
+
+    czn.close;
+    czn.Open;
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      Memo2.Lines.Clear;
+
+    end;
+
+    tmVerificarPedidos.ENABLED := False;
+
+    plHora.Caption := timetostr(time);
+    TrimAppMemorySize;
+    Application.ProcessMessages;
+
+    if LbStatus.Caption = 'Conectado' then
+    begin
+      VerificaPedidos;
+      Memo1.Lines.SaveToFile(ExtractFilePath(Application.ExeName) + formatdatetime('yyyymmddhh', now()) + '.txt');
+    end;
+
+  finally
+    tmVerificarPedidos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.tmVerificarRetornosTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarRetornos.ENABLED := False;
+
+    plHora.Caption := timetostr(time);
+    Application.ProcessMessages;
+
+    czn.close;
+    czn.Open;
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      Memo2.Lines.Clear;
+
+    end;
+    TrimAppMemorySize;
+    Application.ProcessMessages;
+
+    if LbStatus.Caption = 'Conectado' then
+    begin
+      VerificaRetornos;
+    end;
+
+  finally
+    tmVerificarRetornos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.tmVerificarSaidasTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarSaidas.ENABLED := False;
+
+    czn.close;
+    czn.Open;
+
+    cfg.close;
+    cfg.Open;
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      Memo2.Lines.Clear;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    plHora.Caption := timetostr(time);
+    TrimAppMemorySize;
+    Application.ProcessMessages;
+
+    if LbStatus.Caption = 'Conectado' then
+    begin
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaSaidas;
+    end;
+
+  finally
+
+    tmVerificarSaidas.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.VerificaSaidas;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+
+begin
+
+  czn.close;
+  czn.Open;
+
+  vpCznChave := czncznchave.AsString;
+  vpNumeroCznChave := formatfloat('000000', czncznchave.AsInteger);
+
+  immsaida.close;
+  immsaida.ParamByName('cznchave').AsString := vpCznChave;
+  immsaida.Open;
+
+  vlTentativas := 0;
+
+  vlTentativas := 0;
+
+  // notificacao da saida
+  immsaida.First;
+  while not immsaida.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immsaidagrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+
+    if NotificaSaida(immsaidaorcchave.AsString, vlImprime) then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immsaida.Next;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.VerificaRetornos;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+
+begin
+
+  vpCznChave := czncznchave.AsString;
+
+  vpNumeroCznChave := formatfloat('000000', czncznchave.AsInteger);
+
+  immretorno.close;
+  immretorno.ParamByName('cznchave').AsString := vpCznChave;
+  immretorno.Open;
+
+  vlTentativas := 0;
+
+  // notificacao da retorno
+  immretorno.First;
+  while not immretorno.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immretornogrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+
+    if NotificaRetorno(immretornoorcchave.AsString, vlImprime) then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immretorno.Next;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFprinciWhaGou.VerificaPedidos;
+var
+  vlTentativas: Integer;
+  vlCznCodigo: Integer;
+
+  vlImprime: Integer;
+
+begin
+
+  { cria pasta para salvar as imagens dos pedidos do dia }
+  vpPastaDia := ExtractFilePath(Application.ExeName) + 'pedidos';
+  vpPastaDia := vpPastaDia + '\' + formatfloat('000000', czncznchave.AsInteger);
+
+  if not DirectoryExists(vpPastaDia) then
+    ForceDirectories(vpPastaDia);
+
+  vpCznChave := czncznchave.AsString;
+  vpNumeroCznChave := formatfloat('000000', czncznchave.AsInteger);
+
+  immpedido.close;
+  immpedido.ParamByName('cznchave').AsString := vpCznChave;
+  immpedido.Open;
+
+  vlTentativas := 0;
+
+  // envid de pedidos
+  immpedido.First;
+  while not immpedido.Eof do
+  begin
+
+    consulta.close;
+    consulta.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immpedidogrpcodigo.AsString;
+    consulta.Open;
+
+    vlImprime := consulta.FieldByName('griimprimeauto').AsInteger;
+
+    if ImprimePedido(immpedidoorcchave.AsString, vlImprime) then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immpedido.Next;
+      end;
+    end;
+  end;
+
+end;
+
+function TFprinciWhaGou.BaixaArqRel(vFoaCodigo: string): String;
+var
+  vlNomeArq: String;
+  BlobField: TBlobField;
+begin
+  result := '';
+  vlNomeArq := ExtractFilePath(Application.ExeName) + 'Report\Pedido_' + vFoaCodigo + '.fr3';
+
+  if fileexists(vlNomeArq) then
+    deletefile(vlNomeArq);
+
+  BlobField := immpedidorelarquivo as TBlobField;
+  BlobField.SaveToFile(vlNomeArq);
+
+  if not fileexists(vlNomeArq) then
+  begin
+    // pedidos.Lines.Add('Arquivo nao localizado: ' + vlNomeArq);
+    exit;
+  end
+  else
+    result := vlNomeArq;
+
+end;
+
+procedure TFprinciWhaGou.bTestarClick(Sender: TObject);
+var
+  sMessageDemo: string;
+  myID: Integer;
+  vlEdtSendNumber: String;
+begin
+  vlEdtSendNumber := '5566999223319';
+
+  sMessageDemo := 'Teste de mensagem';
+
+  myID := 1 + Random(100);
+
+  if not ServiceWhtasApp1.ServiceStatusPhone.Status.Connected then
+  begin
+    ShowMessage('Desconectado do Whats, por favor autentique-se');
+
+    ServiceWhtasApp1.ShowWhatsApp;
+    exit;
+  end;
+
+  ShowMessage('Envio de Mensagem em demostração');
+
+  // Envia pata o numero que esta no Edit
+  if vlEdtSendNumber <> '' then
+  begin
+    ServiceWhtasApp1.SendMessageToNumber(IntToStr(myID), vlEdtSendNumber, Memo1.Lines.Text + sMessageDemo);
+  end;
+
+  ClientDataSet1.First;
+  while not ClientDataSet1.Eof do
+  begin
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+      ServiceWhtasApp1.SendMessageToID(IntToStr(myID), ClientDataSet1.FieldByName('ID').AsString, Memo1.Lines.Text + sMessageDemo);
+    end
+    else
+    begin
+      ServiceWhtasApp1.SendMessageToNumber(IntToStr(myID), ClientDataSet1.FieldByName('ID').AsString, Memo1.Lines.Text + sMessageDemo);
+    end;
+    sleep(1000);
+    ClientDataSet1.Next;
+  end;
+
+  {
+
+    if bImage then
+    begin
+    // Envia pata o numero que esta no Edit
+    if EdtSendNumber.Text <> '' then
+    begin
+
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),EdtSendNumber.Text, sImage, sImageName, 'image/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    ClientDataSet1.First;
+    while not ClientDataSet1.Eof do
+    begin
+
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendBase64MediaToId(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'image/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'image/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    Sleep(1000);
+    ClientDataSet1.Next;
+    end;
+    end;
+
+    if bDocument then
+    begin
+
+    // Envia pata o numero que esta no Edit
+    if EdtSendNumber.Text <> '' then
+    begin
+
+    if Memo1.Lines.Text <> '' then
+    begin
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendMessageToId(IntToStr(myId),EdtSendNumber.Text, Memo1.Lines.Text + sMessageDemo);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendMessageToNumber(IntToStr(myId),EdtSendNumber.Text, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    end;
+
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendBase64MediaDocumentToId(IntToStr(myId),EdtSendNumber.Text, sImage, sImageName);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendBase64MediaDocumentToNumber(IntToStr(myId),EdtSendNumber.Text, sImage, sImageName);
+    end;
+
+    end;
+
+    ClientDataSet1.First;
+    while not ClientDataSet1.Eof do
+    begin
+    if Memo1.Lines.Text <> '' then
+    begin
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendMessageToId(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, Memo1.Lines.Text + sMessageDemo);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendMessageToNumber(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    end;
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendBase64MediaDocumentToId(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendBase64MediaDocumentToNumber(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName);
+    end;
+
+    Sleep(1000);
+    ClientDataSet1.Next;
+    end;
+    end;
+
+    if bAudio then
+    begin
+    // Envia pata o numero que esta no Edit
+    if EdtSendNumber.Text <> '' then
+    begin
+
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),EdtSendNumber.Text, sImage, sImageName, 'audio/' + sTypeImage, Memo1.Lines.Text + sMessageDemo, true);
+    end;
+
+    ClientDataSet1.First;
+    while not ClientDataSet1.Eof do
+    begin
+
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendBase64MediaToId(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'audio/' + sTypeImage, Memo1.Lines.Text + sMessageDemo, true);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'audio/' + sTypeImage, Memo1.Lines.Text + sMessageDemo, true);
+    end;
+
+    Sleep(1000);
+    ClientDataSet1.Next;
+    end;
+    end;
+
+    if bVideo then
+    begin
+    // Envia pata o numero que esta no Edit
+    if EdtSendNumber.Text <> '' then
+    begin
+
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),EdtSendNumber.Text, sImage, sImageName, 'video/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    ClientDataSet1.First;
+    while not ClientDataSet1.Eof do
+    begin
+
+    if ClientDataSet1.FieldByName('ISGROUP_BROADCAST').AsInteger = 1 then
+    begin
+    ServiceWhtasApp1.SendBase64MediaToId(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'video/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end
+    else
+    begin
+    ServiceWhtasApp1.SendBase64MediaToNumber(IntToStr(myId),ClientDataSet1.FieldByName('ID').AsString, sImage, sImageName, 'video/' + sTypeImage, Memo1.Lines.Text + sMessageDemo);
+    end;
+
+    Sleep(1000);
+    ClientDataSet1.Next;
+    end;
+    end;
+  }
+  ShowMessage('Lista transmitida com sucesso');
+  sImage := '';
+  sTypeImage := '';
+  sImageName := '';
+  Image1.Picture := nil;
+  bImage := False;
+  bDocument := False;
+  // bAudio := False;
+  // bVideo := False;
+
+end;
+
+function TFprinciWhaGou.NotificaSaida(vOrcChave: string; vImprime: Integer): Boolean;
+var
+
+  vlNumePedido: Integer;
+  vlRetorno: Integer;
+
+  vlIdentificacao: string;
+
+  vlTentativas: Integer;
+  vlItoChave: String;
+  vltciatual: string;
+  vlTemWhats: Boolean;
+  vlTelefone: string;
+  vlNome: string;
+  vlId: string;
+  vlIrandomico: String;
+
+begin
+  vlTemWhats := False;
+  orc.close;
+  orc.ParamByName('orcchave').AsString := vOrcChave;
+  orc.Open;
+
+  Application.ProcessMessages;
+  vlTemWhats := False;
+  if Length(orc.FieldByName('orctelefone').AsString) >= 11 then
+  begin
+    vlTelefone := '55' + orc.FieldByName('orctelefone').AsString;
+    vlTemWhats := True;
+  end
+  else
+  begin
+    consulta.close;
+    consulta.SQL.Text := 'select imwchave, imwhorasaidadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+      vOrcChave + ')';
+    consulta.Open;
+
+    while not consulta.Eof do
+    begin
+      try
+        consulta.Edit;
+        consulta.FieldByName('imwhorasaidadopedido').AsFloat := now();
+        consulta.Post;
+
+      except
+        consulta.cancel;
+      end;
+
+      consulta.Next;
+    end;
+  end;
+
+  if vlTemWhats then
+  begin
+
+    itosaida.close;
+    itosaida.Params[0].AsString := vOrcChave;
+    itosaida.Open;
+
+    if pos(vpNumeroCznChave + ' Saída: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itosaidaimmnumepedido.AsString,
+      Memo2.Lines.Text) = 0 then
+    begin
+
+      result := False;
+
+      { itosaida.close;
+        itosaida.Params[0].AsString := vOrcChave;
+        itosaida.Open; }
+
+      vlTentativas := 0;
+      vltciatual := '';
+      while not itosaida.Eof do
+      begin
+
+        Memo2.Lines.add(vpNumeroCznChave + ' Saída: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itosaidaimmnumepedido.AsString);
+
+        vlNumePedido := itosaida.FieldByName('immnumepedido').AsInteger;
+        vlRetorno := 0;
+        vlIdentificacao := itosaida.FieldByName('mitidentificacao').AsString;
+
+        if not ServiceWhtasApp1.ServiceStatusPhone.Status.Connected then
+        begin
+          ShowMessage('Desconectado do Whats, por favor autentique-se');
+
+          ServiceWhtasApp1.ShowWhatsApp;
+          exit;
+        end;
+        cfg.close;
+        cfg.Open;
+
+        vlIrandomico := IntToStr(RandomRange(0, 9));
+        vlIrandomico := '0';
+
+        ServiceWhtasApp1.SendMessageToNumber(vlTelefone + '@c.us', vlTelefone, cfg.FieldByName('cfgmgoumensasaida' + vlIrandomico).AsString);
+
+        // sleep(1000);
+
+        consulta.close;
+        consulta.SQL.Text := 'select imwchave, imwhorasaidadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+          vOrcChave + ')';
+        consulta.Open;
+
+        while not consulta.Eof do
+        begin
+          try
+            consulta.Edit;
+            consulta.FieldByName('imwhorasaidadopedido').AsFloat := now();
+            consulta.Post;
+          except
+            consulta.cancel;
+          end;
+
+          consulta.Next;
+        end;
+
+        exit;
+        itosaida.Next;
+      end;
+    end
+    else
+    begin
+      consulta.close;
+      consulta.SQL.Text := 'select imwchave, imwhorasaidadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+        vOrcChave + ')';
+      consulta.Open;
+
+      while not consulta.Eof do
+      begin
+        try
+          consulta.Edit;
+          consulta.FieldByName('imwhorasaidadopedido').AsFloat := now();
+          consulta.Post;
+        except
+          consulta.cancel;
+        end;
+        consulta.Next;
+      end;
+      exit;
+      itosaida.Next;
+
+    end;
+  end;
+end;
+
+function TFprinciWhaGou.NotificaRetorno(vOrcChave: string; vImprime: Integer): Boolean;
+var
+
+  vlNumePedido: Integer;
+  vlRetorno: Integer;
+
+  vlIdentificacao: string;
+
+  vlTentativas: Integer;
+  vlItoChave: String;
+  vltciatual: string;
+  vlTemWhats: Boolean;
+  vlTelefone: string;
+  vlNome: string;
+  vlId: string;
+
+  vlIrandomico: string;
+begin
+  vlTemWhats := False;
+  orc.close;
+  orc.ParamByName('orcchave').AsString := vOrcChave;
+  orc.Open;
+
+  Application.ProcessMessages;
+  vlTemWhats := False;
+  if Length(orc.FieldByName('orctelefone').AsString) >= 11 then
+  begin
+    vlTelefone := '55' + orc.FieldByName('orctelefone').AsString;
+
+    vlTemWhats := True;
+  end
+  else
+  begin
+    consulta.close;
+    consulta.SQL.Text := 'select imwchave, imwhoraentregadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+      vOrcChave + ')';
+    consulta.Open;
+
+    while not consulta.Eof do
+    begin
+      try
+        consulta.Edit;
+        consulta.FieldByName('imwhoraentregadopedido').AsFloat := now();
+        consulta.Post;
+      except
+
+        consulta.cancel;
+      end;
+
+      consulta.Next;
+    end;
+  end;
+
+  if vlTemWhats then
+  begin
+
+    if pos(vpNumeroCznChave + ' Agradecimento: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itoretornoimmnumepedido.AsString,
+      Memo2.Lines.Text) = 0 then
+    begin
+
+      result := False;
+
+      itoretorno.close;
+      itoretorno.Params[0].AsString := vOrcChave;
+      itoretorno.Open;
+
+      vlTentativas := 0;
+      vltciatual := '';
+      while not itoretorno.Eof do
+      begin
+        Memo2.Lines.add(vpNumeroCznChave + ' Agradecimento: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' +
+          itoretornoimmnumepedido.AsString);
+
+        vlNumePedido := itoretorno.FieldByName('immnumepedido').AsInteger;
+        vlRetorno := 0;
+        vlIdentificacao := itoretorno.FieldByName('mitidentificacao').AsString;
+
+        if not ServiceWhtasApp1.ServiceStatusPhone.Status.Connected then
+        begin
+          ShowMessage('Desconectado do Whats, por favor autentique-se');
+
+          ServiceWhtasApp1.ShowWhatsApp;
+          exit;
+        end;
+        cfg.close;
+        cfg.Open;
+
+        vlIrandomico := IntToStr(RandomRange(0, 9));
+        vlIrandomico := '0';
+
+        if fileexists(ExtractFilePath(Application.ExeName) + 'logoretorno.bmp') then
+        begin
+
+          ServiceWhtasApp1.SendMessageToNumber(vlTelefone + '@c.us', vlTelefone, cfg.FieldByName('cfgmgoumensaretorno' + vlIrandomico).AsString);
+
+          AnexaPedido(ExtractFilePath(Application.ExeName) + 'logoretorno.bmp');
+          ServiceWhtasApp1.SendBase64MediaToNumber(vlTelefone + '@c.us', vlTelefone, sImage, sImageName, 'image/' + sTypeImage, '.');
+        end
+        else
+        begin
+          ServiceWhtasApp1.SendMessageToNumber(vlTelefone + '@c.us', vlTelefone, cfg.FieldByName('cfgmgoumensaretorno' + vlIrandomico).AsString);
+        end;
+
+
+
+
+        // sleep(1000);
+
+        consulta.close;
+        consulta.SQL.Text := 'select imwchave, imwhoraentregadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+          vOrcChave + ')';
+        consulta.Open;
+
+        while not consulta.Eof do
+        begin
+          try
+            consulta.Edit;
+            consulta.FieldByName('imwhoraentregadopedido').AsFloat := now();
+            consulta.Post;
+          except
+
+            consulta.cancel;
+          end;
+
+          consulta.Next;
+        end;
+
+        exit;
+        itoretorno.Next;
+
+      end;
+
+    end
+    else
+    begin
+      consulta.close;
+      consulta.SQL.Text := 'select imwchave, imwhoraentregadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+        vOrcChave + ')';
+      consulta.Open;
+
+      while not consulta.Eof do
+      begin
+        try
+          consulta.Edit;
+          consulta.FieldByName('imwhoraentregadopedido').AsFloat := now();
+          consulta.Post;
+        except
+          consulta.cancel;
+
+        end;
+
+        consulta.Next;
+      end;
+
+      exit;
+      itoretorno.Next;
+
+    end;
+
+  end;
+end;
+
+function TFprinciWhaGou.ImprimePedido(vOrcChave: string; vImprime: Integer): Boolean;
+var
+  vlNomeArq: string;
+  vlGerado: Boolean;
+  vlNumePedido: Integer;
+  vlRetorno: Integer;
+  vporta: string;
+  vlRetornoStr: string;
+
+  vlIdentificacao: string;
+  vlTciPorta: string;
+  vlTciCodigo: string;
+  vlTentativas: Integer;
+  vlItoChave: String;
+  vltciatual: string;
+  vlTemWhats: Boolean;
+  vlTelefone: string;
+  vlNome: string;
+  vlId: string;
+  vlIrandomico: string;
+
+begin
+
+  if vOrcChave <> '' then
+  begin
+    orc.close;
+    orc.ParamByName('orcchave').AsString := vOrcChave;
+    orc.Open;
+
+    Application.ProcessMessages;
+    vlTemWhats := False;
+    if Length(orc.FieldByName('orctelefone').AsString) >= 11 then
+    begin
+      vlTelefone := '55' + orc.FieldByName('orctelefone').AsString;
+
+      // ServiceWhtasApp1.CheckContactExist(vlTelefone);
+      vlTemWhats := True;
+
+    end
+    else
+    begin
+      consulta.close;
+      consulta.SQL.Text := 'select imwchave, imwhoranotificadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+        vOrcChave + ')';
+      consulta.Open;
+
+      while not consulta.Eof do
+      begin
+
+        itopedido.close;
+        itopedido.ParamByName('orcchave').AsString := vOrcChave;
+        itopedido.Open;
+
+        if itopedido.Locate('orcchave', vOrcChave, []) then
+        begin
+          try
+            consulta.Edit;
+            consulta.FieldByName('imwhoranotificadopedido').AsFloat := now();
+            consulta.Post;
+          except
+            consulta.cancel;
+          end;
+
+        end;
+        consulta.Next;
+
+      end;
+
+      Memo2.Lines.add('Telefone: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itopedidoimmnumepedido.AsString);
+      Application.ProcessMessages;
+
+      result := False;
+    end;
+
+    if vlTemWhats then
+    begin
+
+      if pos(vpNumeroCznChave + ' Pedido: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itopedidoimmnumepedido.AsString,
+        Memo2.Lines.Text) = 0 then
+      begin
+
+        Memo2.Lines.add(vpNumeroCznChave + ' Pedido: ' + orc.FieldByName('orctelefone').AsString + ' Nr. Pedido: ' + itopedidoimmnumepedido.AsString);
+        Application.ProcessMessages;
+
+        result := False;
+
+        vlTentativas := 0;
+        vltciatual := '';
+
+        cfg.close;
+        cfg.Open;
+
+        vlIrandomico := IntToStr(RandomRange(0, 9));
+        vlIrandomico := '0';
+
+        ServiceWhtasApp1.SendMessageToNumber(vlTelefone + '@c.us', vlTelefone, cfg.FieldByName('cfgmgoumensapedido' + vlIrandomico).AsString);
+
+        consulta.close;
+        consulta.SQL.Text := 'select imwchave, imwhoranotificadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+          vOrcChave + ')';
+        consulta.Open;
+
+        while not consulta.Eof do
+        begin
+          try
+            consulta.Edit;
+            consulta.FieldByName('imwhoranotificadopedido').AsFloat := now();
+            consulta.Post;
+          except
+            consulta.cancel;
+          end;
+          consulta.Next;
+        end;
+        result := True;
+        exit;
+
+      end
+      else
+      begin
+
+        consulta.close;
+        consulta.SQL.Text := 'select imwchave, imwhoranotificadopedido from imw where itochave in (select itochave from ito where orcchave=' +
+          vOrcChave + ')';
+        consulta.Open;
+
+        while not consulta.Eof do
+        begin
+          try
+            consulta.Edit;
+            consulta.FieldByName('imwhoranotificadopedido').AsFloat := now();
+            consulta.Post;
+          except
+            consulta.cancel;
+          end;
+
+          consulta.Next;
+        end;
+
+        result := True;
+        exit;
+
+      end;
+    end;
+  end;
+end;
+
+procedure TFprinciWhaGou.AnexaPedido(vimagem: string);
+var
+  stream: TMemoryStream;
+  base64: TBase64Encoding;
+begin
+
+  base64 := TBase64Encoding.Create;
+  stream := TMemoryStream.Create;
+  try
+    stream.LoadFromFile(vimagem);
+    sTypeImage := Copy(ExtractFileExt(vimagem), 2, 5);
+    sImageName := ExtractFileName(vimagem);
+
+    sImage := base64.EncodeBytesToString(stream.Memory, stream.Size);
+  finally
+    stream.Free;
+  end;
+  base64.Free;
+  // Image1.Picture.LoadFromFile(openDialog1.FileName);
+  bImage := True;
+  bDocument := False;
+end;
+
+procedure TFprinciWhaGou.DecodeFile(const base64: String; const FileName: string);
+var
+  stream: TBytesStream;
+begin
+  stream := TBytesStream.Create(TNetEncoding.base64.DecodeStringToBytes(base64));
+  try
+    stream.SaveToFile(FileName);
+  finally
+    stream.Free;
+  end;
+end;
+
+procedure TFprinciWhaGou.Button13Click(Sender: TObject);
+begin
+  ServiceWhtasApp1.GetStatusWhatsApp;
+
+  if ServiceWhtasApp1.ServiceStatusPhone.Status.Authenticated then
+  begin
+    LbStatus.Caption := 'autenticado';
+  end;
+
+  if ServiceWhtasApp1.ServiceStatusPhone.Status.Connected then
+  begin
+    ShowMessage('Conectado');
+  end
+  else
+  begin
+    ShowMessage('Desconectado');
+  end;
+
+end;
+
+procedure TFprinciWhaGou.Button17Click(Sender: TObject);
+begin
+  tmVerificarSaidas.ENABLED := False;
+  tmVerificarRetornos.ENABLED := False;
+  tmVerificarPedidos.ENABLED := False;
+  ServiceWhtasApp1.Logout;
+  Conexao.Connected := False;
+  sleep(3000);
+  close;
+end;
+
+procedure TFprinciWhaGou.Button1Click(Sender: TObject);
+begin
+
+  ServiceWhtasApp1.ShowWhatsApp;
+  Application.ProcessMessages;
+end;
+
+procedure TFprinciWhaGou.CheckBox2Click(Sender: TObject);
+begin
+  ServiceWhtasApp1.DisableNotification := CheckBox2.Checked;
+end;
+
+end.

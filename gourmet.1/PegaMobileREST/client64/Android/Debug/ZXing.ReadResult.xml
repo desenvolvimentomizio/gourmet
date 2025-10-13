@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="ZXing.ReadResult" platform="Android">
+  <interface name="IMetaData" GUID="{27AEB2C5-D775-44C6-9816-3E69025CA57C}" ancestor="IInterface" file="ZXing.ReadResult.pas" line="33">
+  </interface>
+  <interface name="IStringMetadata" GUID="{8073F897-30AD-49B7-AE0B-B187D3373163}" ancestor="IMetaData" file="ZXing.ReadResult.pas" line="37">
+    <function name="Value" visibility="public" procflags="abstract virtual" file="ZXing.ReadResult.pas" line="39">
+      <parameters>
+        <retval type="string" />
+      </parameters>
+    </function>
+  </interface>
+  <interface name="IIntegerMetadata" GUID="{CA60A23A-57ED-4C8E-9886-4F23B832A90C}" ancestor="IMetaData" file="ZXing.ReadResult.pas" line="42">
+    <function name="Value" visibility="public" procflags="abstract virtual" file="ZXing.ReadResult.pas" line="44">
+      <parameters>
+        <retval type="Integer" />
+      </parameters>
+    </function>
+  </interface>
+  <interface name="IByteSegmentsMetadata" GUID="{CA60A23A-57ED-4C8E-9886-4F23B832A90C}" ancestor="IMetaData" file="ZXing.ReadResult.pas" line="47">
+    <function name="Value" visibility="public" procflags="abstract virtual" file="ZXing.ReadResult.pas" line="49">
+      <parameters>
+        <retval type="IByteSegments">
+          <devnotes>
+             <summary>
+              implements the ByteSegments (which was declared as a TList&lt;TArray<Byte>&gt;
+              throughout the code as reference-counted interface object)
+             </summary>
+          </devnotes>
+        </retval>
+      </parameters>
+    </function>
+  </interface>
+  <class name="TResultMetaData" file="ZXing.ReadResult.pas" line="56">
+    <devnotes>
+       <summary>
+        represents the metadata contained in a TReadResult and provides the
+        helping functions needed to create them
+       </summary>
+    </devnotes>
+    <ancestor name="{System.Generics.Collections}TDictionary&lt;ZXing.ResultMetadataType.TResultMetadataType,ZXing.ReadResult.IMetaData&gt;" namespace="ZXing.ReadResult">
+      <methodref name="InternalSetCapacity" visibility="private">
+      </methodref>
+      <methodref name="Rehash" visibility="private">
+      </methodref>
+      <methodref name="Grow" visibility="private">
+      </methodref>
+      <methodref name="GetBucketIndex" visibility="private">
+      </methodref>
+      <methodref name="Hash" visibility="private">
+      </methodref>
+      <methodref name="GetItem" visibility="private">
+      </methodref>
+      <methodref name="SetItem" visibility="private">
+      </methodref>
+      <methodref name="RehashAdd" visibility="private">
+      </methodref>
+      <methodref name="DoAdd" visibility="private">
+      </methodref>
+      <methodref name="DoSetValue" visibility="private">
+      </methodref>
+      <methodref name="DoRemove" visibility="private">
+      </methodref>
+      <methodref name="GetCapacity" visibility="private">
+      </methodref>
+      <methodref name="SetCapacity" visibility="private">
+      </methodref>
+      <methodref name="DoGetEnumerator" visibility="protected" procflags="override">
+      </methodref>
+      <methodref name="KeyNotify" visibility="protected" procflags="virtual">
+      </methodref>
+      <methodref name="ValueNotify" visibility="protected" procflags="virtual">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Create" visibility="public" procflags="constructor overload">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor override">
+      </methodref>
+      <methodref name="Add" visibility="public">
+      </methodref>
+      <methodref name="Remove" visibility="public">
+      </methodref>
+      <methodref name="ExtractPair" visibility="public">
+      </methodref>
+      <methodref name="Clear" visibility="public">
+      </methodref>
+      <methodref name="TrimExcess" visibility="public">
+      </methodref>
+      <methodref name="TryGetValue" visibility="public">
+      </methodref>
+      <methodref name="AddOrSetValue" visibility="public">
+      </methodref>
+      <methodref name="TryAdd" visibility="public">
+      </methodref>
+      <methodref name="ContainsKey" visibility="public">
+      </methodref>
+      <methodref name="ContainsValue" visibility="public">
+      </methodref>
+      <methodref name="ToArray" visibility="public" procflags="final override">
+      </methodref>
+      <propertyref name="Capacity" visibility="public">
+      </propertyref>
+      <propertyref name="Items" visibility="public">
+      </propertyref>
+      <propertyref name="Count" visibility="public">
+      </propertyref>
+      <methodref name="GetKeys" visibility="private">
+      </methodref>
+      <methodref name="GetValues" visibility="private">
+      </methodref>
+      <methodref name="GetEnumerator" visibility="public">
+      </methodref>
+      <propertyref name="Keys" visibility="public">
+      </propertyref>
+      <propertyref name="Values" visibility="public">
+      </propertyref>
+      <propertyref name="Comparer" visibility="public">
+      </propertyref>
+      <eventref name="OnKeyNotify" visibility="public">
+      </eventref>
+      <eventref name="OnValueNotify" visibility="public">
+      </eventref>
+      <ancestor name="{System.Generics.Collections}TEnumerable&lt;System.Generics.Collections.TPair&lt;ZXing.ResultMetadataType.TResultMetadataType,ZXing.ReadResult.IMetaData&gt;&gt;" namespace="ZXing.ReadResult">
+        <methodref name="ToArrayImpl" visibility="private">
+        </methodref>
+        <methodref name="DoGetEnumerator" visibility="protected" procflags="abstract virtual">
+        </methodref>
+        <methodref name="Destroy" visibility="public" procflags="destructor override">
+        </methodref>
+        <methodref name="GetEnumerator" visibility="public" procflags="inline">
+        </methodref>
+        <methodref name="ToArray" visibility="public" procflags="virtual">
+        </methodref>
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public" procflags="constructor">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="DisposeOf" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="InitInstance" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public" procflags="inline">
+          </methodref>
+          <methodref name="ClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassParent" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public" procflags="class overload">
+          </methodref>
+          <methodref name="MethodName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="QualifiedClassName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public" procflags="overload">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+          </methodref>
+          <methodref name="UnitName" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="UnitScope" visibility="public" procflags="class">
+          </methodref>
+          <methodref name="Equals" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="ToString" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Dispatch" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="NewInstance" visibility="public" procflags="class virtual">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+          </methodref>
+          <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+          </methodref>
+          <methodref name="GetDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+          </methodref>
+          <propertyref name="Disposed" visibility="protected">
+          </propertyref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <constructor name="Create" visibility="public" file="ZXing.ReadResult.pas" line="58">
+        <parameters>
+        </parameters>
+      </constructor>
+      <function name="CreateStringMetadata" visibility="public" procflags="class" file="ZXing.ReadResult.pas" line="59">
+        <parameters>
+          <parameter name="Value" type="string" paramflags="const" />
+          <retval type="IStringMetadata" />
+        </parameters>
+      </function>
+      <function name="CreateIntegerMetadata" visibility="public" procflags="class" file="ZXing.ReadResult.pas" line="60">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+          <retval type="IIntegerMetadata" />
+        </parameters>
+      </function>
+      <function name="CreateByteSegmentsMetadata" visibility="public" procflags="class" file="ZXing.ReadResult.pas" line="61">
+        <parameters>
+          <parameter name="Value" type="IByteSegments" paramflags="const" />
+          <retval type="IByteSegmentsMetadata" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+  <class name="TReadResult" file="ZXing.ReadResult.pas" line="64">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public" procflags="constructor">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="DisposeOf" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="InitInstance" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public" procflags="inline">
+      </methodref>
+      <methodref name="ClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassParent" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public" procflags="class overload">
+      </methodref>
+      <methodref name="MethodName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="QualifiedClassName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public" procflags="overload">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public" procflags="class inline">
+      </methodref>
+      <methodref name="UnitName" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="UnitScope" visibility="public" procflags="class">
+      </methodref>
+      <methodref name="Equals" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="ToString" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Dispatch" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="NewInstance" visibility="public" procflags="class virtual">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="Destroy" visibility="public" procflags="destructor virtual">
+      </methodref>
+      <methodref name="CPP_ABI_1" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_2" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="CPP_ABI_3" visibility="public" procflags="virtual">
+      </methodref>
+      <methodref name="GetDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <methodref name="CheckDisposed" visibility="protected" procflags="inline">
+      </methodref>
+      <propertyref name="Disposed" visibility="protected">
+      </propertyref>
+    </ancestor>
+    <members>
+      <field name="FText" type="string" visibility="private" size="4" offset="4" file="ZXing.ReadResult.pas" line="66" />
+      <field name="FTimeStamp" type="TDateTime" visibility="private" size="8" offset="8" file="ZXing.ReadResult.pas" line="67" />
+      <field name="FResultMetadata" type="TResultMetaData" visibility="private" size="4" offset="16" file="ZXing.ReadResult.pas" line="68" />
+      <field name="FRawBytes" type="TArray&lt;System.Byte&gt;" visibility="private" size="4" offset="20" file="ZXing.ReadResult.pas" line="69" />
+      <field name="FResultPoints" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" visibility="private" size="4" offset="24" file="ZXing.ReadResult.pas" line="70" />
+      <field name="FFormat" type="TBarcodeFormat" visibility="private" size="4" offset="28" file="ZXing.ReadResult.pas" line="71" />
+      <procedure name="SetText" visibility="private" file="ZXing.ReadResult.pas" line="73">
+        <parameters>
+          <parameter name="AValue" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetMetaData" visibility="private" file="ZXing.ReadResult.pas" line="74">
+        <parameters>
+          <parameter name="Value" type="TResultMetaData" paramflags="const" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public" file="ZXing.ReadResult.pas" line="83">
+        <devnotes>
+           <summary>
+           Initializes a new instance of the <see cref="T:ZXing.ReadResult.TReadResult"/> class.
+           </summary>
+           <param name="text">The text.</param>
+           <param name="rawBytes">The raw bytes.</param>
+           <param name="resultPoints">The result points.</param>
+           <param name="format">The format.</param>
+        </devnotes>
+        <parameters>
+          <parameter name="text" type="string" paramflags="const" />
+          <parameter name="rawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="resultPoints" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" paramflags="const" />
+          <parameter name="format" type="TBarcodeFormat" paramflags="const" />
+        </parameters>
+      </constructor>
+      <constructor name="Create" visibility="public" file="ZXing.ReadResult.pas" line="95">
+        <devnotes>
+           <summary>
+           Initializes a new instance of the <see cref="T:ZXing.ReadResult.TReadResult"/> class.
+           </summary>
+           <param name="text">The text.</param>
+           <param name="rawBytes">The raw bytes.</param>
+           <param name="resultPoints">The result points.</param>
+           <param name="format">The format.</param>
+           <param name="timeStamp">The timestamp.</param>
+        </devnotes>
+        <parameters>
+          <parameter name="text" type="string" paramflags="const" />
+          <parameter name="rawBytes" type="TArray&lt;System.Byte&gt;" paramflags="const" />
+          <parameter name="resultPoints" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" paramflags="const" />
+          <parameter name="format" type="TBarcodeFormat" paramflags="const" />
+          <parameter name="timeStamp" type="TDateTime" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public" file="ZXing.ReadResult.pas" line="98">
+        <parameters>
+        </parameters>
+      </destructor>
+      <function name="ToString" visibility="public" procflags="override" file="ZXing.ReadResult.pas" line="100">
+        <devnotes>
+           <summary>
+           Returns a <see cref="T:System.string"/> that represents this instance.
+           </summary>
+           <returns>
+           A <see cref="T:System.string"/> that represents this instance.
+           </returns>
+        </devnotes>
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <property name="ResultMetaData" visibility="public" read="FResultMetadata" write="SetMetaData" type="TResultMetaData" file="ZXing.ReadResult.pas" line="104" />
+      <procedure name="putMetadata" visibility="public" file="ZXing.ReadResult.pas" line="112">
+        <devnotes>
+<!-- Badly formed XML comment ignored for member 'putMetadata' -->
+        </devnotes>
+        <parameters>
+          <parameter name="ResultMetadataType" type="TResultMetadataType" paramflags="const" />
+          <parameter name="Value" type="IMetaData" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="putAllMetaData" visibility="public" file="ZXing.ReadResult.pas" line="119">
+        <devnotes>
+           <summary>
+           Adds a list of metadata to the result
+           </summary>
+           <param name="metaData">The metadata.</param>
+        </devnotes>
+        <parameters>
+          <parameter name="metaData" type="TResultMetaData" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="addResultPoints" visibility="public" file="ZXing.ReadResult.pas" line="125">
+        <devnotes>
+           <summary>
+           Adds the result points.
+           </summary>
+           <param name="newPoints">The new points.</param>
+        </devnotes>
+        <parameters>
+          <parameter name="newPoints" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="text" visibility="public" read="FText" write="SetText" type="string" default="0" file="ZXing.ReadResult.pas" line="128">
+        <devnotes>
+           <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
+        </devnotes>
+      </property>
+      <property name="rawBytes" visibility="public" read="FRawBytes" write="FRawBytes" type="TArray&lt;System.Byte&gt;" file="ZXing.ReadResult.pas" line="131">
+        <devnotes>
+           <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
+        </devnotes>
+      </property>
+      <property name="resultPoints" visibility="public" read="FResultPoints" write="FResultPoints" type="TArray&lt;ZXing.ResultPoint.IResultPoint&gt;" file="ZXing.ReadResult.pas" line="138">
+        <devnotes>
+           <returns>
+           points related to the barcode in the image. These are typically points
+           identifying finder patterns or the corners of the barcode. The exact meaning is
+           specific to the type of barcode that was decoded.
+           </returns>
+        </devnotes>
+      </property>
+      <property name="BarcodeFormat" visibility="public" read="FFormat" write="FFormat" type="TBarcodeFormat" file="ZXing.ReadResult.pas" line="142">
+        <devnotes>
+           <returns>{@link TBarcodeFormat} representing the format of the barcode that was decoded</returns>
+        </devnotes>
+      </property>
+      <property name="timeStamp" visibility="public" read="FTimeStamp" type="TDateTime" default="0" file="ZXing.ReadResult.pas" line="147">
+        <devnotes>
+           <summary>
+           Gets the timestamp.
+           </summary>
+        </devnotes>
+      </property>
+    </members>
+  </class>
+</namespace>

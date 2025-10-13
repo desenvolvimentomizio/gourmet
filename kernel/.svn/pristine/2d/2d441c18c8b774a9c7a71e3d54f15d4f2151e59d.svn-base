@@ -1,0 +1,1045 @@
+unit ufmdfe;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, MemDS, DBAccess, Uni, upegabase,
+  ACBrDFeReport, ACBrMDFeDAMDFeClass, ACBrMDFeDAMDFEFR, ACBrMail, ACBrBase,
+  ACBrDFe, ACBrMDFe, Vcl.ComCtrls, Vcl.ExtCtrls, ACBrValidador, Vcl.StdCtrls, pmdfeConversaoMDFe, pcnConversao,
+  ACBrDFeUtil, ufuncoes, midaslib;
+
+type
+  Tfmdfe = class(TForm)
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmensagempdv: TStringField;
+    cfgcfgtrmimpfis1: TIntegerField;
+    cfgcfgtrmimpfis2: TIntegerField;
+    cfgcfgtrmtef1: TIntegerField;
+    cfgcfgtrmtef2: TIntegerField;
+    cfgcfgimpnfe1: TIntegerField;
+    cfgcfgimpnfe2: TIntegerField;
+    cfgcfgimpnfc1: TIntegerField;
+    cfgcfgimpnfc2: TIntegerField;
+    cfgcfgimpnfc3: TIntegerField;
+    cfgcfgservarqnfes: TStringField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgsenhacertificado: TStringField;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgtoeusofora: TIntegerField;
+    cfgcfgtoeusointe: TIntegerField;
+    cfgcfgtoecuffora: TIntegerField;
+    cfgcfgtoecufinte: TIntegerField;
+    cfgcfgviasnfe: TIntegerField;
+    cfgcfgnumeronfe: TIntegerField;
+    cfgcfgserienfe: TStringField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgdescrinfe: TIntegerField;
+    cfgcfgemailnfe: TStringField;
+    cfgcfgemailservidornfe: TStringField;
+    cfgcfgemailsenhanfe: TStringField;
+    cfgcfgmailportnfe: TStringField;
+    cfgcfgemailusatls: TIntegerField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcstterceiros: TStringField;
+    cfgetdapelido: TStringField;
+    cfgetdidentificacao: TStringField;
+    cfgetddoc1: TStringField;
+    cfgufscodigo: TStringField;
+    cfgcddcodigo: TStringField;
+    cfgedrinscest: TStringField;
+    cfgedrrua: TStringField;
+    cfgedrnumero: TStringField;
+    cfgedrbairro: TStringField;
+    cfgedrcep: TStringField;
+    cfgcddnome: TStringField;
+    cfgufssigla: TStringField;
+    cfgetftelefone: TStringField;
+    cfgctdboxedominio: TStringField;
+    cfgcfgmodonfe: TIntegerField;
+    cfgcfgversao: TStringField;
+    cfgcfgcestativo: TIntegerField;
+    cfgcfgtextoemail: TStringField;
+    cfgcfgpercentualpis: TFloatField;
+    cfgcfgpercentualcofins: TFloatField;
+    cfgcfgtoenotacomplementar: TIntegerField;
+    cfgcfgtoesubstnoestado: TIntegerField;
+    cfgcfgtoesubstforaestado: TIntegerField;
+    cfgcfgusacstnoproduto: TIntegerField;
+    cfgcfgtoesubstanpnoestado: TIntegerField;
+    cfgcfgtoesubstanpforaestado: TIntegerField;
+    cfgcfgprevisualizarimpressaonfe: TIntegerField;
+    cfgcfgsubstitutotributario: TIntegerField;
+    cfgcfgdescontonoservico: TIntegerField;
+    cfgcfgdefinetoeatendimento: TIntegerField;
+    cfgcfgtoemesinte: TIntegerField;
+    cfgssncodigo: TIntegerField;
+    cfgcfgtoemesfora: TIntegerField;
+    cfgatvcodigo: TIntegerField;
+    ACBrManifesto: TACBrMDFe;
+    ACBrMail1: TACBrMail;
+    ACBrMDFeDAMDFEFR1: TACBrMDFeDAMDFEFR;
+    mes: TUniQuery;
+    mesmeschave: TIntegerField;
+    mestoecodigo: TIntegerField;
+    mesetdcodigo: TIntegerField;
+    mesmestotal: TFloatField;
+    mesrefcodigo: TIntegerField;
+    mestfpcodigo: TIntegerField;
+    mestdfcodigo: TStringField;
+    mesmesnumero: TIntegerField;
+    mesmesserie: TStringField;
+    mesedritem: TIntegerField;
+    mesmesdatanfe: TDateField;
+    mesmescoocupom: TIntegerField;
+    mesmesdatacupom: TDateField;
+    mesmesregistro: TDateField;
+    mesmesoutras: TFloatField;
+    mesflacodigo: TIntegerField;
+    mestemcodigo: TIntegerField;
+    mesmesbicms: TFloatField;
+    mesmesicms: TFloatField;
+    mesmesfrete: TCurrencyField;
+    mesmesdesconto: TFloatField;
+    mesttocodigo: TIntegerField;
+    mesmesnumeropedido: TStringField;
+    mesmeshoranfe: TTimeField;
+    mesmesretirabalcao: TIntegerField;
+    etd: TUniQuery;
+    etdetddoc1: TStringField;
+    etdedrcep: TStringField;
+    etdedrrua: TStringField;
+    etdedrnumero: TStringField;
+    etdedrbairro: TStringField;
+    etdcddcodigo: TStringField;
+    etdcddnome: TStringField;
+    etdufssigla: TStringField;
+    etdetftelefone: TStringField;
+    etdtpecodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    etdedrinscest: TStringField;
+    etdetdnfemodelos: TStringField;
+    etdedrnomefazenda: TStringField;
+    etdedrrazaofazenda: TStringField;
+    etdufscodigo: TStringField;
+    etdtcbcodigo: TIntegerField;
+    cfgeteemail: TStringField;
+    cfgcfgseriemdfe: TStringField;
+    cfgcfgnumeromdfe: TIntegerField;
+    plStatusSefaz: TPanel;
+    mostra: TProgressBar;
+    ACBrValidador: TACBrValidador;
+    PlTitulo: TPanel;
+    Panel1: TPanel;
+    info: TMemo;
+    consulta: TUniQuery;
+    NumeroMDFe: TUniQuery;
+    mesmeschavenfe: TStringField;
+    mae: TUniQuery;
+    maemaenomemotorista: TStringField;
+    maemaecpfmotorista: TStringField;
+    maemaeplacaveiculo: TStringField;
+    maemaeufveiculo: TStringField;
+    maemaerenavanveiculo: TStringField;
+    maemaequantidadeemquilos: TFloatField;
+    maemaechavexml: TStringField;
+    maemaechave: TIntegerField;
+    maemaeregistro: TDateField;
+    maemaearquivoxml: TBlobField;
+    maemaenumero: TIntegerField;
+    maemaeuf01: TStringField;
+    maemaeuf02: TStringField;
+    maemaeuf03: TStringField;
+    maemaeuf04: TStringField;
+    maemaeuf05: TStringField;
+    maemaeuf06: TStringField;
+    maemaeuf07: TStringField;
+    maemaeuf08: TStringField;
+    maemaeuf09: TStringField;
+    maemaeuf10: TStringField;
+    maemeschavenfe1: TStringField;
+    maemeschavenfe2: TStringField;
+    maemeschavenfe3: TStringField;
+    maemeschavenfe4: TStringField;
+    maemeschavenfe5: TStringField;
+    maemeschavenfe6: TStringField;
+    maemeschavenfe7: TStringField;
+  private
+    { Private declarations }
+    Acesso: TAcesso;
+    Fzcone: tuniconnection;
+    procedure AlimentarMDFe(NumDFe: String);
+    procedure AjustaCaminhoGeralNF(Data: TDate);
+    function LerConfiguracaoDAV: Boolean;
+    procedure InicializaTabelas;
+    function GeraNomeArqMDFe(vMesChave: string; vFlaCodigo: String = '1'): string;
+    function Emitemdfe(vMesChave: string; vImprimir: Boolean; vFlaCodigo: string): Boolean;
+    function ImprimeMDFe(vchave: String; vFlaCodigo: string): string;
+    function CancelaMDFe(vchave: String; vFlaCodigo: string): string;
+    procedure mCancelarMDFe;
+    procedure mEncerrarMDFe;
+    function EncerraMDFe(vchave, vFlaCodigo: string): string;
+  public
+    { Public declarations }
+    vpArquivoNFe: string;
+    vpTrmCodigo: String;
+    vpClbCodigo: String;
+    vpFlacodigo: String;
+    vpConsultouSEFAZ: Boolean;
+    vpConsultaVisivel: Boolean;
+    vpWSNormal: Boolean;
+    vpMesChave: string;
+    vpAAAAMMNNMDFe: STRING;
+
+    vpPastaPrincipal: string;
+    vpSubPastaDoc: string;
+    vpDataAtual: tdatetime;
+    vpNomeArquivoMDFe: string;
+    vpRotina: string;
+
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+  end;
+
+var
+  fmdfe: Tfmdfe;
+
+implementation
+
+{$R *.dfm}
+
+function moduloMDFes(AOwner: TComponent; conexao: tuniconnection; vMesChave: string; vNomeRotina: string; Acesso: TAcesso; vImprimir: Boolean; vConsultouSefaz: Boolean;
+  vemail: string): Boolean;
+begin
+  try
+    fmdfe := Tfmdfe.Create(AOwner);
+
+    fmdfe.zcone := conexao;
+    fmdfe.Acesso := Acesso;
+    fmdfe.mae.Connection := fmdfe.zcone;
+
+    fmdfe.vpTrmCodigo := Acesso.Terminal.ToString;
+    fmdfe.vpClbCodigo := Acesso.Usuario.ToString;
+    fmdfe.vpFlacodigo := Acesso.Filial.ToString;
+
+    fmdfe.vpRotina := vNomeRotina;
+    (*
+      * Variável que identifica se já foi feita primeira consulta do Status da SEFAZ
+      * para reverter o problemas dos certificados digitais de cartão
+    *)
+    fmdfe.vpConsultouSEFAZ := vConsultouSefaz;
+
+    if fmdfe.vpConsultouSEFAZ then
+    begin
+      fmdfe.plStatusSefaz.Caption := 'SEFAZ on-line';
+      application.ProcessMessages;
+    end
+    else
+    begin
+      fmdfe.plStatusSefaz.Caption := 'SEFAZ sem acesso';
+      application.ProcessMessages;
+    end;
+
+    fmdfe.InicializaTabelas;
+
+    (* Ajusta pasta Principal de salvamento dos arquivos. *)
+    if fmdfe.cfgcfgservarqnfes.AsString = '' then
+      fmdfe.vpPastaPrincipal := ExtractFilePath(application.ExeName)
+    else
+      fmdfe.vpPastaPrincipal := fmdfe.cfgcfgservarqnfes.AsString;
+
+    if Copy(fmdfe.vpPastaPrincipal, Length(fmdfe.vpPastaPrincipal), 1) <> '\' then
+      fmdfe.vpPastaPrincipal := fmdfe.vpPastaPrincipal + '\';
+
+    fmdfe.vpSubPastaDoc := 'arqmdfes';
+
+    (* Ajusta as configurações do Componente *)
+    if not fmdfe.LerConfiguracaoDAV then
+    begin
+      showmessage('Verifique as configurações para emissão de NFCe');
+      Exit;
+    end;
+
+    if fmdfe.cfgcfgservarqnfes.AsString = '' then
+    begin
+      fmdfe.vpPastaPrincipal := ExtractFilePath(application.ExeName);
+    end
+    else
+    begin
+      fmdfe.vpPastaPrincipal := fmdfe.cfgcfgservarqnfes.AsString;
+    end;
+
+    (* Atribui a variável a data atual do servidor *)
+
+
+
+
+    // fnfce.vpDataAtual := strtodatetime(agora(application, fnfce.zcone));
+
+    fmdfe.vpConsultaVisivel := False;
+
+    // fnfce.ConsultaServicoSEFAZNFCE;
+
+    fmdfe.vpDataAtual := now(); // fnfce.vpDataHoraSEFAZ;
+
+    fmdfe.AjustaCaminhoGeralNF(fmdfe.vpDataAtual);
+
+    (* Identifica se Contingência está Ativa *)
+
+    fmdfe.vpWSNormal := True;
+
+    if (vMesChave <> '0') and (vMesChave <> '') then
+      fmdfe.vpNomeArquivoMDFe := fmdfe.GeraNomeArqMDFe(vMesChave, fmdfe.vpFlacodigo);
+
+    fmdfe.vpMesChave := vMesChave;
+
+    if fmdfe.vpRotina = 'EmiteMDFe' then
+    begin
+      Result := fmdfe.Emitemdfe(vMesChave, vImprimir, fmdfe.vpFlacodigo);
+    end
+    else if fmdfe.vpRotina = 'ImprimeMDFe' then
+    begin
+      fmdfe.ImprimeMDFe(vMesChave, fmdfe.vpFlacodigo);
+    end
+    else if fmdfe.vpRotina = 'CancelaMDFe' then
+    begin
+      fmdfe.CancelaMDFe(vMesChave, fmdfe.vpFlacodigo);
+    end
+    else if fmdfe.vpRotina = 'EncerraMDFe' then
+    begin
+      fmdfe.EncerraMDFe(vMesChave, fmdfe.vpFlacodigo);
+    end;
+
+  finally
+
+    System.Classes.UnRegisterClass(TACBrValidador);
+
+    System.Classes.UnRegisterClass(TACBrMDFe);
+    System.Classes.UnRegisterClass(TMemo);
+
+    FreeAndNil(fmdfe);
+  end;
+end;
+
+exports moduloMDFes;
+
+Procedure Tfmdfe.mEncerrarMDFe;
+Var
+  vProtocoloCanc: String;
+  vJustificativaCanc: String;
+  vTamCorrecao: Integer;
+  vCStat: Integer;
+  vXMotivo: String;
+  vnArqNfe: String;
+  vnArqEve: String;
+  vAssunto: string;
+  vTexto: string;
+  vArqEvento: String;
+  vChaveEvento: String;
+  vErro: string;
+  vMsgRetorno: string;
+Begin
+
+  If not FileExists(vpArquivoNFe) Then
+  begin
+    application.MessageBox(PChar('O Arquivo ' + vpArquivoNFe + ' não foi localizado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  if not FileExists(vpArquivoNFe) then
+  begin
+    application.MessageBox(PChar('Arquivo não localizado.' + #13 + 'Mensagem: ' + vErro), PChar(vpArquivoNFe), MB_OK + MB_ICONERROR);
+
+  end
+  else
+  begin
+
+    LerConfiguracaoDAV;
+
+    ACBrManifesto.Manifestos.Clear;
+    ACBrManifesto.Manifestos.LoadFromFile(vpArquivoNFe);
+
+    AjustaCaminhoGeralNF(ACBrManifesto.Manifestos[0].mdfe.Ide.dhEmi);
+
+    ACBrManifesto.Configuracoes.WebServices.Visualizar := False;
+
+    ACBrManifesto.EventoMDFe.Evento.Clear;
+    ACBrManifesto.EventoMDFe.idLote := 0;
+
+    with ACBrManifesto.EventoMDFe.Evento.new do
+    begin
+
+      infEvento.chMDFe := maemaechavexml.AsString;
+
+      infEvento.detEvento.nProt := ACBrManifesto.Manifestos[0].mdfe.procMDFe.nProt;
+      infEvento.detEvento.descEvento := 'Encerramento';
+      infEvento.detEvento.dtEnc := now();
+      infEvento.detEvento.cuf := 51;
+
+      infEvento.detEvento.cMun := cfgcddcodigo.AsInteger;
+
+      infEvento.CNPJCPF := sonumeros(cfgetddoc1.AsString);
+
+      infEvento.dhEvento := vpDataAtual;
+      infEvento.tpEvento := teEncerramento;
+
+
+      // infEvento.nSeqEvento := 1;
+
+    end;
+
+    // Try
+    ACBrManifesto.EventoMDFe.GerarXML;
+    ACBrManifesto.EnviarEvento(0);
+
+    vCStat := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.CStat;
+    vXMotivo := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
+    vProtocoloCanc := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+
+    if (vCStat = 135) or (vCStat = 136) then
+    begin
+
+      vChaveEvento := Copy(ACBrManifesto.EventoMDFe.Evento.Items[0].infEvento.ID, 3, 52);
+
+      vArqEvento := ACBrManifesto.Configuracoes.Arquivos.PathSalvar;
+      vArqEvento := vArqEvento + '\' + vChaveEvento;
+      vArqEvento := vArqEvento + '-procEventoNFe.xml';
+
+      showmessage('Encerramento efetuado com sucesso!');
+    end
+    else
+      application.MessageBox(PChar('Evento de NF-e não autorizado.' + #13 + #13 + 'Mensagem: ' + #13 + vXMotivo), 'Erro Envio Evento NF-e', MB_OK + MB_ICONERROR);
+
+  end;
+
+End;
+
+Procedure Tfmdfe.mCancelarMDFe;
+Var
+  vProtocoloCanc: String;
+  vJustificativaCanc: String;
+  vTamCorrecao: Integer;
+  vCStat: Integer;
+  vXMotivo: String;
+  vnArqNfe: String;
+  vnArqEve: String;
+  vAssunto: string;
+  vTexto: string;
+  vArqEvento: String;
+  vChaveEvento: String;
+  vErro: string;
+  vMsgRetorno: string;
+Begin
+
+  If not FileExists(vpArquivoNFe) Then
+  begin
+    application.MessageBox(PChar('O Arquivo ' + vpArquivoNFe + ' não foi localizado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  repeat
+    if not(InputQuery('Cancelamento da MDF-e', 'Justificativa do cancelamento.' + #13 + 'Contendo de 15 a 1000 caracteres.', vJustificativaCanc)) then
+      Exit;
+
+    vTamCorrecao := Length(vJustificativaCanc);
+
+    if vTamCorrecao < 15 then
+      showmessage('Justificativa deve ter no mínimo 15 caracteres!');
+  until (vTamCorrecao >= 15);
+
+  If vJustificativaCanc = '' Then
+  Begin
+    application.MessageBox(PChar('É necessário uma jutificativa para cancelamento da MDFe!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  End;
+
+  if not FileExists(vpArquivoNFe) then
+  begin
+    application.MessageBox(PChar('Arquivo não localizado.' + #13 + 'Mensagem: ' + vErro), PChar(vpArquivoNFe), MB_OK + MB_ICONERROR);
+
+  end
+  else
+  begin
+
+    LerConfiguracaoDAV;
+
+    ACBrManifesto.Manifestos.Clear;
+    ACBrManifesto.Manifestos.LoadFromFile(vpArquivoNFe);
+
+    AjustaCaminhoGeralNF(ACBrManifesto.Manifestos[0].mdfe.Ide.dhEmi);
+
+    ACBrManifesto.Configuracoes.WebServices.Visualizar := False;
+
+    ACBrManifesto.EventoMDFe.Evento.Clear;
+    ACBrManifesto.EventoMDFe.idLote := 0;
+
+    with ACBrManifesto.EventoMDFe.Evento.new do
+    begin
+
+      infEvento.chMDFe := maemaechavexml.AsString;
+
+      infEvento.detEvento.nProt := ACBrManifesto.Manifestos[0].mdfe.procMDFe.nProt;
+      infEvento.detEvento.xJust := vJustificativaCanc;
+      infEvento.detEvento.descEvento := 'Cancelamento';
+      infEvento.CNPJCPF := sonumeros(cfgetddoc1.AsString);
+
+      vJustificativaCanc := StringReplace(vJustificativaCanc, #$D#$A, '', [rfIgnoreCase, rfReplaceAll]);
+      vJustificativaCanc := StringReplace(vJustificativaCanc, #$D, '', [rfIgnoreCase, rfReplaceAll]);
+
+      infEvento.dhEvento := vpDataAtual;
+      infEvento.tpEvento := teCancelamento;
+
+      // infEvento.versaoEvento := '1.00';
+
+      infEvento.nSeqEvento := 1;
+
+    end;
+
+    // Try
+    ACBrManifesto.EventoMDFe.GerarXML;
+    ACBrManifesto.EnviarEvento(0);
+
+    vCStat := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.CStat;
+    vXMotivo := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
+    vProtocoloCanc := ACBrManifesto.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+
+    if (vCStat = 135) or (vCStat = 136) then
+    begin
+
+      vChaveEvento := Copy(ACBrManifesto.EventoMDFe.Evento.Items[0].infEvento.ID, 3, 52);
+
+      vArqEvento := ACBrManifesto.Configuracoes.Arquivos.PathSalvar;
+      vArqEvento := vArqEvento + '\' + vChaveEvento;
+      vArqEvento := vArqEvento + '-procEventoNFe.xml';
+
+      showmessage('Cancelamento efetuado com sucesso!');
+    end
+    else
+      application.MessageBox(PChar('Evento de NF-e não autorizado.' + #13 + #13 + 'Mensagem: ' + #13 + vXMotivo), 'Erro Envio Evento NF-e', MB_OK + MB_ICONERROR);
+
+  end;
+
+End;
+
+function Tfmdfe.EncerraMDFe(vchave: String; vFlaCodigo: string): string;
+var
+  vlnomearq: string;
+begin
+
+  LerConfiguracaoDAV;
+
+  mes.Close;
+  mes.Params[0].AsString := vchave;
+  mes.Params[1].AsString := vFlaCodigo;
+  mes.Open;
+
+  mae.Close;
+  mae.ParamByName('meschavenfe').AsString := mesmeschavenfe.AsString;
+  mae.Open;
+
+  if not mae.IsEmpty then
+  begin
+
+    vlnomearq := ACBrManifesto.Configuracoes.Arquivos.PathSalvar + '\MDFe' + maemaechavexml.AsString + '.xml';
+
+    if not FileExists(vlnomearq) then
+    begin
+      maemaearquivoxml.SaveToFile(vlnomearq);
+    end;
+
+    vpArquivoNFe := vlnomearq;
+
+    mEncerrarMDFe;
+
+  end;
+end;
+
+function Tfmdfe.CancelaMDFe(vchave: String; vFlaCodigo: string): string;
+var
+  vlnomearq: string;
+begin
+
+  LerConfiguracaoDAV;
+
+  mes.Close;
+  mes.Params[0].AsString := vchave;
+  mes.Params[1].AsString := vFlaCodigo;
+  mes.Open;
+
+  mae.Close;
+  mae.ParamByName('meschavenfe').AsString := mesmeschavenfe.AsString;
+  mae.Open;
+
+  if not mae.IsEmpty then
+  begin
+
+    vlnomearq := ACBrManifesto.Configuracoes.Arquivos.PathSalvar + '\MDFe' + maemaechavexml.AsString + '.xml';
+
+    if not FileExists(vlnomearq) then
+    begin
+      maemaearquivoxml.SaveToFile(vlnomearq);
+    end;
+
+    vpArquivoNFe := vlnomearq;
+
+    mCancelarMDFe;
+
+  end;
+end;
+
+function Tfmdfe.ImprimeMDFe(vchave: String; vFlaCodigo: string): string;
+var
+  vlnomearq: string;
+begin
+
+  LerConfiguracaoDAV;
+
+  mes.Close;
+  mes.Params[0].AsString := vchave;
+  mes.Params[1].AsString := vFlaCodigo;
+  mes.Open;
+
+  mae.Close;
+  mae.ParamByName('meschavenfe').AsString := mesmeschavenfe.AsString;
+  mae.Open;
+
+  if not mae.IsEmpty then
+  begin
+
+    vlnomearq := ACBrManifesto.Configuracoes.Arquivos.PathSalvar + '\MDFe' + maemaechavexml.AsString + '.xml';
+
+    if not FileExists(vlnomearq) then
+    begin
+      maemaearquivoxml.SaveToFile(vlnomearq);
+    end;
+    ACBrManifesto.Manifestos.Clear;
+    ACBrManifesto.Manifestos.LoadFromFile(vlnomearq);
+    ACBrManifesto.Manifestos.Imprimir;
+
+  end;
+end;
+
+function Tfmdfe.GeraNomeArqMDFe(vMesChave: string; vFlaCodigo: String = '1'): string;
+var
+
+  vData: Double;
+  vlCNPJ: String;
+  vlNrMDFe, vlNrSer: Integer;
+  vlUfCod: string;
+  vlArqMDFe: string;
+begin
+  vlNrMDFe := 0;
+
+  try
+    mes.Close;
+    mes.Params[0].AsString := vMesChave;
+    mes.Params[1].AsString := vFlaCodigo;
+    mes.Open;
+
+    if mesmesnumero.AsInteger = 0 then
+      Exit;
+
+    if mesmesdatanfe.AsFloat = 0 then
+      vData := mesmesregistro.AsFloat
+    else
+      vData := mesmesdatanfe.AsFloat;
+
+    (* Tenta encontrar arquivo da NFCe com geração NORMAL *)
+    vlCNPJ := SomenteNumeros(Self.cfgetddoc1.AsString);
+    vlUfCod := Copy(Self.cfgcddcodigo.AsString, 1, 2);
+
+    vlNrMDFe := cfgcfgnumeromdfe.AsInteger;
+
+    vlCNPJ := SomenteNumeros(vlCNPJ);
+
+    // nome da nota com emissao normal
+    vlArqMDFe := Copy(vlUfCod, 1, 2);
+    vlArqMDFe := vlArqMDFe + FormatDateTime('yymm', vData);
+    vlArqMDFe := vlArqMDFe + vlCNPJ;
+    vlArqMDFe := vlArqMDFe + '65';
+    vlArqMDFe := vlArqMDFe + FormatFloat('000', vlNrSer);
+    vlArqMDFe := vlArqMDFe + FormatFloat('000000000', vlNrMDFe);
+    vlArqMDFe := vlArqMDFe + '1';
+    vlArqMDFe := vlArqMDFe + FormatFloat('00000000', vlNrMDFe);
+    vlArqMDFe := vlArqMDFe + Modulo11(Trim(vlArqMDFe));
+    vlArqMDFe := vlArqMDFe + '-mdfe.xml';
+
+    vlArqMDFe := vpPastaPrincipal + vpSubPastaDoc + '\' + FormatDateTime('yyyymm', vData) + '\' + vlArqMDFe;
+
+  finally
+    Result := vlArqMDFe;
+  end;
+end;
+
+procedure Tfmdfe.InicializaTabelas;
+begin
+  try
+    try
+
+      consulta.Connection := fmdfe.zcone;
+
+      mes.Connection := fmdfe.zcone;
+      etd.Connection := fmdfe.zcone;
+      cfg.Connection := fmdfe.zcone;
+      mae.Connection := fmdfe.zcone;
+
+      cfg.Close;
+      cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+      cfg.Open;
+
+    except
+      on e: EAccessViolation do
+      begin
+        MessageDlg('Houve uma violação de acesso, com a mensagem' + e.Message, MtError, [MbOk], 0);
+      end;
+    end;
+
+  finally
+
+  end;
+end;
+
+function Tfmdfe.LerConfiguracaoDAV: Boolean;
+Begin
+  // try
+  Result := True;
+
+  ACBrManifesto.Configuracoes.WebServices.Visualizar := False;
+  ACBrManifesto.Configuracoes.Arquivos.PathSchemas := ExtractFilePath(application.ExeName) + 'schemas';
+  ACBrManifesto.Configuracoes.Arquivos.IniServicos := ExtractFilePath(application.ExeName) + 'schemas\ACBrMDFeServicos.ini';
+
+  ACBrManifesto.Configuracoes.Geral.VersaoDF := ve300;
+
+  ACBrManifesto.Configuracoes.Certificados.NumeroSerie := Self.cfgcfgnumecertif.AsString;
+
+  if Length(cfgcfgsenhacertificado.AsString) > 0 then
+    ACBrManifesto.Configuracoes.Certificados.Senha := cfgcfgsenhacertificado.AsString;
+
+  ACBrManifesto.Configuracoes.Geral.FormaEmissao := teNormal;
+  ACBrManifesto.Configuracoes.Geral.Salvar := True;
+
+  ACBrManifesto.Configuracoes.WebServices.UF := UpperCase(Self.cfgufssigla.AsString);
+
+  if cfgcfgmodonfe.AsInteger = 2 then
+    ACBrManifesto.Configuracoes.WebServices.Ambiente := taHomologacao;
+
+  if cfgcfgmodonfe.AsInteger = 1 then
+    ACBrManifesto.Configuracoes.WebServices.Ambiente := taProducao;
+
+  ACBrManifesto.DAMDFE.TipoDAMDFe := tiSimplificado;
+
+  ACBrMDFeDAMDFEFR1.FastFile := vpPastaPrincipal + 'Report\DAMDFe_Retrato.fr3';
+  ACBrMDFeDAMDFEFR1.FastFileEvento := vpPastaPrincipal + 'Report\EVENTOS.fr3';
+
+  ACBrMDFeDAMDFEFR1.PathPDF := vpPastaPrincipal + 'pdfs\NFe';
+  ACBrMDFeDAMDFEFR1.Sistema := 'Pegasus Sistemas';
+
+  If FileExists(ExtractFilePath(application.ExeName) + 'logonfce.jpg') Then
+    ACBrMDFeDAMDFEFR1.Logo := ExtractFilePath(application.ExeName) + 'logonfce.jpg';
+
+
+
+
+  // except
+  // Result := False;
+  // end;
+
+End;
+
+procedure Tfmdfe.AjustaCaminhoGeralNF(Data: TDate);
+begin
+  // verifca se os diretorios existem se nao ja cria os mesmos
+
+  if not DirectoryExists(vpPastaPrincipal + 'pdfs') then
+    ForceDirectories(vpPastaPrincipal + 'pdfs');
+
+  if not DirectoryExists(vpPastaPrincipal) then
+    ForceDirectories(vpPastaPrincipal);
+
+  vpAAAAMMNNMDFe := vpPastaPrincipal + vpSubPastaDoc + '\' + FormatDateTime('yyyymm', Data) + '\';
+
+  if not DirectoryExists(vpAAAAMMNNMDFe) then
+    ForceDirectories(vpAAAAMMNNMDFe);
+
+  ACBrManifesto.Configuracoes.Arquivos.PathSalvar := vpAAAAMMNNMDFe;
+  ACBrMDFeDAMDFEFR1.PathPDF := vpPastaPrincipal + 'pdfs\';
+end;
+
+function Tfmdfe.Emitemdfe(vMesChave: string; vImprimir: Boolean; vFlaCodigo: string): Boolean;
+var
+  vlNumeroMDFe: Integer;
+begin
+
+  mes.Close;
+  mes.ParamByName('meschave').AsString := vMesChave;
+  mes.ParamByName('flacodigo').AsString := vFlaCodigo;
+  mes.Open;
+
+  etd.Close;
+  etd.ParamByName('etdcodigo').AsInteger := mesetdcodigo.AsInteger;
+  etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
+  etd.Open;
+
+  if not mes.IsEmpty then
+  begin
+    NumeroMDFe.Close;
+    NumeroMDFe.Connection := zcone;
+    NumeroMDFe.ParamByName('flacodigo').AsString := vFlaCodigo;
+    NumeroMDFe.ExecSQL;
+
+    vlNumeroMDFe := NumeroMDFe.Fields[0].AsInteger;
+
+    AlimentarMDFe(vlNumeroMDFe.ToString);
+  end;
+
+end;
+
+procedure Tfmdfe.AlimentarMDFe(NumDFe: String);
+var
+  vlnomearq: string;
+  q: Integer;
+begin
+
+  mae.Close;
+  mae.ParamByName('meschavenfe').AsString := mesmeschavenfe.AsString;
+  mae.Open;
+
+  if not mae.IsEmpty then
+  begin
+
+    with ACBrManifesto.Manifestos.Add.mdfe do
+    begin
+      //
+      // Dados de Identificação do MDF-e
+      //
+      Ide.cuf := cfgufscodigo.AsInteger;
+
+      // TpcnTipoAmbiente = (taProducao, taHomologacao);
+
+      if cfgcfgmodonfe.AsInteger = 2 then
+        Ide.tpAmb := taHomologacao;
+
+      if cfgcfgmodonfe.AsInteger = 1 then
+        Ide.tpAmb := taProducao;
+
+      // TMDFeTpEmitente = ( teTransportadora, teTranspCargaPropria );
+      Ide.tpEmit := teTranspCargaPropria;
+      Ide.modelo := '58';
+      Ide.serie := cfgcfgseriemdfe.AsInteger;
+      Ide.nMDF := StrToIntDef(NumDFe, 0);
+      Ide.cMDF := GerarCodigoDFe(Ide.nMDF);
+      // TMDFeModal = ( moRodoviario, moAereo, moAquaviario, moFerroviario );
+      Ide.modal := moRodoviario;
+      Ide.dhEmi := now;
+      // TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
+      Ide.tpEmis := teNormal;
+      // TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
+      Ide.procEmi := peAplicativoContribuinte;
+      Ide.verProc := '20.25.2.8';
+
+      Ide.UFIni := cfgufssigla.AsString;
+
+      Ide.UFFim := etdufssigla.AsString;
+
+      { Dados do Percurso }
+      if maemaeuf01.AsString <> '' then
+      begin
+
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := maemaeuf01.AsString;
+        end;
+      end;
+
+      if (maemaeuf01.AsString <> '') and (maemaeuf02.AsString <> '') then
+      begin
+
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := maemaeuf02.AsString;
+        end;
+      end;
+
+      with Ide.infMunCarrega.new do
+      begin
+        cMunCarrega := cfgcddcodigo.AsInteger;
+        xMunCarrega := cfgcddnome.AsString;
+      end;
+
+      //
+      // Dados do Emitente
+      //
+      Emit.CNPJCPF := sonumeros(cfgetddoc1.AsString);
+      Emit.IE := sonumeros(cfgedrinscest.AsString);
+      Emit.xNome := cfgetdidentificacao.AsString;
+      Emit.xFant := cfgetdapelido.AsString;
+
+      Emit.EnderEmit.xLgr := cfgedrrua.AsString;
+      Emit.EnderEmit.nro := cfgedrnumero.AsString;
+      Emit.EnderEmit.xCpl := '';
+      Emit.EnderEmit.xBairro := cfgedrbairro.AsString;
+      Emit.EnderEmit.cMun := cfgcddcodigo.AsInteger;
+      Emit.EnderEmit.xMun := cfgcddnome.AsString;
+      Emit.EnderEmit.CEP := StrToIntDef(cfgedrcep.AsString, 0);
+      Emit.EnderEmit.UF := cfgufssigla.AsString;
+      Emit.EnderEmit.fone := cfgetftelefone.AsString;
+      Emit.EnderEmit.email := cfgeteemail.AsString;
+
+      rodo.veicTracao.cInt := '001';
+      rodo.veicTracao.placa := maemaeplacaveiculo.AsString;
+      rodo.veicTracao.RENAVAM := maemaerenavanveiculo.AsString;
+      // rodo.veicTracao.tara    := 5000;
+      // rodo.veicTracao.capKG   := 4500;
+      // rodo.veicTracao.capM3   := 400;
+
+      // TpcteTipoRodado = (trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros);
+      // Para o MDF-e não utilizar o trNaoAplicavel.
+      rodo.veicTracao.tpRod := trOutros;
+
+      // TpcteTipoCarroceria = (tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider);
+      rodo.veicTracao.tpCar := tcFechada;
+
+      rodo.veicTracao.UF := maemaeufveiculo.AsString; // .edtEmitUF.Text;
+
+      with rodo.veicTracao.condutor.new do
+      begin
+        xNome := maemaenomemotorista.AsString; // edNomeTransportador.Text;
+        CPF := maemaecpfmotorista.AsString; // EdDocumentoTransportador.Text;
+      end;
+
+      { with rodo.veicReboque.New do
+        begin
+        cInt    := '';
+        placa   := '';
+        RENAVAM := '';
+        tara    := 0;
+        capKG   := 0;
+        capM3   := 0;
+
+        // TpcteTipoCarroceria = (tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider);
+        tpCar := tcFechada;
+
+        UF := edtEmitUF.Text;
+        end; }
+
+
+
+      with infDoc.infMunDescarga.new do
+      begin
+        cMunDescarga := etdcddcodigo.AsInteger;
+        xMunDescarga := etdcddnome.AsString;
+        q := 1;
+
+
+
+        with infNFe.new do
+        begin
+          chNFe := mesmeschavenfe.AsString;
+        end;
+
+        if maemeschavenfe1.AsString <> '' then
+        begin
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe1.AsString;
+          end;
+        end;
+
+        if maemeschavenfe2.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe2.AsString;
+          end;
+        end;
+
+        if maemeschavenfe3.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe3.AsString;
+          end;
+        end;
+
+        if maemeschavenfe4.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe4.AsString;
+          end;
+        end;
+
+        if maemeschavenfe5.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe5.AsString;
+          end;
+        end;
+
+        if maemeschavenfe6.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe6.AsString;
+          end;
+        end;
+
+        if maemeschavenfe7.AsString <> '' then
+        begin
+
+          with infNFe.new do
+          begin
+            q := q + 1;
+            chNFe := maemeschavenfe7.AsString;
+          end;
+
+        end;
+
+      end;
+
+      tot.qNFe := q;
+
+      tot.cUnid := uKG;
+      tot.qCarga := maemaequantidadeemquilos.AsFloat;
+
+    end;
+
+    ACBrManifesto.Manifestos.GerarMDFe;
+    vlnomearq := ACBrManifesto.Manifestos.Items[0].mdfe.infMDFe.ID;
+    ACBrManifesto.Manifestos.Items[0].NomeArq := vlnomearq + '.xml';
+    ACBrManifesto.Manifestos.Assinar;
+    ACBrManifesto.Enviar(0);
+
+
+    // ACBrManifesto.Manifestos.Items[0].GravarXML();
+
+    ACBrManifesto.Manifestos.Items[0].Imprimir;
+    // ACBrManifesto.Manifestos.Items[0].ImprimirPDF;
+
+    mae.Edit;
+    maemaechavexml.AsString := Copy(ACBrManifesto.Manifestos.Items[0].mdfe.infMDFe.ID, 5, 200);
+    maemaeregistro.AsString := hoje(application, zcone);
+    maemaearquivoxml.LoadFromFile(ACBrManifesto.Configuracoes.Arquivos.PathSalvar + ACBrManifesto.Manifestos.Items[0].NomeArq);;
+    maemaenumero.AsString := NumDFe;
+    mae.Post;
+  end;
+end;
+
+end.

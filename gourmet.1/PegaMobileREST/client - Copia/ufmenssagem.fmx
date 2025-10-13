@@ -1,0 +1,33 @@
+object fmenssagem: Tfmenssagem
+  Left = 0
+  Top = 0
+  BorderStyle = None
+  Caption = 'Form3'
+  ClientHeight = 106
+  ClientWidth = 449
+  Position = ScreenCenter
+  Transparency = True
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object rrMensagem: TRoundRect
+    Align = Client
+    Fill.Color = xFF125C10
+    Size.Width = 449.000000000000000000
+    Size.Height = 106.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = claNull
+    object lbmenssagem: TLabel
+      Align = Client
+      StyledSettings = []
+      Size.Width = 449.000000000000000000
+      Size.Height = 106.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      TabOrder = 0
+    end
+  end
+end

@@ -1,0 +1,104 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,system.Net.HttpClient,system.JSON;
+
+type
+  TForm1 = class(TForm)
+    Memo1: TMemo;
+    Button1: TButton;
+    cboPagamento: TComboBox;
+    edtValor: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure Button1Click(Sender: TObject);
+  private
+    function valor(pValor: string): string;
+
+  public
+
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+uses
+  System.Net.URLClient;
+
+{$R *.dfm}
+
+function TForm1.valor(pValor: string): string;
+begin
+  pValor := StringReplace(pValor, ',', '.', [rfReplaceAll]);
+  Result := StringReplace(pValor, '.', '' , [rfReplaceAll]);
+end;
+procedure TForm1.Button1Click(Sender: TObject);
+var
+httpClient    : THTTPClient;
+requestStream : TStringStream;
+Response      : IHTTPResponse;
+Parcelas      : string;
+ValorPagoStr  : string;
+xValTransacao : integer;
+obj,objR           : TJSONObject;
+JSONObj, InnerObj: TJSONObject;
+  JSONValue: TJSONValue;
+  jsonString: string;
+begin
+         httpClient                    := THTTPClient.Create;
+         HttpClient.ContentType        := 'application/json';
+         HttpClient.Accept             := '/';
+         HttpClient.SendTimeout        := 120000;
+         HttpClient.FResponseTimeout   := 120000;
+         HttpClient.FConnectionTimeout := 120000;
+         requestStream                 := TStringStream.Create;
+
+         if cboPagamento.ItemIndex = 1 then
+          Parcelas := '2'
+         else
+          Parcelas := '1';
+
+
+         Response                      := httpClient.post('http://192.168.1.47:9911/Pagamento',requestStream, nil,
+                                           TNetHeaders.Create(
+                                                            TNameValuePair.Create('tipopagamento'   ,cboPagamento.Text),
+                                                            TNameValuePair.Create('valor' , valor(edtValor.Text) ),
+                                                            TNameValuePair.Create('parcelas' , Parcelas) ,
+                                                            TNameValuePair.Create('pedido' , '112233')
+                                                            )
+                                                            );
+
+        JSONObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(Response.ContentAsString), 0) as TJSONObject;
+        try
+          // Adiciona o "status" ao memo
+          Memo1.Lines.Add(JSONObj.ToString);
+          JSONValue := JSONObj.GetValue('status');
+          Memo1.Lines.Add('status: ' + JSONValue.Value);
+
+          // Pega o valor da tag "message" que contém outro JSON e converte em objeto
+          JSONValue := JSONObj.GetValue('message');
+          InnerObj := TJSONObject.ParseJSONValue(JSONValue.Value) as TJSONObject;
+
+          try
+            // Insere cada valor do JSON interno no memo
+            Memo1.Lines.Add('NSU: ' + InnerObj.GetValue('NSU').Value);
+            Memo1.Lines.Add('TipoTransacao: ' + InnerObj.GetValue('TipoTransacao').Value);
+            Memo1.Lines.Add('Bandeira: ' + InnerObj.GetValue('Bandeira').Value);
+            Memo1.Lines.Add('NomeAdquirente: ' + InnerObj.GetValue('NomeAdquirente').Value);
+            Memo1.Lines.Add('CnpjAdquirente: ' + InnerObj.GetValue('CnpjAdquirente').Value);
+          finally
+            InnerObj.Free;
+          end;
+        finally
+          JSONObj.Free;
+        end;
+         Memo1.Lines.Add(StringOfChar('=',50));
+
+end;
+
+end.

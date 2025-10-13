@@ -1,0 +1,123 @@
+inherited fpos: Tfpos
+  ActiveControl = posidentificacao
+  Caption = 'SmartPOS'
+  ClientHeight = 151
+  ClientWidth = 479
+  ExplicitWidth = 495
+  ExplicitHeight = 190
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 122
+    Width = 479
+    inherited bconfirma: TBitBtn
+      Left = 325
+    end
+    inherited bcancela: TBitBtn
+      Left = 400
+    end
+    inherited bfechar: TBitBtn
+      Left = 260
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 479
+    Height = 122
+    inherited Principal: TTabSheet
+      ExplicitWidth = 471
+      ExplicitHeight = 94
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = poscodigo
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 33
+        Width = 62
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Identifica'#231#227'o'
+        FocusControl = posidentificacao
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 60
+        Width = 79
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'N'#250'mero de S'#233'rie'
+        FocusControl = posnumeroserie
+      end
+      object poscodigo: TDBEdit
+        Left = 136
+        Top = 3
+        Width = 49
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'poscodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object posidentificacao: TDBEdit
+        Left = 136
+        Top = 30
+        Width = 321
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'posidentificacao'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object posnumeroserie: TDBEdit
+        Left = 136
+        Top = 57
+        Width = 321
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'posnumeroserie'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+    end
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 548
+    Top = 40
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  poscodigo,'
+      '  posidentificacao,'
+      '  posnumeroserie'
+      'FROM pos where poscodigo=:poscodigo')
+    Left = 60
+    Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'poscodigo'
+        Value = nil
+      end>
+    object registroposcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'poscodigo'
+    end
+    object registroposidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'posidentificacao'
+      Size = 50
+    end
+    object registroposnumeroserie: TStringField
+      DisplayLabel = 'N'#250'mero de S'#233'rie'
+      FieldName = 'posnumeroserie'
+      Size = 50
+    end
+  end
+end

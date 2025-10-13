@@ -1,0 +1,1281 @@
+unit uAutoBackup;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Registry, ShellAPI, WinSvc, Inifiles, TlHelp32,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
+  Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.Menus, Vcl.Buttons, IdBaseComponent,
+  IdAntiFreezeBase, IdAntiFreeze, Data.Bind.Components, Data.Bind.ObjectScope,
+  REST.Client, REST.Authenticator.Basic, IdIOHandler, IdIOHandlerSocket,
+  IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdZLibCompressorBase, IdCompressorZLib,
+  IdCookieManager, IdIntercept, IdCompressionIntercept, IdComponent,
+  IdTCPConnection, IdTCPClient, IdHTTP, IdWebDAV;
+
+type
+  TfrmAutoBackup = class(TForm)
+    img_logo: TImage;
+    menuWindows: TPopupMenu;
+    bWindows: TTrayIcon;
+    Configurar1: TMenuItem;
+    ConfigurarBackup1: TMenuItem;
+    Local1: TMenuItem;
+    LocalTemp1: TMenuItem;
+    LocalLog1: TMenuItem;
+    LocalArquivosSecundario1: TMenuItem;
+    Servio1: TMenuItem;
+    UltimoBackup1: TMenuItem;
+    ReiniciarAplicao1: TMenuItem;
+    ExecutarBackup1: TMenuItem;
+    FinalizarAutoBackup1: TMenuItem;
+    ExecBackup: TTimer;
+    Verso1: TMenuItem;
+    sumio: TTimer;
+    AutoExec: TTimer;
+    N2: TMenuItem;
+    ModoExecuo1: TMenuItem;
+    kkk1: TMenuItem;
+    Notificaes1: TMenuItem;
+    N1: TMenuItem;
+    ParaExecuodoBackup1: TMenuItem;
+    IMLogoMizio: TImage;
+    procedure ExecBackupTimer(Sender: TObject);
+    procedure ExecutarBackup1Click(Sender: TObject);
+    procedure bWindowsBalloonClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure ConfigurarBackup1Click(Sender: TObject);
+    procedure FinalizarAutoBackup1Click(Sender: TObject);
+    procedure LocalTemp1Click(Sender: TObject);
+    procedure LocalLog1Click(Sender: TObject);
+    procedure LocalArquivosSecundario1Click(Sender: TObject);
+    procedure ReiniciarAplicao1Click(Sender: TObject);
+    procedure UltimoBackup1Click(Sender: TObject);
+    procedure Verso1Click(Sender: TObject);
+    procedure sumioTimer(Sender: TObject);
+    procedure ControlaTimer(Sender: TObject);
+    procedure AutoExecTimer(Sender: TObject);
+    procedure ParaExecuodoBackup1Click(Sender: TObject);
+  private
+    procedure BackupExec;
+    function GeradorLog(Local, Parametros, Data: string): boolean;
+    function ManipulaINI(Modo, LocalIni, Parametro1, Parametro2, ParametroGravar: string): string;
+    function ManipulaTXT(LocalTxt, Tipo, Parametro: string): string;
+    procedure memoriaLivre;
+    function Crypt(Action, Src: String): String;
+    function EnviaParaCloud(HoraBat, vCNPJ, vArquivo: string): boolean;
+    function NotificaExecucaoDoBackup(Cnpj, Apelido: String): boolean;
+    procedure ExportaRecursoEmbutido(vRecurso, vDestino: String);
+    procedure Identificabasedados;
+    procedure defineVertical;
+  public
+    vpPathAplicativo: string;
+    vpTipoVertical: string;
+    vpNomeBanco: String;
+    vpBackupOn: boolean;
+    Logexit: String;
+    procedure ExecutaBackup;
+
+    { Controle de Horario e dia do Backup }
+  Const
+    Dia: Array [1 .. 7] Of String = ('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
+
+  var
+    HoraOn, BackupOn, DiaSemana, Hora, BackupIni: string;
+    DiaSem: Word;
+    backupler: Tinifile;
+
+    { Fim }
+  var
+    vNovamente, vNada: boolean;
+    Segundos: integer;
+  end;
+
+var
+  frmAutoBackup: TfrmAutoBackup;
+
+implementation
+
+{$R *.dfm}
+
+uses uConexaoModulo, uConfigura, uCloudComunicacao;
+
+function ExecutarEEsperar(NomeArquivo: String): boolean;
+var
+  Sh: TShellExecuteInfo;
+  CodigoSaida: DWORD;
+  vHandle: Cardinal;
+begin
+  FillChar(Sh, sizeof(Sh), 0);
+  Sh.cbSize := sizeof(TShellExecuteInfo);
+  with Sh do
+  begin
+    fMask := SEE_MASK_NOCLOSEPROCESS;
+    Wnd := application.Handle;
+    SetProcessAffinityMask(Wnd, $01);
+    lpVerb := nil;
+    lpFile := PChar(NomeArquivo);
+    nShow := SW_HIDE;
+  end;
+  if ShellExecuteEx(@Sh) then
+  begin
+    repeat
+      application.ProcessMessages;
+      GetExitCodeProcess(Sh.hProcess, CodigoSaida);
+    until not(CodigoSaida = STILL_ACTIVE);
+    Result := True;
+  end
+  else
+    Result := False;
+end;
+
+Function SoNumeros(Const Texto: String): String;
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+function ExecExplorer(OpenAtPath: string; OpenWithExplorer, OpenAsRoot: boolean): boolean;
+var
+  S: string;
+begin
+  if OpenWithExplorer then
+  begin
+    if OpenAsRoot then
+      S := ' /e,/root,"' + OpenAtPath + '"'
+    else
+      S := ' /e,"' + OpenAtPath + '"';
+  end
+  else
+    S := '"' + OpenAtPath + '"';
+
+  Result := ShellExecute(application.Handle, PChar('open'), PChar('explorer.exe'), PChar(S), nil, SW_NORMAL) > 32;
+end;
+
+function FormEstaCriado(AClass: TClass): boolean;
+var
+  i: integer;
+begin
+  Result := False;
+  for i := 0 to Screen.FormCount - 1 do
+  begin
+    if Screen.Forms[i] is AClass then
+    begin
+      Result := True;
+      Break;
+    end;
+  end;
+end;
+{ TfrmAutoBackup }
+
+procedure TfrmAutoBackup.ExportaRecursoEmbutido(vRecurso: String; vDestino: String);
+var
+  ResStream: TResourceStream;
+  vlIde: String;
+  vlCaminhoDestino: String;
+
+begin
+  vlCaminhoDestino := extractfilepath(application.ExeName);
+
+  if not fileexists(vlCaminhoDestino + vDestino) then
+  begin
+
+    ResStream := TResourceStream.Create(HInstance, vRecurso, RT_RCDATA);
+    try
+
+      if DirectoryExists(extractfilepath(vlCaminhoDestino + vDestino)) = False then
+      begin
+        ForceDirectories(extractfilepath(vlCaminhoDestino + vDestino));
+      end;
+      ResStream.Position := 1;
+      ResStream.SaveToFile(vlCaminhoDestino + vDestino);
+    finally
+      ResStream.Free;
+    end;
+  end;
+end;
+
+procedure TfrmAutoBackup.AutoExecTimer(Sender: TObject);
+var
+  i: integer;
+begin
+  if ExecutarBackup1.Checked then
+  begin
+    AutoExec.Enabled := False;
+    ExecutaBackup;
+    ExecutarBackup1.Caption := 'Executar Backup';
+  end
+  else
+  begin
+    AutoExec.Enabled := False;
+    ExecutarBackup1.Caption := 'Executar Backup';
+    exit
+  end;
+
+end;
+
+function TfrmAutoBackup.ManipulaINI(Modo, LocalIni, Parametro1, Parametro2, ParametroGravar: string): string;
+var
+  vIni: Tinifile;
+  vResultaIni: string;
+begin
+  if (Modo = 'Ler') then
+  begin
+    vResultaIni := '';
+    vIni := Tinifile.Create(LocalIni);
+    vResultaIni := vIni.ReadString(Parametro1, Parametro2, '');
+    vIni.Free;
+    Result := vResultaIni;
+  end
+  else if (Modo = 'Gravar') then
+  begin
+    vIni := Tinifile.Create(LocalIni);
+    vIni.WriteString(Parametro1, Parametro2, ParametroGravar);
+    vIni.Free;
+  end;
+end;
+
+function TfrmAutoBackup.ManipulaTXT(LocalTxt, Tipo, Parametro: string): string;
+var
+  arq: Textfile;
+begin
+  if (Tipo = 'Gravar') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Rewrite(arq);
+    Write(arq, Parametro);
+    CloseFile(arq);
+  end;
+
+  if (Tipo = 'Escrita') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Append(arq);
+    Writeln(arq, Parametro);
+    CloseFile(arq);
+  end;
+
+  if (Tipo = 'Leitura') then
+  begin
+    AssignFile(arq, LocalTxt);
+    Reset(arq);
+    While not Eof(arq) do
+    begin
+      Readln(arq, Result);
+    end;
+  end;
+end;
+
+procedure TfrmAutoBackup.memoriaLivre;
+var
+  MainHandle: THandle;
+begin
+
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, False, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+  end;
+
+end;
+
+function TfrmAutoBackup.GeradorLog(Local, Parametros, Data: string): boolean;
+begin
+  if not fileexists(Local) then
+  begin
+    ManipulaTXT(Local, 'Gravar', '[' + Data + ']: ');
+    ManipulaTXT(Local, 'Gravar', '');
+    ManipulaTXT(Local, 'Escrita', '[' + Data + ']: ' + Parametros);
+  end
+  else
+  begin
+    ManipulaTXT(Local, 'Escrita', '[' + Data + ']: ' + Parametros);
+  end;
+end;
+
+function TfrmAutoBackup.Crypt(Action, Src: String): String;
+Label Fim;
+var
+  KeyLen: integer;
+  KeyPos: integer;
+  OffSet: integer;
+  Dest, Key: String;
+  SrcPos: integer;
+  SrcAsc: integer;
+  TmpSrcAsc: integer;
+  Range: integer;
+begin
+  if (Src = '') Then
+  begin
+    Result := '';
+    Goto Fim;
+  end;
+  Key := '8UIK6TKY4KYU4KY45KYUK46YU5R6T5YR6T54TRI867R3QE47557543464U589D45T49NY5TN945YT420N5DY57NY9N0Y45TENJCHER9CN';
+  Dest := '';
+  KeyLen := Length(Key);
+  KeyPos := 0;
+  SrcPos := 0;
+  SrcAsc := 0;
+  Range := 256;
+  if (Action = UpperCase('C')) then
+  begin
+    Randomize;
+    OffSet := Random(Range);
+    Dest := Format('%1.2x', [OffSet]);
+    for SrcPos := 1 to Length(Src) do
+    begin
+      SrcAsc := (Ord(Src[SrcPos]) + OffSet) Mod 255;
+      if KeyPos < KeyLen then
+        KeyPos := KeyPos + 1
+      else
+        KeyPos := 1;
+
+      SrcAsc := SrcAsc Xor Ord(Key[KeyPos]);
+      Dest := Dest + Format('%1.2x', [SrcAsc]);
+      OffSet := SrcAsc;
+    end;
+  end
+  Else if (Action = UpperCase('D')) then
+  begin
+    OffSet := StrToInt('$' + Copy(Src, 1, 2));
+    SrcPos := 3;
+    repeat
+      SrcAsc := StrToInt('$' + Copy(Src, SrcPos, 2));
+      if (KeyPos < KeyLen) Then
+        KeyPos := KeyPos + 1
+      else
+        KeyPos := 1;
+      TmpSrcAsc := SrcAsc Xor Ord(Key[KeyPos]);
+      if TmpSrcAsc <= OffSet then
+        TmpSrcAsc := 255 + TmpSrcAsc - OffSet
+      else
+        TmpSrcAsc := TmpSrcAsc - OffSet;
+      Dest := Dest + Chr(TmpSrcAsc);
+      OffSet := SrcAsc;
+      SrcPos := SrcPos + 2;
+    until (SrcPos >= Length(Src));
+  end;
+  Result := Dest;
+Fim:
+end;
+
+function TfrmAutoBackup.EnviaParaCloud(HoraBat: string; vCNPJ: string; vArquivo: string): boolean;
+var
+  vlAno: string;
+  vlMes: string;
+  vlNomeArqCopia: string;
+  vlCNPJ: String;
+  vlDataInicial: string;
+
+  vlArquivoOrigem: String;
+
+  vlComunicacao: TMizioComunicacao;
+
+  vlCNPJExiste: boolean;
+  vlANOExiste: boolean;
+  vlMESExiste: boolean;
+  vlNumeroProtoco: string;
+  vlArqxml: TStringList;
+
+  HoraBat2: String;
+  vlCaminhoAPP: string;
+
+begin
+  Result := False;
+
+  vlDataInicial := datetostr(now());
+  vlCaminhoAPP := extractfilepath(application.ExeName);
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Início do envio para CLOUD', HoraBat2);
+
+  vlCNPJ := vCNPJ;
+  vlAno := Copy(vlDataInicial, 7, 4);
+  vlMes := Copy(vlDataInicial, 4, 2);
+
+  GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Vai verificar pasta ' + vlCNPJ, HoraBat2);
+
+  vlComunicacao := TMizioComunicacao.Create;
+
+  vlComunicacao.carregalistapastasCLOUD('BackupsClientes');
+
+  if not vlComunicacao.pastaExisteCLOUD('BackupsClientes', vlCNPJ) then
+  begin
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Não localizou a pasta de ' + vlCNPJ + ' no CLOUD', HoraBat2);
+
+    vlCNPJExiste := vlComunicacao.pastaCriaCLOUD('BackupsClientes', vlCNPJ);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Criou a pasta ' + vlCNPJ + ' no CLOUD', HoraBat2);
+
+    vlComunicacao.carregalistapastasCLOUD('BackupsClientes');
+  end
+  else
+  begin
+    vlComunicacao.carregalistapastasCLOUD('BackupsClientes');
+  end;
+
+  GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Pasta BackupsClientes localizada CLOUD', HoraBat2);
+
+  if vlComunicacao.pastaExisteCLOUD('BackupsClientes', vlCNPJ) then
+  begin
+    vlCNPJExiste := True;
+
+    vlComunicacao.carregalistapastasCLOUD('BackupsClientes/' + vlCNPJ);
+
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Vai procurar para BackupsClientes ' + vlCNPJ + ' no CLOUD', HoraBat2);
+
+    if not vlComunicacao.pastaExisteCLOUD('BackupsClientes/' + vlCNPJ, vlAno) then
+    begin
+      GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Não localizou BackupsClientes ' + vlCNPJ + ' no CLOUD', HoraBat2);
+
+      vlANOExiste := vlComunicacao.pastaCriaCLOUD('BackupsClientes/' + vlCNPJ, vlAno);
+      GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Criou pasta BackupsClientes ' + vlCNPJ + ' no CLOUD', HoraBat2);
+
+    end
+    else
+    begin
+      vlANOExiste := True;
+    end;
+
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Vai procurar pasta BackupsClientes/' + vlCNPJ + '/' + vlAno + ' no CLOUD',
+      HoraBat2);
+
+    vlComunicacao.carregalistapastasCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno);
+
+    if not vlComunicacao.pastaExisteCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno, vlMes) then
+    begin
+      GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Não achou pasta BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes +
+        ' no CLOUD', HoraBat2);
+
+      vlMESExiste := vlComunicacao.pastaCriaCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno + '/', vlMes);
+
+      GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Criou pasta BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes +
+        ' no CLOUD', HoraBat2);
+
+    end
+    else
+    begin
+      vlMESExiste := True;
+    end;
+  end;
+
+  if vlCNPJExiste and vlANOExiste and vlMESExiste then
+  begin
+
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Carrega lista de pastas BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes +
+      ' do CLOUD', HoraBat2);
+
+    vlComunicacao.carregalistapastasCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes + '/');
+
+    vlArquivoOrigem := vArquivo;
+    vlNomeArqCopia := extractfilename(vlArquivoOrigem);
+
+    if vlComunicacao.arquivoExisteCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes, vlNomeArqCopia) = False then
+    begin
+
+      HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+      GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Enviando para CLOUD realizado com sucesso', HoraBat2);
+
+      if vlComunicacao.arquivoGravaCLOUD('BackupsClientes/' + vlCNPJ + '/' + vlAno + '/' + vlMes + '/', vlArquivoOrigem) then
+      begin
+        HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+        GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Falhou o Envio para CLOUD', HoraBat2);
+        Result := False;
+      end
+      else
+      begin
+        HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+        GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Envio para CLOUD realizado com sucesso', HoraBat2);
+        Result := True;
+      end;
+
+    end;
+
+  end;
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Envio para CLOUD realizado com sucesso', HoraBat2);
+
+end;
+
+function TfrmAutoBackup.NotificaExecucaoDoBackup(Cnpj, Apelido: String): boolean;
+var
+  ANow, AThen: TDate;
+
+begin
+
+  conexaoDM.conexaoweb.Database := 'empresa';
+  conexaoDM.conexaoweb.Server := 'telemetria.miziosistemas.com.br';
+  conexaoDM.conexaoweb.password := 'SuRiCa973';
+  conexaoDM.conexaoweb.username := 'root';
+  conexaoDM.conexaoweb.port := 8369;
+  conexaoDM.conexaoweb.Connect;
+
+  conexaoDM.gab.Close;
+  conexaoDM.gab.Connection := conexaoDM.conexaoweb;
+  conexaoDM.gab.Params[0].AsString := Cnpj;
+  conexaoDM.gab.Open;
+
+  if conexaoDM.gab.IsEmpty then
+    conexaoDM.gab.Append
+  else
+    conexaoDM.gab.Edit;
+
+  conexaoDM.gabgabdoc1.AsString := Cnpj;
+  conexaoDM.gabgabnome.AsString := conexaoDM.cfgetdapelido.AsString;
+  conexaoDM.gabgabbackup.AsFloat := Date;
+  conexaoDM.gab.Post;
+  memoriaLivre;
+  conexaoDM.conexaoweb.Disconnect;
+end;
+
+procedure TfrmAutoBackup.defineVertical;
+
+begin
+  vpPathAplicativo := extractfilepath(application.ExeName);
+
+  if fileexists(vpPathAplicativo + 'GourmetERP.exe') then
+    vpTipoVertical := 'Gourmet'
+  else if fileexists(vpPathAplicativo + 'MercatoERP.exe') then
+    vpTipoVertical := 'Mercato'
+  else if fileexists(vpPathAplicativo + 'BoutiqueERP.exe') then
+    vpTipoVertical := 'Botique'
+  else if fileexists(vpPathAplicativo + 'VarejoERP.exe') then
+    vpTipoVertical := 'Varejo'
+  else
+    vpTipoVertical := 'Pegasus';
+
+end;
+
+procedure TfrmAutoBackup.Identificabasedados;
+var
+  Ler: Tinifile;
+  NomeArquivo: String;
+
+begin
+  try
+    defineVertical;
+
+    NomeArquivo := extractfilepath(application.ExeName) + vpTipoVertical + '.ini';
+
+    Ler := Tinifile.Create(NomeArquivo);
+
+    vpNomeBanco := Ler.ReadString('posi', 'nomebanco', 'pegasus');
+  finally
+    Ler.Free;
+  end;
+
+end;
+
+procedure TfrmAutoBackup.BackupExec;
+
+var { Diretorios dos Bats }
+  DirBatDump, DirBatOrigem, DirBatXml, HoraBat, HoraBat2: string;
+  ErroEnvio: boolean;
+var { Complementares }
+  OrigemArq, XmlArq: string;
+  LocalLog, HoraUltimo: string;
+
+var { Ultimo - Relatorio de ultimo backup feito e sua situação na hora de sua efetuação }
+  UltimoBackup, UltimoStatus, UltimoLocalPrincipal, UltimoLocalSecundario: string;
+
+var
+  E: Exception;
+  AppName: PChar;
+var
+  LoginCli, SenhaCli, ServidorCli, BaseCli, PortaCli, Cnpj, Apelido, DirBackup, DirBackup2: string;
+
+var
+  // vlNomeapp: string;
+  vlCaminhoAPP: string;
+
+var
+
+  Ler: Tinifile;
+  i: integer;
+
+begin
+
+  vlCaminhoAPP := extractfilepath(application.ExeName);
+
+  try
+    Ler := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+    with Ler do
+    begin
+      BaseCli := Ler.ReadString('vCli ', 'BaseCli ', '');
+      LoginCli := Ler.ReadString('vCli', 'LoginCli', '');
+      SenhaCli := Ler.ReadString('vCli', 'SenhaCli', '');
+      PortaCli := Ler.ReadString('vCli', 'PortaCli', '');
+
+      DirBackup := Ler.ReadString('vCli ', 'DirBackup', '');
+      DirBackup2 := Ler.ReadString('vCli ', 'DirBackup2 ', '');
+      ServidorCli := Ler.ReadString('vCli ', 'ServidorCli ', '');
+
+    end;
+  finally
+    Ler.Free;
+  end;
+
+  frmAutoBackup.ParaExecuodoBackup1.Visible := True;
+  frmAutoBackup.ExecutarBackup1.Caption := 'AutoBackup em Execução';
+  vpBackupOn := True;
+  frmAutoBackup.ExecutarBackup1.Enabled := False;
+  frmAutoBackup.vNada := True;
+  frmAutoBackup.vNovamente := False;
+  frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+  frmAutoBackup.bWindows.BalloonHint := 'AutoBackup em Execução';
+  frmAutoBackup.bWindows.ShowBalloonHint;
+  frmAutoBackup.ExecBackup.Enabled := False;
+  HoraBat := FormatDateTime('ddmmyyyyhhnnss', now);
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  HoraUltimo := FormatDateTime('dd/mm/yyyy', now);
+
+  if not DirectoryExists(vlCaminhoAPP + 'Logs') then
+    ForceDirectories(vlCaminhoAPP + 'Logs');
+
+  GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Backup Iniciado', HoraBat2);
+  Logexit := '';
+  Logexit := vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt';
+  { Fim }
+
+  { Parametros para Logar nos Servidores Cliente|Envio|BackupBanco }
+
+  try
+    HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Arquivos Descriptografados e codificados', HoraBat2);
+  except
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro na Leitura do Arquivo .INI', HoraBat2);
+    //
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Erro na Execução do Backup - Erro (101) Leitura de dados';
+      frmAutoBackup.bWindows.BalloonTimeout := 10000;
+      frmAutoBackup.bWindows.ShowBalloonHint;
+      //
+    end;
+
+    exit
+  end;
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+
+  try
+
+    LoginCli := Crypt('D', LoginCli);
+    SenhaCli := Crypt('D', SenhaCli);
+    PortaCli := Crypt('D', PortaCli);
+
+    if conexaoDM.Local.Connected then
+    begin
+      conexaoDM.Local.Disconnect;
+    end;
+    conexaoDM.Local.Database := BaseCli;
+    conexaoDM.Local.Server := ServidorCli;
+    conexaoDM.Local.username := LoginCli;
+    conexaoDM.Local.password := SenhaCli;
+    conexaoDM.Local.port := PortaCli.ToInteger;
+    conexaoDM.Local.Connect;
+    conexaoDM.cfg.Open;
+
+    Apelido := conexaoDM.cfgetdapelido.AsString;
+    Cnpj := conexaoDM.cfgcfgdoc1.AsString;
+
+    Cnpj := SoNumeros(Cnpj);
+
+    HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Conexão com o Banco Local feito com sucesso', HoraBat2);
+  except
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro na Conexão com o Banco Local', HoraBat2);
+    //
+
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Erro na Execução do Backup - Erro (101) Leitura de dados';
+      frmAutoBackup.bWindows.BalloonTimeout := 10000;
+      frmAutoBackup.bWindows.ShowBalloonHint;
+      //
+    end;
+
+    exit;
+  end;
+  { Fim }
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  LocalLog := vlCaminhoAPP + 'Logs\LogBackup-' + Cnpj + '.txt';
+  { Criando .Bat para executar a Copia e compactação dos arquivos }
+
+  try
+
+    if not DirectoryExists(vlCaminhoAPP + 'Temp') then
+      ForceDirectories(vlCaminhoAPP + 'Temp');
+
+    if not DirectoryExists(vlCaminhoAPP + 'TempArq') then
+      ForceDirectories(vlCaminhoAPP + 'TempArq');
+
+    ManipulaTXT(vlCaminhoAPP + 'Temp\ExecDump.bat', 'Gravar', vlCaminhoAPP + 'config\mysqldump -h ' + conexaoDM.Local.Server + ' ' +
+      conexaoDM.Local.Database + ' --routines --user=' + conexaoDM.Local.username + ' --password=' + conexaoDM.Local.password + ' --port=' +
+      conexaoDM.Local.port.ToString + ' >' + vlCaminhoAPP + 'relat\copia.sql');
+
+    ManipulaTXT(vlCaminhoAPP + 'Temp\ExecOrigem.bat', 'Gravar', vlCaminhoAPP + 'config\7z.exe  a -t7z ' + vlCaminhoAPP + 'TempArq\Origem-' + Cnpj +
+      '-' + HoraBat + 'B.7z ' + vlCaminhoAPP + 'relat\copia.sql');
+
+    ManipulaTXT(vlCaminhoAPP + 'Temp\ExecXml.bat', 'Gravar', vlCaminhoAPP + 'config\7z.exe  a -t7z ' + vlCaminhoAPP + 'TempArq\XMLTerc-' + Cnpj + '-'
+      + HoraBat + 'B.7z ' + vlCaminhoAPP + 'xml-recebidos\*.*');
+
+    DirBatDump := vlCaminhoAPP + 'Temp\ExecDump.bat';
+    DirBatOrigem := vlCaminhoAPP + 'Temp\ExecOrigem.bat';
+    DirBatXml := vlCaminhoAPP + 'Temp\ExecXml.bat';
+
+    if not DirectoryExists(vlCaminhoAPP + 'relat') then
+      ForceDirectories(vlCaminhoAPP + 'relat');
+
+    OrigemArq := vlCaminhoAPP + 'TempArq\Origem-' + Cnpj + '-' + HoraBat + 'B.7z';
+    XmlArq := vlCaminhoAPP + 'TempArq\XMLTerc-' + Cnpj + '-' + HoraBat + 'B.7z';
+
+    ExecutarEEsperar(DirBatDump);
+    ExecutarEEsperar(DirBatOrigem);
+    ExecutarEEsperar(DirBatXml);
+
+    HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Geração de Arquivos .Bat e Execução feitas com sucesso', HoraBat2);
+
+    EnviaParaCloud(HoraBat, Cnpj, OrigemArq);
+    EnviaParaCloud(HoraBat, Cnpj, XmlArq);
+
+  except
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro ao Gerar os arquivos', HoraBat2);
+    //
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Erro na Execução do Backup - Erro (103) Arquivos não Gerados';
+      frmAutoBackup.bWindows.BalloonTimeout := 10000;
+      frmAutoBackup.bWindows.ShowBalloonHint;
+      //
+    end;
+
+    exit
+  end;
+  { Fim }
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  ErroEnvio := False;
+
+  try
+    { Conexão com o Envio }
+
+  except
+    ErroEnvio := True;
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro na tentativa de envio dos arquivos para nuvem', HoraBat2);
+
+  end;
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+
+  try
+    { Criar .BAT para Mover|Copiar Arquivos para os destinos para salvar }
+
+    if DirBackup2 <> '' then
+    begin
+      ManipulaTXT(vlCaminhoAPP + 'Temp\ExecCopyArqO.bat', 'Gravar', 'Copy ' + OrigemArq + ' ' + DirBackup2);
+      ManipulaTXT(vlCaminhoAPP + 'Temp\ExecCopyArqX.bat', 'Gravar', 'Copy ' + XmlArq + ' ' + DirBackup2);
+      ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat', 'Gravar', 'Move ' + OrigemArq + ' ' + DirBackup);
+      ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat', 'Gravar', 'Move ' + XmlArq + ' ' + DirBackup);
+      ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecCopyArqO.bat');
+      ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecCopyArqX.bat');
+      ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat');
+      ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat');
+    end
+    else
+    begin
+      if not DirectoryExists(DirBackup) then
+      begin
+        if not DirectoryExists(vlCaminhoAPP + 'backup') then
+        begin
+          ForceDirectories(vlCaminhoAPP + 'backup');
+        end;
+        GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Não foi possivel encontrar o Diretorio de escolha', HoraBat2);
+        ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat', 'Gravar', 'Move ' + OrigemArq + ' ' + vlCaminhoAPP + 'backup');
+        ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat', 'Gravar', 'Move ' + XmlArq + ' ' + vlCaminhoAPP + 'backup');
+      end
+      else
+      begin
+        ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat', 'Gravar', 'Move ' + OrigemArq + ' ' + DirBackup);
+        ManipulaTXT(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat', 'Gravar', 'Move ' + XmlArq + ' ' + DirBackup);
+        ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat');
+        ExecutarEEsperar(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat');
+      end;
+
+    end;
+    HoraBat2 := FormatDateTime('ddmmyyyyhhnnss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Arquivos movidos e copiados para os diretorios', HoraBat2);
+  except
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro ao mover os arquivos para os diretorios', HoraBat2);
+
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      //
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Erro na Execução do Backup - Erro (104) Tentativa de Armazenamentos dos arquivos';
+      frmAutoBackup.bWindows.BalloonTimeout := 10000;
+      frmAutoBackup.bWindows.ShowBalloonHint;
+      //
+    end;
+    exit
+  end;
+
+  { Fim }
+
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+
+  try
+    { Preparar para finalizar rotina do backup }
+
+    DeleteFile(DirBatOrigem);
+    DeleteFile(DirBatXml);
+    DeleteFile(DirBatDump);
+
+    DeleteFile(vlCaminhoAPP + 'Temp\ExecDump.bat');
+    DeleteFile(vlCaminhoAPP + 'Temp\ExecMoveArqO.bat');
+    DeleteFile(vlCaminhoAPP + 'Temp\ExecMoveArqX.bat');
+    DeleteFile(vlCaminhoAPP + 'Temp\ExecCopyArqO.bat');
+    DeleteFile(vlCaminhoAPP + 'Temp\ExecCopyArqX.bat');
+
+    frmAutoBackup.ExecBackup.Enabled := True;
+    { Fim }
+    HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Arquivos temporarios excluidos', HoraBat2);
+  except
+
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      //
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Erro na Execução do Backup - Erro (105) Arquivos temporarios';
+      frmAutoBackup.bWindows.BalloonTimeout := 10000;
+      frmAutoBackup.bWindows.ShowBalloonHint;
+      //
+    end;
+    exit
+  end;
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  try
+    { Executa }
+    NotificaExecucaoDoBackup(Cnpj, Apelido);
+
+    { Fim }
+    HoraBat2 := FormatDateTime('ddmmyyyyhhnnss', now);
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Procedimento de Notificação e AtualizaçãoNCMs feitas com sucesso', HoraBat2);
+  except
+
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Erro na  NotificaExecucaoDoBackup ', HoraBat2);
+
+  end;
+  HoraBat2 := FormatDateTime('dd-mm-yyyy hh:nn:ss', now);
+  //
+  frmAutoBackup.vNada := True;
+  frmAutoBackup.vNovamente := False;
+  frmAutoBackup.ExecBackup.Enabled := True;
+  frmAutoBackup.ExecutarBackup1.Enabled := True;
+  vpBackupOn := False;
+
+  //
+  ManipulaINI('Gravar', vlCaminhoAPP + 'Config\MizioBackup.ini', 'Ultimo', 'Backup', HoraUltimo);
+  //
+  if ErroEnvio = False then
+  begin
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Backup Feito com sucesso';
+      frmAutoBackup.bWindows.ShowBalloonHint;
+    end;
+
+  end;
+  if ErroEnvio = True then
+  begin
+    if frmAutoBackup.Notificaes1.Checked then
+    begin
+      frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+      frmAutoBackup.bWindows.BalloonHint := 'Backup Feito com sucesso e Notificado';
+      frmAutoBackup.bWindows.ShowBalloonHint;
+    end;
+    GeradorLog(vlCaminhoAPP + 'Logs\LogBackup' + HoraBat + '.txt', 'Backup Feito com sucesso | Sem o envio para nuvem', HoraBat2);
+  end;
+  frmAutoBackup.ExecutarBackup1.Caption := 'Executar Backup';
+  frmAutoBackup.ParaExecuodoBackup1.Visible := False;
+  memoriaLivre;
+end;
+
+procedure TfrmAutoBackup.bWindowsBalloonClick(Sender: TObject);
+begin
+  if vNovamente = True then
+  begin
+    ExecutaBackup;
+  end;
+  if vNada = True then
+  begin
+    exit
+  end;
+end;
+
+procedure TfrmAutoBackup.ConfigurarBackup1Click(Sender: TObject);
+begin
+  if FormEstaCriado(TfrmConfig) then
+  begin
+    frmConfig.Free;
+    frmConfig := TfrmConfig.Create(application);
+    frmConfig.ShowModal;
+  end
+  else
+  begin
+    frmConfig := TfrmConfig.Create(application);
+    frmConfig.ShowModal;
+  end;
+
+  sumio.Enabled:=true;
+end;
+
+procedure TfrmAutoBackup.ControlaTimer(Sender: TObject);
+var
+  Escrever: Tinifile;
+begin
+  Escrever := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  Escrever.WriteString('Ultimo', 'Travar', 'TentativasOn');
+  Escrever.Free;
+end;
+
+procedure TfrmAutoBackup.ExecBackupTimer(Sender: TObject);
+var
+  Local: string;
+  vlarq: TStringList;
+begin
+  Identificabasedados;
+  try
+    vlarq := TStringList.Create;
+    vlarq.SaveToFile(extractfilepath(application.ExeName) + LowerCase('Gerenciador de Backup ' + vpNomeBanco) + '.key');
+  finally
+    vlarq.Free;
+  end;
+
+  Hora := FormatDateTime(' hh:nn', now);
+  DiaSem := DayOfWeek(Date);
+  DiaSemana := Dia[DiaSem];
+  backupler := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  BackupOn := backupler.ReadString('Dia', DiaSemana, '');
+  if BackupOn = '1' then
+  begin
+    HoraOn := backupler.ReadString('Hora', Hora, '');
+    if HoraOn = '1' then
+    begin
+
+      BackupExec;
+      exit;
+
+      { if not uThreadExec.vBackupOn = True then
+        begin
+        begin
+        if not AutoExec.Enabled = True then
+        begin
+        ExecutaBackup;
+        exit
+        end;
+        end;
+        end
+        else
+        begin
+        exit
+        end; }
+
+    end;
+  end;
+  exit
+end;
+
+function ProcessoExiste(ExeFileName: string): boolean;
+const
+  PROCESS_TERMINATE = $0001;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32 { declarar Uses Tlhelp32 };
+begin
+  Result := False;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := sizeof(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+
+  while integer(ContinueLoop) <> 0 do
+  begin
+    if ((UpperCase(extractfilename(FProcessEntry32.szExeFile)) = UpperCase(ExeFileName)) or
+      (UpperCase(FProcessEntry32.szExeFile) = UpperCase(ExeFileName))) then
+    begin
+      Result := True;
+      exit;
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+
+function KillTask(ExeFileName: string): integer;
+const
+  PROCESS_TERMINATE = $0001;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+begin
+  Result := 0;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := sizeof(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  while integer(ContinueLoop) <> 0 do
+  begin
+    if ((UpperCase(extractfilename(FProcessEntry32.szExeFile)) = UpperCase(ExeFileName)) or
+      (UpperCase(FProcessEntry32.szExeFile) = UpperCase(ExeFileName))) then
+      Result := integer(TerminateProcess(OpenProcess(PROCESS_TERMINATE, BOOL(0), FProcessEntry32.th32ProcessID), 0));
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+
+procedure TfrmAutoBackup.ExecutaBackup;
+begin
+  BackupExec;
+end;
+
+procedure TfrmAutoBackup.ExecutarBackup1Click(Sender: TObject);
+begin
+  ExecutaBackup;
+end;
+
+procedure TfrmAutoBackup.FinalizarAutoBackup1Click(Sender: TObject);
+begin
+  if ProcessoExiste('MizioBackup.exe') then
+  begin
+    KillTask('MizioBackup.exe');
+  end;
+end;
+
+procedure TfrmAutoBackup.FormCreate(Sender: TObject);
+var
+  versao: string;
+  Reg: TRegistry;
+  Somar: integer;
+  vbackup, Travar: string;
+  atrasado, Ler: Tinifile;
+  vHandle: Cardinal;
+  HprevHist: HWND;
+begin
+
+  ExportaRecursoEmbutido('7D32', 'config\7z.dll');
+  ExportaRecursoEmbutido('7E32', 'config\7Z.exe');
+  ExportaRecursoEmbutido('LIBEAY32', 'libeay32.dll');
+  ExportaRecursoEmbutido('MYSQLDUMP32', 'config\mysqldump.exe');
+  ExportaRecursoEmbutido('SSLEAY32', 'ssleay32.dll');
+
+  HprevHist := FindWindow(Nil, PChar('MizioBackup.exe'));
+  if HprevHist = 0 then
+  Begin
+
+  end
+  else
+  Begin
+    application.Terminate;
+  end;
+  vHandle := GetCurrentProcess();
+  SetProcessAffinityMask(vHandle, $01);
+
+  if not fileexists(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini') then
+  begin
+
+    frmAutoBackup.bWindows.BalloonTitle := 'Notifica Backup';
+    frmAutoBackup.bWindows.BalloonHint := 'É preciso configurar o Backup';
+    frmAutoBackup.bWindows.ShowBalloonHint;
+
+    if FormEstaCriado(TfrmAutoBackup) then
+    begin
+      frmConfig.Free;
+      frmConfig := TfrmConfig.Create(application);
+      frmConfig.ShowModal;
+    end
+    else
+    begin
+      frmConfig := TfrmConfig.Create(application);
+      frmConfig.ShowModal;
+    end;
+  end;
+
+  atrasado := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  vbackup := atrasado.ReadString('Ultimo', 'Backup', '');
+  if vbackup = '' then
+  begin
+    exit
+  end
+  else if (StrToDate(vbackup) < Date - 1) then
+  begin
+    frmAutoBackup.vNovamente := True;
+    frmAutoBackup.bWindows.BalloonTitle := 'Backup Atrasado';
+    frmAutoBackup.bWindows.BalloonHint := 'Seu Backup está atrasado - Clique Aqui para efetuar o Backup';
+    frmAutoBackup.bWindows.ShowBalloonHint;
+  end;
+end;
+
+procedure TfrmAutoBackup.LocalArquivosSecundario1Click(Sender: TObject);
+var
+  Ler: Tinifile;
+  vLer: string;
+begin
+  Ler := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  vLer := Ler.ReadString('vCli', 'DirBackup2', '');
+  ExecExplorer(vLer, True, True);
+end;
+
+procedure TfrmAutoBackup.LocalLog1Click(Sender: TObject);
+var
+  Ler: Tinifile;
+  vLer: string;
+begin
+  Ler := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  vLer := Ler.ReadString('vCli', 'DirBackup', '');
+  ExecExplorer(vLer, True, True);
+end;
+
+procedure TfrmAutoBackup.LocalTemp1Click(Sender: TObject);
+begin
+  ExecExplorer(extractfilepath(application.ExeName) + 'AutoBackup', True, True);
+end;
+
+procedure TfrmAutoBackup.ParaExecuodoBackup1Click(Sender: TObject);
+var
+  // rThread: uBackupExec;
+  AppName: PChar;
+begin
+  try
+    KillTask('7z.exe');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecMoveArqO.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecMoveArqX.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecCopyArqO.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecCopyArqX.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecCopia.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecOrigem.bat');
+    DeleteFile(extractfilepath(application.ExeName) + 'Temp\ExecXml.bat');
+  except
+
+  end;
+  ExecutarBackup1.Caption := 'Exectar Backup';
+  bWindows.BalloonTitle := 'Notifica Backup';
+  bWindows.BalloonHint := 'Backup Interrompido';
+  bWindows.BalloonTimeout := 10000;
+  bWindows.ShowBalloonHint;
+  try
+    AppName := PChar(application.ExeName);
+    ShellExecute(0, 'open', AppName, nil, nil, SW_HIDE);
+    application.Terminate;
+  except
+
+  end;
+end;
+
+procedure TfrmAutoBackup.ReiniciarAplicao1Click(Sender: TObject);
+var
+  AppName: PChar;
+begin
+  try
+    AppName := PChar(application.ExeName);
+    ShellExecute(0, 'open', AppName, nil, nil, SW_HIDE);
+    application.Terminate;
+  except
+
+  end;
+
+end;
+
+procedure TfrmAutoBackup.sumioTimer(Sender: TObject);
+begin
+  frmAutoBackup.Visible := False;
+  sumio.Enabled := False;
+end;
+
+procedure TfrmAutoBackup.UltimoBackup1Click(Sender: TObject);
+var
+  Ler: Tinifile;
+  vLer: string;
+begin
+
+  Ler := Tinifile.Create(extractfilepath(application.ExeName) + 'Config\MizioBackup.ini');
+  vLer := Ler.ReadString('Ultimo', 'Backup', '');
+  vNovamente := False;
+  vNada := True;
+  if vLer <> '' then
+  begin
+    bWindows.BalloonTitle := 'Ultimo Backup';
+    bWindows.BalloonHint := 'Ultimo Backup: ' + vLer;
+    bWindows.ShowBalloonHint;
+  end
+  else
+  begin
+    bWindows.BalloonTitle := 'Ultimo Backup';
+    bWindows.BalloonHint := 'Não foi identificado um Ultimo Backup';
+    bWindows.ShowBalloonHint;
+  end;
+
+end;
+
+Function VersaoExe: String;
+type
+  PFFI = ^vs_FixedFileInfo;
+var
+  F: PFFI;
+  Handle: DWORD;
+  Len: Longint;
+  Data: PChar;
+  Buffer: Pointer;
+  Tamanho: DWORD;
+  Parquivo: PChar;
+  Arquivo: String;
+begin
+  Arquivo := application.ExeName;
+  Parquivo := StrAlloc(Length(Arquivo) + 1);
+  StrPcopy(Parquivo, Arquivo);
+  Len := GetFileVersionInfoSize(Parquivo, Handle);
+  Result := '';
+  if Len > 0 then
+  begin
+    Data := StrAlloc(Len + 1);
+    if GetFileVersionInfo(Parquivo, Handle, Len, Data) then
+    begin
+      VerQueryValue(Data, '\', Buffer, Tamanho);
+      F := PFFI(Buffer);
+      Result := Format('%d.%d.%d.%d', [HiWord(F^.dwFileVersionMs), LoWord(F^.dwFileVersionMs), HiWord(F^.dwFileVersionLs),
+        LoWord(F^.dwFileVersionLs)]);
+    end;
+    StrDispose(Data);
+  end;
+  StrDispose(Parquivo);
+end;
+
+procedure TfrmAutoBackup.Verso1Click(Sender: TObject);
+begin
+  bWindows.BalloonTitle := 'Versão Backup';
+  bWindows.BalloonHint := 'Versão: ' + VersaoExe;
+  bWindows.ShowBalloonHint;
+end;
+
+end.

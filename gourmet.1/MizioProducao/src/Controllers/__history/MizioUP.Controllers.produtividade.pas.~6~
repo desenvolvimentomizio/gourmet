@@ -1,0 +1,21 @@
+unit MizioUP.Controllers.produtividade;
+
+interface
+
+uses
+  RESTRequest4D,
+  DataSet.Serialize,
+  MizioUP.Models.produtividade;
+
+implementation
+
+
+
+procedure CriarPrecoVenda(AResumoProdutividade: TResumoProdutividade);
+begin
+
+end;
+
+
+
+end.

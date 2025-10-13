@@ -1,0 +1,287 @@
+inherited frarcf: Tfrarcf
+  inherited PlGeral: TPanel
+    inherited PlLista: TPanel
+      inherited PnlGrid: TPanel
+        inherited DBGLista: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'rcfchave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rcfdata'
+              Title.Caption = 'Data'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rcfhora'
+              Title.Caption = 'Hora'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdcodigo'
+              Title.Caption = 'C'#243'digo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'etdidentificacao'
+              Title.Caption = 'Cliente'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tcridentificacao'
+              Title.Caption = 'Origem'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tscidentificacao'
+              Title.Caption = 'Situa'#231#227'o'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rcfhistorico'
+              Title.Caption = 'Hist'#243'rico'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rcfvalor'
+              Title.Caption = 'Cr'#233'dito Total'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'rcfsaldo'
+              Title.Caption = 'Saldo Dispon'#237'vel'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'mcrvalorbaixa'
+              Title.Caption = 'Valor Utilizado'
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited acoes: TActionList
+    object spbEmAberto: TAction
+      Category = 'Visualizar'
+      Caption = 'Em Aberto'
+      OnExecute = spbEmAbertoExecute
+    end
+    object spbCancelados: TAction
+      Category = 'Visualizar'
+      Caption = 'Cancelados'
+      OnExecute = spbCanceladosExecute
+    end
+    object spbTransferidos: TAction
+      Category = 'Visualizar'
+      Caption = 'Transferidos'
+      OnExecute = spbTransferidosExecute
+    end
+    object spbTodos: TAction
+      Category = 'Visualizar'
+      Caption = 'Todos'
+      OnExecute = spbTodosExecute
+    end
+  end
+  inherited DSTabela: TUniDataSource
+    OnStateChange = DSTabelaStateChange
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  rcfchave,'
+      '  tcridentificacao,'
+      '  tscidentificacao,'
+      '  etdidentificacao,'
+      '  etdcodigo,'
+      '  cedcodigo,'
+      '  rcfdata,'
+      '  rcfhistorico,'
+      '  mfechave,'
+      '  tmcidentificacao,'
+      '  tmccodigo,'
+      '  clbcodigo,'
+      '  clbidentificacao,'
+      '  rcfvalor,'
+      '  mcrvalorbaixa,'
+      '  rcfsaldo,'
+      '  mfemotivo,'
+      '  mferegistro,'
+      '  tcrcodigo,'
+      '  tsccodigo,'
+      '  tnccodigo,'
+      '  rcfhora,'
+      '  tsccodigo'
+      'FROM v_rcf where tnccodigo=1')
+    object uqtabelarcfchave: TIntegerField
+      FieldName = 'rcfchave'
+    end
+    object uqtabelatcridentificacao: TStringField
+      FieldName = 'tcridentificacao'
+      Required = True
+      Size = 35
+    end
+    object uqtabelatscidentificacao: TStringField
+      FieldName = 'tscidentificacao'
+      Required = True
+      Size = 255
+    end
+    object uqtabelaetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      Required = True
+      Size = 60
+    end
+    object uqtabelaetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object uqtabelacedcodigo: TIntegerField
+      FieldName = 'cedcodigo'
+      Required = True
+    end
+    object uqtabelarcfdata: TDateField
+      FieldName = 'rcfdata'
+    end
+    object uqtabelarcfhistorico: TStringField
+      FieldName = 'rcfhistorico'
+      Size = 200
+    end
+    object uqtabelamfechave: TIntegerField
+      FieldName = 'mfechave'
+    end
+    object uqtabelatmcidentificacao: TStringField
+      FieldName = 'tmcidentificacao'
+      Required = True
+      Size = 255
+    end
+    object uqtabelatmccodigo: TIntegerField
+      FieldName = 'tmccodigo'
+      Required = True
+    end
+    object uqtabelaclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+    end
+    object uqtabelaclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      Size = 30
+    end
+    object uqtabelarcfvalor: TFloatField
+      FieldName = 'rcfvalor'
+      Required = True
+    end
+    object uqtabelamcrvalorbaixa: TFloatField
+      FieldName = 'mcrvalorbaixa'
+    end
+    object uqtabelarcfsaldo: TFloatField
+      FieldName = 'rcfsaldo'
+    end
+    object uqtabelamfemotivo: TStringField
+      FieldName = 'mfemotivo'
+      Required = True
+      Size = 255
+    end
+    object uqtabelamferegistro: TDateTimeField
+      FieldName = 'mferegistro'
+    end
+    object uqtabelatcrcodigo: TIntegerField
+      FieldName = 'tcrcodigo'
+      Required = True
+    end
+    object uqtabelatsccodigo: TIntegerField
+      FieldName = 'tsccodigo'
+    end
+    object uqtabelatnccodigo: TIntegerField
+      FieldName = 'tnccodigo'
+    end
+    object uqtabelarcfhora: TTimeField
+      FieldName = 'rcfhora'
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  inherited mce: TUniQuery
+    SQL.Strings = (
+      'SELECT mfe.mfechave'
+      '     , mfe.rcfchave'
+      '     , mfe.tmccodigo'
+      '     , mfe.clbcodigo'
+      '     , mfe.mfemotivo'
+      '     , mfe.mferegistro'
+      '     , clb.clbidentificacao'
+      '     , tmc.tmcidentificacao'
+      
+        '     , IF(rcf.tsccodigo = 1 AND mfr.mfrchave IS NOT NULL, SUM(mf' +
+        'r.mfrvalor), rcf.rcfvalor) AS mfevalor'
+      '  FROM rcf'
+      ' INNER JOIN mfe ON rcf.rcfchave = mfe.rcfchave'
+      ' INNER JOIN clb ON mfe.clbcodigo = clb.clbcodigo'
+      ' INNER JOIN tmc ON mfe.tmccodigo = tmc.tmccodigo'
+      '  LEFT JOIN mfr ON mfe.mfechave = mfr.mfechave'
+      ' WHERE mfe.rcfchave = :rcfchave'
+      ' GROUP BY mfe.mfechave'
+      ' ORDER BY mfe.mferegistro')
+    Left = 576
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'rcfchave'
+        Value = nil
+      end>
+    object mcemfechave: TIntegerField
+      FieldName = 'mfechave'
+    end
+    object mcercfchave: TIntegerField
+      FieldName = 'rcfchave'
+      Required = True
+    end
+    object mcetmccodigo: TIntegerField
+      FieldName = 'tmccodigo'
+      Required = True
+    end
+    object mceclbcodigo: TIntegerField
+      FieldName = 'clbcodigo'
+      Required = True
+    end
+    object mcemfemotivo: TStringField
+      FieldName = 'mfemotivo'
+      Required = True
+      Size = 255
+    end
+    object mcemferegistro: TDateTimeField
+      FieldName = 'mferegistro'
+    end
+    object mceclbidentificacao: TStringField
+      FieldName = 'clbidentificacao'
+      ReadOnly = True
+      Size = 30
+    end
+    object mcetmcidentificacao: TStringField
+      FieldName = 'tmcidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 255
+    end
+    object mcemfevalor: TFloatField
+      FieldName = 'mfevalor'
+      ReadOnly = True
+    end
+  end
+  inherited Dmce: TDataSource
+    Left = 467
+    Top = 436
+  end
+end

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/18 09:49:15.000.767,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/18 19:05:35.000.974,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/04 18:37:12.000.462,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/05 18:24:20.000.433,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/05 18:25:25.000.357,C:\TesteWpp\Unit2.pas=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/04/05 18:25:25.000.357,C:\TesteWpp\Unit2.dfm=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2024/04/05 18:25:27.000.038,C:\TesteWpp\Project2.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2024/04/09 18:00:02.000.380,C:\TesteWpp\Unit2.dfm=C:\TesteWpp\UfrDemo.dfm</Transaction>
+    <Transaction>2024/04/09 18:00:02.000.380,C:\TesteWpp\Unit2.pas=C:\TesteWpp\UfrDemo.pas</Transaction>
+    <Transaction>2024/04/11 08:46:30.000.089,C:\TesteWpp\UfrDemo.pas=C:\TesteWpp\UFprinciWhaGou.pas</Transaction>
+    <Transaction>2024/04/11 08:46:30.000.089,C:\TesteWpp\UfrDemo.dfm=C:\TesteWpp\UFprinciWhaGou.dfm</Transaction>
+    <Transaction>2024/04/11 08:54:02.000.257,C:\TesteWpp\Project2.dproj=C:\TesteWpp\GereWhaGou.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

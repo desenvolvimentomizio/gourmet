@@ -1,0 +1,142 @@
+object flteFormaCredito: TflteFormaCredito
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'flteFormaCredito'
+  ClientHeight = 585
+  ClientWidth = 896
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCloseQuery = FormCloseQuery
+  OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object plformulario: TPanel
+    Left = 0
+    Top = 0
+    Width = 896
+    Height = 585
+    Align = alClient
+    Color = clSilver
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitLeft = -65
+    ExplicitTop = -79
+    ExplicitWidth = 961
+    ExplicitHeight = 664
+    object plCentro: TPanel
+      Left = 96
+      Top = 184
+      Width = 537
+      Height = 273
+      Color = clBlack
+      ParentBackground = False
+      TabOrder = 0
+      object Panel2: TPanel
+        AlignWithMargins = True
+        Left = 4
+        Top = 99
+        Width = 529
+        Height = 170
+        Align = alClient
+        BevelOuter = bvNone
+        Padding.Left = 50
+        Padding.Top = 50
+        Padding.Right = 50
+        Padding.Bottom = 50
+        TabOrder = 0
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 633
+        ExplicitHeight = 192
+        object btOK: TBitBtn
+          AlignWithMargins = True
+          Left = 53
+          Top = 53
+          Width = 188
+          Height = 64
+          Align = alLeft
+          Caption = '[A] A Vista'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ModalResult = 1
+          NumGlyphs = 2
+          ParentFont = False
+          TabOrder = 0
+          OnClick = btOKClick
+          ExplicitHeight = 119
+        end
+        object btCancel: TBitBtn
+          AlignWithMargins = True
+          Left = 296
+          Top = 53
+          Width = 180
+          Height = 64
+          Margins.Left = 50
+          Align = alRight
+          Caption = '[P] Parcelado'
+          Default = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          NumGlyphs = 2
+          ParentFont = False
+          TabOrder = 1
+          OnClick = btCancelClick
+          ExplicitLeft = 400
+          ExplicitHeight = 119
+        end
+      end
+      object plTitulo: TPanel
+        Left = 1
+        Top = 1
+        Width = 535
+        Height = 95
+        Align = alTop
+        BevelOuter = bvNone
+        BorderWidth = 3
+        Color = clBlack
+        Padding.Top = 15
+        Padding.Right = 15
+        Padding.Bottom = 15
+        ParentBackground = False
+        TabOrder = 1
+        ExplicitWidth = 639
+        object plMensagem: TLabel
+          AlignWithMargins = True
+          Left = 23
+          Top = 18
+          Width = 494
+          Height = 59
+          Margins.Left = 20
+          Margins.Top = 0
+          Margins.Right = 0
+          Align = alClient
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Cart'#227'o de Cr'#233'dito'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clGreen
+          Font.Height = -53
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 598
+          ExplicitHeight = 71
+        end
+      end
+    end
+  end
+end

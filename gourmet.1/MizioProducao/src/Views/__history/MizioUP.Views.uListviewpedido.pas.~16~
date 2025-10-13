@@ -1,0 +1,214 @@
+unit MizioUP.Views.uListviewpedido;
+
+interface
+
+uses FMX.ListView.Types,
+     FMX.ListView.Appearances,
+     FMX.ListView,
+     FMX.Graphics;
+
+type
+    TListviewPedido = class
+    private
+    public
+      class function MaximoColaborador(lview: TListView): integer; static;
+      class procedure SetupItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap); static;
+      class procedure SelecionarItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap);
+      class function SelectedCount(lview: TListView): integer; static;
+      class function SelectedItem(lview: TListView): String; static;
+      class procedure AddItem(lv: TListView; aChave, aIdentificacao, aPedido,
+                              aTempo, AItem, aDestino: string;
+                              bmp: TBitmap; aMaximo:String); static;
+
+end;
+
+implementation
+
+uses
+  System.UITypes, System.SysUtils;
+
+class function TListviewPedido.SelectedItem(lview: TListView): String;
+var
+  x : integer;
+  vlNumeroPedido:String;
+  vItem: TListViewItem;
+begin
+  vlNumeroPedido:='0';
+
+  for x := lview.ItemCount - 1 downto 0 do
+  begin
+    if lview.Items[x].Checked then
+    begin
+
+      vItem:=lview.Items[x];
+      with vItem do
+      begin
+        vlNumeroPedido:=lview.Items[x].TagString+'_'+
+                        lview.Items[x].Tag.ToString;
+                         ;
+      end;
+
+      break;
+
+    end;
+  end;
+  result:=vlNumeroPedido;
+end;
+
+class function TListviewPedido.MaximoColaborador(lview: TListView): integer;
+var
+  x : integer;
+  vlMaximoColaborador : Integer;
+begin
+
+  Result := 0;
+
+  for x := lview.ItemCount - 1 downto 0 do
+  begin
+    if lview.Items[x].Checked then
+    begin
+      vlMaximoColaborador:=StrToInt(lview.Items[x].Text);
+      Result:=vlMaximoColaborador;
+    end;
+  end;
+end;
+
+
+class function TListviewPedido.SelectedCount(lview: TListView): integer;
+var
+    x : integer;
+begin
+    Result := 0;
+
+    for x := lview.ItemCount - 1 downto 0 do
+        if lview.Items[x].Checked then
+            Inc(Result);
+end;
+class procedure TListviewPedido.SetupItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap);
+begin
+    with item do
+    begin
+        if Checked then
+            TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := img_check
+        else
+            TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := img_uncheck;
+    end;
+end;
+
+
+class procedure TListviewPedido.SelecionarItem(lv: TListView; Item: TListViewItem; img_uncheck, img_check: TBitmap);
+var
+  vlMaximoColaborador:Integer;
+  vlSelecionados:Integer;
+begin
+
+
+
+  with Item do
+  begin
+
+    vlMaximoColaborador:=StrToInt(TListItemText(Objects.FindDrawable('TxtMaximo')).Text);
+
+    vlSelecionados := SelectedCount(lv);
+    if vlSelecionados<=vlMaximoColaborador  then
+    begin
+
+      Item.Checked := NOT Item.Checked;
+      SetupItem(lv, item, img_uncheck, img_check);
+
+    end;
+
+  end;
+
+end;
+
+
+
+class procedure TListviewPedido.AddItem(lv: TListView;
+                                  aChave, aIdentificacao, aPedido, aTempo, AItem, aDestino: string;
+                                  bmp: TBitmap; aMaximo:String);
+var
+  vLargura: Single;
+  vHoras: string;
+  vItem: TListViewItem;
+begin
+  vLargura := lv.Width;
+
+  vItem := lv.Items.Add;
+
+  with vItem do
+  begin
+    Height := 60;
+    TagString := AItem;
+    Tag := aChave.ToInteger;
+
+    Checked := False;
+
+    TListItemText(Objects.FindDrawable('TxtPedido')).Text := aPedido;
+    TListItemText(Objects.FindDrawable('TxtPedido')).Width := 120;
+
+    vHoras := copy(aTempo, 1, pos(':', aTempo) - 1);
+
+    if vHoras = '' then
+      vHoras := '0';
+
+    if strtoint(vHoras) > 0 then
+    begin
+
+     // LvImm.SetColorItemSelected(TAlphaColorRec.Orangered);
+     // LvImm.SetColorItemFill(TAlphaColorRec.Red);
+     // LvImm.SetColorItemFillAlt(TAlphaColorRec.Lightgrey);
+     // LvImm.SetColorItemSeparator(TAlphaColorRec.Black);
+     // LvImm.SetColorTextDetail(TAlphaColorRec.Red);
+     // LvImm.SetColorTextHeaderShadow(TAlphaColorRec.grey);
+
+      TListItemText(Objects.FindDrawable('TxtPedido')).TextColor := TAlphaColorRec.Black;
+
+    end
+    else
+    begin
+
+      if aTempo = '' then
+        aTempo := '00:00';
+
+      if strtotime(aTempo + ':00') > strtotime('00:30:00') then
+      begin
+
+        TListItemText(Objects.FindDrawable('TxtPedido')).TextColor := TAlphaColorRec.Red;
+      end
+      else if strtotime(aTempo + ':00') > strtotime('00:50:00') then
+      begin
+        TListItemText(Objects.FindDrawable('TxtPedido')).TextColor := TAlphaColorRec.Orange;
+      end
+      else
+      begin
+        TListItemText(Objects.FindDrawable('TxtPedido')).TextColor := TAlphaColorRec.Black;
+      end;
+
+    end;
+
+
+    TListItemText(Objects.FindDrawable('TxtMaximo')).Text := aMaximo;
+
+    TListItemText(Objects.FindDrawable('TxtTempo')).Text := aTempo;
+    TListItemText(Objects.FindDrawable('TxtTempo')).Width := 60;
+
+    TListItemText(Objects.FindDrawable('TxtDestino')).Text := aDestino;
+    TListItemText(Objects.FindDrawable('TxtDestino')).Width := 60;
+
+    TListItemImage(Objects.FindDrawable('ImgCheck')).Bitmap := bmp;
+    TListItemImage(Objects.FindDrawable('ImgCheck')).Width := 60;
+
+    TListItemText(Objects.FindDrawable('TxtDescricao')).Text := aIdentificacao;
+    TListItemImage(Objects.FindDrawable('TxtDescricao')).Width := vLargura - (240 + 20);
+
+  end;
+
+  lv.Adapter.ResetView(vItem);
+end;
+
+
+
+
+end.
+

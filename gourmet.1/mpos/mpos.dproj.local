@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/10/18 14:42:57.000.062,=rtl.dcp</Transaction>
+    <Transaction>2024/10/18 14:43:25.000.160,C:\fontes_gourmet\gourmet.1\mpos\mpos.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2024/10/18 14:46:50.000.948,=C:\fontes_gourmet\gourmet.1\base\ufrabase.pas</Transaction>
+    <Transaction>2024/10/18 14:46:51.000.358,=C:\fontes_gourmet\gourmet.1\mpos\Unit1.pas</Transaction>
+    <Transaction>2024/10/18 14:47:02.000.890,=C:\fontes_gourmet\gourmet.1\mpos\Unit2.pas</Transaction>
+    <Transaction>2024/10/18 14:47:02.000.674,=C:\fontes_gourmet\gourmet.1\base\ufrmbase.pas</Transaction>
+    <Transaction>2024/10/18 14:47:12.000.744,=C:\fontes_gourmet\gourmet.1\base\ulfrmbase.pas</Transaction>
+    <Transaction>2024/10/18 14:47:12.000.875,=C:\fontes_gourmet\gourmet.1\mpos\Unit3.pas</Transaction>
+    <Transaction>2024/10/18 14:47:34.000.125,C:\fontes_gourmet\gourmet.1\mpos\ufrapos.dfm=C:\fontes_gourmet\gourmet.1\mpos\Unit1.dfm</Transaction>
+    <Transaction>2024/10/18 14:47:34.000.125,C:\fontes_gourmet\gourmet.1\mpos\ufrapos.pas=C:\fontes_gourmet\gourmet.1\mpos\Unit1.pas</Transaction>
+    <Transaction>2024/10/18 14:47:51.000.298,C:\fontes_gourmet\gourmet.1\mpos\ufrmpos.dfm=C:\fontes_gourmet\gourmet.1\mpos\Unit2.dfm</Transaction>
+    <Transaction>2024/10/18 14:47:51.000.298,C:\fontes_gourmet\gourmet.1\mpos\ufrmpos.pas=C:\fontes_gourmet\gourmet.1\mpos\Unit2.pas</Transaction>
+    <Transaction>2024/10/18 14:51:18.000.179,C:\fontes_gourmet\gourmet.1\mpos\ufpos.dfm=C:\fontes_gourmet\gourmet.1\mpos\ufrmpos.dfm</Transaction>
+    <Transaction>2024/10/18 14:51:18.000.179,C:\fontes_gourmet\gourmet.1\mpos\ufpos.pas=C:\fontes_gourmet\gourmet.1\mpos\ufrmpos.pas</Transaction>
+    <Transaction>2024/10/18 14:51:55.000.135,C:\fontes_gourmet\gourmet.1\mpos\ulpos.pas=C:\fontes_gourmet\gourmet.1\mpos\Unit3.pas</Transaction>
+    <Transaction>2024/10/18 14:51:55.000.135,C:\fontes_gourmet\gourmet.1\mpos\ulpos.dfm=C:\fontes_gourmet\gourmet.1\mpos\Unit3.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

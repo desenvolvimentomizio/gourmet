@@ -1,0 +1,300 @@
+[#General#]
+Product=MyDbComparer
+Version=4
+
+[MySQL Database Comparer Project]
+EncryptPassword=1
+WindowPosLeft=0
+WindowPosBottom=0
+WindowPosRight=0
+WindowPosTop=0
+Layout=(none)
+SplitterPosition=420
+Major Version=4
+Minor Version=0
+Direction=1
+ExecuteScriptAfterCreating=0
+AbortOnError=1
+RollBackOnAbort=0
+AnalyzeRenamedObjects=1
+CaseSensitive=1
+UseDeps=1
+AddComments=1
+CompareBroken=0
+CutDescriptions=0
+CutDescriptionsLen=50
+
+[Etalon]
+Server=192.168.5.60
+Port=3306
+User=root
+Password=7BF048ABD55F
+DBName=pega2013ajt
+TunnelType=ttNotUse
+SSHHostName=
+SSHPort=0
+SSHUserName=
+SSHPassword=
+SSHKeyFile=
+SSHUseKeyFile=False
+HTTPUrl=
+Charset=0
+
+[Target]
+Server=192.168.5.60
+Port=3306
+User=root
+Password=7BF048ABD55F
+DBName=pega2013
+TunnelType=ttNotUse
+SSHHostName=
+SSHPort=0
+SSHUserName=
+SSHPassword=
+SSHKeyFile=
+SSHUseKeyFile=False
+HTTPUrl=
+Charset=0
+
+[Tables Compare Options]
+Tables Compare Options Enabled=1
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Grants=0
+Comment=0
+Type=1
+Row Format=1
+Check Sum=1
+Delay Key Write=1
+Pack Keys=1
+Min Rows=1
+Max Rows=1
+Union Tables=1
+Collation=1
+Charset=1
+Average Row Length=0
+Connection string=1
+Autoincrement=0
+Name=1
+
+[Fields Compare Options]
+Fields Compare Options Enabled=1
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Grants=0
+Comment=1
+Size=1
+Type=1
+Precision=1
+Not Null=1
+Autoincrement=1
+Unique=0
+Default=1
+Values=1
+Use Dimension=1
+Unsigned=1
+Zerofill=1
+Primary Key=0
+Binary=1
+Field Order=1
+ASCII=1
+Unicode=1
+Collation=1
+On Update Current Timestamp=1
+Charset=1
+Name=1
+
+[Indices Compare Options]
+Indices Compare Options Enabled=1
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Order=1
+Fields=1
+Index Type=1
+Index Using=1
+Key Block Size=1
+Parser Name=1
+Comment=1
+Name=1
+
+[Foreign keys Compare Options]
+Foreign keys Compare Options Enabled=1
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Update Action=1
+Delete Action=1
+Reference Fields=1
+Reference Table Name=1
+Fields=1
+Reference Database Name=1
+Name=1
+
+[Triggers Compare Options]
+Triggers Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Body=1
+Event=1
+Type=1
+Definer=1
+Name=1
+
+[Views Compare Options]
+Views Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Grants=0
+Definition=1
+Definer=1
+Algorithm type=1
+Security=1
+Name=1
+
+[UDFs Compare Options]
+UDFs Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Returns=1
+Library Name=1
+Aggregate=1
+Name=1
+
+[Procedures Compare Options]
+Procedures Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Grants=0
+Comment=1
+Parameters=1
+Deterministic Result=1
+Security=1
+Definition=1
+Definer=1
+SQL Data Access=1
+Name=1
+
+[Functions Compare Options]
+Functions Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Grants=0
+Comment=1
+Deterministic Result=1
+Security=1
+Parameters=1
+Return Type=1
+Definition=1
+SQL Data Access=1
+Name=1
+
+[Events Compare Options]
+Events Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Comment=1
+Body=1
+Last Executed=1
+Ends=1
+Starts=1
+Interval Value=1
+Interval=1
+Execute At=1
+Preserve=1
+Event Type=1
+Enabled=1
+Definer=1
+Name=1
+
+[Users Compare Options]
+Users Compare Options Enabled=0
+Filter=
+FilterCaseSens=0
+GenerateAlterScripts=1
+GenerateDropScripts=1
+GenerateCreateScripts=1
+MasterSchema=
+TargetSchema=
+Item_Count=0
+Global privileges=1
+Database privileges=1
+Max queries=1
+Max updates=1
+Max connections=1
+Require By=1
+Require by cipher=1
+Require by issuer=1
+Require by subject=1
+Name=1
+
+[TargetExludedObjects]
+Item_Count=0
+
+[SourceExludedObjects]
+Item_Count=0
+
+[#Comment#]
+Line0=comparacao do banco pega2013 depois da primeira
+Line1=abertura com o pega2013 e uma base chamada
+Line2=pega2013ajt, gerada direto pelo script do diagrama do
+Line3=banco
+

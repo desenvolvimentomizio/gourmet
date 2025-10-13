@@ -1,0 +1,234 @@
+unit ufracct;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrabase, Data.DB, Vcl.ExtCtrls,
+  VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus, System.Actions, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Imaging.pngimage, uPegaBase, System.ImageList, Vcl.ImgList, ufuncoes;
+
+type
+  Tfracct = class(Tfrabase)
+    uqtabelacctchave: TIntegerField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelacctregistro: TDateField;
+    uqtabelaetdapelido: TStringField;
+    uqtabelacctvalor: TFloatField;
+    uqtabelacctdatainicio: TDateField;
+    uqtabelacctdatafinal: TDateField;
+    uqtabelacctperiodicidade: TIntegerField;
+    uqtabelacctrenovacaoauto: TIntegerField;
+    uqtabelactrdiavencto: TIntegerField;
+    uqtabelatccidentificacao: TStringField;
+    plTotalOriginal: TPanel;
+    dct: TUniQuery;
+    dctdctchave: TIntegerField;
+    dctcctchave: TIntegerField;
+    dctdctdatainicial: TDateField;
+    dctdctdatafinal: TDateField;
+    dctdctdescricao: TStringField;
+    dctdctvalor: TFloatField;
+    ActGerarFaturamento: TAction;
+    uqtabelacctidentificacao: TStringField;
+    pcl: TUniQuery;
+    uqtabelapclchave: TIntegerField;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    uqtabelapcldatainicial: TDateField;
+    uqtabelapcldatafinal: TDateField;
+    uqtabelapclpercentual: TFloatField;
+    StringField1: TStringField;
+    StringField2: TStringField;
+    StringField3: TStringField;
+    Dpcl: TDataSource;
+    DBGrid1: TDBGrid;
+    ActParticipacoes: TAction;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmcctipos: TStringField;
+    cfgcfgmcctformavalor: TStringField;
+    cfgcfgmcctidentificador: TStringField;
+    cfgcfgmcctempercentual: TIntegerField;
+    cfgcfgmcctusarenovacao: TIntegerField;
+    cfgcfgmcctusadatafinal: TIntegerField;
+    cfgcfgmccttipovalor: TStringField;
+    resumocctmes: TUniQuery;
+    resumocctcontratosmes: TUniQuery;
+    resumocctcontratosmessaldogeralmes: TFloatField;
+    resumocctcontratostotal: TUniQuery;
+    resumocctcontratostotalsaldogeral: TFloatField;
+    plTotalContratos: TPanel;
+    plTotalContratosmes: TPanel;
+    resumocctmescctvalor: TFloatField;
+    uqtabelaatvidentificacao: TStringField;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure ActGerarFaturamentoExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActParticipacoesExecute(Sender: TObject);
+    procedure ActConfigExecute(Sender: TObject);
+  private
+    procedure CalcularTotais;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fracct: Tfracct;
+
+  // Início ID do Módulo fracct
+const
+  vPlIdMd = '00.00.0.000-01';
+  vPlTitMdl = 'Contratos';
+
+  // Fim ID do Módulo fracct
+
+implementation
+
+uses
+  ufcct, ufcfgmcct;
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracct := Tfracct.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fracct := Tfracct.Create(pCargaFrame);
+  try
+    fracct.CriaAcoesDeAcesso;
+  finally
+    fracct.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfracct.ActAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfcct, uqtabelacctchave.AsString, '');
+end;
+
+procedure Tfracct.ActAtualizarExecute(Sender: TObject);
+begin
+  cfg.close;
+  cfg.ParamByName('cfgcodigo').AsInteger := acesso.Filial;
+  cfg.Open;
+  inherited;
+
+  uqtabelacctidentificacao.DisplayLabel := UpperNome(cfgcfgmcctidentificador.AsString);
+  // lbcctvalor.Caption:=cfgcfgmcctformavalor.AsString;
+  uqtabelatccidentificacao.DisplayLabel := UpperNome(cfgcfgmcctipos.AsString);
+  // lbcctvalorfechado.Caption:=cfgcfgmcctformavalor.AsString;
+
+  CalcularTotais;
+end;
+
+procedure Tfracct.ActConfigExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfcfgmcct, acesso.Filial.ToString, '');
+end;
+
+procedure Tfracct.ActGerarFaturamentoExecute(Sender: TObject);
+begin
+  inherited;
+
+  MostraFormu('mcre', '', self.uqtabelacctchave.AsString);
+end;
+
+procedure Tfracct.CalcularTotais;
+var
+  vlTotalOri: double;
+  vlReg: Integer;
+
+begin
+  try
+    self.uqtabela.DisableControls;
+    if uqtabela.Active then
+    begin
+
+      vlReg := self.uqtabela.RecNo;
+
+      vlTotalOri := 0;
+      uqtabela.First;
+      while not uqtabela.Eof do
+      begin
+        if uqtabelacctdatafinal.AsString = '' then
+          vlTotalOri := vlTotalOri + uqtabelacctvalor.AsCurrency;
+
+        uqtabela.Next;
+      end;
+
+      resumocctmes.Close;
+      resumocctmes.Open;
+
+      plTotalOriginal.Caption := 'Total Manutenção R$: ' + FormatFloat('##,###,##0.00', resumocctmescctvalor.AsCurrency);
+
+
+      resumocctcontratosmes.Close;
+      resumocctcontratosmes.Open;
+
+      plTotalContratosmes.Caption := 'Contrato a até hoje R$: ' + FormatFloat('##,###,##0.00', resumocctcontratosmessaldogeralmes.AsCurrency);
+
+
+      resumocctcontratostotal.Close;
+      resumocctcontratostotal.Open;
+
+      plTotalContratos.Caption := 'Contrato a Total R$: ' + FormatFloat('##,###,##0.00', resumocctcontratostotalsaldogeral.AsCurrency);
+
+
+    end;
+    self.uqtabela.RecNo := vlReg;
+  finally
+    self.uqtabela.EnableControls;
+  end;
+end;
+
+procedure Tfracct.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  GridZebrado(Sender, Rect, DataCol, Column, State);
+end;
+
+procedure Tfracct.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  if uqtabela.Active then
+    if not uqtabela.IsEmpty then
+    begin
+      if uqtabelacctchave.AsString <> '' then
+      begin
+        pcl.close;
+        pcl.ParamByName('cctchave').AsInteger := uqtabelacctchave.AsInteger;
+        pcl.Open;
+      end;
+    end;
+end;
+
+procedure Tfracct.ActIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  CriaFormulario(Tfcct, '', '');
+end;
+
+procedure Tfracct.ActParticipacoesExecute(Sender: TObject);
+begin
+  inherited;
+  mostralista('mpcl', '', uqtabelacctchave.AsString);
+end;
+
+end.

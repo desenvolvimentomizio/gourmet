@@ -1,0 +1,537 @@
+unit UntIngredientePesado;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, db,
+  Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ComCtrls, ACBrBase, ACBrBAL, ACBrDevice, Vcl.Imaging.pngimage,
+  ACBrDeviceSerial;
+
+type
+  TFrmIngredientePesado = class(TForm)
+    Panel1: TPanel;
+    Panel11: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel7: TPanel;
+    PnSabores: TPanel;
+    Panel9: TPanel;
+    BtnConfirmar: TButton;
+    Button2: TButton;
+    Panel8: TPanel;
+    DBText1: TDBText;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Label4: TLabel;
+    DBEdit2: TDBEdit;
+    Label5: TLabel;
+    EdtQtde: TDBEdit;
+    Label2: TLabel;
+    Panel6: TPanel;
+    Label7: TLabel;
+    EdtCopos: TDBEdit;
+    Label3: TLabel;
+    EdtPratos: TDBEdit;
+    Label6: TLabel;
+    ACBrBAL: TACBrBAL;
+    LbPeso: TLabel;
+    Button1: TButton;
+    TmBalanca: TTimer;
+    iBalanca: TImage;
+    procedure FormShow(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure BtnConfirmarClick(Sender: TObject);
+    procedure EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtQtdeExit(Sender: TObject);
+    procedure EdtCoposExit(Sender: TObject);
+    procedure EdtPratosExit(Sender: TObject);
+    procedure EdtCoposEnter(Sender: TObject);
+    procedure EdtPratosEnter(Sender: TObject);
+    procedure ACBrBALLePeso(Peso: Double; Resposta: AnsiString);
+    procedure Button1Click(Sender: TObject);
+    procedure TmBalancaTimer(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure EdtQtdeEnter(Sender: TObject);
+
+  private
+    vpResposta: TStringList;
+
+    { Private declarations }
+    procedure ConfirmaItem;
+    procedure ConfirmarItemPesado;
+    procedure PreparaInclusao;
+    procedure ParametrizarBalanca(vSetor: Integer = 1);
+
+  public
+    { Public declarations }
+    vpSbrCodigo: Integer;
+    vpConfirma: boolean;
+    vpSetor: Integer;
+  end;
+
+var
+  FrmIngredientePesado: TFrmIngredientePesado;
+
+implementation
+
+uses
+  UntDmDados, UntPrincipal, untPegaUtils;
+
+{$R *.dfm}
+
+procedure TFrmIngredientePesado.ACBrBALLePeso(Peso: Double; Resposta: AnsiString);
+var
+  vRetorno: Integer;
+begin
+  try
+    TmBalanca.Enabled := False;
+    LbPeso.Caption := '';
+    LbPeso.Font.Color := clWhite;
+    if Peso > 0 then
+    begin
+      LbPeso.Caption := 'Produto pesado com sucesso !';
+      DmDados.titoqtde.AsFloat := Peso;
+      ACBrBAL.MonitorarBalanca := False;
+      ConfirmarItemPesado;
+    end
+    else
+    begin
+      vRetorno := Trunc(ACBrBAL.UltimoPesoLido);
+      LbPeso.Font.Color := clYellow;
+      case vRetorno of
+        0:
+          begin
+            LbPeso.Font.Color := clWhite;
+            LbPeso.Caption := 'Coloque o produto sobre a Balança!';
+            TmBalanca.Enabled := True;
+          end;
+        -1:
+          LbPeso.Caption := 'Peso Instavel ! ' + sLineBreak + 'Efetuando nova leitura, Aguarde ... ';
+        -2:
+          LbPeso.Caption := 'Peso Negativo !';
+        -10:
+          LbPeso.Caption := 'Sobrepeso !';
+      end;
+      sleep(600);
+      TmBalanca.Enabled := True;
+    end;
+  except
+    TmBalanca.Enabled := True;
+    LbPeso.Font.Color := clYellow;
+    LbPeso.Caption := 'Falha de comunicação com a balança !';
+  end;
+end;
+
+procedure TFrmIngredientePesado.BtnConfirmarClick(Sender: TObject);
+begin
+  ConfirmaItem;
+end;
+
+procedure TFrmIngredientePesado.Button1Click(Sender: TObject);
+begin
+  ACBrBAL.LePeso;
+end;
+
+procedure TFrmIngredientePesado.Button2Click(Sender: TObject);
+begin
+  vpConfirma := False;
+  Close;
+end;
+
+procedure TFrmIngredientePesado.ConfirmaItem;
+begin
+  if (Length(EdtQtde.Text) > 0) and (StrToFloat(EdtQtde.Text) = 0) then
+    Exit;
+
+  if DmDados.tito.State in [DsInsert, DsEdit] then
+  begin
+    if DmDados.titoqtde.AsFloat < 0.002 then
+    begin
+      ShowMessage('Atenção, quantidade informada é invalida, verifique !');
+      EdtQtde.SelectAll;
+      EdtQtde.SetFocus;
+      Exit;
+    end;
+
+    DmDados.tito.Post;
+    DmDados.tito.ApplyUpdates;
+
+    if not DmDados.sbr.IsEmpty then
+    begin
+      if not DmDados.tisi.active then
+        DmDados.tisi.open;
+
+      // gravando saberes e ingredients
+      DmDados.sbr.DisableControls;
+
+      DmDados.sbr.First;
+      while not DmDados.sbr.Eof do
+      begin
+        if (DmDados.sbrtsicodigo.AsInteger <> DmDados.Usuario.tsicodigo) then
+        begin
+          DmDados.tisi.Append;
+          DmDados.tisisbrcodigo.AsInteger := DmDados.sbrsbrcodigo.AsInteger;
+          DmDados.tisiprocodigo.AsInteger := DmDados.sbrprocodigo.AsInteger;
+          DmDados.tisitsicodigo.AsInteger := DmDados.sbrtsicodigo.AsInteger;
+          DmDados.tisiisitipo.AsInteger := DmDados.sbrtipo.AsInteger;
+          DmDados.tisisfnid.AsInteger := DmDados.titosfnid.AsInteger;
+          DmDados.tisisfncodigo.AsInteger := 0;
+          if Length(DmDados.titoobs.AsString) > 0 then
+            DmDados.tisiobs.AsString := DmDados.titoobs.AsString;
+          DmDados.tisi.Post;
+        end;
+        DmDados.sbr.Next;
+      end;
+      DmDados.sbr.EnableControls;
+      DmDados.sbr.Close;
+
+      DmDados.vtsbradc.DisableControls;
+      if not DmDados.vtsbradc.IsEmpty then
+      begin
+        DmDados.vtsbradc.First;
+        while not DmDados.vtsbradc.Eof do
+        begin
+          DmDados.tisi.Append;
+          DmDados.tisisbrcodigo.AsInteger := vpSbrCodigo; // vtsbradcsbrcodigo.AsInteger;
+          DmDados.tisiprocodigo.AsInteger := DmDados.vtsbradcprocodigo.AsInteger;
+          DmDados.tisitsicodigo.AsInteger := DmDados.vtsbradctsicodigo.AsInteger;
+          DmDados.tisiisitipo.AsInteger := 1;
+          DmDados.tisisfnid.AsInteger := DmDados.titosfnid.AsInteger;
+          DmDados.tisisfncodigo.AsInteger := 0;
+          if Length(DmDados.titoobs.AsString) > 0 then
+            DmDados.tisiobs.AsString := DmDados.titoobs.AsString;
+          DmDados.tisi.Post;
+          DmDados.vtsbradc.Next;
+        end;
+      end;
+      DmDados.vtsbradc.EnableControls;
+    end;
+
+    if DmDados.tisi.active then
+      DmDados.tisi.ApplyUpdates;
+
+    // borda produtos fracionados
+    if DmDados.tbrd.active then
+      DmDados.tbrd.ApplyUpdates;
+
+    DmDados.MobGravaItens.Close;
+    DmDados.MobGravaItens.Params[0].AsInteger := DmDados.orcorcchave.AsInteger;
+    DmDados.MobGravaItens.Params[1].AsInteger := DmDados.Usuario.ClbCodigo;
+    DmDados.MobGravaItens.Params[2].AsInteger := DmDados.cfgmcfgflacodigo.AsInteger;
+    DmDados.MobGravaItens.Params[3].AsInteger := 2; // tipo 2 para gravar itens do tipo gourmet
+    DmDados.MobGravaItens.ExecProc;
+    if DmDados.MobGravaItens.Fields[0].AsInteger = 0 then
+    begin
+      if DmDados.vtItens.active then
+      begin
+        DmDados.vtItens.EmptyDataSet;
+      end;
+    end
+    else
+      ShowMessage(DmDados.MobGravaItens.Fields[1].AsString);
+  end;
+  PreparaInclusao;
+  vpConfirma := True;
+  Close;
+end;
+
+procedure TFrmIngredientePesado.ConfirmarItemPesado;
+
+begin
+  with DmDados do
+  begin
+    if tito.State in [DsInsert, DsEdit] then
+    begin
+      if titoqtde.AsFloat < 0.002 then
+      begin
+        ShowMessage('Atenção, quantidade informada é invalida, verifique !');
+        EdtQtde.SelectAll;
+        EdtQtde.SetFocus;
+        Exit;
+      end;
+
+      tito.Post;
+      tito.ApplyUpdates;
+
+      if not sbr.IsEmpty then
+      begin
+        if not tisi.active then
+          tisi.open;
+
+        // gravando saberes e ingredients
+        sbr.DisableControls;
+
+        sbr.First;
+        while not sbr.Eof do
+        begin
+          if (sbrtsicodigo.AsInteger <> Usuario.tsicodigo) then
+          begin
+            tisi.Append;
+            tisisbrcodigo.AsInteger := sbrsbrcodigo.AsInteger;
+            tisiprocodigo.AsInteger := sbrprocodigo.AsInteger;
+            tisitsicodigo.AsInteger := sbrtsicodigo.AsInteger;
+            tisiisitipo.AsInteger := sbrtipo.AsInteger;
+            tisisfnid.AsInteger := titosfnid.AsInteger;
+            tisisfncodigo.AsInteger := 0;
+            if Length(titoobs.AsString) > 0 then
+              tisiobs.AsString := titoobs.AsString;
+            tisi.Post;
+          end;
+          sbr.Next;
+        end;
+        sbr.EnableControls;
+        sbr.Close;
+
+        vtsbradc.DisableControls;
+        if not vtsbradc.IsEmpty then
+        begin
+          vtsbradc.First;
+          while not vtsbradc.Eof do
+          begin
+            tisi.Append;
+            tisisbrcodigo.AsInteger := vpSbrCodigo; // vtsbradcsbrcodigo.AsInteger;
+            tisiprocodigo.AsInteger := vtsbradcprocodigo.AsInteger;
+            tisitsicodigo.AsInteger := vtsbradctsicodigo.AsInteger;
+            tisiisitipo.AsInteger := 1;
+            tisisfnid.AsInteger := titosfnid.AsInteger;
+            tisisfncodigo.AsInteger := 0;
+            if Length(titoobs.AsString) > 0 then
+              tisiobs.AsString := titoobs.AsString;
+            tisi.Post;
+            vtsbradc.Next;
+          end;
+        end;
+        vtsbradc.EnableControls;
+      end;
+
+      if tisi.active then
+        tisi.ApplyUpdates;
+
+      // borda produtos fracionados
+      if tbrd.active then
+        tbrd.ApplyUpdates;
+
+      MobGravaItens.Close;
+      MobGravaItens.Params[0].AsInteger := orcorcchave.AsInteger;
+      MobGravaItens.Params[1].AsInteger := Usuario.ClbCodigo;
+      MobGravaItens.Params[2].AsInteger := DmDados.cfgmcfgflacodigo.AsInteger;
+      MobGravaItens.Params[3].AsInteger := 2; // tipo 2 para gravar itens do tipo gourmet
+      MobGravaItens.ExecProc;
+      if MobGravaItens.Fields[0].AsInteger = 0 then
+      begin
+        if DmDados.vtItens.active then
+        begin
+          vtItens.EmptyDataSet;
+        end;
+      end
+      else
+        ShowMessage(MobGravaItens.Fields[1].AsString);
+    end;
+    PreparaInclusao;
+    vpConfirma := True;
+    Close;
+  end;
+end;
+
+procedure TFrmIngredientePesado.EdtCoposEnter(Sender: TObject);
+begin
+  EdtCopos.SelectAll;
+end;
+
+procedure TFrmIngredientePesado.EdtCoposExit(Sender: TObject);
+begin
+  if Length(EdtCopos.Text) = 0 then
+    DmDados.titocopos.AsInteger := 0;
+end;
+
+procedure TFrmIngredientePesado.EdtPratosEnter(Sender: TObject);
+begin
+  EdtPratos.SelectAll;
+end;
+
+procedure TFrmIngredientePesado.EdtPratosExit(Sender: TObject);
+begin
+  if Length(EdtPratos.Text) = 0 then
+    DmDados.titopratos.AsInteger := 0;
+end;
+
+procedure TFrmIngredientePesado.EdtQtdeEnter(Sender: TObject);
+begin
+  EdtQtde.Color := $0080FFFF;
+end;
+
+procedure TFrmIngredientePesado.EdtQtdeExit(Sender: TObject);
+begin
+  EdtQtde.Color := clWhite;
+
+  if Length(EdtQtde.Text) = 0 then
+    DmDados.titoqtde.AsInteger := 1;
+end;
+
+procedure TFrmIngredientePesado.EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = ',') then
+    if AnsiPos(',', (Sender as TDBEdit).Text) > 0 then
+      Key := #0;
+
+  if Key in [',', '.'] then
+    Key := ',';
+
+  if Key = #13 then
+  begin
+    if Length(EdtQtde.Text) > 0 then
+    begin
+      DmDados.titoqtde.AsFloat := StrToFloat(EdtQtde.Text);
+      ConfirmaItem;
+    end;
+  end;
+
+  if not(Key in ['0' .. '9', ',', '.', Chr(8)]) then
+    Key := #0
+end;
+
+procedure TFrmIngredientePesado.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  TmBalanca.Enabled := False;
+end;
+
+procedure TFrmIngredientePesado.FormShow(Sender: TObject);
+begin
+  // variavel de controle
+  vpConfirma := False;
+
+  // busca dados do quantidade de ingredientes
+  if not DmDados.tsi.active then
+    DmDados.tsi.open;
+
+  // abre tabela virtual de ingredientes adicionais
+  if not DmDados.vtsbradc.active then
+    DmDados.vtsbradc.open
+  else
+  begin
+    if DmDados.vtsbradc.active then
+    begin
+
+      DmDados.vtsbradc.EmptyDataSet;
+    end;
+  end;
+
+  DmDados.titoqtde.AsInteger := 0;
+
+  ParametrizarBalanca(vpSetor);
+
+  EdtQtde.SelectAll;
+  EdtQtde.SetFocus;
+end;
+
+procedure TFrmIngredientePesado.ParametrizarBalanca(vSetor: Integer = 1);
+var
+  vpSQL: String;
+  vlTenta: Integer;
+begin
+  if ACBrBAL.Ativo then
+    ACBrBAL.Desativar;
+
+ // application.ProcessMessages;
+
+  if FPrinciGou.vpUsaBalanca then
+  begin
+    iBalanca.Visible := True;
+    // configura porta de comunicação
+
+    if vSetor = 1 then
+    begin
+      vpSQL := 'SELECT trmbalamodelo ' + '     , trmbalaporta ' + '     , IFNULL(trmbalabaud,0) trmbalabaud ' + '     , trmbalahandshake ' + '     , trmbalaparity ' +
+        '     , trmbalastop ' + '     , IFNULL(trmbaladata,0) trmbaladata ' + '  FROM trm ' + ' WHERE trm.trmcodigo = ''' + InttoStr(DmDados.Usuario.trmcodigo) + ''' ' +
+        '   AND trm.trmbalamodelo IS NOT NULL';
+    end;
+    if vSetor = 2 then
+    begin
+      vpSQL := 'SELECT trmbalamodelo1 ' + '     , trmbalaporta1 ' + '     , IFNULL(trmbalabaud1,0) trmbalabaud ' + '     , trmbalahandshake1 ' + '     , trmbalaparity1 ' +
+        '     , trmbalastop1 ' + '     , IFNULL(trmbaladata1,0) trmbaladata ' + '  FROM trm ' + ' WHERE trm.trmcodigo = ''' + InttoStr(DmDados.Usuario.trmcodigo) + ''' ' +
+        '   AND trm.trmbalamodelo1 IS NOT NULL';
+    end;
+
+    if DmDados.ConsultaSQL(vpSQL) then
+    begin
+      DmDados.Balaca.Modelo := DmDados.consulta.Fields[0].AsString;
+      DmDados.Balaca.Porta := DmDados.consulta.Fields[1].AsString;
+      DmDados.Balaca.Baud := DmDados.consulta.Fields[2].AsInteger;
+      DmDados.Balaca.HandShake := DmDados.consulta.Fields[3].AsString;
+      DmDados.Balaca.Parity := DmDados.consulta.Fields[4].AsString;
+      DmDados.Balaca.Stop := DmDados.consulta.Fields[5].AsString;
+      DmDados.Balaca.Data := DmDados.consulta.Fields[6].AsInteger;
+
+    end;
+
+    ACBrBAL.Modelo := TACBrBALModelo(2); // balToledo
+    ACBrBAL.Device.HandShake := TACBrHandShake(0); // nenhum
+    ACBrBAL.Device.Parity := TACBrSerialParity(0); // none
+    ACBrBAL.Device.Stop := TACBrSerialStop(0); // s1
+    ACBrBAL.Device.Data := DmDados.Balaca.Data;
+    ACBrBAL.Device.Baud := DmDados.Balaca.Baud;
+    ACBrBAL.Device.Porta := DmDados.Balaca.Porta;
+    ACBrBAL.MonitorarBalanca := True;
+
+    // Conecta com a balança
+    while True do
+    begin
+      try
+
+        ACBrBAL.Ativar;
+        sleep(600);
+        if ACBrBAL.Ativo then
+          break;
+      except
+        if vlTenta > 5 then
+          break
+        else
+        begin
+          sleep(600);
+          vlTenta := vlTenta + 1;
+
+        end;
+
+      end;
+
+    end;
+    if ACBrBAL.Ativo then
+    begin
+      // ACBrBAL.MonitorarBalanca := True;
+      TmBalanca.Enabled := True;
+      LbPeso.Font.Color := clWhite;
+      LbPeso.Caption := 'Coloque o produto sobre a Balança';
+    end
+    else
+      LbPeso.Caption := 'Falha de comunicação com a balança !';
+  end
+  else
+  begin
+    iBalanca.Visible := False;
+    LbPeso.Caption := ''
+  end;
+end;
+
+procedure TFrmIngredientePesado.PreparaInclusao;
+begin
+  with DmDados do
+  begin
+    tito.Close;
+    tito.open;
+    if not vtsbradc.IsEmpty then
+    begin
+      if DmDados.vtsbradc.active then
+      begin
+        vtsbradc.EmptyDataSet;
+      end;
+    end;
+  end;
+end;
+
+procedure TFrmIngredientePesado.TmBalancaTimer(Sender: TObject);
+begin
+  ACBrBAL.LePeso;
+end;
+
+end.

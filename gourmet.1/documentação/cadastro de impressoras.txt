@@ -1,0 +1,23 @@
+tip - Tipos de Impressoras
+ 	ECF
+	Termica 48 Col
+	Lazer
+	Matricial
+	Zebra
+
+mit - Cadastro de Impressoras
+	MP 2100 - CUPOM FISCAL (Nome que o Cliente reconheça)
+	TPL 2844 - Etiquetas (Nome que o Cliente reconheça)
+	MP 4200 TH do Caixa (Nome que o Cliente reconheça)
+
+tci - Cadastro da Impressora
+	Terminal em que esta ligado
+	Porta Fisica
+	Impressora
+
+cti - Ligação Cadastral de Terminal -> Impressoras
+
+
+
+ 
+	

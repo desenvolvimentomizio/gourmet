@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{1538221A-A29A-4EE3-A809-A50EDE18FCFF}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AutoInstalador_Fontes\Fontes\AutoInstalador.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AutoBackup_Fontes\Fontes\AutoBackup.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AutoInstalador">
+        <MSBuild Projects="AutoInstalador_Fontes\Fontes\AutoInstalador.dproj"/>
+    </Target>
+    <Target Name="AutoInstalador:Clean">
+        <MSBuild Projects="AutoInstalador_Fontes\Fontes\AutoInstalador.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AutoInstalador:Make">
+        <MSBuild Projects="AutoInstalador_Fontes\Fontes\AutoInstalador.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AutoBackup">
+        <MSBuild Projects="AutoBackup_Fontes\Fontes\AutoBackup.dproj"/>
+    </Target>
+    <Target Name="AutoBackup:Clean">
+        <MSBuild Projects="AutoBackup_Fontes\Fontes\AutoBackup.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AutoBackup:Make">
+        <MSBuild Projects="AutoBackup_Fontes\Fontes\AutoBackup.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AutoInstalador;AutoBackup"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AutoInstalador:Clean;AutoBackup:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AutoInstalador:Make;AutoBackup:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

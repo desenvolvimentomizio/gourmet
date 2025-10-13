@@ -1,0 +1,524 @@
+object FrmReemissaoFechamento: TFrmReemissaoFechamento
+  Left = 0
+  Top = 0
+  BorderStyle = bsToolWindow
+  ClientHeight = 676
+  ClientWidth = 1106
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel11: TPanel
+    Left = 0
+    Top = 0
+    Width = 1106
+    Height = 50
+    Align = alTop
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 0
+    object LbMesa: TLabel
+      AlignWithMargins = True
+      Left = 21
+      Top = 3
+      Width = 1078
+      Height = 43
+      Align = alClient
+      Caption = 'Emitir Comprovante de fechamento'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -32
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 570
+      ExplicitHeight = 39
+    end
+    object Panel2: TPanel
+      Left = 9
+      Top = 0
+      Width = 9
+      Height = 46
+      Align = alLeft
+      BevelOuter = bvNone
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 0
+    end
+    object Panel10: TPanel
+      Left = 0
+      Top = 0
+      Width = 9
+      Height = 46
+      Align = alLeft
+      BevelOuter = bvNone
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 1
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 50
+    Width = 1106
+    Height = 588
+    Align = alClient
+    TabOrder = 1
+    object pllista: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 501
+      Height = 580
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'pllista'
+      TabOrder = 0
+      object DBGridItens: TDBGrid
+        Left = 0
+        Top = 33
+        Width = 501
+        Height = 547
+        Align = alClient
+        Color = 13303807
+        DataSource = dmsapgto
+        DrawingStyle = gdsGradient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        ParentFont = False
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnKeyDown = DBGridItensKeyDown
+        OnTitleClick = DBGridItensTitleClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'mesa'
+            Title.Caption = 'Identifica'#231#227'o'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'orctotalav'
+            Title.Caption = 'Vlr. Total'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'orchoraencerr'
+            Title.Caption = 'Hora Encerra'
+            Width = 68
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'etdidentificacao'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'stoidentificacao'
+            Width = 55
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'clbcodigo'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'orcchave'
+            Visible = True
+          end>
+      end
+      object Panel3: TPanel
+        Left = 0
+        Top = 0
+        Width = 501
+        Height = 33
+        Align = alTop
+        Padding.Top = 5
+        Padding.Bottom = 3
+        TabOrder = 1
+        object Label1: TLabel
+          AlignWithMargins = True
+          Left = 11
+          Top = 8
+          Width = 109
+          Height = 21
+          Margins.Left = 10
+          Margins.Top = 2
+          Align = alLeft
+          AutoSize = False
+          Caption = 'Localizar Mesa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitLeft = 4
+        end
+        object edMesa: TEdit
+          Left = 123
+          Top = 6
+          Width = 54
+          Height = 23
+          Align = alLeft
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          OnKeyUp = edMesaKeyUp
+          ExplicitHeight = 27
+        end
+      end
+    end
+    object PnRecebimentos: TPanel
+      Left = 508
+      Top = 1
+      Width = 597
+      Height = 586
+      Align = alClient
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 1
+      object PnItensRecebidos: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 433
+        Width = 591
+        Height = 150
+        Align = alBottom
+        BevelOuter = bvNone
+        ParentBackground = False
+        TabOrder = 0
+        object DBGrid2: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 591
+          Height = 150
+          Align = alClient
+          DataSource = DmDados.ditoparc
+          DrawingStyle = gdsGradient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+          ParentFont = False
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          OnKeyDown = DBGrid2KeyDown
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'itoitem'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Caption = 'Item'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 32
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'procodigo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Caption = 'C'#243'digo'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 47
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'pronome'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Caption = 'Produto'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itoquantidade'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Alignment = taCenter
+              Title.Caption = 'Qtde'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 58
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'unisimbolo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Alignment = taCenter
+              Title.Caption = 'Und.'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 45
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itovalorav'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Alignment = taRightJustify
+              Title.Caption = 'Valor'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 72
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'itototalav'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -15
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              Title.Alignment = taRightJustify
+              Title.Caption = 'Total'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = []
+              Width = 78
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'orcchave'
+              Title.Caption = 'Venda'
+              Visible = True
+            end>
+        end
+      end
+      object DBGrid1: TDBGrid
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 591
+        Height = 424
+        Align = alClient
+        Color = 13303807
+        DataSource = dolt
+        DrawingStyle = gdsGradient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleHotTrack]
+        ParentFont = False
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnKeyDown = DBGrid1KeyDown
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'lteregistro'
+            Title.Caption = 'Data e Hora'
+            Width = 110
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ltetotal'
+            Title.Caption = 'Vlr. Recebido'
+            Width = 87
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'oltidentificacao'
+            Title.Caption = 'Pago por'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ctaidentificacao'
+            Title.Caption = 'Conta Caixa'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'clbidentificacao'
+            Title.Caption = 'Colaborador'
+            Width = 100
+            Visible = True
+          end>
+      end
+    end
+  end
+  object Panel22: TPanel
+    Left = 0
+    Top = 638
+    Width = 1106
+    Height = 38
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 2
+    object Panel24: TPanel
+      Left = 568
+      Top = 0
+      Width = 538
+      Height = 38
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitTop = 2
+      object BtnFechar: TButton
+        AlignWithMargins = True
+        Left = 415
+        Top = 3
+        Width = 120
+        Height = 32
+        Align = alRight
+        Caption = 'Fechar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = BtnFecharClick
+        ExplicitLeft = 133
+        ExplicitTop = 5
+        ExplicitHeight = 31
+      end
+      object Button10: TButton
+        AlignWithMargins = True
+        Left = 240
+        Top = 3
+        Width = 169
+        Height = 32
+        Align = alRight
+        Caption = 'Imprimir Recebido'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = Button10Click
+        ExplicitLeft = 152
+      end
+      object Button1: TButton
+        AlignWithMargins = True
+        Left = 40
+        Top = 3
+        Width = 194
+        Height = 32
+        Align = alRight
+        Caption = 'Imprimir Toda Mesa'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        OnClick = Button1Click
+      end
+    end
+  end
+  object dolt: TUniDataSource
+    DataSet = DmDados.olt
+    OnDataChange = doltDataChange
+    Left = 616
+    Top = 192
+  end
+  object dmsapgto: TUniDataSource
+    DataSet = DmDados.msapgto
+    OnDataChange = dmsapgtoDataChange
+    Left = 280
+    Top = 214
+  end
+end

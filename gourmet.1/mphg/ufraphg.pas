@@ -1,0 +1,296 @@
+unit ufraphg;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, VirtualTable, Data.DB, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, uPegaBase, Vcl.Dialogs, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Graphics, System.SysUtils, System.ImageList, Vcl.ImgList;
+
+type
+  Tfraphg = class(Tfrabase)
+    uqtabelaphgcodigo: TIntegerField;
+    uqtabelaphgidentificacao: TStringField;
+    uqtabelaphgcomplemento: TStringField;
+    procedure ActIncluirExecute(Sender: TObject);
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGListaTitleClick(Column: TColumn);
+  private
+  public
+    { Public declarations }
+  end;
+
+var
+  fraphg: Tfraphg;
+
+  // Início ID do Módulo fraphg
+const
+  vPlIdMd = '02.02.16.008-01';
+  vPlTitMdl = 'Históricos';
+
+  // Fim ID do Módulo fraphg
+
+implementation
+
+{$R *.dfm}
+
+uses ufphg;
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  fraphg := Tfraphg.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  fraphg := Tfraphg.Create(pCargaFrame);
+  try
+    fraphg.CriaAcoesDeAcesso;
+  finally
+    fraphg.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tfraphg.ActAlterarExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfphg, self.uqtabelaphgcodigo.AsString, '');
+end;
+
+procedure Tfraphg.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfphg, '', '');
+end;
+
+procedure Tfraphg.DBGListaTitleClick(Column: TColumn);
+begin
+  inherited;
+  vordem := Column.FieldName;
+end;
+
+procedure Tfraphg.edbuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+  query: String;
+  filtro: String;
+  linha: String;
+  i: Integer;
+  pala1: String;
+  pala2: String;
+  pala3: String;
+  pala4: String;
+  pala5: String;
+
+  vlsqlbase: string;
+  vlInicio: Integer;
+  vlNomeChave: string;
+  vlCampos: String;
+  vlTabela: String;
+  vlSqlOriginal: string;
+Begin
+  for i := 0 to DBLista.Columns.Count - 1 do
+  begin
+    if DBLista.Columns[i].Title.Font.Color = clred then
+    begin
+      vordem := DBLista.Columns[i].FieldName;
+      break;
+    end;
+  end;
+
+  if edbusca.Text = '' then
+  begin
+    uqtabela.FilterSQL := '';
+    actatualizar.Execute;
+    if (Key = 38) then
+    begin
+      if DBGLista.Visible then
+        self.DBGLista.SetFocus;
+      self.uqtabela.Prior;
+      exit;
+    end;
+
+    if (Key = 40) or (Key = 39) then
+    begin
+      if DBGLista.Visible then
+        self.DBGLista.SetFocus;
+      self.uqtabela.Next;
+      exit;
+    end;
+
+  end
+  else
+  begin
+    if (self.ModoFrame = modoPesquisa) or (self.ModoFrame = modoPesqEdicao) then
+    begin
+
+      linha := trim(edbusca.Text);
+      filtro := trim(edbusca.Text);
+      i := pos(' ', linha) - 1;
+      If i > 0 Then
+      Begin
+        pala1 := Copy(linha, 1, i);
+        linha := trim(Copy(linha, i + 1, Length(linha)));
+        i := pos(' ', linha) - 1;
+        If i > 0 Then
+        Begin
+          pala2 := trim(Copy(linha, 1, i));
+          linha := trim(Copy(linha, i + 1, Length(linha)));
+
+          i := pos(' ', linha) - 1;
+          If i > 0 Then
+          Begin
+            pala3 := Copy(linha, 1, i);
+            linha := trim(Copy(linha, i + 1, Length(linha)));
+
+            If i > 0 Then
+            Begin
+              pala4 := Copy(linha, 1, i);
+              linha := trim(Copy(linha, i + 1, Length(linha)));
+
+              If i > 0 Then
+              Begin
+                pala5 := Copy(linha, 1, i);
+                linha := trim(Copy(linha, i + 1, Length(linha)));
+              End
+              Else
+              Begin
+                pala5 := trim(Copy(linha, 1, Length(linha)));
+              End;
+
+            End
+            Else
+            Begin
+              pala4 := trim(Copy(linha, 1, Length(linha)));
+            End;
+
+          End
+          Else
+          Begin
+            pala3 := trim(Copy(linha, 1, Length(linha)));
+          End;
+
+        End
+        Else
+        Begin
+          pala2 := trim(Copy(linha, 1, Length(linha)));
+
+        End;
+
+      End
+      Else
+      Begin
+        filtro := 'lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(linha) + '%' + chr(39);
+      End;
+
+      If pala1 <> '' Then
+      Begin
+        filtro := ' lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala1) + '%' + chr(39);
+      End;
+
+      If pala2 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala2) + '%' + chr(39);
+      End;
+
+      If pala3 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala3) + '%' + chr(39);
+      End;
+
+      If pala4 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala4) + '%' + chr(39);
+      End;
+
+      If pala5 <> '' Then
+      Begin
+        filtro := filtro + ' and lower(' + vordem + ') like ' + chr(39) + '%' + lowercase(pala5) + '%' + chr(39);
+      End;
+
+      vlsqlbase := lowercase(uqtabela.sql.Text);
+
+      vlNomeChave := trim(Copy(vlsqlbase, pos(' ', vlsqlbase), 50));
+      vlNomeChave := trim(Copy(vlNomeChave, 1, pos(',', vlNomeChave) - 1));
+
+      vlInicio := pos('from', vlsqlbase);
+      vlsqlbase := Copy(vlsqlbase, vlInicio, Length(vlsqlbase));
+
+      if pos('order by', vlsqlbase) > 0 then
+      begin
+        vlInicio := pos('order by', vlsqlbase);
+        vlsqlbase := Copy(vlsqlbase, 1, vlInicio - 1);
+      end;
+
+      if pos('.', vlNomeChave) > 0 then
+      begin
+        vlTabela := Copy(vlNomeChave, 1, pos('.', vlNomeChave) - 1);
+        vlNomeChave := Copy(vlNomeChave, pos('.', vlNomeChave) + 1);
+        if uppercase(trim(vlNomeChave)) = uppercase(trim(vordem)) then
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave;
+          filtro := StringReplace(filtro, vordem, vlCampos, [rfReplaceAll]);
+        end
+        else
+        begin
+          vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+        end;
+
+      end
+      else
+        vlCampos := vlTabela + '.' + vlNomeChave + ', ' + vordem;
+
+      if uppercase(trim(vlNomeChave)) <> uppercase(trim(vordem)) then
+      begin
+
+        if pos('where', vlsqlbase) > 0 then
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'and ' + filtro + ' order by ' + vlCampos + ' limit 100'
+        else
+          query := 'select distinct ' + vlCampos + ' ' + vlsqlbase + ' ' + 'where ' + filtro + ' order by ' + vlCampos + ' limit 100';
+
+        vlSqlOriginal := uqtabela.sql.Text;
+
+        if filtro <> '' then
+        begin
+
+          if pos(' limit 100', uqtabela.sql.Text) = 0 then
+            uqtabela.sql.Text := uqtabela.sql.Text + ' limit 100';
+
+          If edbusca.Text <> '' Then
+          Begin
+            if pos(' limit 100', uqtabela.sql.Text) = 0 then
+              uqtabela.sql.Text := uqtabela.sql.Text + ' limit 100';
+          End
+          else
+          begin
+            uqtabela.sql.Text := StringReplace(uqtabela.sql.Text, ' limit 100', '', [rfReplaceAll, rfIgnoreCase]);
+          end;
+
+          uqtabela.FilterSQL := filtro;
+
+        end
+        else
+        begin
+
+        end;
+
+        inherited;
+      end
+      else
+      begin
+        inherited;
+      end;
+    end
+    else
+      inherited;
+
+  end;
+
+end;
+
+end.
