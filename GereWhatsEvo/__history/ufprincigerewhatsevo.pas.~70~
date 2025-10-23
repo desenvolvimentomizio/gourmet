@@ -341,6 +341,9 @@ begin
   APIInstancia := vpAPIKey;
   MizioAtendeWhats.NomeInstancia := lowercase(NomeInstancia);
   MizioAtendeWhats.ChaveApi := APIInstancia;
+  whatsOn.Visible:=false;
+  whatsOff.Visible:=True;
+
   if APIInstancia = '' then
   begin
     if MizioAtendeWhats.CriarInstancia(ErrorMsg) then
@@ -348,6 +351,7 @@ begin
       pnlQRCode.Visible := True;
       MizioAtendeWhats.StatusInstancia;
       MizioAtendeWhats.ObterQrCode;
+
       MizioAtendeWhats.StatusInstancia;
 
     end;
@@ -365,7 +369,8 @@ begin
     end
     else
     begin
-     // pnlQRCode.Visible := false;
+      pnlQRCode.Visible := false;
+
     end;
     MizioAtendeWhats.StatusInstancia;
   except
@@ -555,8 +560,9 @@ begin
     VerificaAtivaConexao;
 
     tmVerificarPedidos.ENABLED := True;
-   // tmVerificarSaidas.ENABLED := True;
-   // tmVerificarRetornos.ENABLED := True;
+    tmVerificarSaidas.ENABLED := True;
+    tmVerificarRetornos.ENABLED := True;
+
    // tmMensagens.Enabled:=true;
 
     if RGMensagens.ItemIndex = 0 then
@@ -690,24 +696,59 @@ end;
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsObterQrCode(Sender: TObject;
   const Base64QRCode: string);
 begin
-  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1)
+  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1);
+  VerificaAtivaConexao;
 end;
 
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsStatusInstancia(Sender: TObject;
   const InstanceStatus: TInstanceStatus);
 begin
   Label3.Caption:=InstanceStatus.State;
+  lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
+  lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
 
-  SpeedButton3.Enabled:=True;
 
-  whatsOff.Visible:=false;
-  whatsOn.Visible:=True;
+
+  if (lowercase(InstanceStatus.State)='connecting') and (pnlQRCode.Visible = False) then
+  begin
+    pnlQRCode.Visible := True;
+
+    MizioAtendeWhats.ObterQrCode;
+    exit;
+  end;
+
+
+  if (lowercase(InstanceStatus.State)='close') or (pos(lowercase('Unauthorized'),lowercase(InstanceStatus.State))>0)  then
+  begin
+    vpAPIKey:='';
+    gravaini;
+
+    MizioAtendeWhats.DeslogarInstancia;
+
+    if MizioAtendeWhats.DeletarInstancia(lblStatus.Caption) then
+    begin
+
+      VerificaAtivaConexao;
+      exit;
+    end;
+
+  end;
+
+
+
+
   MensagensEnviadas.Lines.Add( InstanceStatus.State);
   if InstanceStatus.State='open' then
   begin
+    SpeedButton3.Enabled:=True;
+
     pnlQRCode.Visible:=false;
+
     lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
     lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
+
+    whatsOn.Visible:=True;
+    whatsOff.Visible:=False;
   end;
 
 end;
@@ -766,6 +807,10 @@ begin
 
   Result:='';
 
+  vlnome:=orc.FieldByName('etdidentificacao').AsString;
+  vlNumeroPedido:=orc.FieldByName('orcnumeropedido').AsString;
+  vlEntregador:=orc.FieldByName('clbidentificacao').AsString;
+
   if (vlnome<>'') and (pos('[NOME]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NOME]',vlnome,[]);
 
@@ -778,12 +823,7 @@ begin
   if (vlNumeroPedido<>'') and (pos('[NUMEROPEDIDO]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NUMEROPEDIDO]',vlNumeroPedido,[]);
 
-
   Result:=vlMensagem;
-
-
-
-
 
 end;
 
@@ -846,7 +886,7 @@ begin
         MensagensEnviadas.Lines.add(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' + vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString);
 
         vlIrandomico := IntToStr(RandomRange(0, 9));
-        vlIrandomico := '0';
+       // vlIrandomico := '0';
 
 
         vlTempoDigitacao:=RandomRange(1000, 3000);

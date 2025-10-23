@@ -351,6 +351,7 @@ begin
       pnlQRCode.Visible := True;
       MizioAtendeWhats.StatusInstancia;
       MizioAtendeWhats.ObterQrCode;
+
       MizioAtendeWhats.StatusInstancia;
 
     end;
@@ -559,8 +560,9 @@ begin
     VerificaAtivaConexao;
 
     tmVerificarPedidos.ENABLED := True;
-   // tmVerificarSaidas.ENABLED := True;
-   // tmVerificarRetornos.ENABLED := True;
+    tmVerificarSaidas.ENABLED := True;
+    tmVerificarRetornos.ENABLED := True;
+
    // tmMensagens.Enabled:=true;
 
     if RGMensagens.ItemIndex = 0 then
@@ -694,7 +696,8 @@ end;
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsObterQrCode(Sender: TObject;
   const Base64QRCode: string);
 begin
-  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1)
+  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1);
+  VerificaAtivaConexao;
 end;
 
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsStatusInstancia(Sender: TObject;
@@ -704,6 +707,15 @@ begin
   lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
   lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
 
+
+
+  if lowercase(InstanceStatus.State)='connecting' then
+  begin
+    pnlQRCode.Visible := True;
+
+    MizioAtendeWhats.ObterQrCode;
+    exit;
+  end;
 
 
   if lowercase(InstanceStatus.State)='close' then
@@ -795,6 +807,10 @@ begin
 
   Result:='';
 
+  vlnome:=orc.FieldByName('etdidentificacao').AsString;
+  vlNumeroPedido:=orc.FieldByName('orcnumeropedido').AsString;
+  vlEntregador:=orc.FieldByName('clbidentificacao').AsString;
+
   if (vlnome<>'') and (pos('[NOME]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NOME]',vlnome,[]);
 
@@ -807,12 +823,7 @@ begin
   if (vlNumeroPedido<>'') and (pos('[NUMEROPEDIDO]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NUMEROPEDIDO]',vlNumeroPedido,[]);
 
-
   Result:=vlMensagem;
-
-
-
-
 
 end;
 
@@ -875,7 +886,7 @@ begin
         MensagensEnviadas.Lines.add(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' + vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString);
 
         vlIrandomico := IntToStr(RandomRange(0, 9));
-        vlIrandomico := '0';
+       // vlIrandomico := '0';
 
 
         vlTempoDigitacao:=RandomRange(1000, 3000);

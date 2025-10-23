@@ -198,7 +198,8 @@ begin
     procedure(Horse: THorse)
     begin
 
-         Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.27.300.14');
+
+         //Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.28.501.17');
 
     end);
 

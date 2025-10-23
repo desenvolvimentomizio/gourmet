@@ -4750,7 +4750,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
         Width = 690
         Height = 178
         Align = alClient
-        Color = 12308991
+        Color = 14737632
         DataSource = DSPedidosProcessados
         DrawingStyle = gdsGradient
         Font.Charset = DEFAULT_CHARSET
@@ -5011,7 +5011,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
           Width = 609
           Height = 251
           Align = alClient
-          Color = 8453888
+          Color = 12572159
           DataSource = DSPedidosRegistrados
           DrawingStyle = gdsGradient
           FixedColor = 8454143
@@ -5108,6 +5108,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
             '127131661'
             '127131764')
           TabOrder = 2
+          Visible = False
         end
         object DBGrid1: TDBGrid
           Left = 264
@@ -5190,6 +5191,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
+      Visible = False
       object Edit2: TEdit
         Left = 448
         Top = 0

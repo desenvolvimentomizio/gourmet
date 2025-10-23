@@ -1,4 +1,4 @@
-ï»¿program GourmetServer;
+program GourmetServer;
 
 {$APPTYPE CONSOLE}
 {$R *.res}
@@ -148,7 +148,7 @@ begin
   App := THorse.Create;
   App.Use(OctetStream);
 
-  // tratativa de operaÃ§Ãµes com JSON
+  // tratativa de operações com JSON
   App.Use(Jhonson);
 
   // tratativa de consumo via RESTFULL
@@ -157,12 +157,12 @@ begin
   // tratativa de execoes da api
   App.Use(HandleException);
 
-  // tratativa para geraÃ§Ã£o de logs automaticos do servidor
+  // tratativa para geração de logs automaticos do servidor
 
   // THorseLoggerManager.RegisterProvider( THorseLoggerProviderLogFile.New() );
   // THorse.Use(THorseLoggerManager.HorseCallback());
 
-  // tratativa para gerar documentaÃ§Ã£o da api via swagger
+  // tratativa para gerar documentação da api via swagger
   App.Use(HorseSwagger);
 
   // controllers de entidades
@@ -198,7 +198,7 @@ begin
     procedure(Horse: THorse)
     begin
 
-         Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - VersÃ£o: 25.28.501.17');
+    //     Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.28.501.17');
 
     end);
 

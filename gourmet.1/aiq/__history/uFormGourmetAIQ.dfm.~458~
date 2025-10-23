@@ -4718,6 +4718,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
     Lines.Strings = (
       'logs')
     TabOrder = 0
+    Visible = False
   end
   object Panel5: TPanel
     AlignWithMargins = True
@@ -4745,9 +4746,9 @@ object FormGourmetAIQ: TFormGourmetAIQ
       object DBGridProcessados: TDBGrid
         AlignWithMargins = True
         Left = 3
-        Top = 234
+        Top = 347
         Width = 690
-        Height = 291
+        Height = 178
         Align = alClient
         Color = 12308991
         DataSource = DSPedidosProcessados
@@ -4815,7 +4816,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
       object pltituloProcessados: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 180
+        Top = 293
         Width = 690
         Height = 25
         Align = alTop
@@ -4889,7 +4890,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
         Left = 0
         Top = 0
         Width = 696
-        Height = 177
+        Height = 290
         Align = alTop
         TabOrder = 2
         object PnTopoRegistraddos: TPanel
@@ -5008,7 +5009,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
           Left = 4
           Top = 35
           Width = 609
-          Height = 138
+          Height = 251
           Align = alClient
           Color = 8453888
           DataSource = DSPedidosRegistrados
@@ -5065,136 +5066,48 @@ object FormGourmetAIQ: TFormGourmetAIQ
           Left = 616
           Top = 32
           Width = 79
-          Height = 144
+          Height = 257
           Align = alRight
           Lines.Strings = (
-            '114988435'
-            '114992060'
-            '114992221'
-            '114992827'
-            '114993032'
-            '114993070'
-            '114994504'
-            '114994811'
-            '114994862'
-            '114995823'
-            '114996076'
-            '114996419'
-            '114996436'
-            '114997659'
-            '114997733'
-            '114997886'
-            '114998021'
-            '114998143'
-            '114998746'
-            '114998830'
-            '114999573'
-            '114999614'
-            '115000182'
-            '115001659'
-            '115001816'
-            '115002512'
-            '115002923'
-            '115002964'
-            '115003202'
-            '115003228'
-            '115003566'
-            '115003697'
-            '115003912'
-            '115003975'
-            '115004218'
-            '115004647'
-            '115005091'
-            '115005440'
-            '115006780'
-            '115007816'
-            '115008331'
-            '115008504'
-            '115008765'
-            '115009618'
-            '115011027'
-            '115011093'
-            '115011251'
-            '115011580'
-            '115011746'
-            '115011817'
-            '115011937'
-            '115012037'
-            '115012755'
-            '115012776'
-            '115013084'
-            '115013580'
-            '115014043'
-            '115015045'
-            '115017262'
-            '115019423'
-            '115019631'
-            '115020148'
-            '115020262'
-            '115020392'
-            '115038901'
-            '115040053'
-            '115040626'
-            '115040672'
-            '115040897'
-            '115041533'
-            '115041544'
-            '115041571'
-            '115041880'
-            '115041947'
-            '115042130'
-            '115042867'
-            '115042906'
-            '115042928'
-            '115043055'
-            '115043562'
-            '115044645'
-            '115044722'
-            '115045184'
-            '115045571'
-            '115045935'
-            '115046037'
-            '115046145'
-            '115046185'
-            '115047330'
-            '115048017'
-            '115048341'
-            '115048344'
-            '115048501'
-            '115048543'
-            '115048731'
-            '115049452'
-            '115049677'
-            '115050301'
-            '115050580'
-            '115050819'
-            '115051678'
-            '115051804'
-            '115052036'
-            '115052051'
-            '115052620'
-            '115068425'
-            '115071490'
-            '115072599'
-            '115075862'
-            '115076551'
-            '115077612'
-            '115077891'
-            '115078078'
-            '115078525'
-            '115079068'
-            '115079582'
-            '115080144'
-            '115080830'
-            '115082625'
-            '115084605'
-            '115084611'
-            '115085471'
-            '115086019'
-            '115086125'
-            '115086625')
+            '127110638'
+            '127111030'
+            '127112370'
+            '127112509'
+            '127114162'
+            '127114526'
+            '127118012'
+            '127118484'
+            '127118779'
+            '127120163'
+            '127120215'
+            '127120664'
+            '127121823'
+            '127121938'
+            '127122218'
+            '127122495'
+            '127122729'
+            '127122999'
+            '127123005'
+            '127123209'
+            '127123286'
+            '127123316'
+            '127123372'
+            '127123530'
+            '127123695'
+            '127123882'
+            '127126199'
+            '127127092'
+            '127127913'
+            '127128003'
+            '127129124'
+            '127129320'
+            '127129598'
+            '127131032'
+            '127131104'
+            '127131528'
+            '127131661'
+            '127131764')
           TabOrder = 2
-          Visible = False
         end
         object DBGrid1: TDBGrid
           Left = 264
@@ -5212,7 +5125,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
       object mostra: TProgressBar
         AlignWithMargins = True
         Left = 3
-        Top = 211
+        Top = 324
         Width = 690
         Height = 17
         Align = alTop
@@ -5254,7 +5167,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
           Height = 29
           Align = alRight
           BevelOuter = bvNone
-          Caption = 'Vers'#227'o: 24.27.212.22'
+          Caption = 'Vers'#227'o: 25.27.304.142'
           TabOrder = 2
         end
         object Button3: TButton
@@ -5284,7 +5197,7 @@ object FormGourmetAIQ: TFormGourmetAIQ
         Height = 26
         Align = alRight
         TabOrder = 0
-        Text = '87846844'
+        Text = '126211453'
         ExplicitHeight = 21
       end
       object Button1: TButton
@@ -5351,8 +5264,8 @@ object FormGourmetAIQ: TFormGourmetAIQ
   object TmRelogio: TTimer
     Enabled = False
     OnTimer = TmRelogioTimer
-    Left = 408
-    Top = 376
+    Left = 560
+    Top = 392
   end
   object Categorias: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -5618,8 +5531,8 @@ object FormGourmetAIQ: TFormGourmetAIQ
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 38
-    Top = 85
+    Left = 174
+    Top = 141
     object PedidosRegistradosaiqchave: TIntegerField
       FieldName = 'aiqchave'
     end

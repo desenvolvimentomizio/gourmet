@@ -366,12 +366,10 @@ begin
         MizioAtendeWhats.StatusInstancia;
         MizioAtendeWhats.ObterQrCode;
       end;
-    end
-    else
-    begin
-      pnlQRCode.Visible := false;
-
     end;
+    //  pnlQRCode.Visible := false;
+
+
     MizioAtendeWhats.StatusInstancia;
   except
     MizioAtendeWhats.NomeInstancia := lowercase(NomeInstancia);
@@ -560,8 +558,9 @@ begin
     VerificaAtivaConexao;
 
     tmVerificarPedidos.ENABLED := True;
-   // tmVerificarSaidas.ENABLED := True;
-   // tmVerificarRetornos.ENABLED := True;
+    tmVerificarSaidas.ENABLED := True;
+    tmVerificarRetornos.ENABLED := True;
+
    // tmMensagens.Enabled:=true;
 
     if RGMensagens.ItemIndex = 0 then
@@ -708,7 +707,7 @@ begin
 
 
 
-  if lowercase(InstanceStatus.State)='connecting' then
+  if (lowercase(InstanceStatus.State)='connecting') and (pnlQRCode.Visible = False) then
   begin
     pnlQRCode.Visible := True;
 
@@ -717,7 +716,7 @@ begin
   end;
 
 
-  if lowercase(InstanceStatus.State)='close' then
+  if (lowercase(InstanceStatus.State)='close') or (pos(lowercase('Unauthorized'),lowercase(InstanceStatus.State))>0)  then
   begin
     vpAPIKey:='';
     gravaini;
@@ -806,6 +805,10 @@ begin
 
   Result:='';
 
+  vlnome:=orc.FieldByName('etdidentificacao').AsString;
+  vlNumeroPedido:=orc.FieldByName('orcnumeropedido').AsString;
+  vlEntregador:=orc.FieldByName('clbidentificacao').AsString;
+
   if (vlnome<>'') and (pos('[NOME]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NOME]',vlnome,[]);
 
@@ -818,12 +821,7 @@ begin
   if (vlNumeroPedido<>'') and (pos('[NUMEROPEDIDO]',aTexto)>0) then
     vlMensagem:=StringReplace(aTexto,'[NUMEROPEDIDO]',vlNumeroPedido,[]);
 
-
   Result:=vlMensagem;
-
-
-
-
 
 end;
 
@@ -875,7 +873,7 @@ begin
 
     if vlTemWhats then
     begin
-      sleep(RandomRange(500, 2500));
+
 
       if pos(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' +  vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString, MensagensEnviadas.Lines.Text) = 0 then
       begin
@@ -886,14 +884,14 @@ begin
         MensagensEnviadas.Lines.add(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' + vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString);
 
         vlIrandomico := IntToStr(RandomRange(0, 9));
-        vlIrandomico := '0';
+       // vlIrandomico := '0';
 
 
         vlTempoDigitacao:=RandomRange(1000, 3000);
         sleep(vlTempoDigitacao);
         vlMensagem:=CriaMensagem(cfg.FieldByName('cfgmgoumensa'+lowercase(aTipoNotificacao) + vlIrandomico).AsString);
         if vlMensagem<>'' then
-          MensagensEnviadas.lines.Add(MizioAtendeWhats.EnviarMensagemDeTexto(vlTelefone,vlMensagem));
+          MizioAtendeWhats.EnviarMensagemDeTexto(vlTelefone,vlMensagem);
         SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
 
       end;
@@ -1222,7 +1220,7 @@ begin
     plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
     Application.ProcessMessages;
 
-    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    if whatsOn.Visible then
     begin
 
       cfg.Edit;
@@ -1258,7 +1256,7 @@ begin
     plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
     Application.ProcessMessages;
 
-    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    if  whatsOn.Visible then
     begin
 
       cfg.Edit;
@@ -1299,7 +1297,7 @@ begin
 
     Application.ProcessMessages;
 
-    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    if  whatsOn.Visible then
     begin
 
       cfg.Edit;

@@ -48,7 +48,7 @@ const
 
   // 1 MINUTOS = 60 SEGUNDOS
   // LIMITE DO AIQUEFOME 20 REQUISICOES POR MINUTO
-  TEMPO_PEDIDOS = 10;
+  TEMPO_PEDIDOS = 3;
 
   // esta é de homologavacao
   // urlbase = 'http://sandbox-raimundo.aiqfome.com:8889/alfredo';
@@ -59,6 +59,12 @@ const
   // esta é de producao
   urlbase = 'https://purple-box.aiqfome.com/alfredo';
   Client_Secret = '33bdbf69-7623-4b50-8172-68f5d23840d9';
+
+  // esta é de producao CATALOGO
+  // urlbase = 'https://purple-box.aiqfome.com/alfredo';
+  // Client_Secret = '33bdbf69-7623-4b50-8172-68f5d23840d9';
+
+
 
 implementation
 

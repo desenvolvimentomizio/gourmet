@@ -300,6 +300,7 @@ begin
 
     application.createform(TfMensagens,fMensagens);
     fMensagens.DataSource1.DataSet:=cfg;
+    fMensagens.ShowModal;
 
   finally
     tmVerificarPedidos.Enabled:=True;
@@ -340,6 +341,9 @@ begin
   APIInstancia := vpAPIKey;
   MizioAtendeWhats.NomeInstancia := lowercase(NomeInstancia);
   MizioAtendeWhats.ChaveApi := APIInstancia;
+  whatsOn.Visible:=false;
+  whatsOff.Visible:=True;
+
   if APIInstancia = '' then
   begin
     if MizioAtendeWhats.CriarInstancia(ErrorMsg) then
@@ -347,6 +351,7 @@ begin
       pnlQRCode.Visible := True;
       MizioAtendeWhats.StatusInstancia;
       MizioAtendeWhats.ObterQrCode;
+
       MizioAtendeWhats.StatusInstancia;
 
     end;
@@ -364,7 +369,8 @@ begin
     end
     else
     begin
-     // pnlQRCode.Visible := false;
+      pnlQRCode.Visible := false;
+
     end;
     MizioAtendeWhats.StatusInstancia;
   except
@@ -593,23 +599,18 @@ var
 begin
   if not Assigned(Grid.DataSource) or not Assigned(Grid.DataSource.DataSet) then
     Exit;
-
   DataSet := Grid.DataSource.DataSet;
-
   // Itera pelas colunas do grid
   for I := 0 to Grid.Columns.Count - 1 do
   begin
     Column := Grid.Columns[I];
     FieldName := Column.FieldName;
-
     // Verifica se o campo existe no DataSet
     Field := DataSet.FindField(FieldName);
     if not Assigned(Field) then
       Continue; // Pula para a próxima coluna se o campo não existir
-
     // Define o tamanho inicial como o cabeçalho da coluna
     MaxWidth := Grid.Canvas.TextWidth(Column.Title.Caption) + 10;
-
     // Percorre os registros visíveis para calcular o tamanho necessário
     DataSet.DisableControls;
     try
@@ -625,7 +626,6 @@ begin
     finally
       DataSet.EnableControls;
     end;
-
     // Ajusta a largura da coluna
     Column.Width := MaxWidth;
   end;
@@ -639,7 +639,6 @@ begin
   lblStatus.Caption := InstanceResponse.InstanceName;
   Label3.Caption := InstanceResponse.Status;
   vpAPIKey := InstanceResponse.ApiKey;
-
   MizioAtendeWhats.ChaveApi := InstanceResponse.ApiKey;
   MizioAtendeWhats.NomeInstancia := InstanceResponse.InstanceName;
   gravaini;
@@ -657,7 +656,6 @@ begin
     ClientDataSet1.FieldDefs.Clear;
     ClientDataSet1.Fields.Clear;
   end;
-
   ClientDataSet1.FieldDefs.Add('InstanceName', ftString, 75);
   ClientDataSet1.FieldDefs.Add('ApiKey', ftString, 75);
   ClientDataSet1.FieldDefs.Add('Owner', ftString, 75);
@@ -665,17 +663,14 @@ begin
   ClientDataSet1.FieldDefs.Add('Contatos', ftString, 5);
   ClientDataSet1.FieldDefs.Add('mensagens', ftString, 5);
   ClientDataSet1.FieldDefs.Add('Conversas', ftString, 5);
-
   ClientDataSet1.CreateDataSet;
   ClientDataSet1.EmptyDataSet;
-
   for I := 0 to Length(Instancias) - 1 do
   begin
     ClientDataSet1.Append;
     ClientDataSet1.FieldByName('InstanceName').AsString :=
       Instancias[I].InstanceName;
     ClientDataSet1.FieldByName('ApiKey').AsString := Instancias[I].ApiKey;
-
     if MizioAtendeWhats.Version = TVersionOption.V1 then
     begin
       ClientDataSet1.FieldByName('Owner').AsString := Instancias[I].Owner;
@@ -690,10 +685,8 @@ begin
       ClientDataSet1.FieldByName('mensagens').AsString   := Instancias[I].Count.MessageCount.ToString;
       ClientDataSet1.FieldByName('Conversas').AsString   := Instancias[I].Count.ChatCount.ToString;
     end;
-
     ClientDataSet1.Post;
   end;
-
   ApplyBestFit(DBGrid1);
 
 
@@ -702,24 +695,59 @@ end;
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsObterQrCode(Sender: TObject;
   const Base64QRCode: string);
 begin
-  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1)
+  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1);
+  VerificaAtivaConexao;
 end;
 
 procedure TFprinciWhaGouEVO.MizioAtendeWhatsStatusInstancia(Sender: TObject;
   const InstanceStatus: TInstanceStatus);
 begin
   Label3.Caption:=InstanceStatus.State;
+  lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
+  lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
 
-  SpeedButton3.Enabled:=True;
 
-  whatsOff.Visible:=false;
-  whatsOn.Visible:=True;
+
+  if lowercase(InstanceStatus.State)='connecting' then
+  begin
+    pnlQRCode.Visible := True;
+
+    MizioAtendeWhats.ObterQrCode;
+    exit;
+  end;
+
+
+  if lowercase(InstanceStatus.State)='close' then
+  begin
+    vpAPIKey:='';
+    gravaini;
+
+    MizioAtendeWhats.DeslogarInstancia;
+
+    if MizioAtendeWhats.DeletarInstancia(lblStatus.Caption) then
+    begin
+
+      VerificaAtivaConexao;
+      exit;
+    end;
+
+  end;
+
+
+
+
   MensagensEnviadas.Lines.Add( InstanceStatus.State);
   if InstanceStatus.State='open' then
   begin
+    SpeedButton3.Enabled:=True;
+
     pnlQRCode.Visible:=false;
+
     lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
     lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
+
+    whatsOn.Visible:=True;
+    whatsOff.Visible:=False;
   end;
 
 end;

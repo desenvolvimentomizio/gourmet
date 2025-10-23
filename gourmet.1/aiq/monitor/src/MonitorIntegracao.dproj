@@ -69,6 +69,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_ExeOutput>c:\gourmet</DCC_ExeOutput>
+        <VerInfo_MajorVer>25</VerInfo_MajorVer>
+        <VerInfo_MinorVer>28</VerInfo_MinorVer>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Mizio Sistemas;LegalTrademarks=Mizio Sistemas;InternalName=GourmetAIQ;Comments=Integrador do AIQFome</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;vclactnband;vclFireDAC;tethering;zohoprovider270;FireDACADSDriver;vcltouch;vcldb;uSynEdit_R2023;tdsprovider270;vclib;uniGUI27m;vclx;freshbooksprovider270;RESTBackendComponents;dynamicsprovider270;VCLRESTComponents;mailchimpprovider270;Skia.Package.FMX;vclie;netsuiteprovider270;bindengine;CloudService;FireDACMySQLDriver;bigcommerceprovider270;bindcompdbx;IndyIPServer;IndySystem;dac270;bindcompvclwinx;dsnapcon;FireDACMSAccDriver;fmxFireDAC;vclimg;uniGUI27VCL;TWPP4DelphiCollection;adsprovider270;FMXTee;soaprtl;DbxCommonDriver;odbcprovider270;xmlrtl;soapmidas;fmxobj;rtl;DbxClientDriver;unidacvcl270;salesforceprovider270;appanalytics;IndyIPClient;bindcompvcl;TeeUI;aseprovider270;VclSmp;liteprovider270;RESTComponents;DBXInterBaseDriver;bindcompvclsmp;unidac270;PngComponentsD;bindcompfmx;pgprovider270;crcontrols270;inetdb;FmxTeeUI;sugarprovider270;fmx;FireDACIBDriver;fmxdae;accessprovider270;vcledge;uniGUI27Chart;dbexpress;IndyCore;dsnap;FireDACCommon;magentoprovider270;Skia.Package.VCL;soapserver;dacfmx270;DBXMySQLDriver;quickbooksprovider270;FireDACCommonODBC;FireDACCommonDriver;inet;IndyIPCommon;vcl;mongoprovider270;dacvcl270;vquery270;unidacfmx270;TeeDB;FireDAC;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;ibxpress;Tee;dbfprovider270;ibxbindings;vclwinx;CustomIPTransport;vcldsnap;vclZipForged27;bindcomp;myprovider270;Skia.Package.RTL;db2provider270;dbxcds;adortl;ibprovider270;dsnapxml;exacttargetprovider270;dbrtl;IndyProtocols;inetdbxpress;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -89,6 +94,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
         <DCC_MapFile>3</DCC_MapFile>
+        <VerInfo_MajorVer>25</VerInfo_MajorVer>
+        <VerInfo_MinorVer>28</VerInfo_MinorVer>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Mizio Sistemas;LegalTrademarks=Mizio Sistemas;InternalName=GourmetAIQ;Comments=Integrador do AIQFome</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -105,6 +115,11 @@
         <DCC_LocalDebugSymbols>true</DCC_LocalDebugSymbols>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_MajorVer>25</VerInfo_MajorVer>
+        <VerInfo_MinorVer>28</VerInfo_MinorVer>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Mizio Sistemas;LegalTrademarks=Mizio Sistemas;InternalName=GourmetAIQ;Comments=Integrador do AIQFome</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
