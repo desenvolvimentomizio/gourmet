@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2024/01/06 11:02:24.000.607,=C:\fontes\gourmet.1\mccx\Unit1.pas</Transaction>
-    <Transaction>2024/01/06 11:03:04.000.545,C:\fontes\gourmet.1\mccx\Unit1.dfm=C:\fontes\gourmet.1\mccx\ufcxm.dfm</Transaction>
-    <Transaction>2024/01/06 11:03:04.000.545,C:\fontes\gourmet.1\mccx\Unit1.pas=C:\fontes\gourmet.1\mccx\ufcxm.pas</Transaction>
-    <Transaction>2024/01/06 17:26:09.000.972,C:\fontes\gourmet.1\mccx\ufcxm.pas=</Transaction>
-  </Transactions>
-</BorlandProject>

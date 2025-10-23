@@ -1,5 +1,0 @@
-inherited franrt: Tfranrt
-  inherited vcls: TVirtualTable
-    Data = {04000000000000000000}
-  end
-end
