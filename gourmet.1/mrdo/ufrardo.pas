@@ -448,15 +448,46 @@ Begin
 end;
 
 procedure Tfrardo.ActEnviarNFeemailExecute(Sender: TObject);
-Var
-  retorno: String;
-  arq: String;
-  vmeschave: string;
-Begin
-  vmeschave := Self.uqtabelameschave.AsString;
-  Inherited;
+var
+  vlMeschavedanfe:string;
+  vlanomes:string;
+  arq:string;
+  vmeschave:string;
+begin
+//  inherited;
 
-  arq := ''; // geranomenfe(vmeschave, self.uqtabelaflacodigo.AsString);
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  vmeschave:=uqtabelameschave.AsString;
+
+  { If (Self.uqtabelamesprotocolo.AsString <> '') Then
+    Begin }
+
+   vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+   vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+   arq:= extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+   if arq<>'' then
+   begin
+     If not FileExists(arq) Then
+      Begin
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+        begin
+          arq := BaixaXMLServidor(IPServidorArquivos, arq);
+        end;
+
+      End;
+   end;
+
+   If not FileExists(arq) Then
+   begin
+     ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+     exit
+   end;
+
 
   modulonfe(arq, rnfGerarPrevia, vmeschave);
   ActAtualizar.Execute;
@@ -826,7 +857,7 @@ begin
     Begin }
 
    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
-   vlanomes:=copy( vlMeschavedanfe,3,5);
+   vlanomes:='20'+copy( vlMeschavedanfe,3,4);
 
    vlArqNFCe:= extractfilepath(application.ExeName)+'arqnfces\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
 
@@ -834,7 +865,7 @@ begin
    begin
      If not FileExists(vlArqNFCe) Then
       Begin
-        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') then
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
         begin
           vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
         end;
@@ -842,7 +873,11 @@ begin
       End;
    end;
 
-
+   If not FileExists(vlArqNFCe) Then
+   begin
+     ShowMessage('Não localizou o arquivo XML da nota para impressão: '+vlArqNFCe);
+     exit
+   end;
 
   ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
   { End
@@ -937,19 +972,52 @@ Var
   retorno: String;
   arq: String;
   vmeschave: string;
+
+  vlMeschavedanfe:string;
+  vlanomes:string;
+  vlArqNFCe:string;
+
 Begin
   vmeschave := Self.uqtabelameschave.AsString;
-  Inherited;
 
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
 
-    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
-    If arq <> '' Then
+  //  inherited;
+
+    cfg.Close;
+    cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    vlArqNFCe:= extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+    if vlArqNFCe<>'' then
+    begin
+      If not FileExists(vlArqNFCe) Then
+      Begin
+        if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+        begin
+          vlArqNFCe := BaixaXMLServidor(IPServidorArquivos, vlArqNFCe);
+        end;
+
+      End;
+    end;
+    If not FileExists(vlArqNFCe) Then
+    begin
+      ShowMessage('Não localizou o arquivo XML da nota para impressão: '+vlArqNFCe);
+      exit
+    end;
+
+    If vlArqNFCe <> '' Then
     Begin
-      modulonfe(arq, rnfImprimirNFe, vmeschave);
+      modulonfe(vlArqNFCe, rnfImprimirNFe, vmeschave);
       ActAtualizar.Execute;
     End;
+
   End
   Else
   Begin

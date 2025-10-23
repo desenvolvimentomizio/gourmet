@@ -75,13 +75,13 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <Debugger_HostApplication>$(gourmet1)\pega.exe</Debugger_HostApplication>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <DCC_UsePackage>vcl;vclactnband;vcldb;dacvcl160;dac160;unidacvcl160;unidac200;fs16;vclimg;vclx;ACBrComum;ACBrDiversos;vclie;unidac240;dac240;ACBr_Comum;ACBr_synapse;ACBr_Diversos;PngComponents;unidac250;dac250;NativeExcelDXTokyo;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Release>501</VerInfo_Release>
     </PropertyGroup>
@@ -89,12 +89,12 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -105,7 +105,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_RunTimeTypeInfo>true</DCC_RunTimeTypeInfo>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
@@ -116,7 +116,7 @@
         <DCC_MapFile>3</DCC_MapFile>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_BplOutput>$(gourmet1)\modulos</DCC_BplOutput>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Release>501</VerInfo_Release>
     </PropertyGroup>
@@ -124,8 +124,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -137,7 +137,7 @@
         <DCC_MapFile>3</DCC_MapFile>
         <DCC_DebugInformation>2</DCC_DebugInformation>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <DCC_LocalDebugSymbols>true</DCC_LocalDebugSymbols>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
@@ -147,7 +147,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_BplOutput>$(gourmet1)\modulos</DCC_BplOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Release>501</VerInfo_Release>
         <Debugger_HostApplication>$(gourmet1)\delivery.exe</Debugger_HostApplication>
     </PropertyGroup>
@@ -155,8 +155,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

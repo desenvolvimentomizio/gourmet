@@ -76,11 +76,11 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_BplOutput>$(gourmet1)\modulos</DCC_BplOutput>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
@@ -89,12 +89,12 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -109,8 +109,8 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_MapFile>3</DCC_MapFile>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
@@ -119,8 +119,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -129,8 +129,8 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
@@ -142,8 +142,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -186,7 +186,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="$(gourmet1)\dcu\mmwh.bpl" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="$(gourmet1)\modulos\mmwh.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>mmwh.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -230,7 +230,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(gourmet1)\modulos\mmwh.bpl" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="$(gourmet1)\dcu\mmwh.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>mmwh.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

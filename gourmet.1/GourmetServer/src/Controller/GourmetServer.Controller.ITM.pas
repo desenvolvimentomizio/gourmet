@@ -30,6 +30,7 @@ var
   a: string;
   vltaxa: Currency;
 begin
+  try
   FDAO := TDAOGeneric<TITM>.New;
 
   vlitmchave := 0;
@@ -62,9 +63,21 @@ begin
   FITM.tdfcodigo := vItem.getvalue('tdfcodigo', '');
   FITM.itochave := vItem.getvalue('itochave', '').ToInteger;
 
-  vltaxa := strtocurr(vItem.getvalue('itmoutras', '0.00'));
+  if vItem.getvalue('itmoutras', '')='' then
+    vltaxa :=0
+  else
+    vltaxa := strtocurr(vItem.getvalue('itmoutras', '0.00'));
 
-  FITM.itmoutras := strtocurr(vItem.getvalue('itmoutras', '0.00'));
+  if (vItem.getvalue('itmoutras', ''))='' then
+    FITM.itmoutras :=0
+  else
+    FITM.itmoutras := strtocurr(vItem.getvalue('itmoutras', '0.00'));
+
+  if vItem.getvalue('itmfrete', '0.00')='' then
+    FITM.itmfrete :=0
+  else
+    FITM.itmfrete := strtocurr(vItem.getvalue('itmfrete', '0.00'));
+
   FITM.itmcest := vItem.getvalue('itmcest', '');
   FITM.clbatendente := vItem.getvalue('clbatendente', '').ToInteger;
   FITM.oricodigo := vItem.getvalue('oricodigo', '').ToInteger;
@@ -85,7 +98,13 @@ begin
     FDAO.DAO.Update(FITM);
   end;
   result := vlitmchave;
+  Except
+      on E: Exception do
+      begin
+        writeln('linha 101 '+E.Message);
 
-end;
+      end;
+    End;
+  end;
 
 end.

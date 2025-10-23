@@ -64,7 +64,7 @@
         <DCC_Warnings>false</DCC_Warnings>
         <SanitizedProjectName>mgri</SanitizedProjectName>
         <GenPackage>true</GenPackage>
-        <VerInfo_Keys>FileVersion=25.28.501.15;ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=25.28.501.17;ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
@@ -73,7 +73,7 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Release>501</VerInfo_Release>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -84,7 +84,7 @@
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -103,14 +103,14 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>FileVersion=25.28.501.15;ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>FileVersion=25.28.501.17;ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>

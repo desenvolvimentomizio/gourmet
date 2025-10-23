@@ -1057,6 +1057,10 @@ Var
   vmeschave: string;
   vMotivo: string;
   vlMeaCodigo: string;
+  vlMeschavedanfe: string;
+
+  vlanomes: string;
+
 
 Begin
   if uqtabelasdecodigo.AsString = '02' then
@@ -1085,7 +1089,28 @@ Begin
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
 
-    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
     If arq <> '' Then
     Begin
       Self.modulonfe(arq, rnfCancelar, vmeschave);
@@ -1150,11 +1175,35 @@ Var
   arq: String;
   retorno: String;
   vmeschave: string;
+  vlMeschavedanfe: string;
+  vlanomes: string;
 Begin
   Inherited;
   vmeschave := Self.uqtabelameschave.AsString;
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
 
     arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
     If arq <> '' Then
@@ -1413,9 +1462,38 @@ Var
   retorno: String;
   arq: String;
   vmeschave: string;
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
 Begin
   vmeschave := Self.uqtabelameschave.AsString;
   Inherited;
+
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
 
   arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
   If arq <> '' Then
@@ -1755,6 +1833,10 @@ procedure Tframnf.ActReenviarEmailEventosExecute(Sender: TObject);
 Var
   arq: String;
   vmeschave: string;
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
 begin
   vmeschave := Self.uqtabelameschave.AsString;
 
@@ -1762,6 +1844,30 @@ begin
 
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
     modulonfe(arq, rnfEmailEvento, vmeschave);
     ActAtualizar.Execute;
   End
@@ -1793,13 +1899,41 @@ procedure Tframnf.ActReimprimirEventosExecute(Sender: TObject);
 Var
   arq: String;
   vmeschave: string;
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
 begin
   vmeschave := Self.uqtabelameschave.AsString;
 
   inherited;
 
+
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
+
     modulonfe(arq, rnfImprimirEvento, vmeschave);
     ActAtualizar.Execute;
   End
@@ -1812,6 +1946,10 @@ Var
   retorno: String;
   arq: String;
   vmeschave: string;
+var
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
 Begin
   vmeschave := Self.uqtabelameschave.AsString;
   Inherited;
@@ -1819,12 +1957,36 @@ Begin
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
 
-    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
     If arq <> '' Then
     Begin
+
       modulonfe(arq, rnfImprimirNFe, vmeschave);
+
       ActAtualizar.Execute;
     End;
+
+
   End
   Else
   Begin
@@ -1838,6 +2000,8 @@ Var
   arq: String;
   retorno: String;
   vmeschave: string;
+  vlMeschavedanfe: string;
+  vlanomes: string;
   npdf: string;
 Begin
 
@@ -1845,6 +2009,31 @@ Begin
   Inherited;
   If Self.uqtabelamesprotocolo.AsString <> '' Then
   Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
 
     arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
     If arq <> '' Then

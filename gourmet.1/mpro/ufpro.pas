@@ -1489,6 +1489,7 @@ begin
 
   AjustaProdutoPesado;
 
+
 end;
 
 procedure Tfpro.AjustaProdutoPesado;
@@ -1497,11 +1498,13 @@ begin
   begin
     cpbcodbalanca.Visible := true;
     lcpbcodbalanca.Visible := true;
+    cpbcodbalanca.SetFocus;
   end
   else
   begin
     cpbcodbalanca.Visible := False;
     lcpbcodbalanca.Visible := False;
+    cfocfop.SetFocus;
   end;
 
 end;

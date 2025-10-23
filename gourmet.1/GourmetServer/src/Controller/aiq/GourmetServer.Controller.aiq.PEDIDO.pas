@@ -508,6 +508,7 @@ begin
     vItemTaxa.AddPair('itosaldoap', '0');
     vItemTaxa.AddPair('itoacrescimoav', '0');
     vItemTaxa.AddPair('pdscodigo', '3');
+    vItemTaxa.AddPair('itofrete', '0');
 
     vItemTaxa.AddPair('immnumepedido', '0');
 
@@ -1397,7 +1398,7 @@ var
   vlTotaltaxaentregaitem: Double;
   vlTotalTaxas: Double;
   vlTotalTaxasTxt: String;
-  vlItoOutrasAtual: String;
+  vlItoFreteAtual: String;
 
   vlNumeroPedido: String;
 
@@ -2224,7 +2225,7 @@ begin
 
       end;
 
-      vlItem.AddPair('itooutras', floattostr(vltaxaentregaitem));
+      vlItem.AddPair('itofrete', floattostr(vltaxaentregaitem));
 
       a := vlItem.ToString;
 
@@ -2795,12 +2796,12 @@ begin
           begin
             if vlTotaltaxaentregaitem <> strtofloat(vltaxaentrega) then
             begin
-              vlItoOutrasAtual := vlItem.getvalue('itooutras', '');
+              vlItoFreteAtual := vlItem.getvalue('itofrete', '');
 
-              vlItoOutrasAtual := floattostr(strtofloat(vlItoOutrasAtual) + (strtofloat(vltaxaentrega) - vlTotaltaxaentregaitem));
+              vlItoFreteAtual := floattostr(strtofloat(vlItoFreteAtual) + (strtofloat(vltaxaentrega) - vlTotaltaxaentregaitem));
 
-              vlItem.RemovePair('itooutras');
-              vlItem.AddPair('itooutras', vlItoOutrasAtual);
+              vlItem.RemovePair('itofrete');
+              vlItem.AddPair('itofrete', vlItoFreteAtual);
 
               // vlItem.AddPair('itooutras', floattostr(strtofloat(vltaxaentrega) + (vlTotaltaxaentregaitem - strtofloat(vltaxaentrega))));
             end;
@@ -2822,12 +2823,18 @@ begin
       writeln(Datetimetostr(Now())+' 2450 conclui Pedido');
 
 
-    vltaxaentrega := vlItem.getvalue('itooutras', '0,00');
+    vltaxaentrega := vlItem.getvalue('itofrete', '0,00');
 
-    vltaxaentrega := floattostr(strtofloat(vltaxaentrega) + strtofloat(vlservice_feetotal));
+   // vltaxaentrega := floattostr(strtofloat(vltaxaentrega) + strtofloat(vlservice_feetotal));
 
-    vlItem.RemovePair('itooutras');
-    vlItem.AddPair('itooutras', vltaxaentrega);
+   // vltaxaentrega := floattostr(strtofloat(vltaxaentrega) + strtofloat(vlservice_feetotal));
+
+ //   vlItem.RemovePair('itooutras');
+    vlItem.RemovePair('itofrete');
+
+    vlItem.AddPair('itofrete', vltaxaentrega);
+    vlItem.AddPair('itooutras',vlservice_feetotal);
+
 
     vlMeschave := 0;
 

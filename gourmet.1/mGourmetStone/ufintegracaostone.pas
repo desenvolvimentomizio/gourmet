@@ -1266,7 +1266,6 @@ begin
       else
         lte.Edit;
 
-
       ltetfdcodigo.AsInteger := tfdVenda;
       lteltedata.AsDateTime := Now();
       ltelteprincipal.ascurrency := vpValorAReceber ;
@@ -2506,7 +2505,7 @@ begin
         if (dtlaiqmdacodigo.AsInteger=7) then
         begin
           mmlog.Lines.Add(Datetimetostr(now())+' '+'Vai gerar nota da venda AIQUEFOME online '+mesaiqmeschave.AsString);
-       //   GeraNFCe(mesaiqorcchave.asstring );
+          GeraNFCe(mesaiqorcchave.asstring );
         end;
 
         if ((dtlaiqmdacodigo.AsInteger=4) or

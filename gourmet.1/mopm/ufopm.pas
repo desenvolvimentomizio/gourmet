@@ -1473,77 +1473,7 @@ begin
           itmitmtotal.AsFloat := Self.itoitototalav.AsFloat + itoitoacrescimoav.AsCurrency;
 
 
-
           itmitmvalor.AsFloat := itmitmtotal.AsFloat / Self.itoitoquantidade.AsFloat;
-
-          if cfgcfgtributacaoimendes.AsInteger = 0 then
-          begin
-
-            itmicmcodigo.AsString := '00';
-
-            consulta.Close;
-            consulta.Connection := zcone;
-            consulta.SQL.Text := 'select  tpocodigo, proproducao  from pro where procodigo=' + Self.itoprocodigo.AsString;
-            consulta.Open;
-            vlTpocodigo := consulta.FieldByName('tpocodigo').AsString;
-
-            vlProducaoPropria := consulta.FieldByName('proproducao').AsInteger;
-
-            if vlProducaoPropria = 0 then
-            begin
-              consulta.Close;
-              consulta.Connection := zcone;
-              consulta.SQL.Text := 'SELECT toecodigo,toecfopsaida FROM toe where toecodigo=' + cfgcfgtoemesinte.AsString;
-              consulta.Open;
-
-              vlcfocfop := consulta.FieldByName('toecfopsaida').AsString;
-
-            end
-            else
-            begin
-
-              if cfgcfgtoeinteproducaopropria.AsString = '' then
-              begin
-                consulta.Close;
-                consulta.Connection := zcone;
-                consulta.SQL.Text := 'SELECT toecodigo,toecfopsaida FROM toe where toecodigo=' + cfgcfgtoemesinte.AsString;
-                consulta.Open;
-
-              end
-              else
-              begin
-
-                consulta.Close;
-                consulta.Connection := zcone;
-                consulta.SQL.Text := 'SELECT toecodigo,toecfopsaida FROM toe where toecodigo=' + cfgcfgtoeinteproducaopropria.AsString;
-                consulta.Open;
-
-              end;
-              vlcfocfop := consulta.FieldByName('toecfopsaida').AsString;
-
-            end;
-
-            consulta.Close;
-            consulta.SQL.Text := 'select toe.toecodigo  from toe, otp where toe.toecodigo=otp.toecodigo and otp.tpocodigo=' + QuotedStr(vlTpocodigo) +
-              ' and toecfopsaida=' + QuotedStr(vlcfocfop);
-            consulta.Open;
-
-            itmtoecodigo.AsInteger := consulta.FieldByName('toecodigo').AsInteger;
-
-            toe.Close;
-            toe.ParamByName('toecodigo').AsInteger := itmtoecodigo.AsInteger;
-            toe.Open;
-
-            consulta.Close;
-            consulta.Connection := zcone;
-            consulta.SQL.Text := 'select ' + QuotedStr('00') + '  icmcodigo, 0 propercreducaobaseicm, cstcodigo,csicodigo,cspcodigo,csfcodigo,' +
-              ' cfgpercentualpis  propisaliquota,  cfgpercentualcofins procofinsaliquota, toecfopsaida cfocfop, toecfopsaida icmcodigofora, ' +
-              ' 0 proipialiquota, 0 promva, 0 propercreducaobaseicm  from toe where toecodigo=' + Self.itmtoecodigo.AsString;
-            consulta.Open;
-
-          end
-          else
-          begin
 
             consulta.Close;
             consulta.Connection := zcone;
@@ -1571,53 +1501,11 @@ begin
               + Self.itoprocodigo.AsString;
             consulta.Open;
 
-          end;
 
           itmcfocfopdestinacao.AsString := Self.consulta.FieldByName('cfocfop').AsString;
           itmcfocfop.AsString := Self.consulta.FieldByName('cfocfop').AsString;
 
-          // pis
-          itmcspcodigo.AsString := consulta.FieldByName('cspcodigo').AsString;
-
-          itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
-
-          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
-            (consulta.FieldByName('propisaliquota').AsFloat / 100);
-          itmitmquantpis.AsFloat := 0;
-          itmitmaliqpisvalor.AsFloat := 0;
-
-          if itmitmaliqpis.AsFloat > 0 then
-          begin
-            itmitmbpis.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency);
-          end
-          else
-          begin
-            itmitmbpis.AsFloat := 0;
-          end;
-
-          // cofins
-          itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
-
-          itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
-          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )) *
-            (consulta.FieldByName('procofinsaliquota').AsFloat / 100);
-          itmitmquantcofins.AsFloat := 0;
-          itmitmaliqcofinsvalor.AsFloat := 0;
-          if itmitmaliqcofins.AsFloat > 0 then
-          begin
-            itmitmbcofins.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency);
-          end
-          else
-          begin
-            itmitmbcofins.AsFloat := 0;
-          end;
-
-          // ipi
-          itmcsicodigo.AsString := consulta.FieldByName('csicodigo').AsString;
-          itmitmapuipi.AsInteger := 1;
-          itmitmbipi.AsFloat := 0;
-          itmitmaliqipi.AsFloat := 0;
-          itmitmipi.AsFloat := 0;
+          itmitmfrete.AsFloat := mesmesfrete.AsCurrency * (itmitmtotal.AsCurrency / (mesmestotal.AsCurrency - mesmesfrete.AsCurrency));
 
           // icm
           itmcstcodigo.AsString := consulta.FieldByName('cstcodigo').AsString;
@@ -1628,6 +1516,8 @@ begin
           icm.Open;
 
           icm.Locate('icmcodigo', consulta.FieldByName('icmcodigo').AsString, []);
+
+
 
           If (icm.FieldByName('icmaliquotas').AsFloat = 0.01) or (icm.FieldByName('icmaliquotas').AsFloat = 0) Then
           Begin
@@ -1643,7 +1533,7 @@ begin
           Else
           Begin
 
-            itmitmbicm.AsCurrency := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency;
+            itmitmbicm.AsCurrency := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency)+itmitmfrete.AsCurrency ;
 
             if consulta.FieldByName('propercreducaobaseicm').AsFloat <> 0 then
             begin
@@ -1660,6 +1550,52 @@ begin
             itmitmicms.AsFloat := 0;
 
           End;
+
+          // pis
+          itmcspcodigo.AsString := consulta.FieldByName('cspcodigo').AsString;
+
+          itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
+
+          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )+ itmitmfrete.AsCurrency) *
+            (consulta.FieldByName('propisaliquota').AsFloat / 100);
+          itmitmquantpis.AsFloat := 0;
+          itmitmaliqpisvalor.AsFloat := 0;
+
+          if itmitmaliqpis.AsFloat > 0 then
+          begin
+            itmitmbpis.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency)+ itmitmfrete.AsCurrency;
+          end
+          else
+          begin
+            itmitmbpis.AsFloat := 0;
+          end;
+
+          // cofins
+          itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
+
+          itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
+          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency )+ itmitmfrete.AsCurrency) *
+            (consulta.FieldByName('procofinsaliquota').AsFloat / 100);
+          itmitmquantcofins.AsFloat := 0;
+          itmitmaliqcofinsvalor.AsFloat := 0;
+          if itmitmaliqcofins.AsFloat > 0 then
+          begin
+            itmitmbcofins.AsFloat := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - (itmitmdesconto.AsCurrency+itmitmicm.AsCurrency)+ itmitmfrete.AsCurrency;
+          end
+          else
+          begin
+            itmitmbcofins.AsFloat := 0;
+          end;
+
+          // ipi
+          itmcsicodigo.AsString := consulta.FieldByName('csicodigo').AsString;
+          itmitmapuipi.AsInteger := 1;
+          itmitmbipi.AsFloat := 0;
+          itmitmaliqipi.AsFloat := 0;
+          itmitmipi.AsFloat := 0;
+
+
+
 
           // acumadores do mes
           vlbicm := vlbicm + itmitmbicm.AsCurrency;
@@ -1688,7 +1624,7 @@ begin
           itmprogtin.AsString := Self.itoitogint.AsString;
 
           itmitmseguro.AsFloat := 0;
-          itmitmfrete.AsFloat := 0;
+         // itmitmfrete.AsFloat := 0;
           itmitmcusto.AsFloat := 0;
 
           itmitmtipodesc.AsInteger := Self.itotdecodigo.AsInteger;
@@ -1816,9 +1752,6 @@ begin
           end;
 
 
-
-//          itmitmfrete.AsFloat := mesmesfrete.AsCurrency * (itmitmtotal.AsCurrency / (mesmestotal.AsCurrency + mesmesfrete.AsCurrency));
-          itmitmfrete.AsFloat := mesmesfrete.AsCurrency * (itmitmtotal.AsCurrency / (mesmestotal.AsCurrency - mesmesfrete.AsCurrency));
 
 
           itmmeschave.AsString := vmeschave;

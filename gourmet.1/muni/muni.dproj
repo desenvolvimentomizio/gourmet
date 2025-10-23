@@ -63,7 +63,7 @@
         <VerInfo_Private>true</VerInfo_Private>
         <VerInfo_Special>true</VerInfo_Special>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;Modulo=Estoque</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;Modulo=Estoque</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
@@ -73,17 +73,17 @@
         <GenPackage>true</GenPackage>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Release>501</VerInfo_Release>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -95,21 +95,21 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_DebugInfoInExe>false</DCC_DebugInfoInExe>
         <DCC_MapFile>3</DCC_MapFile>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
         <DCC_BplOutput>$(gourmet1)\modulos</DCC_BplOutput>
         <Debugger_HostApplication>$(gourmet1)\pega.exe</Debugger_HostApplication>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;Modulo=Estoque</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos;SpecialBuild=;PrivateBuild=;Modulo=Estoque</VerInfo_Keys>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
@@ -121,7 +121,7 @@
         <DCC_DebugInformation>1</DCC_DebugInformation>
         <DCC_DcuOutput>$(gourmet1)\dcu</DCC_DcuOutput>
         <DCC_BplOutput>$(gourmet1)\modulos</DCC_BplOutput>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.15;Comments=Cadastro de Unidades para Produtos;Modulo=Cadastros;Grupo=Tabelas de Estoque;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;InternalName=muni;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;OriginalFilename=muni.bpl;ProductName=muni;ProductVersion=25.28.501.17;Comments=Cadastro de Unidades para Produtos;Modulo=Cadastros;Grupo=Tabelas de Estoque;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
         <Debugger_HostApplication>$(gourmet1)\pega.exe</Debugger_HostApplication>
     </PropertyGroup>
     <ItemGroup>

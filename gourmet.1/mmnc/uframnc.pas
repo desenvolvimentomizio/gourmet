@@ -706,8 +706,36 @@ Begin
 end;
 
 procedure Tframnc.ActReimprimirNFCEExecute(Sender: TObject);
+var
+  arq:String;
+  vlMeschavedanfe:String;
+  vlanomes:String;
 Begin
   Inherited;
+
+  cfg.Close;
+  cfg.Params[0].AsInteger := Acesso.Filial;
+  cfg.Open;
+
+
+  vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+  vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+  arq := extractfilepath(application.ExeName)+'arqnfces\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+  if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+  begin
+    arq := BaixaXMLServidor(IPServidorArquivos, arq);
+  end;
+
+  If not FileExists(arq) Then
+  begin
+     ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+     exit
+  end;
+
+
   If (Self.uqtabelamesnumero.AsString <> '0') and (Self.uqtabelatemcodigo.AsString <> '4') Then
   Begin
     ModuloNFCe('ImprimeNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);
@@ -1061,8 +1089,35 @@ begin
 end;
 
 procedure Tframnc.ActVisualizarNFCEExecute(Sender: TObject);
-begin
-  inherited;
+var
+  arq:String;
+  vlMeschavedanfe:String;
+  vlanomes:String;
+Begin
+  Inherited;
+
+  cfg.Close;
+  cfg.Params[0].AsInteger := Acesso.Filial;
+  cfg.Open;
+
+
+  vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+  vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+  arq := extractfilepath(application.ExeName)+'arqnfces\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+  if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+  begin
+    arq := BaixaXMLServidor(IPServidorArquivos, arq);
+  end;
+
+  If not FileExists(arq) Then
+  begin
+     ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+     exit
+  end;
+
   If (Self.uqtabelamesnumero.AsString <> '0') and (Self.uqtabelatemcodigo.AsString <> '4') Then
   Begin
     ModuloNFCe('VisualizaNFCe', Acesso.Terminal.ToString, Self.uqtabelameschave.AsString, Acesso.Usuario.ToString);

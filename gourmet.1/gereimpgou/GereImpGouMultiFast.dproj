@@ -77,7 +77,7 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_ExeOutput>$(gourmet1)\</DCC_ExeOutput>
@@ -85,19 +85,19 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -114,11 +114,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
         <DCC_MapFile>3</DCC_MapFile>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
@@ -127,8 +127,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -147,9 +147,9 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <Icon_MainIcon>GereImpGouMultiFast_Icon.ico</Icon_MainIcon>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17;CompanyName=Mizio Sistemas;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas</VerInfo_Keys>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
@@ -158,8 +158,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Mizio Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;LegalCopyright=Todos direitos reservados.;LegalTrademarks=Mizio Sistemas;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

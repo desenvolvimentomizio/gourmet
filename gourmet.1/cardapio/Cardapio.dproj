@@ -87,7 +87,7 @@
         <Android_LauncherIcon192>$(BDS)\bin\Artwork\Android\FM_LauncherIcon_192x192.png</Android_LauncherIcon192>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android64)'!=''">
-        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.15;ProductVersion=25.28.501.15;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.17;ProductVersion=25.28.501.17;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Base_Android>true</Base_Android>
@@ -99,14 +99,14 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;DBXDb2Driver;vclactnband;vclFireDAC;tethering;uniGUI25Chart;FireDACADSDriver;ACBr_BPeDabpeESCPOS;ACBr_BPe;FireDACMSSQLDriver;vcltouch;ACBr_NFe;ACBr_NFeDanfeFR;vcldb;Intraweb;svn;ACBr_NFeDanfeESCPOS;frxDAC25;vclib;ACBr_SATExtratoFR;vclZipForged25;FireDACDBXDriver;ACBr_NFSeDanfseFR;vclx;ACBr_SATExtratoRL;ACBr_Reinf;VCLRESTComponents;vclie;fs25;bindengine;ACBr_PAF;FireDACMySQLDriver;vquery250;ACBr_SATECFVirtual;DataSnapClient;bindcompdbx;ACBr_CTeDacteRL;ACBr_TCP;IndyIPServer;DBXSybaseASEDriver;ACBr_CTe;dac250;IndySystem;dsnapcon;ACBre_Social;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;ACBr_SPEDImportar;fsUniDAC25;fsADO25;ACBr_SPED;ACBr_MDFe;emshosting;ACBr_BoletoRL;ACBr_LFD;frxADO25;DBXOdbcDriver;FireDACTDataDriver;FMXTee;DbxCommonDriver;ACBr_CIOT;ACBr_NFSeDanfseRL;xmlrtl;DataSnapNativeClient;fmxobj;unidacfmx250;frx25;rtl;DbxClientDriver;dacvcl250;DBXSybaseASADriver;fsDB25;ACBr_Convenio115;appanalytics;IndyIPClient;bindcompvcl;TeeUI;VclSmp;FireDACODBCDriver;DataSnapIndy10ServerTransport;ACBr_Boleto;DataSnapProviderClient;ACBr_SEF2;FireDACMongoDBDriver;frxIBX25;Whats4Delphi;ACBr_MDFeDamdfeFR;ACBr_NFSe;DataSnapServerMidas;frxcs25;fsDAC25;DBXInterBaseDriver;ACBr_NF3e;ACBr_TEFD;ACBr_SATWS;svnui;dclZipForged25;frxe25;DBXMSSQLDriver;ACBr_MDFeDamdfeRL;DatasnapConnectorsFreePascal;ACBr_EDI;ACBr_ONE;PngComponentsD;bindcompfmx;DBXOracleDriver;unidac250;fsIBX25;inetdb;CEF4Delphi;ACBr_Diversos;ACBr_GNREGuiaFR;FmxTeeUI;emsedge;ACBr_LCDPR;fmx;fmxdae;frxDB25;ACBr_CTeDacteFR;frxTee25;ACBr_Ponto;dbexpress;IndyCore;frxUniDAC25;dsnap;DataSnapCommon;fsTee25;DataSnapConnectors;uniGUI25m;ACBR_DeSTDA;ACBr_SAT;FireDACOracleDriver;DBXMySQLDriver;DBXFirebirdDriver;ACBr_Sintegra;FireDACCommonODBC;ACBr_GNRE;ACBr_ADRCST;IndyIPCommon;vcl;ACBr_NFeDanfeRL;ACBr_SATExtratoESCPOS;FireDACDb2Driver;ACBr_Integrador;madExcept_;madBasic_;TeeDB;ACBr_Comum;FireDACPgDriver;ibmonitor;FireDACASADriver;ACBr_GNREGuiaRL;ibxpress;Tee;DataSnapServer;ibxbindings;FireDACDSDriver;vclwinx;ACBr_OpenSSL;madDisAsm_;CustomIPTransport;vcldsnap;bindcomp;ACBr_Serial;DBXInformixDriver;crcontrols250;frce;frxDBX25;ACBr_BlocoX;NativeExcelDXTokyo;BarcodeScanner;dbxcds;unidacvcl250;ACBr_NFCeECFVirtual;adortl;ACBr_BoletoFR;dacfmx250;uniGUI25VCL;ACBr_ANe;dsnapxml;dbrtl;IndyProtocols;inetdbxpress;ACBr_NF3eDANF3eESCPOS;ACBr_MTER;uSynEdit_R2021;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_ExeOutput>$(gourmet)\</DCC_ExeOutput>
@@ -114,7 +114,7 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;DBXDb2Driver;vclactnband;vclFireDAC;tethering;uniGUI25Chart;FireDACADSDriver;FireDACMSSQLDriver;vcltouch;vcldb;Intraweb;vclib;vclZipForged25;FireDACDBXDriver;vclx;VCLRESTComponents;vclie;bindengine;FireDACMySQLDriver;DataSnapClient;bindcompdbx;IndyIPServer;DBXSybaseASEDriver;IndySystem;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;emshosting;DBXOdbcDriver;FireDACTDataDriver;FMXTee;DbxCommonDriver;xmlrtl;DataSnapNativeClient;fmxobj;rtl;DbxClientDriver;DBXSybaseASADriver;appanalytics;IndyIPClient;bindcompvcl;TeeUI;VclSmp;FireDACODBCDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;FireDACMongoDBDriver;Whats4Delphi;DataSnapServerMidas;DBXInterBaseDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;PngComponentsD;bindcompfmx;DBXOracleDriver;inetdb;CEF4Delphi;FmxTeeUI;emsedge;fmx;fmxdae;dbexpress;IndyCore;dsnap;DataSnapCommon;DataSnapConnectors;uniGUI25m;FireDACOracleDriver;DBXMySQLDriver;DBXFirebirdDriver;FireDACCommonODBC;IndyIPCommon;vcl;FireDACDb2Driver;TeeDB;FireDACPgDriver;ibmonitor;FireDACASADriver;ibxpress;Tee;DataSnapServer;ibxbindings;FireDACDSDriver;vclwinx;CustomIPTransport;vcldsnap;bindcomp;DBXInformixDriver;dbxcds;adortl;uniGUI25VCL;dsnapxml;dbrtl;IndyProtocols;inetdbxpress;uSynEdit_R2021;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -131,8 +131,8 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.15;ProductVersion=25.28.501.15;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.17;ProductVersion=25.28.501.17;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -141,11 +141,11 @@
         <DCC_MapFile>3</DCC_MapFile>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -158,16 +158,16 @@
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
-        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.15;ProductVersion=25.28.501.15;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=;FileVersion=25.28.501.17;ProductVersion=25.28.501.17;ProductName=$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.15;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.15</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.17;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.17</VerInfo_Keys>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
         <VerInfo_Release>501</VerInfo_Release>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
         <DCC_MapFile>3</DCC_MapFile>
         <DCC_DebugInformation>2</DCC_DebugInformation>

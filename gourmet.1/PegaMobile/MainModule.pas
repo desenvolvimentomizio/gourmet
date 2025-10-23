@@ -365,7 +365,7 @@ end;
 
 procedure TUniMainModule.UniGUIMainModuleCreate(Sender: TObject);
 var
-  vIpServer, vDbServer: String;
+  vIpServer, vDbServer, vPort: String;
   vlCaminho: string;
 begin
   // Carregando informações de configuração do servidor de banco de dados
@@ -378,12 +378,16 @@ begin
     vDbServer := vpConfigIni.ReadString('posi', 'nomebanco', 'Não foi informado o NOME DO BANCO DE DADOS em "database"' + #13 + 'Verifique arquivo de configuração em :' +
       ExtractFilePath(ParamSTR(0)) + 'Gourmeterp.Ini');
 
+    vPort := vpConfigIni.ReadString('posi', 'portabanco', 'Não foi informado o NOME DO BANCO DE DADOS em "database"' + #13 + 'Verifique arquivo de configuração em :' +
+      ExtractFilePath(ParamSTR(0)) + 'Gourmeterp.Ini');
 
 
     try
       Conexao.Close;
       Conexao.Server := vIpServer;
       Conexao.Database := vDbServer;
+      Conexao.Port := StrToInt(vport);
+
       Conexao.Open;
 
       UniMainModule.cfg.Close;

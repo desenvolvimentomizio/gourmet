@@ -48,7 +48,7 @@ const
 
   // 1 MINUTOS = 60 SEGUNDOS
   // LIMITE DO AIQUEFOME 20 REQUISICOES POR MINUTO
-  TEMPO_PEDIDOS = 5;
+  TEMPO_PEDIDOS = 3;
 
   // esta é de homologavacao
   // urlbase = 'http://sandbox-raimundo.aiqfome.com:8889/alfredo';

@@ -822,7 +822,9 @@ begin
     rnfGerarNFe:
       mEnviarNFe;
     rnfImprimirNFe:
+    begin
       mReimprimirNFe;
+    end;
     rnfGerarPDF:
       mGerarPDF;
     rnfEmail:
@@ -970,7 +972,7 @@ var
 
 begin
 
-  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+  if (mesttocodigo.AsInteger = 7) then
   begin
 
     consulta.Close;
@@ -1021,15 +1023,19 @@ begin
       begin
 
         itm.Edit;
-        itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
-        itmitmbpis.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
+
+        itmitmbpis.AsCurrency :=( (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat)+itmitmfrete.AsCurrency )- (itmitmdesconto.AsCurrency +
           itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
 
-        itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-          itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
-        itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
+        itmitmpis.AsFloat := itmitmbpis.AsCurrency * (itmitmaliqpis.AsFloat / 100);
+
+
+        itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat)+itmitmfrete.AsCurrency )- (itmitmdesconto.AsCurrency +
           itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
+
+        itmitmcofins.AsFloat := itmitmbcofins.AsCurrency  * (itmitmaliqcofins.AsFloat / 100);
+
+
         itm.post;
       end
       else
@@ -1069,403 +1075,164 @@ var
 
 begin
 
-  if (cfgcfgtributacaoimendes.AsInteger = 0) { or ((mesttocodigo.AsInteger = ttoOutros)) } then
+  if (mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros) then
   begin
-
-    consulta.Close;
-    consulta.SQL.Text := 'select etdcodigo, mespararevenda,mesretirabalcao from mes where meschave=' + vpMesChave;
-    consulta.Open;
-
-    vlRetiraBalcao := consulta.FieldByName('mesretirabalcao').AsInteger;
-    vlParaRevenda := consulta.FieldByName('mespararevenda').AsInteger;
-    vlEtdCodigo := consulta.FieldByName('etdcodigo').AsString;
-
-    consulta.Close;
-
-    if (cfgcrtcodigo.AsInteger = 3) or (cfgcrtcodigo.AsInteger = 2) then // normal
-    begin
-      vlOrigemSimples := False;
-    end
-    else
-    begin
-      vlOrigemSimples := True;
-    end;
-
-    consulta.Close;
-    consulta.SQL.Text := 'select etdregime from etd where etdcodigo=' + vlEtdCodigo;
-    consulta.Open;
-
-    if (consulta.FieldByName('etdregime').AsInteger = 0) or (consulta.FieldByName('etdregime').AsInteger = 2) then
-    begin
-      vlDestinoNormal := False;
-    end
-    else
-    begin
-      vlDestinoNormal := True;
-    end;
-
-    consulta.Close;
 
     itm.First;
 
     While Not itm.Eof Do
     Begin
-      if (itmicmcodigo.AsString <> 'ff') and (itmicmcodigo.AsString <> 'nn') and (itmicmcodigo.AsString <> 'ii') then
+      // Fran: 03/10/2022 - quando o veritical for boutique vai gerar a nota com CFOP de dentro do estado.
+
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT p.procodigo, p.pronome, p.cfocfop, p.cfocfopfora,p.icmcodigo ,p.icmcodigofora, ';
+      consulta.SQL.add('(SELECT icmaliquotas FROM icm c WHERE p.icmcodigo=c.icmcodigo) icmaliquota, ');
+      consulta.SQL.add('(SELECT icmaliquotas FROM icm i WHERE p.icmcodigofora=i.icmcodigo) icmaliquotafora, ');
+      consulta.SQL.add('p.propercreducaobaseicm, cstcodigo,csicodigo,cspcodigo,csfcodigo,propisaliquota, procofinsaliquota  ');
+      consulta.SQL.add('from pro p where p.procodigo=' + itmprocodigo.AsString);
+      consulta.Open;
+
+      vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
+      vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
+      vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
+      vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
+
+      vlcfgpercentualpis := consulta.FieldByName('propisaliquota').AsString;
+      vlcfgpercentualcofins := consulta.FieldByName('procofinsaliquota').AsString;
+
+      itm.Edit;
+
+      itmcstcodigo.AsString := vlcstcodigo;
+
+      itmcsicodigo.AsString := consulta.FieldByName('csicodigo').AsString;
+      itmcspcodigo.AsString := consulta.FieldByName('cspcodigo').AsString;
+      itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
+
+
+      if (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'ff') and (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'nn') and
+        (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'ii') then
       begin
-
-        if (vlOrigemSimples = True) and (vlDestinoNormal = False) then // imposto zerado
-        begin
-
-          spd.Close;
-          spd.Open;
-
-          if spdspdaliquotasimples.AsFloat > 0 then
-          begin
-
-            if etdtpecodigo.AsInteger = 1 then
-            begin
-              itm.Edit;
-              itmitmbicms.AsFloat := 0;
-              itmitmaliqicms.AsFloat := 0;;
-              itmitmicms.AsFloat := 0;
-              itmitmpercreducaobaseicm.AsCurrency := 0;
-              itmcstcodigo.AsString := toecstcodigo.AsString;
-              itm.post;
-
-            end
-            else
-            begin
-              if (cfgcrtcodigo.AsInteger = 2) or (cfgcrtcodigo.AsInteger = 3) then
-              begin
-                itm.Edit;
-                itmicmcodigo.AsString := spdspdaliquotasimples.AsString;
-                itmitmicm.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-                  itmitmoutras.AsCurrency) * (taitaialiquota.AsFloat / 100);
-                itmitmbicm.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-                  itmitmoutras.AsCurrency);
-                itmitmpercreducaobaseicm.AsCurrency := 0;;
-                itmcstcodigo.AsString := toecstnormal.AsString;
-                itm.post;
-              end;
-            end;
-
-          end
-          else
-          begin
-
-            itm.Edit;
-            itmitmbicms.AsFloat := 0;
-            itmitmaliqicms.AsFloat := 0;;
-            itmitmicms.AsFloat := 0;
-            itmitmpercreducaobaseicm.AsCurrency := 0;
-            itm.post;
-
-          end;
-
-        end
-        else if ((vlOrigemSimples = False)) and (vlDestinoNormal = True) then // normal para normal
-        begin
-
-          if vlParaRevenda = 1 then
-          begin
-
-            tai.Close;
-            tai.ParamByName('data').AsDate := mesmesregistro.AsFloat;
-            tai.ParamByName('ufscodigoorigem').AsString := cfgufscodigo.AsString;
-            tai.ParamByName('ufscodigodestino').AsString := etdufscodigo.AsString;
-            tai.Open;
-
-            if taitaialiquota.AsFloat <> 0 then
-            begin
-              if (itmcstcodigo.AsString = '000') or (itmcstcodigo.AsString = '010') or (itmcstcodigo.AsString = '020') then
-              begin
-
-                itm.Edit;
-                itmicmcodigo.AsString := taitaialiquota.AsString;
-
-                itmitmicm.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-                  itmitmoutras.AsCurrency) * (taitaialiquota.AsFloat / 100);
-                itmitmbicm.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-                  itmitmoutras.AsCurrency);
-                itmitmpercreducaobaseicm.AsCurrency := 0;;
-                itmcstcodigo.AsString := toecstnormal.AsString;
-                itm.post;
-
-              end
-              else
-              begin
-                itm.Edit;
-                itmitmbicms.AsFloat := 0;
-                itmitmbicm.AsCurrency := 0;
-                itmitmaliqicms.AsFloat := 0;;
-                itmitmicms.AsFloat := 0;
-                itmitmpercreducaobaseicm.AsCurrency := 0;
-                itm.post;
-              end;
-            end;
-
-          end
-          else
-          begin
-
-            itm.Edit;
-            itmitmbicms.AsFloat := 0;
-            itmitmbicm.AsFloat := 0;
-            itmitmaliqicms.AsFloat := 0;;
-            itmitmicms.AsFloat := 0;
-            itmitmpercreducaobaseicm.AsCurrency := 0;
-            itm.post;
-
-          end;
-        end
-        else if ((vlOrigemSimples = True)) and (vlDestinoNormal = True) then // simples para normal pegua da talela snn o icm
-        begin
-
-          if vlParaRevenda = 1 then
-          begin
-
-            ssn.Close;
-            ssn.ParamByName('ssncodigo').AsString := cfgssncodigo.AsString;
-            ssn.Open;
-
-            spd.Close;
-            spd.Open;
-
-            if (spdspdaliquotasimples.AsString <> '') and (spdspdaliquotasimples.AsString <> '0') then
-            begin
-
-              icm.Close;
-              icm.Open;
-
-              if spdspdaliquotasimples.AsFloat <> 0 then
-              begin
-
-                itm.Edit;
-                itmitmbicms.AsFloat := 0;
-                itmitmbicm.AsFloat := 0;
-                itmitmaliqicms.AsFloat := 0;;
-                itmitmicms.AsFloat := 0;
-                itmitmpercreducaobaseicm.AsCurrency := 0;
-                itmcstcodigo.AsString := toecstnormal.AsString;
-                itm.post;
-              end;
-
-            end
-            else
-            begin
-
-              icm.Close;
-              icm.Open;
-
-              if not icm.Locate('icmaliquotas', floattostr(ssnssnaliquota.AsFloat * (ssnssnicms.AsFloat / 100)), []) then
-
-              begin
-                icm.Append;
-                icmicmcodigo.AsString := floattostr(ssnssnaliquota.AsFloat * (ssnssnicms.AsFloat / 100));
-                icmicmaliquotas.AsString := floattostr(ssnssnaliquota.AsFloat * (ssnssnicms.AsFloat / 100));
-                icm.post;
-              end;
-
-              if ssnssnaliquota.AsFloat <> 0 then
-              begin
-
-                itm.Edit;
-                itmitmbicms.AsFloat := 0;
-                itmitmbicm.AsFloat := 0;
-                itmitmaliqicms.AsFloat := 0;;
-                itmitmicms.AsFloat := 0;
-                itmitmpercreducaobaseicm.AsCurrency := 0;
-                itmcstcodigo.AsString := toecstnormal.AsString;
-                itm.post;
-
-              end;
-
-            end;
-          end
-          else
-          begin
-
-            itm.Edit;
-            itmitmbicms.AsFloat := 0;
-            itmitmbicm.AsFloat := 0;
-            itmitmaliqicms.AsFloat := 0;;
-            itmitmicms.AsFloat := 0;
-            itmitmpercreducaobaseicm.AsCurrency := 0;
-            itm.post;
-
-          end;
-
-        end;
-
-      end;
-
-      if mesttocodigo.AsInteger = 7 then
-      begin
-        itm.Edit;
-        itmitmbicms.AsFloat := 0;
-        itmitmbicm.AsFloat := 0;
-        itmitmaliqicms.AsFloat := 0;;
-        itmitmicms.AsFloat := 0;
-        itmitmpercreducaobaseicm.AsCurrency := 0;
-        itmcstcodigo.AsString := toecstnormal.AsString;
-        itm.post;
-
-      end;
-
-      itm.Next;
-    End;
-  end
-  else if (cfgcfgtributacaoimendes.AsInteger = 1) then
-  begin
-
-    if (mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros) then
-    begin
-
-      itm.First;
-
-      While Not itm.Eof Do
-      Begin
-        // Fran: 03/10/2022 - quando o veritical for boutique vai gerar a nota com CFOP de dentro do estado.
-
-        consulta.Close;
-        consulta.SQL.Text := 'SELECT p.procodigo, p.pronome, p.cfocfop, p.cfocfopfora,p.icmcodigo ,p.icmcodigofora, ';
-        consulta.SQL.add('(SELECT icmaliquotas FROM icm c WHERE p.icmcodigo=c.icmcodigo) icmaliquota, ');
-        consulta.SQL.add('(SELECT icmaliquotas FROM icm i WHERE p.icmcodigofora=i.icmcodigo) icmaliquotafora, ');
-        consulta.SQL.add('p.propercreducaobaseicm, cstcodigo,csicodigo,cspcodigo,csfcodigo,propisaliquota, procofinsaliquota  ');
-        consulta.SQL.add('from pro p where p.procodigo=' + itmprocodigo.AsString);
-        consulta.Open;
-
-        vlcstcodigo := consulta.FieldByName('cstcodigo').AsString;
-        vlcsicodigo := consulta.FieldByName('csicodigo').AsString;
-        vlcspcodigo := consulta.FieldByName('cspcodigo').AsString;
-        vlcsfcodigo := consulta.FieldByName('csfcodigo').AsString;
-
-        vlcfgpercentualpis := consulta.FieldByName('propisaliquota').AsString;
-        vlcfgpercentualcofins := consulta.FieldByName('procofinsaliquota').AsString;
 
         itm.Edit;
 
-        itmcstcodigo.AsString := vlcstcodigo;
-
-        itmcsicodigo.AsString := consulta.FieldByName('csicodigo').AsString;
-        itmcspcodigo.AsString := consulta.FieldByName('cspcodigo').AsString;
-        itmcsfcodigo.AsString := consulta.FieldByName('csfcodigo').AsString;
-
-        itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
-        itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
-
-        if itmitmaliqpis.AsFloat > 0 then
+        if cfgufssigla.AsString = etdufssigla.AsString then
         begin
+          itmicmcodigo.AsString := consulta.FieldByName('icmcodigo').AsString;
+          itmicmaliquotas.AsString := consulta.FieldByName('icmaliquota').AsString;
 
-          itmitmpis.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
-          itmitmbpis.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
-        end
-        else
-        begin
-          itmitmpis.AsFloat := 0;
-          itmitmbpis.AsCurrency := 0;
-        end;
-
-        if itmitmaliqcofins.AsFloat > 0 then
-        begin
-          itmitmcofins.AsFloat := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency+itmitmicm.AsCurrency) * (itmitmaliqcofins.AsFloat / 100);
-          itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-            itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
+          if (mesttocodigo.AsInteger = ttoVenda) { or (mesttocodigo.AsInteger = ttoOutros) } then
+          begin
+            itmcfocfop.AsString := consulta.FieldByName('cfocfop').AsString;
+          end;
 
         end
         else
         begin
-          itmitmcofins.AsFloat := 0;
-          itmitmbcofins.AsCurrency := 0;
-        end;
-        itm.post;
 
-        if (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'ff') and (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'nn') and
-          (lowercase(consulta.FieldByName('icmcodigo').AsString) <> 'ii') then
-        begin
-
-          itm.Edit;
-
-          if cfgufssigla.AsString = etdufssigla.AsString then
+          if (mesttocodigo.AsInteger = ttoVenda) { or (mesttocodigo.AsInteger = ttoOutros) } then
           begin
-            itmicmcodigo.AsString := consulta.FieldByName('icmcodigo').AsString;
-            itmicmaliquotas.AsString := consulta.FieldByName('icmaliquota').AsString;
 
-            if (mesttocodigo.AsInteger = ttoVenda) { or (mesttocodigo.AsInteger = ttoOutros) } then
+            if cfgcfgpresencialtoedestino.AsInteger = 0 then
             begin
               itmcfocfop.AsString := consulta.FieldByName('cfocfop').AsString;
-            end;
-
-          end
-          else
-          begin
-
-            if (mesttocodigo.AsInteger = ttoVenda) { or (mesttocodigo.AsInteger = ttoOutros) } then
+              itmicmcodigo.AsString := consulta.FieldByName('icmcodigo').AsString;
+              itmicmaliquotas.AsString := consulta.FieldByName('icmaliquota').AsString;
+            end
+            else
             begin
-
-              if cfgcfgpresencialtoedestino.AsInteger = 0 then
-              begin
-                itmcfocfop.AsString := consulta.FieldByName('cfocfop').AsString;
-                itmicmcodigo.AsString := consulta.FieldByName('icmcodigo').AsString;
-                itmicmaliquotas.AsString := consulta.FieldByName('icmaliquota').AsString;
-              end
-              else
-              begin
-                itmcfocfop.AsString := consulta.FieldByName('cfocfopfora').AsString;
-                itmicmcodigo.AsString := consulta.FieldByName('icmcodigofora').AsString;
-                itmicmaliquotas.AsString := consulta.FieldByName('icmaliquotafora').AsString;
-              end;
-
-            end;
-          end;
-
-          if itmicmaliquotas.AsFloat > 0 then
-          begin
-
-            itmitmbicm.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
-              itmitmoutras.AsCurrency);
-
-            itmitmpercreducaobaseicm.AsFloat := consulta.FieldByName('propercreducaobaseicm').AsFloat;
-            if itmitmpercreducaobaseicm.AsFloat > 0 then
-            begin
-              itmitmbicm.AsCurrency := itmitmbicm.AsCurrency - (itmitmbicm.AsCurrency * (itmitmpercreducaobaseicm.AsFloat / 100))
+              itmcfocfop.AsString := consulta.FieldByName('cfocfopfora').AsString;
+              itmicmcodigo.AsString := consulta.FieldByName('icmcodigofora').AsString;
+              itmicmaliquotas.AsString := consulta.FieldByName('icmaliquotafora').AsString;
             end;
 
-            itmitmicm.AsFloat := itmitmbicm.AsCurrency * (itmicmaliquotas.AsFloat / 100);
-
-          end
-          else
-          begin
-            itmitmpercreducaobaseicm.AsFloat := 0;
-            itmitmbicm.AsCurrency := 0;
-            itmitmicm.AsFloat := 0;
           end;
-          itm.post;
         end;
-        itm.Next;
+
+        if itmicmaliquotas.AsFloat > 0 then
+        begin
+
+          itmitmbicm.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency + itmitmfrete.AsCurrency +
+            itmitmoutras.AsCurrency);
+
+          itmitmpercreducaobaseicm.AsFloat := consulta.FieldByName('propercreducaobaseicm').AsFloat;
+          if itmitmpercreducaobaseicm.AsFloat > 0 then
+          begin
+            itmitmbicm.AsCurrency := itmitmbicm.AsCurrency - (itmitmbicm.AsCurrency * (itmitmpercreducaobaseicm.AsFloat / 100))
+          end;
+
+          itmitmicm.AsFloat := itmitmbicm.AsCurrency * (itmicmaliquotas.AsFloat / 100);
+
+        end
+        else
+        begin
+          itmitmpercreducaobaseicm.AsFloat := 0;
+          itmitmbicm.AsCurrency := 0;
+          itmitmicm.AsFloat := 0;
+        end;
+
+        itm.post;
       end;
 
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=1';
-      consulta.ExecSQL;
 
-      consulta.Close;
-      consulta.SQL.Text := 'update mes set ';
-      consulta.SQL.add('mesbicm=(select sum(itmbicm) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
-      consulta.SQL.add('  ,mespis=(select sum(itmpis) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
-      consulta.SQL.add('  ,mescofins=(select sum(itmcofins) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
-      consulta.SQL.add('  where meschave=' + mesmeschave.AsString);
-      consulta.ExecSQL;
+      if itm.State=dsbrowse then
+        itm.Edit;
 
-      consulta.Close;
-      consulta.SQL.Text := 'set @disable_triggers=null';
-      consulta.ExecSQL;
+      itmitmaliqpis.AsFloat := consulta.FieldByName('propisaliquota').AsFloat;
+      itmitmaliqcofins.AsFloat := consulta.FieldByName('procofinsaliquota').AsFloat;
 
+      if itmitmaliqpis.AsFloat > 0 then
+      begin
+
+        itmitmbpis.AsCurrency :=((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat)+itmitmfrete.AsCurrency )- (itmitmdesconto.AsCurrency +
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
+
+        itmitmpis.AsFloat := itmitmbpis.AsCurrency * (itmitmaliqpis.AsFloat / 100);
+
+      end
+      else
+      begin
+        itmitmpis.AsFloat := 0;
+        itmitmbpis.AsCurrency := 0;
+      end;
+
+      if itmitmaliqcofins.AsFloat > 0 then
+      begin
+
+
+        itmitmbcofins.AsCurrency := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat)+itmitmfrete.AsCurrency )- (itmitmdesconto.AsCurrency +
+          itmitmoutras.AsCurrency+itmitmicm.AsCurrency);
+
+        itmitmcofins.AsFloat := itmitmbcofins.AsCurrency  * (itmitmaliqcofins.AsFloat / 100);
+
+      end
+      else
+      begin
+        itmitmcofins.AsFloat := 0;
+        itmitmbcofins.AsCurrency := 0;
+      end;
+      itm.post;
+
+
+      itm.Next;
     end;
-  End;
+
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=1';
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'update mes set ';
+    consulta.SQL.add('mesbicm=(select sum(itmbicm) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
+    consulta.SQL.add('  ,mespis=(select sum(itmpis) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
+    consulta.SQL.add('  ,mescofins=(select sum(itmcofins) from itm where mes.meschave=itm.meschave and meschave=' + mesmeschave.AsString + ') ');
+    consulta.SQL.add('  where meschave=' + mesmeschave.AsString);
+    consulta.ExecSQL;
+
+    consulta.Close;
+    consulta.SQL.Text := 'set @disable_triggers=null';
+    consulta.ExecSQL;
+
+  end;
 
 end;
 
@@ -1924,12 +1691,14 @@ Begin
           begin
             vlTotalCartoes := vlTotalCartoes + dtldtlvalor.AsCurrency;
             tPag := fpCartaoDebito;
+            tpIntegra:=tiPagNaoIntegrado;
           end;
 
           if dtlmodalidade.AsInteger = mdaCartaoCredito then
           begin
             vlTotalCartoes := vlTotalCartoes + dtldtlvalor.AsCurrency;
             tPag := fpCartaoCredito;
+             tpIntegra:=tiPagNaoIntegrado;
           end;
 
           if dtlmodalidade.AsInteger = mdaConvenio then
@@ -1945,6 +1714,7 @@ Begin
           begin
             vlTotalPIX := vlTotalPIX + dtldtlvalor.AsCurrency;
             tPag := fpPagamentoInstantaneo;
+            tpIntegra:=tiPagNaoIntegrado;
           end;
 
           if dtlmodalidade.AsInteger = mdaOnline then
@@ -2086,10 +1856,16 @@ Begin
                 tPag := fpCheque;
 
               if dtlmodalidade.AsInteger = mdaCartaoDebito then
+              begin
                 tPag := fpCartaoDebito;
+                tpIntegra:=tiPagNaoIntegrado;
+              end;
 
               if dtlmodalidade.AsInteger = mdaCartaoCredito then
+              begin
                 tPag := fpCartaoCredito;
+                tpIntegra:=tiPagNaoIntegrado;
+              end;
 
               if dtlmodalidade.AsInteger = mdaConvenio then
                 tPag := fpCreditoLoja;
@@ -2103,6 +1879,7 @@ Begin
               if dtlmodalidade.AsInteger = mdaPIX then
               begin
                 vlTotalPIX := vlTotalPIX + dtldtlvalor.AsCurrency;
+                tpIntegra:=tiPagNaoIntegrado;
                 tPag := fpPagamentoInstantaneo;
               end;
 
@@ -3187,6 +2964,50 @@ Begin
 
             end;
 
+            if itmcspcodigo.AsString = '' then
+            begin
+              pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
+            end
+            else
+            begin
+
+              pis.CST := StrToCSTPIS(ok, formatfloat('00', itmcspcodigo.AsInteger));
+            end;
+
+            if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
+            begin
+
+              pis.pPIS := itmitmaliqpis.AsFloat;
+
+              pis.vPIS := itmitmpis.AsCurrency;
+              pis.vBC := itmitmbpis.AsCurrency;
+
+              vltotpis := vltotpis + pis.vPIS;
+
+            end;
+            if itmcsfcodigo.AsString = '' then
+            begin
+              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', 99));
+
+            end
+            else
+            begin
+              COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', itmcsfcodigo.AsInteger));
+            end;
+            if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
+            begin
+              COFINS.pCOFINS := itmitmaliqcofins.AsFloat;
+
+              COFINS.vBC := itmitmbcofins.AsCurrency;
+              COFINS.vCOFINS := itmitmcofins.AsCurrency;
+
+              vltotcofins := vltotcofins + COFINS.vCOFINS;
+            end;
+
+
+
+
+
 
             // IMPLEMENTAÇÃO DOS NOVOS IMPOSTOS IBS / CBS
 
@@ -3199,7 +3020,7 @@ Begin
               nrt.ParamByName('nrtcodigo').AsString:=itmnrtcodigo.AsString;
               nrt.Open;
 
-              if (nrt.RecordCount>0) and (copy(mesmesprotocolo.asstring,1,6)<>'000000') and (copy(mesmesprotocolo.asstring,1,6)<>'')  then
+              if (nrt.RecordCount>0) {and (copy(mesmesprotocolo.asstring,1,6)<>'000000') and (copy(mesmesprotocolo.asstring,1,6)<>'')}  then
               begin
 
                 inr.close;
@@ -3246,12 +3067,11 @@ Begin
                 begin
 
 
-
                   //  Informações do tributo: IBS / CBS
 
                   IBSCBS.CST :=  StrToCSTIBSCBS(nrtnrtcstibscbs.AsString); // TCSTIBSCBS.cst000;
                   IBSCBS.cClassTrib := nrtnrtcodigo.AsString;
-                  IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( (self.itmitmtotal.AsFloat-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
+                  IBSCBS.gIBSCBS.vBC :=SimpleRoundTo( ((Prod.vProd+itmitmfrete.AsCurrency)-(COFINS.vCOFINS+pis.vPIS+ICMS.vICMS)   ),-2);  // total do item
 
                   TotalIBSCBSgIBSCBSvBC:=SimpleRoundTo(TotalIBSCBSgIBSCBSvBC+IBSCBS.gIBSCBS.vBC,-2);
 
@@ -3380,67 +3200,6 @@ Begin
             End;
 
 
-          if itmcspcodigo.AsString = '' then
-          begin
-            pis.CST := StrToCSTPIS(ok, formatfloat('00', 99));
-          end
-          else
-          begin
-
-            pis.CST := StrToCSTPIS(ok, formatfloat('00', itmcspcodigo.AsInteger));
-          end;
-
-          if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
-          begin
-
-            pis.pPIS := itmitmaliqpis.AsFloat;
-
-            if cfgcfgtoenotacomplementar.AsInteger = mestoecodigo.AsInteger then
-            begin
-              pis.vPIS := itmitmpis.AsCurrency;
-              pis.vBC := itmitmbpis.AsCurrency
-            end
-            else
-            begin
-              if itmitmaliqpis.AsFloat <> 0 then
-              begin
-                pis.vPIS := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) * (itmitmaliqpis.AsFloat / 100);
-                pis.vBC := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency;
-              end;
-            end;
-            vltotpis := vltotpis + pis.vPIS;
-
-          end;
-          if itmcsfcodigo.AsString = '' then
-          begin
-            COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', 99));
-
-          end
-          else
-          begin
-            COFINS.CST := StrToCSTCOFINS(ok, formatfloat('00', itmcsfcodigo.AsInteger));
-          end;
-          if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
-          begin
-            COFINS.pCOFINS := itmitmaliqcofins.AsFloat;
-
-            if cfgcfgtoenotacomplementar.AsInteger = mestoecodigo.AsInteger then
-            begin
-              COFINS.vBC := itmitmbcofins.AsCurrency;
-              COFINS.vCOFINS := itmitmcofins.AsCurrency;
-            end
-            else
-            begin
-              if itmitmaliqcofins.AsFloat <> 0 then
-              begin
-                COFINS.vBC := (itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency;
-                COFINS.vCOFINS := ((itmitmvalor.AsCurrency * itmitmquantidade.AsFloat) - itmitmdesconto.AsCurrency) *
-                  (itmitmaliqcofins.AsFloat / 100);
-              end;
-            end;
-
-            vltotcofins := vltotcofins + COFINS.vCOFINS;
-          end;
 
           { if cfgcfgcstpis.AsString <> '' then
             begin
@@ -4693,7 +4452,7 @@ var
   vlcfgpercentualcofins: string;
 begin
 
-  if (cfgcfgtributacaoimendes.AsInteger = 0) or ((mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros)) then
+  if  ((mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros)) then
   begin
 
     itm.First;
@@ -4821,7 +4580,7 @@ begin
       itm.Next;
     End;
 
-    if (cfgcfgtributacaoimendes.AsInteger = 0) or ((mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros)) then
+    if  ((mesttocodigo.AsInteger <> ttoDevolucao) and (mesttocodigo.AsInteger <> ttoOutros)) then
     begin
 
       consulta.Close;
@@ -5115,7 +4874,7 @@ begin
               begin
                 if (cfgcfgtoeinteproducaopropria.AsInteger <> 0) then
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.Close;
@@ -5129,7 +4888,7 @@ begin
                 end
                 else
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.Close;
@@ -5146,7 +4905,7 @@ begin
               begin
                 if (cfgcfgtoeinteproducaopropria.AsInteger <> 0) then
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.Close;
@@ -5161,7 +4920,7 @@ begin
                 else
                 begin
 
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.Close;
@@ -5246,7 +5005,7 @@ begin
 
               if itmproproducao.AsInteger = 1 then
               begin
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                if (mesttocodigo.AsInteger = 7) then
                 begin
 
                   itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
@@ -5259,7 +5018,7 @@ begin
               end
               else
               begin
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                if (mesttocodigo.AsInteger = 7) then
                 begin
 
                   itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
@@ -5421,7 +5180,7 @@ begin
               begin
                 if itmproproducao.AsInteger = 1 then
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins +
@@ -5433,7 +5192,7 @@ begin
                 end
                 else
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins +
@@ -5448,7 +5207,7 @@ begin
               end
               else
               begin
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                if  (mesttocodigo.AsInteger = 7) then
                 begin
 
                   itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
@@ -5468,7 +5227,7 @@ begin
               begin
                 if itmproproducao.AsInteger = 1 then
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins +
@@ -5480,7 +5239,7 @@ begin
                 end
                 else
                 begin
-                  if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                  if  (mesttocodigo.AsInteger = 7) then
                   begin
 
                     itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins +
@@ -5494,7 +5253,7 @@ begin
               end
               else
               begin
-                if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+                if  (mesttocodigo.AsInteger = 7) then
                 begin
 
                   itmncm.SQL.Text := 'update itm set itmcest=' + QuotedStr(vlTceCest) + '  , itmaliqcofins=' + vlcfgpercentualcofins + ' ,itmaliqpis='
@@ -5546,7 +5305,7 @@ begin
             vlcfop := consulta.FieldByName('toecfopsaida').AsString;
 
             vlTceCest := itmtcecest.AsString;
-            if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+            if  (mesttocodigo.AsInteger = 7) then
             begin
 
               itmncm.Close;
@@ -5692,7 +5451,7 @@ begin
 
           vlTceCest := itmtcecest.AsString;
 
-          if (cfgcfgtributacaoimendes.AsInteger = 0) or (mesttocodigo.AsInteger = 7) then
+          if  (mesttocodigo.AsInteger = 7) then
           begin
 
             itmncm.Close;
@@ -6039,6 +5798,7 @@ Begin
 
   vpArquivoNFe := GeraNomeNFe(vpMesChave);
 
+
   If not FileExists(vpArquivoNFe) Then
   Begin
     if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
@@ -6059,6 +5819,7 @@ Begin
     end;
 
   End;
+
 
   If FileExists(vpArquivoNFe) Then
   Begin
@@ -6292,18 +6053,7 @@ Var
 Begin
   try
     vpArquivoNFe := GeraNomeNFe(vpMesChave);
-    narq := vpArquivoNFe;
-
-
-    if FileExists(narq) then
-    begin
-
-      if not DirectoryExists(ExtractFilePath(vlNomeArquivo)) then
-        ForceDirectories(ExtractFilePath(vlNomeArquivo));
-
-      copyfile(pchar(vpArquivoNFe), pchar(vlNomeArquivo), False);
-
-    end;
+    showmessage(vpArquivoNFe);
 
     If not FileExists(vpArquivoNFe) Then
     Begin
@@ -6806,16 +6556,17 @@ begin
 
   vpArquivoNFe := GeraNomeNFe(vpMesChave);
 
+
+
   If not FileExists(vpArquivoNFe) Then
   Begin
     if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\',cfgcfgservarqnfes.AsString)=0) then
     begin
-
        vpArquivoNFe := BaixaXMLServidor(IPServidorArquivos, vpArquivoNFe);
-
     end;
-
   End;
+
+
 
   if vpArquivoXMLEvento = '' then
   begin

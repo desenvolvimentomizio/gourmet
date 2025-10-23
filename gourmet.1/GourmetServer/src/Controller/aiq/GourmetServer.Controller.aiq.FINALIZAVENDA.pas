@@ -131,9 +131,15 @@ begin
       vItm.AddPair('itmtipodesc', '1');
       vItm.AddPair('itmpercdesc', '0');
       vItm.AddPair('itmproservico', '0');
-      vItm.AddPair('itmoutras', vItensPedido[i].getvalue('itooutras', ''));
 
       a := vItensPedido[i].getvalue('itooutras', '');
+      vItm.AddPair('itmoutras', vItensPedido[i].getvalue('itooutras', ''));
+
+      a := vItensPedido[i].getvalue('itofrete', '');
+      vItm.AddPair('itmfrete', vItensPedido[i].getvalue('itofrete', ''));
+
+
+
 
       vItm.AddPair('unicodigo', vItensPedido[i].getvalue('unicodigo', ''));
       vItm.AddPair('puncodigo', vItensPedido[i].getvalue('puncodigo', ''));
@@ -335,6 +341,8 @@ var
   vlcfgmgouctadelivery: integer;
 
   vlOutras: string;
+  vlFrete: string;
+
   vlProdutos: string;
 
 begin
@@ -374,15 +382,21 @@ begin
   vMes.AddPair('tfpcodigo', '0');
   vMes.AddPair('refcodigo', '0');
   vMes.AddPair('trfcodigo', '0');
-  vMes.AddPair('mesfrete', '0');
+ // vMes.AddPair('mesfrete', '0');
   vMes.AddPair('messeguro', '0');
-  vlOutras:=floattostr( strtofloat( stringreplace( vFinalizacaoPedido.getvalue('orctaxaentrega', ''), '.', ',', []))+
+  vlOutras:= floattostr({ strtofloat( stringreplace( vFinalizacaoPedido.getvalue('orctaxaentrega', ''), '.', ',', []))+}
         strtofloat( stringreplace( vFinalizacaoPedido.getvalue('orctaxaservico', ''), '.', ',', [])));
 
+  vlFrete:=floattostr( strtofloat( stringreplace( vFinalizacaoPedido.getvalue('orctaxaentrega', ''), '.', ',', [])){+
+        strtofloat( stringreplace( vFinalizacaoPedido.getvalue('orctaxaservico', ''), '.', ',', []))});
+
+
   vMes.AddPair('mesoutras', vlOutras);
+  vMes.AddPair('mesfrete', vlFrete);
 
 
-  vlProdutos:=floattostr( strtofloat(vFinalizacaoPedido.getvalue('orcgeralav', '0,00'))-strtofloat(vlOutras));
+
+  vlProdutos:=floattostr( strtofloat(vFinalizacaoPedido.getvalue('orcgeralav', '0,00'))-strtofloat(vFinalizacaoPedido.getvalue('orcdescontoav', '0,00') ){-strtofloat(vlOutras)});
 
 
   vMes.AddPair('mesprodutos', vlProdutos);

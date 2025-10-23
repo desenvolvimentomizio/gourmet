@@ -8,7 +8,7 @@ uses
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
   Vcl.Imaging.pngimage, Vcl.Controls, Vcl.Graphics, System.SysUtils,
   System.Math, uFuncoes, Vcl.Mask, Vcl.DBCtrls, Vcl.Dialogs, System.ImageList,
-  Vcl.ImgList;
+  Vcl.ImgList, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
 
 type
   Tfrardc = class(Tfrabase)
