@@ -178,7 +178,7 @@ begin
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     begin
 
-//      Res.Send('Servidor no ar');
+    //  Res.Send('Servidor no ar');
 
     end);
 
@@ -198,7 +198,7 @@ begin
     procedure(Horse: THorse)
     begin
 
-   //      Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.27.300.14');
+         Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.27.300.14');
 
     end);
 

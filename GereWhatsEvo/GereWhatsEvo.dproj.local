@@ -8,13 +8,13 @@
     <Transaction>2024/04/17 17:33:42.000.922,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
     <Transaction>2024/08/16 10:44:30.000.127,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
     <Transaction>2025/08/09 06:40:07.000.675,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/10/20 17:29:46.049,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/10/20 17:30:47.428,C:\fontes_gourmet\GereWhatsEvo\ufprincigerewhatsevo.pas=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/10/20 17:30:47.428,C:\fontes_gourmet\GereWhatsEvo\ufprincigerewhatsevo.dfm=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
-    <Transaction>2025/10/20 17:31:02.487,C:\fontes_gourmet\GereWhatsEvo\GereWhatsEvo.dproj=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
-    <Transaction>2025/10/22 14:15:40.291,=C:\fontes_gourmet\GereWhatsEvo\Unit1.pas</Transaction>
-    <Transaction>2025/10/22 14:16:05.680,C:\fontes_gourmet\GereWhatsEvo\ufMensagens.pas=C:\fontes_gourmet\GereWhatsEvo\Unit1.pas</Transaction>
-    <Transaction>2025/10/22 14:16:05.680,C:\fontes_gourmet\GereWhatsEvo\ufMensagens.dfm=C:\fontes_gourmet\GereWhatsEvo\Unit1.dfm</Transaction>
+    <Transaction>2025/10/20 17:29:46.000.049,=C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/10/20 17:30:47.000.428,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.dfm=C:\fontes_gourmet\GereWhatsEvo\ufprincigerewhatsevo.dfm</Transaction>
+    <Transaction>2025/10/20 17:30:47.000.428,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\fontes_gourmet\GereWhatsEvo\ufprincigerewhatsevo.pas</Transaction>
+    <Transaction>2025/10/20 17:31:02.000.487,C:\Users\danie\OneDrive\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\fontes_gourmet\GereWhatsEvo\GereWhatsEvo.dproj</Transaction>
+    <Transaction>2025/10/22 14:15:40.000.291,=C:\fontes_gourmet\GereWhatsEvo\Unit1.pas</Transaction>
+    <Transaction>2025/10/22 14:16:05.000.680,C:\fontes_gourmet\GereWhatsEvo\Unit1.pas=C:\fontes_gourmet\GereWhatsEvo\ufMensagens.pas</Transaction>
+    <Transaction>2025/10/22 14:16:05.000.680,C:\fontes_gourmet\GereWhatsEvo\Unit1.dfm=C:\fontes_gourmet\GereWhatsEvo\ufMensagens.dfm</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5"/>

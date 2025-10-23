@@ -1,0 +1,1301 @@
+unit ufprincigerewhatsevo;
+
+interface
+
+// acesso ao portal:  MizioAtendeXda973*
+// https://apidevs.basedeclientes.com.br/dashboard/entrada
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ApiEuAtendo,Inifiles, UniProvider,
+  MySQLUniProvider, Data.DB, DBAccess, Uni, Vcl.ExtCtrls, Vcl.StdCtrls,System.Math,
+  Vcl.Imaging.pngimage, Vcl.Buttons, MemDS, Vcl.ComCtrls,
+    System.Character, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids;
+
+
+type
+  TFprinciWhaGouEVO = class(TForm)
+    MizioAtendeWhats: TApiEuAtendo;
+    Conexao: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    Inicializar: TTimer;
+    tmVerificarPedidos: TTimer;
+    tmVerificarRetornos: TTimer;
+    tmVerificarSaidas: TTimer;
+    tmMensagens: TTimer;
+    Panel1: TPanel;
+    SpeedButton3: TSpeedButton;
+    whatsOn: TImage;
+    whatsOff: TImage;
+    lblNumeroConectado: TLabel;
+    Label3: TLabel;
+    plHora: TLabel;
+    lblStatus: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    RGMensagens: TRadioGroup;
+    pnlCentro: TPanel;
+    czn: TUniQuery;
+    czncznchave: TIntegerField;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmgoumensapedido0: TStringField;
+    cfgcfgmgoumensasaida0: TStringField;
+    cfgcfgmgoumensaretorno0: TStringField;
+    cfgcfgmgoumensapedido1: TStringField;
+    cfgcfgmgoumensasaida1: TStringField;
+    cfgcfgmgoumensaretorno1: TStringField;
+    cfgcfgmgoumensapedido2: TStringField;
+    cfgcfgmgoumensasaida2: TStringField;
+    cfgcfgmgoumensaretorno2: TStringField;
+    cfgcfgmgoumensapedido3: TStringField;
+    cfgcfgmgoumensasaida3: TStringField;
+    cfgcfgmgoumensaretorno3: TStringField;
+    cfgcfgmgoumensapedido4: TStringField;
+    cfgcfgmgoumensasaida4: TStringField;
+    cfgcfgmgoumensaretorno4: TStringField;
+    cfgcfgmgoumensapedido5: TStringField;
+    cfgcfgmgoumensasaida5: TStringField;
+    cfgcfgmgoumensaretorno5: TStringField;
+    cfgcfgmgoumensapedido6: TStringField;
+    cfgcfgmgoumensasaida6: TStringField;
+    cfgcfgmgoumensaretorno6: TStringField;
+    cfgcfgmgoumensapedido7: TStringField;
+    cfgcfgmgoumensasaida7: TStringField;
+    cfgcfgmgoumensaretorno7: TStringField;
+    cfgcfgmgoumensapedido8: TStringField;
+    cfgcfgmgoumensasaida8: TStringField;
+    cfgcfgmgoumensaretorno8: TStringField;
+    cfgcfgmgoumensapedido9: TStringField;
+    cfgcfgmgoumensasaida9: TStringField;
+    cfgcfgmgoumensaretorno9: TStringField;
+    cfgcfgmgoustatuswhats: TDateTimeField;
+    gri: TUniQuery;
+    imm: TUniQuery;
+    itopedido: TUniQuery;
+    itopedidoorcchave: TIntegerField;
+    itopedidoimmnumepedido: TIntegerField;
+    itopedidotcicodigo: TIntegerField;
+    itopedidotciporta: TStringField;
+    itopedidomitidentificacao: TStringField;
+    itopedidofoacodigo: TIntegerField;
+    itopedidopedidoaux: TIntegerField;
+    itopedidoitochave: TIntegerField;
+    orc: TUniQuery;
+    immpedido: TUniQuery;
+    immpedidoorcchave: TIntegerField;
+    immpedidofoacodigo: TIntegerField;
+    immpedidostocodigo: TIntegerField;
+    immpedidorelarquivo: TBlobField;
+    immpedidoorcobs: TStringField;
+    immpedidoorcgeralav: TFloatField;
+    immpedidogricodigo: TIntegerField;
+    immpedidogrpcodigo: TIntegerField;
+    immpedidoimmchave: TIntegerField;
+    immsaida: TUniQuery;
+    immsaidaorcchave: TIntegerField;
+    immsaidafoacodigo: TIntegerField;
+    immsaidastocodigo: TIntegerField;
+    immsaidarelarquivo: TBlobField;
+    immsaidaorcobs: TStringField;
+    immsaidaorcgeralav: TFloatField;
+    immsaidagricodigo: TIntegerField;
+    immsaidagrpcodigo: TIntegerField;
+    immsaidaimmchave: TIntegerField;
+    immretorno: TUniQuery;
+    immretornoorcchave: TIntegerField;
+    immretornofoacodigo: TIntegerField;
+    immretornostocodigo: TIntegerField;
+    immretornorelarquivo: TBlobField;
+    immretornoorcobs: TStringField;
+    immretornoorcgeralav: TFloatField;
+    immretornogricodigo: TIntegerField;
+    immretornogrpcodigo: TIntegerField;
+    immretornoimmchave: TIntegerField;
+    mensagem: TUniQuery;
+    StatusBar1: TStatusBar;
+    pnlQRCode: TPanel;
+    Shape1: TShape;
+    Label14: TLabel;
+    MensagensEnviadas: TMemo;
+    plalcance: TPanel;
+    consulta: TUniQuery;
+    Button3: TButton;
+    Button4: TButton;
+    cfgcfgmgoupublicidade0: TStringField;
+    cfgcfgmgoupublicidade1: TStringField;
+    cfgcfgmgoupublicidade2: TStringField;
+    cfgcfgmgoupublicidade3: TStringField;
+    cfgcfgmgoupublicidade4: TStringField;
+    cfgcfgmgoupublicidade5: TStringField;
+    cfgcfgmgoupublicidade6: TStringField;
+    cfgcfgmgoupublicidade7: TStringField;
+    cfgcfgmgoupublicidade8: TStringField;
+    cfgcfgmgoupublicidade9: TStringField;
+    cfgetdapelido: TStringField;
+    DataSource1: TDataSource;
+    ClientDataSet1: TClientDataSet;
+    DBGrid1: TDBGrid;
+    cfgetddoc1: TStringField;
+    Image1: TImage;
+    plperiodo: TPanel;
+    mmPublicidade: TMemo;
+    procedure InicializarTimer(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure tmVerificarPedidosTimer(Sender: TObject);
+    procedure tmVerificarSaidasTimer(Sender: TObject);
+    procedure tmVerificarRetornosTimer(Sender: TObject);
+    procedure tmMensagensTimer(Sender: TObject);
+    procedure RGMensagensClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure MizioAtendeWhatsObterInstancias(Sender: TObject;
+      const Instancias: TInstances);
+    procedure MizioAtendeWhatsStatusInstancia(Sender: TObject;
+      const InstanceStatus: TInstanceStatus);
+    procedure MizioAtendeWhatsCriarInstancia(Sender: TObject;
+      const InstanceResponse: TInstanceResponse);
+    procedure MizioAtendeWhatsObterQrCode(Sender: TObject;
+      const Base64QRCode: string);
+    procedure SpeedButton3Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button2Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+  private
+    function conectabanco: Boolean;
+    procedure VerificaPedidos;
+    procedure VerificaRetornos;
+    procedure VerificaSaidas;
+    function NotificaCliente(aOrcChave, aTipoNotificacao: String): Boolean;
+    procedure SalvaHoraNotificacao(aOrcChave, aTipoNotificacao: String);
+    function BuscarTelefonesComCompra(aPeriodo: Integer): Integer;
+    function BuscarTelefonesSemCompra(aPeriodo: Integer): Integer;
+    procedure DefineDestinoMensagens;
+    procedure ApplyBestFit(Grid: TDBGrid);
+    function gravaini: Boolean;
+    procedure VerificaAtivaConexao;
+    function CriaMensagem(aTexto: String): String;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpCznChave:String;
+    vpAPIKey:String;
+
+    vpTopo: String;
+    vpEsquerda: String;
+    vpLargura: String;
+    vpAltura: String;
+    vpTelefoneTeste:String;
+
+  end;
+
+var
+  FprinciWhaGouEVO: TFprinciWhaGouEVO;
+
+implementation
+
+uses
+  ufMensagens;
+
+{$R *.dfm}
+
+
+function RemoveDiacritics(const S: string): string;
+var
+  Needed, Wrote, i, j: Integer;
+  Decomp: string;
+  ch: Char;
+begin
+  // Decompõe em forma NFD (base + marcas)
+  Needed := NormalizeString(NormalizationD, PChar(S), Length(S), nil, 0);
+  SetLength(Decomp, Needed);
+  Wrote := NormalizeString(NormalizationD, PChar(S), Length(S), PChar(Decomp), Needed);
+
+  // Remove "combining marks"
+  SetLength(Result, Wrote);
+  j := 0;
+  for i := 1 to Wrote do
+  begin
+    ch := Decomp[i];
+    case TCharacter.GetUnicodeCategory(ch) of
+      TUnicodeCategory.ucNonSpacingMark,
+     // TUnicodeCategory.ucSpacingCombiningMark,
+      TUnicodeCategory.ucEnclosingMark:
+        Continue; // descarta acentos
+    else
+      Inc(j);
+      Result[j] := ch;
+    end;
+  end;
+  SetLength(Result, j);
+end;
+
+Function SoNumeros(Const Texto: String): String;
+
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: Integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+
+function SomenteLetrasSemAcento(const S: string): string;
+var
+  i, L: Integer;
+  ch: Char;
+  Tmp: string;
+begin
+  Tmp := RemoveDiacritics(S); // tira acentos primeiro
+  SetLength(Result, Length(Tmp));
+  L := 0;
+  for i := 1 to Length(Tmp) do
+  begin
+    ch := Tmp[i];
+    // mantém somente A..Z / a..z
+    if (ch in ['A'..'Z']) or (ch in ['a'..'z']) then
+    begin
+      Inc(L);
+      Result[L] := ch;
+    end;
+  end;
+  SetLength(Result, L);
+end;
+
+procedure TFprinciWhaGouEVO.Button1Click(Sender: TObject);
+begin
+  VerificaAtivaConexao;
+end;
+
+procedure TFprinciWhaGouEVO.Button2Click(Sender: TObject);
+begin
+
+  MizioAtendeWhats.EnviarMensagemDeTexto('6692350049', 'Mensagem de teste enviada por '+lblStatus.Caption);
+  if vpTelefoneTeste<>'' then
+    MizioAtendeWhats.EnviarMensagemDeTexto(vpTelefoneTeste, 'Mensagem de teste enviada por '+lblStatus.Caption);
+
+end;
+
+procedure TFprinciWhaGouEVO.Button4Click(Sender: TObject);
+begin
+
+  try
+
+    tmVerificarPedidos.Enabled:=false;
+    tmVerificarSaidas.Enabled:=false;
+    tmVerificarRetornos.Enabled:=false;
+    cfg.Close;
+    cfg.Open;
+
+    application.createform(TfMensagens,fMensagens);
+    fMensagens.DataSource1.DataSet:=cfg;
+    fMensagens.ShowModal;
+
+  finally
+    tmVerificarPedidos.Enabled:=True;
+    tmVerificarSaidas.Enabled:=True;
+    tmVerificarRetornos.Enabled:=True;
+
+  end;
+end;
+
+function TFprinciWhaGouEVO.gravaini: Boolean;
+Var
+  arquini: TIniFile;
+Begin
+  result := False;
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  With arquini Do
+  Begin
+    WriteString('posi', 'APIKey', vpAPIKey);
+    WriteString('GourmetAIQ', 'Top',self.Top.ToString);
+    WriteString('GourmetAIQ', 'Left', self.Left.ToString);
+    WriteString('GourmetAIQ', 'Width', self.Width.ToString);
+    WriteString('GourmetAIQ', 'Height', self.Height.ToString);
+  End;
+  arquini.Free;
+End;
+
+procedure TFprinciWhaGouEVO.VerificaAtivaConexao;
+var
+  NomeInstancia: string;
+  APIInstancia: string;
+  ErrorMsg: string;
+begin
+  cfg.Close;
+  cfg.Open;
+  NomeInstancia := cfg.FieldByName('etdapelido').AsString;
+  NomeInstancia := SomenteLetrasSemAcento(NomeInstancia);
+  APIInstancia := cfg.FieldByName('etddoc1').AsString;
+  APIInstancia := vpAPIKey;
+  MizioAtendeWhats.NomeInstancia := lowercase(NomeInstancia);
+  MizioAtendeWhats.ChaveApi := APIInstancia;
+  whatsOn.Visible:=false;
+  whatsOff.Visible:=True;
+
+  if APIInstancia = '' then
+  begin
+    if MizioAtendeWhats.CriarInstancia(ErrorMsg) then
+    begin
+      pnlQRCode.Visible := True;
+      MizioAtendeWhats.StatusInstancia;
+      MizioAtendeWhats.ObterQrCode;
+      MizioAtendeWhats.StatusInstancia;
+
+    end;
+  end;
+  try
+    MizioAtendeWhats.ObterInstancias;
+    if not ClientDataSet1.Locate('InstanceName', lowercase(NomeInstancia), []) then
+    begin
+      if MizioAtendeWhats.CriarInstancia(ErrorMsg) then
+      begin
+        pnlQRCode.Visible := True;
+        MizioAtendeWhats.StatusInstancia;
+        MizioAtendeWhats.ObterQrCode;
+      end;
+    end
+    else
+    begin
+      pnlQRCode.Visible := false;
+
+    end;
+    MizioAtendeWhats.StatusInstancia;
+  except
+    MizioAtendeWhats.NomeInstancia := lowercase(NomeInstancia);
+    MizioAtendeWhats.ChaveApi := '';
+    if MizioAtendeWhats.CriarInstancia(ErrorMsg) then
+    begin
+      pnlQRCode.Visible := True;
+      MizioAtendeWhats.StatusInstancia;
+      MizioAtendeWhats.ObterQrCode;
+      MizioAtendeWhats.StatusInstancia;
+    end;
+  end;
+end;
+
+
+
+function TFprinciWhaGouEVO.conectabanco: Boolean;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+Begin
+  result := False;
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  With arquini Do
+  Begin
+
+    vpTopo := arquini.ReadString('GourmetAIQ', 'Top', '0');
+    vpEsquerda := arquini.ReadString('GourmetAIQ', 'Left', '0');
+    vpLargura := arquini.ReadString('GourmetAIQ', 'Width', '350');
+    vpAltura := arquini.ReadString('GourmetAIQ', 'Height', '350');
+
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+    vpTelefoneTeste := ReadString('posi', 'telefoneteste', '');
+    vpAPIKey := ReadString('posi', 'APIKey', '');
+
+
+
+  End;
+  arquini.Free;
+
+  Self.Top := vpTopo.ToInteger;
+  Self.Left := vpEsquerda.ToInteger;
+  Self.Width := vpLargura.ToInteger;
+  Self.Height := vpAltura.ToInteger;
+
+
+  Conexao.Connected := False;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := True;
+
+  if not Conexao.Connected then
+  begin
+    ShowMessage('Falha de conexão com o Banco de Dados. Verifique as configurações do gourmeterp.ini');
+    Application.Terminate;
+  end
+  else
+  begin
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE etf ADD COLUMN etfultimamensagem date DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade0 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade1 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade2 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade3 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade4 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade5 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade6 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade7 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade8 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+
+     try
+       consulta.close;
+       consulta.sql.Text:='ALTER TABLE cfgmgou  ADD COLUMN cfgmgoupublicidade9 VARCHAR(500) DEFAULT NULL';
+       consulta.ExecSQL;
+     except
+
+     end;
+
+    result := True;
+  end;
+
+End;
+
+
+procedure TFprinciWhaGouEVO.InicializarTimer(Sender: TObject);
+var
+  i: Integer;
+begin
+  inicializar.ENABLED := False;
+
+  for i := 0 to self.ComponentCount - 1 do
+  begin
+    if self.Components[i] is TUniQuery then
+    begin
+      (self.Components[i] as TUniQuery).Connection := Conexao;
+    end;
+
+  end;
+
+  if conectabanco then
+  begin
+
+    czn.close;
+    czn.Open;
+
+    vpCznChave := formatfloat('000000', czncznchave.AsInteger);
+
+    VerificaAtivaConexao;
+
+    tmVerificarPedidos.ENABLED := True;
+   // tmVerificarSaidas.ENABLED := True;
+   // tmVerificarRetornos.ENABLED := True;
+   // tmMensagens.Enabled:=true;
+
+    if RGMensagens.ItemIndex = 0 then
+    begin
+      plperiodo.Caption:='';
+      mmPublicidade.Visible:=false;
+      tmMensagens.Enabled:=false;
+    end
+    else
+    begin
+      tmMensagens.Enabled:=True;
+      mmPublicidade.Visible:=True;
+    end;
+
+
+    statusbar1.Panels[2].Text:=conexao.Database;
+
+  end;
+
+end;
+
+procedure TFprinciWhaGouEVO.Label3Click(Sender: TObject);
+begin
+  MizioAtendeWhats.ObterInstancias;
+end;
+
+procedure TFprinciWhaGouEVO.ApplyBestFit(Grid: TDBGrid);
+var
+  I, MaxWidth, RowWidth: Integer;
+  FieldName: string;
+  DisplayText: string;
+  Column: TColumn;
+  DataSet: TDataSet;
+  Field: TField;
+begin
+  if not Assigned(Grid.DataSource) or not Assigned(Grid.DataSource.DataSet) then
+    Exit;
+  DataSet := Grid.DataSource.DataSet;
+  // Itera pelas colunas do grid
+  for I := 0 to Grid.Columns.Count - 1 do
+  begin
+    Column := Grid.Columns[I];
+    FieldName := Column.FieldName;
+    // Verifica se o campo existe no DataSet
+    Field := DataSet.FindField(FieldName);
+    if not Assigned(Field) then
+      Continue; // Pula para a próxima coluna se o campo não existir
+    // Define o tamanho inicial como o cabeçalho da coluna
+    MaxWidth := Grid.Canvas.TextWidth(Column.Title.Caption) + 10;
+    // Percorre os registros visíveis para calcular o tamanho necessário
+    DataSet.DisableControls;
+    try
+      DataSet.First;
+      while not DataSet.Eof do
+      begin
+        DisplayText := Field.DisplayText; // Usa o Field encontrado
+        RowWidth := Grid.Canvas.TextWidth(DisplayText) + 10;
+        if RowWidth > MaxWidth then
+          MaxWidth := RowWidth;
+        DataSet.Next;
+      end;
+    finally
+      DataSet.EnableControls;
+    end;
+    // Ajusta a largura da coluna
+    Column.Width := MaxWidth;
+  end;
+end;
+
+
+procedure TFprinciWhaGouEVO.MizioAtendeWhatsCriarInstancia(Sender: TObject;
+  const InstanceResponse: TInstanceResponse);
+begin
+
+  lblStatus.Caption := InstanceResponse.InstanceName;
+  Label3.Caption := InstanceResponse.Status;
+  vpAPIKey := InstanceResponse.ApiKey;
+  MizioAtendeWhats.ChaveApi := InstanceResponse.ApiKey;
+  MizioAtendeWhats.NomeInstancia := InstanceResponse.InstanceName;
+  gravaini;
+
+end;
+
+procedure TFprinciWhaGouEVO.MizioAtendeWhatsObterInstancias(Sender: TObject;
+  const Instancias: TInstances);
+var
+  I: Integer;
+begin
+  if ClientDataSet1.Active then
+  begin
+    ClientDataSet1.Close;
+    ClientDataSet1.FieldDefs.Clear;
+    ClientDataSet1.Fields.Clear;
+  end;
+  ClientDataSet1.FieldDefs.Add('InstanceName', ftString, 75);
+  ClientDataSet1.FieldDefs.Add('ApiKey', ftString, 75);
+  ClientDataSet1.FieldDefs.Add('Owner', ftString, 75);
+  ClientDataSet1.FieldDefs.Add('PhoneNumber', ftString, 25);
+  ClientDataSet1.FieldDefs.Add('Contatos', ftString, 5);
+  ClientDataSet1.FieldDefs.Add('mensagens', ftString, 5);
+  ClientDataSet1.FieldDefs.Add('Conversas', ftString, 5);
+  ClientDataSet1.CreateDataSet;
+  ClientDataSet1.EmptyDataSet;
+  for I := 0 to Length(Instancias) - 1 do
+  begin
+    ClientDataSet1.Append;
+    ClientDataSet1.FieldByName('InstanceName').AsString :=
+      Instancias[I].InstanceName;
+    ClientDataSet1.FieldByName('ApiKey').AsString := Instancias[I].ApiKey;
+    if MizioAtendeWhats.Version = TVersionOption.V1 then
+    begin
+      ClientDataSet1.FieldByName('Owner').AsString := Instancias[I].Owner;
+      ClientDataSet1.FieldByName('PhoneNumber').AsString := Instancias[I].PhoneNumber;
+      // Não existe no V1
+    end
+    else if MizioAtendeWhats.Version = TVersionOption.V2 then
+    begin
+      ClientDataSet1.FieldByName('Owner').AsString       := Instancias[I].Owner;
+      ClientDataSet1.FieldByName('PhoneNumber').AsString := Instancias[I].PhoneNumber;
+      ClientDataSet1.FieldByName('Contatos').AsString    := Instancias[I].Count.ContactCount.ToString;
+      ClientDataSet1.FieldByName('mensagens').AsString   := Instancias[I].Count.MessageCount.ToString;
+      ClientDataSet1.FieldByName('Conversas').AsString   := Instancias[I].Count.ChatCount.ToString;
+    end;
+    ClientDataSet1.Post;
+  end;
+  ApplyBestFit(DBGrid1);
+
+
+end;
+
+procedure TFprinciWhaGouEVO.MizioAtendeWhatsObterQrCode(Sender: TObject;
+  const Base64QRCode: string);
+begin
+  MizioAtendeWhats.LoadBase64ToImage(Base64QRCode,Image1)
+end;
+
+procedure TFprinciWhaGouEVO.MizioAtendeWhatsStatusInstancia(Sender: TObject;
+  const InstanceStatus: TInstanceStatus);
+begin
+  Label3.Caption:=InstanceStatus.State;
+
+  if lowercase(InstanceStatus.State)='close' then
+  begin
+    MizioAtendeWhats.DeslogarInstancia;
+
+    if MizioAtendeWhats.DeletarInstancia(lblStatus.Caption) then
+    begin
+      VerificaAtivaConexao;
+      exit;
+    end;
+
+  end;
+
+
+
+
+  MensagensEnviadas.Lines.Add( InstanceStatus.State);
+  if InstanceStatus.State='open' then
+  begin
+    SpeedButton3.Enabled:=True;
+
+    pnlQRCode.Visible:=false;
+
+    lblNumeroConectado.Caption:=ClientDataSet1.FieldByName('PhoneNumber').AsString;
+    lblStatus.Caption:=ClientDataSet1.FieldByName('InstanceName').AsString;
+
+    whatsOn.Visible:=True;
+    whatsOff.Visible:=False;
+  end;
+
+end;
+
+procedure TFprinciWhaGouEVO.SalvaHoraNotificacao(aOrcChave: string; aTipoNotificacao:String);
+begin
+  imm.close;
+  imm.SQL.Text := 'select imwchave, imwhoranotificadopedido, imwhorasaidadopedido, imwhoraentregadopedido from imw where itochave in (select itochave from ito where orcchave=' + aOrcChave + ')';
+  imm.Open;
+  while not imm.Eof do
+  begin
+    itopedido.close;
+    itopedido.ParamByName('orcchave').AsString := aOrcChave;
+    itopedido.Open;
+    if itopedido.Locate('orcchave', aOrcChave, []) then
+    begin
+
+      try
+
+        imm.Edit;
+
+        if aTipoNotificacao='pedido' then
+          imm.FieldByName('imwhoranotificadopedido').AsFloat := now
+        else if aTipoNotificacao='saida' then
+          imm.FieldByName('imwhorasaidadopedido').AsFloat := now
+        else
+          imm.FieldByName('imwhoraentregadopedido').AsFloat := now;
+
+        imm.Post;
+
+      except
+        imm.cancel;
+      end;
+    end;
+    imm.Next;
+  end;
+end;
+
+
+procedure TFprinciWhaGouEVO.SpeedButton3Click(Sender: TObject);
+begin
+  MizioAtendeWhats.DeslogarInstancia;
+  MizioAtendeWhats.StatusInstancia;
+  vpAPIKey:='';
+  gravaini;
+end;
+
+function TFprinciWhaGouEVO.CriaMensagem(aTexto:String):String;
+var
+ vlMensagem:string;
+ vlnome:String;
+ vlEntregador:String;
+ vlPedidoCompleto:String;
+ vlNumeroPedido:String;
+begin
+
+  Result:='';
+
+  if (vlnome<>'') and (pos('[NOME]',aTexto)>0) then
+    vlMensagem:=StringReplace(aTexto,'[NOME]',vlnome,[]);
+
+  if (vlEntregador<>'') and (pos('[ENTREGADOR]',aTexto)>0) then
+    vlMensagem:=StringReplace(aTexto,'[ENTREGADOR]',vlEntregador,[]);
+
+  if (vlPedidoCompleto<>'') and (pos('[PEDIDOCOMPLETO]',aTexto)>0) then
+    vlMensagem:=StringReplace(aTexto,'[PEDIDOCOMPLETO]',vlPedidoCompleto,[]);
+
+  if (vlNumeroPedido<>'') and (pos('[NUMEROPEDIDO]',aTexto)>0) then
+    vlMensagem:=StringReplace(aTexto,'[NUMEROPEDIDO]',vlNumeroPedido,[]);
+
+
+  Result:=vlMensagem;
+
+
+
+
+
+end;
+
+function TFprinciWhaGouEVO.NotificaCliente(aOrcChave: string; aTipoNotificacao:String): Boolean;
+var
+
+  vlTemWhats: Boolean;
+  vlTelefone: string;
+  vlIrandomico: string;
+
+  options: string;
+  vlTempoDigitacao:Integer;
+  vlMensagem:String;
+
+begin
+
+  Result := True;
+
+  cfg.close;
+  cfg.Open;
+
+  if aOrcChave <> '' then
+  begin
+
+    orc.close;
+    orc.ParamByName('orcchave').AsString := aOrcChave;
+    orc.Open;
+
+
+    if Length(orc.FieldByName('orctelefone').AsString) >= 11 then
+    begin
+      vlTelefone :=  orc.FieldByName('orctelefone').AsString;
+      if Length(vlTelefone) >= 11 then
+      begin
+        vlTelefone:=copy(vlTelefone,1,2)+copy(vlTelefone,3,8)
+      end;
+
+      vlTemWhats := True;
+    end
+    else
+    begin
+      // não tem whats vai só registar hora do pedido
+      SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
+      vlTemWhats := False;
+    end;
+
+
+
+
+    if vlTemWhats then
+    begin
+      sleep(RandomRange(500, 2500));
+
+      if pos(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' +  vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString, MensagensEnviadas.Lines.Text) = 0 then
+      begin
+
+        vlTelefone:=orc.FieldByName('orctelefone').AsString;
+        vlTelefone:=copy(vlTelefone,1,2)+copy(vlTelefone,4,10);
+
+        MensagensEnviadas.Lines.add(vpCznChave +' '+uppercase(aTipoNotificacao) + ' : ' + vlTelefone + ' Nr. Pedido: ' + orc.FieldByName('orcnumeropedido').AsString);
+
+        vlIrandomico := IntToStr(RandomRange(0, 9));
+        vlIrandomico := '0';
+
+
+        vlTempoDigitacao:=RandomRange(1000, 3000);
+        sleep(vlTempoDigitacao);
+        vlMensagem:=CriaMensagem(cfg.FieldByName('cfgmgoumensa'+lowercase(aTipoNotificacao) + vlIrandomico).AsString);
+        if vlMensagem<>'' then
+          MensagensEnviadas.lines.Add(MizioAtendeWhats.EnviarMensagemDeTexto(vlTelefone,vlMensagem));
+        SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
+
+      end;
+    end;
+  end;
+end;
+
+
+
+
+procedure TFprinciWhaGouEVO.RGMensagensClick(Sender: TObject);
+begin
+  defineDestinoMensagens;
+end;
+
+procedure TFprinciWhaGouEVO.VerificaPedidos;
+var
+  vlTentativas: Integer;
+
+begin
+
+
+  immpedido.close;
+  immpedido.ParamByName('cznchave').AsString := vpCznChave;
+  immpedido.Open;
+
+  vlTentativas := 0;
+
+
+  immpedido.First;
+
+  while not immpedido.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immpedidogrpcodigo.AsString;
+    gri.Open;
+
+
+
+    if NotificaCliente(immpedidoorcchave.AsString, 'pedido') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immpedido.Next;
+      end;
+    end;
+
+
+
+  end;
+
+end;
+
+
+procedure TFprinciWhaGouEVO.VerificaSaidas;
+var
+  vlTentativas: Integer;
+
+begin
+
+  czn.close;
+  czn.Open;
+
+  immsaida.close;
+  immsaida.ParamByName('cznchave').AsString := vpCznChave;
+  immsaida.Open;
+
+  vlTentativas := 0;
+
+
+  // notificacao da saida
+  immsaida.First;
+
+  while not immsaida.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immsaidagrpcodigo.AsString;
+    gri.Open;
+
+
+    if NotificaCliente(immsaidaorcchave.AsString, 'saida') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immsaida.Next;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFprinciWhaGouEVO.VerificaRetornos;
+var
+  vlTentativas: Integer;
+
+begin
+
+  vpCznChave := czncznchave.AsString;
+
+  immretorno.close;
+  immretorno.ParamByName('cznchave').AsString := vpCznChave;
+  immretorno.Open;
+
+  vlTentativas := 0;
+
+  // notificacao da retorno
+  immretorno.First;
+  while not immretorno.Eof do
+  begin
+
+    gri.close;
+    gri.SQL.Text := 'select griimprimeauto from gri where grpcodigo=' + immretornogrpcodigo.AsString;
+    gri.Open;
+
+
+    if NotificaCliente(immretornoorcchave.AsString, 'retorno') then
+    begin
+      vlTentativas := 0;
+      exit;
+    end
+    else
+    begin
+      vlTentativas := vlTentativas + 1;
+
+      if vlTentativas > 5 then
+      begin
+        vlTentativas := 0;
+        immretorno.Next;
+      end;
+    end;
+  end;
+
+end;
+
+Function TFprinciWhaGouEVO.BuscarTelefonesComCompra(aPeriodo:Integer):Integer;
+var
+  DtIni, DtFim: TDate;
+begin
+  DtFim := Date; // hoje
+
+  case aPeriodo of
+    1:  DtIni := IncMonth(DtFim, -1); // 1 mês
+    2:  DtIni := IncMonth(DtFim, -3); // 3 meses
+    3:  DtIni := IncMonth(DtFim, -6); // 6 meses
+  else
+    DtIni := IncMonth(DtFim, -1);     // padrão
+  end;
+
+  mensagem.Close;
+  mensagem.SQL.Text :=
+    'SELECT DISTINCT etf.etftelefone '+
+    'FROM etf '+
+    'WHERE etf.etftelefone IS NOT NULL '+
+    '  AND etfultimamensagem is NULL '+
+    '  AND TRIM(etf.etftelefone) <> '''' '+
+    '  AND LENGTH(etf.etftelefone) = 11 '+
+    '  AND EXISTS ( '+
+    '        SELECT 1 '+
+    '        FROM mes '+
+    '        WHERE mes.etdcodigo = etf.etdcodigo '+
+    '          AND mes.mesemissao >= :ini '+
+    '          AND mes.mesemissao <  :fim_plus1 '+
+    '  )';
+
+  mensagem.ParamByName('ini').AsDate       := DtIni;
+  mensagem.ParamByName('fim_plus1').AsDate := DtFim + 1;
+
+  mensagem.Open;
+  result:=mensagem.recordcount;
+  plperiodo.Caption:='De: '+datetostr(DtIni)+' a '+ datetostr( DtFim + 1);
+
+end;
+
+Function TFprinciWhaGouEVO.BuscarTelefonesSemCompra(aPeriodo:Integer):Integer;
+var
+  DtIni, DtFim: TDate;
+begin
+  DtFim := Date; // hoje
+
+  case aPeriodo of
+    4:  DtIni := IncMonth(DtFim, -1); // 1 mês
+    5:  DtIni := IncMonth(DtFim, -3); // 3 meses
+    6:  DtIni := IncMonth(DtFim, -6); // 6 meses
+  else
+    DtIni := IncMonth(DtFim, -1);     // padrão: 1 mês
+  end;
+
+
+  mensagem.Close;
+  mensagem.sql.Text :=
+    'SELECT DISTINCT etf.etftelefone '+
+    'FROM etf '+
+    'WHERE etf.etftelefone IS NOT NULL '+
+    '  AND etfultimamensagem is NULL '+
+    '  AND TRIM(etf.etftelefone) <> '''' '+
+    '  AND LENGTH(etf.etftelefone) = 11 '+
+    '  AND NOT EXISTS ( '+
+    '        SELECT 1 '+
+    '        FROM mes '+
+    '        WHERE mes.etdcodigo = etf.etdcodigo '+
+    '          AND mes.mesemissao >= :ini '+
+    '          AND mes.mesemissao <  :fim_plus1 '+
+    '  )';
+
+  // Datas parametrizadas: início inclusivo, fim exclusivo (dia seguinte)
+  mensagem.ParamByName('ini').AsDate := DtIni;
+  mensagem.ParamByName('fim_plus1').AsDate := DtFim + 1;
+
+  mensagem.Open;
+
+  result:=mensagem.recordcount;
+  plperiodo.Caption:='De: '+datetostr(DtIni)+' a '+ datetostr( DtFim + 1);
+
+end;
+
+procedure TFprinciWhaGouEVO.DefineDestinoMensagens;
+var
+  i: Integer;
+begin
+  if RGMensagens.ItemIndex = 0 then
+  begin
+    if mensagem.Active then
+      mensagem.Close;
+    i :=0
+  end
+  else if RGMensagens.ItemIndex = 1 then
+    i := BuscarTelefonesComCompra(RGMensagens.ItemIndex)
+  else if RGMensagens.ItemIndex = 2 then
+    i := BuscarTelefonesComCompra(RGMensagens.ItemIndex)
+  else if RGMensagens.ItemIndex = 3 then
+    i := BuscarTelefonesComCompra(RGMensagens.ItemIndex)
+
+  else if RGMensagens.ItemIndex = 4 then
+    i := BuscarTelefonesSemCompra(RGMensagens.ItemIndex)
+  else if RGMensagens.ItemIndex = 5 then
+    i := BuscarTelefonesSemCompra(RGMensagens.ItemIndex)
+  else if RGMensagens.ItemIndex = 6 then
+    i := BuscarTelefonesSemCompra(RGMensagens.ItemIndex);
+
+  plalcance.Caption := 'Vai atingir ' + i.ToString + ' Clientes';
+
+  if RGMensagens.ItemIndex = 0 then
+  begin
+    plperiodo.Caption:='';
+    mmPublicidade.Visible:=false;
+    tmMensagens.Enabled:=false;
+  end
+  else
+  begin
+    tmMensagens.Enabled:=True;
+    mmPublicidade.Visible:=True;
+  end;
+
+
+
+end;
+
+
+procedure TFprinciWhaGouEVO.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  gravaini;
+end;
+
+procedure TFprinciWhaGouEVO.FormShow(Sender: TObject);
+begin
+  Inicializar.Enabled:=true;
+
+end;
+
+procedure TFprinciWhaGouEVO.tmMensagensTimer(Sender: TObject);
+begin
+
+  try
+    tmMensagens.Enabled:=false;
+    if RGMensagens.ItemIndex=0 then
+    begin
+      mmPublicidade.Visible:=False;
+    end
+    else
+    begin
+      mmPublicidade.Visible:=true;
+    end;
+  finally
+    tmMensagens.Enabled:=True;
+  end;
+
+
+end;
+
+procedure TFprinciWhaGouEVO.tmVerificarPedidosTimer(Sender: TObject);
+begin
+
+  try
+
+    czn.close;
+    czn.Open;
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    tmVerificarPedidos.ENABLED := False;
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaPedidos;
+
+    end;
+
+  finally
+    tmVerificarPedidos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGouEVO.tmVerificarRetornosTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarRetornos.ENABLED := False;
+
+    czn.close;
+    czn.Open;
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaRetornos;
+
+    end;
+
+  finally
+    tmVerificarRetornos.ENABLED := True;
+  end;
+
+end;
+
+procedure TFprinciWhaGouEVO.tmVerificarSaidasTimer(Sender: TObject);
+begin
+  try
+
+    tmVerificarSaidas.ENABLED := False;
+
+    czn.close;
+    czn.Open;
+
+    cfg.close;
+    cfg.Open;
+
+
+    if vpCznChave <> czncznchave.AsString then
+    begin
+      MensagensEnviadas.Lines.Clear;
+      application.ProcessMessages;
+      vpCznChave := czncznchave.AsString;
+    end;
+
+    plHora.Caption:=TimetoStr(now())+' '+formatfloat('000000', czncznchave.AsInteger);
+
+    Application.ProcessMessages;
+
+    if (lowercase(lblStatus.Caption) = 'conectado') or (lowercase(lblStatus.Caption) = 'online') then
+    begin
+
+      cfg.Edit;
+      cfgcfgmgoustatuswhats.AsDateTime := now();
+      cfg.Post;
+
+      VerificaSaidas;
+
+    end;
+
+  finally
+    tmVerificarSaidas.ENABLED := True;
+  end;
+
+
+end;
+
+end.

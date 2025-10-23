@@ -1494,9 +1494,8 @@ begin
 
     if vlMdaCodigo='7' then
     begin
-       if vlPercDescontoTotal = '0' then
-         vlPercDescontoTotal:= '10';
-
+     //  if vlPercDescontoTotal = '0' then
+     //    vlPercDescontoTotal:= '10';
     end;
 
 

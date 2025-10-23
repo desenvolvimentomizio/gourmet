@@ -22,8 +22,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
     Height = 793
     Align = alLeft
     TabOrder = 0
-    ExplicitLeft = -5
-    ExplicitTop = -6
     object SpeedButton3: TSpeedButton
       Left = 1
       Top = 763
@@ -818,6 +816,7 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      Visible = False
       WordWrap = True
       OnClick = Label3Click
       ExplicitLeft = -3
@@ -849,7 +848,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Height = 23
       Align = alTop
       Alignment = taCenter
-      Caption = 'lblStatus'
       Color = clGreen
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
@@ -858,7 +856,7 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 71
+      ExplicitWidth = 6
     end
     object Button1: TButton
       AlignWithMargins = True
@@ -870,8 +868,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Caption = 'Verificar conex'#227'o'
       TabOrder = 0
       OnClick = Button1Click
-      ExplicitTop = 557
-      ExplicitWidth = 210
     end
     object Button2: TButton
       AlignWithMargins = True
@@ -883,8 +879,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Caption = 'Enviar teste de conex'#227'o'
       TabOrder = 1
       OnClick = Button2Click
-      ExplicitTop = 588
-      ExplicitWidth = 210
     end
     object RGMensagens: TRadioGroup
       AlignWithMargins = True
@@ -906,9 +900,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       TabOrder = 2
       Visible = False
       OnClick = RGMensagensClick
-      ExplicitLeft = 1
-      ExplicitTop = 408
-      ExplicitWidth = 247
     end
     object plalcance: TPanel
       AlignWithMargins = True
@@ -931,7 +922,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Padding.Bottom = 3
       ParentFont = False
       TabOrder = 3
-      ExplicitLeft = 13
     end
     object Button3: TButton
       AlignWithMargins = True
@@ -943,7 +933,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Caption = 'Mensagens para Publicidade'
       TabOrder = 4
       Visible = False
-      ExplicitTop = 312
     end
     object Button4: TButton
       AlignWithMargins = True
@@ -955,7 +944,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Caption = 'Mensagens para Notifica'#231#227'o de Pedidos'
       TabOrder = 5
       OnClick = Button4Click
-      ExplicitTop = 312
     end
     object plperiodo: TPanel
       AlignWithMargins = True
@@ -978,8 +966,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Padding.Bottom = 3
       ParentFont = False
       TabOrder = 6
-      ExplicitLeft = 13
-      ExplicitTop = 644
     end
   end
   object pnlCentro: TPanel
@@ -990,9 +976,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
     Align = alClient
     Caption = 'pnlCentro'
     TabOrder = 1
-    ExplicitLeft = 87
-    ExplicitWidth = 650
-    ExplicitHeight = 646
     object MensagensEnviadas: TMemo
       Left = 1
       Top = 361
@@ -1001,7 +984,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Align = alClient
       Color = 13630905
       TabOrder = 0
-      ExplicitHeight = 232
     end
     object pnlQRCode: TPanel
       Left = 1
@@ -1010,7 +992,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       Height = 360
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 594
       object Shape1: TShape
         Left = 200
         Top = 45
@@ -1055,7 +1036,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
-      Visible = False
     end
     object mmPublicidade: TMemo
       Left = 1
@@ -1088,9 +1068,6 @@ object FprinciWhaGouEVO: TFprinciWhaGouEVO
       item
         Width = 50
       end>
-    ExplicitLeft = -131
-    ExplicitTop = 646
-    ExplicitWidth = 868
   end
   object MizioAtendeWhats: TApiEuAtendo
     VersionAPI = V2
