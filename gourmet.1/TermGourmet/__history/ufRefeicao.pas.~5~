@@ -1,0 +1,180 @@
+unit ufRefeicao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TfRefeicao = class(TForm)
+    plformulario: TPanel;
+    plCentro: TPanel;
+    plTitulo: TPanel;
+    plModalidade: TLabel;
+    plvalor: TPanel;
+    ltprincipal: TLabel;
+    edValor: TEdit;
+    Panel2: TPanel;
+    btOK: TBitBtn;
+    btCancel: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btOKClick(Sender: TObject);
+    procedure btCancelClick(Sender: TObject);
+  private
+    procedure AjustaaoMonitor;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpOrcchave:Integer;
+    vpOrcMesa:String;
+    vpValorRefeicao: Currency;
+    vpPodeFechar:Boolean;
+    vpLarguraTela:INteger;
+    vpAlturaTela:INteger;
+  end;
+
+var
+  fRefeicao: TfRefeicao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfRefeicao.btCancelClick(Sender: TObject);
+begin
+  vpPodeFechar:=True;
+  ModalResult:=mrCancel;
+end;
+
+procedure TfRefeicao.btOKClick(Sender: TObject);
+begin
+  vpPodeFechar:=True;
+  ModalResult:=MrOK;
+end;
+
+procedure TfRefeicao.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+
+begin
+  if (((Shift = [ssAlt]) And (Key = VK_F4))) then
+    Abort;
+
+
+  if  Key = 27 then
+  begin
+    vpPodeFechar:=fALSE;
+    Abort;
+  end;
+end;
+
+procedure TfRefeicao.FormKeyPress(Sender: TObject; var Key: Char);
+var
+  validaValor:Currency;
+  vlDecimal:String;
+begin
+
+  if (Sender is TEdit) then
+      if not(Key in [#0, #13, #27, #8, #3, #$16, ',', '0' .. '9']) then
+      begin
+        Key := #0;
+        Exit;
+      end;
+      If (Key = '.') Then
+      begin
+          Key := #0;
+          Key := ',';
+      end;
+      If (Key = ',') Then
+      begin
+        if (Pos(',', (Sender as TEdit).Text) = 0) then
+        begin
+          Key := #0;
+          Key := ',';
+        end
+        else
+        begin
+          Key := #0;
+        end;
+      end;
+
+
+  If Key = ';' Then
+  Begin
+    Key := #0;
+  End;
+
+  If Key = #13 Then
+  Begin
+    Key := #0;
+    try
+
+      if pos(',', edValor.Text)>0 then
+      begin
+        vlDecimal:=copy(edValor.Text,pos(',', edValor.Text)+1,2);
+        edValor.Text:=copy(edValor.Text,1,pos(',', edValor.Text))+vlDecimal;
+      end;
+
+      validaValor:=StrToCurr(edValor.Text);
+      if validaValor>99999.99 then
+      begin
+        edValor.Text:='0,00';
+        edValor.SetFocus;
+        exit;
+      end;
+
+      vpValorRefeicao:=validaValor;
+
+      ModalResult:=MrOK;
+    except
+      on E: Exception do
+      begin
+
+      ModalResult:=mrCancel;
+      end;
+
+    end;
+
+  End
+  Else If Key = #27 Then
+  Begin
+      vpValorRefeicao:=0;
+      Key := #0;
+      ModalResult:=mrCancel;
+  End;
+
+
+
+end;
+
+procedure TfRefeicao.FormShow(Sender: TObject);
+begin
+   vpPodeFechar:=False;
+  AjustaaoMonitor;
+end;
+
+
+procedure TfRefeicao.AjustaaoMonitor;
+begin
+
+  if vpLarguraTela = 0 then
+    vpLarguraTela := screen.Width;
+
+  if vpAlturaTela = 0 then
+    vpAlturaTela := screen.Height;
+
+  WindowState := wsMaximized;
+
+  scaled := True;
+   Height := Longint(Height) * Longint(screen.Height) DIV vpAlturaTela;
+   Width := Longint(Width) * Longint(screen.Width) DIV vpLarguraTela;
+    scaleBy(screen.Width, vpLarguraTela);
+
+  plCentro.left:=(vpLarguraTela div 2) - (plCentro.Width div 2);
+  plCentro.top:=(vpAlturaTela div 2) - (plCentro.Height div 2);
+
+end;
+
+end.

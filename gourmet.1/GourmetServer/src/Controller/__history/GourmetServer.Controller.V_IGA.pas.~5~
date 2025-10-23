@@ -1,0 +1,39 @@
+unit GourmetServer.Controller.V_IGA;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.V_IGA;
+
+function BuscaCodigoIngrediente(vIngrediente: string; vGrpCodigo: Integer): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+function BuscaCodigoIngrediente(vIngrediente: string; vGrpCodigo: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TV_IGA>;
+  vlprocodigo: Integer;
+begin
+  vlprocodigo := 0;
+
+  FDAO := TDAOGeneric<TV_IGA>.New;
+
+  FDAO.DAO.SQL.where('lower(pronome)=' + QuotedStr(lowercase(vIngrediente)) + '  and grpcodigo=' + vGrpCodigo.ToString).&End.Find;
+
+  vlprocodigo := FDAO.DataSet.FieldByName('procodigo').asinteger;
+  result := vlprocodigo;
+end;
+
+end.

@@ -1502,9 +1502,16 @@ begin
   end
   else
   begin
+
+
     cpbcodbalanca.Visible := False;
     lcpbcodbalanca.Visible := False;
-    cfocfop.SetFocus;
+
+    if gbRegraTitbutaria.Visible then
+      nrtcodigo.SetFocus
+    else
+      cfocfop.SetFocus;
+
   end;
 
 end;

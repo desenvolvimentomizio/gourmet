@@ -1,0 +1,16 @@
+program MizioServImpressoras;
+
+uses
+  Vcl.Forms,
+  ufPrinciMizioServIMpressoras in 'ufPrinciMizioServIMpressoras.pas' {fPrinciMizioServIMpressoras};
+
+{$R *.res}
+
+
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrinciMizioServIMpressoras, fPrinciMizioServIMpressoras);
+  Application.Run;
+end.

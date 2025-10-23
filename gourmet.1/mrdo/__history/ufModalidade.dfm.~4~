@@ -1,0 +1,147 @@
+object fModalidade: TfModalidade
+  Left = 0
+  Top = 0
+  ActiveControl = nbValoreRecebido
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Registrar Dinheiro'
+  ClientHeight = 166
+  ClientWidth = 493
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 16
+  object pbotoes: TPanel
+    Left = 0
+    Top = 137
+    Width = 493
+    Height = 29
+    Align = alBottom
+    BevelOuter = bvLowered
+    BorderWidth = 3
+    TabOrder = 0
+    object psituacao: TPanel
+      Left = 4
+      Top = 4
+      Width = 95
+      Height = 21
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Incluindo'
+      Color = 12615680
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+    end
+    object bconfirma: TBitBtn
+      Left = 339
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'ENTER - Confirma o registro '
+      Align = alRight
+      Caption = 'Confirma'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = bconfirmaClick
+    end
+    object bcancela: TBitBtn
+      Left = 414
+      Top = 4
+      Width = 75
+      Height = 21
+      Hint = 'Esc - Cancela'
+      Align = alRight
+      Caption = 'Cancela'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+      OnClick = bcancelaClick
+    end
+  end
+  object paginas: TPageControl
+    Left = 0
+    Top = 0
+    Width = 493
+    Height = 137
+    ActivePage = Principal
+    Align = alClient
+    TabOrder = 1
+    object Principal: TTabSheet
+      Caption = 'Principal'
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 171
+        Height = 16
+        Caption = 'Valor recebido na modalidade'
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 36
+        Width = 130
+        Height = 16
+        Caption = 'Forma do recebimento'
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 66
+        Width = 134
+        Height = 16
+        Caption = 'Numero da Autoriza'#231#227'o'
+      end
+      object nbValoreRecebido: TNumberBox
+        Left = 185
+        Top = 3
+        Width = 89
+        Height = 24
+        Alignment = taRightJustify
+        Mode = nbmCurrency
+        TabOrder = 0
+      end
+      object cbTipoModalidade: TComboBox
+        Left = 185
+        Top = 33
+        Width = 139
+        Height = 24
+        AutoDropDown = True
+        TabOrder = 1
+        Items.Strings = (
+          'Dinheiro'
+          'Cart'#227'o de Cr'#233'dito'
+          'Cart'#227'o de D'#233'bito'
+          'PIX')
+      end
+      object edNumeroAutorizacao: TEdit
+        Left = 185
+        Top = 63
+        Width = 288
+        Height = 24
+        TabOrder = 2
+      end
+    end
+  end
+end

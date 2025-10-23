@@ -1,0 +1,71 @@
+unit MizioUP.Services.conexao;
+
+interface
+
+uses
+
+  FMX.Objects,inifiles;
+
+  function LerIPServidorREST: string;
+  procedure GravarIPServidorREST(vIPServidorREST: string);
+
+type
+  TServiceUtils = class
+    private
+    public
+      class procedure ResourceImage( aResource : String; aImage : TImage );
+
+  end;
+
+
+
+implementation
+
+uses
+  System.Classes, System.Types, System.SysUtils;
+
+{ TServiceUtils }
+
+class procedure TServiceUtils.ResourceImage(aResource: String; aImage: TImage);
+var
+  Resource : TResourceStream;
+begin
+  Resource := TResourceStream.Create(HInstance, aResource, RT_RCDATA);
+  try
+    aImage.Bitmap.LoadFromStream(Resource);
+  finally
+    Resource.Free;
+  end;
+end;
+
+
+procedure GravarIPServidorREST(vIPServidorREST: string);
+var
+  loIniFIle: TInifile;
+begin
+
+  loIniFIle := TInifile.Create(System.SysUtils.GetCurrentDir + PathDelim + 'config.ini');
+
+  loIniFIle.WriteString('config', 'IPServidorREST', vIPServidorREST);
+  loIniFIle.Free;
+
+end;
+
+function LerIPServidorREST: string;
+var
+  loIniFIle: TInifile;
+  vlIPServidorREST: string;
+begin
+
+
+  loIniFIle := TInifile.Create(System.SysUtils.GetCurrentDir + PathDelim + 'config.ini');
+
+  vlIPServidorREST := loIniFIle.ReadString('config', 'IPServidorREST', '');
+
+  loIniFIle.Free;
+  Result := vlIPServidorREST;
+end;
+
+
+
+end.

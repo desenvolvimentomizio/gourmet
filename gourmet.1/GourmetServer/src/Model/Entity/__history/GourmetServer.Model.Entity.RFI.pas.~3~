@@ -1,0 +1,910 @@
+unit GourmetServer.Model.Entity.RFI;
+
+interface
+
+uses
+  System.Json,
+  System.SysUtils,
+  System.Variants,
+  SimpleAttributes;
+
+type
+
+  [Tabela('rfi')]
+  Trfi = class
+  private
+    Frfichave: Integer;
+    Ftitcodigo: Integer;
+    Fetdcodigo: Integer;
+    Ftfdcodigo: Integer;
+    Fflacodigo: Integer;
+    Ftficodigo: Integer;
+    Fbcocodigo: String;
+    Fcarcodigo: Integer;
+    Frfiemissao: TDateTime;
+    Frfivencimento: TDateTime;
+    Frfinumero: String;
+    Frfivalor: String;
+    Frfihistorico: String;
+    Fsrfcodigo: Integer;
+    Ffrrcodigo: Integer;
+    Frfimoradia: String;
+    Frfipercmesmora: String;
+    Frfirepetir: Integer;
+    Frfiprevisao: Integer;
+    Frfivalorparcela: String;
+    Fmoecodigo: Integer;
+    Frfidatamulta: TDateTime;
+    Frfivalomulta: String;
+    Frfivalodesc: String;
+    Frfidatadesc: TDateTime;
+    Frfipercmulta: String;
+    Frfidtultbaixa: TDateTime;
+    Frfidtprevisao: TDateTime;
+    Frfisituacao: Integer;
+    Ftngcodigo: Integer;
+    Frfimarca: Integer;
+    Frfiinclusao: String;
+    Fcctchave: Integer;
+    Frdcnrauto: String;
+    Fedrcodigo: Integer;
+
+    procedure Setrfichave(const Value: Integer);
+    function Getrfichave: Integer;
+    procedure Settitcodigo(const Value: Integer);
+    function Gettitcodigo: Integer;
+    procedure Setetdcodigo(const Value: Integer);
+    function Getetdcodigo: Integer;
+    procedure Settfdcodigo(const Value: Integer);
+    function Gettfdcodigo: Integer;
+    procedure Setflacodigo(const Value: Integer);
+    function Getflacodigo: Integer;
+    procedure Settficodigo(const Value: Integer);
+    function Gettficodigo: Integer;
+    procedure Setbcocodigo(const Value: String);
+    function Getbcocodigo: String;
+    procedure Setcarcodigo(const Value: Integer);
+    function Getcarcodigo: Integer;
+    procedure Setrfiemissao(const Value: TDateTime);
+    function Getrfiemissao: TDateTime;
+    procedure Setrfivencimento(const Value: TDateTime);
+    function Getrfivencimento: TDateTime;
+    procedure Setrfinumero(const Value: String);
+    function Getrfinumero: String;
+    procedure Setrfivalor(const Value: String);
+    function Getrfivalor: String;
+    procedure Setrfihistorico(const Value: String);
+    function Getrfihistorico: String;
+    procedure Setsrfcodigo(const Value: Integer);
+    function Getsrfcodigo: Integer;
+    procedure Setfrrcodigo(const Value: Integer);
+    function Getfrrcodigo: Integer;
+    procedure Setrfimoradia(const Value: String);
+    function Getrfimoradia: String;
+    procedure Setrfipercmesmora(const Value: String);
+    function Getrfipercmesmora: String;
+    procedure Setrfirepetir(const Value: Integer);
+    function Getrfirepetir: Integer;
+    procedure Setrfiprevisao(const Value: Integer);
+    function Getrfiprevisao: Integer;
+    procedure Setrfivalorparcela(const Value: String);
+    function Getrfivalorparcela: String;
+    procedure Setmoecodigo(const Value: Integer);
+    function Getmoecodigo: Integer;
+    procedure Setrfidatamulta(const Value: TDateTime);
+    function Getrfidatamulta: TDateTime;
+    procedure Setrfivalomulta(const Value: String);
+    function Getrfivalomulta: String;
+    procedure Setrfivalodesc(const Value: String);
+    function Getrfivalodesc: String;
+    procedure Setrfidatadesc(const Value: TDateTime);
+    function Getrfidatadesc: TDateTime;
+    procedure Setrfipercmulta(const Value: String);
+    function Getrfipercmulta: String;
+    procedure Setrfidtultbaixa(const Value: TDateTime);
+    function Getrfidtultbaixa: TDateTime;
+    procedure Setrfidtprevisao(const Value: TDateTime);
+    function Getrfidtprevisao: TDateTime;
+    procedure Setrfisituacao(const Value: Integer);
+    function Getrfisituacao: Integer;
+    procedure Settngcodigo(const Value: Integer);
+    function Gettngcodigo: Integer;
+    procedure Setrfimarca(const Value: Integer);
+    function Getrfimarca: Integer;
+    procedure Setrfiinclusao(const Value: String);
+    function Getrfiinclusao: String;
+    procedure Setcctchave(const Value: Integer);
+    function Getcctchave: Integer;
+    procedure Setrdcnrauto(const Value: String);
+    function Getrdcnrauto: String;
+    procedure Setedrcodigo(const Value: Integer);
+    function Getedrcodigo: Integer;
+
+    procedure SetCOUNT(const Value: Integer);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Limpar;
+    function ToJson(pFields: String = '*'): TJSonObject;
+    function JsonToClass(obj: TJSonObject): Trfi;
+    [Campo('rfichave'), PK]
+    property rfichave: Integer read Getrfichave write Setrfichave;
+    [Campo('titcodigo')]
+    /// <summary>
+    /// Código do Título base do Registro Financeiro
+    /// </summary>
+    property titcodigo: Integer read Gettitcodigo write Settitcodigo;
+    [Campo('etdcodigo')]
+    /// <summary>
+    /// código da entidade
+    /// </summary>
+    property etdcodigo: Integer read Getetdcodigo write Setetdcodigo;
+    [Campo('tfdcodigo')]
+    /// <summary>
+    /// 1 - Receber 2 Pagar 3 - Conta Corrente
+    /// </summary>
+    property tfdcodigo: Integer read Gettfdcodigo write Settfdcodigo;
+    [Campo('flacodigo')]
+    /// <summary>
+    /// Filial
+    /// </summary>
+    property flacodigo: Integer read Getflacodigo write Setflacodigo;
+    [Campo('tficodigo')]
+    /// <summary>
+    /// Tipo de Documento Financeiro
+    /// </summary>
+    property tficodigo: Integer read Gettficodigo write Settficodigo;
+    [Campo('bcocodigo')]
+    /// <summary>
+    /// Portador / Banco
+    /// </summary>
+    property bcocodigo: String read Getbcocodigo write Setbcocodigo;
+    [Campo('carcodigo')]
+    /// <summary>
+    /// Tabela de Carteira de Cobrança Bancária
+    /// </summary>
+    property carcodigo: Integer read Getcarcodigo write Setcarcodigo;
+    [Campo('rfiemissao')]
+    /// <summary>
+    /// Data de emissão
+    /// </summary>
+    property rfiemissao: TDateTime read Getrfiemissao write Setrfiemissao;
+    [Campo('rfivencimento')]
+    /// <summary>
+    /// Data de vencimento
+    /// </summary>
+    property rfivencimento: TDateTime read Getrfivencimento write Setrfivencimento;
+    [Campo('rfinumero')]
+    /// <summary>
+    /// Número do documento
+    /// </summary>
+    property rfinumero: String read Getrfinumero write Setrfinumero;
+    [Campo('rfivalor')]
+    /// <summary>
+    /// Valor R$
+    /// </summary>
+    property rfivalor: String read Getrfivalor write Setrfivalor;
+    [Campo('rfihistorico')]
+    /// <summary>
+    /// Histórico
+    /// </summary>
+    property rfihistorico: String read Getrfihistorico write Setrfihistorico;
+    [Campo('srfcodigo')]
+    /// <summary>
+    /// Situação do documento
+    /// </summary>
+    property srfcodigo: Integer read Getsrfcodigo write Setsrfcodigo;
+    [Campo('frrcodigo')]
+    /// <summary>
+    /// 1 - Uma vez 999- Todo mes, X Parcelas
+    /// </summary>
+    property frrcodigo: Integer read Getfrrcodigo write Setfrrcodigo;
+    [Campo('rfimoradia')]
+    /// <summary>
+    /// Valor da mora ao dia
+    /// </summary>
+    property rfimoradia: String read Getrfimoradia write Setrfimoradia;
+    [Campo('rfipercmesmora')]
+    /// <summary>
+    /// Percentual mensal de mora diaria
+    /// </summary>
+    property rfipercmesmora: String read Getrfipercmesmora write Setrfipercmesmora;
+    [Campo('rfirepetir')]
+    /// <summary>
+    /// Repetir este registro
+    /// </summary>
+    property rfirepetir: Integer read Getrfirepetir write Setrfirepetir;
+    [Campo('rfiprevisao')]
+    /// <summary>
+    /// se é uma previsão sim ou não
+    /// </summary>
+    property rfiprevisao: Integer read Getrfiprevisao write Setrfiprevisao;
+    [Campo('rfivalorparcela')]
+    property rfivalorparcela: String read Getrfivalorparcela write Setrfivalorparcela;
+    [Campo('moecodigo')]
+    /// <summary>
+    /// Moeda
+    /// </summary>
+    property moecodigo: Integer read Getmoecodigo write Setmoecodigo;
+    [Campo('rfidatamulta')]
+    property rfidatamulta: TDateTime read Getrfidatamulta write Setrfidatamulta;
+    [Campo('rfivalomulta')]
+    property rfivalomulta: String read Getrfivalomulta write Setrfivalomulta;
+    [Campo('rfivalodesc')]
+    property rfivalodesc: String read Getrfivalodesc write Setrfivalodesc;
+    [Campo('rfidatadesc')]
+    property rfidatadesc: TDateTime read Getrfidatadesc write Setrfidatadesc;
+    [Campo('rfipercmulta')]
+    property rfipercmulta: String read Getrfipercmulta write Setrfipercmulta;
+    [Campo('rfidtultbaixa')]
+    /// <summary>
+    /// Data Ultima Baixa
+    /// </summary>
+    property rfidtultbaixa: TDateTime read Getrfidtultbaixa write Setrfidtultbaixa;
+    [Campo('rfidtprevisao')]
+    /// <summary>
+    /// Data de previsão com base em informação gerada por gestão de cobrança - gcb
+    /// </summary>
+    property rfidtprevisao: TDateTime read Getrfidtprevisao write Setrfidtprevisao;
+    [Campo('rfisituacao')]
+    /// <summary>
+    /// situacao rfi
+    /// </summary>
+    property rfisituacao: Integer read Getrfisituacao write Setrfisituacao;
+    [Campo('tngcodigo')]
+    /// <summary>
+    /// Nucleo gerencial
+    /// </summary>
+    property tngcodigo: Integer read Gettngcodigo write Settngcodigo;
+    [Campo('rfimarca')]
+    property rfimarca: Integer read Getrfimarca write Setrfimarca;
+    [Campo('rfiinclusao')]
+    property rfiinclusao: String read Getrfiinclusao write Setrfiinclusao;
+    [Campo('cctchave')]
+    property cctchave: Integer read Getcctchave write Setcctchave;
+    [Campo('rdcnrauto')]
+    property rdcnrauto: String read Getrdcnrauto write Setrdcnrauto;
+    [Campo('edrcodigo')]
+    property edrcodigo: Integer read Getedrcodigo write Setedrcodigo;
+
+  end;
+
+implementation
+
+constructor Trfi.Create;
+begin
+  Limpar;
+end;
+
+destructor Trfi.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure Trfi.Setrfichave(const Value: Integer);
+begin
+  Frfichave := Value;
+end;
+
+function Trfi.Getrfichave: Integer;
+begin
+  Result := Frfichave;
+end;
+
+procedure Trfi.Settitcodigo(const Value: Integer);
+begin
+  Ftitcodigo := Value;
+end;
+
+function Trfi.Gettitcodigo: Integer;
+begin
+  Result := Ftitcodigo;
+end;
+
+procedure Trfi.Setetdcodigo(const Value: Integer);
+begin
+  Fetdcodigo := Value;
+end;
+
+function Trfi.Getetdcodigo: Integer;
+begin
+  Result := Fetdcodigo;
+end;
+
+procedure Trfi.Settfdcodigo(const Value: Integer);
+begin
+  Ftfdcodigo := Value;
+end;
+
+function Trfi.Gettfdcodigo: Integer;
+begin
+  Result := Ftfdcodigo;
+end;
+
+procedure Trfi.Setflacodigo(const Value: Integer);
+begin
+  Fflacodigo := Value;
+end;
+
+function Trfi.Getflacodigo: Integer;
+begin
+  Result := Fflacodigo;
+end;
+
+procedure Trfi.Settficodigo(const Value: Integer);
+begin
+  Ftficodigo := Value;
+end;
+
+function Trfi.Gettficodigo: Integer;
+begin
+  Result := Ftficodigo;
+end;
+
+procedure Trfi.Setbcocodigo(const Value: String);
+begin
+  Fbcocodigo := Value;
+end;
+
+function Trfi.Getbcocodigo: String;
+begin
+  Result := Fbcocodigo;
+end;
+
+procedure Trfi.Setcarcodigo(const Value: Integer);
+begin
+  Fcarcodigo := Value;
+end;
+
+function Trfi.Getcarcodigo: Integer;
+begin
+  Result := Fcarcodigo;
+end;
+
+procedure Trfi.Setrfiemissao(const Value: TDateTime);
+begin
+  Frfiemissao := Value;
+end;
+
+function Trfi.Getrfiemissao: TDateTime;
+begin
+  Result := Frfiemissao;
+end;
+
+procedure Trfi.Setrfivencimento(const Value: TDateTime);
+begin
+  Frfivencimento := Value;
+end;
+
+function Trfi.Getrfivencimento: TDateTime;
+begin
+  Result := Frfivencimento;
+end;
+
+procedure Trfi.Setrfinumero(const Value: String);
+begin
+  Frfinumero := Value;
+end;
+
+function Trfi.Getrfinumero: String;
+begin
+  Result := Frfinumero;
+end;
+
+procedure Trfi.Setrfivalor(const Value: String);
+begin
+  Frfivalor := Value;
+end;
+
+function Trfi.Getrfivalor: String;
+begin
+  Result := Frfivalor;
+end;
+
+procedure Trfi.Setrfihistorico(const Value: String);
+begin
+  Frfihistorico := Value;
+end;
+
+function Trfi.Getrfihistorico: String;
+begin
+  Result := Frfihistorico;
+end;
+
+procedure Trfi.Setsrfcodigo(const Value: Integer);
+begin
+  Fsrfcodigo := Value;
+end;
+
+function Trfi.Getsrfcodigo: Integer;
+begin
+  Result := Fsrfcodigo;
+end;
+
+procedure Trfi.Setfrrcodigo(const Value: Integer);
+begin
+  Ffrrcodigo := Value;
+end;
+
+function Trfi.Getfrrcodigo: Integer;
+begin
+  Result := Ffrrcodigo;
+end;
+
+procedure Trfi.Setrfimoradia(const Value: String);
+begin
+  Frfimoradia := Value;
+end;
+
+function Trfi.Getrfimoradia: String;
+begin
+  Result := Frfimoradia;
+end;
+
+procedure Trfi.Setrfipercmesmora(const Value: String);
+begin
+  Frfipercmesmora := Value;
+end;
+
+function Trfi.Getrfipercmesmora: String;
+begin
+  Result := Frfipercmesmora;
+end;
+
+procedure Trfi.Setrfirepetir(const Value: Integer);
+begin
+  Frfirepetir := Value;
+end;
+
+function Trfi.Getrfirepetir: Integer;
+begin
+  Result := Frfirepetir;
+end;
+
+procedure Trfi.Setrfiprevisao(const Value: Integer);
+begin
+  Frfiprevisao := Value;
+end;
+
+function Trfi.Getrfiprevisao: Integer;
+begin
+  Result := Frfiprevisao;
+end;
+
+procedure Trfi.Setrfivalorparcela(const Value: String);
+begin
+  Frfivalorparcela := Value;
+end;
+
+function Trfi.Getrfivalorparcela: String;
+begin
+  Result := Frfivalorparcela;
+end;
+
+procedure Trfi.Setmoecodigo(const Value: Integer);
+begin
+  Fmoecodigo := Value;
+end;
+
+function Trfi.Getmoecodigo: Integer;
+begin
+  Result := Fmoecodigo;
+end;
+
+procedure Trfi.Setrfidatamulta(const Value: TDateTime);
+begin
+  Frfidatamulta := Value;
+end;
+
+function Trfi.Getrfidatamulta: TDateTime;
+begin
+  Result := Frfidatamulta;
+end;
+
+procedure Trfi.Setrfivalomulta(const Value: String);
+begin
+  Frfivalomulta := Value;
+end;
+
+function Trfi.Getrfivalomulta: String;
+begin
+  Result := Frfivalomulta;
+end;
+
+procedure Trfi.Setrfivalodesc(const Value: String);
+begin
+  Frfivalodesc := Value;
+end;
+
+function Trfi.Getrfivalodesc: String;
+begin
+  Result := Frfivalodesc;
+end;
+
+procedure Trfi.Setrfidatadesc(const Value: TDateTime);
+begin
+  Frfidatadesc := Value;
+end;
+
+function Trfi.Getrfidatadesc: TDateTime;
+begin
+  Result := Frfidatadesc;
+end;
+
+procedure Trfi.Setrfipercmulta(const Value: String);
+begin
+  Frfipercmulta := Value;
+end;
+
+function Trfi.Getrfipercmulta: String;
+begin
+  Result := Frfipercmulta;
+end;
+
+procedure Trfi.Setrfidtultbaixa(const Value: TDateTime);
+begin
+  Frfidtultbaixa := Value;
+end;
+
+function Trfi.Getrfidtultbaixa: TDateTime;
+begin
+  Result := Frfidtultbaixa;
+end;
+
+procedure Trfi.Setrfidtprevisao(const Value: TDateTime);
+begin
+  Frfidtprevisao := Value;
+end;
+
+function Trfi.Getrfidtprevisao: TDateTime;
+begin
+  Result := Frfidtprevisao;
+end;
+
+procedure Trfi.Setrfisituacao(const Value: Integer);
+begin
+  Frfisituacao := Value;
+end;
+
+function Trfi.Getrfisituacao: Integer;
+begin
+  Result := Frfisituacao;
+end;
+
+procedure Trfi.Settngcodigo(const Value: Integer);
+begin
+  Ftngcodigo := Value;
+end;
+
+function Trfi.Gettngcodigo: Integer;
+begin
+  Result := Ftngcodigo;
+end;
+
+procedure Trfi.Setrfimarca(const Value: Integer);
+begin
+  Frfimarca := Value;
+end;
+
+function Trfi.Getrfimarca: Integer;
+begin
+  Result := Frfimarca;
+end;
+
+procedure Trfi.Setrfiinclusao(const Value: String);
+begin
+  Frfiinclusao := Value;
+end;
+
+function Trfi.Getrfiinclusao: String;
+begin
+  Result := Frfiinclusao;
+end;
+
+procedure Trfi.Setcctchave(const Value: Integer);
+begin
+  Fcctchave := Value;
+end;
+
+function Trfi.Getcctchave: Integer;
+begin
+  Result := Fcctchave;
+end;
+
+procedure Trfi.Setrdcnrauto(const Value: String);
+begin
+  Frdcnrauto := Value;
+end;
+
+function Trfi.Getrdcnrauto: String;
+begin
+  Result := Frdcnrauto;
+end;
+
+procedure Trfi.Setedrcodigo(const Value: Integer);
+begin
+  Fedrcodigo := Value;
+end;
+
+function Trfi.Getedrcodigo: Integer;
+begin
+  Result := Fedrcodigo;
+end;
+
+procedure Trfi.Limpar;
+begin
+  Self.rfichave := 0;
+  Self.titcodigo := 0;
+  Self.etdcodigo := 0;
+  Self.tfdcodigo := 0;
+  Self.flacodigo := 0;
+  Self.tficodigo := 0;
+  Self.bcocodigo := '';
+  Self.carcodigo := 0;
+  Self.rfiemissao := 0;
+  Self.rfivencimento := 0;
+  Self.rfinumero := '';
+  Self.rfivalor := '0';
+  Self.rfihistorico := '';
+  Self.srfcodigo := 0;
+  Self.frrcodigo := 0;
+  Self.rfimoradia := '0';
+  Self.rfipercmesmora := '0';
+  Self.rfirepetir := 0;
+  Self.rfiprevisao := 0;
+  Self.rfivalorparcela := '0';
+  Self.moecodigo := 0;
+  Self.rfidatamulta := 0;
+  Self.rfivalomulta := '0';
+  Self.rfivalodesc := '0';
+  Self.rfidatadesc := 0;
+  Self.rfipercmulta := '0';
+  Self.rfidtultbaixa := 0;
+  Self.rfidtprevisao := 0;
+  Self.rfisituacao := 0;
+  Self.tngcodigo := 0;
+  Self.rfimarca := 0;
+  Self.rfiinclusao := '';
+  Self.cctchave := 0;
+  Self.rdcnrauto := '';
+  Self.edrcodigo := 0;
+
+end;
+
+
+function Trfi.ToJson(pFields: String = '*'): TJSonObject;
+begin
+  pFields := ' ' + StringReplace(pFields, ',', ' ', [rfReplaceAll]);
+  Result := TJSonObject.Create;
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfichave ')) then
+    Result.addPair('rfichave', IntToStr(Self.rfichave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' titcodigo ')) then
+    Result.addPair('titcodigo', IntToStr(Self.titcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' etdcodigo ')) then
+    Result.addPair('etdcodigo', IntToStr(Self.etdcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tfdcodigo ')) then
+    Result.addPair('tfdcodigo', IntToStr(Self.tfdcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' flacodigo ')) then
+    Result.addPair('flacodigo', IntToStr(Self.flacodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tficodigo ')) then
+    Result.addPair('tficodigo', IntToStr(Self.tficodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' bcocodigo ')) then
+    Result.addPair('bcocodigo', Self.bcocodigo);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' carcodigo ')) then
+    Result.addPair('carcodigo', IntToStr(Self.carcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfiemissao ')) then
+    Result.addPair('rfiemissao', DateTimeToStr(Self.rfiemissao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfivencimento ')) then
+    Result.addPair('rfivencimento', DateTimeToStr(Self.rfivencimento));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfinumero ')) then
+    Result.addPair('rfinumero', Self.rfinumero);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfivalor ')) then
+    Result.addPair('rfivalor', (Self.rfivalor));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfihistorico ')) then
+    Result.addPair('rfihistorico', Self.rfihistorico);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' srfcodigo ')) then
+    Result.addPair('srfcodigo', IntToStr(Self.srfcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' frrcodigo ')) then
+    Result.addPair('frrcodigo', IntToStr(Self.frrcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfimoradia ')) then
+    Result.addPair('rfimoradia', (Self.rfimoradia));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfipercmesmora ')) then
+    Result.addPair('rfipercmesmora', (Self.rfipercmesmora));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfirepetir ')) then
+    Result.addPair('rfirepetir', IntToStr(Self.rfirepetir));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfiprevisao ')) then
+    Result.addPair('rfiprevisao', IntToStr(Self.rfiprevisao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfivalorparcela ')) then
+    Result.addPair('rfivalorparcela', (Self.rfivalorparcela));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' moecodigo ')) then
+    Result.addPair('moecodigo', IntToStr(Self.moecodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfidatamulta ')) then
+    Result.addPair('rfidatamulta', DateTimeToStr(Self.rfidatamulta));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfivalomulta ')) then
+    Result.addPair('rfivalomulta', (Self.rfivalomulta));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfivalodesc ')) then
+    Result.addPair('rfivalodesc', (Self.rfivalodesc));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfidatadesc ')) then
+    Result.addPair('rfidatadesc', DateTimeToStr(Self.rfidatadesc));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfipercmulta ')) then
+    Result.addPair('rfipercmulta', (Self.rfipercmulta));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfidtultbaixa ')) then
+    Result.addPair('rfidtultbaixa', DateTimeToStr(Self.rfidtultbaixa));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfidtprevisao ')) then
+    Result.addPair('rfidtprevisao', DateTimeToStr(Self.rfidtprevisao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfisituacao ')) then
+    Result.addPair('rfisituacao', IntToStr(Self.rfisituacao));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' tngcodigo ')) then
+    Result.addPair('tngcodigo', IntToStr(Self.tngcodigo));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfimarca ')) then
+    Result.addPair('rfimarca', IntToStr(Self.rfimarca));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rfiinclusao ')) then
+    Result.addPair('rfiinclusao', Self.rfiinclusao);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' cctchave ')) then
+    Result.addPair('cctchave', IntToStr(Self.cctchave));
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' rdcnrauto ')) then
+    Result.addPair('rdcnrauto', Self.rdcnrauto);
+  if (pFields.Contains('*') or AnsiLowerCase(pFields).Contains(' edrcodigo ')) then
+    Result.addPair('edrcodigo', IntToStr(Self.edrcodigo));
+
+end;
+
+function Trfi.JsonToClass(obj: TJSonObject): Trfi;
+begin
+  Result := Trfi.Create;
+  if (assigned(obj)) then
+  begin
+    Try
+      Try
+        Result.rfichave := StrToInt(obj.get('rfichave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.titcodigo := StrToInt(obj.get('titcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.etdcodigo := StrToInt(obj.get('etdcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tfdcodigo := StrToInt(obj.get('tfdcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.flacodigo := StrToInt(obj.get('flacodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tficodigo := StrToInt(obj.get('tficodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.bcocodigo := obj.get('bcocodigo').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.carcodigo := StrToInt(obj.get('carcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfiemissao := StrToDateTime(obj.get('rfiemissao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfivencimento := StrToDateTime(obj.get('rfivencimento').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfinumero := obj.get('rfinumero').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.rfivalor := (obj.get('rfivalor').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfihistorico := obj.get('rfihistorico').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.srfcodigo := StrToInt(obj.get('srfcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.frrcodigo := StrToInt(obj.get('frrcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfimoradia := (obj.get('rfimoradia').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfipercmesmora := (obj.get('rfipercmesmora').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfirepetir := StrToInt(obj.get('rfirepetir').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfiprevisao := StrToInt(obj.get('rfiprevisao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfivalorparcela := (obj.get('rfivalorparcela').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.moecodigo := StrToInt(obj.get('moecodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfidatamulta := StrToDateTime(obj.get('rfidatamulta').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfivalomulta := (obj.get('rfivalomulta').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfivalodesc := (obj.get('rfivalodesc').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfidatadesc := StrToDateTime(obj.get('rfidatadesc').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfipercmulta := (obj.get('rfipercmulta').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfidtultbaixa := StrToDateTime(obj.get('rfidtultbaixa').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfidtprevisao := StrToDateTime(obj.get('rfidtprevisao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfisituacao := StrToInt(obj.get('rfisituacao').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.tngcodigo := StrToInt(obj.get('tngcodigo').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfimarca := StrToInt(obj.get('rfimarca').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rfiinclusao := obj.get('rfiinclusao').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.cctchave := StrToInt(obj.get('cctchave').JsonValue.Value);
+      Except
+      End;
+      Try
+        Result.rdcnrauto := obj.get('rdcnrauto').JsonValue.Value;
+      Except
+      End;
+      Try
+        Result.edrcodigo := StrToInt(obj.get('edrcodigo').JsonValue.Value);
+      Except
+      End;
+
+    Except
+      on E: Exception do
+      begin
+        Result.Free;
+        raise Exception.Create(E.Message);
+      end;
+    End;
+  end;
+end;
+
+end.

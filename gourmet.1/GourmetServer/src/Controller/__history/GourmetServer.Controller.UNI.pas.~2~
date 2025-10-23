@@ -1,0 +1,192 @@
+unit GourmetServer.Controller.UNI;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  Horse,
+  Horse.GBSwagger,
+  idHashMessageDigest,
+  GourmetServer.Service.Funcoes,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.UNI;
+
+procedure Registry(App: THorse);
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1List(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+Function ManutencaoUNI(vGrupo: TJsonObject): Integer;
+Function ManutencaoUNINome(vNome: string; vOrigem:Integer): Integer;
+
+function BuscaNomeUNICodigo(vGrpCodigo: Integer): String;
+function BuscaSimboloUNICodigo(vGrpCodigo: Integer): String;
+
+function BuscaUNINome(vNome: string; vOrigem:Integer): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+procedure Registry(App: THorse);
+begin
+  App.Post('/v1/uni', V1Insert);
+  App.Get('/v1/uni/:id', V1GetID);
+  App.Get('/v1/uni/', V1List);
+end;
+
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TUNI>;
+  aObject: TJsonObject;
+  vJSONObject: TJsonObject;
+  vlJsonGrupo: string;
+begin
+  FDAO := TDAOGeneric<TUNI>.New;
+
+  vJSONObject := TJsonObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Req.Body), 0) as TJsonObject;
+  Res.Send<TJsonObject>(FDAO.Insert(vJSONObject));
+
+end;
+
+procedure V1List(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TUNI>;
+  a: string;
+begin
+  FDAO := TDAOGeneric<TUNI>.New;
+  FDAO.dao.sql.Fields('unicodigo, unisimbolo,  uninome,  tuncodigo,  stgcodigo,  sipcodigo').&End.Find;
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+end;
+
+procedure V1GetID(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: iDAOGeneric<TUNI>;
+  a: string;
+begin
+  FDAO := TDAOGeneric<TUNI>.New;
+  FDAO.dao.sql.Fields('unicodigo, unisimbolo,  uninome,  tuncodigo,  stgcodigo,  sipcodigo')
+    .Where('unicodigo=' + Req.Params.Items['id']).&End.Find;
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+end;
+
+function BuscaSimboloUNICodigo(vGrpCodigo: Integer): String;
+var
+  FDAO: iDAOGeneric<TUNI>;
+  vlUNISimbolo: String;
+begin
+  vlUNISimbolo := '';
+  FDAO := TDAOGeneric<TUNI>.New;
+
+  FDAO.dao.sql.Where('unicodigo=' + vGrpCodigo.ToString).&End.Find;
+
+  vlUNISimbolo := FDAO.DataSet.FieldByName('unisimbolo').AsString;
+  result := vlUNISimbolo;
+
+end;
+
+
+function BuscaNomeUNICodigo(vGrpCodigo: Integer): String;
+var
+  FDAO: iDAOGeneric<TUNI>;
+  vlUNINome: String;
+begin
+  vlUNINome := '';
+  FDAO := TDAOGeneric<TUNI>.New;
+
+  FDAO.dao.sql.Where('unicodigo=' + vGrpCodigo.ToString).&End.Find;
+
+  vlUNINome := FDAO.DataSet.FieldByName('uninome').AsString;
+  result := vlUNINome;
+
+end;
+
+function BuscaUNINome(vNome: string; vOrigem:Integer): Integer;
+var
+  FDAO: iDAOGeneric<TUNI>;
+  vlUNIcodigo: Integer;
+begin
+  vlUNIcodigo := 0;
+  FDAO := TDAOGeneric<TUNI>.New;
+
+  if vOrigem=8 then // aiqfome
+  begin
+  FDAO.dao.sql.Where('uninomeaiq=' + QuotedStr(vNome)).&End.Find;
+  end
+  else
+  begin
+  FDAO.dao.sql.Where('uninome=' + QuotedStr(vNome)).&End.Find;
+  end;
+
+  vlUNIcodigo := FDAO.DataSet.FieldByName('unicodigo').asInteger;
+  result := vlUNIcodigo;
+end;
+
+Function ManutencaoUNINome(vNome: string; vOrigem:Integer): Integer;
+var
+  vUnidade: TJsonObject;
+  vlunicodigo: Integer;
+begin
+
+  vlUNIcodigo := BuscaUNINome(vNome,vOrigem);
+  if vlUNIcodigo = 0 then
+  begin
+    vUnidade:=TJsonObject.Create;
+    vUnidade.AddPair('unicodigo', vlUNIcodigo.ToString);
+    vUnidade.AddPair('uninome', vNome);
+    vUnidade.AddPair('unisimbolo', copy(vNome,1,5));
+    vUnidade.AddPair('tuncodigo', '1');
+    vUnidade.AddPair('stgcodigo', '0');
+    vUnidade.AddPair('sipcodigo', '1');
+    vlunicodigo := ManutencaoUNI(vUnidade);
+  end;
+
+  result := vlunicodigo;
+
+end;
+
+Function ManutencaoUNI(vGrupo: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TUNI>;
+  FUNI: TUNI;
+  vlunicodigo: Integer;
+begin
+
+  FDAO := TDAOGeneric<TUNI>.New;
+  vlunicodigo := 0;
+
+  FUNI := TUNI.Create;
+
+  FUNI.unicodigo := strtoint(vGrupo.getvalue('unicodigo', ''));
+  FUNI.uninome := vGrupo.getvalue('uninome', '');
+  FUNI.stgcodigo := strtoint(vGrupo.getvalue('stgcodigo', ''));
+  FUNI.tuncodigo := strtoint(vGrupo.getvalue('tuncodigo', ''));
+  FUNI.unisimbolo := vGrupo.getvalue('unisimbolo', '');
+  FUNI.sipcodigo := strtoint(vGrupo.getvalue('sipcodigo', ''));
+
+  if vlunicodigo = 0 then
+  // incluir novo
+  begin
+    FUNI.unicodigo := 0;
+    FDAO.dao.Insert(FUNI);
+    FDAO.dao.LastID;
+    vlunicodigo := FDAO.DataSet.FieldByName('unicodigo').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FUNI.unicodigo := vlunicodigo;
+    FDAO.dao.Update(FUNI);
+  end;
+  result := vlunicodigo;
+
+end;
+
+end.

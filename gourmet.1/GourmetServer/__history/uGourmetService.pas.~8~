@@ -1,0 +1,83 @@
+unit uGourmetService;
+
+interface
+
+uses
+  NTServiceThread,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.SvcMgr,
+  registry,
+  Vcl.Dialogs;
+
+type
+  TGourmetIntetrationService = class(TService)
+    procedure ServiceAfterInstall(Sender: TService);
+    procedure ServiceContinue(Sender: TService; var Continued: Boolean);
+    procedure ServiceExecute(Sender: TService);
+    procedure ServicePause(Sender: TService; var Paused: Boolean);
+    procedure ServiceShutdown(Sender: TService);
+    procedure ServiceStart(Sender: TService; var Started: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function GetServiceController: TServiceController; override;
+  end;
+
+var
+  GourmetIntetrationService: TGourmetIntetrationService;
+
+implementation
+
+{$R *.dfm}
+
+procedure ServiceController(CtrlCode: DWord); stdcall;
+begin
+  GourmetIntetrationService.Controller(CtrlCode);
+end;
+
+function TGourmetIntetrationService.GetServiceController: TServiceController;
+begin
+  Result := ServiceController;
+end;
+
+procedure TGourmetIntetrationService.ServiceAfterInstall(Sender: TService);
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create(KEY_READ or KEY_WRITE);
+
+  try
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    if Reg.OpenKey('\SYSTEM\CurrentControlSet\Services\' + Name, false) then
+    begin
+      Reg.WriteString('Description', 'Gourmet - Servidor de integrações.');
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+
+end;
+
+
+procedure TGourmetIntetrationService.ServiceExecute(Sender: TService);
+begin
+  { Loop while service is active in SCM }
+  while not Terminated do
+  begin
+    { Process Service Requests }
+    ServiceThread.ProcessRequests(false);
+    { Allow system some time }
+    Sleep(1);
+  end;
+end;
+
+
+
+end.

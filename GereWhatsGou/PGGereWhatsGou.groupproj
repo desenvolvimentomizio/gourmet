@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7DAAE21B-FFF3-4BC7-8784-9DA2C349CDED}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GereWhatsGou.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\GereWhatsEvo\GereWhatsEvo.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GereWhatsGou">
+        <MSBuild Projects="GereWhatsGou.dproj"/>
+    </Target>
+    <Target Name="GereWhatsGou:Clean">
+        <MSBuild Projects="GereWhatsGou.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GereWhatsGou:Make">
+        <MSBuild Projects="GereWhatsGou.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GereWhatsEvo">
+        <MSBuild Projects="..\GereWhatsEvo\GereWhatsEvo.dproj"/>
+    </Target>
+    <Target Name="GereWhatsEvo:Clean">
+        <MSBuild Projects="..\GereWhatsEvo\GereWhatsEvo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GereWhatsEvo:Make">
+        <MSBuild Projects="..\GereWhatsEvo\GereWhatsEvo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GereWhatsGou;GereWhatsEvo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GereWhatsGou:Clean;GereWhatsEvo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GereWhatsGou:Make;GereWhatsEvo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

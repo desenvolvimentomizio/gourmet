@@ -67,7 +67,7 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.401.20;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.401.20;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.16;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.16;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_ExeOutput>c:\gourmet\</DCC_ExeOutput>
@@ -75,8 +75,8 @@
         <Icon_MainIcon>MizioContigencia_Icon.ico</Icon_MainIcon>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Release>401</VerInfo_Release>
-        <VerInfo_Build>20</VerInfo_Build>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Build>16</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;DBXDb2Driver;vclactnband;vclFireDAC;tethering;zohoprovider270;FireDACADSDriver;FireDACMSSQLDriver;vcltouch;vcldb;uSynEdit_R2023;tdsprovider270;vclib;uniGUI27m;FireDACDBXDriver;vclx;freshbooksprovider270;RESTBackendComponents;dynamicsprovider270;VCLRESTComponents;mailchimpprovider270;vclie;netsuiteprovider270;bindengine;CloudService;FireDACMySQLDriver;DataSnapClient;bigcommerceprovider270;bindcompdbx;IndyIPServer;DBXSybaseASEDriver;IndySystem;dac270;bindcompvclwinx;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;uniGUI27VCL;emshosting;DBXOdbcDriver;FireDACTDataDriver;FMXTee;adsprovider270;soaprtl;DbxCommonDriver;odbcprovider270;xmlrtl;soapmidas;DataSnapNativeClient;fmxobj;rtl;emsserverresource;DbxClientDriver;DBXSybaseASADriver;unidacvcl270;salesforceprovider270;appanalytics;IndyIPClient;bindcompvcl;TeeUI;aseprovider270;VclSmp;FireDACODBCDriver;DataSnapIndy10ServerTransport;liteprovider270;DataSnapProviderClient;FireDACMongoDBDriver;Whats4Delphi;DataSnapServerMidas;RESTComponents;DBXInterBaseDriver;bindcompvclsmp;emsclientfiredac;DataSnapFireDAC;DBXMSSQLDriver;DatasnapConnectorsFreePascal;unidac270;PngComponentsD;bindcompfmx;pgprovider270;crcontrols270;DBXOracleDriver;inetdb;CEF4Delphi;FmxTeeUI;emsedge;sugarprovider270;fmx;FireDACIBDriver;fmxdae;accessprovider270;vcledge;uniGUI27Chart;dbexpress;IndyCore;dsnap;emsclient;DataSnapCommon;FireDACCommon;magentoprovider270;DataSnapConnectors;soapserver;dacfmx270;FireDACOracleDriver;DBXMySQLDriver;DBXFirebirdDriver;quickbooksprovider270;FireDACCommonODBC;FireDACCommonDriver;inet;IndyIPCommon;vcl;mongoprovider270;dacvcl270;vquery270;FireDACDb2Driver;unidacfmx270;TeeDB;FireDAC;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;FireDACASADriver;ibxpress;Tee;dbfprovider270;DataSnapServer;ibxbindings;vclwinx;FireDACDSDriver;CustomIPTransport;vcldsnap;vclZipForged27;bindcomp;myprovider270;DBXInformixDriver;oraprovider270;db2provider270;dbxcds;adortl;ibprovider270;dsnapxml;exacttargetprovider270;dbrtl;IndyProtocols;inetdbxpress;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -100,9 +100,9 @@
         <DCC_MapFile>3</DCC_MapFile>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Release>401</VerInfo_Release>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.401.20;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.401.20;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
-        <VerInfo_Build>20</VerInfo_Build>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.16;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.16;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
+        <VerInfo_Build>16</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -122,9 +122,9 @@
         <DCC_LocalDebugSymbols>true</DCC_LocalDebugSymbols>
         <VerInfo_MajorVer>25</VerInfo_MajorVer>
         <VerInfo_MinorVer>28</VerInfo_MinorVer>
-        <VerInfo_Release>401</VerInfo_Release>
-        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.401.20;ProgramID=br.com.miziosistemas.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.401.20;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
-        <VerInfo_Build>20</VerInfo_Build>
+        <VerInfo_Release>501</VerInfo_Release>
+        <VerInfo_Keys>FileDescription=$(MSBuildProjectName);FileVersion=25.28.501.16;ProgramID=br.com.miziosistemas.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=25.28.501.16;InternalName=MizioContigencia;LegalTrademarks=Mizio Sistemas;CompanyName=Mizio Sistemas;LegalCopyright=Direitos reservados;Comments=Aplicativos auxiliares Mizio Sistemas - Contigencia;OriginalFilename=MizioContingencia.exe</VerInfo_Keys>
+        <VerInfo_Build>16</VerInfo_Build>
         <DCC_ExeOutput>c:\mercato\</DCC_ExeOutput>
     </PropertyGroup>
     <ItemGroup>
@@ -140,6 +140,7 @@
             <Form>FormAtualiza</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\gourmet.1\mlte\uRecordsTEF.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -173,7 +174,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="c:\gourmet\MizioContingencia.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="c:\mercato\MizioContingencia.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>MizioContingencia.exe</RemoteName>
                         <Overwrite>true</Overwrite>

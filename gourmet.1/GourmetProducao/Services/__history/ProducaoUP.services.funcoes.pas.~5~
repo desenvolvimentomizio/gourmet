@@ -1,0 +1,46 @@
+unit ProducaoUP.services.funcoes;
+
+interface
+
+uses
+  IdHashSHA;
+
+function SHA1FromString(const AString: string): string;
+
+function DesencripaMesa(aValue: string): string;
+
+implementation
+
+uses
+  System.SysUtils;
+
+function SHA1FromString(const AString: string): string;
+var
+  SHA1: TIdHashSHA1;
+begin
+  SHA1 := TIdHashSHA1.Create;
+  try
+    Result := SHA1.HashStringAsHex(AString);
+  finally
+    SHA1.Free;
+  end;
+end;
+
+function DesencripaMesa(aValue: string): string;
+var
+  i: integer;
+  chave:string;
+begin
+  for i := 1 to 500 do
+  begin
+    Result := inttostr(i);
+    chave:=SHA1FromString(inttostr(i));
+    if  uppercase(chave)= uppercase(aValue) then
+    begin
+      exit;
+    end;
+  end;
+ Result := '0';
+end;
+
+end.

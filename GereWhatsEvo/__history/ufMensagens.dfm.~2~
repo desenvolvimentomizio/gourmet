@@ -1,0 +1,108 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Mensagens'
+  ClientHeight = 861
+  ClientWidth = 877
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 90
+    Height = 13
+    Caption = 'Registro do Pedido'
+  end
+  object Label2: TLabel
+    Left = 296
+    Top = 8
+    Width = 92
+    Height = 13
+    Caption = 'Sa'#237'da para Entrega'
+  end
+  object Label3: TLabel
+    Left = 584
+    Top = 8
+    Width = 72
+    Height = 13
+    Caption = 'Agradecimento'
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 817
+    Width = 871
+    Height = 41
+    Align = alBottom
+    TabOrder = 0
+    ExplicitLeft = 432
+    ExplicitTop = 488
+    ExplicitWidth = 185
+    object btCancela: TButton
+      AlignWithMargins = True
+      Left = 759
+      Top = 4
+      Width = 108
+      Height = 33
+      Align = alRight
+      Caption = 'Cancela'
+      TabOrder = 0
+      ExplicitLeft = 792
+    end
+    object btconfima: TButton
+      AlignWithMargins = True
+      Left = 645
+      Top = 4
+      Width = 108
+      Height = 33
+      Align = alRight
+      Caption = 'Confirma'
+      TabOrder = 1
+      ExplicitLeft = 792
+    end
+  end
+  object DBMemo1: TDBMemo
+    Left = 8
+    Top = 33
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 1
+  end
+  object DBMemo2: TDBMemo
+    Left = 296
+    Top = 33
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 2
+  end
+  object DBMemo3: TDBMemo
+    Left = 584
+    Top = 33
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 3
+  end
+  object DataSource1: TDataSource
+    DataSet = FprinciWhaGouEVO.cfg
+    Left = 248
+    Top = 640
+  end
+end

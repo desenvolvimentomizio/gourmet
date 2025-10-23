@@ -1,0 +1,301 @@
+inherited fgrp: Tfgrp
+  ActiveControl = cgrcodigo
+  Caption = 'Grupo de Produtos'
+  ClientHeight = 561
+  ClientWidth = 610
+  ExplicitWidth = 626
+  ExplicitHeight = 600
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 532
+    Width = 610
+    ExplicitTop = 442
+    ExplicitWidth = 423
+    inherited bconfirma: TBitBtn
+      Left = 456
+      ExplicitLeft = 269
+    end
+    inherited bcancela: TBitBtn
+      Left = 531
+      ExplicitLeft = 344
+    end
+    inherited bfechar: TBitBtn
+      Left = 391
+      ExplicitLeft = 204
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 610
+    Height = 532
+    ExplicitWidth = 423
+    ExplicitHeight = 442
+    inherited Principal: TTabSheet
+      ExplicitWidth = 602
+      ExplicitHeight = 504
+      object Label1: TLabel
+        Left = 8
+        Top = 8
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = grpcodigo
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 60
+        Width = 74
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome do Grupo'
+        FocusControl = grpidentificacao
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 33
+        Width = 47
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Categoria'
+        FocusControl = cgrcodigo
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 113
+        Width = 95
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Disponivel nas APPs'
+        FocusControl = grpremoto
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 86
+        Width = 103
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Ordem para Card'#225'pio'
+        FocusControl = grpordem
+      end
+      object Label7: TLabel
+        Left = 8
+        Top = 138
+        Width = 38
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Imagem'
+        FocusControl = grpimagem
+      end
+      object grpcodigo: TDBEdit
+        Left = 136
+        Top = 3
+        Width = 58
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'grpcodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object grpidentificacao: TDBEdit
+        Left = 136
+        Top = 57
+        Width = 249
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'grpidentificacao'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object cgrcodigo: TDBEdit
+        Left = 136
+        Top = 30
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cgrcodigo'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object grpremoto: TDBEdit
+        Left = 136
+        Top = 111
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'grpremoto'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object grpordem: TDBEdit
+        Left = 136
+        Top = 84
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'grpordem'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+      object grpimagem: TDBImage
+        Left = 136
+        Top = 138
+        Width = 264
+        Height = 242
+        CustomHint = BalloonHint
+        DataField = 'grpimagem'
+        DataSource = DSRegistro
+        Proportional = True
+        TabOrder = 5
+      end
+      object btCarregaImagem: TButton
+        Left = 280
+        Top = 386
+        Width = 120
+        Height = 25
+        CustomHint = BalloonHint
+        Caption = 'Carrega Imagem'
+        TabOrder = 6
+        OnClick = btCarregaImagemClick
+      end
+    end
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 348
+    Top = 64
+  end
+  inherited consulta: TUniQuery
+    Left = 304
+    Top = 52
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      
+        'select grpcodigo, grpidentificacao, tgrcodigo, cgrcodigo, grpord' +
+        'em, grpremoto, imgcodigo, grpimagem from grp where grpcodigo=:gr' +
+        'pcodigo')
+    Left = 248
+    Top = 4
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'grpcodigo'
+        Value = nil
+      end>
+    object registrogrpcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'grpcodigo'
+    end
+    object registrocgrcodigo: TIntegerField
+      DisplayLabel = 'Classe do Grupo'
+      FieldName = 'cgrcodigo'
+      Required = True
+    end
+    object registrocgridentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'cgridentificacao'
+      LookupDataSet = cgr
+      LookupKeyFields = 'cgrcodigo'
+      LookupResultField = 'cgridentificacao'
+      KeyFields = 'cgrcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registrogrpidentificacao: TStringField
+      DisplayLabel = 'Nome do Grupo'
+      FieldName = 'grpidentificacao'
+      Required = True
+      Size = 30
+    end
+    object registrotgrcodigo: TIntegerField
+      DisplayLabel = 'Tipo de Grupo'
+      FieldName = 'tgrcodigo'
+      Required = True
+    end
+    object registrotgridentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tgridentificacao'
+      LookupDataSet = tgr
+      LookupKeyFields = 'tgrcodigo'
+      LookupResultField = 'tgridentificacao'
+      KeyFields = 'tgrcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registrogrpremoto: TIntegerField
+      FieldName = 'grpremoto'
+      Required = True
+    end
+    object registrosengrpremoto: TStringField
+      FieldKind = fkLookup
+      FieldName = 'sengrpremoto'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'grpremoto'
+      Size = 5
+      Lookup = True
+    end
+    object registroimgcodigo: TIntegerField
+      FieldName = 'imgcodigo'
+    end
+    object registrogrpordem: TIntegerField
+      FieldName = 'grpordem'
+      Required = True
+    end
+    object registrogrpimagem: TBlobField
+      FieldName = 'grpimagem'
+    end
+  end
+  inherited lou: TUniQuery
+    Left = 8
+    Top = 344
+  end
+  object tgr: TUniQuery
+    SQL.Strings = (
+      'select tgrcodigo, tgridentificacao from tgr')
+    Left = 308
+    Top = 32
+    object tgrtgrcodigo: TIntegerField
+      FieldName = 'tgrcodigo'
+    end
+    object tgrtgridentificacao: TStringField
+      FieldName = 'tgridentificacao'
+      Size = 50
+    end
+  end
+  object cgr: TUniQuery
+    SQL.Strings = (
+      'select cgrcodigo, cgridentificacao from cgr')
+    Left = 392
+    Top = 16
+    object cgrcgrcodigo: TIntegerField
+      FieldName = 'cgrcodigo'
+    end
+    object cgrcgridentificacao: TStringField
+      FieldName = 'cgridentificacao'
+      Size = 50
+    end
+  end
+  object sen: TUniQuery
+    SQL.Strings = (
+      'select sencodigo, senidentificacao from sen')
+    Left = 92
+    Top = 328
+    object sensencodigo: TIntegerField
+      FieldName = 'sencodigo'
+    end
+    object sensenidentificacao: TStringField
+      FieldName = 'senidentificacao'
+      Size = 5
+    end
+  end
+  object OpenPictureDialog: TOpenDialog
+    DefaultExt = 'bmp'
+    Filter = 'Imagens|*.jpg'
+    Title = 'Selecione a Imagem'
+    Left = 259
+    Top = 152
+  end
+end

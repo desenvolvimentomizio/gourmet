@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "GOURMET - mizio ERP"
-#define MyAppVersion "25.28.501.14"
+#define MyAppVersion "25.28.501.16"
 #define MyAppPublisher "Mizio Sistemas"
 #define MyAppURL "http://www.miziosistemas.com.br/gourmet"
 #define MyAppExeName "gourmeterp.exe"
@@ -24,7 +24,7 @@ DefaultDirName=c:\gourmet
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=c:\fontes_gourmet\atualizador       
-OutputBaseFilename=Gourmet_25.28.501.14
+OutputBaseFilename=Gourmet_25.28.501.16
 SolidCompression=yes
 InternalCompressLevel=ultra64
 CloseApplications=True
@@ -41,13 +41,13 @@ AlwaysShowComponentsList=False
 ShowComponentSizes=False
 ShowLanguageDialog=no
 ; InfoAfterFile=C:\fontes\instalador\gourmet.txt
-VersionInfoVersion=25.28.501.14
+VersionInfoVersion=25.28.501.16
 VersionInfoCompany=Mizio Sistemas
 VersionInfoDescription=GOURMET - ERP
-VersionInfoTextVersion=25.28.501.14
+VersionInfoTextVersion=25.28.501.16
 VersionInfoCopyright=Todos Direitos reservados
-VersionInfoProductVersion=25.28.501.14
-VersionInfoProductTextVersion=25.28.501.14
+VersionInfoProductVersion=25.28.501.16
+VersionInfoProductTextVersion=25.28.501.16
 BackColor=clTeal
 DisableReadyPage=True
 DisableReadyMemo=True

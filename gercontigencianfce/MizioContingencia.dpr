@@ -12,7 +12,8 @@ uses
   ufGerContiNFCe in 'ufGerContiNFCe.pas' {fGerContiNFCe},
   ufuncoes in '..\funcoes\ufuncoes.pas',
   UFuncoesContigencia in 'UFuncoesContigencia.pas',
-  uFormAtualiza in 'uFormAtualiza.pas' {FormAtualiza};
+  uFormAtualiza in 'uFormAtualiza.pas' {FormAtualiza},
+  uRecordsTEF in '..\gourmet.1\mlte\uRecordsTEF.pas';
 
 {$R *.res}
 var

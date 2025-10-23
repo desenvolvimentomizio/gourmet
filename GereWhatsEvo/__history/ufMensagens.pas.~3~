@@ -1,0 +1,77 @@
+unit ufMensagens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls, Data.DB,
+  Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    btCancela: TButton;
+    btconfima: TButton;
+    Label1: TLabel;
+    DataSource1: TDataSource;
+    Label2: TLabel;
+    Label3: TLabel;
+    DBMemo1: TDBMemo;
+    DBMemo2: TDBMemo;
+    DBMemo3: TDBMemo;
+    DBMemo4: TDBMemo;
+    DBMemo5: TDBMemo;
+    DBMemo6: TDBMemo;
+    DBMemo7: TDBMemo;
+    DBMemo8: TDBMemo;
+    DBMemo9: TDBMemo;
+    DBMemo10: TDBMemo;
+    DBMemo11: TDBMemo;
+    DBMemo12: TDBMemo;
+    DBMemo13: TDBMemo;
+    DBMemo14: TDBMemo;
+    DBMemo15: TDBMemo;
+    DBMemo16: TDBMemo;
+    DBMemo17: TDBMemo;
+    DBMemo18: TDBMemo;
+    DBMemo19: TDBMemo;
+    DBMemo20: TDBMemo;
+    DBMemo21: TDBMemo;
+    DBMemo22: TDBMemo;
+    DBMemo23: TDBMemo;
+    DBMemo24: TDBMemo;
+    DBMemo25: TDBMemo;
+    DBMemo26: TDBMemo;
+    DBMemo27: TDBMemo;
+    DBMemo28: TDBMemo;
+    DBMemo29: TDBMemo;
+    DBMemo30: TDBMemo;
+    procedure btconfimaClick(Sender: TObject);
+    procedure btCancelaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btCancelaClick(Sender: TObject);
+begin
+if DataSource1.DataSet.State<>dsbrowse then
+ DataSource1.DataSet.Cancel;
+
+end;
+
+procedure TForm1.btconfimaClick(Sender: TObject);
+begin
+if DataSource1.DataSet.State<>dsbrowse then
+ DataSource1.DataSet.Post;
+end;
+
+end.

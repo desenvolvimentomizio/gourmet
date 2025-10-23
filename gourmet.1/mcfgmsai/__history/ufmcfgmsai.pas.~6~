@@ -1,0 +1,443 @@
+unit ufmcfgmsai;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrmbase, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls,
+  Vcl.Mask, Vcl.ImgList, Vcl.Controls, PngImageList, System.Classes,
+  System.Actions, Vcl.ActnList, Data.DB, MemDS, DBAccess, Uni, Vcl.Buttons,
+  Vcl.ComCtrls, Vcl.ExtCtrls, System.SysUtils, uPegaBase, System.ImageList;
+type
+  Tfmcfgmsai = class(Tfrmbase)
+    Dtoe: tunidatasource;
+    toe: tuniquery;
+    toetoecodigo: TIntegerField;
+    toetoeidentificacao: TStringField;
+    registrocfgcodigo: TIntegerField;
+    registrocfgpercomismed: TIntegerField;
+    registrocfgdoisprecos: TIntegerField;
+    registrocfgusamultiplicador: TIntegerField;
+    registrocfgvndlimitcre: TIntegerField;
+    registrocfgtipocomissao: TIntegerField;
+    registrocfgpedeoperador: TIntegerField;
+    registrocfgidentificaequip: TIntegerField;
+    registrocfgbalanca: TIntegerField;
+    registrocfgnrseriepro: TIntegerField;
+    registrocfgrefepro: TIntegerField;
+    registrocfgcompro: TIntegerField;
+    registrocfgunitrib: TIntegerField;
+    registrocfgtoecuffora: TIntegerField;
+    registrocfgtoecufinte: TIntegerField;
+    Label2: TLabel;
+    cfgvndlimitcre: TDBEdit;
+    Label3: TLabel;
+    cfgpedeoperador: TDBEdit;
+    Label7: TLabel;
+    cfgidentificaequip: TDBEdit;
+    sen: tuniquery;
+    sensencodigo: TIntegerField;
+    sensenidentificacao: TStringField;
+    registrosendoisprecos: TStringField;
+    registrosenvndlimitcre: TStringField;
+    registrosenpedeoperador: TStringField;
+    registrosennrseriepro: TStringField;
+    registrosenrefepro: TStringField;
+    registrosenunitrib: TStringField;
+    registrosenidentificaequip: TStringField;
+    registrosencompro: TStringField;
+    registrosenbalanca: TStringField;
+    registrosenpercomismed: TStringField;
+    registrosenusamultiplicador: TStringField;
+    registrocfgusafabricante: TIntegerField;
+    registrosenusafabricante: TStringField;
+    registrocfgmensagempdv: TStringField;
+    registrocfgdefinetoeatendimento: TIntegerField;
+    registrosendefinetoeatendimento: TStringField;
+    Label24: TLabel;
+    cfgdefinetoeatendimento: TDBEdit;
+    registrocfgdefinecarpdv: TIntegerField;
+    registrocfgtoemesfora: TIntegerField;
+    registrocfgtoemesinte: TIntegerField;
+    registrotoemesfora: TStringField;
+    registrotoemesinte: TStringField;
+    registrocfgprousaanpcodigo: TIntegerField;
+    registrosenprousaanpcodigo: TStringField;
+    Label12: TLabel;
+    cfgusaveiculo: TDBEdit;
+    registrocfgusaveiculo: TIntegerField;
+    registrosencfgusaveiculo: TStringField;
+    registrocfgusaenderecamento: TIntegerField;
+    registrosencfgusaenderecamento: TStringField;
+    registrocfgprocodigoauto: TIntegerField;
+    registrosencopdigoauto: TStringField;
+    Produtos: TTabSheet;
+    Label5: TLabel;
+    cfgrefepro: TDBEdit;
+    Label8: TLabel;
+    cfgcompro: TDBEdit;
+    registrocfgprodefineicms: TIntegerField;
+    registrocfgprousainfcompl: TIntegerField;
+    registrosenprodefineicms: TStringField;
+    registrosenprousainfcompl: TStringField;
+    registrocfgprousaetiqposi2010: TIntegerField;
+    registrosenprousaetiqposi2010: TStringField;
+    registrocfgcaminhotoledo: TStringField;
+    registrocfgcaminhofilizola: TStringField;
+    registrocfgcaminhoramuza: TStringField;
+    OpenDialog: TOpenDialog;
+    Etiquetas: TTabSheet;
+    Balancas: TTabSheet;
+    Label18: TLabel;
+    cfgcaminhoramuza: TDBEdit;
+    Label17: TLabel;
+    cfgcaminhofilizola: TDBEdit;
+    Label16: TLabel;
+    cfgcaminhotoledo: TDBEdit;
+    Label9: TLabel;
+    cfgbalanca: TDBEdit;
+    Label15: TLabel;
+    cfgprousaetiqposi2010: TDBEdit;
+    registrocfgmodoatuapro: TIntegerField;
+    btToledo: TSpeedButton;
+    btFilizola: TSpeedButton;
+    btRamuza: TSpeedButton;
+    registrosemodoatuapro: TStringField;
+    metidentificacao: TDBLookupComboBox;
+    Label20: TLabel;
+    registrometcodigo: TIntegerField;
+    met: tuniquery;
+    metmetcodigo: TIntegerField;
+    metmetidentificacao: TStringField;
+    registrometidentificacao: TStringField;
+    registrocfgpedeclientevenda: TIntegerField;
+    registrosenpedeclientevenda: TStringField;
+    Label22: TLabel;
+    cfgpedeclientevenda: TDBEdit;
+    registrocfgcontrolaestoque: TIntegerField;
+    registrocfgcontrolaestoquedisp: TIntegerField;
+    registrosencontrolasaldo: TStringField;
+    registrosencontrolaestoquedisp: TStringField;
+    cpb: tuniquery;
+    cpbcpbcodigo: TIntegerField;
+    cpbprocodigo: TIntegerField;
+    cpbcpbcodbalanca: TIntegerField;
+    registrocfgsetorbalanca: TStringField;
+    Label33: TLabel;
+    cfgsetorbalanca: TDBEdit;
+    registrocfgdigitosbalanca: TIntegerField;
+    Label34: TLabel;
+    cfgdigitosbalanca: TDBEdit;
+    registrocfgidentificatecnico: TIntegerField;
+    registrocfgusacaixaprevenda: TIntegerField;
+    registrosenidentificatecnico: TStringField;
+    registrosenusacaixaprevenda: TStringField;
+    Label37: TLabel;
+    cfgusacaixaprevenda: TDBEdit;
+    registrocfgusagrade: TIntegerField;
+    registrosenusagrade: TStringField;
+    registrocfgidentificavendedor: TIntegerField;
+    registrosenidentificavendedor: TStringField;
+    registrocfgajustaperccomissao: TIntegerField;
+    registrosenajustaperccomissao: TStringField;
+    Label39: TLabel;
+    cfgidentificavendedor: TDBEdit;
+    cfgusavendaforaestab: TDBEdit;
+    Label43: TLabel;
+    registrocfgusavendaforaestab: TIntegerField;
+    registrosenusavendaforaestab: TStringField;
+    registrocfgtoetransflainte: TIntegerField;
+    registrocfgtoetransflafora: TIntegerField;
+    registrotoecfgtoetransflafora: TStringField;
+    registrotoecfgtoetransflainte: TStringField;
+    registrocfgusacstnoproduto: TIntegerField;
+    registrosencfgusacstnoproduto: TStringField;
+    registrocfgpercentacresaprazo: TFloatField;
+    Label47: TLabel;
+    cfgdescontonoservico: TDBEdit;
+    registrocfgdescontonoservico: TIntegerField;
+    registrosencfgdescontonoservico: TStringField;
+    registrocfgformapagamento: TIntegerField;
+    registrosencfgformapagamento: TStringField;
+    Label48: TLabel;
+    cfgformapagamento: TDBEdit;
+    registrocfgtrocadevolucao: TIntegerField;
+    registrosencfgtrocadevolucao: TStringField;
+    Label49: TLabel;
+    cfgtrocadevolucao: TDBEdit;
+    registrocfgtoedevolconsum: TIntegerField;
+    registrotoecfgtoedevolconsum: TStringField;
+    registrocfgproinativsaldozero: TIntegerField;
+    registrosencfgproinativsaldozero: TStringField;
+    Dmet: TDataSource;
+    registrocfgtoeconsumointerno: TIntegerField;
+    registrotoecfgtoeconsumointerno: TStringField;
+    registrocfgusatipogrupo: TIntegerField;
+    registrosencfgusatipogrupo: TStringField;
+    Label53: TLabel;
+    cfgusatipogrupo: TDBEdit;
+    registrocfgsalvatroco: TIntegerField;
+    Label54: TLabel;
+    cfgsalvatroco: TDBEdit;
+    registrosencfgsalvatroco: TStringField;
+    registrocfgformacancelamento: TIntegerField;
+    registrosencfgformacancelamento: TStringField;
+    Label55: TLabel;
+    cfgformacancelamento: TDBEdit;
+    registrocfgextratosegmentado: TIntegerField;
+    registrosencfgextratosegmentado: TStringField;
+    registrocfgetiquetabalanca: TIntegerField;
+    cfgetiquetabalanca: TDBRadioGroup;
+    registrocfgetdajusteestoque: TIntegerField;
+    Label56: TLabel;
+    cfgetdajusteestoque: TDBEdit;
+    etd: TUniQuery;
+    etdetdcodigo: TIntegerField;
+    etdetdidentificacao: TStringField;
+    registroetdcfgetdajusteestoque: TStringField;
+    Label57: TLabel;
+    cfgusaclassegrupo: TDBEdit;
+    registrocfgusaclassegrupo: TIntegerField;
+    registrosencfgusaclassegrupo: TStringField;
+    registrocfgusagarantia: TIntegerField;
+    registrosencfgusagarantia: TStringField;
+    Label58: TLabel;
+    cfgusagarantia: TDBEdit;
+    registrocfgmostrapercentuais: TIntegerField;
+    registrosencfgmostrapercentuais: TStringField;
+    registrocfgusacsinoproduto: TIntegerField;
+    registrocfgusacspnoproduto: TIntegerField;
+    registrocfgusacsfnoproduto: TIntegerField;
+    registrosencfgusacsinoproduto: TStringField;
+    registrosencfgusacspnoproduto: TStringField;
+    registrosencfgusacsfnoproduto: TStringField;
+    registrocfgabregaveta: TIntegerField;
+    registrosencfgabregaveta: TStringField;
+    Label63: TLabel;
+    cfgabregaveta: TDBEdit;
+    registrocfgusatabelaspreco: TIntegerField;
+    registrosencfgusatabelaspreco: TStringField;
+    registrocfgusaprecobase: TIntegerField;
+    registrosencfgusaprecobase: TStringField;
+    registrocfgpreconta: TIntegerField;
+    registrocfgfotoproduto: TIntegerField;
+    registrosencfgfotoproduto: TStringField;
+    Label66: TLabel;
+    cfgfotoproduto: TDBEdit;
+    registrocfgtabelasaux: TIntegerField;
+    registrosencfgtabelasaux: TStringField;
+    registrocfgarredondapeso: TIntegerField;
+    registrosencfgarredondapeso: TStringField;
+    Label68: TLabel;
+    cfgarredondapeso: TDBEdit;
+    registrocfgusaafaturar: TIntegerField;
+    registrosencfgusaafaturar: TStringField;
+    Label71: TLabel;
+    cfgusaafaturar: TDBEdit;
+    Label72: TLabel;
+    cfgprevisualizarimpressao: TDBEdit;
+    registrocfgprevisualizarimpressao: TIntegerField;
+    registrosencfgprevisualizarimpressao: TStringField;
+    registrocfgtoenotacomplementar: TIntegerField;
+    registrotoecfgtoenotacomplementar: TStringField;
+    registrocfgtoesubstnoestado: TIntegerField;
+    registrocfgtoesubstforaestado: TIntegerField;
+    registrotoecfgtoesubstnoestado: TStringField;
+    registrotoecfgtoesubstforaestado: TStringField;
+    registrocfgregistraferramentas: TIntegerField;
+    registrosencfgregistraferramentas: TStringField;
+    Label75: TLabel;
+    cfgregistraferramentas: TDBEdit;
+    registrocfgusapromocao: TIntegerField;
+    registrosencfgusapromocao: TStringField;
+    Label76: TLabel;
+    cfgusapromocao: TDBEdit;
+    GBComissionamento: TGroupBox;
+    Label42: TLabel;
+    cfgajustaperccomissao: TDBEdit;
+    Label36: TLabel;
+    cfgidentificatecnico: TDBEdit;
+    Label10: TLabel;
+    cfgtipocomissao: TDBEdit;
+    registrosencfgtipocomissao: TStringField;
+    TabSheet1: TTabSheet;
+    Label27: TLabel;
+    cfgtoemesfora: TDBEdit;
+    cfgtoemesinte: TDBEdit;
+    Label26: TLabel;
+    Label25: TLabel;
+    cfgtoesubstnoestado: TDBEdit;
+    cfgtoesubstforaestado: TDBEdit;
+    Label74: TLabel;
+    Label50: TLabel;
+    cfgtoedevolconsum: TDBEdit;
+    cfgtoeconsumointerno: TDBEdit;
+    Label52: TLabel;
+    Label44: TLabel;
+    cfgtoetransflainte: TDBEdit;
+    cfgtoetransflafora: TDBEdit;
+    Label45: TLabel;
+    Label73: TLabel;
+    cfgtoenotacomplementar: TDBEdit;
+    registrocfgtoeinteproducaopropria: TIntegerField;
+    registrotoecfgtoeinteproducaopropria: TStringField;
+    registrocfgtoeforaproducaopropria: TIntegerField;
+    registrotoecfgtoeforaproducaopropria: TStringField;
+    registrocfgproducaopropria: TIntegerField;
+    registrosencfgproducaopropria: TStringField;
+    cfgproducaopropria: TDBEdit;
+    Label41: TLabel;
+    cfgtoeinteproducaopropria: TDBEdit;
+    Label69: TLabel;
+    cfgtoeforaproducaopropria: TDBEdit;
+    Label70: TLabel;
+    registrocfgdiferencialaliquota: TIntegerField;
+    registrosencfgdiferencialaliquota: TStringField;
+    Label78: TLabel;
+    cfgpresencialtoedestino: TDBEdit;
+    registrocfgpresencialtoedestino: TIntegerField;
+    registrosencfgpresencialtoedestino: TStringField;
+    registrocfgtoeintesubsprodpropria: TIntegerField;
+    registrotoecfgtoeintesubsprodpropria: TStringField;
+    registrocfgtoeforasubsprodpropria: TIntegerField;
+    registrotoecfgtoeforasubsprodpropria: TStringField;
+    Label79: TLabel;
+    cfgtoeintesubsprodpropria: TDBEdit;
+    Label80: TLabel;
+    cfgtoeforasubsprodpropria: TDBEdit;
+    Label81: TLabel;
+    cfgtributacaoimendes: TDBEdit;
+    Label6: TLabel;
+    cfgunitrib: TDBEdit;
+    registrocfgtributacaoimendes: TIntegerField;
+    registrosencfgtributacaoimendes: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure btToledoClick(Sender: TObject);
+    procedure btFilizolaClick(Sender: TObject);
+    procedure btRamuzaClick(Sender: TObject);
+    procedure registroAfterInsert(DataSet: TDataSet);
+    procedure bconfirmaClick(Sender: TObject);
+  private
+    FCfgCodigo: Integer;
+    { Private declarations }
+
+  published
+    property CfgCodigo: Integer read FCfgCodigo write FCfgCodigo;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  fmcfgmsai: Tfmcfgmsai;
+
+  // Início ID do Módulo fracfgmsai
+const
+  vPlIdMd = '03.06.81.005-01';
+  vPlTitMdl = 'Configurações Estoque - Saída';
+
+  // Fim ID do Módulo fracfgmsai
+
+implementation
+
+{$R *.dfm}
+
+function formulario(pCargaFrame: TCargaFrame): string;
+begin
+  fmcfgmsai := Tfmcfgmsai.Create(pCargaFrame);
+  fmcfgmsai.ShowModal;
+  fmcfgmsai.Free;
+end;
+
+exports formulario;
+
+procedure Tfmcfgmsai.bconfirmaClick(Sender: TObject);
+begin
+   registrocfgdoisprecos.AsInteger:=0;
+   registrocfgusafabricante.AsInteger:=0;
+   registrocfgusaenderecamento.AsInteger:=0;
+   registrocfgprousaanpcodigo.AsInteger:=0;
+   registrocfgprocodigoauto.AsInteger:=1;
+   registrocfgusagrade.AsInteger:=0;
+   registrocfgusatabelaspreco.AsInteger:=0;
+   registrocfgusaprecobase.AsInteger:=0;
+   registrocfgtabelasaux.AsInteger:=0;
+   registrocfgdiferencialaliquota.AsInteger:=0;
+   registrocfgpercentacresaprazo.AsInteger:=0;
+   registrocfgprousainfcompl.AsInteger:=0;
+   registrocfgmodoatuapro.AsInteger:=1;
+   registrocfgcontrolaestoque.AsInteger:=1;
+   registrocfgcontrolaestoquedisp.AsInteger:=1;
+   registrocfgproinativsaldozero.AsInteger:=0;
+   registrocfgmostrapercentuais.AsInteger:=0;
+
+  inherited;
+
+ if registrocfgtributacaoimendes.AsInteger = 1 then
+  begin
+    registrocfgprodefineicms.AsInteger := 1;
+    registrocfgusacstnoproduto.AsInteger := 1;
+    registrocfgusacsinoproduto.AsInteger := 1;
+    registrocfgusacspnoproduto.AsInteger := 1;
+    registrocfgusacsfnoproduto.AsInteger := 1;
+  end;
+
+  if registrocfgdiferencialaliquota.AsString = '1' then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'update pro set padcodigo=1';
+    consulta.ExecSQL;
+  end
+  else
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'update pro set padcodigo=0';
+    consulta.ExecSQL;
+
+  end;
+
+end;
+
+procedure Tfmcfgmsai.btFilizolaClick(Sender: TObject);
+begin
+  inherited;
+  OpenDialog.Execute();
+  cfgcaminhofilizola.Field.AsString := extractfilepath(OpenDialog.FileName);
+
+end;
+
+procedure Tfmcfgmsai.btRamuzaClick(Sender: TObject);
+begin
+  inherited;
+  OpenDialog.Execute();
+  cfgcaminhoramuza.Field.AsString := extractfilepath(OpenDialog.FileName);
+
+end;
+
+procedure Tfmcfgmsai.btToledoClick(Sender: TObject);
+begin
+  inherited;
+  OpenDialog.Execute();
+  cfgcaminhotoledo.Field.AsString := extractfilepath(OpenDialog.FileName);
+end;
+
+procedure Tfmcfgmsai.FormShow(Sender: TObject);
+begin
+  IdModulo := vPlIdMd;
+
+  CfgCodigo := StrToInt(vChaveMestre);
+  registro.Params[0].AsInteger := CfgCodigo;
+
+  inherited;
+
+  toe.Open;
+
+  if Self.Height < 610 then
+    Self.Height := 610;
+end;
+
+procedure Tfmcfgmsai.registroAfterInsert(DataSet: TDataSet);
+begin
+  registrocfgcodigo.AsInteger := CfgCodigo;
+end;
+
+end.

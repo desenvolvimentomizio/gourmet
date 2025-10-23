@@ -40,7 +40,6 @@ const
   URL_PATH: String = '/v1';
   NOME_APLICATIVO = 'MizioContingencia.exe';
 
-
 var
   FormAtualiza: TFormAtualiza;
 
@@ -53,7 +52,7 @@ implementation
 
 uses JSON,
      UFuncoesContigencia,
-     RESTRequest4D;
+     RESTRequest4D, ufGerContiNFCe;
 
 // atualização de versao
 
@@ -390,7 +389,7 @@ begin
     begin
       aResposta := resposta.Content;
       Result := E.Message;
-      showmessage('linha 389 '+ e.Message+' '+ resposta.Content);
+      fGerContiNFCe.MNotificacoes.Lines.Add('linha 389 '+ e.Message+' '+ resposta.Content);
     end;
 
   end;

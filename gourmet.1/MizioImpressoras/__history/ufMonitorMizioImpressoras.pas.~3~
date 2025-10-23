@@ -1,0 +1,273 @@
+unit ufMonitorMizioImpressoras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls,  TLHelp32,
+  System.ImageList, Vcl.ImgList,Registry, Inifiles, shellapi,
+  PsAPI;
+
+type
+  TfMonitorMizioServImpressoras = class(TForm)
+    plMonitorProducao: TPanel;
+    PnlDataHoraProducao: TPanel;
+    plProducaoStatus: TPanel;
+    PopupMenu: TPopupMenu;
+    MOSTRARImpressor: TMenuItem;
+    OCULTARImpressor: TMenuItem;
+    N1: TMenuItem;
+    Fechar: TMenuItem;
+    ImageList1: TImageList;
+    OcultarInicial: TTimer;
+    relagioServidorImpressoras: TTimer;
+    TrayIcon: TTrayIcon;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure OcultarInicialTimer(Sender: TObject);
+    procedure MOSTRARImpressorClick(Sender: TObject);
+    procedure OCULTARImpressorClick(Sender: TObject);
+    procedure FecharClick(Sender: TObject);
+    procedure relagioServidorImpressorasTimer(Sender: TObject);
+  private
+    { Private declarations }
+    vpContador:Integer;
+    vpMostrar :Boolean;
+    vpServidor: String;
+    vpNomeBanco: String;
+
+    procedure RunOnStartup(sProgTitle, sCmdLine: String);
+    procedure ExecutaPrograma;
+    Function VerificaProgramaRodando:Boolean;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  fMonitorMizioServImpressoras: TfMonitorMizioServImpressoras;
+
+implementation
+
+{$R *.dfm}
+
+
+
+function GetAllProcessPathsByName(const AProcessName: string): TStringList;
+var
+  hSnapshot: THandle;
+  ProcEntry: TProcessEntry32;
+  hProcess: THandle;
+  szProcessName: array[0..MAX_PATH - 1] of Char;
+begin
+  Result := TStringList.Create;
+  hSnapshot := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if hSnapshot = INVALID_HANDLE_VALUE then Exit;
+
+  ProcEntry.dwSize := SizeOf(TProcessEntry32);
+  if Process32First(hSnapshot, ProcEntry) then
+  begin
+    repeat
+      if SameText(ExtractFileName(ProcEntry.szExeFile), AProcessName) then
+      begin
+        hProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, ProcEntry.th32ProcessID);
+        if hProcess <> 0 then
+        begin
+          if GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH) > 0 then
+            Result.Add(Format('PID: %d - Path: %s', [ProcEntry.th32ProcessID, szProcessName]));
+          CloseHandle(hProcess);
+        end;
+      end;
+    until not Process32Next(hSnapshot, ProcEntry);
+  end;
+  CloseHandle(hSnapshot);
+end;
+
+
+
+function GetProcessPathByName(const AProcessName: string): string;
+var
+  hSnapshot: THandle;
+  ProcEntry: TProcessEntry32;
+  hProcess: THandle;
+  szProcessName: array[0..MAX_PATH - 1] of Char;
+begin
+  Result := '';
+  hSnapshot := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if hSnapshot = INVALID_HANDLE_VALUE then Exit;
+
+  ProcEntry.dwSize := SizeOf(TProcessEntry32);
+  if Process32First(hSnapshot, ProcEntry) then
+  begin
+    repeat
+      if SameText(ExtractFileName(ProcEntry.szExeFile), AProcessName) then
+      begin
+        hProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, ProcEntry.th32ProcessID);
+        if hProcess <> 0 then
+        begin
+          if GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH) > 0 then
+            Result := szProcessName;
+          CloseHandle(hProcess);
+        end;
+        Break; // Remove este break se quiser pegar mais de um processo com o mesmo nome
+      end;
+    until not Process32Next(hSnapshot, ProcEntry);
+  end;
+  CloseHandle(hSnapshot);
+end;
+
+
+function SearchProcessByName(const AProcessName: string): Boolean;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+begin
+  Result := False;
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(TProcessEntry32);
+
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if (UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) = UpperCase(AProcessName)) then
+    begin
+      Result := True;
+      Break;
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+
+
+end;
+
+
+procedure TfMonitorMizioServImpressoras.FormShow(Sender: TObject);
+begin
+  OcultarInicial.Enabled := True;
+end;
+
+
+procedure TfMonitorMizioServImpressoras.MOSTRARImpressorClick(Sender: TObject);
+begin
+  vpMostrar := True;
+end;
+
+
+
+procedure TfMonitorMizioServImpressoras.OCULTARImpressorClick(Sender: TObject);
+begin
+  vpMostrar := False;
+end;
+
+procedure TfMonitorMizioServImpressoras.OcultarInicialTimer(Sender: TObject);
+begin
+
+  application.MainForm.Visible := vpMostrar;
+
+  if vpMostrar then
+  begin
+    self.WindowState := wsNormal;
+  end;
+
+  relagioServidorImpressoras.Enabled := True;
+end;
+
+Function TfMonitorMizioServImpressoras.VerificaProgramaRodando:boolean;
+var
+  MonitorPath: string;
+  ProcessPath: string;
+  List: TStringList;
+  i:Integer;
+begin
+  Result:=false;
+  MonitorPath:=Lowercase(extractfilepath(application.ExeName));
+  List:= TStringList.Create;
+  List := GetAllProcessPathsByName('MizioImpressoras.exe');
+  try
+    for I := 0 to List.Count-1 do
+    begin
+      ProcessPath:=lowercase(List.Strings[i]);
+      if pos(MonitorPath,ProcessPath)>0 then
+      begin
+        Result:=True;
+        break;
+      end;
+    end;
+
+  finally
+    List.Free;
+  end;
+
+end;
+
+procedure TfMonitorMizioServImpressoras.ExecutaPrograma;
+begin
+  if fileexists(extractfilepath(application.ExeName)+'MizioImpressoras.exe') then
+    ShellExecute(Handle ,'open', PChar(extractfilepath(application.ExeName)+'MizioImpressoras.exe'), '', nil, SW_SHOWNORMAL);
+end;
+
+procedure TfMonitorMizioServImpressoras.relagioServidorImpressorasTimer(Sender: TObject);
+begin
+  PnlDataHoraProducao.Caption:=TimeToStr(time);
+  if VerificaProgramaRodando=false then
+  begin
+    plProducaoStatus.Color:=clRed;
+    ExecutaPrograma;
+ end
+ else
+   plProducaoStatus.Color:=clgreen;
+
+end;
+
+Procedure TfMonitorMizioServImpressoras.RunOnStartup(sProgTitle, sCmdLine: String);
+Var
+  sKey: String;
+  Reg: TRegIniFile;
+Begin
+  Try
+
+    sKey :=  extractfilename(sCmdLine)+'.'+ vpNomeBanco;
+    sKey := StringReplace(sKey,'.','_',[rfReplaceAll, rfIgnoreCase]);
+
+    Reg := TRegIniFile.Create('');
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    Reg.WriteString('Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Run',  sKey + #0+ sProgTitle, sCmdLine);
+
+    Reg.Free;
+  Except
+
+  End;
+End;
+
+
+
+
+procedure TfMonitorMizioServImpressoras.FecharClick(Sender: TObject);
+begin
+  OcultarInicial.Enabled:=false;
+
+  relagioServidorImpressoras.Enabled := false;
+
+  application.Terminate;
+end;
+
+procedure TfMonitorMizioServImpressoras.FormCreate(Sender: TObject);
+begin
+
+   vpContador:=0;
+
+   RunOnStartup(self.Caption, application.ExeName);
+
+   vpMostrar := false;
+
+end;
+
+
+
+
+
+
+
+end.

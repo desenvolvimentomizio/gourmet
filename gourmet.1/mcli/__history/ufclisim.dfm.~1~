@@ -1,0 +1,2148 @@
+inherited fclisim: Tfclisim
+  Caption = 'Cliente - Expresso'
+  ClientHeight = 818
+  ClientWidth = 952
+  ExplicitWidth = 968
+  ExplicitHeight = 857
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 789
+    Width = 952
+    inherited bconfirma: TBitBtn
+      Left = 798
+    end
+    inherited bcancela: TBitBtn
+      Left = 873
+    end
+    inherited bfechar: TBitBtn
+      Left = 733
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 952
+    Height = 789
+    ActivePage = Referencias
+    ExplicitTop = -2
+    ExplicitWidth = 952
+    ExplicitHeight = 789
+    inherited Principal: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 26
+      ExplicitWidth = 944
+      ExplicitHeight = 761
+      object eetdcodigo: TLabel
+        Left = 8
+        Top = 6
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'&digo'
+        FocusControl = etdcodigo
+      end
+      object eetdidentificacao: TLabel
+        Left = 8
+        Top = 33
+        Width = 97
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Raz'#227'o Social / Nome'
+        FocusControl = etdidentificacao
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 59
+        Width = 72
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Tipo de Pessoa'
+        FocusControl = tpecodigo
+      end
+      object Label7: TLabel
+        Left = 420
+        Top = 60
+        Width = 54
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CNPJ / CPF'
+        FocusControl = etddoc1
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 87
+        Width = 116
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome Fantasia / Apelido'
+        FocusControl = etdapelido
+      end
+      object Label23: TLabel
+        Left = 8
+        Top = 114
+        Width = 63
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Observa'#231#245'es'
+        FocusControl = etdapelido
+      end
+      object Label9: TLabel
+        Left = 8
+        Top = 145
+        Width = 45
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Endere'#231'o'
+        FocusControl = edrrua
+      end
+      object Label10: TLabel
+        Left = 493
+        Top = 145
+        Width = 37
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'N'#250'mero'
+        FocusControl = edrnumero
+      end
+      object Label11: TLabel
+        Left = 8
+        Top = 202
+        Width = 128
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Complemento do endere'#231'o'
+        FocusControl = edrcomple
+      end
+      object Label12: TLabel
+        Left = 8
+        Top = 229
+        Width = 28
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Bairro'
+        FocusControl = edrbairro
+      end
+      object Label13: TLabel
+        Left = 470
+        Top = 229
+        Width = 59
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Caixa Postal'
+        FocusControl = edrcxpostal
+      end
+      object Label1: TLabel
+        Left = 8
+        Top = 256
+        Width = 57
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Estado (UF)'
+        FocusControl = edrbairro
+      end
+      object Label3: TLabel
+        Left = 412
+        Top = 256
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Inscri'#231#227'o Municipal'
+        FocusControl = edrinscmun
+        Visible = False
+      end
+      object Label14: TLabel
+        Left = 8
+        Top = 283
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Cidade'
+        FocusControl = cddcodigo
+      end
+      object Label15: TLabel
+        Left = 8
+        Top = 310
+        Width = 87
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Inscri'#231#227'o Estadual'
+        FocusControl = edrinscest
+      end
+      object Label16: TLabel
+        Left = 496
+        Top = 283
+        Width = 19
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'CEP'
+        FocusControl = edrcep
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 337
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = etftelefone
+      end
+      object Label2: TLabel
+        Left = 236
+        Top = 337
+        Width = 57
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'ou Telefone'
+        FocusControl = DBEdit1
+      end
+      object Label8: TLabel
+        Left = 412
+        Top = 337
+        Width = 39
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Contato'
+        FocusControl = DBEdit2
+      end
+      object Label17: TLabel
+        Left = 8
+        Top = 364
+        Width = 24
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'email'
+        FocusControl = eteemail
+      end
+      object Label18: TLabel
+        Left = 8
+        Top = 391
+        Width = 80
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Limite de Cr'#233'dito'
+        FocusControl = etllimitetotal
+      end
+      object letldias: TLabel
+        Left = 225
+        Top = 391
+        Width = 68
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Dias / Dia Fixo'
+        FocusControl = etldias
+      end
+      object Label19: TLabel
+        Left = 356
+        Top = 391
+        Width = 172
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Percentual de Desconto conveniado'
+        FocusControl = etldescontopadrao
+      end
+      object Label20: TLabel
+        Left = 8
+        Top = 172
+        Width = 81
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Refer'#234'ncia / Obs'
+      end
+      object etdcodigo: TDBEdit
+        Left = 140
+        Top = 3
+        Width = 49
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etdcodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object etdidentificacao: TDBEdit
+        Left = 140
+        Top = 30
+        Width = 456
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etdidentificacao'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object tpecodigo: TDBEdit
+        Left = 140
+        Top = 57
+        Width = 29
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'tpecodigo'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object etddoc1: TDBEdit
+        Left = 480
+        Top = 57
+        Width = 115
+        Height = 21
+        CustomHint = BalloonHint
+        Color = 16372104
+        DataField = 'etddoc1'
+        DataSource = DSRegistro
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
+      end
+      object etdapelido: TDBEdit
+        Left = 140
+        Top = 84
+        Width = 273
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etdapelido'
+        DataSource = DSRegistro
+        TabOrder = 4
+        OnEnter = etdapelidoEnter
+      end
+      object etdobs: TDBMemo
+        Left = 140
+        Top = 111
+        Width = 382
+        Height = 25
+        CustomHint = BalloonHint
+        DataField = 'etdobs'
+        DataSource = DSRegistro
+        ScrollBars = ssVertical
+        TabOrder = 5
+      end
+      object Bvalidar: TBitBtn
+        Left = 528
+        Top = 115
+        Width = 68
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 6
+        OnClick = BvalidarClick
+      end
+      object edrrua: TDBEdit
+        Left = 140
+        Top = 142
+        Width = 337
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrrua'
+        DataSource = DSRegistro
+        TabOrder = 7
+      end
+      object edrnumero: TDBEdit
+        Left = 536
+        Top = 142
+        Width = 60
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrnumero'
+        DataSource = DSRegistro
+        TabOrder = 8
+      end
+      object edrobs: TDBMemo
+        Left = 140
+        Top = 169
+        Width = 455
+        Height = 24
+        CustomHint = BalloonHint
+        DataField = 'edrobs'
+        DataSource = DSRegistro
+        TabOrder = 9
+      end
+      object edrcomple: TDBEdit
+        Left = 140
+        Top = 199
+        Width = 456
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrcomple'
+        DataSource = DSRegistro
+        TabOrder = 10
+      end
+      object edrbairro: TDBEdit
+        Left = 140
+        Top = 226
+        Width = 293
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrbairro'
+        DataSource = DSRegistro
+        TabOrder = 11
+      end
+      object edrcxpostal: TDBEdit
+        Left = 535
+        Top = 226
+        Width = 61
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrcxpostal'
+        DataSource = DSRegistro
+        TabOrder = 12
+      end
+      object ufscodigo: TDBEdit
+        Left = 140
+        Top = 253
+        Width = 24
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'ufscodigo'
+        DataSource = DSRegistro
+        TabOrder = 13
+      end
+      object edrinscmun: TDBEdit
+        Left = 511
+        Top = 253
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrinscmun'
+        DataSource = DSRegistro
+        TabOrder = 14
+        Visible = False
+      end
+      object cddcodigo: TDBEdit
+        Left = 140
+        Top = 280
+        Width = 62
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'cddcodigo'
+        DataSource = DSRegistro
+        TabOrder = 15
+      end
+      object edrinscest: TDBEdit
+        Left = 140
+        Top = 307
+        Width = 106
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrinscest'
+        DataSource = DSRegistro
+        TabOrder = 16
+      end
+      object ufssigla: TDBEdit
+        Left = 252
+        Top = 307
+        Width = 25
+        Height = 21
+        CustomHint = BalloonHint
+        TabStop = False
+        DataField = 'ufssigla'
+        DataSource = DSRegistro
+        ReadOnly = True
+        TabOrder = 17
+      end
+      object BvalidarDoc2: TBitBtn
+        Left = 283
+        Top = 307
+        Width = 47
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 18
+      end
+      object pltpeidentificacao: TPanel
+        Left = 331
+        Top = 307
+        Width = 93
+        Height = 21
+        CustomHint = BalloonHint
+        BevelOuter = bvLowered
+        TabOrder = 19
+        Visible = False
+      end
+      object edrcep: TDBEdit
+        Left = 521
+        Top = 280
+        Width = 75
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'edrcep'
+        DataSource = DSRegistro
+        TabOrder = 20
+      end
+      object etftelefone: TDBEdit
+        Left = 140
+        Top = 334
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etftelefone'
+        DataSource = DSRegistro
+        TabOrder = 21
+      end
+      object DBEdit1: TDBEdit
+        Left = 299
+        Top = 334
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etftelefone'
+        DataSource = DSRegistro
+        TabOrder = 22
+      end
+      object DBEdit2: TDBEdit
+        Left = 457
+        Top = 334
+        Width = 138
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etfcontato'
+        DataSource = DataSource1
+        TabOrder = 23
+      end
+      object eteemail: TDBEdit
+        Left = 140
+        Top = 361
+        Width = 455
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'eteemail'
+        DataSource = Dete1
+        TabOrder = 24
+      end
+      object etllimitetotal: TDBEdit
+        Left = 140
+        Top = 388
+        Width = 73
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etllimitetotal'
+        DataSource = DSRegistro
+        TabOrder = 25
+      end
+      object etldias: TDBEdit
+        Left = 299
+        Top = 388
+        Width = 45
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etldias'
+        DataSource = DSRegistro
+        TabOrder = 26
+      end
+      object etldescontopadrao: TDBEdit
+        Left = 534
+        Top = 388
+        Width = 61
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'etldescontopadrao'
+        DataSource = DSRegistro
+        TabOrder = 27
+      end
+    end
+    object fisica: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'Pessoa F'#237'sica'
+      ImageIndex = 1
+      ExplicitTop = 26
+      object ldpfnatural: TLabel
+        Left = 8
+        Top = 6
+        Width = 61
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Naturalidade'
+        FocusControl = dpfnatural
+      end
+      object ldpfdtnasc: TLabel
+        Left = 406
+        Top = 6
+        Width = 96
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Nascimento'
+      end
+      object ldpfrg: TLabel
+        Left = 8
+        Top = 33
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nr. Identidade'
+        FocusControl = dpfrg
+      end
+      object ldpfssp: TLabel
+        Left = 283
+        Top = 33
+        Width = 35
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'SSP/UF'
+        FocusControl = dpfssp
+      end
+      object ldpfnomemae: TLabel
+        Left = 8
+        Top = 60
+        Width = 65
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome da M'#227'e'
+        FocusControl = dpfnomemae
+      end
+      object ldpfdtnascmae: TLabel
+        Left = 406
+        Top = 60
+        Width = 96
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Nascimento'
+        Visible = False
+      end
+      object ldpfnomepai: TLabel
+        Left = 8
+        Top = 87
+        Width = 59
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome do Pai'
+        FocusControl = dpfnomepai
+      end
+      object ldpfdtnascpai: TLabel
+        Left = 406
+        Top = 87
+        Width = 96
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Nascimento'
+        Visible = False
+      end
+      object letccodigo: TLabel
+        Left = 8
+        Top = 114
+        Width = 55
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Estado Civil'
+        FocusControl = etccodigo
+      end
+      object ldpfconjuge: TLabel
+        Left = 8
+        Top = 141
+        Width = 85
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome do C'#244'njuge'
+        FocusControl = dpfconjuge
+      end
+      object ldpfdtcas: TLabel
+        Left = 407
+        Top = 141
+        Width = 95
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Casamento'
+        Visible = False
+      end
+      object ldpftrabconj: TLabel
+        Left = 8
+        Top = 168
+        Width = 100
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Trabalho do Conjuge'
+        FocusControl = dpftrabconj
+      end
+      object ldpffoneconj: TLabel
+        Left = 402
+        Top = 168
+        Width = 100
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone do C'#244'njuge'
+      end
+      object ldpfnudepend: TLabel
+        Left = 8
+        Top = 195
+        Width = 97
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nr. de Dependentes'
+        FocusControl = dpfnudepend
+      end
+      object ldpfdtnasccon: TLabel
+        Left = 348
+        Top = 195
+        Width = 154
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Nascimento do C'#244'njuge'
+      end
+      object dpfnatural: TDBEdit
+        Left = 140
+        Top = 3
+        Width = 237
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfnatural'
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object dpfdtnasc: TDBEdit
+        Left = 508
+        Top = 3
+        Width = 100
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfdtnasc'
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object dpfrg: TDBEdit
+        Left = 140
+        Top = 30
+        Width = 113
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        Color = clWhite
+        DataField = 'dpfrg'
+        TabOrder = 2
+        OnKeyPress = FormKeyPress
+      end
+      object dpfssp: TDBEdit
+        Left = 324
+        Top = 30
+        Width = 52
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        Color = clWhite
+        DataField = 'dpfssp'
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
+      end
+      object dpfnomemae: TDBEdit
+        Left = 140
+        Top = 57
+        Width = 237
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfnomemae'
+        TabOrder = 4
+        OnKeyPress = FormKeyPress
+      end
+      object dpfdtnascmae: TDBEdit
+        Left = 508
+        Top = 57
+        Width = 100
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfdtnascmae'
+        TabOrder = 5
+        Visible = False
+        OnKeyPress = FormKeyPress
+      end
+      object dpfnomepai: TDBEdit
+        Left = 140
+        Top = 84
+        Width = 237
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfnomepai'
+        TabOrder = 6
+        OnKeyPress = FormKeyPress
+      end
+      object dpfdtnascpai: TDBEdit
+        Left = 508
+        Top = 84
+        Width = 100
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfdtnascpai'
+        TabOrder = 7
+        Visible = False
+        OnKeyPress = FormKeyPress
+      end
+      object etccodigo: TDBEdit
+        Left = 140
+        Top = 111
+        Width = 29
+        Height = 21
+        CustomHint = BalloonHint
+        Color = clWhite
+        DataField = 'etccodigo'
+        TabOrder = 8
+        OnKeyPress = FormKeyPress
+      end
+      object dpfconjuge: TDBEdit
+        Left = 140
+        Top = 138
+        Width = 237
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfconjuge'
+        TabOrder = 9
+        OnKeyPress = FormKeyPress
+      end
+      object dpfdtcas: TDBEdit
+        Left = 508
+        Top = 138
+        Width = 99
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfdtcas'
+        TabOrder = 10
+        Visible = False
+      end
+      object dpftrabconj: TDBEdit
+        Left = 140
+        Top = 165
+        Width = 191
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpftrabconj'
+        TabOrder = 11
+        OnKeyPress = FormKeyPress
+      end
+      object dpffoneconj: TDBEdit
+        Left = 508
+        Top = 165
+        Width = 100
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpffoneconj'
+        TabOrder = 12
+        OnKeyPress = FormKeyPress
+      end
+      object dpfnudepend: TDBEdit
+        Left = 140
+        Top = 192
+        Width = 53
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfnudepend'
+        TabOrder = 13
+        OnKeyPress = FormKeyPress
+      end
+      object dpfdtnasccon: TDBEdit
+        Left = 508
+        Top = 192
+        Width = 100
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfdtnasccon'
+        TabOrder = 14
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object Referencias: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'Refer'#234'ncias'
+      ImageIndex = 2
+      ExplicitLeft = -146
+      ExplicitTop = 22
+      object Label31: TLabel
+        Left = 140
+        Top = 26
+        Width = 39
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Contato'
+        FocusControl = rfpcontato
+      end
+      object Label32: TLabel
+        Left = 404
+        Top = 26
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = rfpfonecont
+      end
+      object Label33: TLabel
+        Left = 494
+        Top = 26
+        Width = 60
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Dt. Consulta'
+      end
+      object Label37: TLabel
+        Left = 140
+        Top = 119
+        Width = 20
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Loja'
+        FocusControl = rfcloja
+      end
+      object Label40: TLabel
+        Left = 395
+        Top = 119
+        Width = 65
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'M'#233'dia de dias'
+        FocusControl = rfcatrasomed
+      end
+      object Label41: TLabel
+        Left = 271
+        Top = 119
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Valor das Compras'
+        FocusControl = rfcvlrcompras
+      end
+      object Label43: TLabel
+        Left = 140
+        Top = 162
+        Width = 68
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Consulta'
+      end
+      object Label38: TLabel
+        Left = 231
+        Top = 163
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Cadastro'
+      end
+      object Label39: TLabel
+        Left = 335
+        Top = 162
+        Width = 63
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Observa'#231#245'es'
+      end
+      object Label42: TLabel
+        Left = 466
+        Top = 119
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = rfcfonecont
+      end
+      object Label44: TLabel
+        Left = 140
+        Top = 215
+        Width = 20
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Loja'
+        FocusControl = DBEdit6
+      end
+      object Label45: TLabel
+        Left = 271
+        Top = 215
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Valor das Compras'
+        FocusControl = DBEdit7
+      end
+      object Label46: TLabel
+        Left = 395
+        Top = 215
+        Width = 65
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'M'#233'dia de dias'
+        FocusControl = DBEdit8
+      end
+      object Label47: TLabel
+        Left = 466
+        Top = 215
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = DBEdit9
+      end
+      object Label48: TLabel
+        Left = 140
+        Top = 258
+        Width = 68
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Consulta'
+      end
+      object Label49: TLabel
+        Left = 231
+        Top = 259
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Cadastro'
+      end
+      object Label50: TLabel
+        Left = 335
+        Top = 258
+        Width = 63
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Observa'#231#245'es'
+      end
+      object Label51: TLabel
+        Left = 140
+        Top = 311
+        Width = 20
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Loja'
+        FocusControl = DBEdit12
+      end
+      object Label52: TLabel
+        Left = 271
+        Top = 311
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Valor das Compras'
+        FocusControl = DBEdit13
+      end
+      object Label53: TLabel
+        Left = 395
+        Top = 311
+        Width = 65
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'M'#233'dia de dias'
+        FocusControl = DBEdit14
+      end
+      object Label54: TLabel
+        Left = 466
+        Top = 311
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = DBEdit15
+      end
+      object Label55: TLabel
+        Left = 140
+        Top = 354
+        Width = 68
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Consulta'
+      end
+      object Label56: TLabel
+        Left = 231
+        Top = 355
+        Width = 70
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data Cadastro'
+      end
+      object Label57: TLabel
+        Left = 335
+        Top = 354
+        Width = 63
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Observa'#231#245'es'
+      end
+      object Label21: TLabel
+        Left = 140
+        Top = 424
+        Width = 89
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Pessoa Autorizada'
+        FocusControl = dpfpessoaautori1
+      end
+      object rfpcontato: TDBEdit
+        Left = 140
+        Top = 42
+        Width = 258
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpcontato'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object rfpfonecont: TDBEdit
+        Left = 404
+        Top = 42
+        Width = 84
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpfonecont'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object rfpdtcons: TDBEdit
+        Left = 494
+        Top = 42
+        Width = 73
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpdtcons'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 944
+        Height = 20
+        CustomHint = BalloonHint
+        Align = alTop
+        Alignment = taLeftJustify
+        Caption = '  Referencias Pessoais'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 3
+      end
+      object Panel2: TPanel
+        Left = 0
+        Top = 96
+        Width = 944
+        Height = 20
+        CustomHint = BalloonHint
+        Alignment = taLeftJustify
+        Caption = '  Referencias Comerciais'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 4
+      end
+      object DBEdit3: TDBEdit
+        Left = 140
+        Top = 69
+        Width = 258
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpcontato'
+        DataSource = DSRegistro
+        TabOrder = 5
+      end
+      object DBEdit4: TDBEdit
+        Left = 404
+        Top = 69
+        Width = 84
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpfonecont'
+        DataSource = DSRegistro
+        TabOrder = 6
+      end
+      object DBEdit5: TDBEdit
+        Left = 494
+        Top = 69
+        Width = 73
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfpdtcons'
+        DataSource = DSRegistro
+        TabOrder = 7
+      end
+      object rfcloja: TDBEdit
+        Left = 140
+        Top = 135
+        Width = 125
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcloja'
+        DataSource = DSRegistro
+        TabOrder = 8
+      end
+      object rfcfonecont: TDBEdit
+        Left = 466
+        Top = 135
+        Width = 101
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcfonecont'
+        DataSource = DSRegistro
+        TabOrder = 9
+      end
+      object rfcdescricao: TDBMemo
+        Left = 335
+        Top = 179
+        Width = 234
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdescricao'
+        DataSource = DSRegistro
+        TabOrder = 10
+      end
+      object rfcatrasomed: TDBEdit
+        Left = 395
+        Top = 135
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcatrasomed'
+        DataSource = DSRegistro
+        TabOrder = 11
+      end
+      object rfcvlrcompras: TDBEdit
+        Left = 271
+        Top = 135
+        Width = 118
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcvlrcompras'
+        DataSource = DSRegistro
+        TabOrder = 12
+      end
+      object rfcdtcons: TDBEdit
+        Left = 140
+        Top = 179
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcons'
+        DataSource = DSRegistro
+        TabOrder = 13
+      end
+      object rfcdtcad: TDBEdit
+        Left = 231
+        Top = 179
+        Width = 98
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcad'
+        DataSource = DSRegistro
+        TabOrder = 14
+      end
+      object DBEdit6: TDBEdit
+        Left = 140
+        Top = 231
+        Width = 125
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcloja'
+        DataSource = DSRegistro
+        TabOrder = 15
+      end
+      object DBEdit7: TDBEdit
+        Left = 271
+        Top = 231
+        Width = 118
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcvlrcompras'
+        DataSource = DSRegistro
+        TabOrder = 16
+      end
+      object DBEdit8: TDBEdit
+        Left = 395
+        Top = 231
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcatrasomed'
+        DataSource = DSRegistro
+        TabOrder = 17
+      end
+      object DBEdit9: TDBEdit
+        Left = 466
+        Top = 231
+        Width = 101
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcfonecont'
+        DataSource = DSRegistro
+        TabOrder = 18
+      end
+      object DBEdit10: TDBEdit
+        Left = 140
+        Top = 275
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcons'
+        DataSource = DSRegistro
+        TabOrder = 19
+      end
+      object DBEdit11: TDBEdit
+        Left = 231
+        Top = 275
+        Width = 98
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcad'
+        DataSource = DSRegistro
+        TabOrder = 20
+      end
+      object DBMemo1: TDBMemo
+        Left = 335
+        Top = 275
+        Width = 234
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdescricao'
+        DataSource = DSRegistro
+        TabOrder = 21
+      end
+      object DBEdit12: TDBEdit
+        Left = 140
+        Top = 327
+        Width = 125
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcloja'
+        DataSource = DSRegistro
+        TabOrder = 22
+      end
+      object DBEdit13: TDBEdit
+        Left = 271
+        Top = 327
+        Width = 118
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcvlrcompras'
+        DataSource = DSRegistro
+        TabOrder = 23
+      end
+      object DBEdit14: TDBEdit
+        Left = 395
+        Top = 327
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcatrasomed'
+        DataSource = DSRegistro
+        TabOrder = 24
+      end
+      object DBEdit15: TDBEdit
+        Left = 466
+        Top = 327
+        Width = 101
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcfonecont'
+        DataSource = DSRegistro
+        TabOrder = 25
+      end
+      object DBEdit16: TDBEdit
+        Left = 140
+        Top = 371
+        Width = 85
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcons'
+        DataSource = DSRegistro
+        TabOrder = 26
+      end
+      object DBEdit17: TDBEdit
+        Left = 231
+        Top = 371
+        Width = 98
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdtcad'
+        DataSource = DSRegistro
+        TabOrder = 27
+      end
+      object DBMemo2: TDBMemo
+        Left = 335
+        Top = 371
+        Width = 234
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'rfcdescricao'
+        DataSource = DSRegistro
+        TabOrder = 28
+      end
+      object dpfpessoaautori1: TDBEdit
+        Left = 140
+        Top = 443
+        Width = 468
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfpessoaautori1'
+        TabOrder = 29
+        OnKeyPress = FormKeyPress
+      end
+      object dpfpessoaautori2: TDBEdit
+        Left = 140
+        Top = 470
+        Width = 468
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfpessoaautori2'
+        TabOrder = 30
+        OnKeyPress = FormKeyPress
+      end
+      object dpfpessoaautori3: TDBEdit
+        Left = 140
+        Top = 497
+        Width = 468
+        Height = 21
+        CustomHint = BalloonHint
+        CharCase = ecUpperCase
+        DataField = 'dpfpessoaautori3'
+        TabOrder = 31
+        OnKeyPress = FormKeyPress
+      end
+      object Panel3: TPanel
+        Left = -3
+        Top = 398
+        Width = 944
+        Height = 20
+        CustomHint = BalloonHint
+        Alignment = taLeftJustify
+        Caption = '  Referencias Comerciais'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 32
+      end
+    end
+    object Trabalho: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'Trabalho'
+      ImageIndex = 3
+      ExplicitLeft = 8
+      ExplicitTop = 22
+      object Label25: TLabel
+        Left = 8
+        Top = 6
+        Width = 101
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Empresa de Trabalho'
+        FocusControl = dpflocaltrabalho
+      end
+      object Label26: TLabel
+        Left = 8
+        Top = 33
+        Width = 91
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Pessoa de Contato'
+        FocusControl = dpfcontatotrabalho
+      end
+      object Label27: TLabel
+        Left = 8
+        Top = 60
+        Width = 86
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Data de Admiss'#227'o'
+        FocusControl = dpfdataadmissaotrabalho
+      end
+      object Label28: TLabel
+        Left = 400
+        Top = 60
+        Width = 83
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Renda Mensal R$'
+        FocusControl = dpfrendamensal
+      end
+      object Label29: TLabel
+        Left = 8
+        Top = 87
+        Width = 45
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Endere'#231'o'
+        FocusControl = dpfedrcodigo
+      end
+      object Label30: TLabel
+        Left = 8
+        Top = 114
+        Width = 42
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Telefone'
+        FocusControl = dpfetfcodigo
+      end
+      object dpflocaltrabalho: TDBEdit
+        Left = 140
+        Top = 3
+        Width = 469
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpflocaltrabalho'
+        TabOrder = 0
+      end
+      object dpfcontatotrabalho: TDBEdit
+        Left = 140
+        Top = 30
+        Width = 206
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfcontatotrabalho'
+        TabOrder = 1
+      end
+      object dpfdataadmissaotrabalho: TDBEdit
+        Left = 140
+        Top = 57
+        Width = 126
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfdataadmissaotrabalho'
+        TabOrder = 2
+      end
+      object dpfrendamensal: TDBEdit
+        Left = 504
+        Top = 57
+        Width = 134
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfrendamensal'
+        TabOrder = 3
+      end
+      object dpfedrcodigo: TDBEdit
+        Left = 140
+        Top = 84
+        Width = 68
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfedrcodigo'
+        TabOrder = 4
+      end
+      object dpfetfcodigo: TDBEdit
+        Left = 140
+        Top = 111
+        Width = 68
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'dpfetfcodigo'
+        TabOrder = 5
+      end
+    end
+  end
+  inherited cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT cddcodigo, ufscodigo,edrcep from cfgmcfg,cfg,etd,edr '
+      '  WHERE '
+      '  cfg.cfgcodigo=cfgmcfg.cfgcodigo AND '
+      '  etd.etdcodigo=cfgmcfg.cfgetdempresa AND'
+      '  edr.etdcodigo=etd.etdcodigo AND'
+      '  edr.tedcodigo=1')
+    object cfgcddcodigo: TStringField
+      FieldName = 'cddcodigo'
+      Size = 10
+    end
+    object cfgufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Size = 4
+    end
+    object cfgedrcep: TStringField
+      FieldName = 'edrcep'
+      Size = 15
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'select * from etd where etdcodigo=:etdcodigo')
+    BeforePost = registroBeforePost
+    Left = 804
+    Top = 488
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object registroetdcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etdcodigo'
+    end
+    object registroetdidentificacao: TStringField
+      DisplayLabel = 'Raz'#227'o Social / Nome'
+      FieldName = 'etdidentificacao'
+      Required = True
+      Size = 60
+    end
+    object registroetdapelido: TStringField
+      DisplayLabel = 'Nome Fantasia / Apelido'
+      FieldName = 'etdapelido'
+      Required = True
+      Size = 100
+    end
+    object registroetddeletar: TIntegerField
+      DefaultExpression = '0'
+      FieldName = 'etddeletar'
+      Required = True
+    end
+    object registrotpecodigo: TIntegerField
+      DisplayLabel = 'Tipo de Pessoa'
+      FieldName = 'tpecodigo'
+      Required = True
+    end
+    object registrotpeidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tpeidentificacao'
+      LookupDataSet = tpe
+      LookupKeyFields = 'tpecodigo'
+      LookupResultField = 'tpeidentificacao'
+      KeyFields = 'tpecodigo'
+      Lookup = True
+    end
+    object registroetddatacad: TDateField
+      DisplayLabel = 'Data Cadastro'
+      FieldName = 'etddatacad'
+    end
+    object registroetddataalt: TDateField
+      DisplayLabel = 'Data Altera'#231#227'o'
+      FieldName = 'etddataalt'
+    end
+    object registroetddoc1: TStringField
+      DisplayLabel = 'CNPJ / CPF'
+      FieldName = 'etddoc1'
+      Required = True
+    end
+    object registroetdativo: TIntegerField
+      FieldName = 'etdativo'
+      Required = True
+    end
+    object registrotsecodigo: TIntegerField
+      FieldName = 'tsecodigo'
+    end
+    object registroetdobs: TStringField
+      FieldName = 'etdobs'
+      Size = 2000
+    end
+    object registroetdsuframa: TStringField
+      DisplayLabel = 'SUFRAMA'
+      FieldName = 'etdsuframa'
+      Size = 50
+    end
+    object registrotcbcodigo: TIntegerField
+      FieldName = 'tcbcodigo'
+      Required = True
+    end
+    object registrotcbidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tcbidentificacao'
+      LookupDataSet = tcb
+      LookupKeyFields = 'tcbcodigo'
+      LookupResultField = 'tcbidentificacao'
+      KeyFields = 'tcbcodigo'
+      Size = 35
+      Lookup = True
+    end
+  end
+  inherited psf: TUniQuery
+    Left = 792
+    Top = 100
+  end
+  inherited dcl: TUniQuery
+    Left = 788
+  end
+  inherited cpc: TUniQuery
+    Left = 845
+    Top = 401
+  end
+  inherited ImgBusca: TPngImageList
+    Bitmap = {}
+  end
+  inherited dau: TUniQuery
+    Left = 780
+    Top = 268
+  end
+  inherited lou: TUniQuery
+    Left = 672
+    Top = 384
+  end
+  object tcb: TUniQuery
+    SQL.Strings = (
+      'select tcbcodigo, tcbidentificacao from tcb')
+    Left = 632
+    Top = 128
+    object tcbtcbcodigo: TIntegerField
+      FieldName = 'tcbcodigo'
+    end
+    object tcbtcbidentificacao: TStringField
+      FieldName = 'tcbidentificacao'
+      Size = 35
+    end
+  end
+  object tpe: TUniQuery
+    SQL.Strings = (
+      'select * from tpe where tpecodigo<>9')
+    Left = 784
+    Top = 205
+    object tpetpecodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'tpecodigo'
+    end
+    object tpetpeidentificacao: TStringField
+      FieldName = 'tpeidentificacao'
+    end
+  end
+  object ACBrValidador: TACBrValidador
+    TipoDocto = docInscEst
+    IgnorarChar = './-'
+    Left = 704
+    Top = 101
+  end
+  object dpf: TUniQuery
+    SQL.Strings = (
+      'select * from dpf where dpf.etdcodigo=:etdcodigo')
+    Left = 708
+    Top = 333
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object dpfdpfcodigo: TIntegerField
+      FieldName = 'dpfcodigo'
+    end
+    object dpfetdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object dpfdpfdtnasc: TDateField
+      DisplayLabel = 'Data de Nascimento'
+      FieldName = 'dpfdtnasc'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object Naturalidade: TStringField
+      FieldName = 'dpfnatural'
+      Size = 30
+    end
+    object dpfdpfrg: TStringField
+      DisplayLabel = 'Nr. Identidade'
+      FieldName = 'dpfrg'
+      Size = 15
+    end
+    object dpfdpfssp: TStringField
+      DisplayLabel = 'SSP/UF'
+      FieldName = 'dpfssp'
+      Size = 10
+    end
+    object dpfdpfnomemae: TStringField
+      DisplayLabel = 'Nome da M'#227'e'
+      DisplayWidth = 50
+      FieldName = 'dpfnomemae'
+      Size = 50
+    end
+    object dpfdpfdtnascmae: TDateField
+      DisplayLabel = 'Data Nasc. M'#227'e'
+      FieldName = 'dpfdtnascmae'
+    end
+    object dpfdpfnomepai: TStringField
+      DisplayLabel = 'Nome do Pai'
+      DisplayWidth = 50
+      FieldName = 'dpfnomepai'
+      Size = 50
+    end
+    object dpfdpfdtnascpai: TDateField
+      DisplayLabel = 'Data Nasc. Pai'
+      FieldName = 'dpfdtnascpai'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object dpfetccodigo: TIntegerField
+      FieldName = 'etccodigo'
+    end
+    object dpfetcidentificacao: TStringField
+      DisplayLabel = 'Estado Civil'
+      FieldKind = fkLookup
+      FieldName = 'etcidentificacao'
+      LookupKeyFields = 'etccodigo'
+      LookupResultField = 'etcidentificacao'
+      KeyFields = 'etccodigo'
+      Size = 30
+      Lookup = True
+    end
+    object dpfdpfconjuge: TStringField
+      DisplayLabel = 'Nome do C'#244'njuge'
+      FieldName = 'dpfconjuge'
+      Size = 50
+    end
+    object dpfdpfdtnasccon: TDateField
+      DisplayLabel = 'Data Nasc. C'#244'njuge'
+      FieldName = 'dpfdtnasccon'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object dpfdpfdtcas: TDateField
+      DisplayLabel = 'Data de Casamento'
+      FieldName = 'dpfdtcas'
+      EditMask = '!99/99/9999;1;_'
+    end
+    object dpfdpftrabconj: TStringField
+      DisplayLabel = 'Trabalho do C'#244'njuge'
+      FieldName = 'dpftrabconj'
+      Size = 30
+    end
+    object dpfdpffoneconj: TStringField
+      DisplayLabel = 'Telefone do C'#244'njuge'
+      FieldName = 'dpffoneconj'
+    end
+    object dpfdpfnudepend: TIntegerField
+      DisplayLabel = 'Nr. de Dependentes'
+      FieldName = 'dpfnudepend'
+    end
+    object dpfdpfpessoaautori1: TStringField
+      FieldName = 'dpfpessoaautori1'
+      Size = 250
+    end
+    object dpfdpfpessoaautori2: TStringField
+      FieldName = 'dpfpessoaautori2'
+      Size = 250
+    end
+    object dpfdpfpessoaautori3: TStringField
+      FieldName = 'dpfpessoaautori3'
+      Size = 250
+    end
+    object dpfdpflocaltrabalho: TStringField
+      DisplayLabel = 'Empresa de Trabalho'
+      FieldName = 'dpflocaltrabalho'
+      Size = 250
+    end
+    object dpfdpfcargotrabalho: TStringField
+      DisplayLabel = 'Cargo'
+      FieldName = 'dpfcargotrabalho'
+      Size = 50
+    end
+    object dpfdpfcontatotrabalho: TStringField
+      DisplayLabel = 'Pessoa de Contato'
+      FieldName = 'dpfcontatotrabalho'
+      Size = 50
+    end
+    object dpfdpfrendamensal: TFloatField
+      DisplayLabel = 'Renda Mensal R$'
+      FieldName = 'dpfrendamensal'
+    end
+    object dpfdpfedrcodigo: TIntegerField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'dpfedrcodigo'
+    end
+    object dpfdpfetfcodigo: TIntegerField
+      DisplayLabel = 'Telefone'
+      FieldName = 'dpfetfcodigo'
+    end
+    object dpfdpfdataadmissaotrabalho: TDateField
+      FieldName = 'dpfdataadmissaotrabalho'
+    end
+  end
+  object edr: TUniQuery
+    SQL.Strings = (
+      
+        'select * from edr where edrcodigo=:edrcodigo and etdcodigo=:edtc' +
+        'odigo and tdecodigo=1')
+    AfterInsert = edrAfterInsert
+    Left = 640
+    Top = 332
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'edrcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'edtcodigo'
+        Value = nil
+      end>
+    object edredrcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'edrcodigo'
+    end
+    object edretdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+      Required = True
+    end
+    object edrtedcodigo: TIntegerField
+      FieldName = 'tedcodigo'
+      Required = True
+    end
+    object edrtedidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'tedidentificacao'
+      LookupDataSet = ted
+      LookupKeyFields = 'tedcodigo'
+      LookupResultField = 'tedidentificacao'
+      KeyFields = 'tedcodigo'
+      Lookup = True
+    end
+    object edredrrua: TStringField
+      FieldName = 'edrrua'
+      Required = True
+      Size = 50
+    end
+    object edredrnumero: TStringField
+      FieldName = 'edrnumero'
+      Required = True
+      Size = 10
+    end
+    object edredrcxpostal: TStringField
+      FieldName = 'edrcxpostal'
+      Size = 10
+    end
+    object edredrcomple: TStringField
+      FieldName = 'edrcomple'
+      Size = 50
+    end
+    object edredrbairro: TStringField
+      DisplayWidth = 60
+      FieldName = 'edrbairro'
+      Required = True
+      Size = 60
+    end
+    object edrcddcodigo: TStringField
+      FieldName = 'cddcodigo'
+      Required = True
+      Size = 10
+    end
+    object edrcddnome: TStringField
+      DisplayLabel = 'Cidade'
+      DisplayWidth = 30
+      FieldKind = fkLookup
+      FieldName = 'cddnome'
+      LookupDataSet = cdd
+      LookupKeyFields = 'cddcodigo'
+      LookupResultField = 'cddnome'
+      KeyFields = 'cddcodigo'
+      Size = 30
+      Lookup = True
+    end
+    object edrufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Required = True
+      Size = 10
+    end
+    object edrufsnome: TStringField
+      DisplayLabel = 'UF'
+      FieldKind = fkLookup
+      FieldName = 'ufsnome'
+      LookupDataSet = ufs
+      LookupKeyFields = 'ufscodigo'
+      LookupResultField = 'ufsnome'
+      KeyFields = 'ufscodigo'
+      Size = 35
+      Lookup = True
+    end
+    object edredrobs: TStringField
+      FieldName = 'edrobs'
+      Size = 250
+    end
+    object edredrinscest: TStringField
+      DisplayLabel = 'Inscri'#231#227'o Estadual'
+      FieldName = 'edrinscest'
+    end
+    object edredrcep: TStringField
+      DisplayLabel = 'CEP'
+      FieldName = 'edrcep'
+      Required = True
+      EditMask = '99999\-999;0;_'
+      Size = 10
+    end
+    object edrufssigla: TStringField
+      Tag = 777
+      FieldKind = fkCalculated
+      FieldName = 'ufssigla'
+      KeyFields = 'ufscodigo'
+      Size = 3
+      Calculated = True
+    end
+    object edredrinscmun: TStringField
+      DisplayLabel = 'Inscri'#231#227'o Municipal'
+      FieldName = 'edrinscmun'
+      Size = 50
+    end
+    object edredritem: TIntegerField
+      FieldName = 'edritem'
+    end
+  end
+  object cdd: TUniQuery
+    SQL.Strings = (
+      'select cddcodigo, cddnome from cdd')
+    Left = 640
+    Top = 288
+    object cddcddcodigo: TStringField
+      FieldName = 'cddcodigo'
+      Required = True
+      Size = 10
+    end
+    object cddcddnome: TStringField
+      DisplayWidth = 35
+      FieldName = 'cddnome'
+      Required = True
+      Size = 35
+    end
+  end
+  object ted: TUniQuery
+    SQL.Strings = (
+      'select tedcodigo, tedidentificacao from ted')
+    Left = 640
+    Top = 192
+    object tedtedcodigo: TIntegerField
+      FieldName = 'tedcodigo'
+      Required = True
+    end
+    object tedtedidentificacao: TStringField
+      FieldName = 'tedidentificacao'
+      Required = True
+    end
+  end
+  object ufs: TUniQuery
+    SQL.Strings = (
+      'select ufscodigo, ufsnome, ufssigla from ufs')
+    Left = 640
+    Top = 240
+    object ufsufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Size = 10
+    end
+    object ufsufsnome: TStringField
+      FieldName = 'ufsnome'
+      Size = 50
+    end
+    object ufsufssigla: TStringField
+      FieldName = 'ufssigla'
+      Size = 10
+    end
+  end
+  object etf1: TUniQuery
+    SQL.Strings = (
+      
+        'select etfcodigo,etdcodigo,ttfcodigo,etftelefone,etfcontato from' +
+        ' etf'
+      
+        'where etfcodigo=:etfcodigo and etf.etdcodigo=:etdcodigo and ttfc' +
+        'odigo=1')
+    Left = 772
+    Top = 584
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etfcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object etf1etfcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etfcodigo'
+    end
+    object etf1etdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object etf1ttfcodigo: TIntegerField
+      DisplayLabel = 'Tipo'
+      FieldName = 'ttfcodigo'
+      Required = True
+    end
+    object etf1etftelefone: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'etftelefone'
+      Required = True
+    end
+    object etf1etfcontato: TStringField
+      DisplayLabel = 'Contato'
+      FieldName = 'etfcontato'
+      Size = 30
+    end
+  end
+  object etf2: TUniQuery
+    SQL.Strings = (
+      'select etfcodigo,etdcodigo,ttfcodigo,etftelefone from etf'
+      
+        'where etfcodigo=:etfcodigo and etf.etdcodigo=:etdcodigo and ttfc' +
+        'odigo=9')
+    Left = 668
+    Top = 560
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etfcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object etf2etfcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etfcodigo'
+    end
+    object etf2etdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object etf2ttfcodigo: TIntegerField
+      DisplayLabel = 'Tipo'
+      FieldName = 'ttfcodigo'
+      Required = True
+    end
+    object etf2etftelefone: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'etftelefone'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = etf1
+    Left = 728
+    Top = 464
+  end
+  object ete1: TUniQuery
+    SQL.Strings = (
+      
+        'select etecodigo,etdcodigo,etecontato,etedepartamento,eteemail,e' +
+        'teenvianfe from ete '
+      'where etecodigo=:etecodigo and'
+      'ete.etdcodigo=:etdcodigo')
+    Left = 620
+    Top = 472
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'etecodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'etdcodigo'
+        Value = nil
+      end>
+    object ete1etecodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'etecodigo'
+    end
+    object ete1etdcodigo: TIntegerField
+      FieldName = 'etdcodigo'
+    end
+    object ete1eteemail: TStringField
+      DisplayLabel = 'email'
+      FieldName = 'eteemail'
+      Size = 100
+    end
+  end
+  object Dete1: TDataSource
+    DataSet = ete1
+    Left = 516
+    Top = 536
+  end
+end

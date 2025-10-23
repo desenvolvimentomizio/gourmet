@@ -1,0 +1,175 @@
+unit GourmetServer.Controller.ITO;
+
+interface
+
+Uses
+  Horse,
+
+  FireDAC.Phys.MySQLDef,
+  FireDAC.Phys.MySQL,
+  FireDAC.Phys.Intf,
+  FireDAC.Phys,
+  FireDAC.UI.Intf,
+  FireDAC.ConsoleUI.Wait,
+  Data.DB,
+  FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet,
+
+
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+
+
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.ITO;
+
+Function v1ManutencaoITO(vItem: TJsonObject): Integer;
+Function v1BuscaItemITOorcchave(vOrcChave: String): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  GourmetServer.Service.Conexoes;
+
+Function v1BuscaItemITOorcchave(vOrcChave: String): Integer;
+var
+  conexao:TFDconnection;
+  ito:TFDQuery;
+
+  vlitoitem:integer;
+
+begin
+
+  vlitoitem:=0;
+  conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    ito:=TFDQuery.Create(nil);
+    ito.Connection:=Conexao;
+    ito.sql.Text:='select itoitem '+
+                  'from ito '+
+                  'where orcchave=' + vOrcChave + ' order by itoitem desc limit 1';
+    ito.open;
+
+    vlitoitem:=ito.FieldByName('itoitem').asInteger+1;
+
+    ito.close;
+
+    if ito<>nil then
+      ito.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+    conexao.DisposeOf;
+
+  result :=vlitoitem;
+
+end;
+
+Function v1ManutencaoITO(vItem: TJsonObject): Integer;
+var
+  conexao:TFDconnection;
+  ito:TFDQuery;
+
+  vlitochave:String;
+
+
+begin
+
+
+  conexao:=TFDconnection.Create(nil);
+  if AtivaConexao(conexao)<>nil then
+  begin
+
+    vlitochave:= vItem.getvalue('itochave', '');
+
+    if vlitochave='' then
+      vlitochave:='0';
+
+    ito:=TFDQuery.Create(nil);
+    ito.Connection:=Conexao;
+    ito.sql.Text:='select '+
+                  'itochave, orcchave, flacodigo, procodigo, itoquantidade, itovalorav, '+
+                  'itototalav, itodescontoav, itosaldoav, itovalorap, itototalap, itodescontoap, '+
+                  'itooutras, itosaldoap, unicodigo, puncodigo, itocontendo, tdecodigo, stocodigo, '+
+                  'itoitem, itopercdescav, itopercdescap, itoproservico, itoinfadprod, itoprocomple, '+
+                  'tdfcodigo, flacodigo, pmpchave, itoobs, itounidades, itoacrescimoav, clbatendente, '+
+                  'oricodigo '+
+                  'from ito where itochave='+vlitochave;
+    ito.Open;
+
+    if ito.IsEmpty then
+      ito.Append
+    else
+      ito.Edit;
+
+
+    ito.FieldByName('orcchave').AsInteger := vItem.getvalue('orcchave', '').ToInteger;
+    ito.FieldByName('flacodigo').AsInteger := vItem.getvalue('flacodigo', '').ToInteger;
+    ito.FieldByName('procodigo').AsInteger := vItem.getvalue('procodigo', '').ToInteger;
+    ito.FieldByName('itoquantidade').AsFloat := vItem.getvalue('itoquantidade', '').ToDouble;
+    ito.FieldByName('itovalorav').AsFloat := vItem.getvalue('itovalorav', '').ToDouble;
+    ito.FieldByName('itototalav').AsFloat := vItem.getvalue('itototalav', '').ToDouble;
+    ito.FieldByName('itodescontoav').AsFloat := vItem.getvalue('itodescontoav', '').ToDouble;
+    ito.FieldByName('itosaldoav').AsFloat := vItem.getvalue('itosaldoav', '').ToDouble;
+    ito.FieldByName('itovalorap').AsFloat := vItem.getvalue('itovalorap', '').ToDouble;
+    ito.FieldByName('itototalap').AsFloat := vItem.getvalue('itototalap', '').ToDouble;
+    ito.FieldByName('itodescontoap').AsFloat := vItem.getvalue('itodescontoap', '').ToDouble;
+    if vItem.getvalue('itooutras', '')='' then
+      ito.FieldByName('itooutras').AsFloat := 0
+    else
+      ito.FieldByName('itooutras').AsFloat := vItem.getvalue('itooutras', '').ToDouble;
+
+    ito.FieldByName('itosaldoap').AsFloat := vItem.getvalue('itosaldoap', '').ToDouble;
+    ito.FieldByName('unicodigo').AsInteger := vItem.getvalue('unicodigo', '').ToInteger;
+    ito.FieldByName('puncodigo').AsInteger := vItem.getvalue('puncodigo', '').ToInteger;
+    ito.FieldByName('itocontendo').AsFloat := vItem.getvalue('itocontendo', '').ToDouble;
+    ito.FieldByName('tdecodigo').AsInteger := vItem.getvalue('tdecodigo', '').ToInteger;
+    ito.FieldByName('stocodigo').AsInteger := vItem.getvalue('stocodigo', '').ToInteger;
+    ito.FieldByName('itoitem').AsInteger := vItem.getvalue('itoitem', '').ToInteger;
+    ito.FieldByName('itopercdescav').AsFloat := vItem.getvalue('itopercdescav', '').ToDouble;
+    ito.FieldByName('itopercdescap').AsFloat := vItem.getvalue('itopercdescap', '').ToDouble;
+    ito.FieldByName('itoproservico').AsString := vItem.getvalue('itoproservico', '');
+    ito.FieldByName('itoinfadprod').AsString := vItem.getvalue('itoinfadprod', '');
+    ito.FieldByName('itoprocomple').AsString := vItem.getvalue('itoprocomple', '');
+    ito.FieldByName('tdfcodigo').AsString := vItem.getvalue('tdfcodigo', '');
+    ito.FieldByName('flacodigo').AsInteger := vItem.getvalue('flacodigo', '').ToInteger;
+    ito.FieldByName('pmpchave').AsInteger := vItem.getvalue('pmpchave', '').ToInteger;
+    ito.FieldByName('itoobs').AsString := vItem.getvalue('itoobs', '');
+    ito.FieldByName('itounidades').AsInteger := vItem.getvalue('itounidades', '').ToInteger;
+    ito.FieldByName('itoacrescimoav').AsFloat := vItem.getvalue('itoacrescimoav', '').ToDouble;
+    ito.FieldByName('clbatendente').AsInteger := vItem.getvalue('clbatendente', '').ToInteger;
+    ito.FieldByName('oricodigo').AsInteger := vItem.getvalue('oricodigo', '').ToInteger;
+
+    ito.Post;
+
+    vlitochave:=ito.FieldByName('itochave').AsString;
+
+    ito.close;
+
+    if ito<>nil then
+      ito.DisposeOf;
+
+  end;
+
+  if conexao<>nil then
+    conexao.DisposeOf;
+
+  result := vlitochave.ToInteger;
+
+end;
+
+end.

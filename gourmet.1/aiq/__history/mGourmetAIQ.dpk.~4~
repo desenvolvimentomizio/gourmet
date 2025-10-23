@@ -1,0 +1,45 @@
+package mGourmetAIQ;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl;
+
+contains
+  uFormGourmetAIQ in 'uFormGourmetAIQ.pas' {FormGourmetAIQ},
+  GourmetAIQ.service.authenticationAIQ in 'Service\GourmetAIQ.service.authenticationAIQ.pas',
+  GourmetAIQ.service.constants in 'Service\GourmetAIQ.service.constants.pas',
+  GourmetAIQ.service.funcoes in 'Service\GourmetAIQ.service.funcoes.pas',
+  GourmetAIQ.Model.Entity.AIQ in 'Model\Entity\GourmetAIQ.Model.Entity.AIQ.pas',
+  GourmetAIQ.Model.Entity.AIQSRV in 'Model\Entity\GourmetAIQ.Model.Entity.AIQSRV.pas',
+  GourmetAIQ.Model.Entity.MenuAIQ in 'Model\Entity\GourmetAIQ.Model.Entity.MenuAIQ.pas',
+  GourmetAIQ.Model.Entity.PedidoAIQ in 'Model\Entity\GourmetAIQ.Model.Entity.PedidoAIQ.pas',
+  GourmetAIQ.Model.Entity.PedidoAIQGourmet in 'Model\Entity\GourmetAIQ.Model.Entity.PedidoAIQGourmet.pas';
+
+end.

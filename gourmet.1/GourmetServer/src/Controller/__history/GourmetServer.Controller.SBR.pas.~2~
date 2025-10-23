@@ -1,0 +1,182 @@
+unit GourmetServer.Controller.SBR;
+
+interface
+
+Uses
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.SBR;
+
+function ManutencaoSBR(vSabor: TJsonObject): Integer;
+Function ManutencaoSBRIdentificacao(vNome: string; vProCodigo: String; vGrpCodigo: String): Integer;
+
+function BuscaCodigoSBRProCodigo(vProCodigo: Integer): Integer;
+function BuscaCodigoSBRGrpCodigoIdentificacao(vSbrIdentificacao: string; vGrpCodigo: Integer): Integer;
+
+Function BuscaSBRIdentificacao(vSbrIdentificacao: string; vProCodigo: String; vGrpCodigo: String): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses
+  FireDAC.Comp.Client;
+
+Function BuscaSBRIdentificacao(vSbrIdentificacao: string; vProCodigo: String; vGrpCodigo: String): Integer;
+var
+  FDAO: iDAOGeneric<TSBR>;
+  vlsbrcodigo: Integer;
+begin
+  vlsbrcodigo := 0;
+
+  FDAO := TDAOGeneric<TSBR>.New;
+  if (vProCodigo <> '') and (vGrpCodigo = '') then
+  begin
+    FDAO.DAO.SQL.where('procodigo=' + vProCodigo + ' and sbridentificacao=' + QuotedStr(vSbrIdentificacao)).&End.Find;
+  end
+  else
+  begin
+    FDAO.DAO.SQL.where('grpcodigo=' + vGrpCodigo + ' and sbridentificacao=' + QuotedStr(vSbrIdentificacao)).&End.Find;
+  end;
+
+  vlsbrcodigo := FDAO.DataSet.FieldByName('sbrcodigo').asInteger;
+
+  result := vlsbrcodigo;
+end;
+
+Function ManutencaoSBRIdentificacao(vNome: string; vProCodigo: String; vGrpCodigo: String): Integer;
+var
+  vSabor: TJsonObject;
+  vlsbrcodigo: Integer;
+begin
+
+  vlsbrcodigo := BuscaSBRIdentificacao(vNome, vProCodigo, vGrpCodigo);
+  if vlsbrcodigo = 0 then
+  begin
+    vSabor := TJsonObject.Create;
+
+    if vGrpCodigo <> '' then
+      vSabor.AddPair('grpcodigo', vGrpCodigo);
+    if vProCodigo <> '' then
+      vSabor.AddPair('procodigo', vProCodigo);
+
+    vSabor.AddPair('sbrcodigo','0');
+    vSabor.AddPair('sbridentificacao', vNome);
+    vSabor.AddPair('sbrcobraadicional', '0');
+    vSabor.AddPair('gsbcodigo', '0');
+    vSabor.AddPair('sbrordem', '0');
+    vSabor.AddPair('sbrfracionado', '0');
+    vSabor.AddPair('sbrquantidade', '0');
+    vSabor.AddPair('imgcodigo', '1');
+    vSabor.AddPair('stgcodigo', '1');
+    vSabor.AddPair('sipcodigo', '1');
+    vlsbrcodigo := ManutencaoSBR(vSabor);
+
+  end;
+
+  result := vlsbrcodigo;
+
+end;
+
+function ManutencaoSBR(vSabor: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TSBR>;
+  FSBR: TSBR;
+  vlsbrcodigo: Integer;
+
+begin
+  FDAO := TDAOGeneric<TSBR>.New;
+
+  vlsbrcodigo := vSabor.getvalue('sbrcodigo', '').ToInteger;
+
+  FSBR := TSBR.Create;
+  FSBR.sbrCodigo := vlsbrcodigo;
+  FSBR.sbridentificacao := vSabor.getvalue('sbridentificacao', '');
+
+  if vSabor.getvalue('procodigo', '') <> '' then
+  begin
+    FSBR.procodigo := vSabor.getvalue('procodigo', '').ToInteger;
+  end
+  else if vSabor.getvalue('grpcodigo', '') <> '' then
+  begin
+    FSBR.grpcodigo := vSabor.getvalue('grpcodigo', '').ToInteger;
+  end;
+
+  FSBR.sbrcobraadicional := vSabor.getvalue('sbrcobraadicional', '').ToInteger;
+  FSBR.gsbcodigo := vSabor.getvalue('gsbcodigo', '').ToInteger;
+  FSBR.sbrordem := vSabor.getvalue('sbrordem', '').ToInteger;
+  FSBR.sbrfracionado := vSabor.getvalue('sbrfracionado', '').ToInteger;
+  FSBR.sbrquantidade := strtofloat(vSabor.getvalue('sbrquantidade', ''));
+  FSBR.imgcodigo := vSabor.getvalue('imgcodigo', '').ToInteger;
+  FSBR.stgcodigo := vSabor.getvalue('stgcodigo', '').ToInteger;
+  FSBR.sipcodigo := vSabor.getvalue('sipcodigo', '').ToInteger;
+
+  if vlsbrcodigo = 0 then
+  // incluir novo
+  begin
+    FSBR.sbrCodigo := 0;
+    FDAO.DAO.Insert(FSBR);
+    FDAO.DAO.LastID;
+    vlsbrcodigo := FDAO.DataSet.FieldByName('sbrcodigo').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FSBR.sbrCodigo := vlsbrcodigo;
+    FDAO.DAO.Update(FSBR);
+  end;
+
+  result := vlsbrcodigo;
+(FDAO.dataset as TFDQuery).Connection.connected:=false;
+end;
+
+function BuscaCodigoSBRGrpCodigoIdentificacao(vSbrIdentificacao: string; vGrpCodigo: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TSBR>;
+  vlsbrcodigo: Integer;
+begin
+  vlsbrcodigo := 0;
+
+  FDAO := TDAOGeneric<TSBR>.New;
+
+  if vSbrIdentificacao <> '' then
+  begin
+    FDAO.DAO.SQL.where('grpcodigo=' + vGrpCodigo.ToString + ' and sbridentificacao=' + QuotedStr(vSbrIdentificacao)).&End.Find;
+  end
+  else
+  begin
+    FDAO.DAO.SQL.where('grpcodigo=' + vGrpCodigo.ToString).&End.Find;
+  end;
+
+  vlsbrcodigo := FDAO.DataSet.FieldByName('sbrcodigo').asInteger;
+  result := vlsbrcodigo;
+
+(FDAO.dataset as TFDQuery).Connection.connected:=false;
+end;
+
+function BuscaCodigoSBRProCodigo(vProCodigo: Integer): Integer;
+var
+  FDAO: iDAOGeneric<TSBR>;
+  vlsbrcodigo: Integer;
+begin
+  vlsbrcodigo := 0;
+
+  FDAO := TDAOGeneric<TSBR>.New;
+
+  FDAO.DAO.SQL.where('procodigo=' + vProCodigo.ToString).&End.Find;
+
+  vlsbrcodigo := FDAO.DataSet.FieldByName('sbrcodigo').asInteger;
+  result := vlsbrcodigo;
+
+(FDAO.dataset as TFDQuery).Connection.connected:=false;
+end;
+
+end.

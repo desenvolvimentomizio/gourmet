@@ -1,0 +1,352 @@
+inherited fsbr: Tfsbr
+  ActiveControl = grpcodigo
+  Caption = 'Sabor para Grupo'
+  ClientHeight = 465
+  ClientWidth = 603
+  ExplicitWidth = 619
+  ExplicitHeight = 504
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 436
+    Width = 603
+    ExplicitTop = 617
+    ExplicitWidth = 603
+    inherited bconfirma: TBitBtn
+      Left = 449
+      ExplicitLeft = 449
+    end
+    inherited bcancela: TBitBtn
+      Left = 524
+      ExplicitLeft = 524
+    end
+    inherited bfechar: TBitBtn
+      Left = 384
+      ExplicitLeft = 384
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 603
+    Height = 436
+    ExplicitWidth = 603
+    ExplicitHeight = 617
+    inherited Principal: TTabSheet
+      ExplicitWidth = 595
+      ExplicitHeight = 408
+      object BvTopo: TBevel
+        Left = 0
+        Top = 0
+        Width = 595
+        Height = 201
+        CustomHint = BalloonHint
+        Align = alTop
+      end
+      object Label1: TLabel
+        Left = 8
+        Top = 9
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = sbrcodigo
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 63
+        Width = 62
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Identifica'#231#227'o'
+        FocusControl = sbridentificacao
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 36
+        Width = 80
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo do Grupo'
+        FocusControl = grpcodigo
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 90
+        Width = 74
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Cobra Adicional'
+        FocusControl = sbrcobraadicional
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 117
+        Width = 93
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Ordem no Card'#225'pio'
+        FocusControl = sbrordem
+      end
+      object sbrcodigo: TDBEdit
+        Left = 136
+        Top = 6
+        Width = 65
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'sbrcodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object sbridentificacao: TDBEdit
+        Left = 136
+        Top = 60
+        Width = 449
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'sbridentificacao'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object grpcodigo: TDBEdit
+        Left = 136
+        Top = 33
+        Width = 41
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'grpcodigo'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object plIsa: TPanel
+        Left = 0
+        Top = 201
+        Width = 595
+        Height = 207
+        CustomHint = BalloonHint
+        Align = alClient
+        TabOrder = 6
+        ExplicitTop = 420
+        ExplicitHeight = 169
+      end
+      object bvalidar: TBitBtn
+        Left = 510
+        Top = 112
+        Width = 75
+        Height = 25
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 5
+        OnClick = bvalidarClick
+      end
+      object sbrcobraadicional: TDBEdit
+        Left = 136
+        Top = 87
+        Width = 33
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'sbrcobraadicional'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+      object sbrordem: TDBEdit
+        Left = 136
+        Top = 114
+        Width = 33
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'sbrordem'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object btCarregaImagem: TButton
+        Left = 184
+        Top = 136
+        Width = 120
+        Height = 25
+        CustomHint = BalloonHint
+        Caption = 'Carrega Imagem'
+        TabOrder = 7
+        Visible = False
+        OnClick = btCarregaImagemClick
+      end
+      object sbrimagem: TDBImage
+        Left = 136
+        Top = 141
+        Width = 33
+        Height = 20
+        CustomHint = BalloonHint
+        DataField = 'sbrimagem'
+        DataSource = DSRegistro
+        Proportional = True
+        TabOrder = 8
+        Visible = False
+      end
+    end
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 260
+    Top = 264
+  end
+  inherited cfg: TUniQuery
+    Left = 148
+    Top = 228
+  end
+  inherited consulta: TUniQuery
+    Left = 488
+    Top = 268
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  sbrcodigo,'
+      '  sbridentificacao,'
+      '  grpcodigo,'
+      '  sbrcobraadicional,'
+      '  gsbcodigo,'
+      '  procodigo,'
+      '  sbrordem,'
+      '  sbrquantidade,'
+      '  imgcodigo,'
+      '  sbrimagem'
+      '   '
+      'FROM sbr'
+      '  where sbrcodigo=:sbrcodigo')
+    Left = 388
+    Top = 296
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'sbrcodigo'
+        Value = nil
+      end>
+    object registrosbrcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'sbrcodigo'
+    end
+    object registrosbridentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'sbridentificacao'
+      Required = True
+      Size = 50
+    end
+    object registrogrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+      Required = True
+    end
+    object registrogrpidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'grpidentificacao'
+      LookupDataSet = grp
+      LookupKeyFields = 'grpcodigo'
+      LookupResultField = 'grpidentificacao'
+      KeyFields = 'grpcodigo'
+      Size = 50
+      Lookup = True
+    end
+    object registrosbrcobraadicional: TIntegerField
+      FieldName = 'sbrcobraadicional'
+      Required = True
+    end
+    object registrosencobraadicional: TStringField
+      DisplayLabel = 'Cobra Adicional'
+      FieldKind = fkLookup
+      FieldName = 'sencobraadicional'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'sbrcobraadicional'
+      Size = 5
+      Lookup = True
+    end
+    object registrogsbcodigo: TIntegerField
+      DisplayLabel = 'Grupo de Sabor'
+      FieldName = 'gsbcodigo'
+    end
+    object registrosbrordem: TIntegerField
+      DisplayLabel = 'Ordem no Card'#225'pio'
+      FieldName = 'sbrordem'
+      Required = True
+    end
+    object registroprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object registropronome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'pronome'
+      LookupDataSet = pro
+      LookupKeyFields = 'procodigo'
+      LookupResultField = 'pronome'
+      KeyFields = 'procodigo'
+      Size = 80
+      Lookup = True
+    end
+    object registrosbrquantidade: TFloatField
+      FieldName = 'sbrquantidade'
+    end
+    object registrosbrimagem: TBlobField
+      FieldName = 'sbrimagem'
+    end
+  end
+  inherited pfr: TUniQuery
+    Left = 160
+    Top = 300
+  end
+  inherited psf: TUniQuery
+    Left = 216
+    Top = 284
+  end
+  inherited dcl: TUniQuery
+    Left = 212
+    Top = 344
+  end
+  inherited acoesfrm: TActionList
+    Left = 324
+    Top = 332
+  end
+  object grp: TUniQuery
+    SQL.Strings = (
+      'select grpcodigo, grpidentificacao from grp')
+    Left = 360
+    Top = 328
+    object grpgrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+    end
+    object grpgrpidentificacao: TStringField
+      FieldName = 'grpidentificacao'
+      Size = 50
+    end
+  end
+  object sen: TUniQuery
+    SQL.Strings = (
+      'select sencodigo, senidentificacao from sen')
+    Left = 464
+    Top = 320
+    object sensencodigo: TIntegerField
+      FieldName = 'sencodigo'
+    end
+    object sensenidentificacao: TStringField
+      FieldName = 'senidentificacao'
+      Size = 5
+    end
+  end
+  object pro: TUniQuery
+    SQL.Strings = (
+      'select procodigo, pronome from pro')
+    Left = 436
+    Top = 337
+    object proprocodigo: TIntegerField
+      FieldName = 'procodigo'
+    end
+    object propronome: TStringField
+      FieldName = 'pronome'
+      Size = 80
+    end
+  end
+  object OpenPictureDialog: TOpenDialog
+    DefaultExt = 'bmp'
+    Filter = 'Imagens|*.jpg'
+    Title = 'Selecione a Imagem'
+    Left = 315
+    Top = 16
+  end
+end

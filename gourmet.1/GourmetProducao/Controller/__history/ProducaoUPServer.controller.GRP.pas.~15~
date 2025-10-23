@@ -1,0 +1,70 @@
+unit  ProducaoUPServer.controller.GRP;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  idHashMessageDigest,
+  ProducaoUPServer.Model.DAOGeneric,
+  ProducaoUPServer.model.entity.GRP;
+
+
+procedure Registry(App: THorse);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+
+type
+ TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+
+implementation
+
+uses
+  System.SysUtils;
+
+
+procedure Registry(App: THorse);
+begin
+  App.Get('/v1/grp', V1Get);
+end;
+
+
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TGRP>;
+begin
+  FDAO := TDaogeneric<TGRP>.New;
+
+  FDAO
+    .DAO
+    .SQL
+      .Fields('grp.grpcodigo, CAP_FIRST(grp.grpidentificacao) grpidentificacao, concat('+QuotedStr( '/stream/grp/')+',grp.grpcodigo,'+QuotedStr('.png')+ ' )  '+' as grpimagem,concat('+QuotedStr('grp_')+', LPAD(grp.grpcodigo,6,'+quotedstr('0')+')) grpcaminho , '+ ' (IF((select count(sfnquantidade) from  v_sfn where v_sfn.grpcodigo=grp.grpcodigo)=0,'+QuotedStr('Simples')+','+QuotedStr('Sabores')+'))'        +' grptipo' )
+      .Where('grp.sipcodigo=1 and grp.grpremoto=1')
+      .OrderBy('grp.grpordem')
+    .&End
+   .Find;
+
+
+    if not FDAO.DataSet.IsEmpty then
+    begin
+      Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+    end
+    else
+    begin
+      res.Status(204);
+    end;
+end;
+
+
+
+
+end.
+

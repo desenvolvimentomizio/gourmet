@@ -1,0 +1,369 @@
+unit GourmetAIQ.Controller.PedidoAIQGourmet;
+
+interface
+
+uses
+  REST.Types,
+  System.Json,
+  REST.Json,
+  REST.Client,
+  System.Generics.Collections,
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+  GourmetAIQ.DataModulo.PedidoAIQGourmet,
+  GourmetAIQ.Model.Entity.PedidoAIQGourmet,
+  GourmetAIQ.Service.Funcoes, System.Classes;
+
+function BuscaPedidosRegistradosGourmet(vcznchave: Integer; vListaPedidos: TList): Integer;
+function BuscaPedidosProcessadosGourmet(vcznchave: Integer; vListaPedidos: TList): Integer;
+function GravaPedidoGourmet(vPedidoGourmet: TPedidoAIQGourmet): Integer;
+function ConsultaPedidoAIQGourmet(vPedido: String): Integer;
+function CarregaPedidosRegistradosGourmet(vcznchave: Integer): TList;
+function CarregaPedidosGourmet(vcznchave: Integer): TList;
+function RemoveOrcamentoGourmet(vPedido: string): Integer;
+function AjustaStatusPedidoGourmet(vNumeroPedido:string; vStatus:string): Integer;
+
+
+implementation
+
+uses
+  System.SysUtils, uFormGourmetAIQ;
+
+function CarregaPedidosRegistradosGourmet(vcznchave: Integer): TList;
+var
+  vlListaPedidos: TList;
+begin
+  vlListaPedidos := TList.Create;
+  if BuscaPedidosRegistradosGourmet(vcznchave, vlListaPedidos) = 200 then
+  begin
+    result := vlListaPedidos;
+  end
+  else
+  begin
+    result := nil;
+  end;
+
+end;
+
+function CarregaPedidosGourmet(vcznchave: Integer): TList;
+var
+  vlListaPedidos: TList;
+begin
+
+  vlListaPedidos := TList.Create;
+
+  FormGourmetAIQ.logs.Lines.Add('59 linha vai carregar processados');
+
+
+  if BuscaPedidosProcessadosGourmet(vcznchave, vlListaPedidos) = 200 then
+  begin
+    result := vlListaPedidos;
+  end
+  else
+  begin
+    result := nil;
+  end;
+
+
+
+
+end;
+
+function ConsultaPedidoAIQGourmet(vPedido: String): Integer;
+var
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+begin
+  try
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmGET;
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoaiq/' + vPedido;
+
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(500);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+  finally
+    vDMPedidoAIQGourmet.Free;
+  end;
+end;
+
+function RemoveOrcamentoGourmet(vPedido: string): Integer;
+var
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+begin
+  try
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmDELETE;
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoaiq/' + vPedido;
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(500);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+  finally
+    vDMPedidoAIQGourmet.Free;
+  end;
+end;
+
+function AjustaStatusPedidoGourmet(vNumeroPedido:string; vStatus:string): Integer;
+var
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+begin
+  try
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmPOST;
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoaiq/'+vNumeroPedido;
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+
+
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Body.Add(  TJsonObject.create.AddPair('status',vStatus));
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(500);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+  finally
+    vDMPedidoAIQGourmet.Free;
+  end;
+
+end;
+
+
+
+function GravaPedidoGourmet(vPedidoGourmet: TPedidoAIQGourmet): Integer;
+var
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+begin
+  try
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmPOST;
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoaiq/';
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+
+    FormGourmetAIQ.logs.Lines.Add(datetimetostr(now()) + ' 187 Grava pedido url pedido: '+vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL);
+
+
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Body.Add(vPedidoGourmet);
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(2000);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+    FormGourmetAIQ.logs.Lines.Add(datetimetostr(now()) + ' 202 Status pedido: ' + IntToStr(vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode));
+
+  finally
+    vDMPedidoAIQGourmet.Free;
+  end;
+end;
+
+function BuscaPedidosRegistradosGourmet(vcznchave: Integer; vListaPedidos: TList): Integer;
+var
+
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+  PedidoGourmet: TPedidoAIQGourmet;
+  aObject: TJSONObject;
+  vlJSONData: TJsonvalue;
+  vlArrayPedidos: TJsonarray;
+  i: Integer;
+  texto: string;
+  vlHora: string;
+
+begin
+
+  try
+
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmGET;
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoaiqczn/' + vcznchave.ToString;
+
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(500);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+    if vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode = 200 then
+    begin
+
+      vlJSONData := TJSONObject.ParseJSONValue(vDMPedidoAIQGourmet.RESTResponseGourmet.Content, False);
+      texto := vlJSONData.ToString;
+
+      vlArrayPedidos := TJsonarray.Create;
+      vlArrayPedidos := vlJSONData.getvalue<TJsonarray>;
+
+      texto := vlArrayPedidos.ToString;
+
+      for i := 0 to vlArrayPedidos.Count - 1 do
+      begin
+        PedidoGourmet := TPedidoAIQGourmet.Create;
+
+        PedidoGourmet.aiqchave := vlArrayPedidos[i].getvalue('aiqchave', '').ToInteger;
+        PedidoGourmet.aiqpedido := vlArrayPedidos[i].getvalue('aiqpedido', '');
+        PedidoGourmet.aiqstatus := vlArrayPedidos[i].getvalue('aiqstatus', '');
+        PedidoGourmet.orcchave := vlArrayPedidos[i].getvalue('orcchave', '').ToInteger;
+        PedidoGourmet.etdidentificacao := vlArrayPedidos[i].getvalue('etdidentificacao', '');
+        PedidoGourmet.immnumepedido := vlArrayPedidos[i].getvalue('immnumepedido', '');
+        PedidoGourmet.aiqregistro := vlArrayPedidos[i].getvalue('aiqregistro', '');
+        vlHora := vlArrayPedidos[i].getvalue('immhoraimpresso', '');
+        if vlHora <> '0' then
+        begin
+          PedidoGourmet.immhoraimpresso := vlArrayPedidos[i].getvalue('immhoraimpresso', '');
+        end;
+
+        vListaPedidos.Add(PedidoGourmet);
+
+      end;
+
+    end;
+
+  finally
+    vlJSONData.Free;
+    vDMPedidoAIQGourmet.Free;
+  end;
+
+end;
+
+function BuscaPedidosProcessadosGourmet(vcznchave: Integer; vListaPedidos: TList): Integer;
+var
+
+  vDMPedidoAIQGourmet: TDMPedidoAIQGourmet;
+  PedidoGourmet: TPedidoAIQGourmet;
+  aObject: TJSONObject;
+  vlJSONData: TJsonvalue;
+  vlArrayPedidos: TJsonarray;
+  i: Integer;
+
+begin
+
+  try
+
+    vDMPedidoAIQGourmet := TDMPedidoAIQGourmet.Create(nil);
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Clear;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Method := TRESTRequestMethod.rmGET;
+
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params.Add;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].ContentType := ctAPPLICATION_JSON;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Kind := pkREQUESTBODY;
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].name := 'body';
+    vDMPedidoAIQGourmet.RESTRequestGourmet.Params[0].Options := [poDoNotEncode];
+    vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL := vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL + '/pedidoprocessadoaiqczn/' + vcznchave.ToString;
+
+    FormGourmetAIQ.logs.Lines.Add('313 - url: '+vDMPedidoAIQGourmet.RESTClientGourmet.BaseURL );
+
+    try
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    except
+      sleep(500);
+      vDMPedidoAIQGourmet.RESTRequestGourmet.Execute;
+    end;
+
+    result := vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode;
+
+    FormGourmetAIQ.logs.Lines.Add('317 - status: '+result.ToString );
+   // FormGourmetAIQ.logs.Lines.Clear;
+
+    if (vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode = 200) or
+       (vDMPedidoAIQGourmet.RESTResponseGourmet.StatusCode = 204) then
+    begin
+
+      vlJSONData := TJSONObject.ParseJSONValue(vDMPedidoAIQGourmet.RESTResponseGourmet.Content, False);
+
+      if vlJSONData<>nil then
+      begin
+
+
+      vlArrayPedidos := TJsonarray.Create;
+      vlArrayPedidos := vlJSONData.getvalue<TJsonarray>;
+
+
+      FormGourmetAIQ.logs.Lines.Add('328 - Pedidos: '+vlArrayPedidos.Count.ToString );
+
+      for i := 0 to vlArrayPedidos.Count - 1 do
+      begin
+        PedidoGourmet := TPedidoAIQGourmet.Create;
+
+        PedidoGourmet.aiqchave := vlArrayPedidos[i].getvalue('aiqchave', '').ToInteger;
+        PedidoGourmet.aiqpedido := vlArrayPedidos[i].getvalue('aiqpedido', '');
+        PedidoGourmet.aiqstatus := vlArrayPedidos[i].getvalue('aiqstatus', '');
+        PedidoGourmet.orcchave := vlArrayPedidos[i].getvalue('orcchave', '').ToInteger;
+        PedidoGourmet.etdidentificacao := vlArrayPedidos[i].getvalue('etdidentificacao', '');
+        PedidoGourmet.immnumepedido := vlArrayPedidos[i].getvalue('immnumepedido', '');
+        PedidoGourmet.immhoraimpresso := vlArrayPedidos[i].getvalue('immhoraimpresso', '');
+        PedidoGourmet.aiqsaida := vlArrayPedidos[i].getvalue('orchoraentrega', '');
+        vListaPedidos.Add(PedidoGourmet);
+
+      end;
+
+      end
+      else
+      begin
+         FormGourmetAIQ.logs.Lines.Add('354 - Sem Pedidos ');
+
+      end;
+    end;
+
+  finally
+    vlJSONData.Free;
+    vDMPedidoAIQGourmet.Free;
+  end;
+
+end;
+
+end.

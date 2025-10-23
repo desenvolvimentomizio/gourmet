@@ -1,0 +1,188 @@
+unit ufimpgou;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, DBAccess, Uni,
+  UniProvider, MySQLUniProvider, DASQLMonitor, UniSQLMonitor, inifiles, MemDS,
+  Vcl.Imaging.pngimage, frxRich;
+
+Function IniciaPorta(Porta: Ansistring): Integer; Stdcall; Far; External 'MP2032.DLL';
+Function FechaPorta: Integer; Stdcall; Far; External 'MP2032.DLL';
+Function ConfiguraModeloImpressora(ModeloImpressora: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
+Function ImprimeBmpEspecial(Name: Ansistring; XScale: Integer; YScale: Integer; Angle: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
+Function AcionaGuilhotina(Modo: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
+Function Le_Status: Integer; Stdcall; Far; External 'MP2032.DLL';
+Function HabilitaEsperaImpressao(Flag: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
+
+type
+  Tfimpgou = class(TForm)
+    imprimir: TTimer;
+    UniSQLMonitor: TUniSQLMonitor;
+    MySQLUniProvider: TMySQLUniProvider;
+    Conexao: TUniConnection;
+    consulta: TUniQuery;
+    Image1: TImage;
+    tcisituacao: TUniQuery;
+    plmensagem: TPanel;
+    frxRichObject1: TfrxRichObject;
+    procedure imprimirTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+
+    function conectabanco: boolean;
+
+    { Private declarations }
+  public
+    { Public declarations }
+    vporta: string;
+    vArquivo: string;
+    vTciCodigo: string;
+    vimms: string;
+  end;
+
+var
+  fimpgou: Tfimpgou;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tfimpgou.FormShow(Sender: TObject);
+begin
+  vArquivo := paramstr(1);
+  vporta := paramstr(2);
+  vimms := paramstr(3);
+  vTciCodigo := paramstr(4);
+  imprimir.Enabled := true;
+end;
+
+function Tfimpgou.conectabanco: boolean;
+Var
+  arquini: TIniFile;
+  vnomebanco: String;
+  vportabanco: String;
+  vservidor: String;
+  vusuario: String;
+  vsenha: String;
+  vCaminho: string;
+Begin
+
+  arquini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'gourmeterp.ini');
+  vCaminho := ExtractFilePath(Application.ExeName);
+  With arquini Do
+  Begin
+
+    vnomebanco := ReadString('posi', 'nomebanco', 'mizio');
+    vservidor := ReadString('posi', 'servidor', '127.0.0.1');
+    vusuario := ReadString('posi', 'usuario', 'root');
+    vsenha := ReadString('posi', 'senha', 'xda973');
+    vportabanco := ReadString('posi', 'portabanco', '3306');
+
+  End;
+  arquini.Free;
+
+  Conexao.Connected := false;
+  Conexao.Database := vnomebanco;
+  Conexao.Username := vusuario;
+  Conexao.Password := vsenha;
+  Conexao.Port := StrToInt(vportabanco);
+  Conexao.Server := vservidor;
+  Conexao.Connected := true;
+  result := Conexao.Connected;
+
+End;
+
+procedure Tfimpgou.imprimirTimer(Sender: TObject);
+var
+  vlRetorno: Integer;
+  vltentativas: Integer;
+begin
+
+  imprimir.Enabled := false;
+
+  vltentativas := 0;
+  if conectabanco then
+  begin
+
+    while true do
+    begin
+
+      HabilitaEsperaImpressao(1);
+
+      self.Caption := 'Impressora ' + vporta;
+      Application.ProcessMessages;
+      vlRetorno := ConfiguraModeloImpressora(7);
+      vlRetorno := IniciaPorta(vporta);
+      vlRetorno := Le_Status();
+      if vlRetorno = 24 then
+      begin
+
+        tcisituacao.Close;
+        tcisituacao.SQL.Text := 'select tcicodigo, tciimprimindo from tci where tcicodigo=' + vTciCodigo;
+        tcisituacao.Open;
+
+        tcisituacao.Edit;
+        tcisituacao.FieldByName('tciimprimindo').AsString := datetimetostr(now());
+        tcisituacao.post;
+        plmensagem.Caption := 'imprimindo ...';
+        Application.ProcessMessages;
+        if ImprimeBmpEspecial(pchar(vArquivo), 80, 80, 0) = 1 then
+        begin
+
+          if IniciaPorta(vporta) = 1 then
+          begin
+
+            if AcionaGuilhotina(0) = 1 then
+            begin
+
+              tcisituacao.Edit;
+              tcisituacao.FieldByName('tciimprimindo').AsString := '';
+              tcisituacao.post;
+              FechaPorta;
+              break;
+
+            end;
+
+          end;
+
+        end;
+
+        vltentativas := vltentativas + 1;
+
+        if vltentativas > 10 then
+        begin
+
+          plmensagem.Caption := Inttostr(vltentativas) + ' Tentativa ...';
+          Application.ProcessMessages;
+          tcisituacao.Close;
+          tcisituacao.SQL.Text := 'select tcicodigo, tciimprimindo from tci where tcicodigo=' + vTciCodigo;
+          tcisituacao.Open;
+
+          tcisituacao.Edit;
+          tcisituacao.FieldByName('tciimprimindo').AsString := '';
+          tcisituacao.post;
+
+          consulta.Close;
+          consulta.SQL.Text := 'update imm set immhoraimpresso=' + QuotedStr('') + ' where immchave in (' + vimms + ')';
+          consulta.ExecSQL;
+          break;
+        end;
+
+      end
+      else
+      begin
+        FechaPorta;
+        sleep(500);
+      end;
+    end;
+    Close;
+  end
+  else
+    Close;
+
+end;
+
+
+end.

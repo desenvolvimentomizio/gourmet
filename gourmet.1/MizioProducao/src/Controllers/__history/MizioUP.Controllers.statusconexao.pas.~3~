@@ -1,0 +1,35 @@
+unit MizioUP.Controllers.statusconexao;
+
+interface
+
+uses
+  System.SysUtils,
+  RESTRequest4D,
+  REST.Types,
+  System.JSON;
+
+function StatusConexao(Const AIpServer:String):Integer;
+
+implementation
+
+
+function StatusConexao(Const AIpServer:String):Integer;
+var
+  resposta: IResponse;
+begin
+
+  try
+
+    resposta := TRequest.New.BaseURL('http://' + AIpServer + ':9191/')
+              .Resource('test')
+              .Get;
+
+  result := resposta.StatusCode;
+
+  Except
+    result := 500;
+  end;
+end;
+
+
+end.

@@ -1,0 +1,632 @@
+unit uFprinciMonitorIntegracao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, DASQLMonitor, inifiles,registry,
+  UniSQLMonitor, UniProvider, MySQLUniProvider, Data.DB, DBAccess, Uni, MemDS,
+  AIQCFG,uDMAIQ,json, constants,REST.Types,REST.Authenticator.OAuth;
+
+type
+  TfMonitorIntegracao = class(TForm)
+    tmInicializar: TTimer;
+    conexao: TUniConnection;
+    MySQLUniProvider: TMySQLUniProvider;
+    UniSQLMonitor1: TUniSQLMonitor;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgetddoc1: TStringField;
+    consulta: TUniQuery;
+    pltopo: TPanel;
+    plCznchave: TPanel;
+    plRelogio: TPanel;
+    tmRelogio: TTimer;
+    orcs: TUniQuery;
+    orcsorcchave: TIntegerField;
+    orcspdgnumero: TStringField;
+    cfgcfgmgoutokenaiq: TStringField;
+    cfgcfgmgourefreshaiq: TStringField;
+    cfgcfgmgouvalidadeaiq: TDateTimeField;
+    cfgcfgmgouidlojaaiq: TStringField;
+    cfgcfgmgouemaillojaaiq: TStringField;
+    cfgcfgmgousenhalojaaiq: TStringField;
+    cfgcfgmgousituacaolojaaiq: TStringField;
+    plTopo2: TPanel;
+    plSituacao: TPanel;
+    procedure tmInicializarTimer(Sender: TObject);
+    procedure tmRelogioTimer(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
+
+  private
+
+    vpNomeBanco :String;
+    vpIpServidor :String;
+    vpUsuario :String;
+    vpSenha :String;
+    vpPorta :String;
+    vpFilial :String;
+    vpCznChave: String;
+
+    vpAIQCFG : TAIQCFG;
+    vpPastaPrincipal:String;
+
+    procedure CarregaDadosIni;
+    procedure Inicializar;
+    function BancoConectado: Boolean;
+    procedure AjustaSitucaoCozinha;
+    procedure AjustaStatusIntegracao;
+    function MarcaPedidoLidoAIQ(vToken, vPedido, vAgente: string): Boolean;
+    function VerificaToken: Boolean;
+    function GerarTokenAIQ(vAIQ: TAIQCFG): TAIQCFG;
+    procedure GerarToken(vAIQCFG: TAIQCFG);
+    procedure CarregaDados(aAIQCFG: TAIQCFG);
+    function VerificaSituacaoLoja: string;
+    function CarregaIDLojaAIQ(vAIQ: TAIQCFG): TAIQCFG;
+    function AjustaAutenticacaoAIQ(vOAuth2Authenticator: TOAuth2Authenticator;
+      vtoken: string): TOAuth2Authenticator;
+
+    { Private declarations }
+
+
+  public
+    { Public declarations }
+  end;
+
+var
+  fMonitorIntegracao: TfMonitorIntegracao;
+
+implementation
+
+uses
+  System.DateUtils;
+
+
+{$R *.dfm}
+
+Procedure RunOnStartup(sProgTitle, sCmdLine: String; bRunOnce: Boolean; aChave: String);
+Var
+  sKey: String;
+  Reg: TRegIniFile;
+Begin
+  Try
+
+    sKey := extractfilename(sCmdLine) + '.' + aChave;
+    sKey := StringReplace(sKey, '.', '_', [rfReplaceAll, rfIgnoreCase]);
+
+    Reg := TRegIniFile.Create('');
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    Reg.WriteString('Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Run', sKey + #0 + sProgTitle, sCmdLine);
+
+    Reg.Free;
+  Except
+    Reg.Free;
+  End;
+End;
+
+Function SoNumeros(Const Texto: String): String;
+
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: Integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+
+procedure TfMonitorIntegracao.CarregaDadosIni;
+var
+  vlArquIni: TInifile;
+
+begin
+
+
+
+  try
+    vlArquIni := TInifile.Create(extractfilepath(application.ExeName) +  'GourmetERP.ini');
+
+    With vlArquIni Do
+    Begin
+      vpNomeBanco := ReadString('posi', 'nomebanco', 'pegasus');
+      vpIpServidor := ReadString('posi', 'servidor', '127.0.0.1');
+      vpUsuario := ReadString('posi', 'usuario', 'root');
+      vpSenha := ReadString('posi', 'senha', 'xda973');
+      vpPorta := ReadString('posi', 'portabanco', '3306');
+      vpFilial :='1';
+
+    End;
+
+
+  finally
+    vlArquIni.Free;
+  end;
+end;
+
+
+procedure TfMonitorIntegracao.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  tmRelogio.Enabled:=false;
+
+end;
+
+procedure TfMonitorIntegracao.FormShow(Sender: TObject);
+begin
+  tmInicializar.Enabled:=True;
+end;
+
+Function TfMonitorIntegracao.BancoConectado: Boolean;
+Var
+  iTentativas: Integer;
+Begin
+
+  try
+    Result := false;
+
+    If conexao.Connected Then
+    begin
+      Result := True;
+      exit;
+    end;
+
+    for iTentativas := 0 to 30 Do
+    Begin
+      Try
+
+        conexao.Connected := false;
+        conexao.Database := vpNomeBanco;
+        conexao.Username := 'root';
+        conexao.Password := vpSenha;
+        conexao.port := vpPorta.ToInteger;
+        conexao.Server := vpIpServidor;
+        conexao.Connected := True;
+
+        If conexao.Connected Then
+        Begin
+          Result := True;
+          Break;
+        End;
+
+      Except
+
+        sleep(2000);
+
+      End;
+    End;
+  except
+    conexao.Connected := false;
+  end;
+End;
+
+procedure TfMonitorIntegracao.AjustaSitucaoCozinha;
+begin
+  consulta.Close;
+  consulta.SQL.Text := 'select cznchave from czn where cznfechamento IS null order by cznchave limit 1';
+  consulta.Open;
+  if consulta.IsEmpty then
+  begin
+    vpCznChave := '000000';
+    plCznchave.Caption := 'Cozinha: FECHADA';
+  end
+  else
+  begin
+    vpCznChave := consulta.Fields[0].AsString;
+    plCznchave.Caption := 'Cozinha: ' + formatfloat('000000', vpCznChave.ToInteger);
+  end;
+  consulta.close;
+end;
+
+
+procedure TfMonitorIntegracao.AjustaStatusIntegracao;
+var
+  vlOrcStatusIntegracao:String;
+  vlOriCodigo:Integer;
+  vlPastaPedido:String;
+  vlNomeArquivo:String;
+begin
+
+  vlPastaPedido:= Extractfilepath(application.ExeName)+'pedidos\'+formatfloat('000000',vpCznChave.ToInteger) ;
+
+  orcs.Close;
+  orcs.Open;
+
+  while not orcs.Eof do
+  begin
+     vlNomeArquivo:='ped'+FormatFloat('0000',orcspdgnumero.AsInteger) +'.bmp';
+     if fileexists(vlPastaPedido+vlNomeArquivo) then
+     begin
+        consulta.Close;
+        consulta.sql.Text:='update orc set orcstatusintegracao=1, orchoraintregacao=now() where orcchave='+orcsorcchave.AsString;
+        consulta.ExecSQL;
+     end;
+    orcs.Next;
+  end;
+
+end;
+
+
+function TfMonitorIntegracao.VerificaSituacaoLoja: string;
+begin
+
+  if VerificaToken then
+  begin
+
+    CarregaIDLojaAIQ(vpAIQCFG);
+
+
+    if vpAIQCFG.cfgmgousituacaolojaaiq = 'OPEN' then
+    begin
+      plSituacao.caption := 'Loja Aberta';
+      plSituacao.Font.Color := clGreen;
+      plSituacao.Color := $002D2D2D;
+      plSituacao.Visible := True;
+    end
+    else if vpAIQCFG.cfgmgousituacaolojaaiq = 'CLOSED' then
+    begin
+      plSituacao.caption := 'Loja Fechada';
+      plSituacao.Font.Color := clred;
+      plSituacao.Color := clYellow;
+      plSituacao.Visible := True;
+    end
+    else
+    begin
+      plSituacao.caption := 'Verificar';
+      plSituacao.Visible := True;
+    end;
+
+    Application.ProcessMessages;
+
+    Result := vpAIQCFG.cfgmgousituacaolojaaiq;
+
+  end
+  else
+  begin
+    Result := 'OFF LINE';
+    plSituacao.caption := 'Sem Conexão com GourmetServer';
+    plSituacao.Font.Color := clred;
+    if (plSituacao.parent is TPanel) then
+    begin
+      (plSituacao.parent as TPanel).Color := clYellow;
+    end;
+    plSituacao.Visible := True;
+
+  end;
+end;
+
+
+procedure TfMonitorIntegracao.CarregaDados(aAIQCFG:TAIQCFG);
+var
+  vlvalidade:String;
+begin
+
+  cfg.Close;
+  cfg.Open;
+
+  aAIQCFG.cfgCodigo := cfgcfgcodigo.asinteger;
+  aAIQCFG.cfgmgoutokenaiq := cfgcfgmgoutokenaiq.AsString;
+  aAIQCFG.cfgmgourefreshaiq := cfgcfgmgourefreshaiq.AsString;
+  vlvalidade := trim(cfgcfgmgouvalidadeaiq.AsString);
+  if (vlvalidade <> '//') and (vlvalidade <> '') then
+  begin
+  aAIQCFG.cfgmgouvalidadeaiq := strtodatetime(cfgcfgmgouvalidadeaiq.asstring);
+  end;
+  aAIQCFG.cfgmgouidlojaaiq := cfgcfgmgouidlojaaiq.asstring;
+  aAIQCFG.cfgmgouemaillojaaiq := cfgcfgmgouemaillojaaiq.asstring;
+  aAIQCFG.cfgmgousenhalojaaiq := cfgcfgmgousenhalojaaiq.asstring;
+  aAIQCFG.cfgmgousituacaolojaaiq :=cfgcfgmgousituacaolojaaiq.asstring;
+
+  VerificaSituacaoLoja;
+
+
+end;
+
+
+procedure TfMonitorIntegracao.Inicializar;
+var
+  I: Integer;
+begin
+
+  if not BancoConectado then
+  begin
+    SHOWMESSAGE('NÃO CONECOTU NO BANCO LOCAL');
+    application.Terminate;
+  end;
+
+  for I := 0 to self.ComponentCount - 1 do
+  begin
+    if self.Components[I] is TUniQuery then
+      (self.Components[I] as TUniQuery).Connection := self.conexao;
+    if self.Components[I] is tunitable then
+      (self.Components[I] as tunitable).Connection := self.conexao;
+  end;
+  cfg.ParamByName('flacodigo').AsString := vpFilial;
+  cfg.Open;
+
+  vpPastaPrincipal := extractfilepath(application.ExeName);
+
+
+  vpAIQCFG := TAIQCFG.Create;
+
+
+
+
+end;
+
+
+
+procedure TfMonitorIntegracao.tmInicializarTimer(Sender: TObject);
+var
+  vlAplicativo: string;
+  vlChaveAplicativo: string;
+begin
+
+  try
+
+    tmInicializar.Enabled := false;
+
+    CarregaDadosIni;
+
+    Inicializar;
+
+    if BancoConectado then
+    begin
+
+      cfg.Close;
+      cfg.Connection:=conexao;
+      cfg.ParamByName('flacodigo').AsString := '1';
+      cfg.Open;
+
+      vlAplicativo := StringReplace(application.ExeName, 'new.', '', []);
+      vlChaveAplicativo := SoNumeros(cfgetddoc1.AsString);
+
+      RunOnStartup('Mizio - Monitor Integracao', vlAplicativo, false, vlChaveAplicativo);
+
+      CreateMutex(nil, false, PChar('MizioMonitorIntegracao.OnlyOne.' + extractfilename(application.ExeName) + SoNumeros(cfgetddoc1.AsString)));
+
+      if GetLastError = ERROR_ALREADY_EXISTS then
+      begin
+        Halt(0); // cancela execução
+      end;
+
+      RunOnStartup('Mizio - Monitor Integração', StringReplace(application.ExeName, 'new.', '', []), false, SoNumeros(cfgetddoc1.AsString));
+
+      self.WindowState := wsNormal;
+
+      tmRelogio.Enabled:=true;
+
+
+    end;
+  finally
+
+  end;
+
+
+end;
+
+procedure TfMonitorIntegracao.tmRelogioTimer(Sender: TObject);
+begin
+
+  try
+
+    tmRelogio.Enabled:=False;
+    plRelogio.Caption:=timetostr(now());
+    AjustaSitucaoCozinha;
+
+    if vpCznChave<>'000000' then
+    begin
+      AjustaStatusIntegracao;
+    end;
+
+  finally
+    tmRelogio.Enabled:=True;
+  end;
+
+end;
+
+
+function TfMonitorIntegracao.AjustaAutenticacaoAIQ(vOAuth2Authenticator: TOAuth2Authenticator; vtoken: string): TOAuth2Authenticator;
+begin
+
+  vOAuth2Authenticator.TokenType := TOAuth2TokenType.ttBEARER;
+  vOAuth2Authenticator.AccessToken := vtoken;
+  result := vOAuth2Authenticator;
+
+end;
+
+Function TfMonitorIntegracao.CarregaIDLojaAIQ(vAIQ: TAIQCFG): TAIQCFG;
+var
+  vlDMAIQ: TDMAIQ;
+
+  vlJSONData: TJsonvalue;
+  vJSONItens: TJSONArray;
+  vJSONPair: TJSONPair;
+  vJSONObject: TJSONObject;
+  a: string;
+begin
+
+
+  try
+    vlDMAIQ := TDMAIQ.Create(nil);
+    vlDMAIQ.RESTClientAIQ.Authenticator := AjustaAutenticacaoAIQ(vlDMAIQ.OAuth2AuthenticatorAIQ, vAIQ.cfgmgouTokenAIQ);
+    vlDMAIQ.RESTClientAIQ.BaseURL := urlbase + PATH_ID_LOJA;
+    vlDMAIQ.RESTRequestAIQ.Method := TRESTRequestMethod.rmGET;
+
+    vlDMAIQ.RESTClientAIQ.Authenticator := vlDMAIQ.OAuth2AuthenticatorAIQ;
+    vlDMAIQ.RESTRequestAIQ.Params.Clear;
+    vlDMAIQ.RESTRequestAIQ.Params.AddHeader('Aiq-User-Agent', 'Pegasus (' + vAIQ.cfgmgouemaillojaaiq + ')');
+
+    try
+      vlDMAIQ.RESTRequestAIQ.Execute;
+    except
+      sleep(2000);
+      vlDMAIQ.RESTRequestAIQ.Execute;
+    end;
+
+    a := vlDMAIQ.RESTResponseAIQ.Content;
+    if vlDMAIQ.RESTResponseAIQ.StatusCode = 200 then
+    begin
+
+      vlJSONData := TJSONObject.ParseJSONValue(vlDMAIQ.RESTResponseAIQ.Content, False);
+      vJSONItens := vlJSONData.GetValue<TJSONArray>('data');
+
+      vJSONObject := vJSONItens.Items[0].GetValue<TJSONObject>();
+
+      vJSONPair := vJSONObject.Get('id');
+      vAIQ.cfgmgouIDlojaAIQ := StringReplace(vJSONPair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+      vJSONPair := vJSONObject.Get('status');
+      vAIQ.cfgmgousituacaolojaaiq := StringReplace(vJSONPair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+    end;
+    result := vAIQ;
+  finally
+    vlDMAIQ.free;
+  end;
+
+end;
+
+
+Function TfMonitorIntegracao.GerarTokenAIQ(vAIQ: TAIQCFG): TAIQCFG;
+var
+  vlDMAIQ: TDMAIQ;
+  vlJSONData: TJsonvalue;
+  vJSONItem: TJSONObject;
+  vJSONPair: TJSONPair;
+  a: string;
+  d:TDateTime;
+begin
+
+  try
+    vlDMAIQ := TDMAIQ.Create(nil);
+    vlDMAIQ.RESTClientAIQ.Authenticator := vlDMAIQ.HTTPBasicAuthenticatorAIQ;
+
+    vlDMAIQ.HTTPBasicAuthenticatorAIQ.Username := Client_ID;
+    vlDMAIQ.HTTPBasicAuthenticatorAIQ.Password := Client_Secret;
+
+    vlDMAIQ.RESTClientAIQ.BaseURL := urlbase + PATH_TOKEN;
+    vlDMAIQ.RESTRequestAIQ.Params.Clear;
+    /// * vAIQ.cfgmgouemaillojaaiq */
+    vlDMAIQ.RESTRequestAIQ.Params.AddHeader('Aiq-User-Agent', 'pegasus(daniel@pegasussistemas.com.br)');
+
+
+    vlDMAIQ.RESTRequestAIQ.Body.Add('{"username" : "' + vAIQ.cfgmgouemaillojaaiq + '", "password" : "' + vAIQ.cfgmgousenhalojaaiq + '"}',
+      TRESTContentType.ctAPPLICATION_JSON);
+
+    try
+      vlDMAIQ.RESTRequestAIQ.Execute;
+    except
+      sleep(2000);
+      vlDMAIQ.RESTRequestAIQ.Execute;
+    end;
+
+    if vlDMAIQ.RESTResponseAIQ.StatusCode = 200 then
+    begin
+
+      vlJSONData := TJSONObject.ParseJSONValue(vlDMAIQ.RESTResponseAIQ.Content, False);
+      a := vlJSONData.ToString;
+      vJSONItem := vlJSONData.GetValue<TJSONObject>('data');
+
+      vJSONPair := vJSONItem.Get('access_token');
+      vAIQ.cfgmgouTokenAIQ := StringReplace(vJSONPair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+      vJSONPair := vJSONItem.Get('expires_in');
+      a:=vJSONPair.JsonValue.ToString;
+
+      vAIQ.cfgmgouValidadeAIQ := strtodatetime(datetimetostr(IncSecond(now(), (StrToInt(vJSONPair.JsonValue.ToString) div 8) )));
+
+    end;
+    result := vAIQ;
+  finally
+    vlDMAIQ.free;
+  end;
+
+end;
+
+procedure TfMonitorIntegracao.GerarToken(vAIQCFG: TAIQCFG);
+begin
+  vpAIQCFG := GerarTokenAIQ(vAIQCFG);
+end;
+
+
+function TfMonitorIntegracao.VerificaToken: Boolean;
+var
+  vlDiaToken: string;
+  vlDiaHoje: string;
+begin
+  // verifico se tenho um token
+  Result := False;
+  if vpAIQCFG <> NIL then
+  begin
+    if vpAIQCFG.cfgmgoutokenaiq <> '' then
+    begin
+      // verificao se ainda esta valido ou se a validade esta em branco
+
+      // ajusta data para formato delphi se estiver no format sql
+      if pos('-', datetimetostr(vpAIQCFG.cfgmgouValidadeAIQ)) > 0 then
+        vpAIQCFG.cfgmgouValidadeAIQ := vpAIQCFG.cfgmgouValidadeAIQ;
+
+      if (datetostr(vpAIQCFG.cfgmgouValidadeAIQ) <> '// ') and (trim(datetostr(vpAIQCFG.cfgmgouValidadeAIQ)) <> '') then
+      begin
+        // se a validade for inferior ao agora, limpa o token para carregar um novo
+        if vpAIQCFG.cfgmgouValidadeAIQ < now then
+        begin
+          vpAIQCFG.cfgmgoutokenaiq := '';
+        end;
+      end
+      else
+      begin
+        // limpa token se a validade esta em branco
+        vpAIQCFG.cfgmgoutokenaiq := '';
+      end;
+    end;
+    // se estiver sem token, gera um novo e grava no banco de dados
+
+    if pos('/', datetimetostr(vpAIQCFG.cfgmgouValidadeAIQ)) > 0 then
+    begin
+      vlDiaToken := datetostr(vpAIQCFG.cfgmgouValidadeAIQ);
+
+      vlDiaHoje := datetostr(IncHour(now(), 1));
+
+      if vlDiaToken <> vlDiaHoje then
+      begin
+        vpAIQCFG.cfgmgoutokenaiq := '';
+      end;
+
+    end;
+
+    if (vpAIQCFG.cfgmgoutokenaiq = '') then
+    begin
+      try
+        GerarToken(vpAIQCFG);
+      except
+     end;
+    end;
+
+    Result := True;
+
+  end;
+end;
+
+
+
+
+
+Function TfMonitorIntegracao.MarcaPedidoLidoAIQ(vToken: string; vPedido: String; vAgente: string): Boolean;
+begin
+
+end;
+
+
+end.

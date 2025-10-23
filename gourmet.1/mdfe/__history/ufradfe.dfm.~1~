@@ -1,0 +1,521 @@
+inherited fradfe: Tfradfe
+  Height = 595
+  ExplicitHeight = 595
+  inherited PlGeral: TPanel
+    Height = 595
+    ExplicitHeight = 595
+    inherited SplBotoes: TSplitter
+      Height = 575
+      ExplicitHeight = 575
+    end
+    inherited PlBotoes: TPanel
+      Height = 575
+      ExplicitHeight = 575
+      inherited ImageLogoBase: TImage
+        Top = 496
+        ExplicitTop = 496
+      end
+      inherited PlInfo: TPanel
+        Top = 557
+        ExplicitTop = 557
+      end
+      inherited SBBotoes: TScrollBox
+        Height = 496
+        ExplicitHeight = 496
+      end
+    end
+    inherited PlLista: TPanel
+      Height = 575
+      ExplicitHeight = 575
+      inherited SplLista: TSplitter
+        Top = 545
+        ExplicitTop = 545
+      end
+      inherited PlRodaPe: TPanel
+        Top = 550
+        Height = 25
+        Visible = True
+        ExplicitTop = 550
+        ExplicitHeight = 25
+        object lblTotalDocumentos: TLabel
+          Left = 0
+          Top = 0
+          Width = 489
+          Height = 25
+          Align = alLeft
+          AutoSize = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label1: TLabel
+          Left = 508
+          Top = 6
+          Width = 128
+          Height = 13
+          Caption = 'N'#250'mero da '#250'ltima Consulta'
+        end
+        object edtUltimoNSU: TSpinEdit
+          Left = 654
+          Top = 1
+          Width = 75
+          Height = 22
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 0
+          Value = 0
+        end
+      end
+      inherited PlFiltros: TPanel
+        inherited PlBotaoFiltroEsp2: TPanel
+          Enabled = True
+          Visible = True
+        end
+      end
+      inherited PnlGrid: TPanel
+        Height = 416
+        ExplicitHeight = 416
+        inherited DBGLista: TDBGrid
+          Height = 394
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'dfechave'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfechaveacesso'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfeidentificacao'
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfemodelo'
+              Width = 40
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfeserie'
+              Width = 30
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfenumero'
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfeemissao'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfevalor'
+              Width = 85
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'dfemanifestado'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Top = 394
+          Height = 22
+          ExplicitTop = 394
+          ExplicitHeight = 22
+          object mostra: TProgressBar
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 1026
+            Height = 14
+            Align = alClient
+            TabOrder = 0
+          end
+        end
+      end
+    end
+  end
+  inherited acoes: TActionList
+    object ActConsultar: TAction [0]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Consultar XMLS'
+      OnExecute = ActConsultarExecute
+    end
+    object ActConsultarEsta: TAction [1]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Consulta Individual'
+    end
+    object ActManifestar: TAction [2]
+      Category = 'Manuten'#231#227'o'
+      Caption = 'Manifestar'
+      OnExecute = ActManifestarExecute
+    end
+    inherited ActAtualizar: TAction [3]
+    end
+    inherited ActIncluir: TAction [4]
+    end
+    inherited ActAlterar: TAction [5]
+    end
+    inherited ActExcluir: TAction [6]
+    end
+    inherited ActRelatorios: TAction
+      Enabled = False
+      Visible = False
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  dfechave,'
+      '  flacodigo,'
+      '  dfechaveacesso,'
+      '  dfemodelo,'
+      '  dfeserie,'
+      '  dfenumero,'
+      '  dfedoc1,'
+      '  dfeinscest,'
+      '  dfeidentificacao,'
+      '  dfeemissao,'
+      '  dfevalor,'
+      '  dfemanifdatahoraevento,'
+      '  dfemanifprotocolo,'
+      '  dfemanifcestat,'
+      '  dfemanifestado,'
+      '  dfeoperacao,'
+      '  dfedocxml,'
+      '  dfenfexml'
+      ''
+      'FROM dfe')
+    object uqtabeladfechave: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'Registro'
+      FieldName = 'dfechave'
+    end
+    object uqtabelaflacodigo: TIntegerField
+      DisplayLabel = 'Fla'
+      FieldName = 'flacodigo'
+    end
+    object uqtabeladfechaveacesso: TStringField
+      DisplayLabel = 'Chave de Acesso'
+      FieldName = 'dfechaveacesso'
+      Size = 55
+    end
+    object uqtabeladfemodelo: TIntegerField
+      DisplayLabel = 'Modelo'
+      FieldName = 'dfemodelo'
+    end
+    object uqtabeladfeserie: TIntegerField
+      DisplayLabel = 'S'#233'rie'
+      FieldName = 'dfeserie'
+    end
+    object uqtabeladfenumero: TIntegerField
+      DisplayLabel = 'N'#250'mero'
+      FieldName = 'dfenumero'
+    end
+    object uqtabeladfedoc1: TStringField
+      DisplayLabel = 'Documento'
+      FieldName = 'dfedoc1'
+    end
+    object uqtabeladfeinscest: TStringField
+      DisplayLabel = 'Inscri'#231#227'o'
+      FieldName = 'dfeinscest'
+    end
+    object uqtabeladfeidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'dfeidentificacao'
+      Size = 80
+    end
+    object uqtabeladfeemissao: TDateTimeField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'dfeemissao'
+    end
+    object uqtabeladfevalor: TFloatField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'dfevalor'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+    object uqtabeladfemanifdatahoraevento: TDateTimeField
+      DisplayLabel = 'Registro do Evento'
+      FieldName = 'dfemanifdatahoraevento'
+    end
+    object uqtabeladfemanifprotocolo: TStringField
+      DisplayLabel = 'Protocolo'
+      FieldName = 'dfemanifprotocolo'
+    end
+    object uqtabeladfemanifcestat: TIntegerField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'dfemanifcestat'
+    end
+    object uqtabeladfemanifestado: TIntegerField
+      DisplayLabel = 'Manifestado'
+      FieldName = 'dfemanifestado'
+    end
+    object uqtabeladfeoperacao: TIntegerField
+      FieldName = 'dfeoperacao'
+    end
+    object uqtabeladfedocxml: TBlobField
+      FieldName = 'dfedocxml'
+    end
+    object uqtabeladfenfexml: TBlobField
+      FieldName = 'dfenfexml'
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libCustom
+    Configuracoes.Geral.SSLCryptLib = cryWinCrypt
+    Configuracoes.Geral.SSLHttpLib = httpWinINet
+    Configuracoes.Geral.SSLXmlSignLib = xsLibXml2
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.Arquivos.SalvarApenasNFeProcessadas = True
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.Salvar = True
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
+    DANFE = ACBrNFeDANFeRL1
+    Left = 765
+    Top = 354
+  end
+  object ACBrNFeDANFeRL1: TACBrNFeDANFeRL
+    Sistema = '.'
+    Site = '.'
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    ExpandeLogoMarcaConfig.Altura = 0
+    ExpandeLogoMarcaConfig.Esquerda = 0
+    ExpandeLogoMarcaConfig.Topo = 0
+    ExpandeLogoMarcaConfig.Largura = 0
+    ExpandeLogoMarcaConfig.Dimensionar = False
+    ExpandeLogoMarcaConfig.Esticar = True
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais.qCom = 2
+    CasasDecimais.vUnCom = 2
+    CasasDecimais.MaskqCom = ',0.00'
+    CasasDecimais.MaskvUnCom = ',0.00'
+    ACBrNFe = ACBrNFe1
+    AlternaCoresProdutos = True
+    Left = 765
+    Top = 404
+  end
+  object CmdGravarDFe: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  dfechave,'
+      '  flacodigo,'
+      '  dfechaveacesso,'
+      '  dfensu,'
+      '  dfeoperacao,'
+      '  dfesituacao,'
+      '  dfemanifestado,'
+      '  dfemodelo,'
+      '  dfeserie,'
+      '  dfenumero,'
+      '  dfedoc1,'
+      '  dfeinscest,'
+      '  dfeidentificacao,'
+      '  dfeemissao,'
+      '  dfevalor,'
+      '  dfedocxml'
+      'FROM dfe where dfechaveacesso=:dfechaveacesso')
+    Left = 776
+    Top = 205
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'dfechaveacesso'
+        Value = nil
+      end>
+  end
+  object CmdManifestarDFe: TUniQuery
+    Left = 896
+    Top = 205
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  /*Emiss'#227'o NFe*/'
+      '  cfgmnfe.cfgviasnfe,'
+      '  cfgmnfe.cfgnumeronfe,'
+      '  cfgmnfe.cfgserienfe,'
+      '  cfgmnfe.cfgnumeronfce,'
+      '  cfgmnfe.cfgserienfce,'
+      '  cfgmnfe.cfgobs1,'
+      '  cfgmnfe.cfgobs2,'
+      '  cfgmnfe.cfgobs3,'
+      '  cfgmnfe.cfgobs4,'
+      '  cfgmnfe.cfgdescrinfe,'
+      '  cfgmnfe.cfgmodonfe,'
+      '  cfgmnfe.cfgservarqnfes,'
+      '  cfgmnfe.cfgnumecertifa1,'
+      '  cfgmnfe.cfgsenhacertificado,'
+      '  cfgmnfe.cfgsenhacertificadoa1,'
+      '  cfgmnfe.cfgmodoautenticacao,'
+      '  cfgmnfe.cfgultimonsu,'
+      '  cfgmnfe.cfgdatahoraultimadfe,'
+      '  cfg.cfgusanfc'
+      ''
+      ''
+      '  /*Dados da Empresa*/,'
+      '  etd.etdapelido,'
+      '  etd.etdidentificacao,'
+      '  etd.etddoc1,'
+      '  ufs.ufssigla,'
+      '  ufs.ufscodigo'
+      ''
+      ''
+      'FROM cfgmcfg,'
+      '     cfgmnfe,'
+      '     cfgment,'
+      '     etd,'
+      '     edr,'
+      '     cfg,'
+      '     ufs '
+      ''
+      'WHERE '
+      ' cfg.cfgcodigo = cfgmcfg.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgment.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
+      ''
+      'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND etd.etdcodigo = edr.etdcodigo and edr.tedcodigo=1'
+      '  AND edr.ufscodigo = ufs.ufscodigo'
+      ''
+      ''
+      ''
+      ''
+      ''
+      ''
+      'AND cfg.flacodigo = :flacodigo')
+    Left = 920
+    Top = 333
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'flacodigo'
+        Value = nil
+      end>
+    object cfgcfgultimonsu: TIntegerField
+      FieldName = 'cfgultimonsu'
+    end
+    object cfgcfgviasnfe: TIntegerField
+      FieldName = 'cfgviasnfe'
+      Required = True
+    end
+    object cfgcfgnumeronfe: TIntegerField
+      FieldName = 'cfgnumeronfe'
+      Required = True
+    end
+    object cfgcfgserienfe: TStringField
+      FieldName = 'cfgserienfe'
+      Size = 5
+    end
+    object cfgcfgnumeronfce: TIntegerField
+      FieldName = 'cfgnumeronfce'
+    end
+    object cfgcfgserienfce: TStringField
+      FieldName = 'cfgserienfce'
+      Size = 5
+    end
+    object cfgcfgobs1: TIntegerField
+      FieldName = 'cfgobs1'
+      Required = True
+    end
+    object cfgcfgobs2: TIntegerField
+      FieldName = 'cfgobs2'
+      Required = True
+    end
+    object cfgcfgobs3: TIntegerField
+      FieldName = 'cfgobs3'
+      Required = True
+    end
+    object cfgcfgobs4: TIntegerField
+      FieldName = 'cfgobs4'
+      Required = True
+    end
+    object cfgcfgdescrinfe: TIntegerField
+      FieldName = 'cfgdescrinfe'
+      Required = True
+    end
+    object cfgcfgmodonfe: TIntegerField
+      FieldName = 'cfgmodonfe'
+      Required = True
+    end
+    object cfgcfgservarqnfes: TStringField
+      FieldName = 'cfgservarqnfes'
+      Size = 100
+    end
+    object cfgcfgnumecertifa1: TStringField
+      FieldName = 'cfgnumecertifa1'
+      Size = 100
+    end
+    object cfgcfgsenhacertificado: TStringField
+      FieldName = 'cfgsenhacertificado'
+      Size = 50
+    end
+    object cfgcfgsenhacertificadoa1: TStringField
+      FieldName = 'cfgsenhacertificadoa1'
+      Size = 50
+    end
+    object cfgcfgmodoautenticacao: TIntegerField
+      FieldName = 'cfgmodoautenticacao'
+    end
+    object cfgcfgdatahoraultimadfe: TDateTimeField
+      FieldName = 'cfgdatahoraultimadfe'
+    end
+    object cfgcfgusanfc: TIntegerField
+      FieldName = 'cfgusanfc'
+      ReadOnly = True
+      Required = True
+    end
+    object cfgetdapelido: TStringField
+      FieldName = 'etdapelido'
+      ReadOnly = True
+      Size = 100
+    end
+    object cfgetdidentificacao: TStringField
+      FieldName = 'etdidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object cfgetddoc1: TStringField
+      FieldName = 'etddoc1'
+      ReadOnly = True
+    end
+    object cfgufssigla: TStringField
+      FieldName = 'ufssigla'
+      ReadOnly = True
+      Required = True
+      Size = 3
+    end
+    object cfgufscodigo: TStringField
+      FieldName = 'ufscodigo'
+      Size = 10
+    end
+  end
+end

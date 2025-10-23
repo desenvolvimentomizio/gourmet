@@ -1,0 +1,772 @@
+object fprincigereimpgoufast02: Tfprincigereimpgoufast02
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'Imprimindo'
+  ClientHeight = 564
+  ClientWidth = 625
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object plCozinha: TPanel
+    Left = 72
+    Top = 176
+    Width = 327
+    Height = 34
+    BorderWidth = 3
+    ParentBackground = False
+    TabOrder = 0
+    Visible = False
+  end
+  object plTopo: TPanel
+    Left = 116
+    Top = 278
+    Width = 327
+    Height = 143
+    BevelOuter = bvNone
+    BorderWidth = 4
+    TabOrder = 1
+  end
+  object plsituacao: TPanel
+    Left = 8
+    Top = 8
+    Width = 57
+    Height = 57
+    ParentBackground = False
+    TabOrder = 2
+    object Image1: TImage
+      Left = 8
+      Top = 8
+      Width = 41
+      Height = 41
+      Center = True
+      Picture.Data = {
+        0954506E67496D61676589504E470D0A1A0A0000000D49484452000000200000
+        00200806000000737A7AF40000000473424954080808087C0864880000000970
+        485973000000B1000000B101C62D498D0000001974455874536F667477617265
+        007777772E696E6B73636170652E6F72679BEE3C1A000003E14944415478DACD
+        975F6853571CC77FE7FEC9FD939858EBEC3FB0952954CB50BBC01EBA89831174
+        627DD00761084354442CFAE09BA9A176BED5F5650CE7C62C252DA56E2F7B18B5
+        DB54445F74EB144A5BABAD5AEADF265A932EE6FE39F7FABBC15693DC36B969D5
+        7D21E4774FCE39BFCFF99DDFB9BF13629A26BC4F917C00FA14D884BD0EA25967
+        8DC9D1DD9AF00A76FAAE56809E79035C4F421525308226E37071066BC287EB44
+        B85B10404B4B8BDBD05DBB6A3607F6965657D73A749ED2A3A1A1BEFE9E73A792
+        49A92314DA97C81BA0B5B57589A632B7D12C5A130840D99AD585F88787038330
+        D0DB6B9913529259D9106A88E505D0D8F8CD39D3A001CBAEFD7A37F04B971604
+        A04522D0D7F673CA6618F6B7E3CDC16D7901048F1E7FA0EB5A9965FBF71F0058
+        E42D0800E231F8FBD4F72993E7F8B1E613C72AF38B40B0E9A1A6E9A5EF1CA0A9
+        A9895BB56A75E06974B21B4F93DB6A2BAEC6FDE75DAF07F01CB0B21BBFF9DC00
+        C91770F7C2F9575BC0442AAB567CD6DFFFCF70281432B200C2E1EE6F29A587F0
+        D9F6B8318480208AC0B16C61D17825F4F618BF1A76ECA83F3B0380CE2FEBBA5E
+        37DB20A407599280905CEF200722E4C4F6ED5B83A4B3F3EC1E45517F9CABAF2C
+        CBC0324EDF4339651086D491F6F6AE7B18FAE5A9950A26783E5221798F037582
+        85328683B5AC04FFBA4C482CE0E2678200D045DADA3A55DC865446715E037C9F
+        289018E5E1C5080735AC007E04B8C4538890B752B46E9333673AD266269C09A6
+        FE7AB98B04D13A436FC3B925330B2053A220009FCF912B50FF7F00555141D3B4
+        B436EB58BADDEE9C93731C0782E09AB3CF9C00A323A3A0AA4AFA007C17F87C8B
+        ADE292D70A257C7F9497973A0788C7E3707F7C3CABDDE57281C7E3AC36545494
+        83280ACE00A2D1284C3C7992D52ECB1E9C4C74045052B20CA1EDB76C5600DF86
+        8D40BDBEACF6325904D1613D880E0F43FCE650FE001C2698F4F91790F9835590
+        967BE49CB7D24C19BA0EE37FFE01464632CF0A5054F7296845C5599DDD98D5CB
+        24FBBDCCA5674383F0FCD6ADCC66C5AA0577B01654CD10A113EFA62D406D26B1
+        9C5B1085882A4A2A0AA6317315B022D941C2E15FF66A9A727ABAD157EB075A5E
+        911D2AFC546222CDA722476E5C87A9B1B1E947DD30990DA9FB4057FBAFEB29A1
+        27A969AEF77EB965B16EB3CB32C74289E42CFB33A5FF97488C9FFFEB2A86E102
+        4FC94FF53BEB1FA45DC97A636A30A66ACD76833FC073EC5980A2844BDBFCE63F
+        A63480DF2793D7123AF5DB85DFCA7E66616E44273F16E0882D404F4C0D4FA9DA
+        579923240C7FE93CC33F2DF4B6DF2FC00FB60017B1F8252695AB494A6BDEBC9C
+        2E115DBA97E7A93357598AA1A7EE29010E6FC474B005781F7A09ABDB8EFF1DB4
+        E3D40000000049454E44AE426082}
+    end
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 14
+    Top = 96
+    Width = 131
+    Height = 169
+    Margins.Left = 10
+    Margins.Top = 10
+    Margins.Right = 10
+    Margins.Bottom = 10
+    Caption = 'Panel1'
+    TabOrder = 3
+    Visible = False
+    object mmFilaPedidos: TMemo
+      AlignWithMargins = True
+      Left = 11
+      Top = 41
+      Width = 109
+      Height = 117
+      Margins.Left = 10
+      Margins.Top = 10
+      Margins.Right = 10
+      Margins.Bottom = 10
+      Align = alClient
+      Lines.Strings = (
+        '')
+      ScrollBars = ssVertical
+      TabOrder = 0
+    end
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 123
+      Height = 24
+      Align = alTop
+      Caption = 'Pedidos na Fila:'
+      Padding.Left = 10
+      Padding.Top = 10
+      Padding.Right = 10
+      Padding.Bottom = 10
+      TabOrder = 1
+    end
+  end
+  object plHora: TPanel
+    Left = 116
+    Top = 364
+    Width = 77
+    Height = 26
+    BevelOuter = bvLowered
+    Caption = '00:00:00'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 4
+  end
+  object frxUniDACComponents: TfrxUniDACComponents
+    Left = 186
+    Top = 146
+  end
+  object frxBMPExport: TfrxBMPExport
+    ShowDialog = False
+    UseFileCache = False
+    ShowProgress = False
+    OverwritePrompt = False
+    DataOnly = False
+    Monochrome = True
+    Left = 48
+    Top = 264
+  end
+  object situacao: TUniQuery
+    Left = 366
+    Top = 168
+  end
+  object frxDados: TfrxDBDataset
+    UserName = 'frxDados'
+    CloseDataSource = False
+    DataSet = imm
+    BCDToCurrency = False
+    Left = 104
+    Top = 224
+  end
+  object frxDesigner: TfrxDesigner
+    DefaultScriptLanguage = 'PascalScript'
+    DefaultFont.Charset = DEFAULT_CHARSET
+    DefaultFont.Color = clWindowText
+    DefaultFont.Height = -13
+    DefaultFont.Name = 'Arial'
+    DefaultFont.Style = []
+    DefaultLeftMargin = 10.000000000000000000
+    DefaultRightMargin = 10.000000000000000000
+    DefaultTopMargin = 10.000000000000000000
+    DefaultBottomMargin = 10.000000000000000000
+    DefaultPaperSize = 9
+    DefaultOrientation = poPortrait
+    GradientEnd = 11982554
+    GradientStart = clWindow
+    TemplatesExt = 'fr3'
+    Restrictions = []
+    RTLLanguage = False
+    MemoParentFont = False
+    Left = 202
+    Top = 114
+  end
+  object inicializar: TTimer
+    Enabled = False
+    Interval = 50
+    OnTimer = inicializarTimer
+    Left = 127
+    Top = 32
+  end
+  object gri: TUniQuery
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '      gri.gricodigo'
+      '      , tci.tcicodigo'
+      '     , tci.tciporta'
+      '     , mitidentificacao'
+      '     , gripedidoaux'
+      '     , grisituacao'
+      '  FROM tci'
+      ' INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo'
+      ' INNER JOIN gri '
+      '    ON tci.tcicodigo = gri.tcicodigo and gri.griimprimeauto=1')
+    Left = 226
+    Top = 282
+    object gritcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object gritciporta: TStringField
+      FieldName = 'tciporta'
+      Size = 50
+    end
+    object grimitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Size = 104
+    end
+    object grigripedidoaux: TIntegerField
+      FieldName = 'gripedidoaux'
+    end
+    object grigrisituacao: TIntegerField
+      FieldName = 'grisituacao'
+    end
+    object grigricodigo: TIntegerField
+      FieldName = 'gricodigo'
+    end
+  end
+  object cfg: TUniQuery
+    SQL.Strings = (
+      
+        'select cfgcodigo, cfgmgoupedidelivery, cfgmgoupedideliveryaux fr' +
+        'om cfgmgou')
+    Left = 336
+    Top = 96
+    object cfgcfgcodigo: TIntegerField
+      FieldName = 'cfgcodigo'
+      Required = True
+    end
+    object cfgcfgmgoupedidelivery: TIntegerField
+      FieldName = 'cfgmgoupedidelivery'
+    end
+    object cfgcfgmgoupedideliveryaux: TIntegerField
+      FieldName = 'cfgmgoupedideliveryaux'
+    end
+  end
+  object czn: TUniQuery
+    SQL.Strings = (
+      
+        'select cznchave from czn where cznfechamento IS null order by cz' +
+        'nchave limit 1')
+    Left = 378
+    Top = 98
+    object czncznchave: TIntegerField
+      FieldName = 'cznchave'
+    end
+  end
+  object frxBarCodeObject1: TfrxBarCodeObject
+    Left = 106
+    Top = 162
+  end
+  object relatorio: TfrxReport
+    Version = '6.9.14'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 42113.804931909720000000
+    ReportOptions.LastChange = 42113.804931909720000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 32
+    Top = 160
+    Datasets = <>
+    Variables = <>
+    Style = <>
+  end
+  object immtempo: TUniQuery
+    Left = 374
+    Top = 216
+  end
+  object sqlimprime: TUniQuery
+    SQL.Strings = (
+      'SELECT  distinct gri.griimprimeauto ,'
+      '     clb.fnccodigo,'
+      '     gri.gripedidoaux,'
+      '     imm.immchave'
+      '    FROM imm '
+      ' INNER JOIN ito ON imm.itochave = ito.itochave'
+      ''
+      ' INNER JOIN pro ON pro.procodigo = ito.procodigo'
+      ' INNER JOIN clb ON clb.clbcodigo = imm.clbcodigo'
+      '  INNER JOIN gri on gri.grpcodigo=pro.grpcodigo'
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '  WHERE ito.itochave=:itochave and gri.tcicodigo=:tcicodigo')
+    Left = 274
+    Top = 282
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tcicodigo'
+        Value = nil
+      end>
+    object sqlimprimegriimprimeauto: TIntegerField
+      FieldName = 'griimprimeauto'
+    end
+    object sqlimprimefnccodigo: TIntegerField
+      FieldName = 'fnccodigo'
+    end
+    object sqlimprimegripedidoaux: TIntegerField
+      FieldName = 'gripedidoaux'
+    end
+    object sqlimprimeimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+  end
+  object jaimpresso: TUniQuery
+    Left = 330
+    Top = 282
+  end
+  object vias: TUniQuery
+    Left = 378
+    Top = 282
+  end
+  object imm: TUniQuery
+    SQL.Strings = (
+      'SELECT DISTINCT'
+      '       orc.orcchave'
+      '     , orc.foacodigo'
+      '     , orc.stocodigo'
+      ''
+      '     , orc.orcobs'
+      '     , orc.orcgeralav'
+      '     , gri.gricodigo'
+      ''
+      
+        '     , IF(orc.foacodigo = 2,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relcompleto)'
+      
+        '                           ,(SELECT rel.relarquivo FROM rel WHER' +
+        'E rel.relcodigo = gri.relgrupo)) relarquivo'
+      
+        '     , (select grpcodigo from pro where ito.procodigo=pro.procod' +
+        'igo) as grpcodigo'
+      '     ,imm.immchave'
+      '     , imm.immnumepedido'
+      '     , mit.mitidentificacao'
+      '     , tci.tciporta'
+      '  FROM imm '
+      ' INNER JOIN ito ON imm.itochave = ito.itochave'
+      ' INNER JOIN pro ON pro.procodigo = ito.procodigo'
+      ''
+      ' INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      
+        ' INNER JOIN gri on imm.tcicodigo = gri.tcicodigo and gri.grpcodi' +
+        'go=pro.grpcodigo'
+      ' INNER JOIN tci ON gri.tcicodigo=tci.tcicodigo'
+      '  inner join mit ON mit.mitcodigo=tci.mitcodigo'
+      ' '
+      '   '
+      ' WHERE orc.stocodigo=3'
+      '  AND imm.immhoraimpresso IS NULL '
+      '   AND imm.cznchave=:cznchave'
+      '   AND imm.immmodo<>9'
+      '   AND gri.griimprimeauto=1'
+      '   AND ito.itoquantidade>0'
+      '  ORDER BY orc.orcchave ;'
+      ''
+      '')
+    Left = 426
+    Top = 282
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cznchave'
+        Value = nil
+      end>
+    object immorcchave: TIntegerField
+      FieldName = 'orcchave'
+    end
+    object immfoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object immstocodigo: TIntegerField
+      FieldName = 'stocodigo'
+      Required = True
+    end
+    object immrelarquivo: TBlobField
+      FieldName = 'relarquivo'
+      ReadOnly = True
+    end
+    object immorcobs: TStringField
+      FieldName = 'orcobs'
+      Size = 250
+    end
+    object immorcgeralav: TFloatField
+      FieldName = 'orcgeralav'
+      Required = True
+    end
+    object immgricodigo: TIntegerField
+      FieldName = 'gricodigo'
+    end
+    object immgrpcodigo: TIntegerField
+      FieldName = 'grpcodigo'
+    end
+    object immimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+    object immimmnumepedido: TIntegerField
+      FieldName = 'immnumepedido'
+    end
+    object immmitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      Size = 50
+    end
+    object immtciporta: TStringField
+      FieldName = 'tciporta'
+    end
+  end
+  object ito: TUniQuery
+    SQL.Strings = (
+      'SET @orcchave =:orcchave;'
+      ''
+      'DROP temporary TABLE IF EXISTS tped;'
+      '   '
+      'CREATE temporary TABLE if not exists tped'
+      '     ( id            INT NOT NULL AUTO_INCREMENT'
+      '     , orcchave      INT'
+      '     , immchave      INT'
+      '     , immnumepedido INT '
+      '     , tcicodigo     INT'
+      '     , pedidoaux     INT'
+      '     , itochave      INT '
+      '     '
+      '     , PRIMARY KEY (id)'
+      '     ) ENGINE = INNODB DEFAULT charset = latin1;'
+      ''
+      'INSERT INTO tped'
+      '  (SELECT @novachave'
+      '        , timm.orcchave'
+      '        , timm.immchave'
+      '        , timm.immnumepedido'
+      '        , timm.tcicodigo'
+      '        , pedidoaux'
+      '        , timm.itochave'
+      '        '
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88) '
+      
+        '           AND ito.stocodigo NOT IN (1, 88) and ito.itoquantidad' +
+        'e>0'
+      '           AND imm.immhoraimpresso IS NULL '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , 1 pedidoaux'
+      '             , imm.itochave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)  '
+      
+        '           AND ito.stocodigo NOT IN (1, 88) and ito.itoquantidad' +
+        'e>0 '
+      '           AND imm.immhoraimpresso IS NULL '
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo);'
+      ''
+      ''
+      'SELECT timm.orcchave'
+      '     , timm.immnumepedido'
+      '     , timm.tcicodigo'
+      '     , tci.tciporta'
+      '     , mit.mitidentificacao '
+      '     , timm.foacodigo'
+      '     , timm.pedidoaux'
+      '     , timm.itochave'
+      '     , timm.immchave'
+      '     '
+      '  FROM (SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      
+        '             , IF(orc.foacodigo != 2, imm.tcicodigo, (SELECT tci' +
+        'codigo'
+      '                       FROM tci '
+      
+        '                      WHERE tci.tciprioridade = (SELECT MIN(tci.' +
+        'tciprioridade) tciprioridade'
+      '                                                   FROM tci'
+      
+        '                                                  WHERE tci.tcic' +
+        'odigo IN (SELECT tcicodigo'
+      
+        '                                                                ' +
+        '            FROM tci '
+      
+        '                                                                ' +
+        '           WHERE tcicodigo IN (SELECT imm.tcicodigo'
+      
+        '                                                                ' +
+        '                                 FROM imm '
+      
+        '                                                                ' +
+        '                                INNER JOIN ito '
+      
+        '                                                                ' +
+        '                                        ON imm.itochave = ito.it' +
+        'ochave'
+      
+        '                                                                ' +
+        '                                WHERE ito.orcchave = @orcchave))' +
+        ')'
+      '                       LIMIT 1 )) tcicodigo'
+      '             , orc.foacodigo'
+      '             , 0 pedidoaux '
+      '             , imm.itochave'
+      '             , imm.immchave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         INNER JOIN pro ON ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri ON pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp ON pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      
+        '           AND ito.stocodigo NOT IN (1, 88) and ito.itoquantidad' +
+        'e>0'
+      '           AND imm.immhoraimpresso IS NULL '
+      '        '
+      '        '
+      '          '
+      '        UNION ALL'
+      '        '
+      '        SELECT DISTINCT'
+      '               orc.orcchave'
+      '             , imm.immnumepedido'
+      '             , imm.tcicodigo'
+      '             , orc.foacodigo'
+      '             , 1   pedidoaux'
+      '             , imm.itochave'
+      '             , imm.immchave'
+      '          FROM imm'
+      '         INNER JOIN ito ON imm.itochave = ito.itochave'
+      '         INNER JOIN orc ON ito.orcchave = orc.orcchave'
+      '         inner join pro on ito.procodigo = pro.procodigo'
+      '         INNER JOIN gri on pro.grpcodigo = gri.grpcodigo'
+      '         INNER JOIN grp on pro.grpcodigo = grp.grpcodigo'
+      '         WHERE orc.orcchave = @orcchave'
+      '           AND orc.foacodigo = 2'
+      '           AND orc.stocodigo NOT IN (1, 88)   '
+      
+        '           AND ito.stocodigo NOT IN (1, 88)  and ito.itoquantida' +
+        'de>0'
+      '           AND imm.immhoraimpresso IS NULL '
+      '           AND gri.gripedidoaux = 1 ) timm'
+      '        INNER JOIN tci ON timm.tcicodigo = tci.tcicodigo'
+      '        INNER JOIN mit ON tci.mitcodigo = mit.mitcodigo;'
+      '')
+    Left = 546
+    Top = 130
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'orcchave'
+        Value = nil
+      end>
+    object itoorcchave: TIntegerField
+      FieldName = 'orcchave'
+      Required = True
+    end
+    object itoimmnumepedido: TIntegerField
+      FieldName = 'immnumepedido'
+    end
+    object itotcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object itotciporta: TStringField
+      FieldName = 'tciporta'
+      ReadOnly = True
+      Size = 50
+    end
+    object itomitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object itofoacodigo: TIntegerField
+      FieldName = 'foacodigo'
+      Required = True
+    end
+    object itopedidoaux: TIntegerField
+      FieldName = 'pedidoaux'
+      Required = True
+    end
+    object itoitochave: TIntegerField
+      FieldName = 'itochave'
+    end
+    object itoimmchave: TIntegerField
+      FieldName = 'immchave'
+    end
+  end
+  object itoaux: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT gripedidoaux FROM ito,pro,gri WHERE ito.procodigo=pro.pro' +
+        'codigo AND pro.grpcodigo=gri.grpcodigo and itochave=:itochave')
+    Left = 522
+    Top = 282
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+  end
+  object tcisituacao: TUniQuery
+    Left = 440
+    Top = 97
+  end
+  object ImageList1: TImageList
+    Height = 256
+    Width = 256
+    Left = 496
+    Top = 363
+  end
+  object imw: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  imwchave,'
+      '  itochave,'
+      '  imwhoranotificadopedido,'
+      '  imwhorasaidadopedido,'
+      '  imwhoraentregadopedido'
+      'FROM imw where itochave=:itochave')
+    Left = 77
+    Top = 379
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'itochave'
+        Value = nil
+      end>
+    object imwimwchave: TIntegerField
+      FieldName = 'imwchave'
+    end
+    object imwitochave: TIntegerField
+      FieldName = 'itochave'
+      Required = True
+    end
+    object imwimwhoranotificadopedido: TDateTimeField
+      FieldName = 'imwhoranotificadopedido'
+    end
+    object imwimwhorasaidadopedido: TDateTimeField
+      FieldName = 'imwhorasaidadopedido'
+    end
+    object imwimwhoraentregadopedido: TDateTimeField
+      FieldName = 'imwhoraentregadopedido'
+    end
+  end
+  object consulta: TUniQuery
+    Left = 29
+    Top = 376
+  end
+  object mit: TUniQuery
+    SQL.Strings = (
+      
+        'SELECT mit.mitcodigo, mit.mitidentificacao from tci,mit WHERE tc' +
+        'i.mitcodigo=mit.mitcodigo and tci.tcicodigo=:tcicodigo')
+    Left = 424
+    Top = 401
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'tcicodigo'
+        Value = nil
+      end>
+    object mitmitcodigo: TIntegerField
+      FieldName = 'mitcodigo'
+    end
+    object mitmitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      Size = 50
+    end
+  end
+  object ajustasitucaoimpressora: TUniQuery
+    Left = 477
+    Top = 232
+  end
+end

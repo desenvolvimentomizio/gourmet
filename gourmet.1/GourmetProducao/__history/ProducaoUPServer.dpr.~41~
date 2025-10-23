@@ -1,0 +1,96 @@
+program ProducaoUPServer;
+
+{$APPTYPE CONSOLE}
+{$TYPEINFO ON}
+{$R *.res}
+
+uses
+  madExcept,
+  System.SysUtils,
+  System.Classes,
+  vcl.forms,
+  Horse,
+  Horse.CORS,
+  Horse.Jhonson,
+  Horse.HandleException,
+  Horse.Logger,
+  Horse.BasicAuthentication,
+  Horse.OctetStream,
+  ProducaoUPServer.controller.MIT in 'Controller\ProducaoUPServer.controller.MIT.pas',
+  ProducaoUPServer.controller.CLB in 'Controller\ProducaoUPServer.controller.CLB.pas',
+  ProducaoUPServer.controller.IMM in 'Controller\ProducaoUPServer.controller.IMM.pas',
+  ProducaoUPServer.controller.RMP in 'Controller\ProducaoUPServer.controller.RMP.pas',
+  ProducaoUPServer.controller.GRP in 'Controller\ProducaoUPServer.controller.GRP.pas',
+  ProducaoUPServer.controller.SEP in 'Controller\ProducaoUPServer.controller.SEP.pas',
+  ProducaoUPServer.controller.IMPproduzido in 'Controller\ProducaoUPServer.controller.IMPproduzido.pas',
+  ProducaoUP.Services.Connection in 'Services\ProducaoUP.Services.Connection.pas',
+  ProducaoUPServer.controller.CSC in 'Controller\ProducaoUPServer.controller.CSC.pas';
+
+Var
+  App: THorse;
+ // HorseLoggerConfig: THorseLoggerConfig;
+
+begin
+
+  App := THorse.Create;
+
+  App.Use(OctetStream);
+
+  // tratativa de operações com JSON
+  App.Use(Jhonson);
+
+  // tratativa de consumo via RESTFULL
+  App.Use(CORS);
+
+  // tratativa de execoes da api
+  App.Use(HandleException);
+
+  // tratativa para geração de logs automaticos do servidor
+
+//  HorseLoggerConfig := THorseLoggerConfig.Create('${time} - ${request_method} ${request_path_info} ${execution_time}');
+//  HorseLoggerConfig.LogDir:=extractfilepath(application.exename)+'logs\';
+//  App.Use(THorseLogger.New(HorseLoggerConfig));
+
+  // tratativa para gerar documentação da api via swagger
+
+
+  // controllers de entidades
+   ProducaoUPServer.controller.CLB.Registry(App);
+   ProducaoUPServer.controller.GRP.Registry(App);
+   ProducaoUPServer.controller.MIT.Registry(App);
+   ProducaoUPServer.controller.SEP.Registry(App);
+   ProducaoUPServer.controller.IMM.Registry(App);
+   ProducaoUPServer.controller.RMP.Registry(App);
+   ProducaoUPServer.controller.CSC.Registry(App);
+   ProducaoUPServer.controller.IMPproduzido.Registry(App);
+
+
+  App.Get('/test',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+      Res.Send('ok');
+    end);
+
+
+  App.Get('/v1/stream/grp/:id',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    var
+      LStream: TFileStream;
+    begin
+      LStream := TFileStream.Create('c:\GourmetUP\servers\imagens\grp\'+Req.Params.Items['id'], fmOpenRead);
+      Res.Send<TStream>(LStream);
+    end);
+
+  App.Listen(9191,
+    procedure(Horse: THorse)
+    begin
+
+
+   //  Writeln('Servidor esta rodando - porta: 9191 - Versão: 21.25.206.9');
+
+      Writeln(Format('Versão: 24.27.301.30 - Servidor esta rodando em %s:%d', [Horse.Host, Horse.Port]));
+
+    end);
+
+
+end.

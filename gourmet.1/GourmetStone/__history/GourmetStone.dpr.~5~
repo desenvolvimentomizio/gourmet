@@ -1,0 +1,15 @@
+program GourmetStone;
+
+uses
+  Vcl.Forms,
+  ufPrinciStone in 'ufPrinciStone.pas' {fPrinciStone};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrinciStone, fPrinciStone);
+  Application.Run;
+end.
+

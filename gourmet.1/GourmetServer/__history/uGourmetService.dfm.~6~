@@ -1,0 +1,12 @@
+object GourmetIntetrationService: TGourmetIntetrationService
+  OldCreateOrder = False
+  DisplayName = 'Gourmet Servidor de Integra'#231#245'es'
+  AfterInstall = ServiceAfterInstall
+  OnContinue = ServiceContinue
+  OnExecute = ServiceExecute
+  OnPause = ServicePause
+  OnShutdown = ServiceShutdown
+  OnStart = ServiceStart
+  Height = 433
+  Width = 522
+end

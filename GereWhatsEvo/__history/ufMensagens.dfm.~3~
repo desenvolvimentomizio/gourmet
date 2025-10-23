@@ -1,0 +1,380 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Mensagens'
+  ClientHeight = 773
+  ClientWidth = 877
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 266
+    Height = 13
+    Caption = 'Registro do Pedido - Usar  [NOME] e [NUMEROPEDIDO]'
+  end
+  object Label2: TLabel
+    Left = 296
+    Top = 8
+    Width = 203
+    Height = 13
+    Caption = 'Sa'#237'da para Entrega - Usar [ENTREGADOR]'
+  end
+  object Label3: TLabel
+    Left = 584
+    Top = 8
+    Width = 245
+    Height = 13
+    Caption = 'Agradecimento - Usar [NOME] e [NUMEROPEDIDO]'
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 736
+    Width = 871
+    Height = 34
+    Align = alBottom
+    TabOrder = 0
+    ExplicitTop = 705
+    object btCancela: TButton
+      AlignWithMargins = True
+      Left = 759
+      Top = 4
+      Width = 108
+      Height = 26
+      Align = alRight
+      Caption = 'Cancela'
+      TabOrder = 0
+      OnClick = btCancelaClick
+      ExplicitLeft = 792
+      ExplicitHeight = 33
+    end
+    object btconfima: TButton
+      AlignWithMargins = True
+      Left = 645
+      Top = 4
+      Width = 108
+      Height = 26
+      Align = alRight
+      Caption = 'Confirma'
+      TabOrder = 1
+      OnClick = btconfimaClick
+      ExplicitLeft = 792
+      ExplicitHeight = 33
+    end
+  end
+  object DBMemo1: TDBMemo
+    Left = 8
+    Top = 33
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 1
+  end
+  object DBMemo2: TDBMemo
+    Left = 296
+    Top = 33
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 2
+  end
+  object DBMemo3: TDBMemo
+    Left = 584
+    Top = 33
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno0'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 3
+  end
+  object DBMemo4: TDBMemo
+    Left = 8
+    Top = 99
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido1'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 4
+  end
+  object DBMemo5: TDBMemo
+    Left = 296
+    Top = 99
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida1'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 5
+  end
+  object DBMemo6: TDBMemo
+    Left = 584
+    Top = 99
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno1'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 6
+  end
+  object DBMemo7: TDBMemo
+    Left = 8
+    Top = 165
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido2'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 7
+  end
+  object DBMemo8: TDBMemo
+    Left = 296
+    Top = 165
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida2'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 8
+  end
+  object DBMemo9: TDBMemo
+    Left = 584
+    Top = 165
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno2'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 9
+  end
+  object DBMemo10: TDBMemo
+    Left = 8
+    Top = 231
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido3'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 10
+  end
+  object DBMemo11: TDBMemo
+    Left = 296
+    Top = 231
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida3'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 11
+  end
+  object DBMemo12: TDBMemo
+    Left = 584
+    Top = 231
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno3'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 12
+  end
+  object DBMemo13: TDBMemo
+    Left = 8
+    Top = 297
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido4'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 13
+  end
+  object DBMemo14: TDBMemo
+    Left = 296
+    Top = 297
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida4'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 14
+  end
+  object DBMemo15: TDBMemo
+    Left = 584
+    Top = 297
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno4'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 15
+  end
+  object DBMemo16: TDBMemo
+    Left = 8
+    Top = 363
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido5'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 16
+  end
+  object DBMemo17: TDBMemo
+    Left = 296
+    Top = 363
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida5'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 17
+  end
+  object DBMemo18: TDBMemo
+    Left = 584
+    Top = 363
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno5'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 18
+  end
+  object DBMemo19: TDBMemo
+    Left = 8
+    Top = 429
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido6'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 19
+  end
+  object DBMemo20: TDBMemo
+    Left = 296
+    Top = 429
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida6'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 20
+  end
+  object DBMemo21: TDBMemo
+    Left = 584
+    Top = 429
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno6'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 21
+  end
+  object DBMemo22: TDBMemo
+    Left = 8
+    Top = 495
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido7'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 22
+  end
+  object DBMemo23: TDBMemo
+    Left = 296
+    Top = 495
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida7'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 23
+  end
+  object DBMemo24: TDBMemo
+    Left = 584
+    Top = 495
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno7'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 24
+  end
+  object DBMemo25: TDBMemo
+    Left = 8
+    Top = 561
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido8'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 25
+  end
+  object DBMemo26: TDBMemo
+    Left = 296
+    Top = 561
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida8'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 26
+  end
+  object DBMemo27: TDBMemo
+    Left = 584
+    Top = 561
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno8'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 27
+  end
+  object DBMemo28: TDBMemo
+    Left = 8
+    Top = 627
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensapedido9'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 28
+  end
+  object DBMemo29: TDBMemo
+    Left = 296
+    Top = 627
+    Width = 282
+    Height = 60
+    DataField = 'cfgmgoumensasaida9'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 29
+  end
+  object DBMemo30: TDBMemo
+    Left = 584
+    Top = 627
+    Width = 281
+    Height = 60
+    DataField = 'cfgmgoumensaretorno9'
+    DataSource = DataSource1
+    ScrollBars = ssVertical
+    TabOrder = 30
+  end
+  object DataSource1: TDataSource
+    DataSet = FprinciWhaGouEVO.cfg
+    Left = 144
+    Top = 688
+  end
+end

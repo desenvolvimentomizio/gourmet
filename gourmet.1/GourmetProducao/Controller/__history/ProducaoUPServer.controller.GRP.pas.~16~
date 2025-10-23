@@ -1,0 +1,97 @@
+unit  ProducaoUPServer.controller.GRP;
+
+interface
+
+Uses
+  System.AnsiStrings,
+  Horse,
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+  System.Json,
+  Uni,
+  UniProvider,
+  MySQLUniProvider,
+  ProducaoUP.Services.Connection ;
+
+
+
+procedure Registry(App: THorse);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+
+type
+ TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+
+implementation
+
+uses
+  System.SysUtils;
+
+
+procedure Registry(App: THorse);
+begin
+  App.Get('/v1/grp', V1Get);
+end;
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  conexao:TUniConnection;
+  GRP:TUniQuery;
+
+begin
+  try
+
+  conexao:=TUniConnection.Create(nil);
+
+  if AtivaConexao(conexao) then
+  begin
+
+    GRP:=TUniQuery.Create(nil);
+    GRP.Connection:=conexao;
+    GRP.sql.Text:='select grp.grpcodigo, CAP_FIRST(grp.grpidentificacao) grpidentificacao, '+
+                  'concat('+QuotedStr( '/stream/grp/')+',grp.grpcodigo,'+QuotedStr('.png')+ ' )  '+
+                  ' as grpimagem,concat('+QuotedStr('grp_')+', LPAD(grp.grpcodigo,6,'+quotedstr('0')+')) grpcaminho , '+
+                  ' (IF((select count(sfnquantidade) from  v_sfn where v_sfn.grpcodigo=grp.grpcodigo)=0,'+
+                  QuotedStr('Simples')+','+QuotedStr('Sabores')+'))'        +' grptipo '+
+                  'Where grp.sipcodigo=1 and grp.grpremoto=1 '+
+                  'order by grp.grpordem '  ;
+    GRP.Open;
+  end;
+
+  if not GRP.IsEmpty then
+  begin
+     Res.Send<TJsonarray>(TConverter.New.DataSet(GRP).AsJSONArray);
+     GRP.close;
+  end
+  else
+  begin
+     res.Status(204);
+  end;
+
+  finally
+
+    if conexao.Connected then
+    conexao.Connected:=false;
+
+
+    if GRP<>nil then
+      GRP.DisposeOf;
+
+    if conexao<>nil then
+      conexao.DisposeOf;
+
+  end;
+
+
+end;
+
+
+end.
+

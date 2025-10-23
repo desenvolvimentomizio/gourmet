@@ -1,0 +1,830 @@
+inherited ftrm: Tftrm
+  Caption = 'Terminal'
+  ClientHeight = 571
+  ClientWidth = 856
+  ExplicitWidth = 872
+  ExplicitHeight = 610
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 542
+    Width = 856
+    ExplicitTop = 542
+    ExplicitWidth = 856
+    inherited bconfirma: TBitBtn
+      Left = 702
+      ExplicitLeft = 702
+    end
+    inherited bcancela: TBitBtn
+      Left = 777
+      ExplicitLeft = 777
+    end
+    inherited bfechar: TBitBtn
+      Left = 637
+      ExplicitLeft = 637
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 856
+    Height = 542
+    ActivePage = TEF
+    ExplicitWidth = 856
+    ExplicitHeight = 542
+    inherited Principal: TTabSheet
+      ExplicitWidth = 848
+      ExplicitHeight = 514
+      object Bevel1: TBevel
+        Left = 0
+        Top = 0
+        Width = 848
+        Height = 181
+        CustomHint = BalloonHint
+        Align = alTop
+        ExplicitWidth = 596
+      end
+      object Label1: TLabel
+        Left = 12
+        Top = 10
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+      end
+      object Label2: TLabel
+        Left = 12
+        Top = 37
+        Width = 85
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome do Terminal'
+        FocusControl = trmidentificacao
+      end
+      object Spt1: TSplitter
+        Left = 0
+        Top = 339
+        Width = 848
+        Height = 3
+        Cursor = crVSplit
+        CustomHint = BalloonHint
+        Align = alBottom
+        ExplicitTop = 152
+        ExplicitWidth = 596
+      end
+      object Label25: TLabel
+        Left = 12
+        Top = 64
+        Width = 86
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Gaveta Integrada'
+        FocusControl = trmgaveta
+      end
+      object Label29: TLabel
+        Left = 12
+        Top = 91
+        Width = 106
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Mesa de Venda r'#225'pida'
+        FocusControl = trmmesavendarapida
+      end
+      object trmidentificacao: TDBEdit
+        Left = 135
+        Top = 34
+        Width = 263
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmidentificacao'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object bvalidar: TButton
+        Left = 435
+        Top = 85
+        Width = 110
+        Height = 21
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 4
+        OnClick = bvalidarClick
+      end
+      object Plcit: TPanel
+        Left = 0
+        Top = 342
+        Width = 848
+        Height = 172
+        CustomHint = BalloonHint
+        Align = alBottom
+        TabOrder = 5
+      end
+      object trmgaveta: TDBEdit
+        Left = 135
+        Top = 61
+        Width = 26
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmgaveta'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object trmcodigo: TDBEdit
+        Left = 135
+        Top = 3
+        Width = 49
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmcodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object trmmesavendarapida: TDBEdit
+        Left = 135
+        Top = 88
+        Width = 42
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmmesavendarapida'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+    end
+    object Balanca01: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'Balanca 01'
+      ImageIndex = 1
+      object Label3: TLabel
+        Left = 200
+        Top = 49
+        Width = 77
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Ultima Resposta'
+      end
+      object Label4: TLabel
+        Left = 200
+        Top = 4
+        Width = 81
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Ultimo Peso Lido:'
+      end
+      object Label9: TLabel
+        Left = 393
+        Top = 4
+        Width = 40
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'TimeOut'
+      end
+      object Label10: TLabel
+        Left = 200
+        Top = 270
+        Width = 51
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Mensagem'
+      end
+      object sttPeso: TStaticText
+        Left = 200
+        Top = 20
+        Width = 169
+        Height = 24
+        CustomHint = BalloonHint
+        AutoSize = False
+        BevelKind = bkTile
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+      end
+      object sttResposta: TStaticText
+        Left = 200
+        Top = 66
+        Width = 254
+        Height = 199
+        CustomHint = BalloonHint
+        AutoSize = False
+        BevelKind = bkTile
+        TabOrder = 1
+      end
+      object edtTimeOut: TEdit
+        Left = 393
+        Top = 20
+        Width = 61
+        Height = 21
+        CustomHint = BalloonHint
+        TabOrder = 2
+        Text = '5000'
+        OnKeyPress = edtTimeOutKeyPress
+      end
+      object Memo1: TMemo
+        Left = 200
+        Top = 286
+        Width = 254
+        Height = 30
+        CustomHint = BalloonHint
+        TabOrder = 3
+      end
+      object Panel1: TPanel
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 321
+        CustomHint = BalloonHint
+        BevelOuter = bvLowered
+        TabOrder = 4
+        object Label5: TLabel
+          Left = 16
+          Top = 6
+          Width = 37
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Balanca'
+        end
+        object Label6: TLabel
+          Left = 16
+          Top = 49
+          Width = 55
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Porta Serial'
+        end
+        object Label7: TLabel
+          Left = 16
+          Top = 92
+          Width = 47
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Baud rate'
+        end
+        object Label8: TLabel
+          Left = 16
+          Top = 137
+          Width = 43
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Data Bits'
+        end
+        object Label11: TLabel
+          Left = 16
+          Top = 181
+          Width = 28
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Parity'
+        end
+        object Label12: TLabel
+          Left = 16
+          Top = 271
+          Width = 61
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Handshaking'
+        end
+        object Label13: TLabel
+          Left = 16
+          Top = 224
+          Width = 42
+          Height = 13
+          CustomHint = BalloonHint
+          Caption = 'Stop Bits'
+        end
+        object cmbBalanca: TDBComboBox
+          Left = 16
+          Top = 22
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbalamodelo'
+          DataSource = DSRegistro
+          Items.Strings = (
+            'Nenhuma'
+            'Filizola'
+            'Toledo'
+            'Toledo2180'
+            'Urano'
+            'LucasTec'
+            'Magna'
+            'Digitron'
+            'Magellan'
+            'UranoPOP'
+            'Lider')
+          TabOrder = 0
+        end
+        object cmbPortaSerial: TDBComboBox
+          Left = 16
+          Top = 65
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          DataField = 'trmbalaporta'
+          DataSource = DSRegistro
+          Items.Strings = (
+            'COM1'
+            'COM2'
+            'COM3'
+            'COM4'
+            'COM5'
+            'COM6'
+            'COM7'
+            'COM8'
+            'COM9'
+            'COM10'
+            'COM11'
+            'COM12'
+            'COM13'
+            'COM14'
+            'COM15'
+            'COM16'
+            'COM17'
+            'COM18'
+            'COM19'
+            'COM20')
+          TabOrder = 1
+        end
+        object cmbBaudRate: TDBComboBox
+          Left = 16
+          Top = 110
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbalabaud'
+          DataSource = DSRegistro
+          Items.Strings = (
+            '110'
+            '300'
+            '600'
+            '1200'
+            '2400'
+            '4800'
+            '9600'
+            '14400'
+            '19200'
+            '38400'
+            '56000'
+            '57600')
+          TabOrder = 2
+        end
+        object cmbDataBits: TDBComboBox
+          Left = 16
+          Top = 153
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbaladata'
+          DataSource = DSRegistro
+          Items.Strings = (
+            '5'
+            '6'
+            '7'
+            '8')
+          TabOrder = 3
+        end
+        object cmbHandShaking: TDBComboBox
+          Left = 16
+          Top = 287
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbalahandshake'
+          DataSource = DSRegistro
+          Items.Strings = (
+            'Nenhum'
+            'XON/XOFF'
+            'RTS/CTS'
+            'DTR/DSR')
+          TabOrder = 6
+        end
+        object cmbParity: TDBComboBox
+          Left = 16
+          Top = 198
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbalaparity'
+          DataSource = DSRegistro
+          Items.Strings = (
+            'none'
+            'odd'
+            'even'
+            'mark'
+            'space')
+          TabOrder = 4
+        end
+        object cmbStopBits: TDBComboBox
+          Left = 16
+          Top = 242
+          Width = 145
+          Height = 21
+          CustomHint = BalloonHint
+          Style = csDropDownList
+          DataField = 'trmbalastop'
+          DataSource = DSRegistro
+          Items.Strings = (
+            's1'
+            's1,5'
+            's2'
+            '')
+          TabOrder = 5
+        end
+      end
+      object Panel2: TPanel
+        Left = 717
+        Top = 0
+        Width = 131
+        Height = 514
+        CustomHint = BalloonHint
+        Align = alRight
+        BevelInner = bvRaised
+        BevelOuter = bvLowered
+        TabOrder = 5
+        object btnConectar: TButton
+          Left = 16
+          Top = 14
+          Width = 105
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = 'Ativar'
+          TabOrder = 0
+          OnClick = btnConectarClick
+        end
+        object btnDesconectar: TButton
+          Left = 16
+          Top = 45
+          Width = 105
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = 'Desativar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnDesconectarClick
+        end
+        object btnLerPeso: TButton
+          Left = 16
+          Top = 76
+          Width = 105
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = 'Ler Peso'
+          Enabled = False
+          TabOrder = 2
+          OnClick = btnLerPesoClick
+        end
+        object chbMonitorar: TCheckBox
+          Left = 17
+          Top = 115
+          Width = 103
+          Height = 42
+          CustomHint = BalloonHint
+          Caption = 'Monitorar Balan'#231'a'
+          TabOrder = 3
+          WordWrap = True
+          OnClick = chbMonitorarClick
+        end
+        object btnLimpar: TButton
+          Left = 16
+          Top = 208
+          Width = 105
+          Height = 25
+          CustomHint = BalloonHint
+          Caption = 'Limpar'
+          TabOrder = 4
+          OnClick = btnLimparClick
+        end
+      end
+    end
+    object TEF: TTabSheet
+      CustomHint = BalloonHint
+      Caption = 'TEF'
+      ImageIndex = 2
+      object Label14: TLabel
+        Left = 8
+        Top = 14
+        Width = 91
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Fornecedor do TEF'
+      end
+      object Label15: TLabel
+        Left = 8
+        Top = 41
+        Width = 129
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo do estabelecimento'
+        FocusControl = trmterminalcodempresa
+      end
+      object Label17: TLabel
+        Left = 8
+        Top = 68
+        Width = 69
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'ID do Terminal'
+        FocusControl = trmterminalcodterminal
+      end
+      object Label18: TLabel
+        Left = 8
+        Top = 95
+        Width = 124
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Endere'#231'o do Servidor TEF'
+        FocusControl = trmterminalenderecoservidor
+      end
+      object Label19: TLabel
+        Left = 8
+        Top = 122
+        Width = 110
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Porta conex'#227'o PINPAD'
+        FocusControl = trmterminalportapinpad
+      end
+      object Label16: TLabel
+        Left = 9
+        Top = 149
+        Width = 98
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Nome da Adquirente'
+        FocusControl = trmtermanaladquirente
+      end
+      object DBComboBox1: TDBComboBox
+        Left = 145
+        Top = 11
+        Width = 98
+        Height = 21
+        CustomHint = BalloonHint
+        Style = csDropDownList
+        DataField = 'trmestabelecimentotipotef'
+        DataSource = DSRegistro
+        Items.Strings = (
+          'Nenhuma'
+          'SkyTEF'
+          'PayGOweb')
+        TabOrder = 0
+      end
+      object trmterminalcodempresa: TDBEdit
+        Left = 145
+        Top = 38
+        Width = 160
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmterminalcodempresa'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object trmterminalcodterminal: TDBEdit
+        Left = 145
+        Top = 65
+        Width = 160
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmterminalcodterminal'
+        DataSource = DSRegistro
+        TabOrder = 2
+      end
+      object trmterminalenderecoservidor: TDBEdit
+        Left = 145
+        Top = 92
+        Width = 250
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmterminalenderecoservidor'
+        DataSource = DSRegistro
+        TabOrder = 3
+      end
+      object trmterminalportapinpad: TDBEdit
+        Left = 145
+        Top = 119
+        Width = 70
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmterminalportapinpad'
+        DataSource = DSRegistro
+        TabOrder = 4
+      end
+      object trmtermanaladquirente: TDBEdit
+        Left = 145
+        Top = 146
+        Width = 250
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'trmtermanaladquirente'
+        DataSource = DSRegistro
+        TabOrder = 5
+      end
+    end
+  end
+  inherited lbcodigojanela: TPanel
+    Left = 534
+    Caption = '02.03.81.001-01'
+    ExplicitLeft = 534
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 500
+    Top = 252
+  end
+  inherited cfg: TUniQuery
+    Left = 724
+    Top = 0
+  end
+  inherited consulta: TUniQuery
+    Left = 824
+    Top = 316
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'select '
+      'trmcodigo, '
+      'trmidentificacao, '
+      'trmbalamodelo,'
+      '  trmbalaporta,'
+      '  trmbalabaud,'
+      '  trmbalahandshake,'
+      '  trmbalaparity,'
+      '  trmbalastop,'
+      '  trmbaladata,'
+      '  trmgaveta,'
+      '  trmestabelecimentotipotef,'
+      '  trmterminalcodempresa,'
+      '  trmterminalcodfilial,'
+      '  trmterminalcodterminal,'
+      '  trmterminalenderecoservidor,'
+      '  trmterminalportapinpad,'
+      '  trmmesavendarapida,'
+      '  trmtermanaladquirente'
+      ''
+      'from trm'
+      'where trmcodigo=:trmcodigo')
+    Left = 708
+    Top = 160
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'trmcodigo'
+        Value = nil
+      end>
+    object registrotrmcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'trmcodigo'
+    end
+    object registrotrmidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'trmidentificacao'
+      Required = True
+      Size = 50
+    end
+    object registrotrmbalamodelo: TStringField
+      FieldName = 'trmbalamodelo'
+      Size = 50
+    end
+    object registrotrmbalaporta: TStringField
+      FieldName = 'trmbalaporta'
+      Size = 50
+    end
+    object registrotrmbalabaud: TStringField
+      FieldName = 'trmbalabaud'
+      Size = 50
+    end
+    object registrotrmbalahandshake: TStringField
+      FieldName = 'trmbalahandshake'
+      Size = 50
+    end
+    object registrotrmbalaparity: TStringField
+      FieldName = 'trmbalaparity'
+      Size = 50
+    end
+    object registrotrmbalastop: TStringField
+      FieldName = 'trmbalastop'
+      Size = 50
+    end
+    object registrotrmbaladata: TStringField
+      FieldName = 'trmbaladata'
+      Size = 50
+    end
+    object registrotrmgaveta: TIntegerField
+      DisplayLabel = 'Gaveta Integrada'
+      FieldName = 'trmgaveta'
+      Required = True
+    end
+    object registrosentrmgaveta: TStringField
+      FieldKind = fkLookup
+      FieldName = 'sentrmgaveta'
+      LookupDataSet = sen
+      LookupKeyFields = 'sencodigo'
+      LookupResultField = 'senidentificacao'
+      KeyFields = 'trmgaveta'
+      Size = 5
+      Lookup = True
+    end
+    object registrotrmmesavendarapida: TIntegerField
+      FieldName = 'trmmesavendarapida'
+    end
+    object registrotrmestabelecimentotipotef: TStringField
+      FieldName = 'trmestabelecimentotipotef'
+      Size = 100
+    end
+    object registrotrmterminalcodempresa: TStringField
+      FieldName = 'trmterminalcodempresa'
+      Size = 50
+    end
+    object registrotrmterminalcodfilial: TStringField
+      FieldName = 'trmterminalcodfilial'
+      Size = 50
+    end
+    object registrotrmterminalcodterminal: TStringField
+      FieldName = 'trmterminalcodterminal'
+      Size = 50
+    end
+    object registrotrmterminalenderecoservidor: TStringField
+      FieldName = 'trmterminalenderecoservidor'
+      Size = 50
+    end
+    object registrotrmterminalportapinpad: TStringField
+      FieldName = 'trmterminalportapinpad'
+      Size = 50
+    end
+    object registrotrmtermanaladquirente: TStringField
+      FieldName = 'trmtermanaladquirente'
+      Size = 100
+    end
+  end
+  inherited dcp: TUniQuery
+    Left = 876
+    Top = 156
+  end
+  inherited dtb: TUniQuery
+    Left = 792
+    Top = 136
+  end
+  inherited coa: TUniQuery
+    Left = 744
+    Top = 156
+  end
+  inherited pfr: TUniQuery
+    Left = 712
+    Top = 68
+  end
+  inherited psf: TUniQuery
+    Left = 884
+    Top = 292
+  end
+  inherited dcl: TUniQuery
+    Left = 644
+    Top = 168
+  end
+  inherited cau: TUniQuery
+    Left = 688
+    Top = 224
+  end
+  inherited err: TUniQuery
+    Left = 760
+    Top = 284
+  end
+  inherited acoesfrm: TActionList
+    Left = 412
+    Top = 164
+  end
+  inherited cpg: TUniQuery
+    Left = 764
+    Top = 88
+  end
+  inherited cpc: TUniQuery
+    Left = 733
+    Top = 89
+  end
+  inherited ImgBusca: TPngImageList
+    Left = 684
+    Top = 16
+  end
+  object ACBrBAL: TACBrBAL
+    Porta = 'COM1'
+    OnLePeso = ACBrBALLePeso
+    Left = 256
+    Top = 224
+  end
+  object sen: TUniQuery
+    SQL.Strings = (
+      'select * from sen')
+    Left = 532
+    Top = 184
+    object sensencodigo: TIntegerField
+      FieldName = 'sencodigo'
+    end
+    object sensenidentificacao: TStringField
+      FieldName = 'senidentificacao'
+      Size = 5
+    end
+  end
+end

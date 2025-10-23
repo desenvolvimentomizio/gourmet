@@ -1,0 +1,139 @@
+object lentregadores: Tlentregadores
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Entregador'
+  ClientHeight = 601
+  ClientWidth = 892
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 19
+  object listaOrcs: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 892
+    Height = 552
+    Align = alClient
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataSource = Dclb
+    DrawingStyle = gdsGradient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -24
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = [fsBold]
+    OnCellClick = listaOrcsCellClick
+    OnDrawColumnCell = listaOrcsDrawColumnCell
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'clbcodigo'
+        Width = 106
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'clbidentificacao'
+        Width = 350
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'maquina'
+        Title.Caption = 'Maquininha'
+        Width = 350
+        Visible = True
+      end>
+  end
+  object plBotoes: TPanel
+    Left = 0
+    Top = 552
+    Width = 892
+    Height = 49
+    Align = alBottom
+    BorderWidth = 6
+    TabOrder = 1
+    ExplicitWidth = 819
+    object btConfirma: TButton
+      Left = 645
+      Top = 7
+      Width = 120
+      Height = 35
+      Align = alRight
+      Caption = 'Confirma'
+      TabOrder = 0
+      OnClick = btConfirmaClick
+      ExplicitLeft = 572
+    end
+    object btCancela: TButton
+      Left = 765
+      Top = 7
+      Width = 120
+      Height = 35
+      Align = alRight
+      Caption = 'Cancela'
+      TabOrder = 1
+      OnClick = btCancelaClick
+      ExplicitLeft = 692
+    end
+    object btRelatorioDetalhado: TButton
+      Left = 7
+      Top = 7
+      Width = 168
+      Height = 35
+      Align = alLeft
+      Caption = 'Relatorio Detalhado'
+      TabOrder = 2
+      Visible = False
+      OnClick = btRelatorioDetalhadoClick
+    end
+    object btRelatorioResumido: TButton
+      Left = 175
+      Top = 7
+      Width = 168
+      Height = 35
+      Align = alLeft
+      Caption = 'Relatorio Resumido'
+      TabOrder = 3
+      Visible = False
+      OnClick = btRelatorioResumidoClick
+    end
+    object btRegistroManual: TButton
+      Left = 343
+      Top = 7
+      Width = 168
+      Height = 35
+      Align = alLeft
+      Caption = 'Registro de Valores'
+      TabOrder = 4
+      Visible = False
+      OnClick = btRegistroManualClick
+    end
+  end
+  object Dclb: TDataSource
+    DataSet = FprinciEntregas.clbcax
+    Left = 592
+    Top = 248
+  end
+  object frxUniDACComponents: TfrxUniDACComponents
+    Left = 400
+    Top = 312
+  end
+end

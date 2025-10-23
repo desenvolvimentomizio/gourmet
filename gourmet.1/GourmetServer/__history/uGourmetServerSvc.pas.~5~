@@ -1,0 +1,65 @@
+unit uGourmetServerSvc;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.SvcMgr, Vcl.Dialogs;
+
+type
+  TGourmetServerServer = class(TService)
+    procedure ServiceCreate(Sender: TObject);
+    procedure ServiceStart(Sender: TService; var Started: Boolean);
+    procedure ServiceStop(Sender: TService; var Stopped: Boolean);
+  private
+    { Private declarations }
+  public
+    function GetServiceController: TServiceController; override;
+    { Public declarations }
+  end;
+
+var
+  GourmetServerServer: TGourmetServerServer;
+
+implementation
+
+{$R *.dfm}
+uses
+  Horse;
+
+
+procedure ServiceController(CtrlCode: DWord); stdcall;
+begin
+  GourmetServerServer.Controller(CtrlCode);
+end;
+
+function TGourmetServerServer.GetServiceController: TServiceController;
+begin
+  Result := ServiceController;
+end;
+
+procedure TGourmetServerServer.ServiceCreate(Sender: TObject);
+begin
+  THorse.Get('ping',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+      Res.Send('pong');
+    end);
+
+
+
+end;
+
+procedure TGourmetServerServer.ServiceStart(Sender: TService; var Started: Boolean);
+begin
+  THorse.Listen(9000);
+  Started := True;
+
+end;
+
+procedure TGourmetServerServer.ServiceStop(Sender: TService; var Stopped: Boolean);
+begin
+  THorse.StopListen;
+  Stopped := True;
+end;
+
+end.

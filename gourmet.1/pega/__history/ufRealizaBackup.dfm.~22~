@@ -1,0 +1,166 @@
+object fRealizaBackup: TfRealizaBackup
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Mizio Sistemas - Importante ...'
+  ClientHeight = 456
+  ClientWidth = 586
+  Color = clMaroon
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 184
+    Top = 22
+    Width = 195
+    Height = 33
+    Caption = 'A T E N '#199' '#195' O !'
+    Color = 4210816
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -27
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object LMENSAGEM: TLabel
+    Left = 24
+    Top = 213
+    Width = 537
+    Height = 28
+    Alignment = taCenter
+    AutoSize = False
+    Color = clMaroon
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -20
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 24
+    Top = 161
+    Width = 537
+    Height = 33
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Risco de perda de dados  !'
+    Color = 4210816
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -24
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 24
+    Top = 263
+    Width = 537
+    Height = 28
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Realizar C'#211'PIA em dispositivo m'#243'vel (Pen Drive ou HD Externo)'
+    Color = clMaroon
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object pbotoes: TPanel
+    AlignWithMargins = True
+    Left = 13
+    Top = 416
+    Width = 560
+    Height = 37
+    Margins.Left = 13
+    Margins.Right = 13
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitTop = 337
+    object bconfirma: TBitBtn
+      AlignWithMargins = True
+      Left = 293
+      Top = 3
+      Width = 125
+      Height = 31
+      Hint = 'ENTER - Confirma o registro '
+      Align = alRight
+      Caption = 'Fazer a c'#243'pia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnClick = bconfirmaClick
+    end
+    object bcancela: TBitBtn
+      AlignWithMargins = True
+      Left = 424
+      Top = 3
+      Width = 133
+      Height = 31
+      Hint = 'Esc - Cancela'
+      Align = alRight
+      Caption = 'N'#227'o fazer'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+      OnClick = bcancelaClick
+    end
+  end
+  object mostra: TProgressBar
+    Left = 20
+    Top = 301
+    Width = 541
+    Height = 23
+    DoubleBuffered = False
+    Max = 10
+    ParentDoubleBuffered = False
+    MarqueeInterval = 1
+    BarColor = clNavy
+    BackgroundColor = clGray
+    TabOrder = 1
+    Visible = False
+    StyleElements = []
+  end
+  object mensagens: TMemo
+    Left = 20
+    Top = 330
+    Width = 541
+    Height = 64
+    TabStop = False
+    Color = clWhite
+    Enabled = False
+    ReadOnly = True
+    TabOrder = 2
+    Visible = False
+  end
+  object ActivityIndicator1: TActivityIndicator
+    Left = 245
+    Top = 83
+    IndicatorSize = aisLarge
+  end
+end

@@ -1,0 +1,1394 @@
+unit ufcgt;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, DAScript, UniScript, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.ComCtrls, Vcl.Controls, Vcl.ExtCtrls, System.Classes, Vcl.StdCtrls,
+  System.SysUtils, uFuncoes, dialogs;
+
+type
+  Tfcgt = class(TForm)
+    PlTitulo: TPanel;
+    plid: TPanel;
+    PlQtdRecno: TPanel;
+    Label1: TLabel;
+    LlNomearq: TLabel;
+    mostrareg: TProgressBar;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    mostratab: TProgressBar;
+    Label5: TLabel;
+    Label6: TLabel;
+    UniScript: TUniScript;
+    consulta: tuniquery;
+    vdbgera: tuniquery;
+    vdbatual: tuniquery;
+    vdtatual: tuniquery;
+    ajustabanco: tuniquery;
+    vdt: tuniquery;
+    vdtvdtcodigo: TIntegerField;
+    vdtvdtversao: TStringField;
+    vdtvdtdados: TMemoField;
+    vdtvdtalteracao: TDateTimeField;
+    vdb: tuniquery;
+    vdbvdbcodigo: TIntegerField;
+    vdbvdbversao: TStringField;
+    vdbvdbalteracao: TDateTimeField;
+    us001210: TUniScript;
+    us001211: TUniScript;
+    us001212: TUniScript;
+    us001213: TUniScript;
+    us001214: TUniScript;
+    us001215: TUniScript;
+    us001216: TUniScript;
+    us001217: TUniScript;
+    us001218: TUniScript;
+    us001219: TUniScript;
+    us001220: TUniScript;
+    us001221: TUniScript;
+    us001222: TUniScript;
+    us001223: TUniScript;
+    us001224: TUniScript;
+    us001225: TUniScript;
+    us001226: TUniScript;
+    us001227: TUniScript;
+    us001228: TUniScript;
+    us001229: TUniScript;
+    us001230: TUniScript;
+    us001235: TUniScript;
+    us001242: TUniScript;
+    us001241: TUniScript;
+    us001240: TUniScript;
+    us001239: TUniScript;
+    us001238: TUniScript;
+    us001237: TUniScript;
+    us001236: TUniScript;
+    us001234: TUniScript;
+    us001233: TUniScript;
+    us001232: TUniScript;
+    us001231: TUniScript;
+    us001243: TUniScript;
+    us001244: TUniScript;
+    us001245: TUniScript;
+    us001246: TUniScript;
+    us001247: TUniScript;
+    us001248: TUniScript;
+    us001249: TUniScript;
+    us001250: TUniScript;
+    us001251: TUniScript;
+    us001252: TUniScript;
+    us001253: TUniScript;
+    us001254: TUniScript;
+    us001255: TUniScript;
+    us001256: TUniScript;
+    us001257: TUniScript;
+    us001258: TUniScript;
+    us001259: TUniScript;
+    us001260: TUniScript;
+    us001261: TUniScript;
+    us001262: TUniScript;
+    us001263: TUniScript;
+    us001264: TUniScript;
+    us001265: TUniScript;
+    us001266: TUniScript;
+    us001267: TUniScript;
+    us001268: TUniScript;
+    us001269: TUniScript;
+    us001270: TUniScript;
+    us001271: TUniScript;
+    us001272: TUniScript;
+    us001273: TUniScript;
+    us001274: TUniScript;
+    us001275: TUniScript;
+    us001276: TUniScript;
+    us001277: TUniScript;
+    us001278: TUniScript;
+    us001279: TUniScript;
+    us001280: TUniScript;
+    us001281: TUniScript;
+    us001282: TUniScript;
+    us001283: TUniScript;
+    us001284: TUniScript;
+    us001285: TUniScript;
+    us001286: TUniScript;
+    us001287: TUniScript;
+    us001288: TUniScript;
+    us001289: TUniScript;
+    vdbvdbcomandos: TBlobField;
+    us001290: TUniScript;
+    us001291: TUniScript;
+    us001292: TUniScript;
+    us001293: TUniScript;
+    us001294: TUniScript;
+    us001295: TUniScript;
+    us001296: TUniScript;
+    us001297: TUniScript;
+    us001298: TUniScript;
+    us001299: TUniScript;
+    us001300: TUniScript;
+    us001301: TUniScript;
+    us001302: TUniScript;
+    us001303: TUniScript;
+    us001304: TUniScript;
+    us001305: TUniScript;
+    us001306: TUniScript;
+    us001307: TUniScript;
+    us001308: TUniScript;
+    us001309: TUniScript;
+    us001310: TUniScript;
+    us001311: TUniScript;
+    us001312: TUniScript;
+    us001313: TUniScript;
+    us001314: TUniScript;
+    us001315: TUniScript;
+    us001316: TUniScript;
+    us001317: TUniScript;
+    us001318: TUniScript;
+    us001319: TUniScript;
+    us001320: TUniScript;
+    us001321: TUniScript;
+    us001322: TUniScript;
+    us001323: TUniScript;
+    us001324: TUniScript;
+    us001325: TUniScript;
+    us001326: TUniScript;
+    us001327: TUniScript;
+    us001328: TUniScript;
+    us001329: TUniScript;
+    us001330: TUniScript;
+    us001331: TUniScript;
+    us001332: TUniScript;
+    us001333: TUniScript;
+    us001334: TUniScript;
+    us001335: TUniScript;
+    UniScript1: TUniScript;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    VArquivo: string;
+    Fzcone: tuniconnection;
+    procedure CargaDeTabelas(Pasta: string);
+    function ProcessaArquivoSQL(arqnom: string; arqtxt: TStringList): Boolean;
+    function ProcessaArquivoCSV(arqnom: string; arqtxt: TStringList): Boolean;
+    procedure CarregaRegistro(sRecord: string; ListDestino: TStringList);
+    procedure DesligaAutoIncremento(tab: string);
+    procedure LigaAutoIncremento(tab: string);
+
+  public
+    { Public declarations }
+    vPasta: string;
+    vpVersao: string;
+    VRetornoSQL: String;
+  published
+    property zcone: tuniconnection read Fzcone write Fzcone;
+
+  end;
+
+var
+  fcgt: Tfcgt;
+
+implementation
+
+{$R *.dfm}
+
+function carregatabelas(AOwner: TComponent; conexao: tuniconnection; vPasta: string; vVersao: string = ''): string;
+var
+  i: Integer;
+begin
+  try
+    fcgt := Tfcgt.Create(AOwner);
+    fcgt.vPasta := vPasta;
+    fcgt.vpVersao := vVersao;
+    fcgt.zcone := conexao;
+
+    for i := 0 to fcgt.ComponentCount - 1 do
+      if fcgt.Components[i] is tuniquery then
+        (fcgt.Components[i] as tuniquery).Connection := fcgt.zcone;
+
+
+
+
+    if not fileexists(fcgt.vPasta+'\001210.sql') then
+    begin
+     fcgt.us001210.SQL.SaveToFile(fcgt.vPasta+'\001210.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001211.sql') then
+    begin
+     fcgt.us001211.SQL.SaveToFile(fcgt.vPasta+'\001211.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001212.sql') then
+    begin
+     fcgt.us001212.SQL.SaveToFile(fcgt.vPasta+'\001212.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001213.sql') then
+    begin
+     fcgt.us001213.SQL.SaveToFile(fcgt.vPasta+'\001213.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001214.sql') then
+    begin
+     fcgt.us001214.SQL.SaveToFile(fcgt.vPasta+'\001214.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001215.sql') then
+    begin
+     fcgt.us001215.SQL.SaveToFile(fcgt.vPasta+'\001215.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001216.sql') then
+    begin
+     fcgt.us001216.SQL.SaveToFile(fcgt.vPasta+'\001216.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001217.sql') then
+    begin
+     fcgt.us001217.SQL.SaveToFile(fcgt.vPasta+'\001217.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001218.sql') then
+    begin
+     fcgt.us001218.SQL.SaveToFile(fcgt.vPasta+'\001218.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001219.sql') then
+    begin
+     fcgt.us001219.SQL.SaveToFile(fcgt.vPasta+'\001219.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001220.sql') then
+    begin
+     fcgt.us001220.SQL.SaveToFile(fcgt.vPasta+'\001220.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001221.sql') then
+    begin
+     fcgt.us001221.SQL.SaveToFile(fcgt.vPasta+'\001221.sql');
+    end;
+
+
+    if not fileexists(fcgt.vPasta+'\001222.sql') then
+    begin
+     fcgt.us001222.SQL.SaveToFile(fcgt.vPasta+'\001222.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001223.sql') then
+    begin
+     fcgt.us001223.SQL.SaveToFile(fcgt.vPasta+'\001223.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001224.sql') then
+    begin
+     fcgt.us001224.SQL.SaveToFile(fcgt.vPasta+'\001224.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001225.sql') then
+    begin
+     fcgt.us001225.SQL.SaveToFile(fcgt.vPasta+'\001225.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001226.sql') then
+    begin
+     fcgt.us001226.SQL.SaveToFile(fcgt.vPasta+'\001226.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001227.sql') then
+    begin
+     fcgt.us001227.SQL.SaveToFile(fcgt.vPasta+'\001227.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001228.sql') then
+    begin
+     fcgt.us001228.SQL.SaveToFile(fcgt.vPasta+'\001228.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001229.sql') then
+    begin
+     fcgt.us001229.SQL.SaveToFile(fcgt.vPasta+'\001229.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001230.sql') then
+    begin
+     fcgt.us001230.SQL.SaveToFile(fcgt.vPasta+'\001230.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001231.sql') then
+    begin
+     fcgt.us001231.SQL.SaveToFile(fcgt.vPasta+'\001231.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001232.sql') then
+    begin
+     fcgt.us001232.SQL.SaveToFile(fcgt.vPasta+'\001232.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001233.sql') then
+    begin
+     fcgt.us001233.SQL.SaveToFile(fcgt.vPasta+'\001233.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001234.sql') then
+    begin
+     fcgt.us001234.SQL.SaveToFile(fcgt.vPasta+'\001234.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001235.sql') then
+    begin
+     fcgt.us001235.SQL.SaveToFile(fcgt.vPasta+'\001235.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001236.sql') then
+    begin
+     fcgt.us001236.SQL.SaveToFile(fcgt.vPasta+'\001236.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001237.sql') then
+    begin
+     fcgt.us001237.SQL.SaveToFile(fcgt.vPasta+'\001237.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001238.sql') then
+    begin
+     fcgt.us001238.SQL.SaveToFile(fcgt.vPasta+'\001238.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001239.sql') then
+    begin
+     fcgt.us001239.SQL.SaveToFile(fcgt.vPasta+'\001239.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001240.sql') then
+    begin
+     fcgt.us001240.SQL.SaveToFile(fcgt.vPasta+'\001240.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001241.sql') then
+    begin
+     fcgt.us001241.SQL.SaveToFile(fcgt.vPasta+'\001241.sql');
+    end;
+
+
+    if not fileexists(fcgt.vPasta+'\001242.sql') then
+    begin
+     fcgt.us001242.SQL.SaveToFile(fcgt.vPasta+'\001242.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001243.sql') then
+    begin
+     fcgt.us001243.SQL.SaveToFile(fcgt.vPasta+'\001243.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001244.sql') then
+    begin
+     fcgt.us001244.SQL.SaveToFile(fcgt.vPasta+'\001244.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001245.sql') then
+    begin
+     fcgt.us001245.SQL.SaveToFile(fcgt.vPasta+'\001245.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001246.sql') then
+    begin
+     fcgt.us001246.SQL.SaveToFile(fcgt.vPasta+'\001246.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001247.sql') then
+    begin
+     fcgt.us001247.SQL.SaveToFile(fcgt.vPasta+'\001247.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001248.sql') then
+    begin
+     fcgt.us001248.SQL.SaveToFile(fcgt.vPasta+'\001248.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001249.sql') then
+    begin
+     fcgt.us001249.SQL.SaveToFile(fcgt.vPasta+'\001249.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001250.sql') then
+    begin
+     fcgt.us001250.SQL.SaveToFile(fcgt.vPasta+'\001250.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001251.sql') then
+    begin
+     fcgt.us001251.SQL.SaveToFile(fcgt.vPasta+'\001251.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001252.sql') then
+    begin
+     fcgt.us001252.SQL.SaveToFile(fcgt.vPasta+'\001252.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001253.sql') then
+    begin
+     fcgt.us001253.SQL.SaveToFile(fcgt.vPasta+'\001253.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001254.sql') then
+    begin
+     fcgt.us001254.SQL.SaveToFile(fcgt.vPasta+'\001254.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001255.sql') then
+    begin
+     fcgt.us001255.SQL.SaveToFile(fcgt.vPasta+'\001255.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001256.sql') then
+    begin
+     fcgt.us001256.SQL.SaveToFile(fcgt.vPasta+'\001256.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001257.sql') then
+    begin
+     fcgt.us001257.SQL.SaveToFile(fcgt.vPasta+'\001257.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001258.sql') then
+    begin
+     fcgt.us001258.SQL.SaveToFile(fcgt.vPasta+'\001258.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001259.sql') then
+    begin
+     fcgt.us001259.SQL.SaveToFile(fcgt.vPasta+'\001259.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001260.sql') then
+    begin
+     fcgt.us001260.SQL.SaveToFile(fcgt.vPasta+'\001260.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001261.sql') then
+    begin
+     fcgt.us001261.SQL.SaveToFile(fcgt.vPasta+'\001261.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001262.sql') then
+    begin
+     fcgt.us001262.SQL.SaveToFile(fcgt.vPasta+'\001262.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001263.sql') then
+    begin
+     fcgt.us001263.SQL.SaveToFile(fcgt.vPasta+'\001263.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001264.sql') then
+    begin
+     fcgt.us001264.SQL.SaveToFile(fcgt.vPasta+'\001264.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001265.sql') then
+    begin
+     fcgt.us001265.SQL.SaveToFile(fcgt.vPasta+'\001265.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001266.sql') then
+    begin
+     fcgt.us001266.SQL.SaveToFile(fcgt.vPasta+'\001266.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001267.sql') then
+    begin
+     fcgt.us001267.SQL.SaveToFile(fcgt.vPasta+'\001267.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001268.sql') then
+    begin
+     fcgt.us001268.SQL.SaveToFile(fcgt.vPasta+'\001268.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001269.sql') then
+    begin
+     fcgt.us001269.SQL.SaveToFile(fcgt.vPasta+'\001269.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001270.sql') then
+    begin
+     fcgt.us001270.SQL.SaveToFile(fcgt.vPasta+'\001270.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001271.sql') then
+    begin
+     fcgt.us001271.SQL.SaveToFile(fcgt.vPasta+'\001271.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001272.sql') then
+    begin
+     fcgt.us001272.SQL.SaveToFile(fcgt.vPasta+'\001272.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001273.sql') then
+    begin
+     fcgt.us001273.SQL.SaveToFile(fcgt.vPasta+'\001273.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001274.sql') then
+    begin
+     fcgt.us001274.SQL.SaveToFile(fcgt.vPasta+'\001274.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001275.sql') then
+    begin
+     fcgt.us001275.SQL.SaveToFile(fcgt.vPasta+'\001275.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001276.sql') then
+    begin
+     fcgt.us001276.SQL.SaveToFile(fcgt.vPasta+'\001276.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001277.sql') then
+    begin
+     fcgt.us001277.SQL.SaveToFile(fcgt.vPasta+'\001277.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001278.sql') then
+    begin
+     fcgt.us001278.SQL.SaveToFile(fcgt.vPasta+'\001278.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001279.sql') then
+    begin
+     fcgt.us001279.SQL.SaveToFile(fcgt.vPasta+'\001279.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001280.sql') then
+    begin
+     fcgt.us001280.SQL.SaveToFile(fcgt.vPasta+'\001280.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001281.sql') then
+    begin
+     fcgt.us001281.SQL.SaveToFile(fcgt.vPasta+'\001281.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001282.sql') then
+    begin
+     fcgt.us001282.SQL.SaveToFile(fcgt.vPasta+'\001282.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001283.sql') then
+    begin
+     fcgt.us001283.SQL.SaveToFile(fcgt.vPasta+'\001283.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001284.sql') then
+    begin
+     fcgt.us001284.SQL.SaveToFile(fcgt.vPasta+'\001284.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001285.sql') then
+    begin
+     fcgt.us001285.SQL.SaveToFile(fcgt.vPasta+'\001285.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001286.sql') then
+    begin
+     fcgt.us001286.SQL.SaveToFile(fcgt.vPasta+'\001286.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001287.sql') then
+    begin
+     fcgt.us001287.SQL.SaveToFile(fcgt.vPasta+'\001287.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001288.sql') then
+    begin
+     fcgt.us001288.SQL.SaveToFile(fcgt.vPasta+'\001288.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001289.sql') then
+    begin
+     fcgt.us001289.SQL.SaveToFile(fcgt.vPasta+'\001289.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001290.sql') then
+    begin
+     fcgt.us001290.SQL.SaveToFile(fcgt.vPasta+'\001290.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001291.sql') then
+    begin
+     fcgt.us001291.SQL.SaveToFile(fcgt.vPasta+'\001291.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001292.sql') then
+    begin
+     fcgt.us001292.SQL.SaveToFile(fcgt.vPasta+'\001292.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001293.sql') then
+    begin
+     fcgt.us001293.SQL.SaveToFile(fcgt.vPasta+'\001293.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001294.sql') then
+    begin
+     fcgt.us001294.SQL.SaveToFile(fcgt.vPasta+'\001294.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001295.sql') then
+    begin
+     fcgt.us001295.SQL.SaveToFile(fcgt.vPasta+'\001295.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001296.sql') then
+    begin
+     fcgt.us001296.SQL.SaveToFile(fcgt.vPasta+'\001296.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001297.sql') then
+    begin
+     fcgt.us001297.SQL.SaveToFile(fcgt.vPasta+'\001297.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001298.sql') then
+    begin
+     fcgt.us001298.SQL.SaveToFile(fcgt.vPasta+'\001298.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001299.sql') then
+    begin
+     fcgt.us001299.SQL.SaveToFile(fcgt.vPasta+'\001299.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001300.sql') then
+    begin
+     fcgt.us001300.SQL.SaveToFile(fcgt.vPasta+'\001300.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001301.sql') then
+    begin
+     fcgt.us001301.SQL.SaveToFile(fcgt.vPasta+'\001301.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001302.sql') then
+    begin
+     fcgt.us001302.SQL.SaveToFile(fcgt.vPasta+'\001302.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001303.sql') then
+    begin
+     fcgt.us001303.SQL.SaveToFile(fcgt.vPasta+'\001303.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001304.sql') then
+    begin
+     fcgt.us001304.SQL.SaveToFile(fcgt.vPasta+'\001304.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001305.sql') then
+    begin
+     fcgt.us001305.SQL.SaveToFile(fcgt.vPasta+'\001305.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001306.sql') then
+    begin
+     fcgt.us001306.SQL.SaveToFile(fcgt.vPasta+'\001306.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001307.sql') then
+    begin
+     fcgt.us001307.SQL.SaveToFile(fcgt.vPasta+'\001307.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001308.sql') then
+    begin
+     fcgt.us001308.SQL.SaveToFile(fcgt.vPasta+'\001308.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001309.sql') then
+    begin
+     fcgt.us001309.SQL.SaveToFile(fcgt.vPasta+'\001309.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001310.sql') then
+    begin
+      fcgt.us001310.SQL.SaveToFile(fcgt.vPasta+'\001310.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001311.sql') then
+    begin
+      fcgt.us001311.SQL.SaveToFile(fcgt.vPasta+'\001311.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001312.sql') then
+    begin
+      fcgt.us001312.SQL.SaveToFile(fcgt.vPasta+'\001312.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001313.sql') then
+    begin
+      fcgt.us001313.SQL.SaveToFile(fcgt.vPasta+'\001313.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001314.sql') then
+    begin
+      fcgt.us001314.SQL.SaveToFile(fcgt.vPasta+'\001314.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001315.sql') then
+    begin
+      fcgt.us001315.SQL.SaveToFile(fcgt.vPasta+'\001315.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001316.sql') then
+    begin
+      fcgt.us001316.SQL.SaveToFile(fcgt.vPasta+'\001316.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001317.sql') then
+    begin
+      fcgt.us001317.SQL.SaveToFile(fcgt.vPasta+'\001317.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001318.sql') then
+    begin
+      fcgt.us001318.SQL.SaveToFile(fcgt.vPasta+'\001318.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001319.sql') then
+    begin
+      fcgt.us001319.SQL.SaveToFile(fcgt.vPasta+'\001319.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001320.sql') then
+    begin
+      fcgt.us001320.SQL.SaveToFile(fcgt.vPasta+'\001320.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001321.sql') then
+    begin
+      fcgt.us001321.SQL.SaveToFile(fcgt.vPasta+'\001321.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001322.sql') then
+    begin
+      fcgt.us001322.SQL.SaveToFile(fcgt.vPasta+'\001322.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001323.sql') then
+    begin
+      fcgt.us001323.SQL.SaveToFile(fcgt.vPasta+'\001323.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001324.sql') then
+    begin
+      fcgt.us001324.SQL.SaveToFile(fcgt.vPasta+'\001324.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001325.sql') then
+    begin
+      fcgt.us001325.SQL.SaveToFile(fcgt.vPasta+'\001325.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001326.sql') then
+    begin
+      fcgt.us001326.SQL.SaveToFile(fcgt.vPasta+'\001326.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001327.sql') then
+    begin
+      fcgt.us001327.SQL.SaveToFile(fcgt.vPasta+'\001327.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001328.sql') then
+    begin
+      fcgt.us001328.SQL.SaveToFile(fcgt.vPasta+'\001328.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001329.sql') then
+    begin
+      fcgt.us001329.SQL.SaveToFile(fcgt.vPasta+'\001329.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001330.sql') then
+    begin
+      fcgt.us001330.SQL.SaveToFile(fcgt.vPasta+'\001330.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001331.sql') then
+    begin
+      fcgt.us001331.SQL.SaveToFile(fcgt.vPasta+'\001331.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001332.sql') then
+    begin
+      fcgt.us001332.SQL.SaveToFile(fcgt.vPasta+'\001332.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001333.sql') then
+    begin
+      fcgt.us001333.SQL.SaveToFile(fcgt.vPasta+'\001333.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001334.sql') then
+    begin
+      fcgt.us001334.SQL.SaveToFile(fcgt.vPasta+'\001334.sql');
+    end;
+
+    if not fileexists(fcgt.vPasta+'\001335.sql') then
+    begin
+      fcgt.us001335.SQL.SaveToFile(fcgt.vPasta+'\001335.sql');
+    end;
+
+    fcgt.CargaDeTabelas(fcgt.vPasta);
+
+    Result := fcgt.VRetornoSQL;
+
+  finally
+    FreeAndNil(fcgt);
+  end;
+end;
+
+exports carregatabelas;
+
+procedure Tfcgt.CargaDeTabelas(Pasta: string);
+var
+  vTextoArquivo: TStringList;
+  ListArquivos: TStringList;
+  vNomeArquivo: string;
+  SearchRec: TSearchRec;
+  vDiretorio: string;
+  i: Integer;
+  vNovoArq: string;
+  vQtdArquivos: Integer;
+  vlNomecsv: String;
+begin
+
+  { carga de tabelas }
+  try
+
+    vTextoArquivo := TStringList.Create;
+    ListArquivos := TStringList.Create;
+    ListArquivos.Clear;
+
+    try
+      // verifica se o último caracter é uma barra e tira
+      vDiretorio := Pasta;
+      if Copy(vDiretorio, Length(vDiretorio), 1) = '\' then
+        vDiretorio := Copy(vDiretorio, 1, Length(vDiretorio) - 1);
+
+      if DirectoryExists(vDiretorio) = False then
+        ForceDirectories(vDiretorio);
+
+      (* Tratativa para Scripts e CSVs temporarios *)
+      if not SetCurrentDir(vDiretorio) then
+        Exit;
+
+      vdbatual.Close;
+      vdbatual.sql.Text := 'select vdb.vdbversao, vdb.vdbcodigo FROM vdb';
+      vdbatual.Open;
+
+      vQtdArquivos := 0;
+      i := 0;
+
+      (*
+        ** Processamento das SQLs **
+      *)
+
+      try
+
+        ajustabanco.Close;
+        ajustabanco.sql.Text := 'ALTER TABLE vdb CHANGE COLUMN vdbcomandos vdbcomandos LONGBLOB DEFAULT NULL';
+        ajustabanco.ExecSQL;
+
+      except
+
+
+
+      end;
+
+      if Pos('scripts', vDiretorio) > 0 then
+      begin
+
+        If FindFirst('*.sql', faAnyFile, SearchRec) = 0 Then
+        Begin
+          Repeat
+
+            if not vdbatual.Locate('vdbversao', Copy(SearchRec.Name, 1, 6), []) then
+            begin
+              if strtoint(Copy(SearchRec.Name, 1, 6)) > 999 then
+              begin
+                ListArquivos.Add(SearchRec.Name);
+              end;
+            end;
+
+          Until FindNext(SearchRec) <> 0;
+          FindClose(SearchRec);
+        End;
+
+        vQtdArquivos := ListArquivos.Count;
+
+        Label6.Caption := 'Arquivos a processar: ' + FormatFloat('000', vQtdArquivos);
+
+        ListArquivos.Sort;
+        ListArquivos.Sorted := true;
+
+        if vQtdArquivos <= 0 then
+          vQtdArquivos := 1;
+
+        mostratab.Max := vQtdArquivos;
+        mostratab.Position := 0;
+        application.ProcessMessages;
+
+        if vQtdArquivos > 0 then
+          Self.Visible := true;
+
+        for i := 0 to ListArquivos.Count - 1 do
+        begin
+          vNomeArquivo := ListArquivos[i];
+          LlNomearq.Caption := vNomeArquivo;
+          mostratab.Position := mostratab.Position + 1;
+          application.ProcessMessages;
+
+          VArquivo := Pasta + '\' + vNomeArquivo;
+
+          if fileexists(VArquivo) then
+          begin
+            vTextoArquivo.LoadFromFile(VArquivo);
+
+            ProcessaArquivoSQL(vNomeArquivo, vTextoArquivo);
+          end;
+        end;
+      end;
+
+      (*
+        ** Processamento dos CSVs **
+      *)
+
+      try
+
+        ajustabanco.Close;
+        ajustabanco.sql.Text := 'ALTER TABLE vdt CHANGE COLUMN vdtdados vdtdados LONGBLOB DEFAULT NULL';
+        ajustabanco.ExecSQL;
+      except
+
+      end;
+
+      vdtatual.Close;
+      vdtatual.sql.Text := 'select vdtversao, vdtcodigo FROM vdt';
+      vdtatual.Open;
+
+      if Pos('csvs', vDiretorio) > 0 then
+      begin
+        ListArquivos.Clear;
+        If FindFirst('*.csv', faAnyFile, SearchRec) = 0 Then
+        Begin
+          Repeat
+
+            if not vdtatual.Locate('vdtversao', Copy(SearchRec.Name, 1, 4), []) then
+            begin
+              ListArquivos.Add(SearchRec.Name);
+            end;
+
+          Until FindNext(SearchRec) <> 0;
+          FindClose(SearchRec);
+        End;
+
+        vQtdArquivos := ListArquivos.Count;
+
+        Label6.Caption := 'Arquivos a processar: ' + FormatFloat('000', vQtdArquivos);
+
+        ListArquivos.Sort;
+        ListArquivos.Sorted := true;
+
+        mostratab.Max := ListArquivos.Count;
+        mostratab.Position := vQtdArquivos;
+        application.ProcessMessages;
+
+        if vQtdArquivos > 0 then
+          Self.Visible := true;
+
+        for i := 0 to ListArquivos.Count - 1 do
+        begin
+          vNomeArquivo := ListArquivos[i];
+          LlNomearq.Caption := vNomeArquivo;
+          mostratab.Position := mostratab.Position + 1;
+          application.ProcessMessages;
+
+          VArquivo := Pasta + '\' + vNomeArquivo;
+
+          (*
+            * Processa arquivo, se retornar True renomeia arquivo
+            * Se algum arquivo retornar false para a lista
+            * e pega.exe retorna mensagem de erro pra usuário
+          *)
+
+          if fileexists(VArquivo) then
+          begin
+            vTextoArquivo.LoadFromFile(VArquivo, TEncoding.UTF8);
+            ProcessaArquivoCSV(vNomeArquivo, vTextoArquivo);
+          end;
+        end;
+
+      end;
+    finally
+      FreeAndNil(vTextoArquivo);
+      FreeAndNil(ListArquivos);
+    end;
+
+  except
+    on e: Exception do
+    begin
+      showmessage(vDiretorio + ' ' + vNomeArquivo + #13 + #13 + ' Mensagem: ' + e.Message);
+    end;
+  end;
+end;
+
+function Tfcgt.ProcessaArquivoCSV(arqnom: string; arqtxt: TStringList): Boolean;
+var
+  vLinha: string;
+  c, l: Integer;
+
+  ListCampos: TStringList;
+  ListDados: TStringList;
+  ListErros: TStringList;
+
+  VTextoSQL: string;
+  vlArquivo: TStringList;
+  vTabela: string;
+  vProcessado: Boolean;
+  vNomeArqErro: string;
+  J: Integer;
+  vlCamposSQL: string;
+  vlSeparador: string;
+begin
+  try
+    vProcessado := False;
+    // local para salvar arquivo de erros mesmo nome do original, mas com extensao .err
+    ListErros := TStringList.Create;
+
+    ListCampos := TStringList.Create;
+    ListDados := TStringList.Create;
+
+    vProcessado := False;
+
+    // le nome do arqquivo para obter nome da tabela sql
+    vTabela := lowercase(ExtractFileName(arqnom));
+    LlNomearq.Caption := vTabela;
+    application.ProcessMessages;
+
+    vTabela := Copy(vTabela, 5, Length(vTabela));
+    vTabela := Copy(vTabela, 1, Pos('.', vTabela) - 1);
+
+    // desliga o auto incremento para dados padroes
+    if (vTabela = 'etd') then
+      DesligaAutoIncremento(vTabela);
+
+    if arqtxt.Count = 0 then
+    begin
+      vProcessado := true;
+      Result := vProcessado;
+
+    end
+    else
+    begin
+      vLinha := arqtxt[0];
+      vProcessado := False;
+
+    end;
+
+    if (vLinha = '') or (Pos('"', vLinha) = 0) then
+    begin
+      vProcessado := true;
+      Result := vProcessado;
+
+    end;
+    if vProcessado = False then
+    begin
+
+      // le primeira linha do arquivo com o nome dos CAMPOS
+      CarregaRegistro(vLinha, ListCampos);
+
+      // le arquivo da segunda linha em diante
+      mostrareg.Max := arqtxt.Count;
+      mostrareg.Position := 0;
+      application.ProcessMessages;
+
+      (* Altera configuração temporariamente para não utilizar AUTO_INCREMENT para valor 0 (zero) *)
+      try
+      consulta.Close;
+      consulta.sql.Text := 'SET @@sql_mode = ''NO_AUTO_VALUE_ON_ZERO''';
+      consulta.ExecSQL;
+      except
+
+      end;
+
+      // monta sql e abre tabela
+      vlCamposSQL := '';
+      vlSeparador := '';
+      for J := 0 to ListCampos.Count - 1 do
+      begin
+        vlCamposSQL := vlCamposSQL + vlSeparador + ListCampos[J] + sLineBreak;
+        vlSeparador := '     , ';
+      end;
+
+      VTextoSQL := 'SELECT ' + vlCamposSQL + ' FROM ' + vTabela;
+      consulta.Close;
+      consulta.sql.Text := VTextoSQL;
+      consulta.Open;
+
+      for l := 1 to arqtxt.Count - 1 do
+      begin
+        mostrareg.Position := mostrareg.Position + 1;
+        application.ProcessMessages;
+
+        vLinha := Trim(arqtxt[l]);
+        if vLinha <> '' then
+        begin
+          // le demais linhas do arquivo com os DADOS
+          ListDados.Clear;
+          CarregaRegistro(vLinha, ListDados);
+
+          // salva valor em cada linha para registar no banco de dados
+          try
+            for c := 0 to ListDados.Count - 1 do
+            begin
+              if c = 0 then
+                if not consulta.Locate(ListCampos[c], ListDados[c], []) then
+                  consulta.Append
+                else
+                  consulta.Edit;
+
+              (* Trata o tipo de Dados *)
+              case consulta.Fieldbyname(ListCampos[c]).DataType of
+                ftFloat:
+                  consulta.Fieldbyname(ListCampos[c]).Asfloat :=
+                    StrToFloat(buscatroca(StringReplace(ListDados[c], '"', '', [rfReplaceAll]), '.', ','));
+                ftDate:
+                  if ListDados[c] <> '' then
+                    if Pos('-', ListDados[c]) > 0 then
+                      consulta.Fieldbyname(ListCampos[c]).Asfloat := StrToDate(voltadata(ListDados[c]))
+                    else
+                      consulta.Fieldbyname(ListCampos[c]).Asfloat := StrToDate(ListDados[c]);
+              else
+                consulta.Fieldbyname(ListCampos[c]).asstring := ListDados[c];
+              end;
+            end;
+
+            consulta.Post;
+
+            vProcessado := true;
+          except
+            on e: Exception do
+            begin
+              consulta.Cancel;
+              // se houver exceçao, registra para salvar para posterior análise
+              try
+                ListErros.Add('Erro linha: ' + IntToStr(l) + 'Campo: ' + ListCampos[c]);
+              except
+                ListErros.Add('Erro linha: ' + IntToStr(l) + 'Linha: ' + vLinha);
+              end;
+
+              // salvando erros
+              vNomeArqErro := arqnom;
+              vNomeArqErro := ChangeFileExt(vNomeArqErro, '.err');
+              ListErros.SaveToFile(vNomeArqErro);
+
+              application.MessageBox(pchar('Erro processamento arquivo: ' + arqnom + #13 + #13 + 'Mensagem: ' + e.Message), 'ERRO',
+                MB_ICONERROR + MB_OK);
+
+              vProcessado := False;
+              VRetornoSQL := 'erro';
+              Break;
+            end;
+          end;
+        end;
+      end;
+
+    end;
+
+    if (vProcessado) then
+    begin
+      vlArquivo := TStringList.Create;
+      vlArquivo.LoadFromFile(VArquivo);
+      vdt.Close;
+      vdt.ParamByName('vdtversao').asstring := Copy(arqnom, 1, 4);
+      vdt.Open;
+
+      if vdt.IsEmpty then
+        vdt.Append
+      else
+        vdt.Edit;
+
+      vdtvdtversao.asstring := Copy(arqnom, 1, 4);
+
+      vdtvdtdados.asstring := vlArquivo.Text;
+      vdtvdtalteracao.Asfloat := Now;
+      vdt.Post;
+
+      vdt.Close;
+    end;
+
+    if (vTabela = 'etd') then
+      LigaAutoIncremento(vTabela);
+
+    Result := vProcessado;
+  finally
+    FreeAndNil(ListCampos);
+    FreeAndNil(ListDados);
+    FreeAndNil(ListErros);
+  end;
+end;
+
+procedure Tfcgt.LigaAutoIncremento(tab: string);
+var
+  ncampochave: string;
+  sql: string;
+begin
+
+  // monta sql e abre tabela
+  sql := 'select * from ' + tab;
+  consulta.Close;
+  consulta.sql.Text := sql;
+  consulta.Open;
+  ncampochave := consulta.Fields[0].FieldName;
+
+  // desliga o autoincremto do campos 0;
+  try
+  consulta.Close;
+  consulta.sql.Text := 'ALTER TABLE ' + tab + ' MODIFY COLUMN ' + ncampochave + ' INT(11) NOT NULL AUTO_INCREMENT';
+  consulta.ExecSQL;
+  except
+
+  end;
+end;
+
+procedure Tfcgt.DesligaAutoIncremento(tab: string);
+var
+  ncampochave: string;
+  sql: string;
+begin
+  // monta sql e abre tabela
+  sql := 'select * from ' + tab;
+  consulta.Close;
+  consulta.sql.Text := sql;
+  consulta.Open;
+  ncampochave := consulta.Fields[0].FieldName;
+
+  // desliga o autoincremto do campos 0;
+  try
+  consulta.Close;
+  consulta.sql.Text := 'ALTER TABLE ' + tab + ' MODIFY COLUMN ' + ncampochave + ' INT(11) NOT NULL';
+  consulta.ExecSQL;
+  except
+
+  end;
+end;
+
+procedure Tfcgt.FormCreate(Sender: TObject);
+begin
+ self.Width:= 450;
+ self.Height:= 285;
+
+end;
+
+procedure Tfcgt.CarregaRegistro(sRecord: string; ListDestino: TStringList);
+var
+  Col, PosComma: Integer;
+  sField: string;
+begin
+
+  Col := 0;
+  repeat
+    PosComma := Pos(',', sRecord);
+
+    if Copy(sRecord, 1, 1) = '"' then
+    begin
+      sRecord := Copy(sRecord, 2, Length(sRecord));
+      PosComma := Pos('"', sRecord);
+    end;
+
+    if PosComma > 0 then
+    begin
+      sField := Copy(sRecord, 1, PosComma - 1);
+    end
+    else
+    begin
+      sRecord := StringReplace(sRecord, '"', '', [rfReplaceAll]);
+      sField := sRecord;
+    end;
+
+    ListDestino.Add(sField);
+
+    if PosComma > 0 then
+    begin
+      Delete(sRecord, 1, PosComma);
+      if Copy(sRecord, 1, 1) = ',' then
+        sRecord := Copy(sRecord, 2, Length(sRecord));
+
+      Col := Col + 1;
+    end;
+  until (Length(sRecord) = 0) or (PosComma = 0);
+end;
+
+function Tfcgt.ProcessaArquivoSQL(arqnom: string; arqtxt: TStringList): Boolean;
+var
+  VTextoSQL: string;
+  vProcessado: Boolean;
+  VMensagemErro: String;
+  vlArquivo: TStringList;
+begin
+  try
+    VTextoSQL := arqtxt.Text;
+    vlArquivo := TStringList.Create;
+
+    UniScript.Connection := Self.zcone;
+    TRY
+    UniScript.sql.Clear;
+
+    UniScript.sql.Add(VTextoSQL);
+    UniScript.Execute;
+    EXCEPT
+     ShowMessage('Erro no arquivo: '+arqnom);
+    END;
+    vlArquivo.LoadFromFile(VArquivo);
+
+    vdb.Close;
+    vdb.ParamByName('vdbversao').asstring := Copy(arqnom, 1, Pos('.', arqnom) - 1);
+    vdb.Open;
+
+    if vdb.IsEmpty then
+      vdb.Append
+    else
+      vdb.Edit;
+
+    vdbvdbversao.asstring := Copy(arqnom, 1, Pos('.', arqnom) - 1);
+    vdbvdbcomandos.asstring := vlArquivo.Text;
+    vdbvdbalteracao.Asfloat := Now;
+    vdb.Post;
+
+
+    vdb.Close;
+
+    vProcessado := true;
+  except
+    on e: Exception do
+    begin
+      VMensagemErro := 'Erro atualização do banco de dados.';
+      VMensagemErro := VMensagemErro + #13 + #13;
+      VMensagemErro := VMensagemErro + 'Arquivo:' + #13 + VArquivo;
+      VMensagemErro := VMensagemErro + #13;
+      VMensagemErro := VMensagemErro + 'Mensagem: ' + #13 + e.Message;
+
+      application.MessageBox(pchar(VMensagemErro), 'ERRO', MB_ICONERROR + MB_OK);
+
+      VRetornoSQL := 'erro';
+      vProcessado := False;
+    end;
+  end;
+  Result := vProcessado;
+end;
+
+end.

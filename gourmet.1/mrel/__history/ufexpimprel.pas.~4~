@@ -1,0 +1,981 @@
+unit ufexpimprel;
+
+interface
+
+uses
+  Winapi.Windows, System.SysUtils, Vcl.Forms, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls, Vcl.Buttons,
+  Vcl.ComCtrls, System.Classes, Vcl.ExtCtrls, Vcl.Dialogs, Vcl.Graphics,
+  System.Variants, uFuncoes;
+
+type
+  Tfexpimprel = class(TForm)
+    pbotoes: TPanel;
+    psituacao: TPanel;
+    bfechar: TBitBtn;
+    lbcodigojanela: TPanel;
+    plCentro: TPanel;
+    plEsquerda: TPanel;
+    plDireita: TPanel;
+    plTitEsquerda: TPanel;
+    plTitDireita: TPanel;
+    bReconectar: TBitBtn;
+    DrelWeb: TDataSource;
+    DrelLoc: TDataSource;
+    relloc: TUniQuery;
+    DBGListLoc: TDBGrid;
+    DBGListWeb: TDBGrid;
+    relweb: TUniQuery;
+    rellocrelcodigo: TStringField;
+    rellocrelidentificacao: TStringField;
+    rellocreltitulo: TStringField;
+    rellocreltipodescri: TStringField;
+    rellocrelsituacaodescri: TStringField;
+    rellocrelnomearquivo: TStringField;
+    rellocrelorigem: TStringField;
+    plTitDescricaoLoc: TPanel;
+    plTitDescricaoWeb: TPanel;
+    relwebrelcodigo: TStringField;
+    relwebrelidentificacao: TStringField;
+    relwebreltitulo: TStringField;
+    relwebreltipodescri: TStringField;
+    relwebrelsituacaodescri: TStringField;
+    relwebrelnomearquivo: TStringField;
+    relwebrelorigem: TStringField;
+    reltituloloc: TDBMemo;
+    reltituloweb: TDBMemo;
+    SBIncluirUm: TSpeedButton;
+    SBIncluirTodos: TSpeedButton;
+    SBExcluirUn: TSpeedButton;
+    SBExcluirTodos: TSpeedButton;
+    consultaloc: TUniQuery;
+    consultaweb: TUniQuery;
+    relw: TUniQuery;
+    rell: TUniQuery;
+    rellocreltipo: TIntegerField;
+    relwebreltipo: TIntegerField;
+    rw: TUniQuery;
+    rl: TUniQuery;
+    rlrelcodigo: TStringField;
+    rlrelidentificacao: TStringField;
+    rlreltitulo: TStringField;
+    rlreltipodescri: TStringField;
+    rlrelsituacaodescri: TStringField;
+    rlrelnomearquivo: TStringField;
+    rlrelorigem: TStringField;
+    rlreltipo: TIntegerField;
+    rwrelcodigo: TStringField;
+    rwrelidentificacao: TStringField;
+    rwreltitulo: TStringField;
+    rwreltipodescri: TStringField;
+    rwrelsituacaodescri: TStringField;
+    rwrelnomearquivo: TStringField;
+    rwrelorigem: TStringField;
+    rwreltipo: TIntegerField;
+    lreloc: TUniQuery;
+    lreweb: TUniQuery;
+    lrloc: TUniQuery;
+    lrweb: TUniQuery;
+    lrloclrechave: TIntegerField;
+    lrlocclbcodigo: TIntegerField;
+    lrloclreregistro: TDateTimeField;
+    lrlocrelarquivo: TBlobField;
+    lrweblrechave: TIntegerField;
+    lrwebclbcodigo: TIntegerField;
+    lrweblreregistro: TDateTimeField;
+    lrwebrelarquivo: TBlobField;
+    lrwebrelcodigo: TStringField;
+    lrlocrelcodigo: TStringField;
+    Dlreweb: TDataSource;
+    Dlreloc: TDataSource;
+    plInfLogLoc: TPanel;
+    plInfLogWeb: TPanel;
+    Panel1: TPanel;
+    clbidentificacaoloc: TDBText;
+    Panel2: TPanel;
+    clbidentificacaoweb: TDBText;
+    lreregistroloc: TDBText;
+    lreregistroweb: TDBText;
+    cfg: TUniQuery;
+    cfgcfgcodigo: TIntegerField;
+    cfgetddoc1: TStringField;
+    mostra: TProgressBar;
+    Splitter1: TSplitter;
+    bpls: TUniQuery;
+    procedure bReconectarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure SBIncluirUmClick(Sender: TObject);
+    procedure bfecharClick(Sender: TObject);
+    procedure SBIncluirTodosClick(Sender: TObject);
+    procedure SBExcluirUnClick(Sender: TObject);
+    procedure SBExcluirTodosClick(Sender: TObject);
+    procedure DBGListLocDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGListWebDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DrelLocDataChange(Sender: TObject; Field: TField);
+    procedure DrelWebDataChange(Sender: TObject; Field: TField);
+  private
+    { Private declarations }
+    Fzcone: TUniConnection;
+    procedure AtualizaRelWeb;
+    procedure TransfereDados(vlSql: string);
+    function EnviarRelatorio(vRelCodigo: string; vCustomi: boolean; vParam: boolean): boolean;
+    procedure ImportaDados(vlSql: string);
+    function ImportarRelatorio(vRelCodigo: string; ImportaBPL: boolean): boolean;
+    procedure AtualizaListas;
+    function LiberaAcesso: boolean;
+  published
+    property zcone: TUniConnection read Fzcone write Fzcone;
+
+  public
+    { Public declarations }
+    vpClbcodigo: string;
+    vpRelCodigoInt: string;
+    vpRelCodigoStr: String;
+    ConexaoWeb: TUniConnection;
+
+  end;
+
+var
+  fexpimprel: Tfexpimprel;
+
+const
+  vsenha = 'BEP3F$a+4e';
+
+implementation
+
+{$R *.dfm}
+
+uses ufloginrel;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+  TCellGrid = class(TCustomGrid);
+
+procedure Tfexpimprel.bfecharClick(Sender: TObject);
+begin
+  modalresult := mrok;
+end;
+
+procedure Tfexpimprel.bReconectarClick(Sender: TObject);
+begin
+  AtualizaRelWeb;
+
+end;
+
+procedure Tfexpimprel.DBGListLocDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+
+  fixRect := Rect;
+
+  If Odd(DrelLoc.DataSet.RecNo) Then
+    DBGListLoc.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    DBGListLoc.Canvas.Brush.Color := CLWHITE;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      Font.Color := CLWHITE;
+    End;
+
+  { Get active record within grids TDataLink. The active record will be
+    the current record in the dataset. Check against Row that we are
+    trying to Draw, -1 to offset the column headings within grid. }
+  with TFriendly(DBGListLoc) do
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+      with Canvas do
+      begin
+        Brush.Color := PEG_COR_SELCGRID; { set grids canvas to win highlight colour }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State); { now redraw the cell, but highlighted }
+      end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfexpimprel.DBGListWebDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+
+  fixRect := Rect;
+
+  If Odd(DrelWeb.DataSet.RecNo) Then
+    DBGListWeb.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    DBGListWeb.Canvas.Brush.Color := CLWHITE;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      Font.Color := CLWHITE;
+    End;
+
+  { Get active record within grids TDataLink. The active record will be
+    the current record in the dataset. Check against Row that we are
+    trying to Draw, -1 to offset the column headings within grid. }
+  with TFriendly(DBGListWeb) do
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+      with Canvas do
+      begin
+        Brush.Color := PEG_COR_SELCGRID; { set grids canvas to win highlight colour }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State); { now redraw the cell, but highlighted }
+      end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+procedure Tfexpimprel.DrelLocDataChange(Sender: TObject; Field: TField);
+begin
+  if rellocrelcodigo.AsString <> '' then
+  begin
+    lreloc.close;
+    lreloc.Params[0].AsString := rellocrelcodigo.AsString;
+    lreloc.Open;
+  end;
+end;
+
+procedure Tfexpimprel.DrelWebDataChange(Sender: TObject; Field: TField);
+begin
+  if relwebrelcodigo.AsString <> '' then
+  begin
+    lreweb.close;
+    lreweb.Params[0].AsString := relwebrelcodigo.AsString;
+    lreweb.Open;
+
+  end;
+end;
+
+procedure Tfexpimprel.FormShow(Sender: TObject);
+begin
+  self.relloc.Connection := zcone;
+  self.rell.Connection := zcone;
+  self.lreloc.Connection := zcone;
+
+  self.relloc.Open;
+
+  AtualizaRelWeb;
+end;
+
+procedure Tfexpimprel.SBExcluirTodosClick(Sender: TObject);
+var
+  vlImporOK: boolean;
+
+begin
+  rw.close;
+  rw.Open;
+
+  // try
+  zcone.StartTransaction;
+  rw.First;
+  while not rw.Eof do
+  begin
+    if rw.Bof then
+      vlImporOK := ImportarRelatorio(rwrelcodigo.AsString, true)
+    else
+      vlImporOK := ImportarRelatorio(rwrelcodigo.AsString, false);
+
+    if vlImporOK = false then
+      break;
+
+    rw.Next;
+  end;
+
+  zcone.Commit;
+
+  AtualizaListas;
+
+  // ShowMessage('Importações realizadas com sucesso!');
+  // except
+  // zcone.Rollback;
+  // ShowMessage('FALHA: Importações não realizadas!');
+
+  // end;
+end;
+
+procedure Tfexpimprel.SBExcluirUnClick(Sender: TObject);
+begin
+  zcone.StartTransaction;
+  if ImportarRelatorio(relwebrelcodigo.AsString, true) then
+  begin
+    zcone.Commit;
+    AtualizaListas;
+    ShowMessage('Importação realizada com sucesso!');
+  end
+  else
+  begin
+    zcone.Rollback;
+  end;
+end;
+
+procedure Tfexpimprel.SBIncluirTodosClick(Sender: TObject);
+var
+  vlExportOK: boolean;
+begin
+  rl.close;
+  rl.Connection := zcone;
+  rl.Open;
+  // try
+  rl.First;
+  while not rl.Eof do
+  begin
+    if rl.Bof then
+    begin
+      if rlreltipo.AsInteger = 1 then
+        vlExportOK := EnviarRelatorio(rlrelcodigo.AsString, true, true)
+      else
+        vlExportOK := EnviarRelatorio(rlrelcodigo.AsString, false, true);
+
+    end
+    else
+    begin
+      if rlreltipo.AsInteger = 1 then
+        vlExportOK := EnviarRelatorio(rlrelcodigo.AsString, true, false)
+      else
+        vlExportOK := EnviarRelatorio(rlrelcodigo.AsString, false, false);
+
+    end;
+
+    rl.Next;
+  end;
+  AtualizaListas;
+
+  ShowMessage('Exportações realizadas com sucesso!');
+  // except
+  // zcone.Rollback;
+  // ShowMessage('FALHA: Exportações não realizadas!');
+
+  // end;
+end;
+
+procedure Tfexpimprel.SBIncluirUmClick(Sender: TObject);
+var
+  vlEnviado: boolean;
+
+begin
+  if LiberaAcesso then
+  begin
+    vlEnviado := true;
+    zcone.StartTransaction;
+    if self.rellocreltipo.AsInteger = 1 then
+    begin
+
+      If Application.MessageBox(PChar('Este relatório é CUSTOMIZADO, deseja torna-lo PADRÃO?'), 'Atenção', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION)
+        = IDYES Then
+      Begin
+        vlEnviado := EnviarRelatorio(rellocrelcodigo.AsString, false, true);
+      End
+      else
+      begin
+        vlEnviado := EnviarRelatorio(rellocrelcodigo.AsString, true, true);
+      end;
+    end
+    else
+      vlEnviado := EnviarRelatorio(rellocrelcodigo.AsString, false, true);
+
+    if vlEnviado then
+    begin
+      zcone.Commit;
+      AtualizaListas;
+      ShowMessage('Exportação realizada com sucesso!');
+    end
+    else
+    begin
+      zcone.Rollback;
+      ShowMessage('FALHA: Exportação não realizada!');
+    end;
+  end;
+end;
+
+procedure Tfexpimprel.AtualizaRelWeb;
+var
+  i: Integer;
+  vlHost: string;
+  vlRadCNPJ: string;
+
+begin
+  cfg.close;
+  cfg.Connection := zcone;
+  cfg.Open;
+
+  ConexaoWeb := TUniConnection.Create(self);
+  ConexaoWeb.LoginPrompt := false;
+  ConexaoWeb.Username := 'root';
+  ConexaoWeb.Database := 'publica_gourmet';
+  ConexaoWeb.Server := 'mysql.miziosistemas.com.br';
+  ConexaoWeb.ProviderName := 'mySQL';
+  ConexaoWeb.Port := 8306;
+  ConexaoWeb.Password := 'xda973';
+
+  vlRadCNPJ := SoNumeros(self.cfgetddoc1.AsString);
+  vlRadCNPJ := copy(vlRadCNPJ, 1, 8);
+
+  try
+    ConexaoWeb.Connect;
+    self.relweb.Connection := ConexaoWeb;
+    relw.Connection := ConexaoWeb;
+    rw.Connection := ConexaoWeb;
+    consultaweb.Connection := ConexaoWeb;
+    lrweb.Connection := ConexaoWeb;
+    lreweb.Connection := ConexaoWeb;
+
+    // self.relweb.Params[0].AsString := vlRadCNPJ;
+    self.relweb.Open;
+
+    SBIncluirUm.Enabled := true;
+    SBIncluirTodos.Enabled := true;
+    SBExcluirUn.Enabled := true;
+    SBExcluirTodos.Enabled := true;
+    self.bReconectar.Visible := false;
+  except
+    try
+      ConexaoWeb.Server := '189.113.123.127';
+      ConexaoWeb.Connect;
+
+      self.relweb.Connection := ConexaoWeb;
+      relw.Connection := ConexaoWeb;
+      rw.Connection := ConexaoWeb;
+      consultaweb.Connection := ConexaoWeb;
+      lrweb.Connection := ConexaoWeb;
+      lreweb.Connection := ConexaoWeb;
+
+      // self.relweb.Params[0].AsString := vlRadCNPJ;
+      self.relweb.Open;
+
+      SBIncluirUm.Enabled := true;
+      SBIncluirTodos.Enabled := true;
+      SBExcluirUn.Enabled := true;
+      SBExcluirTodos.Enabled := true;
+      self.bReconectar.Visible := false;
+
+    except
+      ConexaoWeb.Server := '192.168.5.150';
+      ConexaoWeb.Connect;
+
+      self.relweb.Connection := ConexaoWeb;
+      relw.Connection := ConexaoWeb;
+      rw.Connection := ConexaoWeb;
+      consultaweb.Connection := ConexaoWeb;
+      lrweb.Connection := ConexaoWeb;
+      lreweb.Connection := ConexaoWeb;
+
+      // self.relweb.Params[0].AsString := vlRadCNPJ;
+      self.relweb.Open;
+
+      SBIncluirUm.Enabled := true;
+      SBIncluirTodos.Enabled := true;
+      SBExcluirUn.Enabled := true;
+      SBExcluirTodos.Enabled := true;
+      self.bReconectar.Visible := false;
+
+      Application.ProcessMessages;
+    end;
+  end;
+
+end;
+
+procedure Tfexpimprel.ImportaDados(vlSql: string);
+var
+  i, u: Integer;
+begin
+
+  consultaloc.close;
+  consultaloc.Connection := zcone;
+  consultaloc.Filter := '';
+  consultaloc.Filtered := false;
+  consultaloc.sql.Text := vlSql;
+  consultaloc.Open;
+
+  consultaweb.close;
+  consultaweb.Filter := '';
+  consultaweb.Filtered := false;
+  consultaweb.sql.Text := vlSql;
+  consultaweb.Open;
+
+  for i := 0 to consultaloc.Fields.Count - 1 do
+  begin
+    if consultaweb.Fields[i].FieldName = 'relcodigo' then
+    begin
+      consultaweb.Filter := 'relcodigo=' + chr(39) + vpRelCodigoStr + chr(39);
+      consultaweb.Filtered := true;
+    end;
+  end;
+
+  consultaweb.First;
+  while not consultaweb.Eof do
+  begin
+
+    if (pos('from bpl', lowercase(vlSql)) > 0) then
+    begin
+      if consultaloc.Locate(consultaweb.Fields[0].FieldName, consultaweb.Fields[0].AsString, []) then
+      begin
+        consultaloc.Edit;
+      end
+      else
+      begin
+        consultaloc.Append;
+      end;
+    end
+    else
+    begin
+
+      if consultaloc.Locate(consultaweb.Fields[0].FieldName + ';' + consultaweb.Fields[1].FieldName,
+        VarArrayOf([consultaweb.Fields[0].AsString, consultaweb.Fields[1].AsString]), []) then
+      begin
+        consultaloc.Edit;
+      end
+      else
+      begin
+        consultaloc.Append;
+      end;
+    end;
+
+    if consultaweb.Fields[1].FieldName = 'bplcodigo' then
+    begin
+
+      bpls.close;
+      bpls.Connection := zcone;
+      bpls.Open;
+
+      if bpls.Locate('bplcodigo', consultaweb.Fields[1].AsString, []) then
+      begin
+        if (pos('from bpl', lowercase(vlSql)) > 0) or (pos('from tca', lowercase(vlSql)) > 0) or (pos('from crl', lowercase(vlSql)) > 0) or
+          (pos('from mre', lowercase(vlSql)) > 0) then
+          u := 0
+        else
+          u := 1;
+
+        for i := u to consultaloc.Fields.Count - 1 do
+        begin
+
+          if consultaloc.Fields[i].DataType <> ftBlob then
+            consultaloc.Fieldbyname(consultaloc.Fields[i].FieldName).AsString := consultaweb.Fieldbyname(consultaloc.Fields[i].FieldName).AsString
+          else
+            consultaloc.Fieldbyname(consultaloc.Fields[i].FieldName).asvariant := consultaweb.Fieldbyname(consultaloc.Fields[i].FieldName).asvariant;
+
+          if consultaloc.Fields[i].FieldName = 'relcodigo' then
+            consultaloc.Fields[i].AsString := vpRelCodigoStr;
+
+        end;
+        consultaloc.Post;
+
+      end
+      else
+      begin
+        ShowMessage('Este relatorio esta vinculado a uma bpl não cadastrada neste sistema!');
+
+        consultaloc.Cancel;
+      end;
+
+    end
+    else
+    begin
+
+      if (pos('from bpl', lowercase(vlSql)) > 0) or (pos('from tca', lowercase(vlSql)) > 0) or (pos('from crl', lowercase(vlSql)) > 0) or
+        (pos('from mre', lowercase(vlSql)) > 0) then
+        u := 0
+      else
+        u := 1;
+
+      for i := u to consultaloc.Fields.Count - 1 do
+      begin
+
+        if consultaloc.Fields[i].DataType <> ftBlob then
+          consultaloc.Fieldbyname(consultaloc.Fields[i].FieldName).AsString := consultaweb.Fieldbyname(consultaloc.Fields[i].FieldName).AsString
+        else
+          consultaloc.Fieldbyname(consultaloc.Fields[i].FieldName).asvariant := consultaweb.Fieldbyname(consultaloc.Fields[i].FieldName).asvariant;
+
+        if consultaloc.Fields[i].FieldName = 'relcodigo' then
+          consultaloc.Fields[i].AsString := vpRelCodigoStr;
+
+      end;
+      consultaloc.Post;
+
+    end;
+    consultaweb.Next;
+  end;
+
+end;
+
+procedure Tfexpimprel.TransfereDados(vlSql: string);
+var
+  i: Integer;
+  vsql: string;
+begin
+  mostra.Visible := true;
+  Application.ProcessMessages;
+
+  consultaloc.close;
+  consultaloc.Connection := zcone;
+  consultaloc.Filter := '';
+  consultaloc.Filtered := false;
+  consultaloc.Connection := zcone;
+  consultaloc.sql.Text := vlSql;
+  consultaloc.Open;
+
+  for i := 0 to consultaloc.Fields.Count - 1 do
+  begin
+    if consultaloc.Fields[i].FieldName = 'relcodigo' then
+    begin
+      consultaloc.Filter := 'relcodigo=' + chr(39) + self.rellocrelcodigo.AsString + chr(39);
+      consultaloc.Filtered := true;
+    end;
+  end;
+  consultaloc.FieldDefs.Update;
+
+  consultaweb.close;
+  consultaweb.Filter := '';
+  consultaweb.Filtered := false;
+  consultaweb.Connection := ConexaoWeb;
+  consultaweb.sql.Text := consultaloc.sql.Text;
+  vsql := consultaloc.sql.Text;
+  consultaweb.Open;
+  consultaloc.First;
+  mostra.Max := consultaloc.RecordCount;
+  mostra.Position := 0;
+  Application.ProcessMessages;
+
+  while not consultaloc.Eof do
+  begin
+    mostra.Position := mostra.Position + 1;
+    Application.ProcessMessages;
+
+    try
+      if consultaweb.Locate(consultaweb.Fields[0].FieldName + ';' + consultaweb.Fields[1].FieldName,
+        VarArrayOf([consultaloc.Fields[0].AsString, consultaloc.Fields[1].AsString]), []) then
+
+      begin
+        consultaweb.Edit;
+      end
+      else
+      begin
+        consultaweb.Append;
+      end;
+      if consultaloc.Fields[0].DataType = ftstring then
+        consultaweb.Fields[0].AsString := consultaloc.Fields[0].AsString;
+
+      for i := 1 to consultaweb.Fields.Count - 1 do
+      begin
+
+        if (consultaweb.Fields[i].FieldName <> 'mrechave') and (consultaweb.Fields[i].FieldName <> 'lrechave') then
+        begin
+
+          if consultaweb.Fields[i].DataType = ftBlob then
+            consultaweb.Fields[i].AsString := consultaloc.Fields[i].AsString
+          else
+            consultaweb.Fields[i].asvariant := consultaloc.Fields[i].asvariant;
+
+          if consultaweb.Fields[i].FieldName = 'relcodigo' then
+            consultaweb.Fields[i].AsString := vpRelCodigoStr;
+
+        end;
+      end;
+
+      consultaweb.Post;
+    except
+      ShowMessage(vsql);
+      consultaweb.Cancel;
+    end;
+
+    consultaloc.Next;
+  end;
+  mostra.Visible := false;
+  Application.ProcessMessages;
+end;
+
+function Tfexpimprel.ImportarRelatorio(vRelCodigo: string; ImportaBPL: boolean): boolean;
+var
+  i, u: Integer;
+  w: string;
+  l: string;
+  vlSql: string;
+begin
+  // try
+  result := true;
+
+  rell.close;
+  rell.Params[0].AsString := vRelCodigo;
+  rell.Open;
+
+  relw.close;
+  relw.Params[0].AsString := vRelCodigo;
+  relw.Open;
+
+  w := vRelCodigo;
+
+  if relloc.Locate('relcodigo', w, []) then
+  begin
+    if self.relwebreltipo.AsInteger = 1 then
+    begin
+      rell.Append;
+      u := 1;
+    end
+    else
+    begin
+      rell.Edit;
+      u := 0;
+    end;
+  end
+  else
+  begin
+    rell.Append;
+    u := 1;
+  end;
+
+  for i := u to rell.Fields.Count - 1 do
+    rell.Fields[i].asvariant := relw.Fields[i].asvariant;
+
+  rell.Fieldbyname('relcodigo').AsString := w;
+  rell.Fieldbyname('reltipo').AsInteger := 0;
+
+  if rell.Fieldbyname('relarquivo').AsString <> '' then
+  begin
+
+    rell.Fieldbyname('relcodigo').AsString := w;
+    rell.Fieldbyname('relnomearquivo').AsString := 'rel' + w;
+    rell.Fieldbyname('relorigem').AsString := '00000000';
+    rell.Fieldbyname('reltipo').AsInteger := 0;
+    rell.Post;
+
+    vpRelCodigoStr := w;
+
+    if vpRelCodigoStr <> '' then
+    begin
+      if ImportaBPL then
+      begin
+        vlSql := 'SELECT DISTINCT tcacodigo, tcaidentificacao FROM tca';
+        ImportaDados(vlSql);
+
+        vlSql := 'SELECT DISTINCT bplcodigo, bplidentificacao, bplnomearq, bplfranome FROM bpl';
+        ImportaDados(vlSql);
+
+        vlSql := 'SELECT DISTINCT crmchave, crmnome, bplcodigo,  crmidentificacao, tcacodigo FROM crm';
+        ImportaDados(vlSql);
+
+      end;
+
+      vlSql := 'SELECT DISTINCT relcodigo, crlnome FROM crl';
+      ImportaDados(vlSql);
+
+      vlSql := 'SELECT DISTINCT relcodigo, bplcodigo FROM mre';
+      ImportaDados(vlSql);
+
+    end;
+  end
+  else
+  begin
+    rell.Cancel;
+  end;
+
+  { except
+    result := false;
+    end; }
+end;
+
+procedure Tfexpimprel.AtualizaListas;
+begin
+  relweb.close;
+  relweb.Open;
+  relloc.close;
+  relloc.Open;
+end;
+
+function Tfexpimprel.EnviarRelatorio(vRelCodigo: String; vCustomi: boolean; vParam: boolean): boolean;
+var
+  i, u: Integer;
+  w: string;
+  l: string;
+
+  vlSql: string;
+  vlRadCNPJ: string;
+  vlNovoCodigo: boolean;
+  vlRadical: string;
+begin
+  result := true;
+
+  inherited;
+
+  // self.rlrelcodigo.AsString;
+  // try
+  rl.close;
+  rl.Connection := zcone;
+  rl.Open;
+  rl.Locate('relcodigo', vRelCodigo, []);
+
+  rell.close;
+  rell.Params[0].AsString := vRelCodigo;
+  rell.Open;
+
+  { if not vCustomi then
+    begin
+
+    vlRadical := copy(self.rellocrelcodigo.AsString, 4, 10);
+
+    if vlRadical = '00000000' then
+    begin
+    vpRelCodigoInt := strtoint(copy(self.rellocrelcodigo.AsString, 1, 3));
+    vlRadCNPJ := '00000000000000';
+    vlRadCNPJ := copy(vlRadCNPJ, 1, 8);
+
+    end
+    else
+    begin
+    consultaweb.close;
+    consultaweb.sql.Text := 'SELECT COALESCE( MAX(LPAD(SUBSTR(relcodigo,1,3),3,0)),0) FROM rel';
+    consultaweb.Open;
+
+    if consultaweb.Fields[0].AsString = '' then
+    vpRelCodigoInt := 1
+    else
+    vpRelCodigoInt := consultaweb.Fields[0].AsInteger + 1;
+
+    vlRadCNPJ := '00000000000000';
+    vlRadCNPJ := copy(vlRadCNPJ, 1, 8);
+
+    end;
+
+    end
+    else
+    begin }
+  vpRelCodigoInt := copy(self.rlrelcodigo.AsString, 1, 3);
+  vlRadCNPJ := copy(self.rlrelcodigo.AsString, 4, 8);
+  vlRadCNPJ := copy(vlRadCNPJ, 1, 8);
+
+  { end; }
+
+  relw.close;
+  relw.Params[0].AsString := self.rlrelcodigo.AsString;
+  relw.Open;
+
+  l := self.rlrelcodigo.AsString;
+
+  if relweb.Locate('relcodigo', l, []) then
+  begin
+    if self.rellocreltipo.AsInteger = 1 then
+    begin
+      if vCustomi then
+      begin
+        relw.Edit;
+        vlNovoCodigo := false;
+        u := 0;
+      end
+      else
+      begin
+        relw.Append;
+        vlNovoCodigo := true;
+        u := 1;
+      end;
+    end
+    else
+    begin
+      relw.Edit;
+      vlNovoCodigo := false;
+      u := 0;
+    end;
+  end
+  else
+  begin
+    relw.Append;
+    vlNovoCodigo := true;
+    u := 1;
+  end;
+
+  for i := u to relw.Fields.Count - 1 do
+  begin
+    if relw.Fields[i].DataType = ftBlob then
+      relw.Fields[i].asvariant := rell.Fields[i].asvariant
+    else
+      relw.Fields[i].AsString := rell.Fields[i].AsString;
+  end;
+
+  if vCustomi then
+    relw.Fieldbyname('reltipo').AsInteger := 1
+  else
+    relw.Fieldbyname('reltipo').AsInteger := 0;
+
+  if vlNovoCodigo then
+    relw.Fieldbyname('relcodigo').AsString := vpRelCodigoInt + vlRadCNPJ
+  else
+    relw.Fieldbyname('relcodigo').AsString := l;
+
+  if rell.Fieldbyname('relsituacao').AsString = '' then
+    relw.Fieldbyname('relsituacao').AsString := '1';
+
+  relw.Post;
+
+  w := relw.Fieldbyname('relcodigo').AsString;
+  vpRelCodigoStr := relw.Fieldbyname('relcodigo').AsString;
+
+  if not vCustomi then
+  begin
+    relw.Edit;
+    relw.Fieldbyname('relnomearquivo').AsString := 'rel' + w;
+    relw.Fieldbyname('relorigem').AsString := '00000000';
+    relw.Post;
+  end;
+
+  vlSql := 'SELECT DISTINCT relcodigo,  bplcodigo, mrechave FROM mre';
+  TransfereDados(vlSql);
+
+  { vlSql := 'SELECT DISTINCT relcodigo, lrechave,  clbcodigo, lreregistro, relarquivo FROM lre';
+    TransfereDados(vlSql); }
+
+  if u = 1 then
+  begin
+    if not vCustomi then
+    begin
+      rell.Edit;
+      rell.Fieldbyname('relcodigo').AsString := w;
+      rell.Fieldbyname('relnomearquivo').AsString := 'rel' + w;
+      rell.Fieldbyname('relorigem').AsString := '00000000';
+      rell.Fieldbyname('reltipo').AsInteger := 0;
+      rell.Post;
+    end;
+  end;
+
+  lrweb.Open;
+  lrweb.Append;
+  lrwebrelcodigo.AsString := relw.Fieldbyname('relcodigo').AsString;
+  lrwebclbcodigo.AsString := vpClbcodigo;
+  lrweblreregistro.AsFloat := now;
+  lrwebrelarquivo.asvariant := rell.Fieldbyname('relarquivo').asvariant;
+  lrweb.Post;
+
+  relweb.close;
+  relweb.Open;
+
+  relloc.close;
+  relloc.Open;
+  Application.ProcessMessages;
+  { except
+    result := false;
+    end; }
+end;
+
+function Tfexpimprel.LiberaAcesso: boolean;
+begin
+  Application.CreateForm(Tfloginrel, floginrel);
+  floginrel.clb.Connection := ConexaoWeb;
+  if floginrel.ShowModal = mrok then
+  begin
+    vpClbcodigo := floginrel.vpClbcodigo;
+    result := true
+  end
+  else
+  begin
+    vpClbcodigo := '';
+    result := false
+  end;
+end;
+
+end.

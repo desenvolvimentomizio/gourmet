@@ -1,0 +1,29 @@
+unit ulnrt;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,  ufranrt,
+  Vcl.ExtCtrls, ulfrmbase;
+
+type
+  Tlnrt = class(Tfranrt)
+    franrt: Tfranrt;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  lnrt: Tlnrt;
+
+implementation
+
+
+
+
+{$R *.dfm}
+
+end.

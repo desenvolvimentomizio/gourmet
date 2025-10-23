@@ -1,0 +1,21 @@
+program MizioServImpressoras;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  ufPrinciMizioServIMpressoras in 'ufPrinciMizioServIMpressoras.pas',
+  System.SysUtils {fPrinciMizioServImpressoras};
+
+{$R *.res}
+
+
+
+begin
+
+  ReportMemoryLeaksOnShutdown := True;
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrinciMizioServImpressoras, fPrinciMizioServImpressoras);
+  Application.Run;
+  datetostr(date);
+end.

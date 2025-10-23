@@ -1,0 +1,133 @@
+object FprinciMizioWhats: TFprinciMizioWhats
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object MmLogs: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Position.X = 56.000000000000000000
+    Position.Y = 312.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 129.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    Viewport.Width = 437.000000000000000000
+    Viewport.Height = 125.000000000000000000
+  end
+  object MmRecebidas: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Position.X = 56.000000000000000000
+    Position.Y = 152.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 145.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Viewport.Width = 437.000000000000000000
+    Viewport.Height = 141.000000000000000000
+  end
+  object MizioServiceWhtasApp: TServiceWhtasApp
+    NotUseWindowDefaultQrCode = False
+    NotUseDefaultInterface = False
+    DisableNotification = False
+    HideNotificationAfter = 0
+    SecretKey = 'daniel-556699223319-b5cc17d3a35877ca8b76f0b2e07497039c250696'
+    OnReceiveMessage = MizioServiceWhtasAppReceiveMessage
+    OnStatus = MizioServiceWhtasAppStatus
+    OnStarted = MizioServiceWhtasAppStarted
+    ConfigFormWhatsApp.Height = 474
+    ConfigFormWhatsApp.Width = 694
+    ConfigFormWhatsApp.PanelTopColor = 1404727
+    NotifyMySentMessages = False
+    NotShowFormQrCodeAuthentication = False
+    NotifyDeliveryMessage = False
+    Left = 256
+    Top = 216
+  end
+  object IdLogEvent1: TIdLogEvent
+    Left = 120
+    Top = 216
+  end
+  object IdHTTP1: TIdHTTP
+    Intercept = IdLogEvent1
+    IOHandler = IdSSLIOHandlerSocketOpenSSL1
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.ContentType = 'application/json'
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 408
+    Top = 224
+  end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    Intercept = IdLogEvent1
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 120
+    Top = 96
+  end
+  object Conexao: TUniConnection
+    DataTypeMap = <
+      item
+        DBType = 210
+        FieldType = ftInteger
+        IgnoreErrors = True
+      end
+      item
+        DBType = 211
+        FieldType = ftInteger
+        IgnoreErrors = True
+      end>
+    ProviderName = 'mySQL'
+    Database = 'dinhos0809'
+    Options.DisconnectedMode = True
+    Options.LocalFailover = True
+    Pooling = True
+    Username = 'root'
+    Server = '192.168.5.166'
+    LoginPrompt = False
+    Left = 544
+    Top = 104
+    EncryptedPassword = '87FF9BFF9EFFC6FFC8FFCCFF'
+  end
+  object MySQLUniProvider: TMySQLUniProvider
+    Left = 544
+    Top = 48
+  end
+  object TmInicializar: TTimer
+    OnTimer = TmInicializarTimer
+    Left = 360
+    Top = 72
+  end
+  object czn: TUniQuery
+    Connection = Conexao
+    SQL.Strings = (
+      
+        'select cznchave from czn where cznfechamento IS null order by cz' +
+        'nchave limit 1')
+    Left = 546
+    Top = 162
+    object czncznchave: TIntegerField
+      FieldName = 'cznchave'
+    end
+  end
+end

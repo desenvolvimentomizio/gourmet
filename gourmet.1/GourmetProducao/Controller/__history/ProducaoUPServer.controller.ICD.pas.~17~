@@ -1,0 +1,106 @@
+unit ProducaoUPServer.controller.ICD;
+
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  Horse.GBSwagger,
+  idHashMessageDigest,
+  ProducaoUPServer.Model.DAOGeneric,
+  ProducaoUPServer.model.entity.ICD;
+
+procedure Registry(App: THorse);
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure V1Delete(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+
+type
+ TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+
+implementation
+
+uses
+  System.SysUtils;
+
+
+procedure Registry(App: THorse);
+begin
+   App.Get('/v1/icd/:id', V1Get);
+   App.Post('/v1/icd', V1Insert);
+   App.Delete('/v1/icd/:id', V1Delete);
+
+end;
+
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TICD>;
+begin
+  FDAO := TDaogeneric<TICD>.New;
+  try
+  Res.Send<TJSONObject>(FDAO.Insert(Req.Body<TJSONObject>)).Status(201);
+  except
+  Res.Status(201);
+  end;
+end;
+
+
+procedure V1Delete(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TICD>;
+begin
+  FDAO := TDaogeneric<TICD>.New;
+  Res.Send<TJSONObject>(FDAO.Delete('icdchave', Req.Params.Items['id'])).Status(200);
+end;
+
+
+// returns MD5 has for a file
+function MD5(const avalue: string): string;
+var
+  idmd5: TIdHashMessageDigest5;
+begin
+  try
+    idmd5 := TIdHashMessageDigest5.Create;
+    Result := idmd5.HashStringAsHex(avalue);
+  finally
+    idmd5.Free;
+  end;
+end;
+
+
+procedure V1Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  FDAO: IDAOGeneric<TICD>;
+  id:string;
+begin
+  id:=Req.Params.Items['id'];
+
+
+//  c4ca4238a0b923820dcc509a6f75849b
+
+  FDAO := TDaogeneric<TICD>.New;
+  FDAO
+    .DAO
+      .SQL
+        .Fields('icdchave chave,  icdmesa mesa,  icd.procodigo codigo,  icd.puncodigo unidade,'+
+                'icdquantidade quantidade,  icdobservacao observacacao, CAP_FIRST(pro.pronome) nome, pun.punprecoav ')
+    .Where('icd.procodigo=pro.procodigo and icd.puncodigo=pun.puncodigo and icdmesa='+Req.Params.Items['id'])
+  .&End;
+  FDAO.Find;
+
+  Res.Send<TJsonarray>(FDAO.DataSetAsJsonArray);
+end;
+
+
+
+
+end.

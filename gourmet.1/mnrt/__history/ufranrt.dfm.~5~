@@ -1,0 +1,187 @@
+inherited franrt: Tfranrt
+  Width = 1058
+  ExplicitWidth = 1058
+  inherited PlGeral: TPanel
+    Width = 1058
+    ExplicitWidth = 1058
+    inherited PlLista: TPanel
+      Width = 914
+      ExplicitWidth = 914
+      inherited SplLista: TSplitter
+        Width = 914
+        ExplicitWidth = 914
+      end
+      inherited SpFilter: TSplitter
+        Width = 914
+        ExplicitWidth = 914
+      end
+      inherited PlRodaPe: TPanel
+        Width = 914
+        ExplicitWidth = 914
+      end
+      inherited PlFiltros: TPanel
+        Width = 914
+        ExplicitWidth = 914
+      end
+      inherited PlSelecao: TPanel
+        Width = 914
+        ExplicitWidth = 914
+        inherited GBPlSelecao: TGroupBox
+          Width = 910
+          ExplicitWidth = 910
+          inherited DBLista: TDBGrid
+            Width = 803
+          end
+        end
+      end
+      inherited PnlGrid: TPanel
+        Width = 914
+        ExplicitWidth = 914
+        inherited DBGLista: TDBGrid
+          Width = 914
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'nrtcodigo'
+              Width = 90
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtidentificacao'
+              Width = 350
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtcstibscbs'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtcbs_aliquota'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtreducao_cbs'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtibs_aliquota_estadual'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtibs_aliquota_municipal'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'nrtreducao_ibs'
+              Visible = True
+            end>
+        end
+        inherited PnlRodapeGrid: TPanel
+          Width = 914
+          ExplicitWidth = 914
+        end
+      end
+    end
+    inherited PlTitulo: TPanel
+      Width = 1058
+      ExplicitWidth = 1058
+      inherited plid: TPanel
+        Left = 630
+        ExplicitLeft = 630
+      end
+      inherited PlSair: TPanel
+        Left = 874
+        ExplicitLeft = 874
+      end
+    end
+  end
+  inherited uqtabela: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  nrtcodigo,'
+      '  crtcodigo,'
+      '  nrtidentificacao,'
+      '  nrtcstibscbs,'
+      '  nrtclassificacao_is,'
+      '  nrtclassificacao_ibscbs,'
+      '  nrtclassificacao_cpresumido,'
+      '  nrtibs_aliquota_estadual,'
+      '  nrtibs_aliquota_municipal,'
+      '  nrtcbs_aliquota,'
+      '  nrtreducao_cbs,'
+      '  nrtreducao_ibs'
+      'FROM nrt')
+    object uqtabelanrtcodigo: TStringField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'nrtcodigo'
+      Required = True
+      Size = 100
+    end
+    object uqtabelacrtcodigo: TIntegerField
+      DisplayLabel = 'CRT'
+      FieldName = 'crtcodigo'
+      Required = True
+    end
+    object uqtabelanrtidentificacao: TStringField
+      DisplayLabel = 'Identifica'#231#227'o'
+      FieldName = 'nrtidentificacao'
+      Required = True
+      Size = 100
+    end
+    object uqtabelanrtcstibscbs: TStringField
+      DisplayLabel = 'CST IBS/CBS'
+      FieldName = 'nrtcstibscbs'
+      Size = 5
+    end
+    object uqtabelanrtclassificacao_is: TStringField
+      DisplayLabel = 'Classifica'#231#227'o IS'
+      FieldName = 'nrtclassificacao_is'
+      Required = True
+      Size = 50
+    end
+    object uqtabelanrtclassificacao_ibscbs: TStringField
+      DisplayLabel = 'Classifica'#231#227'o IBS/CBS'
+      FieldName = 'nrtclassificacao_ibscbs'
+      Required = True
+      Size = 50
+    end
+    object uqtabelanrtclassificacao_cpresumido: TStringField
+      DisplayLabel = 'Cr'#233'dito Presumido'
+      FieldName = 'nrtclassificacao_cpresumido'
+      Required = True
+      Size = 50
+    end
+    object uqtabelanrtibs_aliquota_estadual: TFloatField
+      DisplayLabel = '% IBS UF'
+      FieldName = 'nrtibs_aliquota_estadual'
+      Required = True
+    end
+    object uqtabelanrtibs_aliquota_municipal: TFloatField
+      DisplayLabel = '% IBS Mun'
+      FieldName = 'nrtibs_aliquota_municipal'
+      Required = True
+    end
+    object uqtabelanrtcbs_aliquota: TFloatField
+      DisplayLabel = '% CBS'
+      FieldName = 'nrtcbs_aliquota'
+    end
+    object uqtabelanrtreducao_cbs: TFloatField
+      DisplayLabel = '% Redu'#231#227'o CBS'
+      FieldName = 'nrtreducao_cbs'
+    end
+    object uqtabelanrtreducao_ibs: TFloatField
+      DisplayLabel = '% Redu'#231#227'o IBS'
+      FieldName = 'nrtreducao_ibs'
+    end
+  end
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+end

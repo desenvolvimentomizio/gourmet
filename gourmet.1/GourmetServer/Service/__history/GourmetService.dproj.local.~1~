@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2022/04/27 11:23:30.825,=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/04/27 11:24:06.432,C:\fontes\gourmet.1\GourmetServer\uGourmetService.dfm=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/04/27 11:24:06.432,C:\fontes\gourmet.1\GourmetServer\uGourmetService.pas=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/04/27 11:24:13.638,C:\fontes\gourmet.1\GourmetServer\GourmetService.dproj=C:\Users\Operador\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/04/27 11:30:04.635,C:\fontes\gourmet.1\GourmetServer\Service\GourmetService.dproj=C:\fontes\gourmet.1\GourmetServer\GourmetService.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

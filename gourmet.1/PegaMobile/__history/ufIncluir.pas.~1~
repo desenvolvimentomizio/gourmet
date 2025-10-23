@@ -1,0 +1,593 @@
+unit ufIncluir;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, db,
+  Controls, Forms, Dialogs, uniGUITypes, uniGUIAbstractClasses,
+  uniGUIClasses, uniGUImClasses, uniGUIForm, uniGUImForm, uniGUImJSForm,
+  uniButton, uniBitBtn, unimBitBtn, uniLabel, unimLabel, uniGUIBaseClasses,
+  unimPanel, uniEdit, unimEdit, unimSpinner, uniMemo, uniDBMemo, unimDBMemo,
+  uniDBEdit, unimDBEdit, uniPanel, uniPageControl, unimTabPanel, uniBasicGrid,
+  uniDBGrid, unimDBListGrid, uniMultiItem, unimSelect, unimDBSelect,
+  uniDBNavigator, unimDBNavigator, unimCarousel, uniToolBar, unimToolbar,
+  unimDBGrid, unimList, unimDBList;
+
+type
+  TDialogCallback = reference to procedure;
+
+  TfIncluir = class(TUnimForm)
+    PnProdutoComum: TUnimPanel;
+    TabPanelInc: TUnimTabPanel;
+    TabItem: TUnimTabSheet;
+    TabIngredintes: TUnimTabSheet;
+    TabAdicionais: TUnimTabSheet;
+    UnimPanel1: TUnimPanel;
+    UnimPanel9: TUnimPanel;
+    UnimPanel2: TUnimPanel;
+    UnimPanel10: TUnimPanel;
+    UnimPanel11: TUnimPanel;
+    UnimPanel12: TUnimPanel;
+    UnimDBListGrid3: TUnimDBListGrid;
+    BtnRetonaCard: TUnimBitBtn;
+    UnimPanel4: TUnimPanel;
+    UnimPanel5: TUnimPanel;
+    UnimDBListGrid1: TUnimDBListGrid;
+    UnimPanel15: TUnimPanel;
+    UnimPanel16: TUnimPanel;
+    PnQtde: TUnimPanel;
+    UnimPanel6: TUnimPanel;
+    UnimBitBtn5: TUnimBitBtn;
+    UnimLabel3: TUnimLabel;
+    UnimBitBtn6: TUnimBitBtn;
+    UnimPanel8: TUnimPanel;
+    UnimBitBtn9: TUnimBitBtn;
+    UnimDBEdit2: TUnimDBEdit;
+    UnimBitBtn10: TUnimBitBtn;
+    UnimPanel13: TUnimPanel;
+    UnimBitBtn2: TUnimBitBtn;
+    UnimBitBtn1: TUnimBitBtn;
+    UnimLabel1: TUnimLabel;
+    UnimDBEdit1: TUnimDBEdit;
+    lbUnidade: TUnimLabel;
+    UnimPanel14: TUnimPanel;
+    UnimPanel17: TUnimPanel;
+    UnimLabel6: TUnimLabel;
+    UnimBitBtn12: TUnimBitBtn;
+    UnimDBEdit5: TUnimDBEdit;
+    UnimBitBtn13: TUnimBitBtn;
+    UnimPanel18: TUnimPanel;
+    UnimLabel5: TUnimLabel;
+    UnimBitBtn8: TUnimBitBtn;
+    UnimDBEdit4: TUnimDBEdit;
+    UnimBitBtn11: TUnimBitBtn;
+    UnimPanel19: TUnimPanel;
+    UnimBitBtn7: TUnimBitBtn;
+    btnTabIncAdicConfirma: TUnimBitBtn;
+    UnimLabel2: TUnimLabel;
+    UnimPanel20: TUnimPanel;
+    UnimBitBtn3: TUnimBitBtn;
+    UnimDBEdit3: TUnimDBEdit;
+    UnimBitBtn4: TUnimBitBtn;
+    BtnConfirmar: TUnimBitBtn;
+    BtnConfirmaMais: TUnimBitBtn;
+    BtnTabSaborIngredientes: TUnimBitBtn;
+    BtnConfirmaContinua: TUnimBitBtn;
+    UnimPanel7: TUnimPanel;
+    UnimDBListGrid2: TUnimDBListGrid;
+    UnimDBMemo1: TUnimDBMemo;
+    UnimDBGrid1: TUnimDBGrid;
+    EdtItemObs: TUnimEdit;
+
+    procedure GravaItem;
+    procedure MostraTab(Tab: TUnimTabSheet);
+
+    procedure UnimFormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BtnRetonaCardClick(Sender: TObject);
+    procedure UnimBitBtn1Click(Sender: TObject);
+    procedure UnimBitBtn2Click(Sender: TObject);
+    procedure BtnConfirmarClick(Sender: TObject);
+    procedure BtnConfirmaMaisClick(Sender: TObject);
+    procedure UnimBitBtn9Click(Sender: TObject);
+    procedure UnimBitBtn10Click(Sender: TObject);
+    procedure UnimDBListGrid3Click(Sender: TObject);
+    procedure btnTabIncAdicConfirmaClick(Sender: TObject);
+    procedure UnimBitBtn3Click(Sender: TObject);
+    procedure UnimBitBtn4Click(Sender: TObject);
+    procedure UnimDBListGrid1Click(Sender: TObject);
+    procedure UnimBitBtn5Click(Sender: TObject);
+    procedure UnimBitBtn6Click(Sender: TObject);
+    procedure UnimBitBtn7Click(Sender: TObject);
+    procedure UnimBitBtn12Click(Sender: TObject);
+    procedure UnimBitBtn13Click(Sender: TObject);
+    procedure UnimBitBtn8Click(Sender: TObject);
+    procedure UnimBitBtn11Click(Sender: TObject);
+    procedure EdtItemObsExit(Sender: TObject);
+    procedure UnimFormShow(Sender: TObject);
+    procedure BtnTabFraIngAdicionaisClick(Sender: TObject);
+    procedure BtnTabSaborIngredientesClick(Sender: TObject);
+    procedure UnimDBListGrid2Click(Sender: TObject);
+    procedure BtnConfirmaContinuaClick(Sender: TObject);
+    procedure UnimDBEdit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    fcallback: TDialogCallback;
+
+  public
+    { Public declarations }
+    procedure ShowFormModal(aCallBack: TDialogCallback);
+
+  var
+    vpIncluir: Integer;
+    vpSbrcodigo: Integer;
+  end;
+
+function fIncluir: TfIncluir;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  uniGUIApplication, MainModule, Mainm;
+
+function fIncluir: TfIncluir;
+begin
+  Result := TfIncluir(MainModule.UniMainModule.GetFormInstance(TfIncluir));
+end;
+
+procedure TfIncluir.BtnConfirmaContinuaClick(Sender: TObject);
+begin
+  try
+    BtnConfirmaContinua.Enabled := false;
+    if UnimDBEdit1.Field.Text = '' then
+    begin
+      Showmessage('Informe a quantidade!');
+      UnimDBEdit1.SetFocus;
+      exit;
+    end;
+
+    GravaItem;
+    vpIncluir := 3;
+    Close;
+  finally
+    BtnConfirmaContinua.Enabled := true;
+  end;
+end;
+
+procedure TfIncluir.BtnConfirmaMaisClick(Sender: TObject);
+begin
+  try
+    BtnConfirmaMais.Enabled := false;
+    if UnimDBEdit1.Field.Text = '' then
+    begin
+      Showmessage('Informe a quantidade!');
+      UnimDBEdit1.SetFocus;
+      exit;
+    end;
+
+    GravaItem;
+    vpIncluir := 1;
+    Close;
+  finally
+    BtnConfirmaMais.Enabled := true;
+  end;
+end;
+
+procedure TfIncluir.BtnConfirmarClick(Sender: TObject);
+var
+  vlpronome: string;
+  vltsiidentificacao: string;
+  vlbpridentificacao: string;
+begin
+  try
+
+    BtnConfirmar.Enabled := false;
+
+    if (trim(UnimDBEdit1.Field.AsString) = '') or (trim(UnimDBEdit1.Field.AsString) = '0') then
+    begin
+      UnimDBEdit1.Field.AsString := '1';
+    end;
+
+    GravaItem;
+    vpIncluir := 0;
+    MainmForm.UnimDBGridPedidos.Visible := true;
+    UniMainModule.vtItens.First;
+
+    Close;
+
+  finally
+    BtnConfirmar.Enabled := true;
+  end;
+end;
+
+procedure TfIncluir.GravaItem;
+begin
+  with MainModule.UniMainModule do
+  begin
+    if (UniMainModule.vtItens.State = dsInsert) or (UniMainModule.vtItens.State = dsEdit) then
+    begin
+      UniMainModule.vtItenspuncodigo.AsInteger := UniMainModule.punpuncodigo.AsInteger;
+      UniMainModule.vtItensunisimbolo.AsString := UniMainModule.pununisimbolo.AsString;
+      UniMainModule.vtItensStatus.AsInteger := 0;
+      UniMainModule.vtItensObs.AsString := EdtItemObs.Text;
+      UniMainModule.vtItenstipo.AsInteger := 0;
+      UniMainModule.vtItenssfncodigo.AsInteger := 0;
+
+      if uppercase(trim(UniMainModule.vtItensunisimbolo.AsString)) = 'KG' then
+        UniMainModule.vtItensitoquantidade.asfloat := UniMainModule.vtItensitoquantidade.asfloat;
+
+      UniMainModule.vtItens.Post;
+    end;
+
+    if not UniMainModule.sbr.IsEmpty then
+    begin
+      if not UniMainModule.tisi.active then
+        UniMainModule.tisi.open;
+
+      UniMainModule.sbr.First;
+      while not UniMainModule.sbr.Eof do
+      begin
+        { if (UniMainModule.sbrtipo.AsInteger = 1) or (UniMainModule.sbrtsicodigo.AsInteger <> MainmForm.Usuario.tsicodigo) then
+          begin
+          if (UniMainModule.sbrtipo.AsInteger = 1) or (not UniMainModule.tisi.Locate('itochave', UniMainModule.vtItensitoitem.AsInteger, [])) then
+          begin }
+
+        UniMainModule.tisi.Append;
+        UniMainModule.tisisbrcodigo.AsInteger := UniMainModule.sbrsbrcodigo.AsInteger;
+        UniMainModule.tisiprocodigo.AsInteger := UniMainModule.sbrprocodigo.AsInteger;
+        UniMainModule.tisitsicodigo.AsInteger := UniMainModule.sbrtsicodigo.AsInteger;
+        UniMainModule.tisiisitipo.AsInteger := UniMainModule.sbrtipo.AsInteger;
+        UniMainModule.tisisfnid.AsInteger := UniMainModule.vtItensitoitem.AsInteger;
+        UniMainModule.tisiisiitem.AsInteger := UniMainModule.vtItensitoitem.AsInteger;
+        if UniMainModule.sbrisiquantidade.AsString <> '' then
+        begin
+          UniMainModule.tisiisiquantidade.AsInteger := UniMainModule.sbrisiquantidade.AsInteger;
+        end
+        else
+        begin
+          UniMainModule.tisiisiquantidade.AsInteger := 1;
+        end;
+
+        if UniMainModule.bprbprchave.AsString <> '' then
+        begin
+          UniMainModule.tisibprchave.AsInteger := UniMainModule.bprbprchave.AsInteger;
+        end
+        else
+        begin
+          UniMainModule.tisibprchave.AsInteger := 0;
+        end;
+
+        UniMainModule.tisisfncodigo.AsInteger := 0;
+        UniMainModule.tisi.Post;
+
+        { end;
+          end; }
+        UniMainModule.sbr.Next;
+      end;
+      UniMainModule.sbr.Close;
+    end;
+  end;
+end;
+
+procedure TfIncluir.MostraTab(Tab: TUnimTabSheet);
+var
+  vlGrpCodigo: string;
+  vlProCodigo: string;
+begin
+  if Tab = TabIngredintes then
+  begin
+    // mostra ingredientes
+    with MainModule.UniMainModule do
+    begin
+      // abrindo ingredientes
+      if not UniMainModule.tsi.active then
+      begin
+        UniMainModule.tsi.Close;
+        UniMainModule.tsi.open;
+      end;
+
+      // abrindo ingredientes
+      { if not UniMainModule.sbr.active then
+        begin
+        UniMainModule.sbr.Close;
+        UniMainModule.sbr.Params[0].AsInteger := MainmForm.Usuario.tsicodigo;
+        UniMainModule.sbr.Params[1].AsInteger := UniMainModule.procprocodigo.AsInteger;
+        UniMainModule.sbr.open;
+
+        end
+        else if UniMainModule.sbrsbrprocodigo.AsInteger <> UniMainModule.procprocodigo.AsInteger then
+        begin }
+      { UniMainModule.sbr.Close;
+        UniMainModule.sbr.Params[0].AsInteger := MainmForm.Usuario.tsicodigo;
+        UniMainModule.sbr.Params[1].AsInteger := UniMainModule.procprocodigo.AsInteger;
+        UniMainModule.sbr.open; }
+      { end; }
+
+      if UniMainModule.sbr.IsEmpty then
+      begin
+        Showmessage('Não Existe ingredientes para esse produto !');
+        exit;
+      end;
+
+      MainModule.UniMainModule.tsi.Locate('tsicodigo', MainModule.UniMainModule.sbrtsicodigo.AsInteger, []);
+    end;
+  end;
+
+  if Tab = TabAdicionais then
+  begin
+    // mostra ingredientes adicionais
+    // mostra ingredientes
+    with MainModule.UniMainModule do
+    begin
+      // abrindo ingredientes
+     { if not UniMainModule.adc.active then
+      begin}
+
+
+
+    MainModule.UniMainModule.consulta.Close;
+    MainModule.UniMainModule.consulta.SQL.Text := 'select grpcodigo,procodigo from pro where procodigo=' + UniMainModule.procprocodigo.Asstring;
+    MainModule.UniMainModule.consulta.Open;
+
+    if MainModule.UniMainModule.consulta.FieldByName('grpcodigo').AsString <> '' then
+    begin
+      vlGrpCodigo := MainModule.UniMainModule.consulta.FieldByName('grpcodigo').AsString;
+
+    end;
+
+
+
+        UniMainModule.adc.Close;
+        UniMainModule.adc.Params[0].AsInteger := MainmForm.Usuario.tsicodigo;
+        UniMainModule.adc.Params[1].AsString := vlGrpCodigo;
+        UniMainModule.adc.open;
+    {  end
+      else
+      begin}
+
+
+        UniMainModule.adc.First;
+        while not UniMainModule.adc.Eof do
+        begin
+          UniMainModule.adc.edit;
+          UniMainModule.Adcisiquantidade.AsInteger := 1;
+          UniMainModule.adc.Post;
+          UniMainModule.adc.Next;
+        end;
+
+
+
+    {  end;}
+
+      if UniMainModule.adc.IsEmpty then
+      begin
+        Showmessage('Não Existe adicionais cadastrados !');
+        exit;
+      end;
+
+      vpSbrcodigo := UniMainModule.sbrsbrcodigo.AsInteger;
+      MainModule.UniMainModule.tsi.Locate('tsicodigo', MainModule.UniMainModule.adctsicodigo.AsInteger, []);
+    end;
+  end;
+  // desabilitando TabSheets
+  TabAdicionais.Enabled := false;
+  TabIngredintes.Enabled := false;
+  TabItem.Enabled := false;
+  Tab.Enabled := true;
+  TabPanelInc.ActivePage := Tab;
+end;
+
+procedure TfIncluir.ShowFormModal(aCallBack: TDialogCallback);
+begin
+  MostraTab(TabItem);
+  fcallback := aCallBack;
+  ShowModal;
+end;
+
+procedure TfIncluir.UnimBitBtn10Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.tsi.Next;
+  MainModule.UniMainModule.sbr.edit;
+  MainModule.UniMainModule.sbrtsicodigo.AsInteger := MainModule.UniMainModule.tsitsicodigo.AsInteger;
+  MainModule.UniMainModule.sbrtsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+  MainModule.UniMainModule.sbr.Post;
+end;
+
+procedure TfIncluir.UnimBitBtn11Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.vtItenspratos.AsInteger := MainModule.UniMainModule.vtItenspratos.AsInteger + 1;
+end;
+
+procedure TfIncluir.UnimBitBtn12Click(Sender: TObject);
+begin
+  if MainModule.UniMainModule.vtItenscopos.AsInteger > 0 then
+    MainModule.UniMainModule.vtItenscopos.AsInteger := MainModule.UniMainModule.vtItenscopos.AsInteger - 1;
+end;
+
+procedure TfIncluir.UnimBitBtn13Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.vtItenscopos.AsInteger := MainModule.UniMainModule.vtItenscopos.AsInteger + 1;
+end;
+
+procedure TfIncluir.UnimBitBtn1Click(Sender: TObject);
+begin
+  if MainModule.UniMainModule.vtItensitoquantidade.AsString = '' then
+    MainModule.UniMainModule.vtItensitoquantidade.AsInteger := 1;
+
+  if MainModule.UniMainModule.vtItensitoquantidade.asfloat > 1 then
+    MainModule.UniMainModule.vtItensitoquantidade.asfloat := MainModule.UniMainModule.vtItensitoquantidade.asfloat - 1;
+end;
+
+procedure TfIncluir.UnimBitBtn2Click(Sender: TObject);
+begin
+  if MainModule.UniMainModule.vtItensitoquantidade.AsString = '' then
+    MainModule.UniMainModule.vtItensitoquantidade.asfloat := 1
+  else
+    MainModule.UniMainModule.vtItensitoquantidade.asfloat := MainModule.UniMainModule.vtItensitoquantidade.asfloat + 1;
+end;
+
+procedure TfIncluir.UnimBitBtn3Click(Sender: TObject);
+begin
+  { MainModule.UniMainModule.tsi.Prior;
+    MainModule.UniMainModule.adc.Edit;
+    MainModule.UniMainModule.adctsicodigo.AsInteger := MainModule.UniMainModule.tsitsicodigo.AsInteger;
+    MainModule.UniMainModule.adctsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+    MainModule.UniMainModule.adc.Post; }
+
+  if MainModule.UniMainModule.Adcisiquantidade.AsInteger > 1 then
+  begin
+    MainModule.UniMainModule.adc.edit;
+    MainModule.UniMainModule.Adcisiquantidade.AsInteger := MainModule.UniMainModule.Adcisiquantidade.AsInteger - 1;
+    MainModule.UniMainModule.adctsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+    MainModule.UniMainModule.adc.Post;
+  end;
+
+end;
+
+procedure TfIncluir.UnimBitBtn4Click(Sender: TObject);
+begin
+  { MainModule.UniMainModule.tsi.Next;
+    MainModule.UniMainModule.adc.Edit;
+    MainModule.UniMainModule.adctsicodigo.AsInteger := MainModule.UniMainModule.tsitsicodigo.AsInteger;
+    MainModule.UniMainModule.adctsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+    MainModule.UniMainModule.adc.Post; }
+
+  MainModule.UniMainModule.adc.edit;
+  MainModule.UniMainModule.Adcisiquantidade.AsInteger := MainModule.UniMainModule.Adcisiquantidade.AsInteger + 1;
+  MainModule.UniMainModule.adctsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+  MainModule.UniMainModule.adc.Post;
+
+end;
+
+procedure TfIncluir.UnimBitBtn5Click(Sender: TObject);
+begin
+  MostraTab(TabItem);
+end;
+
+procedure TfIncluir.UnimBitBtn6Click(Sender: TObject);
+begin
+  MostraTab(TabAdicionais);
+end;
+
+procedure TfIncluir.UnimBitBtn7Click(Sender: TObject);
+begin
+  MostraTab(TabIngredintes);
+end;
+
+procedure TfIncluir.UnimBitBtn8Click(Sender: TObject);
+begin
+  if MainModule.UniMainModule.vtItenspratos.AsInteger > 0 then
+    MainModule.UniMainModule.vtItenspratos.AsInteger := MainModule.UniMainModule.vtItenspratos.AsInteger - 1;
+end;
+
+procedure TfIncluir.BtnRetonaCardClick(Sender: TObject);
+begin
+  Showmessage('Atenção, este item não foi registrado!');
+  vpIncluir := 2;
+  Close;
+
+end;
+
+procedure TfIncluir.BtnTabFraIngAdicionaisClick(Sender: TObject);
+begin
+  MostraTab(TabAdicionais);
+end;
+
+procedure TfIncluir.btnTabIncAdicConfirmaClick(Sender: TObject);
+begin
+  with MainModule.UniMainModule do
+  begin
+    { UniMainModule.sbr.Locate('procodigo', UniMainModule.Adcprocodigo.AsInteger, []);
+      { if not(UniMainModule.sbrprocodigo.AsInteger = UniMainModule.Adcprocodigo.AsInteger) then
+      begin }
+    UniMainModule.sbr.Append;
+    UniMainModule.sbrsbrcodigo.AsInteger := vpSbrcodigo;
+    UniMainModule.sbrsbrprocodigo.AsInteger := UniMainModule.procprocodigo.AsInteger;
+    UniMainModule.sbrprocodigo.AsInteger := UniMainModule.Adcprocodigo.AsInteger;
+    UniMainModule.sbrpronome.AsString := UniMainModule.Adcpronome.AsString;
+    UniMainModule.sbrtsicodigo.AsInteger := UniMainModule.adctsicodigo.AsInteger;
+    UniMainModule.sbrtsiidentificacao.AsString := UniMainModule.adctsiidentificacao.AsString;
+    UniMainModule.sbrtipo.AsInteger := 1;
+    UniMainModule.sbrisiquantidade.AsInteger := UniMainModule.Adcisiquantidade.AsInteger;
+    UniMainModule.sbritochave.AsInteger := UniMainModule.vtItensitoitem.AsInteger;
+    UniMainModule.sbr.Post;
+
+    //
+    UniMainModule.tsi.Locate('tsicodigo', MainmForm.Usuario.tsicodigo, []);
+    UniMainModule.adc.edit;
+    UniMainModule.adctsicodigo.AsInteger := MainmForm.Usuario.tsicodigo;
+    UniMainModule.adctsiidentificacao.AsString := UniMainModule.tsitsiidentificacao.AsString;
+    UniMainModule.adc.Post;
+    { end; }
+  end;
+  MostraTab(TabIngredintes);
+end;
+
+procedure TfIncluir.BtnTabSaborIngredientesClick(Sender: TObject);
+begin
+  MostraTab(TabIngredintes);
+end;
+
+procedure TfIncluir.EdtItemObsExit(Sender: TObject);
+begin
+  EdtItemObs.Text := uppercase(EdtItemObs.Text);
+end;
+
+procedure TfIncluir.UnimBitBtn9Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.tsi.Prior;
+  MainModule.UniMainModule.sbr.edit;
+  MainModule.UniMainModule.sbrtsicodigo.AsInteger := MainModule.UniMainModule.tsitsicodigo.AsInteger;
+  MainModule.UniMainModule.sbrtsiidentificacao.AsString := MainModule.UniMainModule.tsitsiidentificacao.AsString;
+  MainModule.UniMainModule.sbr.Post;
+end;
+
+procedure TfIncluir.UnimDBEdit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  Key := 0;
+end;
+
+procedure TfIncluir.UnimDBListGrid1Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.tsi.Locate('tsicodigo', MainModule.UniMainModule.adctsicodigo.AsInteger, []);
+end;
+
+procedure TfIncluir.UnimDBListGrid2Click(Sender: TObject);
+begin
+  fIncluir.lbUnidade.Caption := MainModule.UniMainModule.dpun.DataSet.FieldByName('unisimbolo').AsString;
+end;
+
+procedure TfIncluir.UnimDBListGrid3Click(Sender: TObject);
+begin
+  MainModule.UniMainModule.tsi.Locate('tsicodigo', MainModule.UniMainModule.sbrtsicodigo.AsInteger, []);
+end;
+
+procedure TfIncluir.UnimFormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if Assigned(fcallback) then
+    fcallback;
+end;
+
+procedure TfIncluir.UnimFormShow(Sender: TObject);
+begin
+
+  if MainModule.UniMainModule.dpun.DataSet.FieldByName('unisimbolo').AsString <> 'KG' then
+  begin
+    fIncluir.UnimDBEdit1.Enabled := true;
+    fIncluir.UnimDBEdit1.Field.AsString := '01';
+  end
+  else
+  begin
+    fIncluir.lbUnidade.Caption := MainModule.UniMainModule.dpun.DataSet.FieldByName('unisimbolo').AsString;
+    fIncluir.UnimDBEdit1.Field.AsString := '1';
+  end;
+
+  UniMainModule.sbr.Close;
+  UniMainModule.sbr.Params[0].AsInteger := MainmForm.Usuario.tsicodigo;
+  UniMainModule.sbr.Params[1].AsInteger := UniMainModule.procprocodigo.AsInteger;
+  UniMainModule.sbr.open;
+
+end;
+
+end.

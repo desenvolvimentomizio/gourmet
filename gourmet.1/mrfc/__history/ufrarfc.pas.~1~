@@ -1,0 +1,64 @@
+unit ufrarfc;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, VirtualTable, Data.DB, MemDS, DBAccess,
+  Uni, Vcl.Menus, System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Vcl.Controls, uPegaBase;
+
+type
+  Tfrarfc = class(Tfrabase)
+    uqtabelarfccodigo: TIntegerField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelarfcloja: TStringField;
+    uqtabelarfccontato: TStringField;
+    uqtabelarfcfonecont: TStringField;
+    uqtabelarfcdtcad: TDateField;
+    uqtabelarfcdtcons: TDateField;
+    procedure ActAlterarExecute(Sender: TObject);
+    procedure ActIncluirExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frarfc: Tfrarfc;
+
+  // Início ID do Módulo frarfc
+const
+  vPlIdMd = '01.01.01.003-01';
+  vPlTitMdl = 'Referências Comerciais';
+
+  // Fim ID do Módulo frarfc
+
+implementation
+
+{$R *.dfm}
+
+uses ufrfc;
+
+function execute(pCargaFrame: TCargaFrame): TFrame;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  frarfc := Tfrarfc.Create(pCargaFrame);
+  Result := frarfc;
+end;
+
+exports execute;
+
+procedure Tfrarfc.ActAlterarExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfrfc, Self.uqtabelarfccodigo.AsString, Self.vChaveMestre);
+end;
+
+procedure Tfrarfc.ActIncluirExecute(Sender: TObject);
+begin
+  CriaFormulario(Tfrfc, '', Self.vChaveMestre);
+end;
+
+end.

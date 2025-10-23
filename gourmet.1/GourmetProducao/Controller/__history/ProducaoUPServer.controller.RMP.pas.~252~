@@ -1,0 +1,563 @@
+unit ProducaoUPServer.controller.RMP;
+
+interface
+
+
+Uses
+  System.Classes,
+  System.SysUtils,
+  System.AnsiStrings,
+  Horse,
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
+  System.Json,
+  Uni,
+  UniProvider,
+  MySQLUniProvider,
+  ProducaoUP.Services.Connection ;
+
+
+procedure Registry(App: THorse);
+
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+procedure RegistraPedidoConcluido(vCznChave: Integer; vImmNumeroPedido: Integer);
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+uses ProducaoUPServer.controller.IMM;
+
+Function SoNumeros(Const Texto: String): String;
+
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+Var
+  i: Integer;
+  S: String;
+Begin
+  S := '';
+  For i := 1 To Length(Texto) Do
+  Begin
+    If (Texto[i] In ['0' .. '9']) Then
+    Begin
+      S := S + Copy(Texto, i, 1);
+    End;
+  End;
+  Result := S;
+End;
+
+
+procedure Registry(App: THorse);
+begin
+
+  App.Post('/v1/rmp', V1Insert);
+end;
+
+Function ajustadata(Dia: String): String;
+
+Var
+  d: String;
+  di, me, an: String;
+Begin
+  d := Dia;
+  di := Copy(d, 1, 2);
+  me := Copy(d, 4, 2);
+  an := Copy(d, 7, 4);
+  d := an + '-' + me + '-' + di;
+  result := d;
+End;
+
+procedure RegistraPedidoConcluido(vCznChave: Integer; vImmNumeroPedido: Integer);
+var
+  conexao:TUniConnection;
+  IMMAPRODUZIR:TUniQuery;
+  IMMPRODUZIDO:TUniQuery;
+  IMMPRODUCAO:TUniQuery;
+
+  vlquantidadeitens: Integer;
+  vlitensproduzidos: Integer;
+
+begin
+
+  try
+
+    try
+
+      conexao:=TUniConnection.Create(nil);
+
+      if AtivaConexao(conexao) then
+      begin
+
+        IMMAPRODUZIR:=TUniQuery.Create(nil);
+        IMMAPRODUZIR.Connection:=conexao;
+        IMMAPRODUZIR.sql.Text:='select COUNT(imm.itochave) quantidade ' +
+                                'from imm '+
+                                'inner join ito on imm.itochave = ito.itochave '+
+                                'inner join tci on imm.tcicodigo = tci.tcicodigo '+
+                                'inner join mit on tci.mitcodigo = mit.mitcodigo '+
+                                'Where immnumepedido=' + vImmNumeroPedido.ToString+' '+
+                                'and imm.cznchave =' + vCznChave.ToString;
+
+        IMMAPRODUZIR.Open;
+
+        if not IMMAPRODUZIR.IsEmpty then
+          vlquantidadeitens := IMMAPRODUZIR.FieldByName('quantidade').AsInteger
+        else
+          vlquantidadeitens := 0;
+
+        IMMAPRODUZIR.Close;
+
+        IMMPRODUZIDO:=TUniQuery.Create(nil);
+        IMMPRODUZIDO.Connection:=conexao;
+        IMMPRODUZIDO.sql.Text:='select COUNT(imm.itochave) quantidade ' +
+                              'from imm '+
+                              'inner join ito on imm.itochave = ito.itochave '+
+                              'inner join tci on imm.tcicodigo = tci.tcicodigo '+
+                              'inner join mit on tci.mitcodigo = mit.mitcodigo '+
+                              'Where immnumepedido=' + vImmNumeroPedido.ToString+' '+
+                              'and imm.pdscodigo=3  and imm.cznchave =' + vCznChave.ToString;
+        IMMPRODUZIDO.Open;
+
+        if not IMMPRODUZIDO.IsEmpty then
+           vlitensproduzidos := IMMPRODUZIDO.FieldByName('quantidade').AsInteger
+        else
+          vlitensproduzidos :=0;
+        IMMPRODUZIDO.Close;
+
+
+        if (vlquantidadeitens<>0)  and (vlitensproduzidos=vlquantidadeitens) then
+        begin
+
+          IMMPRODUCAO:=TUniQuery.Create(nil);
+          IMMPRODUCAO.Connection:=conexao;
+          IMMPRODUCAO.sql.Text:='update orc,ito,imm set orc.pdscodigo=3 where '+
+                                'orc.orcchave=ito.orcchave and '+
+                                'ito.itochave=imm.itochave and '+
+                                'immnumepedido=' + vImmNumeroPedido.ToString;
+          IMMPRODUCAO.ExecSQL;
+        end;
+
+      end;
+    except
+      on E: Exception do
+      begin
+       Writeln('153 Erro: ' + E.Message );
+      end;
+    end;
+  finally
+
+    if IMMPRODUCAO<>nil then
+      IMMPRODUCAO.DisposeOf;
+
+    if IMMPRODUZIDO<>nil then
+      IMMPRODUZIDO.DisposeOf;
+
+    IF IMMAPRODUZIR<>nil then
+      IMMAPRODUZIR.DisposeOf;
+
+    if conexao.Connected then
+      conexao.Connected:=false;
+
+  end;
+end;
+
+procedure RegistrarProduzido(aValue: string; aIto: string; aImp: string);
+var
+  conexao:TUniConnection;
+
+  IMMProduzido:TUniQuery;
+  ITM:TUniQuery;
+  IMP:TUniQuery;
+
+  vlIdItm: string;
+
+begin
+  try
+    try
+      conexao:=TUniConnection.Create(nil);
+
+      if AtivaConexao(conexao) then
+      begin
+
+        IMMProduzido:=TUniQuery.Create(nil);
+        IMMProduzido.Connection:=conexao;
+        IMMProduzido.sql.Text:='select immchave, immrecebido, pdscodigo '+
+                               'from imm '+
+                               'Where immchave=' + aValue;
+        IMMProduzido.Open;
+
+        if not IMMProduzido.IsEmpty then
+        begin
+           IMMProduzido.Edit;
+           IMMProduzido.FieldByName('immrecebido').AsInteger:=2;
+           IMMProduzido.FieldByName('pdscodigo').AsInteger:=3;
+           IMMProduzido.post;
+           IMMProduzido.close;
+        end;
+
+
+        ITM:=TUniQuery.Create(nil);
+        ITM.Connection:=conexao;
+        ITM.sql.Text:='select itmchave, itochave '+
+                               'from itm '+
+                               'Where itochave=' + aIto;
+        ITM.Open;
+
+        if not ITM.IsEmpty then
+        begin
+
+          vlIdItm :=ITM.Fields[0].AsString;
+
+          if vlIdItm <> '' then
+          begin
+
+            IMP :=TUniQuery.Create(nil);
+            IMP.Connection:=conexao;
+            IMP.sql.Text:='select impchave,itmchave '+
+                               'from imp '+
+                               'Where impchave=' + aImp;
+            IMP.Open;
+
+            if not IMP.IsEmpty then
+            begin
+
+              IMP.Edit;
+              IMP.FieldByName('itmchave').AsString:=vlIdItm;
+              IMP.Post;
+              IMP.close;
+
+            end;
+
+          end;
+
+        end;
+
+      end;
+
+    except
+      on E: Exception do
+      begin
+       Writeln('249 Erro: ' + E.Message );
+      end;
+    end;
+
+
+  finally
+
+
+    if conexao.Connected then
+    conexao.Connected:=false;
+
+    if IMMProduzido<>nil then
+      IMMProduzido.DisposeOf;
+
+    if ITM<>nil then
+      ITM.DisposeOf;
+
+    if IMP<>nil then
+      IMP.DisposeOf;
+
+  end;
+
+end;
+
+
+
+
+
+
+
+
+procedure V1Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  conexao:TUniConnection;
+  CZN:TUniQuery;
+
+  IMP:TUniQuery;
+
+  SLitem : String;
+  SLito : String;
+  SLIMP : String;
+
+var
+
+
+
+
+  aRmp: TJSONArray;
+  oRmp: TJSONObject;
+  oImm: TJSONObject;
+
+  jspair: TJSONPair;
+
+  codigo: string;
+
+  item: string;
+  ito: string;
+
+
+  inicio: String;
+  final: String;
+  impressora: string;
+  setor: string;
+  produto: string;
+  unidade: String;
+  quantidade: string;
+  maximo: string;
+  chaveimm: string;
+  pessoas: string;
+
+  itens, i: Integer;
+
+  vdata: string;
+  s: string;
+
+  ListaItens: TStringlist;
+  ListaItos: TStringlist;
+  ListaImps: TStringlist;
+
+  vlId: string;
+  vlDataCzn: string;
+  vlcznchave: Integer;
+
+  vlquantidadesabores: Integer;
+  vlquantidadeingredientes: Integer;
+  vlpontos: Double;
+  vlPedido: string;
+
+  vtexto: string;
+  vlDia:string;
+  vlHora:string;
+
+
+begin
+
+vtexto:=Req.Body;
+
+  vdata := datetimetostr(now());
+  //vdata := vdata;
+
+
+  try
+
+    try
+      conexao:=TUniConnection.Create(nil);
+
+      if AtivaConexao(conexao) then
+      begin
+
+        CZN:=TUniQuery.Create(nil);
+        CZN.Connection:=conexao;
+        CZN.sql.Text:='select cznchave, cznabertura '+
+                      'from czn '+
+                      'Where cznfechamento is null order by cznchave desc limit 1';
+        CZN.Open;
+
+
+        if not CZN.IsEmpty then
+        begin
+          vlDataCzn := Copy(CZN.FieldByName('cznabertura').AsString, 1, 10);
+          vlcznchave := CZN.FieldByName('cznchave').AsInteger;
+          CZN.close;
+        end
+        else
+        begin
+          vlDataCzn := datetimetostr(now());
+          vlDataCzn := vdata;
+          vlcznchave:=0;
+          CZN.close;
+        end;
+
+      end;
+
+    except
+      on E: Exception do
+      begin
+       Writeln('385 Erro: ' + E.Message );
+      end;
+    end;
+
+  finally
+
+  //  if conexao.Connected then
+   // conexao.Connected:=false;
+
+   // if CZN<>nil then
+   //   CZN.DisposeOf;
+
+   // if conexao<>nil then
+   //   conexao.DisposeOf;
+
+  end;
+
+
+  try
+
+    try
+
+      oRmp := nil;
+
+
+      aRmp := Req.Body<TJSONArray>;
+
+      ListaItens := TStringlist.Create;
+      ListaItos := TStringlist.Create;
+      ListaImps := TStringlist.Create;
+
+      itens := aRmp.Count - 1;
+
+      for i := 0 to itens do
+      begin
+        oRmp := aRmp.Items[i].GetValue<TJSONObject>;
+
+        jspair := oRmp.Pairs[1];
+        codigo := SoNumeros(jspair.JsonValue.ToString);
+
+        jspair := oRmp.Pairs[2];
+        item :=SoNumeros(stringreplace(jspair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]));
+
+        ListaItos.Add(item);
+
+        jspair := oRmp.Pairs[3];
+        chaveimm := stringreplace(jspair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+        jspair := oRmp.Pairs[4];
+        pessoas := jspair.JsonValue.ToString;
+
+        oImm := TJSONObject.Create;
+
+        oImm := V1GetImm(item);
+
+        if oImm <> nil then
+        begin
+          jspair := oImm.Pairs[0];
+
+          chaveimm := stringreplace(jspair.JsonValue.ToString, '"', '', [rfReplaceAll, rfIgnoreCase]);
+
+          ListaItens.Add(chaveimm);
+
+        end;
+
+        if oImm <> nil then
+        begin
+
+          vtexto := oImm.ToString;
+
+          jspair := oImm.Pairs[11];
+
+          inicio :=jspair.JsonValue.ToString;
+
+          inicio := trim(Copy(inicio, 2, 11)) + ' ' + trim(Copy(inicio, 13, 8));
+
+          vlDia:=trim(Copy(inicio, 1, 11));
+          vlDia:=trim(Copy(inicio, 9, 2)+'/'+Copy(inicio, 6, 2)+'/'+Copy(inicio, 1, 4));
+          vlHora:=trim(copy(inicio,12,8));
+
+          inicio:=vlDia+' '+vlHora;
+
+
+
+
+          if (inicio = '') or (inicio = 'null') or (inicio = '//ull') then
+          begin
+            inicio :=datetimetostr(now());
+          end;
+
+          final := inicio;
+
+          jspair := oImm.Pairs[2];
+          vlPedido := jspair.JsonValue.ToString;
+          vlPedido :=StringReplace(vlPedido,'"','',[rfReplaceAll, rfIgnoreCase]);
+
+          jspair := oImm.Pairs[6];
+          impressora := jspair.JsonValue.ToString;
+
+          jspair := oImm.Pairs[7];
+          setor := jspair.JsonValue.ToString;
+
+          jspair := oImm.Pairs[8];
+          produto := jspair.JsonValue.ToString;
+
+          jspair := oImm.Pairs[10];
+          unidade := jspair.JsonValue.ToString;
+
+          jspair := oImm.Pairs[9];
+          quantidade := jspair.JsonValue.ToString;
+
+
+          IMP:=TUniQuery.Create(nil);
+          IMP.Connection:=conexao;
+          IMP.sql.Text:='SELECT impchave, clbcodigo, itmchave, impinicio, impfinal, '+
+                        'itochave, mitcodigo, procodigo, impquantidade, impregistro, '+
+                        'puncodigo, sepcodigo, immsbrquantidade, immisaquantidade, '+
+                        'immpontos, cznchave '+
+                        'FROM imp limit 0';
+          IMP.Open;
+          IMP.Append;
+          IMP.FieldByName('impchave').asstring:='0';
+          IMP.FieldByName('clbcodigo').asstring:=codigo;
+          IMP.FieldByName('itmchave').asstring:= chaveimm;
+          IMP.FieldByName('impinicio').asstring:= inicio;
+          IMP.FieldByName('impfinal').asstring:= vdata + ' ' + timetostr(time());
+          IMP.FieldByName('itochave').asstring:=item;
+          IMP.FieldByName('mitcodigo').asstring:=impressora;
+          IMP.FieldByName('procodigo').asstring:= produto;
+          IMP.FieldByName('impquantidade').asstring:=quantidade;
+          IMP.FieldByName('impregistro').asstring:=vlDataCzn;
+          IMP.FieldByName('puncodigo').asstring:=unidade;
+          IMP.FieldByName('sepcodigo').asstring:=setor;
+          IMP.FieldByName('immsbrquantidade').asInteger:= vlquantidadesabores;
+          IMP.FieldByName('immisaquantidade').asInteger:=vlquantidadeingredientes;
+          IMP.FieldByName('immpontos').asFloat:=vlpontos;
+          IMP.FieldByName('cznchave').asInteger:=vlcznchave;
+          IMP.Post;
+
+          vlId := IMP.FieldByName('impchave').AsString;
+
+          ListaImps.Add(vlId);
+
+        end;
+
+      end;
+
+
+      for i := 0 to ListaItens.Count - 1 do
+      begin
+        SLitem := ListaItens[i];
+        Slito := ListaItos[i];
+        SLIMP := ListaImps[i];
+        if SLitem <> '' then
+        begin
+
+          RegistrarProduzido(SLitem, SLito, SLIMP);
+
+          RegistraPedidoConcluido(vlcznchave, vlPedido.ToInteger);
+
+        end;
+    end;
+
+    except
+      on E: Exception do
+      begin
+       Writeln('551 Erro: ' + E.Message );
+      end;
+    end;
+
+  finally
+
+
+  end;
+
+end;
+
+
+end.

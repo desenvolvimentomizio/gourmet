@@ -1,0 +1,90 @@
+unit GourmetServer.Controller.ETD;
+
+interface
+
+Uses
+
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.ETD;
+
+function ManutencaoETD(var vletdcodigo: Integer; vCliente: TJsonObject): Integer;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+Function ManutencaoETD(var vletdcodigo: Integer; vCliente: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TETD>;
+  FETD: TETD;
+
+begin
+
+  FDAO := TDAOGeneric<TETD>.New;
+  FETD := TETD.Create;
+  FETD.etdcodigo := vletdcodigo;
+  FETD.etdidentificacao := uppercase(vCliente.getvalue('name', '') + ' ' + vCliente.getvalue('surname', ''));
+  FETD.etdapelido := vCliente.getvalue('name', '');
+  FETD.etddoc1 := vCliente.getvalue('document_receipt', '');
+  FETD.etddeletar := 0;
+
+  if FETD.etddoc1 = '' then
+  begin
+    FETD.tpecodigo := 9;
+  end
+  else
+  begin
+    FETD.tpecodigo := 1;
+  end;
+  FETD.etddatacad := now;
+  FETD.etddataalt := now;
+  FETD.tsecodigo := 0;
+  FETD.etdcarga := 0;
+  FETD.etdativo := 1;
+  FETD.etddescsituacao := '';
+  FETD.etdsped := 0;
+  FETD.etdobs := '';
+  FETD.etdsuframa := '';
+  FETD.tcbcodigo := 3;
+  FETD.etdnfemodelos := '99';
+  FETD.grtcodigo := 1;
+  FETD.atvcodigo := 0;
+  FETD.jsncodigo := '';
+  FETD.etdpedidoobrigatorio := 0;
+  FETD.etdregime := 0;
+  FDAO.DAO.Update(FETD);
+  if vletdcodigo = 0 then
+  // incluir novo
+  begin
+    FETD.etdcodigo := 0;
+    FDAO.DAO.Insert(FETD);
+    FDAO.DAO.LastID;
+    vletdcodigo := FDAO.DataSet.FieldByName('etdcodigo').asInteger;
+
+    if FETD.etddoc1 = '' then
+    begin
+      FETD.etddoc1 := vletdcodigo.ToString;
+      FDAO.DAO.Update(FETD);
+    end;
+
+  end
+  else
+  // alterar se ja existe
+  begin
+    FETD.etdcodigo := vletdcodigo;
+    FDAO.DAO.Update(FETD);
+  end;
+  result := vletdcodigo;
+
+end;
+
+end.

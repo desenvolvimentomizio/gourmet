@@ -1,0 +1,179 @@
+unit uGourmetService;
+
+interface
+
+uses
+  Horse,
+  Horse.CORS,
+  Horse.Jhonson,
+  Horse.HandleException,
+  Horse.GBSwagger,
+  Horse.Logger,
+  Horse.BasicAuthentication,
+  Horse.OctetStream,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.SvcMgr,
+  registry,
+  Vcl.Dialogs,
+  GourmetServer.Controller.aiq.CFGGOU,
+  GourmetServer.Controller.aiq.PEDIDO,
+  GourmetServer.Controller.aiq.CLIENTE,
+  GourmetServer.Controller.CZN,
+  GourmetServer.Controller.GRP,
+  GourmetServer.Controller.ImportaCardapioMizio;
+
+
+
+
+type
+  TGourmetIntetrationService = class(TService)
+    procedure ServiceAfterInstall(Sender: TService);
+
+    procedure ServiceExecute(Sender: TService);
+    procedure ServiceStop(Sender: TService; var Stopped: Boolean);
+    procedure ServiceStart(Sender: TService; var Started: Boolean);
+    procedure ServiceCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function GetServiceController: TServiceController; override;
+  end;
+
+var
+  GourmetIntetrationService: TGourmetIntetrationService;
+  App: THorse;
+
+implementation
+
+{$R *.dfm}
+
+procedure ServiceController(CtrlCode: DWord); stdcall;
+begin
+  GourmetIntetrationService.Controller(CtrlCode);
+end;
+
+function TGourmetIntetrationService.GetServiceController: TServiceController;
+begin
+  Result := ServiceController;
+end;
+
+procedure TGourmetIntetrationService.ServiceAfterInstall(Sender: TService);
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create(KEY_READ or KEY_WRITE);
+
+  try
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    if Reg.OpenKey('\SYSTEM\CurrentControlSet\Services\' + Name, false) then
+    begin
+      Reg.WriteString('Description', 'Gourmet - Servidor de integrações.');
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+
+end;
+
+procedure TGourmetIntetrationService.ServiceCreate(Sender: TObject);
+begin
+
+  App := THorse.Create;
+  App.Use(OctetStream);
+
+  // tratativa de operações com JSON
+  App.Use(Jhonson);
+
+  // tratativa de consumo via RESTFULL
+  App.Use(CORS);
+
+  // tratativa de execoes da api
+  App.Use(HandleException);
+
+  // tratativa para geração de logs automaticos do servidor
+
+  // HorseLoggerConfig := THorseLoggerConfig.Create('${time} - ${request_method} ${request_path_info} ${execution_time}');
+  // HorseLoggerConfig.LogDir:=extractfilepath(application.exename)+'logs\';
+  // App.Use(THorseLogger.New(HorseLoggerConfig));
+
+  // tratativa para gerar documentação da api via swagger
+  App.Use(HorseSwagger);
+
+  // controllers de entidades
+  GourmetServer.Controller.aiq.CFGGOU.Registry(App);
+  GourmetServer.Controller.aiq.PEDIDO.Registry(App);
+  GourmetServer.Controller.aiq.CLIENTE.Registry(App);
+  GourmetServer.Controller.CZN.Registry(App);
+  GourmetServer.Controller.GRP.Registry(App);
+  GourmetServer.Controller.ImportaCardapioMizio.Registry(App);
+
+  // MercatoTV.controller.ESE.Registry(App);
+  // ProducaoUPServer.controller.MIT.Registry(App);
+  // ProducaoUPServer.controller.SEP.Registry(App);
+  // ProducaoUPServer.controller.IMM.Registry(App);
+  // ProducaoUPServer.controller.RMP.Registry(App);
+
+  App.Get('/v1/test',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+      Res.Send('ok');
+    end);
+
+  {
+    App.Get('/v1/stream/grp/:id',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    var
+    LStream: TFileStream;
+    begin
+
+    LStream := TFileStream.Create(extractfilepath(application.exename)+'mercatotv\imagens\grp\'+Req.Params.Items['id'], fmOpenRead);
+    Res.Send<TStream>(LStream);
+    end);
+  }
+
+
+
+
+  THorse.Get('ping',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+      Res.Send('pong');
+    end);
+
+
+end;
+
+procedure TGourmetIntetrationService.ServiceExecute(Sender: TService);
+begin
+  { Loop while service is active in SCM }
+  while not Terminated do
+  begin
+    { Process Service Requests }
+    ServiceThread.ProcessRequests(false);
+    { Allow system some time }
+    Sleep(1);
+  end;
+end;
+
+procedure TGourmetIntetrationService.ServiceStart(Sender: TService;
+  var Started: Boolean);
+begin
+  THorse.Listen(8091);
+  Started := True;
+end;
+
+procedure TGourmetIntetrationService.ServiceStop(Sender: TService;
+  var Stopped: Boolean);
+begin
+  THorse.StopListen;
+  Stopped := True;
+end;
+
+end.

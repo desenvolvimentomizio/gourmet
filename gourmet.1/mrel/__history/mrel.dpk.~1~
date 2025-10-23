@@ -1,0 +1,57 @@
+package mrel;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  mpeggourmet,
+  mmre,
+  frxDB27,
+  fsDB27,
+  fs27,
+  fqb270,
+  frx27,
+  frxe27,
+  dacvcl270,
+  unidacvcl270,
+  frxUniDAC27,
+  frxDAC27,
+  fsTee27,
+  frxTee27,
+  TeeUI,
+  Tee;
+
+contains
+  ufrarel in 'ufrarel.pas' {frarel: TFrame},
+  ufrel in 'ufrel.pas' {frel},
+  ulrel in 'ulrel.pas' {lrel},
+  ufloginrel in 'ufloginrel.pas' {floginrel},
+  ufexpimprel in 'ufexpimprel.pas' {fexpimprel};
+
+end.

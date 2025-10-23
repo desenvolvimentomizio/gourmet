@@ -1,4 +1,4 @@
-unit UFprinciWhaGou;
+Ôªøunit UFprinciWhaGou;
 
 interface
 
@@ -111,9 +111,12 @@ type
     immretornogrpcodigo: TIntegerField;
     immretornoimmchave: TIntegerField;
     Button2: TButton;
-    Panel2: TPanel;
-    mmErros: TMemo;
+    pnlCentro: TPanel;
     tmCheckOnline: TTimer;
+    mensagem: TUniQuery;
+    RGMensagens: TRadioGroup;
+    tmCupons: TTimer;
+    mmErros: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure WPPConnect1GetStatus(Sender: TObject);
@@ -136,6 +139,8 @@ type
     procedure WPPConnect1WPPMonitorCrash(Sender: TObject;
       const WPPCrash: TWppCrash; AMonitorJSCrash: Boolean);
     procedure WPPConnect1GetWAVersion(const WhatsAppWebVersion: TWAVersion);
+    procedure tmCuponsTimer(Sender: TObject);
+    procedure RGMensagensClick(Sender: TObject);
   private
     { Private declarations }
     FChatID: string;
@@ -159,6 +164,12 @@ type
     vpLargura: String;
     vpAltura: String;
     vpTelefoneTeste:String;
+    vpMensagem1:String;
+    vpMensagem2:String;
+    vpMensagem3:String;
+    vpMensagem4:String;
+    vpMensagem5:String;
+
 
   end;
 
@@ -196,7 +207,7 @@ begin
     end;
 
     options := 'createChat: true';
-    //Opicional N„o Utilizar para primeira mensagem, somente para contatos que j· houve alguma interaÁ„o
+    //Opicional N√£o Utilizar para primeira mensagem, somente para contatos que j√° houve alguma intera√ß√£o
 
     WPPConnect1.setKeepAlive('true'); //Marca como Online
     WPPConnect1.markIsComposing('6692350049', '1000'); //Digitando 5 Segundos
@@ -300,6 +311,12 @@ begin
     tmVerificarSaidas.ENABLED := True;
     tmVerificarRetornos.ENABLED := True;
     tmCheckOnline.Enabled:=true;
+
+    if (vpMensagem1<>'') and (vpMensagem2<>'') and (vpMensagem3<>'') and
+    (vpMensagem4<>'') and (vpMensagem5<>'') then
+    begin
+      tmCupons.Enabled:=true;
+    end;
 
     statusbar1.Panels[2].Text:=conexao.Database;
 
@@ -443,7 +460,7 @@ end;
 procedure TFprinciWhaGou.WPPConnect1GetHistorySyncProgress(
   const GetHistorySyncProgress: TResponsegetHistorySyncProgress);
 begin
-  mmErros.Lines.Add( '411 SincronizaÁ„o '+GetHistorySyncProgress.Name+ ' '+ GetHistorySyncProgress.progress.ToString);
+  mmErros.Lines.Add( '411 Sincroniza√ß√£o '+GetHistorySyncProgress.Name+ ' '+ GetHistorySyncProgress.progress.ToString);
 end;
 
 procedure TFprinciWhaGou.WPPConnect1GetStatus(Sender: TObject);
@@ -527,7 +544,7 @@ end;
 procedure TFprinciWhaGou.WPPConnect1GetWAVersion(
   const WhatsAppWebVersion: TWAVersion);
 begin
-   mmErros.Lines.Add( '534 Sess„o '+WhatsAppWebVersion.Name+' ' +WhatsAppWebVersion.WAVersion);
+   mmErros.Lines.Add( '534 Sess√£o '+WhatsAppWebVersion.Name+' ' +WhatsAppWebVersion.WAVersion);
 end;
 
 procedure TFprinciWhaGou.WPPConnect1RetErrorWhiteScreen(Sender: TObject;
@@ -544,14 +561,14 @@ begin
     CriarArquivoBAT_ReiniciaAplicacao;
     SleepNoFreeze(1000);
   end;
-  //ForÁar Reiniciar a AplicaÁ„o  / Force Restart the Application
+  //For√ßar Reiniciar a Aplica√ß√£o  / Force Restart the Application
   ShellExecute(handle,'open',PChar(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat'), '','',SW_MINIMIZE);
 
 end;
 
 procedure TFprinciWhaGou.WPPConnect1UpdateJS(Sender: TObject);
 begin
-  mmErros.Lines.Add( '481 AtualizaÁ„o JS');
+  mmErros.Lines.Add( '481 Atualiza√ß√£o JS');
 end;
 
 procedure TFprinciWhaGou.WPPConnect1WPPMonitorCrash(Sender: TObject;
@@ -564,7 +581,7 @@ begin
     WppConnect1.RebootWPP;
     exit;
   end;
-  //se caiu aqui È pq quem t· atualizando È o js.abr e a pagina do whatsapp continua funcionando.
+  //se caiu aqui √© pq quem t√° atualizando √© o js.abr e a pagina do whatsapp continua funcionando.
   if (not(WPPCrash.MainLoaded)) or (not(WPPCrash.Authenticated)) then
     WppConnect1.RebootWPP;
 end;
@@ -594,6 +611,12 @@ Begin
     vsenha := ReadString('posi', 'senha', 'xda973');
     vportabanco := ReadString('posi', 'portabanco', '3306');
     vpTelefoneTeste := ReadString('posi', 'telefoneteste', '');
+    vpMensagem1 := ReadString('posi', 'mensagem1', '');
+    vpMensagem2 := ReadString('posi', 'mensagem2', '');
+    vpMensagem3 := ReadString('posi', 'mensagem3', '');
+    vpMensagem4 := ReadString('posi', 'mensagem4', '');
+    vpMensagem5 := ReadString('posi', 'mensagem5', '');
+
 
   End;
   arquini.Free;
@@ -614,7 +637,7 @@ Begin
 
   if not Conexao.Connected then
   begin
-    ShowMessage('Falha de conex„o com o Banco de Dados. Verifique as configuraÁıes do gourmeterp.ini');
+    ShowMessage('Falha de conex√£o com o Banco de Dados. Verifique as configura√ß√µes do gourmeterp.ini');
     Application.Terminate;
   end
   else
@@ -800,7 +823,7 @@ begin
     end
     else
     begin
-      // n„o tem whats vai sÛ registar hora do pedido
+      // n√£o tem whats vai s√≥ registar hora do pedido
       SalvaHoraNotificacao(aOrcChave, aTipoNotificacao);
       vlTemWhats := False;
     end;
@@ -840,6 +863,11 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TFprinciWhaGou.RGMensagensClick(Sender: TObject);
+begin
+  mensagem.close;
 end;
 
 procedure TFprinciWhaGou.SalvaHoraNotificacao(aOrcChave: string; aTipoNotificacao:String);
@@ -886,6 +914,116 @@ begin
   tmCheckOnline.Enabled := True;
 end;
 
+
+
+procedure TFprinciWhaGou.tmCuponsTimer(Sender: TObject);
+var
+ i:Integer;
+ vMensagem:String;
+ t:Integer;
+ vTelefone:String;
+ vFiltro:String;
+var
+  options : string;
+  DtFim, DtIni: TDate;
+  SIni, SFim: string;
+
+
+
+begin
+  try
+  tmCupons.Enabled:=false;
+  if RGMensagens.ItemIndex=0 then
+    exit;
+
+  sleep(RandomRange(50, 3000));
+
+  i:=RandomRange(1, 5);
+
+  if not mensagem.Active then
+  begin
+
+
+    DtFim := Date;                // hoje (parte de data de Now)
+
+    if RGMensagens.ItemIndex=1 then
+    begin
+      DtIni := IncMonth(DtFim, -1); // h√° 1 mes
+    end
+    else if RGMensagens.ItemIndex=2 then
+    begin
+      DtIni := IncMonth(DtFim, -3); // h√° 3 meses
+    end
+    else if RGMensagens.ItemIndex=3 then
+    begin
+      DtIni := IncMonth(DtFim, -6); // h√° 6 meses
+    end;
+
+
+    // Se quiser string no formato yyyy-mm-dd:
+    SIni := FormatDateTime('yyyy-mm-dd', DtIni);
+    SFim := FormatDateTime('yyyy-mm-dd', DtFim);
+
+    vFiltro:=QuotedStr(SIni)+' and '+QuotedStr(SFim);
+
+    mensagem.SQL.Text:='SELECT etftelefone FROM etf,mes WHERE '+
+    'etf.etdcodigo=mes.etdcodigo AND LENGTH(etftelefone)=11 and mesemissao BETWEEN '+
+    vFiltro+
+    ' GROUP BY etftelefone ';
+
+     mensagem.Open;
+  end;
+
+  if mensagem.RecordCount=0 then
+   exit;
+
+  if i=1 then
+    vMensagem:=vpMensagem1
+  else if i=2 then
+    vMensagem:=vpMensagem2
+  else if i=3 then
+    vMensagem:=vpMensagem3
+  else if i=4 then
+    vMensagem:=vpMensagem4
+  else if i=5 then
+    vMensagem:=vpMensagem5;
+
+  if vMensagem<>'' then
+  begin
+
+
+      if not WPPConnect1.Auth then
+      begin
+        Showmessage('Whats off');
+        Exit;
+      end;
+
+
+      options := 'createChat: true';
+      t:=RandomRange(250, 1500);
+      WPPConnect1.setKeepAlive('true'); //Marca como Online
+      vTelefone:=mensagem.FieldByName('etftelefone').AsString;
+      vTelefone:=copy(vTelefone,1,2)+copy(vTelefone,4,10);
+
+     //  vTelefone:='6692350049';  // para teste enviar no meu
+
+      WPPConnect1.markIsComposing(vTelefone, t.ToString);
+      WPPConnect1.SendTextMessageEx(vTelefone,vMensagem , options, '123');
+
+      MensagensEnviadas.Lines.Add('Mensagem '+i.ToString +' enviado para '+vTelefone);
+
+
+      if mensagem.Active then
+      mensagem.Next;
+  end;
+
+  finally
+    tmCupons.Enabled:=True;
+
+  end;
+
+end;
+
 procedure TFprinciWhaGou.VerificaWhatsApp;
 var
   caminho : string;
@@ -920,14 +1058,14 @@ Begin
         end
         else
         if TentativaConexao >= 3 then
-        begin //Reiniciar AplicaÁ„o
-          //Executar Arquivo BAT para Reiniciar AplicaÁ„o em Caso de Bug
+        begin //Reiniciar Aplica√ß√£o
+          //Executar Arquivo BAT para Reiniciar Aplica√ß√£o em Caso de Bug
           if not (FileExists(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat')) then
           begin
             CriarArquivoBAT_ReiniciaAplicacao;
             SleepNoFreeze(1000);
           end;
-          //ForÁar Reiniciar a AplicaÁ„o
+          //For√ßar Reiniciar a Aplica√ß√£o
           ShellExecute(handle,'open',PChar(ExtractFilePath(Application.ExeName) + 'Reinicia' + NomeAplicacao + '.bat'), '','',SW_MINIMIZE);
           Exit;
         end;

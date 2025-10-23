@@ -1,0 +1,153 @@
+inherited fcit: Tfcit
+  ActiveControl = tcicodigo
+  Caption = 'Liga'#231#227'o do Terminal com Impressora'
+  ClientHeight = 409
+  ClientWidth = 782
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    Top = 380
+    Width = 782
+    inherited bconfirma: TBitBtn
+      Left = 628
+    end
+    inherited bcancela: TBitBtn
+      Left = 703
+    end
+    inherited bfechar: TBitBtn
+      Left = 563
+    end
+  end
+  inherited paginas: TPageControl
+    Width = 782
+    Height = 380
+    inherited Principal: TTabSheet
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 33
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'C'#243'digo'
+        FocusControl = citcodigo
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 33
+        Width = 54
+        Height = 13
+        CustomHint = BalloonHint
+        Caption = 'Impressora'
+        FocusControl = tcicodigo
+      end
+      object Spt3: TSplitter
+        Left = 0
+        Top = 186
+        Width = 774
+        Height = 5
+        Cursor = crVSplit
+        CustomHint = BalloonHint
+        Align = alBottom
+      end
+      object citcodigo: TDBEdit
+        Left = 136
+        Top = 3
+        Width = 57
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'citcodigo'
+        DataSource = DSRegistro
+        TabOrder = 0
+      end
+      object tcicodigo: TDBEdit
+        Left = 136
+        Top = 30
+        Width = 57
+        Height = 21
+        CustomHint = BalloonHint
+        DataField = 'tcicodigo'
+        DataSource = DSRegistro
+        TabOrder = 1
+      end
+      object PlFin: TPanel
+        Left = 0
+        Top = 191
+        Width = 774
+        Height = 161
+        CustomHint = BalloonHint
+        Align = alBottom
+        BevelOuter = bvNone
+        TabOrder = 2
+      end
+      object bvalidar: TButton
+        Left = 664
+        Top = 28
+        Width = 75
+        Height = 25
+        CustomHint = BalloonHint
+        Caption = 'Validar'
+        TabOrder = 3
+        OnClick = bvalidarClick
+      end
+    end
+  end
+  inherited registro: TUniQuery
+    SQL.Strings = (
+      'select citcodigo,'
+      'tcicodigo,'
+      'trmcodigo from cit'
+      'where  citcodigo=:citcodigo and cit.trmcodigo=:trmcodigo')
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'citcodigo'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'trmcodigo'
+        Value = nil
+      end>
+    object registrocitcodigo: TIntegerField
+      AutoGenerateValue = arAutoInc
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'citcodigo'
+    end
+    object registrotrmcodigo: TIntegerField
+      DisplayLabel = 'Terminal'
+      FieldName = 'trmcodigo'
+    end
+    object registrotcicodigo: TIntegerField
+      DisplayLabel = 'Impressora'
+      FieldName = 'tcicodigo'
+    end
+    object registromitidentificacao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'mitidentificacao'
+      LookupDataSet = tci
+      LookupKeyFields = 'tcicodigo'
+      LookupResultField = 'mitidentificacao'
+      KeyFields = 'tcicodigo'
+      Size = 50
+      Lookup = True
+    end
+  end
+  inherited ImgBusca: TPngImageList
+    Bitmap = {}
+  end
+  object tci: TUniQuery
+    SQL.Strings = (
+      
+        'select tcicodigo, mitidentificacao from tci, mit where tci.mitco' +
+        'digo=mit.mitcodigo')
+    Left = 680
+    Top = 260
+    object tcitcicodigo: TIntegerField
+      FieldName = 'tcicodigo'
+    end
+    object tcimitidentificacao: TStringField
+      FieldName = 'mitidentificacao'
+      Size = 50
+    end
+  end
+end

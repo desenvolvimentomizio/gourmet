@@ -1,0 +1,275 @@
+unit ulentregadores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Data.DB,
+  ufuncoes, frxClass, frxDACComponents, frxUniDACComponents, ufrmbase, upegabase,uni;
+
+type
+  Tlentregadores = class(TForm)
+    listaOrcs: TDBGrid;
+    plBotoes: TPanel;
+    btConfirma: TButton;
+    btCancela: TButton;
+    Dclb: TDataSource;
+    btRelatorioDetalhado: TButton;
+    frxUniDACComponents: TfrxUniDACComponents;
+    btRelatorioResumido: TButton;
+    btRegistroManual: TButton;
+    btSelecionarMaquinaPOS: TButton;
+    procedure btCancelaClick(Sender: TObject);
+    procedure btConfirmaClick(Sender: TObject);
+    procedure btRelatorioDetalhadoClick(Sender: TObject);
+    procedure listaOrcsDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure listaOrcsCellClick(Column: TColumn);
+    procedure btRelatorioResumidoClick(Sender: TObject);
+    procedure btRegistroManualClick(Sender: TObject);
+    procedure btSelecionarMaquinaPOSClick(Sender: TObject);
+  private
+    function MostraLista(pModulo: String; pFiltro: string = ''; pChaveMestre: string = ''): string;
+    { Private declarations }
+  public
+    { Public declarations }
+    vpTipoLista: Integer;
+    zCone:TUniConnection;
+    Acesso:TAcesso;
+  end;
+
+var
+  lentregadores: Tlentregadores;
+
+implementation
+
+uses
+  uFprinciEntregas, ufccevalores;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+  TCellGrid = class(TCustomGrid);
+
+{$R *.dfm}
+
+procedure Tlentregadores.btCancelaClick(Sender: TObject);
+begin
+  modalresult := mrcancel;
+end;
+
+procedure Tlentregadores.btConfirmaClick(Sender: TObject);
+begin
+  listaOrcsCellClick(listaOrcs.Columns[0]);
+  modalresult := mrok;
+end;
+
+procedure Tlentregadores.btRegistroManualClick(Sender: TObject);
+var
+  vlcchchave: String;
+begin
+
+  FprinciEntregas.consulta.Close;
+  FprinciEntregas.consulta.SQL.Text := 'SELECT ccechave from cce where ccefechamento IS NULL and cznchave=' + FprinciEntregas.vpCznChave +
+    ' and  clbcodigo=' + Dclb.DataSet.FieldByName('clbcodigo').AsString;
+  FprinciEntregas.consulta.Open;
+
+  if FprinciEntregas.consulta.IsEmpty then
+  begin
+    Showmessage('Este colaborador já esta com seu caixa fechado!');
+    exit;
+  end;
+
+  if Dclb.DataSet.FieldByName('ccechave').AsString <> '' then
+  begin
+
+    if FprinciEntregas.CriaFormulario(Tfccevalores, Dclb.DataSet.FieldByName('ccechave').AsString, FprinciEntregas.vpCznChave) then
+    begin
+      modalresult := mrok;
+    end;
+
+  end
+  else
+  begin
+    Showmessage('Entregadore sem caixa aberto!');
+  end;
+
+end;
+
+procedure Tlentregadores.btRelatorioDetalhadoClick(Sender: TObject);
+var
+  vlNomeArq: string;
+  BlobField: TBlobField;
+begin
+  if (FprinciEntregas.vtEmEntrega.Locate('clbcodigo', Dclb.DataSet.FieldByName('clbcodigo').AsString, [])) and
+    (FprinciEntregas.cfgcfgmgoucontrolaentrega.AsInteger = 1) then
+  begin
+
+    Showmessage('O entregador ' + Dclb.DataSet.FieldByName('clbidentificacao').AsString + ' esta EM ENTREGA, não pode imprimir o relatório!');
+  end
+  else
+  begin
+
+    FprinciEntregas.consulta.Close;
+    FprinciEntregas.consulta.SQL.Text := 'select relarquivo from rel where relcodigo=' + chr(39) + FprinciEntregas.cfgcfgmgourelentrecomple.AsString
+      + chr(39);
+    FprinciEntregas.consulta.Open;
+
+    vlNomeArq := ExtractFilePath(application.ExeName) + 'Relat\relatorioentdetalhado.fr3';
+
+    BlobField := FprinciEntregas.consulta.Fields[0] as TBlobField;
+    BlobField.SaveToFile(vlNomeArq);
+
+    if not FileExists(vlNomeArq) then
+    begin
+      Showmessage('Arquivo nao localizado: ' + vlNomeArq);
+      exit;
+    end;
+
+    FprinciEntregas.relatorio.LoadFromFile(vlNomeArq);
+
+    FprinciEntregas.relatorio.Variables['cznchave'] := QuotedStr(FprinciEntregas.vpCznChave);
+    FprinciEntregas.relatorio.Variables['clbcodigoent'] := QuotedStr(Dclb.DataSet.FieldByName('clbcodigo').AsString);
+
+    // FprinciEntregas.relatorio.PrepareReport(true);
+    FprinciEntregas.relatorio.PrintOptions.ShowDialog := false;
+    FprinciEntregas.relatorio.ShowProgress := false;
+    FprinciEntregas.relatorio.ShowReport;
+  end;
+
+end;
+
+procedure Tlentregadores.btRelatorioResumidoClick(Sender: TObject);
+var
+  vlNomeArq: string;
+  BlobField: TBlobField;
+begin
+  if (FprinciEntregas.vtEmEntrega.Locate('clbcodigo', Dclb.DataSet.FieldByName('clbcodigo').AsString, [])) and
+    (FprinciEntregas.cfgcfgmgoucontrolaentrega.AsInteger = 1) then
+  begin
+
+    Showmessage('O entregador ' + Dclb.DataSet.FieldByName('clbidentificacao').AsString + ' esta EM ENTREGA, não pode imprimir o relatório!');
+  end
+  else
+  begin
+
+    FprinciEntregas.consulta.Close;
+    FprinciEntregas.consulta.SQL.Text := 'select relarquivo from rel where relcodigo=' + chr(39) + FprinciEntregas.cfgcfgmgourelentreresumido.AsString
+      + chr(39);
+    FprinciEntregas.consulta.Open;
+
+    vlNomeArq := ExtractFilePath(application.ExeName) + 'Relat\relatorioentresumido.fr3';
+
+    BlobField := FprinciEntregas.consulta.Fields[0] as TBlobField;
+    BlobField.SaveToFile(vlNomeArq);
+
+    if not FileExists(vlNomeArq) then
+    begin
+      Showmessage('Arquivo nao localizado: ' + vlNomeArq);
+      exit;
+    end;
+
+    FprinciEntregas.relatorio.LoadFromFile(vlNomeArq);
+
+    FprinciEntregas.relatorio.Variables['cznchave'] := QuotedStr(FprinciEntregas.vpCznChave);
+    FprinciEntregas.relatorio.Variables['clbcodigoent'] := QuotedStr(Dclb.DataSet.FieldByName('clbcodigo').AsString);
+
+    // FprinciEntregas.relatorio.PrepareReport(true);
+    FprinciEntregas.relatorio.PrintOptions.ShowDialog := false;
+    FprinciEntregas.relatorio.ShowProgress := false;
+    FprinciEntregas.relatorio.ShowReport;
+  end;
+end;
+
+function Tlentregadores.MostraLista(pModulo: String; pFiltro: string = ''; pChaveMestre: string = ''): string;
+var
+  ExecForm: function(CargaFrame: TCargaFrame): String;
+  vlCargaFrame: TCargaFrame;
+  pack:THandle;
+begin
+
+  { if InternetAtiva then
+    begin
+    VerAtualizacao(pModulo);
+    end; }
+
+  Result := '';
+  pack := LoadPackage('modulos\' + pModulo + '.bpl');
+  if pack <> 0 then
+    try
+      @ExecForm := GetProcAddress(pack, Pchar('formu'));
+      if Assigned(ExecForm) then
+      begin
+        vlCargaFrame := CargaFrameFormu(Application, pack, ZCone, Acesso, pFiltro, pChaveMestre);
+        Result := ExecForm(vlCargaFrame);
+      end;
+    finally
+
+    end;
+end;
+
+
+procedure Tlentregadores.btSelecionarMaquinaPOSClick(Sender: TObject);
+var
+  vlclbcodigo:string;
+begin
+  inherited;
+
+
+  vlclbcodigo:=MostraLista('mpos','clbcodigo='+Dclb.DataSet.FieldByName('clbcodigo').AsString);
+
+  if vlclbcodigo<>'' then
+  begin
+   Dclb.DataSet.close;
+   Dclb.DataSet.Open;
+  end;
+
+end;
+
+procedure Tlentregadores.listaOrcsCellClick(Column: TColumn);
+begin
+  // selectinar esta linha
+
+end;
+
+procedure Tlentregadores.listaOrcsDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+
+  fixRect := Rect;
+
+  If Odd(Dclb.DataSet.RecNo) Then
+    listaOrcs.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    listaOrcs.Canvas.Brush.Color := CLWHITE;
+
+  { if Dclb.DataSet.FieldByName('qtdent').asstring<>'0' then
+    listaOrcs.Canvas.Font.Color:=clblack
+    else
+    listaOrcs.Canvas.Font.Color:=clsilver; }
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      Font.Color := CLWHITE;
+    End;
+
+  { Get active record within grids TDataLink. The active record will be
+    the current record in the dataset. Check against Row that we are
+    trying to Draw, -1 to offset the column headings within grid. }
+  with TFriendly(listaOrcs) do
+
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+      with Canvas do
+      begin
+        Brush.Color := PEG_COR_SELCGRID; { set grids canvas to win highlight colour }
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State); { now redraw the cell, but highlighted }
+      end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+
+end;
+
+end.

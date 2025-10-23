@@ -1,0 +1,155 @@
+unit UntCancelaItem;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.ExtCtrls;
+
+type
+  TFrmCancelaItem = class(TForm)
+    Panel1: TPanel;
+    Panel11: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel9: TPanel;
+    BtnCardRetornar: TButton;
+    Button2: TButton;
+    Panel7: TPanel;
+    PnSabores: TPanel;
+    Label2: TLabel;
+    BtnMenos: TButton;
+    BtnMais: TButton;
+    Panel5: TPanel;
+    DBText1: TDBText;
+    Panel6: TPanel;
+    Panel8: TPanel;
+    Lbtitulo: TLabel;
+    Panel10: TPanel;
+    EdtQtde: TEdit;
+    DBText2: TDBText;
+    Label1: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    procedure EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnMenosClick(Sender: TObject);
+    procedure BtnMaisClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure BtnCardRetornarClick(Sender: TObject);
+    procedure EdtQtdeExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vpTotal: Extended;
+    vpRecebimentos: Extended;
+    vpQuantidade: Double;
+    vpConfirma: Boolean;
+  end;
+
+var
+  FrmCancelaItem: TFrmCancelaItem;
+
+implementation
+
+uses
+  UntDmDados;
+
+{$R *.dfm}
+
+procedure TFrmCancelaItem.BtnCardRetornarClick(Sender: TObject);
+begin
+  if Length(EdtQtde.Text) > 0 then
+  begin
+    if StrToFloat(EdtQtde.Text) > 0 then
+    begin
+      vpQuantidade := StrToFloat(EdtQtde.Text);
+
+      if ((DmDados.itoitovalorav.AsFloat*vpQuantidade ) > (vpTotal - vpRecebimentos)) then
+      begin
+        Showmessage('Atenção valor do item maior que o saldo a receber. ' + #13 + 'Cancelamento não permitido ! ' + #13 + #13 +{ 'Valor total R$.: ' + FormatFloat('#,##0.00',
+          vpTotal) + #13 + 'Valor Recebido R$.: ' + FormatFloat('#,##0.00', vpRecebimentos) +} #13 + #13
+                                                  + 'Saldo a receber  R$....: ' + FormatFloat('#,##0.00',
+          (vpTotal - vpRecebimentos)) + #13 + #13 + 'Valor do Produto R$....: ' + FormatFloat('#,##0.00', (DmDados.itoitovalorav.AsFloat * vpQuantidade)));
+        EdtQtde.SetFocus;
+        EdtQtde.SelectAll;
+        Exit;
+      end;
+      vpConfirma := True;
+      Close;
+    end
+    else
+    begin
+      EdtQtde.SetFocus;
+      Exit;
+
+    end;
+  end
+  else
+  begin
+    EdtQtde.SetFocus;
+    Exit;
+  end;
+end;
+
+procedure TFrmCancelaItem.Button2Click(Sender: TObject);
+begin
+  vpConfirma := False;
+  Close;
+end;
+
+procedure TFrmCancelaItem.BtnMaisClick(Sender: TObject);
+begin
+  if (StrToFloat(EdtQtde.Text) >= 1) and (StrToFloat(EdtQtde.Text) < DmDados.itoitoquantidade.AsFloat) then
+    EdtQtde.Text := InttoStr(StrToInt(EdtQtde.Text) + 1);
+end;
+
+procedure TFrmCancelaItem.BtnMenosClick(Sender: TObject);
+begin
+  if (StrToFloat(EdtQtde.Text) > 1) and (StrToFloat(EdtQtde.Text) <= DmDados.itoitoquantidade.AsFloat) then
+    EdtQtde.Text := FloatToStr(StrToFloat(EdtQtde.Text) - 1);
+end;
+
+procedure TFrmCancelaItem.EdtQtdeExit(Sender: TObject);
+begin
+  if Length(trim(EdtQtde.Text)) = 0 then
+    EdtQtde.Text := '1';
+
+ { if Length(EdtQtde.Text) > 0 then
+  begin
+
+    if FormatFloat('0.###', StrToFloat(EdtQtde.Text)) > FormatFloat('0.###', DmDados.itoitoquantidade.AsFloat) then
+    begin
+      Showmessage('Quantidade informada maior que a quantidade disponível na comanda, verifique !');
+      EdtQtde.Text := DmDados.itoitoquantidade.AsString;
+    end;
+  end;}
+end;
+
+procedure TFrmCancelaItem.EdtQtdeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    BtnCardRetornar.SetFocus;
+  end;
+
+  if Length(EdtQtde.Text) = 0 then
+  begin
+    if not(Key in ['1' .. '9', #8, #13]) then
+      Key := #0;
+  end
+  else if not(Key in ['0' .. '9', #8, #13]) then
+    Key := #0;
+end;
+
+procedure TFrmCancelaItem.FormShow(Sender: TObject);
+begin
+  EdtQtde.SetFocus;
+  EdtQtde.SelectAll;
+end;
+
+end.

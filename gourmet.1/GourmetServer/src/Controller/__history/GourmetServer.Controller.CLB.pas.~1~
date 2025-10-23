@@ -1,0 +1,50 @@
+unit GourmetServer.Controller.CLB;
+
+interface
+
+Uses
+  Horse,
+  System.Json,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CLB ;
+
+Function ManutencaoCLB(vItem: TJsonObject): Integer;
+Function BuscaCodigoCLBclbNome(vNome:string): String;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+Function ManutencaoCLB(vItem: TJsonObject): Integer;
+begin
+
+end;
+
+Function BuscaCodigoCLBclbNome(vNome:string): String;
+var
+  FDAO: iDAOGeneric<TCLB>;
+  vlclbcodigo: string;
+begin
+  vlclbcodigo := '';
+
+  FDAO := TDAOGeneric<TCLB>.New;
+
+  FDAO.DAO.SQL.where('clbidentificacao=' + QuotedStr(vNome)).&End.Find;
+
+  vlclbcodigo := FDAO.DataSet.FieldByName('clbcodigo').asstring;
+  result := vlclbcodigo;
+
+
+end;
+
+
+
+end.

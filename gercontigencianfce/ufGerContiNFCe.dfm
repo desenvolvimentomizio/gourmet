@@ -4911,7 +4911,7 @@ object fGerContiNFCe: TfGerContiNFCe
     Height = 350
     Align = alClient
     BorderStyle = bsNone
-    Color = 16762250
+    Color = 13434828
     TabOrder = 1
   end
   object plTopNFE: TPanel

@@ -1,0 +1,2206 @@
+unit uframnf;
+
+interface
+
+uses
+  Winapi.Windows, Vcl.Forms, ufrabase, Data.DB, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.StdCtrls, Vcl.ComCtrls, VirtualTable, MemDS, DBAccess, Uni, Vcl.Menus,
+  System.Classes, System.Actions, Vcl.ActnList, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
+  Vcl.Controls, Vcl.Graphics, Vcl.Dialogs, System.SysUtils, Vcl.ClipBrd,
+  uFuncoes, uPegaBase, System.ImageList, Vcl.ImgList, Xml.xmldom,
+  Xml.XMLIntf, Xml.XMLDoc;
+
+type
+  Tframnf = class(Tfrabase)
+    ActImprimirVendaNFE: TAction;
+    ActCancelarNFE: TAction;
+    ActReimprimirNFE: TAction;
+    ActRenviaremail: TAction;
+    ActCartaCorrecao: TAction;
+    ActConsultaStatusSEFAZ: TAction;
+    ActConsultaStatusAjustarNFESEFAZMT: TAction;
+    uqtabelameschave: TIntegerField;
+    uqtabelamesemissao: TDateField;
+    uqtabelatdfidentificacao: TStringField;
+    uqtabelamesnumero: TIntegerField;
+    uqtabelaetdcodigo: TIntegerField;
+    uqtabelaetdidentificacao: TStringField;
+    uqtabelamesvalor: TFloatField;
+    uqtabelamesdesconto: TFloatField;
+    uqtabelamestotal: TFloatField;
+    uqtabelasdeidentificacao: TStringField;
+    uqtabelatoeidentificacao: TStringField;
+    uqtabelamesserie: TStringField;
+    uqtabelaclbcodigo: TIntegerField;
+    uqtabelatrmcodigo: TIntegerField;
+    uqtabelamesprotocolo: TStringField;
+    uqtabelasdecodigo: TStringField;
+    uqtabelamesdatanfe: TDateField;
+    uqtabelatemcodigo: TIntegerField;
+    Ditm: tunidatasource;
+    itm: tuniquery;
+    itmitmchave: TIntegerField;
+    itmmeschave: TIntegerField;
+    itmitmitem: TIntegerField;
+    itmprocodigo: TIntegerField;
+    itmpronome: TStringField;
+    itmunisimbolo: TStringField;
+    itmitmvalor: TFloatField;
+    itmitmquantidade: TFloatField;
+    itmitmdesconto: TFloatField;
+    itmitmtotal: TFloatField;
+    itmcfocfop: TStringField;
+    itmitmaliqipi: TFloatField;
+    Pnl1: TPanel;
+    Pltotalsaidas: TPanel;
+    Pltotaldescontossaidas: TPanel;
+    Pltotalliquidosaidas: TPanel;
+    Pltotalnfesaidas: TPanel;
+    PlRodapeItens: TPanel;
+    pquanti: TPanel;
+    pvalor: TPanel;
+    pdesconto: TPanel;
+    ptotal: TPanel;
+    pgeral: TPanel;
+    Dtom: tunidatasource;
+    tom: tuniquery;
+    tomtomchave: TIntegerField;
+    tomtofcodigo: TIntegerField;
+    tommeschave: TIntegerField;
+    tomtofidentificacao: TStringField;
+    Ddtm: tunidatasource;
+    vdtm: tuniquery;
+    vdtmdtmchave: TIntegerField;
+    vdtmdtmplaca: TStringField;
+    vdtmdtmvolumes: TFloatField;
+    vdtmdtmpesobruto: TFloatField;
+    vdtmdtmpesoliq: TFloatField;
+    vdtmmeschave: TIntegerField;
+    vdtmetdcodigo: TIntegerField;
+    vdtmufscodigo: TStringField;
+    vdtmedrrua: TStringField;
+    vdtmcddnome: TStringField;
+    vdtmufssigla: TStringField;
+    vdtmetddoc1: TStringField;
+    vdtmetdidentificacao: TStringField;
+    vdtmdtmespecie: TStringField;
+    vdtmdtmmarcas: TStringField;
+    vdtmedrinscest: TStringField;
+    PCDetalhes: TPageControl;
+    TSObservacoes: TTabSheet;
+    Label6: TLabel;
+    listaobs: TDBGrid;
+    TSTransporte: TTabSheet;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    etdcodigo: TDBEdit;
+    etdidentificacao: TDBEdit;
+    ufssigla: TDBEdit;
+    dtmplaca: TDBEdit;
+    dtmvolumes: TDBEdit;
+    dtmespecie: TDBEdit;
+    dtmmarcas: TDBEdit;
+    dtmpesobruto: TDBEdit;
+    dtmpesoliq: TDBEdit;
+    listaitm: TDBGrid;
+    Pl2: TPanel;
+    Pltotalentradas: TPanel;
+    Pltotaldescontosentradas: TPanel;
+    Pltotalliquidoentradas: TPanel;
+    Pltotalnfeentradas: TPanel;
+    plNFeentEmitir: TPanel;
+    plNFesaiEmitir: TPanel;
+    uqtabelatoeorigem: TStringField;
+    uqtabelatdfcodigo: TStringField;
+    uqtabelattecodigo: TIntegerField;
+    uqtabelatteidentificacao: TStringField;
+    uqtabelatemidentificacao: TStringField;
+    itmproncm: TStringField;
+    ActSelecionarChaveNFE: TAction;
+    uqtabelameschavenfe: TStringField;
+    SelecionarChaveNFE: TMenuItem;
+    uqtabelamesregistro: TDateField;
+    ActInutilizar: TAction;
+    ActReimprimirEventos: TAction;
+    ActReenviarEmailEventos: TAction;
+    ActConsultaEvento: TAction;
+    uqtabelamesprodutos: TFloatField;
+    uqtabelamesservicos: TFloatField;
+    itmitmliquido: TFloatField;
+    cfg: tuniquery;
+    itmtoecodigo: TIntegerField;
+    ActGerarXML: TAction;
+    ActInfoComplementar: TAction;
+    ActDocReferenciado: TAction;
+    uqtabelattocodigo: TIntegerField;
+    uqtabelameschaverecla: TIntegerField;
+    ActTransportador: TAction;
+    ActGerarCobranca: TAction;
+    tit: tuniquery;
+    tittitcodigo: TIntegerField;
+    uqtabelaflacodigo: TIntegerField;
+    tdf: tuniquery;
+    tdftdfcodigo: TStringField;
+    tdftdfidentificacao: TStringField;
+    ActGeraChave: TAction;
+    cfgcfgcodigo: TIntegerField;
+    cfgcfgmensagempdv: TStringField;
+    cfgcfgtrmimpfis1: TIntegerField;
+    cfgcfgtrmimpfis2: TIntegerField;
+    cfgcfgtrmtef1: TIntegerField;
+    cfgcfgtrmtef2: TIntegerField;
+    cfgcfgimpnfe1: TIntegerField;
+    cfgcfgimpnfe2: TIntegerField;
+    cfgcfgimpnfc1: TIntegerField;
+    cfgcfgimpnfc2: TIntegerField;
+    cfgcfgimpnfc3: TIntegerField;
+    cfgcfgservarqnfes: TStringField;
+    cfgcfgnumecertif: TStringField;
+    cfgcfgsenhacertificado: TStringField;
+    cfgcfgetdempresa: TIntegerField;
+    cfgcfgprouso: TIntegerField;
+    cfgcfgtoeusofora: TIntegerField;
+    cfgcfgtoeusointe: TIntegerField;
+    cfgcfgtoecuffora: TIntegerField;
+    cfgcfgtoecufinte: TIntegerField;
+    cfgcfgviasnfe: TIntegerField;
+    cfgcfgnumeronfe: TIntegerField;
+    cfgcfgserienfe: TStringField;
+    cfgcfgobs1: TIntegerField;
+    cfgcfgobs2: TIntegerField;
+    cfgcfgobs3: TIntegerField;
+    cfgcfgobs4: TIntegerField;
+    cfgcfgdescrinfe: TIntegerField;
+    cfgcfgemailnfe: TStringField;
+    cfgcfgemailservidornfe: TStringField;
+    cfgcfgemailsenhanfe: TStringField;
+    cfgcfgmailportnfe: TStringField;
+    cfgcfgemailusatls: TIntegerField;
+    cfgcrtcodigo: TIntegerField;
+    cfgcfgcstterceiros: TStringField;
+    cfgetdapelido: TStringField;
+    cfgetdidentificacao: TStringField;
+    cfgetddoc1: TStringField;
+    cfgufscodigo: TStringField;
+    cfgcddcodigo: TStringField;
+    cfgedrinscest: TStringField;
+    cfgedrrua: TStringField;
+    cfgedrnumero: TStringField;
+    cfgedrbairro: TStringField;
+    cfgedrcep: TStringField;
+    cfgcddnome: TStringField;
+    cfgufssigla: TStringField;
+    cfgetftelefone: TStringField;
+    cfgctdboxedominio: TStringField;
+    cfgcfgmodonfe: TIntegerField;
+    uqtabelamespis: TFloatField;
+    uqtabelamescofins: TFloatField;
+    uqtabelamesipi: TFloatField;
+    uqtabelamesicm: TFloatField;
+    uqtabelamesicms: TFloatField;
+    itmitmpis: TFloatField;
+    itmitmcofins: TFloatField;
+    itmitmipi: TFloatField;
+    itmitmicm: TFloatField;
+    itmitmicms: TFloatField;
+    ActDesconhecimento: TAction;
+    plNotasEntCanc: TPanel;
+    plNotasSaiCanc: TPanel;
+    ActPreviaNFe: TAction;
+    ActReGerarXMLs: TAction;
+    uqtabelaetdapelido: TStringField;
+    ActImprimirVendaREFEICAO: TAction;
+    cfgcfgusagou: TIntegerField;
+    ActComplementarTributos: TAction;
+    cfgcfgtoenotacomplementar: TIntegerField;
+    mescom: tuniquery;
+    itmcom: tuniquery;
+    mesori: tuniquery;
+    itmori: tuniquery;
+    mesorimeschave: TIntegerField;
+    mesorietdcodigo: TIntegerField;
+    mesorimesemissao: TDateField;
+    mesorimesregistro: TDateField;
+    mesoritdfcodigo: TStringField;
+    mesorisdecodigo: TStringField;
+    mesorimesserie: TStringField;
+    mesorimesnumero: TIntegerField;
+    mesorimeschavenfe: TStringField;
+    mesoritoecodigo: TIntegerField;
+    mesorimesvalor: TFloatField;
+    mesorimesdesconto: TFloatField;
+    mesorimesprodutos: TFloatField;
+    mesorimesservicos: TFloatField;
+    mesorimestotal: TFloatField;
+    mesoritfpcodigo: TIntegerField;
+    mesorirefcodigo: TIntegerField;
+    mesoritrfcodigo: TStringField;
+    mesorimesfrete: TFloatField;
+    mesorimesseguro: TFloatField;
+    mesorimesoutras: TFloatField;
+    mesorimesbicm: TFloatField;
+    mesorimesicm: TFloatField;
+    mesorimesbicms: TFloatField;
+    mesorimesicms: TFloatField;
+    mesorimesipi: TFloatField;
+    mesorimespis: TFloatField;
+    mesorimescofins: TFloatField;
+    mesorimespiss: TFloatField;
+    mesorimescofinss: TFloatField;
+    mesorimesretirou: TStringField;
+    mesoriclbcodigo: TIntegerField;
+    mesoritrmcodigo: TIntegerField;
+    mesorimesacrescimo: TFloatField;
+    mesorimesemitente: TStringField;
+    mesorimesprotocolo: TStringField;
+    mesorimesdatanfe: TDateField;
+    mesorimessped: TStringField;
+    mesoritemcodigo: TIntegerField;
+    mesorimesobs: TStringField;
+    mesoriedritem: TIntegerField;
+    mesorimescoocupom: TIntegerField;
+    mesorimesccfcupom: TIntegerField;
+    mesorimesdatacupom: TDateField;
+    mesoritdecodigo: TIntegerField;
+    mesorimesinclusao: TDateTimeField;
+    mesoriclbvendedor: TIntegerField;
+    mesorieqpcodigo: TIntegerField;
+    mesorimeschaverecla: TIntegerField;
+    mesoriflacodigo: TIntegerField;
+    mesorimesreclassicacao: TIntegerField;
+    mesorimestipocomissao: TIntegerField;
+    mesorimesoutroscustos: TFloatField;
+    mesorifopcodigo: TIntegerField;
+    mesorimesrefeicao: TIntegerField;
+    mesorimesretorno: TDateTimeField;
+    mesorimesliberadoentrega: TDateTimeField;
+    itmoriitmchave: TIntegerField;
+    itmorimeschave: TIntegerField;
+    itmoriitmitem: TIntegerField;
+    itmoriprocodigo: TIntegerField;
+    itmoricstcodigo: TStringField;
+    itmoriitmdesccomple: TStringField;
+    itmoriitmquantidade: TFloatField;
+    itmoriitmvalor: TFloatField;
+    itmoriitmdesconto: TFloatField;
+    itmoriitmmovifisico: TStringField;
+    itmoritoecodigo: TIntegerField;
+    itmoricfocfop: TStringField;
+    itmoriicmcodigo: TStringField;
+    itmoriitmbicm: TFloatField;
+    itmoriitmaliqicm: TStringField;
+    itmoriitmicm: TFloatField;
+    itmoriitmbicms: TFloatField;
+    itmoriitmaliqicms: TFloatField;
+    itmoriitmicms: TFloatField;
+    itmoriitmapuipi: TStringField;
+    itmoricsicodigo: TStringField;
+    itmoriceicodigo: TStringField;
+    itmoriitmbipi: TFloatField;
+    itmoriitmaliqipi: TFloatField;
+    itmoriitmipi: TFloatField;
+    itmoricspcodigo: TStringField;
+    itmoriitmbpis: TFloatField;
+    itmoriitmaliqpis: TFloatField;
+    itmoriitmquantpis: TFloatField;
+    itmoriitmaliqpisvalor: TFloatField;
+    itmoriitmpis: TFloatField;
+    itmoricsfcodigo: TStringField;
+    itmoriitmbcofins: TFloatField;
+    itmoriitmaliqcofins: TFloatField;
+    itmoriitmquantcofins: TFloatField;
+    itmoriitmaliqcofinsvalor: TFloatField;
+    itmoriitmcofins: TFloatField;
+    itmoripcccodigo: TStringField;
+    itmoriitmtotal: TFloatField;
+    itmoriunicodigo: TIntegerField;
+    itmoriitmicmsvalor: TFloatField;
+    itmoripuncodigo: TIntegerField;
+    itmoriprocodigoori: TStringField;
+    itmoripronomeori: TStringField;
+    itmoriprogtin: TStringField;
+    itmoriitmcontendo: TFloatField;
+    itmoricfocfopdestinacao: TStringField;
+    itmoriunicodigobase: TIntegerField;
+    itmoriitmcusto: TFloatField;
+    itmoriitmtipodesc: TIntegerField;
+    itmoriitmfrete: TFloatField;
+    itmoriitmseguro: TFloatField;
+    itmoriitmoutras: TFloatField;
+    itmoriitmsped: TIntegerField;
+    itmoriitmpercdesc: TFloatField;
+    itmoriitmvlribpt: TFloatField;
+    itmoriitmproservico: TStringField;
+    itmoriitminfadprod: TStringField;
+    itmoriitmquanticontada: TFloatField;
+    itmoriflacodigo: TIntegerField;
+    itmoritdfcodigo: TStringField;
+    itmoriitmtipocomissao: TIntegerField;
+    itmoriitmoutroscustos: TFloatField;
+    itmoriitochave: TIntegerField;
+    itmoriitmpercreducaobaseicm: TFloatField;
+    mescommeschave: TIntegerField;
+    mescometdcodigo: TIntegerField;
+    mescommesemissao: TDateField;
+    mescommesregistro: TDateField;
+    mescomtdfcodigo: TStringField;
+    mescomsdecodigo: TStringField;
+    mescommesserie: TStringField;
+    mescommesnumero: TIntegerField;
+    mescommeschavenfe: TStringField;
+    mescomtoecodigo: TIntegerField;
+    mescommesvalor: TFloatField;
+    mescommesdesconto: TFloatField;
+    mescommesprodutos: TFloatField;
+    mescommesservicos: TFloatField;
+    mescommestotal: TFloatField;
+    mescomtfpcodigo: TIntegerField;
+    mescomrefcodigo: TIntegerField;
+    mescomtrfcodigo: TStringField;
+    mescommesfrete: TFloatField;
+    mescommesseguro: TFloatField;
+    mescommesoutras: TFloatField;
+    mescommesbicm: TFloatField;
+    mescommesicm: TFloatField;
+    mescommesbicms: TFloatField;
+    mescommesicms: TFloatField;
+    mescommesipi: TFloatField;
+    mescommespis: TFloatField;
+    mescommescofins: TFloatField;
+    mescommespiss: TFloatField;
+    mescommescofinss: TFloatField;
+    mescommesretirou: TStringField;
+    mescomclbcodigo: TIntegerField;
+    mescomtrmcodigo: TIntegerField;
+    mescommesacrescimo: TFloatField;
+    mescommesemitente: TStringField;
+    mescommesprotocolo: TStringField;
+    mescommesdatanfe: TDateField;
+    mescommessped: TStringField;
+    mescomtemcodigo: TIntegerField;
+    mescommesobs: TStringField;
+    mescomedritem: TIntegerField;
+    mescommescoocupom: TIntegerField;
+    mescommesccfcupom: TIntegerField;
+    mescommesdatacupom: TDateField;
+    mescomtdecodigo: TIntegerField;
+    mescommesinclusao: TDateTimeField;
+    mescomclbvendedor: TIntegerField;
+    mescomeqpcodigo: TIntegerField;
+    mescommeschaverecla: TIntegerField;
+    mescomflacodigo: TIntegerField;
+    mescommesreclassicacao: TIntegerField;
+    mescommestipocomissao: TIntegerField;
+    mescommesoutroscustos: TFloatField;
+    mescomfopcodigo: TIntegerField;
+    mescommesrefeicao: TIntegerField;
+    mescommesretorno: TDateTimeField;
+    mescommesliberadoentrega: TDateTimeField;
+    itmcomitmchave: TIntegerField;
+    itmcommeschave: TIntegerField;
+    itmcomitmitem: TIntegerField;
+    itmcomprocodigo: TIntegerField;
+    itmcomcstcodigo: TStringField;
+    itmcomitmdesccomple: TStringField;
+    itmcomitmquantidade: TFloatField;
+    itmcomitmvalor: TFloatField;
+    itmcomitmdesconto: TFloatField;
+    itmcomitmmovifisico: TStringField;
+    itmcomtoecodigo: TIntegerField;
+    itmcomcfocfop: TStringField;
+    itmcomicmcodigo: TStringField;
+    itmcomitmbicm: TFloatField;
+    itmcomitmaliqicm: TStringField;
+    itmcomitmicm: TFloatField;
+    itmcomitmbicms: TFloatField;
+    itmcomitmaliqicms: TFloatField;
+    itmcomitmicms: TFloatField;
+    itmcomitmapuipi: TStringField;
+    itmcomcsicodigo: TStringField;
+    itmcomceicodigo: TStringField;
+    itmcomitmbipi: TFloatField;
+    itmcomitmaliqipi: TFloatField;
+    itmcomitmipi: TFloatField;
+    itmcomcspcodigo: TStringField;
+    itmcomitmbpis: TFloatField;
+    itmcomitmaliqpis: TFloatField;
+    itmcomitmquantpis: TFloatField;
+    itmcomitmaliqpisvalor: TFloatField;
+    itmcomitmpis: TFloatField;
+    itmcomcsfcodigo: TStringField;
+    itmcomitmbcofins: TFloatField;
+    itmcomitmaliqcofins: TFloatField;
+    itmcomitmquantcofins: TFloatField;
+    itmcomitmaliqcofinsvalor: TFloatField;
+    itmcomitmcofins: TFloatField;
+    itmcompcccodigo: TStringField;
+    itmcomitmtotal: TFloatField;
+    itmcomunicodigo: TIntegerField;
+    itmcomitmicmsvalor: TFloatField;
+    itmcompuncodigo: TIntegerField;
+    itmcomprocodigoori: TStringField;
+    itmcompronomeori: TStringField;
+    itmcomprogtin: TStringField;
+    itmcomitmcontendo: TFloatField;
+    itmcomcfocfopdestinacao: TStringField;
+    itmcomunicodigobase: TIntegerField;
+    itmcomitmcusto: TFloatField;
+    itmcomitmtipodesc: TIntegerField;
+    itmcomitmfrete: TFloatField;
+    itmcomitmseguro: TFloatField;
+    itmcomitmoutras: TFloatField;
+    itmcomitmsped: TIntegerField;
+    itmcomitmpercdesc: TFloatField;
+    itmcomitmvlribpt: TFloatField;
+    itmcomitmproservico: TStringField;
+    itmcomitminfadprod: TStringField;
+    itmcomitmquanticontada: TFloatField;
+    itmcomflacodigo: TIntegerField;
+    itmcomtdfcodigo: TStringField;
+    itmcomitmtipocomissao: TIntegerField;
+    itmcomitmoutroscustos: TFloatField;
+    itmcomitochave: TIntegerField;
+    itmcomitmpercreducaobaseicm: TFloatField;
+    tributacao: tuniquery;
+    tai: tuniquery;
+    taitaialiquota: TFloatField;
+    edr: tuniquery;
+    edrcddcodigo: TStringField;
+    taiicmcodigo: TStringField;
+    dfr: tuniquery;
+    dfrdfrchave: TIntegerField;
+    dfretdcodigo: TIntegerField;
+    dfrtdfcodigo: TStringField;
+    dfrdfrchavenfe: TStringField;
+    dfrdfrserie: TStringField;
+    dfrdfrnumero: TIntegerField;
+    dfrdfremissao: TDateField;
+    dfredritem: TIntegerField;
+    dfrmeschave: TIntegerField;
+    mesorimescomplementanota: TIntegerField;
+    mesorimescomplementadapor: TIntegerField;
+    mescommescomplementadapor: TIntegerField;
+    mescommescomplementanota: TIntegerField;
+    pdetalhe: TPanel;
+    Panel3: TPanel;
+    listapor: TDBGrid;
+    pvalordetalhe: TPanel;
+    dtl: tuniquery;
+    dtlltechave: TIntegerField;
+    dtlmdaidentificacao: TStringField;
+    dtldtlvalor: TFloatField;
+    DSTotaisDtls: TDataSource;
+    TotaisDtls: TVirtualTable;
+    TotaisDtlsmdaidentificacao: TStringField;
+    TotaisDtlsdtlvalor: TFloatField;
+    TotaisDtlsmdacodigo: TIntegerField;
+    uqDtlConvenios: tuniquery;
+    itmcstcodigo: TStringField;
+    cfgcfgmgouprorefeicao: TIntegerField;
+    uqtabelamesfrete: TCurrencyField;
+    TotaisDtlsltechave: TIntegerField;
+    dtlmdacodigo: TIntegerField;
+    procedure ActImprimirVendaNFEExecute(Sender: TObject);
+    procedure ActCancelarNFEExecute(Sender: TObject);
+    procedure ActReimprimirNFEExecute(Sender: TObject);
+    procedure ActRenviaremailExecute(Sender: TObject);
+    procedure ActGerarPDFExecute(Sender: TObject);
+    procedure ActCartaCorrecaoExecute(Sender: TObject);
+    procedure ActConsultaStatusSEFAZExecute(Sender: TObject);
+    procedure ActConsultaStatusAjustarNFESEFAZMTExecute(Sender: TObject);
+    procedure DSTabelaDataChange(Sender: TObject; Field: TField);
+    procedure ActAtualizarExecute(Sender: TObject);
+    procedure listaobsDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure listaitmDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActSairExecute(Sender: TObject);
+    procedure ActSelecionarChaveNFEExecute(Sender: TObject);
+    procedure DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure ActInutilizarExecute(Sender: TObject);
+    procedure ActReimprimirEventosExecute(Sender: TObject);
+    procedure ActReenviarEmailEventosExecute(Sender: TObject);
+    procedure ActConsultaEventoExecute(Sender: TObject);
+    procedure ActGerarXMLExecute(Sender: TObject);
+    procedure ActInfoComplementarExecute(Sender: TObject);
+    procedure ActDocReferenciadoExecute(Sender: TObject);
+    procedure ActTransportadorExecute(Sender: TObject);
+    procedure ActGerarCobrancaExecute(Sender: TObject);
+    procedure ActGeraChaveExecute(Sender: TObject);
+    procedure ActDesconhecimentoExecute(Sender: TObject);
+    procedure ActPreviaNFeExecute(Sender: TObject);
+    procedure ActReGerarXMLsExecute(Sender: TObject);
+    procedure ActComplementarTributosExecute(Sender: TObject);
+  private
+    vatualizando: Boolean;
+
+    procedure modulonfe(arq: String; Rotina: TRotinasNFe; chave: String);
+    function geranomenfe(vmeschave: String; vflacodigo: String): String;
+    function validaitens(vmeschave: String): Boolean;
+    function validaentidade(vetdcodigo: String): Boolean;
+    function validatransporte(vmeschave: String): Boolean;
+    procedure AtualizarDetalhe;
+    procedure cadastraemail(chave, chavemestre: string);
+    function PermiteNFeReclassificacao: Boolean;
+    function CancelarRFI(vmeschave, motivo, vMeaCodigo: string): string;
+
+  public
+    { Public declarations }
+    procedure Carregar; override;
+    procedure RecalculaTotais; virtual;
+  end;
+
+  TCancelar = function(AOwner: TComponent; Conexao: TUniConnection; vLteChave: string; vMotivo: string; vusrcodigo: string; vmeschave: string;
+    vMeaCodigo: string; vtnccodigo: string): string;
+
+  tmodete = function(AOwner: TComponent; Conexao: TUniConnection; vusuario: string; vchave: string; vChaveMestre: string): string;
+
+var
+  framnf: Tframnf;
+  vpConsultouSEFAZ: Boolean = False;
+
+type
+  { expor propriedades e metodso privadas e protegindos do dbgrid }
+  TFriendly = class(TCustomDBGrid);
+
+  // Início ID do Módulo framnf
+const
+  vPlIdMd = '02.04.10.002-01';
+  vPlTitMdl = 'NF-e';
+
+  // Fim ID do Módulo framnf
+
+implementation
+
+uses
+  ufenf;
+
+{$R *.dfm}
+
+function formuFrame(pCargaFrame: TCargaFrame): string;
+begin
+  pCargaFrame.IdModulo := vPlIdMd;
+  pCargaFrame.Titulo := vPlTitMdl;
+  framnf := Tframnf.Create(pCargaFrame);
+end;
+
+procedure defineacesso(pCargaFrame: TCargaFrame);
+begin
+  pCargaFrame.Titulo := vPlTitMdl;
+  framnf := Tframnf.Create(pCargaFrame);
+  try
+    framnf.CriaAcoesDeAcesso;
+  finally
+    framnf.Free;
+  end;
+end;
+
+exports formuFrame, defineacesso;
+
+procedure Tframnf.AtualizarDetalhe;
+var
+  vvl: Double;
+  vdesc: Double;
+  vtot: Double;
+  vger: Double;
+begin
+
+  if not vatualizando then
+  begin
+
+    TotaisDtls.Close;
+    TotaisDtls.Clear;
+    TotaisDtls.Open;
+
+    dtl.Close;
+    dtl.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    dtl.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    dtl.Open;
+
+    {
+    uqDtlConvenios.Close;
+    uqDtlConvenios.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+    uqDtlConvenios.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+    uqDtlConvenios.Open;
+
+    uqDtlConvenios.First;
+    while not uqDtlConvenios.eof do
+    begin
+      if uqDtlConvenios.FieldByName('dtlvalor').AsString <> '' then
+      begin
+        TotaisDtls.Append;
+        TotaisDtlsmdaidentificacao.AsString := uqDtlConvenios.FieldByName('mdaidentificacao').AsString;
+        TotaisDtlsdtlvalor.AsString := uqDtlConvenios.FieldByName('dtlvalor').AsString;
+        TotaisDtlsmdacodigo.AsInteger := uqDtlConvenios.FieldByName('mdacodigo').AsInteger;
+        TotaisDtlsltechave.AsInteger := 0;
+        TotaisDtls.Post;
+      end;
+
+      uqDtlConvenios.Next;
+    end;
+    }
+
+
+
+    dtl.First;
+    while not dtl.eof do
+    begin
+     // if dtlmdaidentificacao.AsString <> 'Convênio' then
+    //  begin
+        TotaisDtls.Append;
+        TotaisDtlsmdaidentificacao.AsString := dtl.FieldByName('mdaidentificacao').AsString;
+        TotaisDtlsdtlvalor.AsString := dtl.FieldByName('dtlvalor').AsString;
+        TotaisDtlsmdacodigo.AsInteger := dtl.FieldByName('mdacodigo').AsInteger;
+        TotaisDtlsltechave.AsInteger := dtl.FieldByName('ltechave').AsInteger;
+        TotaisDtls.Post;
+    //  end;
+      dtl.Next;
+    end;
+
+    itm.Close;
+    itm.Params[0].AsInteger := uqtabelameschave.AsInteger;
+    itm.Params[1].AsInteger := uqtabelaflacodigo.AsInteger;
+    itm.Open;
+
+    tit.Close;
+    tit.Params[0].AsInteger := uqtabelameschave.AsInteger;
+    tit.Params[1].AsInteger := uqtabelaflacodigo.AsInteger;
+    tit.Open;
+
+    itm.DisableControls;
+
+    vvl := 0;
+    vdesc := 0;
+    vger := 0;
+    vtot := 0;
+
+    itm.First;
+    while not itm.eof do
+    begin
+      vvl := vvl + (itmitmvalor.AsFloat * itmitmquantidade.AsFloat);
+      vdesc := vdesc + itmitmdesconto.AsFloat;
+      vtot := vtot + itmitmtotal.AsFloat;
+      vger := vger + (itmitmtotal.AsFloat - itmitmdesconto.AsFloat);
+      itm.Next;
+    end;
+
+    pquanti.Caption := 'Qt.Itens :' + IntToStr(itm.RecordCount);
+    pvalor.Caption := 'Valor: ' + FormatFloat('##,###,##0.00', vvl);
+    pdesconto.Caption := 'Desconto: ' + FormatFloat('##,###,##0.00', vdesc);
+    ptotal.Caption := 'Total: ' + FormatFloat('##,###,##0.00', vtot);
+    pgeral.Caption := 'Total Geral: ' + FormatFloat('##,###,##0.00', vger);
+
+    itm.First;
+    itm.EnableControls;
+  end;
+end;
+
+procedure Tframnf.DBGListaDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  fixRect: TRect;
+begin
+  fixRect := Rect;
+
+  If Odd(DSTabela.DataSet.RecNo) Then
+    DBGLista.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    DBGLista.Canvas.Brush.Color := CLWHITE;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(fixRect);
+      Font.Color := CLWHITE;
+    End;
+
+  If (Self.uqtabelasdecodigo.AsString = '02') Or (Self.uqtabelasdecodigo.AsString = '03') Or (Self.uqtabelasdecodigo.AsString = '04') Then
+    DBGLista.Canvas.Font.Color := clRed;
+
+  with TFriendly(DBGLista) do
+    if TDataLink(DataLink).ActiveRecord = Row - 1 then
+      with Canvas do
+      begin
+        Brush.Color := PEG_COR_SELCGRID;
+
+        DefaultDrawColumnCell(fixRect, DataCol, Column, State);
+      end;
+
+  TDBGrid(Sender).DefaultDrawDataCell(fixRect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure Tframnf.DSTabelaDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  AtualizarDetalhe;
+end;
+
+Function Tframnf.validatransporte(vmeschave: String): Boolean;
+Var
+  validtm: Boolean;
+  retorno: String;
+  vchave: String;
+Begin
+  validtm := True;
+
+  { dtm.Close;
+    dtm.SQL.Text :=
+    'select dtmchave, dtmplaca,dtmvolumes, dtmpesobruto, dtmpesoliq,
+    meschave,dtm.etdcodigo,cdd.ufscodigo,edrrua,' +
+    ' cddnome,ufssigla,edrinscest,etddoc1,etdidentificacao, dtmespecie,dtmmarcas ' +
+    'from dtm, etd, edr, cdd, ufs ' +
+    'where ' +
+    'dtm.etdcodigo=etd.etdcodigo and ' +
+    'etd.etdcodigo=edr.etdcodigo and ' +
+    'edr.cddcodigo=cdd.cddcodigo and ' +
+    'cdd.ufscodigo=ufs.ufscodigo and ' +
+    'edr.tedcodigo=' + chr(39) + '1' + chr(39) + ' and dtm.meschave= ' + vmeschave;
+    dtm.Open;
+
+    If dtm.RecordCount = 0 Then
+    Begin
+    vchave := '0';
+    End
+    Else
+    Begin
+    vchave := dtm.FieldByName('dtmchave').AsString;
+    End;
+    CriaFormulario(tfdtmvnd, fdtmvnd, vchave, vmeschave);
+
+    validtm := true; }
+
+  Result := validtm;
+
+End;
+
+Function Tframnf.validaentidade(vetdcodigo: String): Boolean;
+Var
+  retorno: String;
+  valiedr: Boolean;
+  valietf: Boolean;
+  valiete: Boolean;
+
+Begin
+  valiedr := True;
+  valietf := True;
+  valiete := True;
+
+  { etd.Close;
+    etd.SQL.Text := 'select etd.etdcodigo, etddoc1,
+    ufs.ufssigla,edr.edrcodigo,edrrua,edrnumero,edrbairro,edr.cddcodigo,cddnome,' +
+    'edrcep,etf.etfcodigo, etftelefone,tpecodigo, edrinscest , etdidentificacao ' +
+    'from etd, cdd, ufs,edr,etf where ' +
+    'edr.cddcodigo=cdd.cddcodigo and ' +
+    'cdd.ufscodigo=ufs.ufscodigo and ' +
+    'etd.etdcodigo=etf.etdcodigo and ' +
+    'etd.etdcodigo=edr.etdcodigo and ' +
+    'etf.ttfcodigo=' + chr(39) + '1' + chr(39) + ' and  ' +
+    'edr.tedcodigo=' + chr(39) + '1' + chr(39) + ' and  ' +
+    'etd.etdcodigo=' + vetdcodigo;
+    etd.Open;
+
+    If (etd.FieldByName('edrrua').AsString = '') Or
+    (etd.FieldByName('edrnumero').AsString = '') Or
+    (etd.FieldByName('edrbairro').AsString = '') Or
+    (length(etd.FieldByName('edrcep').AsString) < 8) Or
+    (etd.FieldByName('edrinscest').AsString = '') Then
+    Begin
+
+    MostraFormu('medr',etd.FieldByName('edrcodigo').AsString,etd.FieldByName
+    ('etdcodigo').AsString,self.vusrcodigo);
+
+    If retorno = '1' Then
+    Begin
+    valiedr := true;
+    End
+    Else
+    Begin
+    valiedr := false
+    End;
+    End
+    Else
+    Begin
+    valiedr := true;
+    End;
+
+    If (etd.FieldByName('etftelefone').AsString = '') Then
+    Begin
+    MostraFormu('metf',etd.FieldByName('etfcodigo').AsString,etd.FieldByName
+    ('etdcodigo').AsString,self.vusrcodigo);
+
+    If retorno = '1' Then
+    Begin
+    valietf := true;
+    End
+    Else
+    Begin
+    valietf := false
+    End;
+    End
+    Else
+    Begin
+    valietf := true;
+    End;
+
+    ete.Connection.close;
+    ete.SQL.Text := 'select eteemail,etecodigo from ete where ete.etdcodigo=' + vetdcodigo + ' and
+    eteenvianfe=' + chr(39) + '1' + chr(39);
+    ete.Open;
+
+    If ete.FieldByName('eteemail').AsString = '' Then
+    Begin
+    MostraFormu('mete',etd.FieldByName('etecodigo').AsString,etd.FieldByName
+    ('etdcodigo').AsString,self.vusrcodigo);
+    If retorno = '1' Then
+    Begin
+    valiete := true;
+    End
+    Else
+    Begin
+    valiete := false
+    End;
+    End
+    Else
+    Begin
+    valiete := true;
+    End;
+
+
+    If (valiedr) And (valietf) And (valiete) Then
+    Begin
+    result := true;
+    End
+    Else
+    Begin
+    result := false;
+    End; }
+
+  Result := True;
+End;
+
+Function Tframnf.validaitens(vmeschave: String): Boolean;
+Var
+  valiitm: Boolean;
+  retorno: String;
+  vchave: String;
+Begin
+  valiitm := True;
+
+  { consulta.Close;
+    consulta.SQL.Text := 'select proncm from pro, itm where pro.procodigo=itm.procodigo and itm.meschave=' + vmeschave;
+    consulta.Open;
+
+    consulta.First;
+    while not consulta.Eof do
+    begin
+    if trim(consulta.Fields[0].AsString) = '' then
+    begin
+    valiitm := False;
+    break;
+    end;
+    consulta.Next;
+    end; }
+
+  Result := valiitm;
+
+End;
+
+Function Tframnf.geranomenfe(vmeschave: String; vflacodigo: String): String;
+Var
+  retorno: String;
+  vaaaammnfe: String;
+  arq: String;
+Begin
+  retorno := '';
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  consulta.Close;
+  consulta.SQL.Text := 'select mesdatanfe,mesregistro, meschavenfe, meschave from mes where meschave=' + vmeschave + ' and flacodigo=' + vflacodigo;
+  consulta.Open;
+
+  If (Self.consulta.RecordCount = 1) And (consulta.Fields[0].AsString <> '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[0].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[2].AsString + '-nfe.XML';
+    retorno := arq;
+  End
+  Else If (Self.consulta.RecordCount = 1) And (consulta.Fields[1].AsString <> '') And (consulta.Fields[2].AsString <> '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[1].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[2].AsString + '-nfe.XML';
+    retorno := arq;
+  End
+  Else If (Self.consulta.RecordCount = 1) And (consulta.Fields[1].AsString <> '') And (consulta.Fields[2].AsString = '') Then
+  Begin
+    vaaaammnfe := cfgcfgservarqnfes.AsString + '\arqnfes\' + FormatDateTime('yyyymm', consulta.Fields[1].AsFloat);
+    arq := vaaaammnfe + '\' + consulta.Fields[3].AsString + '-nfe.XML';
+    retorno := arq;
+  End;
+
+  Result := retorno;
+End;
+
+procedure Tframnf.listaitmDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  If Odd(Ditm.DataSet.RecNo) Then
+    listaitm.Canvas.Brush.Color := PEG_COR_BASE
+  Else
+    listaitm.Canvas.Brush.Color := CLWHITE;
+
+  TDBGrid(Sender).Canvas.Font.Color := clBlack;
+
+  If gdSelected In State Then
+    With (Sender As TDBGrid).Canvas Do
+    Begin
+      Brush.Color := PEG_COR_SELCGRID;
+      FillRect(Rect);
+    End;
+
+  TDBGrid(Sender).DefaultDrawDataCell(Rect, TDBGrid(Sender).Columns[DataCol].Field, State);
+end;
+
+procedure Tframnf.listaobsDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  inherited;
+  gridzebrado(Sender, Rect, DataCol, Column, State);
+
+end;
+
+Procedure Tframnf.modulonfe(arq: String; Rotina: TRotinasNFe; chave: String);
+type
+  TModuloNFe = function(AOwner: TComponent; Conexao: TUniConnection; varq: string; vchave: string; vRotinaNFe: TRotinasNFe; Acesso: Tacesso;
+    vConsultouSefaz: Boolean): Boolean;
+var
+  modnfe: TModuloNFe;
+
+  ch: string;
+  vu: string;
+  vpack: cardinal;
+begin
+  vpack := LoadPackage('modulos\mnfegourmet.bpl');
+  if vpack <> 0 then
+    try
+      @modnfe := GetProcAddress(vpack, PChar('ModuloNFe'));
+      if Assigned(modnfe) then
+      begin
+        modnfe(Application, Self.zcone, arq, chave, Rotina, Acesso, vpConsultouSEFAZ);
+        vpConsultouSEFAZ := True;
+      end;
+    finally
+      // DoUnLoadPackage(application,vpack);
+    end;
+End;
+
+function Tframnf.PermiteNFeReclassificacao: Boolean;
+var
+  vlMesChave: String;
+  vlMesRegistro: String;
+  vlTdfCodigo: String;
+  vlSdeCodigo: String;
+  vlTemCodigo: Integer;
+begin
+  Result := True;
+
+  if not(uqtabelattocodigo.AsInteger = ttoReclassificacao) then
+    Exit;
+
+  if uqtabelattecodigo.AsInteger = tteSaida then
+    Exit;
+
+  consulta.Close;
+  consulta.SQL.Text := 'SELECT mes.meschave , mes.mesregistro, mes.tdfcodigo, mes.sdecodigo, mes.temcodigo FROM mes ';
+  consulta.SQL.Add('WHERE mes.meschaverecla = ' + uqtabelameschave.AsString);
+  consulta.Open;
+
+  vlMesChave := consulta.Fields[0].AsString;
+  vlMesRegistro := consulta.Fields[1].AsString;
+  vlTdfCodigo := consulta.Fields[2].AsString;
+  vlSdeCodigo := consulta.Fields[3].AsString;
+  vlTemCodigo := consulta.Fields[4].AsInteger;
+
+  consulta.Close;
+
+  if not((vlTdfCodigo = tdfNotaFiscalEletronica) and (vlSdeCodigo = sdeDocRegular) and (vlTemCodigo = temNFEEmitida)) then
+  begin
+    Application.MessageBox(PChar('Emissão de NF-e não permitida.' + #13 + #13 + 'Primeiro deve ser autorizada a NF-e de saída para reclassificação:' +
+      #13 + 'Chave: ' + vlMesChave + #13 + 'Data: ' + vlMesRegistro), 'Atenção', MB_ICONWARNING + MB_OK);
+    Result := False;
+  end;
+
+end;
+
+procedure Tframnf.ActAtualizarExecute(Sender: TObject);
+
+Begin
+
+  // Define se é um movimento de 1,2,3-Entrada, ou 5,6,7-saída
+
+  Inherited;
+  RecalculaTotais;
+
+  AtualizarDetalhe;
+
+end;
+
+procedure Tframnf.ActCancelarNFEExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+  vMotivo: string;
+  vlMeaCodigo: string;
+  vlMeschavedanfe: string;
+
+  vlanomes: string;
+
+
+Begin
+  if uqtabelasdecodigo.AsString = '02' then
+  begin
+    Application.MessageBox(PChar('A NF-e selecionada já está cancelada.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if uqtabelatemcodigo.AsString <> '5' then
+  begin
+    Application.MessageBox(PChar('Esta NF-e não esta autorizada, não permite cancelamento.'), 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+  while not itm.eof do
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'delete from idt where itmchave=' + itmitmchave.AsString;
+    consulta.ExecSQL;
+
+    itm.Next;
+  end;
+
+  itm.First;
+
+  vmeschave := Self.uqtabelameschave.AsString;
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+    If arq <> '' Then
+    Begin
+      Self.modulonfe(arq, rnfCancelar, vmeschave);
+
+      vMotivo := '';
+      vlMeaCodigo := '';
+      consulta.Close;
+      consulta.SQL.Text := 'SELECT enfdescricao FROM mev, enf WHERE enf.enfchave=mev.enfchave and mev.meschave=' + uqtabelameschave.AsString;
+      consulta.Open;
+      vMotivo := consulta.FieldByName('enfdescricao').AsString;
+
+      CancelarRFI(Self.uqtabelameschave.AsString, vMotivo, '1');
+
+      dtl.First;
+      while not dtl.eof do
+      begin
+        consulta.Close;
+        consulta.SQL.Text := 'UPDATE lte SET  ltesituacao = 1 WHERE ltechave = ' + dtl.FieldByName('ltechave').AsString;
+        consulta.ExecSQL;
+        dtl.Next;
+      end;
+
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode ser cancelado!');
+
+  End;
+
+end;
+
+function Tframnf.CancelarRFI(vmeschave: string; motivo: string; vMeaCodigo: string): string;
+var
+  registra: TCancelar;
+  Pack: cardinal;
+  vlRetorno: string;
+begin
+  Pack := LoadPackage('modulos\merf.bpl');
+  if Pack <> 0 then
+    try
+      @registra := GetProcAddress(Pack, PChar('Cancelar'));
+
+      if Assigned(registra) then
+        Result := registra(Application, zcone, '', motivo, Acesso.Usuario.ToString, vmeschave, vMeaCodigo, '1');
+      if Result = '' then
+      begin
+        vlRetorno := '0';
+      end
+      else
+      begin
+        vlRetorno := Result;
+      end;
+
+    finally
+      // DoUnLoadPackage(pack);
+    end;
+end;
+
+procedure Tframnf.ActCartaCorrecaoExecute(Sender: TObject);
+Var
+  arq: String;
+  retorno: String;
+  vmeschave: string;
+  vlMeschavedanfe: string;
+  vlanomes: string;
+Begin
+  Inherited;
+  vmeschave := Self.uqtabelameschave.AsString;
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+    If arq <> '' Then
+    Begin
+      Self.modulonfe(arq, rnfCartaCorrecao, vmeschave);
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode ser gerada uma Carta de Correção!');
+  End;
+
+end;
+
+procedure Tframnf.ActComplementarTributosExecute(Sender: TObject);
+var
+  smsg: string;
+  i: Integer;
+
+  vlBICM: Double;
+  vlBICMs: Double;
+  vlVICM: Double;
+  vlVICMs: Double;
+  vlVPIS: Double;
+  vlVCofins: Double;
+  vlVIPI: Double;
+  vlVOutros: Double;
+  vlVuBICM: Double;
+
+begin
+  inherited;
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+  if cfgcfgtoenotacomplementar.AsInteger = 0 then
+  begin
+    ShowMessage('Verificar configuração de Operação para EMISSÃO DE NOTA COMPLEMENTAR!');
+    Exit;
+  end;
+
+  { if mesorimescomplementanota.AsInteger>0 then
+    begin
+    ShowMessage('Esta nota ja possui nota Complementar!');
+    exit;
+    end; }
+
+  smsg := 'Deseja realmente complementar tributos da nota nr.: ' + uqtabelamesnumero.AsString + ' ?';
+  If Application.MessageBox(PChar(smsg), 'Atenção, confirma geração:', MB_YESNO + MB_DEFBUTTON1 + MB_ICONQUESTION) = IDYES Then
+  Begin
+    try
+      zcone.StartTransaction;
+      vlVOutros := 0;
+      vlBICM := 0;
+      vlBICMs := 0;
+      vlVICM := 0;
+      vlVICMs := 0;
+      vlVPIS := 0;
+      vlVCofins := 0;
+      vlVIPI := 0;
+
+      mesori.Close;
+      mesori.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+      mesori.Open;
+
+      edr.Close;
+      edr.ParamByName('etdcodigo').AsInteger := mesorietdcodigo.AsInteger;
+      edr.ParamByName('edritem').AsInteger := mesoriedritem.AsInteger;
+      edr.Open;
+
+      tai.Close;
+      tai.ParamByName('ufscodigoorigem').AsString := copy(cfgcddcodigo.AsString, 1, 2);
+      tai.ParamByName('ufscodigodestino').AsString := copy(edrcddcodigo.AsString, 1, 2);
+      tai.Open;
+
+      mescom.Close;
+      mescom.Open;
+
+      mescom.Append;
+
+      mescommesregistro.AsString := hoje(Application, zcone);
+      mescommesnumero.AsString := '';
+      mescomtdfcodigo.AsString := '00';
+      mescommeschavenfe.AsString := '';
+      mescommesemissao.AsString := hoje(Application, zcone);
+      mescommesprotocolo.AsString := '';
+      mescomtoecodigo.AsInteger := cfgcfgtoenotacomplementar.AsInteger;
+      mescommesinclusao.AsString := agora(Application, zcone);
+      mescommesdatanfe.AsString := '';
+
+      for i := 10 to mescom.FieldCount - 1 do
+      begin
+        mescom.FieldByName(mescom.Fields[i].FieldName).AsString := mesori.FieldByName(mescom.Fields[i].FieldName).AsString
+      end;
+      mescomsdecodigo.AsString := '00';
+      mescom.Post;
+
+      mesori.Edit;
+      mesorimescomplementanota.AsInteger := mescommeschave.AsInteger;
+      mesori.Post;
+
+      dfr.Close;
+      dfr.ParamByName('meschave').AsString := mescommeschave.AsString;
+      dfr.Open;
+      dfr.Append;
+
+      dfretdcodigo.AsInteger := mescometdcodigo.AsInteger;
+      dfrtdfcodigo.AsInteger := mescomtdfcodigo.AsInteger;
+      dfrdfrchavenfe.AsString := mesorimeschavenfe.AsString;
+      dfrdfrserie.AsString := mesorimesserie.AsString;
+      dfrdfrnumero.AsString := mesorimesnumero.AsString;
+      dfrdfremissao.AsString := mesorimesemissao.AsString;
+      dfredritem.AsString := mesoriedritem.AsString;
+      dfrmeschave.AsString := mescommeschave.AsString;
+      dfr.Post;
+
+      itmori.Close;
+      itmori.ParamByName('meschave').AsInteger := uqtabelameschave.AsInteger;
+      itmori.Open;
+
+      itmcom.Close;
+      itmcom.Open;
+
+      while not itmori.eof do
+      begin
+
+        itmcom.Append;
+        itmcommeschave.AsInteger := mescommeschave.AsInteger;
+        for i := 2 to itmcom.FieldCount - 1 do
+        begin
+          itmcom.FieldByName(itmcom.Fields[i].FieldName).AsString := itmori.FieldByName(itmcom.Fields[i].FieldName).AsString
+        end;
+
+        itmcomitmquantidade.AsFloat := 0;
+        itmcomitmdesconto.AsFloat := 0;
+        itmcomitmtotal.AsFloat := 0;
+
+        if cfgcrtcodigo.AsInteger = 3 then // não é simples nem mei
+        begin
+          tributacao.Close;
+          tributacao.SQL.Text :=
+            'SELECT prosaldodisp, tpocodigo,cspcodigo, csfcodigo, cstcodigo, propisaliquota, procofinsaliquota, propercreducaobaseicm, pro.icmcodigo, icm.icmaliquotas FROM pro,icm WHERE pro.icmcodigo=icm.icmcodigo and ';
+          tributacao.SQL.Add('procodigo = ' + itmoriprocodigo.AsString);
+          tributacao.Open;
+
+          itmcomitmaliqipi.AsFloat := 0;
+          itmcomitmbipi.AsFloat := 0;
+          itmcomitmipi.AsFloat := 0;
+
+          itmcomcspcodigo.AsString := tributacao.FieldByName('cspcodigo').AsString;
+          itmcomitmaliqpis.AsFloat := tributacao.FieldByName('propisaliquota').AsFloat;
+          if itmcomitmaliqpis.AsFloat > 0 then
+          begin
+            itmcomitmbpis.AsCurrency := ((itmoriitmvalor.AsCurrency * itmoriitmquantidade.AsFloat) - itmoriitmdesconto.AsCurrency);
+            itmcomitmpis.AsCurrency := itmcomitmbpis.AsCurrency * (itmcomitmaliqpis.AsFloat / 100);
+          end;
+          itmcomitmquantpis.AsFloat := 0;
+          itmcomitmaliqpisvalor.AsFloat := 0;
+          vlVPIS := vlVPIS + itmcomitmpis.AsCurrency;
+
+          itmcomcstcodigo.AsString := tributacao.FieldByName('cstcodigo').AsString;
+
+          itmcomcsfcodigo.AsString := tributacao.FieldByName('csfcodigo').AsString;
+          itmcomitmaliqcofins.AsFloat := tributacao.FieldByName('procofinsaliquota').AsFloat;
+          if itmcomitmaliqcofins.AsFloat > 0 then
+          begin
+            itmcomitmbcofins.AsCurrency := ((itmoriitmvalor.AsCurrency * itmoriitmquantidade.AsFloat) - itmoriitmdesconto.AsCurrency);
+            itmcomitmcofins.AsCurrency := itmcomitmbcofins.AsCurrency * (itmcomitmaliqcofins.AsFloat / 100);
+          end;
+          itmcomitmquantcofins.AsFloat := 0;
+          itmcomitmaliqcofinsvalor.AsFloat := 0;
+          vlVCofins := vlVCofins + itmcomitmcofins.AsCurrency;
+
+          itmcomitmaliqicm.AsFloat := itmoriitmicm.AsFloat;
+          itmcomitmpercreducaobaseicm.AsFloat := tributacao.FieldByName('propercreducaobaseicm').AsFloat;
+
+          If (taitaialiquota.AsFloat > 0) Then
+          begin
+            itmcomitmaliqicm.AsFloat := taitaialiquota.AsFloat;
+            itmcomicmcodigo.AsString := taiicmcodigo.AsString;
+
+            if tributacao.FieldByName('propercreducaobaseicm').AsFloat = 0 then
+            begin
+              itmcomitmbicm.AsCurrency := ((itmoriitmvalor.AsCurrency * itmoriitmquantidade.AsFloat) - itmoriitmdesconto.AsCurrency);
+
+            end
+            else
+            begin
+              { vlVuBICM:=((itmoriitmvalor.AsCurrency * itmoriitmquantidade.AsFloat) - itmoriitmdesconto.AsCurrency);
+                itmcomitmbicm.AsCurrency := vlVuBICM - (vlVuBICM * (tributacao.FieldByName('propercreducaobaseicm').AsFloat / 100)); }
+
+              vlVuBICM := ((itmoriitmvalor.AsCurrency * itmoriitmquantidade.AsFloat) - itmoriitmdesconto.AsCurrency);
+              itmcomitmbicm.AsCurrency := vlVuBICM * (tributacao.FieldByName('propercreducaobaseicm').AsFloat / 100);
+
+            end;
+            itmcomitmicm.AsCurrency := itmcomitmbicm.AsFloat * (taitaialiquota.AsFloat / 100);
+
+          end
+          else
+          begin
+            itmcomicmcodigo.AsString := '00';
+            itmcomitmaliqicm.AsFloat := taitaialiquota.AsFloat;
+            itmcomitmbicm.AsCurrency := 0;
+            itmcomitmicm.AsCurrency := 0;
+          end;
+          vlVICM := vlVICM + itmcomitmicm.AsCurrency;
+          vlBICM := vlBICM + itmcomitmbicm.AsCurrency;
+
+          If (itmoriitmicms.AsFloat > 0) Then
+          begin
+            itmcomitmbicms.AsFloat := itmoriitmbicms.AsFloat;
+            itmcomitmaliqicms.AsFloat := 0;
+            itmcomitmicms.AsCurrency := 0;
+          end;
+          vlVICMs := vlVICMs + itmcomitmicms.AsCurrency;
+          vlBICMs := vlBICMs + itmcomitmbicms.AsCurrency;
+
+        end;
+        itmcomitmvalor.AsFloat := 0;
+        itmcomitmoutras.AsCurrency := 0;
+        vlVOutros := vlVOutros + itmcomitmoutras.AsCurrency;
+        itmcom.Post;
+
+        itmori.Next;
+      end;
+      mescom.Edit;
+      mescommesicm.AsCurrency := vlVICM;
+      mescommesicms.AsCurrency := vlVICMs;
+      mescommespis.AsCurrency := vlVPIS;
+      mescommescofins.AsCurrency := vlVCofins;
+      mescommesipi.AsCurrency := vlVIPI;
+      mescommesoutras.AsCurrency := vlVOutros;
+      mescommescomplementadapor.AsInteger := mesorimeschave.AsInteger;
+      mescom.Post;
+
+      zcone.Commit;
+      ActAtualizar.Execute;
+
+      if uqtabela.Locate('meschave', mescommeschave.AsInteger, []) then
+      begin
+        ShowMessage('Geração realizada com sucesso!');
+      end;
+
+    except
+      on E: Exception do
+      begin
+        zcone.Rollback;
+        ShowMessage('Falha na classe = ' + E.ClassName + #13 + ' Erro: ' + E.Message);
+      end;
+
+    end;
+  End;
+end;
+
+procedure Tframnf.ActConsultaEventoExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
+
+  arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+  If arq <> '' Then
+  Begin
+    Self.modulonfe(arq, rnfConsultaEvento, vmeschave);
+  End;
+end;
+
+procedure Tframnf.ActConsultaStatusAjustarNFESEFAZMTExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+  If arq <> '' Then
+  Begin
+    Self.modulonfe(arq, rnfStatusNFe, vmeschave);
+  End;
+end;
+
+procedure Tframnf.ActConsultaStatusSEFAZExecute(Sender: TObject);
+begin
+  inherited;
+  Self.modulonfe('', rnfStatusSefaz, '');
+
+end;
+
+procedure Tframnf.ActDesconhecimentoExecute(Sender: TObject);
+var
+  arq: String;
+  vmeschave: string;
+  vlChaveNFE: string;
+Begin
+
+  if CriaFormulario(Tfenf, '', '') then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'select enfchave, enfchavenfe from enf order by enfchave desc limit 1';
+    consulta.Open;
+
+    vlChaveNFE := sonumeros(consulta.FieldByName('enfchavenfe').AsString);
+    vmeschave := consulta.FieldByName('enfchave').AsString;
+    arq := extractfilepath(Application.ExeName) + 'xml-recebidos\' + vlChaveNFE + '.xml';
+
+    Self.modulonfe(arq, rnfManifDestDesconhecimento, vmeschave);
+  end;
+end;
+
+procedure Tframnf.ActDocReferenciadoExecute(Sender: TObject);
+begin
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  begin
+    Application.MessageBox(PChar('Este registro é uma NFE. Não pode ser alterado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  MostraLista('mdfr', Self.uqtabelameschave.AsString);
+end;
+
+procedure Tframnf.ActGeraChaveExecute(Sender: TObject);
+var
+  vnrnfe, vnrser: Integer;
+  xndoc1: String;
+  xnnfe: String;
+  xnarq: String;
+  vAnoMesNFe: String;
+  vData: Double;
+  vRetorno: Boolean;
+  s: string;
+  m: TClipboard;
+
+begin
+
+  cfg.Close;
+  cfg.ParamByName('flacodigo').AsInteger := Acesso.Filial;
+  cfg.Open;
+
+  vRetorno := False;
+
+  vnrnfe := uqtabela.FieldByName('mesnumero').AsInteger;
+  try
+    vnrser := uqtabela.FieldByName('messerie').AsInteger;
+  except
+    vnrser := 1;
+  end;
+
+  if vnrnfe = 0 then
+    Exit;
+  if uqtabelamesdatanfe.AsString <> '' then
+  begin
+    if uqtabelamesdatanfe.AsFloat <> 0 then
+      vData := uqtabelamesdatanfe.AsFloat
+    else
+      vData := uqtabelamesregistro.AsFloat;
+  end
+  else
+    vData := uqtabelamesregistro.AsFloat;
+
+  xndoc1 := SomenteNumeros(cfgetddoc1.AsString);
+
+  xnnfe := copy(cfgcddcodigo.AsString, 1, 2);
+  xnnfe := xnnfe + FormatDateTime('yymm', vData);
+  xnnfe := xnnfe + xndoc1;
+  xnnfe := xnnfe + '55';
+  xnnfe := xnnfe + FormatFloat('000', vnrser);
+  xnnfe := xnnfe + FormatFloat('000000000', vnrnfe);
+  xnnfe := xnnfe + '1';
+  xnnfe := xnnfe + FormatFloat('00000000', vnrnfe);
+  xnnfe := xnnfe + Modulo11(Trim(xnnfe));
+
+  xnarq := xnnfe;
+
+  if uqtabelameschavenfe.AsString = '' then
+  begin
+    consulta.Close;
+    consulta.SQL.Text := 'update mes set messerie=1, meschavenfe=' + QuotedStr(xnarq) + ' where meschave=' + uqtabelameschave.AsString;
+    consulta.ExecSQL;
+  end;
+
+  try
+    s := xnarq;
+    m := TClipboard.Create;
+    m.SetTextBuf(PChar(s));
+    ShowMessage('A Chave de Acesso da NFe nr.: ' + Self.uqtabelamesnumero.AsString + ' está disponível na memória.' + #13 + #13 + s + #13 + #13 +
+      'Para utilizar basta, posicionar o cursor e clicar Ctrl+V no local desejado.');
+
+  finally
+    FreeAndNil(m);
+  end;
+
+end;
+
+procedure Tframnf.ActGerarCobrancaExecute(Sender: TObject);
+var
+  vRecno: Integer;
+begin
+  inherited;
+  if Self.uqtabelaetdcodigo.AsInteger = 0 then
+  begin
+    ShowMessage('Não é possível gerar boleto para vendas ao CONSUMIDOR!');
+    Exit;
+  end;
+  vRecno := uqtabela.RecNo;
+  // CriaFormulario(Tfrfivnd, Self.tittitcodigo.AsString, uqtabelameschave.AsString);
+  uqtabela.RecNo := vRecno;
+
+end;
+
+procedure Tframnf.ActGerarPDFExecute(Sender: TObject);
+Var
+  arq: String;
+  retorno: String;
+  vmeschave: string;
+Begin
+  Inherited;
+  vmeschave := Self.uqtabelameschave.AsString;
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+    If arq <> '' Then
+    Begin
+      Self.modulonfe(arq, rnfGerarPDF, vmeschave);
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode gerado PDF!');
+  End;
+
+end;
+
+procedure Tframnf.ActGerarXMLExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  arq := ''; // geranomenfe(vmeschave, self.uqtabelaflacodigo.AsString);
+
+  modulonfe(arq, rnfGerarXML, vmeschave);
+  ActAtualizar.Execute;
+
+end;
+
+procedure Tframnf.ActImprimirVendaNFEExecute(Sender: TObject);
+
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: String;
+  ventcodigo: String;
+  vrec: Integer;
+  vlProcodigo: Integer;
+  vlRefeicao: Integer;
+Begin
+
+  if Self.uqtabelamesprotocolo.AsString <> '' then
+  begin
+    ShowMessage('ATENÇÃO: Este registro já é uma NFE, só pode ser Reimpresso!' + #13 + 'Protocolo Registrado: ' + Self.uqtabelamesprotocolo.AsString);
+    Exit;
+  end;
+
+  if (uqtabelattocodigo.AsInteger = ttoDevolucao) or (uqtabelattocodigo.AsInteger = ttoRemessaRetorno) or (uqtabelattocodigo.AsInteger = ttoOutros) or
+    (uqtabelattocodigo.AsInteger = ttoComplemento) then
+  begin
+
+  end
+  else
+  begin
+
+    { if dtl.IsEmpty then
+      begin
+      ShowMessage('ATENÇÃO: Este registro não possui finalização, favor ir em Venda e gerar finalização!');
+      Exit;
+
+      end; }
+  end;
+
+  vrec := Self.uqtabela.RecNo;
+  vmeschave := Self.uqtabelameschave.AsString;
+  ventcodigo := Self.uqtabelaetdcodigo.AsString;
+
+  inherited;
+
+  if (validaentidade(ventcodigo)) and (validatransporte(vmeschave)) then
+  begin
+
+    consulta.Close;
+    consulta.SQL.Text := 'select procodigo from itm where meschave=' + uqtabelameschave.AsString;
+    consulta.Open;
+
+    while not consulta.eof do
+    begin
+      vlProcodigo := consulta.FieldByName('procodigo').AsInteger;
+      if cfgcfgmgouprorefeicao.AsInteger = vlProcodigo then
+      begin
+        break;
+      end;
+      consulta.Next;
+    end;
+
+    if cfgcfgmgouprorefeicao.AsInteger = vlProcodigo then
+    begin
+      vlRefeicao := 1;
+    end
+    else
+    begin
+      vlRefeicao := 0;
+    end;
+
+    consulta.Close;
+    consulta.SQL.Text := 'update mes set mesrefeicao=' + vlRefeicao.ToString + ' where meschave=' + vmeschave;
+    consulta.ExecSQL;
+
+    if not PermiteNFeReclassificacao then
+      Exit;
+
+    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+
+    if arq <> '' then
+    begin
+      Self.modulonfe(arq, rnfGerarNFe, vmeschave);
+      ActAtualizar.Execute;
+    end;
+  end;
+end;
+
+procedure Tframnf.ActInfoComplementarExecute(Sender: TObject);
+begin
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  begin
+    Application.MessageBox(PChar('Este registro é uma NFE. Não pode ser alterado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  MostraLista('mtom', Self.uqtabelameschave.AsString);
+end;
+
+procedure Tframnf.ActInutilizarExecute(Sender: TObject);
+Var
+  arq: String;
+  retorno: String;
+  vmeschave: string;
+Begin
+  Inherited;
+  Self.modulonfe(arq, rnfInutilizar, vmeschave);
+
+  consulta.Close;
+  consulta.Connection:=ZCone;
+  consulta.sql.Text:='SELECT meschave, mesregistro,  tdfcodigo,  sdecodigo, '+
+                     'messerie,  mesnumero,  meschavenfe,  mesprotocolo,  mesdatanfe,  meshoranfe, '+
+                     'mescodigonota, temcodigo  FROM mes where meschave='+vmeschave;
+  consulta.open;
+  consulta.edit;
+
+  consulta.fieldbyname('mesregistro').AsString:='';
+  consulta.fieldbyname('tdfcodigo').AsString:='00';
+  consulta.fieldbyname('sdecodigo').AsString:='02';
+  consulta.fieldbyname('messerie').AsString:='0';
+  consulta.fieldbyname('mesnumero').AsString:='0';
+  consulta.fieldbyname('meschavenfe').AsString:='';
+  consulta.fieldbyname('mesprotocolo').AsString:='';
+  consulta.fieldbyname('mesdatanfe').AsString:='';
+  consulta.fieldbyname('meshoranfe').AsString:='';
+  consulta.fieldbyname('mescodigonota').AsString:='0';
+  consulta.fieldbyname('temcodigo').AsString:='2';
+  consulta.post;
+
+
+end;
+
+procedure Tframnf.ActPreviaNFeExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  arq := ''; // geranomenfe(vmeschave, self.uqtabelaflacodigo.AsString);
+
+  modulonfe(arq, rnfGerarPrevia, vmeschave);
+  ActAtualizar.Execute;
+
+end;
+
+procedure Tframnf.ActReenviarEmailEventosExecute(Sender: TObject);
+Var
+  arq: String;
+  vmeschave: string;
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
+begin
+  vmeschave := Self.uqtabelameschave.AsString;
+
+  inherited;
+
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
+    modulonfe(arq, rnfEmailEvento, vmeschave);
+    ActAtualizar.Execute;
+  End
+  Else
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE. Email não pode ser enviado!');
+end;
+
+procedure Tframnf.ActReGerarXMLsExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+begin
+  inherited;
+  uqtabela.First;
+  while not uqtabela.eof do
+  begin
+
+    vmeschave := Self.uqtabelameschave.AsString;
+    arq := ''; // geranomenfe(vmeschave, self.uqtabelaflacodigo.AsString);
+    modulonfe(arq, rnfGerarXML, vmeschave);
+
+    uqtabela.Next;
+  end;
+
+end;
+
+procedure Tframnf.ActReimprimirEventosExecute(Sender: TObject);
+Var
+  arq: String;
+  vmeschave: string;
+  vlMeschavedanfe:String;
+  vlanomes:String;
+
+begin
+  vmeschave := Self.uqtabelameschave.AsString;
+
+  inherited;
+
+
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
+
+    modulonfe(arq, rnfImprimirEvento, vmeschave);
+    ActAtualizar.Execute;
+  End
+  Else
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE. Email não pode ser enviado!');
+end;
+
+procedure Tframnf.ActReimprimirNFEExecute(Sender: TObject);
+Var
+  retorno: String;
+  arq: String;
+  vmeschave: string;
+var
+
+  vlMeschavedanfe:String;
+  vlanomes:String;
+Begin
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+    If arq <> '' Then
+    Begin
+      modulonfe(arq, rnfImprimirNFe, vmeschave);
+      ActAtualizar.Execute;
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode ser reimpressa!');
+  End;
+
+end;
+
+procedure Tframnf.ActRenviaremailExecute(Sender: TObject);
+Var
+  arq: String;
+  retorno: String;
+  vmeschave: string;
+  vlMeschavedanfe: string;
+  vlanomes: string;
+  npdf: string;
+Begin
+
+  vmeschave := Self.uqtabelameschave.AsString;
+  Inherited;
+  If Self.uqtabelamesprotocolo.AsString <> '' Then
+  Begin
+
+
+    cfg.Close;
+    cfg.Params[0].AsInteger := Acesso.Filial;
+    cfg.Open;
+
+    vlMeschavedanfe:=uqtabelameschavenfe.AsString;
+    vlanomes:='20'+copy( vlMeschavedanfe,3,4);
+
+    arq := extractfilepath(application.ExeName)+'arqnfes\'+vlanomes+'\'+vlMeschavedanfe+'-nfe.xml';
+
+
+    if (cfgcfgservarqnfes.AsString <> '127.0.0.1') and (pos('c:\', lowercase(cfgcfgservarqnfes.AsString))=0) then
+    begin
+      arq := BaixaXMLServidor(IPServidorArquivos, arq);
+    end;
+
+    If not FileExists(arq) Then
+    begin
+       ShowMessage('Não localizou o arquivo XML da nota para impressão: '+arq);
+       exit
+    end;
+
+
+
+
+    arq := geranomenfe(vmeschave, Self.uqtabelaflacodigo.AsString);
+    If arq <> '' Then
+    Begin
+      modulonfe(arq, rnfEmail, vmeschave);
+    End;
+  End
+  Else
+  Begin
+    ShowMessage('ATENÇÃO: Este registro não é uma NFE, não pode ser enviado email!');
+  End;
+
+end;
+
+procedure Tframnf.ActSairExecute(Sender: TObject);
+begin
+
+  SalvarColunas(listaobs);
+  SalvarColunas(listaitm);
+
+  inherited;
+
+end;
+
+procedure Tframnf.ActSelecionarChaveNFEExecute(Sender: TObject);
+var
+  s: string;
+  m: TClipboard;
+begin
+  inherited;
+  try
+    s := Self.uqtabelameschavenfe.AsString;
+    m := TClipboard.Create;
+    m.SetTextBuf(PChar(s));
+    ShowMessage('A Chave de Acesso da NFe nr.: ' + Self.uqtabelamesnumero.AsString + ' está disponível na memória.' + #13 + #13 + s + #13 + #13 +
+      'Para utilizar basta, posicionar o cursor e clicar Ctrl+V no local desejado.');
+
+  finally
+    FreeAndNil(m);
+  end;
+
+end;
+
+procedure Tframnf.ActTransportadorExecute(Sender: TObject);
+begin
+  if Self.uqtabelamesprotocolo.AsString <> '' then
+  begin
+    Application.MessageBox(PChar('Este registro é uma NFE. Não pode ser alterado!'), 'Atenção', MB_ICONWARNING + MB_OK);
+    Exit;
+  end;
+
+  MostraLista('mdtm', Self.uqtabelameschave.AsString);
+end;
+
+procedure Tframnf.cadastraemail(chave, chavemestre: string);
+begin
+  MostraFormu('mete', chave, chavemestre);
+end;
+
+procedure Tframnf.Carregar;
+begin
+  if Self.TxtFiltro <> '' then
+  begin
+    Self.uqtabela.Filter := Self.TxtFiltro;
+    Self.uqtabela.Filtered := True;
+  end;
+
+  // MontaFiltroEsp(tdf, tdfNotaFiscalEletronica);
+  inherited Carregar;
+
+  CarregarColunas(listaitm);
+  CarregarColunas(listaobs);
+
+  if cfgcfgusagou.AsInteger = 1 then
+  begin
+    ActImprimirVendaREFEICAO.Enabled := True;
+  end
+  else
+  begin
+    ActImprimirVendaREFEICAO.Enabled := False;
+  end;
+
+end;
+
+procedure Tframnf.RecalculaTotais;
+var
+  rgi: Integer;
+  vtotsai: Double;
+  vtotdessai: Double;
+  vtotnfesai: Double;
+  vtotnfesaican: Double;
+  vtotnfeaemsai: Double;
+  vtotent: Double;
+  vtotdesent: Double;
+  vtotnfeent: Double;
+  vtotnfeentcan: Double;
+  vtotnfeaement: Double;
+begin
+  vatualizando := True;
+  if Self.uqtabela.Active then
+  begin
+    rgi := Self.uqtabela.RecNo;
+  end
+  else
+  begin
+    rgi := 0;
+  end;
+  Self.uqtabela.DisableControls;
+  Self.uqtabela.First;
+  vtotsai := 0;
+  vtotdessai := 0;
+  vtotnfesai := 0;
+  vtotnfeaemsai := 0;
+  vtotent := 0;
+  vtotdesent := 0;
+  vtotnfeent := 0;
+  vtotnfeentcan := 0;
+  vtotnfesaican := 0;
+  vtotnfeaement := 0;
+  while not Self.uqtabela.eof do
+  begin
+    if (Self.uqtabelatoeorigem.AsString = '5') or (Self.uqtabelatoeorigem.AsString = '6') or (Self.uqtabelatoeorigem.AsString = '7') then
+    begin
+      vtotsai := vtotsai + Self.uqtabelamesvalor.AsFloat;
+      vtotdessai := vtotdessai + Self.uqtabelamesdesconto.AsFloat;
+      if Self.uqtabelamesprotocolo.AsString <> '' then
+        if (Self.uqtabelasdecodigo.AsString <> '02') and (Self.uqtabelasdecodigo.AsString <> '03') then
+        begin
+          if Self.uqtabelatdfcodigo.AsString = '55' then
+            vtotnfesai := vtotnfesai + Self.uqtabelamestotal.AsFloat
+          else
+            vtotnfeaemsai := vtotnfeaemsai + Self.uqtabelamestotal.AsFloat;
+        end
+        else
+          vtotnfesaican := vtotnfesaican + Self.uqtabelamestotal.AsFloat;
+    end
+    else
+    begin
+      vtotent := vtotent + Self.uqtabelamesvalor.AsFloat;
+      vtotdesent := vtotdesent + Self.uqtabelamesdesconto.AsFloat;
+      if Self.uqtabelamesprotocolo.AsString <> '' then
+        if (Self.uqtabelasdecodigo.AsString <> '02') and (Self.uqtabelasdecodigo.AsString <> '03') then
+        begin
+          if Self.uqtabelatdfcodigo.AsString = '55' then
+            vtotnfeent := vtotnfeent + Self.uqtabelamestotal.AsFloat
+          else
+            vtotnfeaement := vtotnfeaement + Self.uqtabelamestotal.AsFloat;
+        end
+        else
+          vtotnfeentcan := vtotnfeentcan + Self.uqtabelamestotal.AsFloat;
+    end;
+    Self.uqtabela.Next;
+  end;
+  Pltotalsaidas.Caption := 'Saídas ' + FormatFloat('##,###,##0.00', vtotsai);
+  Pltotaldescontossaidas.Caption := 'Descontos ' + FormatFloat('##,###,##0.00', vtotdessai);
+  Pltotalliquidosaidas.Caption := 'Líquido ' + FormatFloat('##,###,##0.00', vtotsai - vtotdessai - vtotnfesaican);
+  Pltotalnfesaidas.Caption := 'NFE Emitidas ' + FormatFloat('##,###,##0.00', vtotnfesai);
+  Pltotalnfesaidas.Caption := 'NFE Emitidas ' + FormatFloat('##,###,##0.00', vtotnfesai);
+  plNFesaiEmitir.Caption := 'NFE a Emitir ' + FormatFloat('##,###,##0.00', vtotnfeaemsai);
+  plNotasSaiCanc.Caption := 'NFE Canceladas ' + FormatFloat('##,###,##0.00', vtotnfesaican);
+
+  Pltotalentradas.Caption := 'Entradas ' + FormatFloat('##,###,##0.00', vtotent);
+  Pltotaldescontosentradas.Caption := 'Descontos ' + FormatFloat('##,###,##0.00', vtotdesent);
+  Pltotalliquidoentradas.Caption := 'Líquido ' + FormatFloat('##,###,##0.00', vtotent - vtotdesent - vtotnfeentcan);
+  Pltotalnfeentradas.Caption := 'NFE Emitidas ' + FormatFloat('##,###,##0.00', vtotnfeent);
+  plNFeentEmitir.Caption := 'NFE a Emitir ' + FormatFloat('##,###,##0.00', vtotnfeaement);
+  plNotasEntCanc.Caption := 'NFE Canceladas ' + FormatFloat('##,###,##0.00', vtotnfeentcan);
+
+  Self.uqtabela.EnableControls;
+  Self.uqtabela.RecNo := rgi;
+  vatualizando := False;
+end;
+
+end.

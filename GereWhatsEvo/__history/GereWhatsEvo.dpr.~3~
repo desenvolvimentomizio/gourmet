@@ -1,0 +1,15 @@
+program GereWhatsEvo;
+
+uses
+  madExcept,
+  Vcl.Forms,
+  ufprincigerewhatsevo in 'ufprincigerewhatsevo.pas' {FprinciWhaGouEVO};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFprinciWhaGouEVO, FprinciWhaGouEVO);
+  Application.Run;
+end.

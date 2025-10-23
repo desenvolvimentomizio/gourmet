@@ -1,0 +1,89 @@
+unit MizioUP.Controllers.Base;
+
+interface
+uses
+  System.SysUtils,
+  System.Classes,
+  System.JSON,
+  RESTRequest4D,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+type
+  TControllerBase = class(TDataModule)
+    mtDados: TFDMemTable;
+  private
+    { Private declarations }
+  protected
+    function PreparaRequest: IRequest;
+    procedure RaiseException(AResponse : IResponse; ATituloMensagem: string);
+    procedure Serializar(AResponse : IResponse; dsDestino: TDataSet = nil); overload;
+    procedure Serializar(AJsonString : string; dsDestino: TDataSet = nil); overload;
+    procedure Serializar(AJsonValue : TJSONValue; dsDestino: TDataSet = nil); overload;
+  public
+    procedure CriarDataSets; virtual;
+  end;
+implementation
+uses
+  DataSet.Serialize,
+  Horse.JsonInterceptor.Helpers;
+{$R *.dfm}
+{ TControllerBase }
+
+procedure TControllerBase.CriarDatasets;
+begin
+  if mtDados.Active
+  then mtDados.Close;
+  mtDados.CreateDataSet;
+end;
+function TControllerBase.PreparaRequest: IRequest;
+begin
+  Result := TRequest.New
+    .BaseUrl(MizioUP.Models.Configuracoes.GetInstance.APIUrl)
+    .Timeout(MizioUP.Models.Configuracoes.GetInstance.APITimeout)
+    .BasicAuthentication(
+      TLojaModelInfraUsuario.GetInstance.Login,
+      TLojaModelInfraUsuario.GetInstance.Senha
+    )
+  ;
+end;
+procedure TControllerBase.Serializar(AResponse: IResponse; dsDestino: TDataSet);
+begin
+  if dsDestino = nil
+  then dsDestino := mtDados;
+  try
+    dsDestino.DisableControls;
+    dsDestino.LoadFromJSON(AResponse.Content);
+  finally
+    dsDestino.EnableControls;
+  end;
+end;
+procedure TControllerBase.Serializar(AJsonString: string; dsDestino: TDataSet);
+begin
+  if dsDestino = nil
+  then dsDestino := mtDados;
+  try
+    dsDestino.DisableControls;
+    dsDestino.LoadFromJSON(AJsonString);
+  finally
+    dsDestino.EnableControls;
+  end;
+end;
+procedure TControllerBase.Serializar(AJsonValue: TJSONValue;
+  dsDestino: TDataSet);
+begin
+  if dsDestino = nil
+  then dsDestino := mtDados;
+  try
+    dsDestino.DisableControls;
+    if AJsonValue is TJSONObject
+    then dsDestino.LoadFromJSON(AJsonValue as TJSONObject)
+    else
+    if AJsonValue is TJSONArray
+    then dsDestino.LoadFromJSON(AJsonValue as TJSONArray);
+  finally
+    dsDestino.EnableControls;
+  end;
+end;
+
+end.

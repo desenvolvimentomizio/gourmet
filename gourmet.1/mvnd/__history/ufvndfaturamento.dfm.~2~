@@ -1,0 +1,634 @@
+inherited fvndfaturamento: Tfvndfaturamento
+  Caption = 'Faturamento'
+  ExplicitLeft = -115
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pbotoes: TPanel
+    ExplicitTop = 712
+    ExplicitWidth = 1170
+    inherited bconfirma: TBitBtn
+      Left = 1016
+      ExplicitLeft = 1016
+    end
+    inherited bcancela: TBitBtn
+      Left = 1091
+      ExplicitLeft = 1091
+    end
+    inherited bfechar: TBitBtn
+      Left = 951
+      ExplicitLeft = 951
+    end
+    inherited procodigo: TDBEdit
+      Left = 703
+      Width = 59
+      ExplicitLeft = 703
+      ExplicitWidth = 59
+    end
+  end
+  inherited paginas: TPageControl
+    ExplicitHeight = 712
+    inherited Principal: TTabSheet
+      object toecfopsaida: TDBText [17]
+        Left = 600
+        Top = 115
+        Width = 45
+        Height = 17
+        CustomHint = BalloonHint
+        Alignment = taRightJustify
+        DataField = 'toecfopsaida'
+        DataSource = DStoe
+      end
+      inherited mesemissao: TDBEdit
+        TabStop = False
+        Color = 16767152
+        ReadOnly = True
+      end
+      inherited mesregistro: TDBEdit
+        TabStop = False
+        Color = 16767152
+        ReadOnly = True
+      end
+      inherited PlDetalhe: TPanel
+        ExplicitHeight = 460
+        inherited PlItens: TPanel
+          ExplicitHeight = 428
+          inherited PlObs: TPanel
+            ExplicitTop = 317
+          end
+          inherited listaitens: TDBGrid
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'itmitem'
+                Title.Caption = 'Item'
+                Width = 30
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'cfocfop'
+                Title.Caption = 'CFOP'
+                Width = 55
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'procodigo'
+                Width = 41
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'pronome'
+                Width = 182
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'toeidentificacao'
+                Title.Caption = 'Destina'#231#227'o'
+                Width = 230
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'unisimbolo'
+                Title.Caption = 'Unid.'
+                Width = 42
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmquantidade'
+                Width = 49
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmvalor'
+                Title.Caption = 'Valor'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmtotal'
+                Title.Caption = 'Total'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmdesconto'
+                Title.Caption = 'Desc. R$'
+                Width = 68
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmtotalbru'
+                Title.Caption = 'Total Liq.'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmaliqipi'
+                Title.Caption = '% IPI'
+                Width = 35
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmipi'
+                Title.Caption = 'Vlr IPI R$'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmcontendo'
+                Width = 50
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'unisimbolobase'
+                Width = 45
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'itmfrete'
+                Visible = True
+              end>
+          end
+        end
+        inherited plbotoesitens: TPanel
+          inherited bdescontonoitem: TBitBtn
+            Width = 105
+            ExplicitWidth = 105
+          end
+          inherited bdescontogeral: TBitBtn
+            Left = 244
+            Width = 105
+            ExplicitLeft = 244
+            ExplicitWidth = 105
+          end
+          inherited bimportaritens: TBitBtn
+            Left = 417
+            Width = 87
+            Visible = False
+            ExplicitLeft = 417
+            ExplicitWidth = 87
+          end
+          inherited bactAFaturar: TBitBtn
+            Left = 349
+            Width = 68
+            ExplicitLeft = 349
+            ExplicitWidth = 68
+          end
+          inherited plTotalServicos: TPanel
+            Left = 850
+            Align = alRight
+            ExplicitLeft = 850
+          end
+          inherited plTotalProdutos: TPanel
+            Left = 999
+            Align = alRight
+            ExplicitLeft = 999
+          end
+          inherited plImortaAtendimento: TPanel
+            Left = 504
+            ExplicitLeft = 504
+          end
+          inherited btAVista: TButton
+            Left = 809
+            ExplicitLeft = 809
+          end
+          inherited btAPrazo: TButton
+            Left = 754
+            ExplicitLeft = 754
+          end
+        end
+      end
+      inherited GBTotalBruto: TGroupBox
+        TabOrder = 17
+      end
+      inherited GBValorICMST: TGroupBox
+        TabOrder = 18
+      end
+      inherited GBBaseICMST: TGroupBox
+        TabOrder = 19
+      end
+      inherited GBValorICM: TGroupBox
+        TabOrder = 20
+      end
+      inherited GBBaseICM: TGroupBox
+        TabOrder = 21
+      end
+      inherited GBDesconto: TGroupBox
+        TabOrder = 22
+      end
+      inherited GBFrete: TGroupBox
+        TabOrder = 23
+      end
+      inherited GBSeguro: TGroupBox
+        TabOrder = 25
+      end
+      inherited GBOutras: TGroupBox
+        TabOrder = 27
+      end
+      inherited GBIPI: TGroupBox
+        TabOrder = 29
+      end
+      inherited GBTotalLiquido: TGroupBox
+        TabOrder = 30
+      end
+      inherited bvalidar: TButton
+        Left = 930
+        Width = 72
+        Height = 32
+        Font.Height = -13
+        ParentFont = False
+        TabOrder = 16
+        ExplicitLeft = 930
+        ExplicitWidth = 72
+        ExplicitHeight = 32
+      end
+      inherited mesfrete: TDBEdit
+        TabOrder = 24
+      end
+      inherited messeguro: TDBEdit
+        TabOrder = 26
+      end
+      inherited mesoutras: TDBEdit
+        TabOrder = 28
+      end
+    end
+  end
+  inherited lbcodigojanela: TPanel
+    Caption = '02.04.09.001-06'
+  end
+  inherited DSRegistro: TUniDataSource
+    Left = 244
+    Top = 300
+  end
+  inherited cfg: TUniQuery
+    SQL.Strings = (
+      'SELECT'
+      '  ufs.ufssigla,'
+      '  etd.etddoc1,'
+      '  cfgment.cfgprouso,'
+      '  cfgmnfe.cfgobs1,'
+      '  cfgmnfe.cfgobs2,'
+      '  cfgmnfe.cfgobs3,'
+      '  cfg.cfgdtinictb,'
+      '  cfg.cfgdatapadrao,'
+      '  cfgmnfe.cfgobs4,'
+      '  cfgmcfg.cfgetdempresa,'
+      '  cfgmnfe.cfgnumeronfe,'
+      '  cfgmnfe.cfgnumecertif,'
+      '  cfgmnfe.cfgserienfe,'
+      '  cfgment.cfgtoeusofora,'
+      '  cfgment.cfgtoeusointe,'
+      '  cfgmspd.cfgetdsped,'
+      '  cfgmcfg.crtcodigo,'
+      '  cfgtoetransflaintepro,'
+      '  cfgtoetransflainte'
+      'FROM cfgmcfg,'
+      '     ufs,'
+      '     etd,'
+      '     cfgmnfe,'
+      '     cfgment,'
+      '     edr,'
+      '     cfg,'
+      '     cfgmspd,'
+      '     cfgmsai'
+      ''
+      ''
+      'WHERE ufs.ufscodigo = edr.ufscodigo'
+      'AND cfg.cfgcodigo = cfgmcfg.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmsai.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgment.cfgcodigo'
+      'AND cfg.cfgcodigo = cfgmnfe.cfgcodigo'
+      'AND etd.etdcodigo = cfgmcfg.cfgetdempresa'
+      'AND etd.etdcodigo = edr.etdcodigo'
+      'AND edr.tedcodigo = 1'
+      'AND cfg.cfgcodigo = cfgmspd.cfgcodigo')
+    Left = 280
+    Top = 392
+    object cfgcfgdtinictb: TDateField
+      FieldName = 'cfgdtinictb'
+    end
+    object cfgcfgdatapadrao: TDateField
+      FieldName = 'cfgdatapadrao'
+    end
+    object cfgcfgtoetransflaintepro: TIntegerField
+      FieldName = 'cfgtoetransflaintepro'
+    end
+    object cfgcfgtoetransflainte: TIntegerField
+      FieldName = 'cfgtoetransflainte'
+    end
+  end
+  inherited registro: TUniQuery
+    Left = 160
+  end
+  inherited Dbuscapro: TUniDataSource
+    Top = 332
+  end
+  inherited itm: TUniQuery
+    inherited itmitmfrete: TFloatField
+      DisplayLabel = 'Frete'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '#,##0.00'
+    end
+  end
+  inherited acoes: TActionList
+    Left = 344
+    Top = 312
+    inherited ActAFaturar: TAction
+      OnExecute = ActAFaturarExecute
+    end
+  end
+  inherited lou: TUniQuery
+    Left = 336
+    Top = 384
+  end
+  inherited itmfat: TUniQuery
+    SQL.Strings = (
+      'select '
+      'itmchave,'
+      'meschave,'
+      'itmitem,'
+      'procodigo,'
+      'unicodigo,'
+      'cstcodigo,'
+      'itmdesccomple,'
+      'itmquantidade,'
+      'itmvalor,'
+      'itmdesconto,'
+      'itmmovifisico,'
+      'toecodigo,'
+      'cfocfop,'
+      'itmbicm,'
+      'icmcodigo,'
+      'itmaliqicm,'
+      'itmicm,'
+      'itmbicms,'
+      'itmaliqicms,'
+      'itmicms,'
+      'itmapuipi,'
+      'csicodigo,'
+      'ceicodigo,'
+      'itmbipi,'
+      'puncodigo,'
+      'itmaliqipi,'
+      'itmipi,'
+      'cspcodigo,'
+      'itmpis,'
+      'itmbpis,'
+      'itmaliqpis,'
+      'itmquantpis,'
+      'itmaliqpisvalor,'
+      'csfcodigo,'
+      'itmbcofins,'
+      'itmaliqcofins,'
+      'itmquantcofins,'
+      'itmaliqcofinsvalor,'
+      'itmcofins,'
+      'pcccodigo,'
+      'itmtotal,'
+      'unicodigobase,'
+      'itmoutras,'
+      'cfocfopdestinacao,'
+      'itmcontendo,'
+      'itmfrete'
+      ''
+      ' from itm where meschave=:meschave')
+    Left = 1000
+    Top = 352
+    object itmfatitmoutras: TFloatField
+      FieldName = 'itmoutras'
+    end
+    object itmfatitmfrete: TCurrencyField
+      FieldName = 'itmfrete'
+    end
+  end
+  inherited gravaitmref: TUniQuery
+    SQL.Strings = (
+      'select '
+      'itmchave,'
+      'meschave,'
+      'itmitem,'
+      'procodigo,'
+      'unicodigo,'
+      'cstcodigo,'
+      'itmdesccomple,'
+      'itmquantidade,'
+      'itmvalor,'
+      'itmdesconto,'
+      'itmmovifisico,'
+      'toecodigo,'
+      'cfocfop,'
+      'itmbicm,'
+      'icmcodigo,'
+      'itmaliqicm,'
+      'itmicm,'
+      'itmbicms,'
+      'itmaliqicms,'
+      'itmicms,'
+      'itmapuipi,'
+      'csicodigo,'
+      'ceicodigo,'
+      'itmbipi,'
+      'puncodigo,'
+      'itmaliqipi,'
+      'itmipi,'
+      'cspcodigo,'
+      'itmpis,'
+      'itmbpis,'
+      'itmaliqpis,'
+      'itmquantpis,'
+      'itmaliqpisvalor,'
+      'csfcodigo,'
+      'itmbcofins,'
+      'itmaliqcofins,'
+      'itmquantcofins,'
+      'itmaliqcofinsvalor,'
+      'itmcofins,'
+      'pcccodigo,'
+      'itmtotal,'
+      'unicodigobase,'
+      'itmoutras,'
+      'cfocfopdestinacao,'
+      'itmpercreducaobaseicm,'
+      'itmcontendo,'
+      'itmfrete'
+      ' from itm where meschave=:meschave')
+    Left = 1000
+    Top = 416
+    inherited gravaitmrefmeschave: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefitmitem: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefprocodigo: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefunicodigo: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefcstcodigo: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmquantidade: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmvalor: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmdesconto: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmmovifisico: TStringField
+      Required = False
+    end
+    inherited gravaitmreftoecodigo: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefcfocfop: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmbicm: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqicm: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmicm: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmbicms: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqicms: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmicms: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmapuipi: TStringField
+      Required = False
+    end
+    inherited gravaitmrefcsicodigo: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmbipi: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefpuncodigo: TIntegerField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqipi: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmipi: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefcspcodigo: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmbpis: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqpis: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmquantpis: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqpisvalor: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefcsfcodigo: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmbcofins: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqcofins: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmquantcofins: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmaliqcofinsvalor: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefitmcofins: TFloatField
+      Required = False
+    end
+    inherited gravaitmrefpcccodigo: TStringField
+      Required = False
+    end
+    inherited gravaitmrefitmtotal: TFloatField
+      Required = False
+    end
+    object gravaitmrefitmpercreducaobaseicm: TFloatField [44]
+      FieldName = 'itmpercreducaobaseicm'
+    end
+    object gravaitmrefitmfrete: TCurrencyField
+      FieldName = 'itmfrete'
+    end
+  end
+  object dfa: TUniQuery [69]
+    SQL.Strings = (
+      'SELECT'
+      '  dfa.dfachave,'
+      '  dfa.meschave,'
+      '  dfa.dfameschave,'
+      '  mes.tdfcodigo'
+      'FROM dfa,'
+      '     mes'
+      'WHERE dfa.dfameschave = mes.meschave'
+      'AND dfa.meschave = :meschave')
+    Left = 444
+    Top = 536
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'meschave'
+        Value = nil
+      end>
+    object dfadfachave: TIntegerField
+      FieldName = 'dfachave'
+    end
+    object dfameschave: TIntegerField
+      FieldName = 'meschave'
+    end
+    object dfadfameschave: TIntegerField
+      FieldName = 'dfameschave'
+    end
+  end
+  inherited mesrfa: TVirtualTable
+    Left = 1064
+    Data = {04000000000000000000}
+  end
+  inherited itmref: TFDMemTable
+    Left = 1064
+    Top = 328
+    object itmrefitmpercreducaobaseicm: TFloatField [44]
+      FieldName = 'itmpercreducaobaseicm'
+    end
+    object itmrefitmfrete: TCurrencyField
+      FieldName = 'itmfrete'
+    end
+  end
+  object DStoe: TDataSource
+    DataSet = toe
+    Left = 556
+    Top = 80
+  end
+  object itmncm: TUniQuery
+    Left = 192
+    Top = 436
+  end
+end

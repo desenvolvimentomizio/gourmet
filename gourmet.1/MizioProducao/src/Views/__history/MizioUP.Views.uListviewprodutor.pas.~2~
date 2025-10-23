@@ -1,0 +1,66 @@
+unit MizioUP.Views.uListviewprodutor;
+
+interface
+
+uses FMX.ListView.Types,
+     FMX.ListView.Appearances,
+     FMX.ListView,
+     FMX.Graphics;
+
+type
+    TListviewProdutor = class
+    private
+
+    public
+        class procedure AddItem(lv: TListView; acodigo:Integer;  aQuantidadeProduzida,aPontuacao, aNomeProdutor:String ); static;
+
+end;
+
+implementation
+
+uses
+  System.UITypes, System.SysUtils;
+
+
+class procedure TListviewProdutor.AddItem(lv: TListView; acodigo:Integer; aQuantidadeProduzida,aPontuacao, aNomeProdutor:String );
+var
+  vLargura: Single;
+  vItem: TListViewItem;
+
+begin
+  vLargura := lv.Width;
+  vItem := lv.Items.Add;
+
+
+  with vItem do
+  begin
+    Height := 30;
+
+    TagString := IntToStr(aCodigo);
+    Tag := aCodigo;
+
+    TListItemText(Objects.FindDrawable('TxtQuantidadeProduzida')).Text := aQuantidadeProduzida;
+    TListItemText(Objects.FindDrawable('TxtQuantidadeProduzida')).Width := 60;
+
+    TListItemText(Objects.FindDrawable('TxtPontuacao')).Text := aPontuacao;
+    TListItemText(Objects.FindDrawable('TxtPontuacao')).Width := 60;
+
+    TListItemText(Objects.FindDrawable('TxtPontuacao')).PlaceOffset.X:=vLargura-250;
+    TListItemText(Objects.FindDrawable('TxtPontuacao')).PlaceOffset.Y:=1;
+
+    TListItemText(Objects.FindDrawable('TxtNomeProdutor')).Text := aNomeProdutor;
+    TListItemText(Objects.FindDrawable('TxtNomeProdutor')).Width :=vLargura-250;
+
+    TListItemText(Objects.FindDrawable('TxtNomeProdutor')).PlaceOffset.X:=0;
+    TListItemText(Objects.FindDrawable('TxtNomeProdutor')).PlaceOffset.Y:=1;
+
+
+  end;
+
+  lv.Adapter.ResetView(vItem);
+
+end;
+
+
+end.
+

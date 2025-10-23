@@ -1,0 +1,71 @@
+unit GourmetServer.Controller.VCH;
+
+interface
+
+Uses
+  Horse,
+  System.SysUtils,
+  idHashMessageDigest,
+  GourmetServer.Model.DAOGeneric,
+  GourmetServer.Model.Entity.CEP;
+
+
+function BuscaCEP(vCodigoCidade: string): string;
+
+type
+  TAPIError = class
+  private
+    Ferror: string;
+  public
+    property error: string read Ferror write Ferror;
+  end;
+
+implementation
+
+
+
+
+
+Function ManutencaoETFCELULAR(var vletdcodigo: Integer; vCliente: TJsonObject): Integer;
+var
+  FDAO: GourmetServer.Model.DAOGeneric.iDAOGeneric<TETF>;
+  FETF: TETF;
+  vletfcodigo: Integer;
+begin
+  FDAO := TDAOGeneric<TETF>.New;
+  vletfcodigo := 0;
+
+  FETF := TETF.Create;
+
+  FETF.etfcodigo := vletfcodigo;
+  FETF.etdcodigo := vletdcodigo;
+  FETF.ttfcodigo := 3;
+  FETF.etftelefone := sonumeros(vCliente.getvalue('mobile_phone', ''));
+  FETF.etfcontato := vCliente.getvalue('name', '');
+  FETF.etfdepartamento := '';
+  FETF.etfativo := 1;
+  FETF.jsncodigo := '';
+
+  vletfcodigo := BuscaCodigoTelefone(vletdcodigo, FETF.etftelefone);
+
+  if vletfcodigo = 0 then
+  // incluir novo
+  begin
+    FETF.etfcodigo := -1;
+    FDAO.DAO.Insert(FETF);
+    FDAO.DAO.LastID;
+    vletfcodigo := FDAO.DataSet.FieldByName('etfcodigo').asInteger;
+  end
+  else
+  // alterar se ja existe
+  begin
+    FETF.etfcodigo := vletfcodigo;
+    FDAO.DAO.Update(FETF);
+  end;
+  result := vletfcodigo;
+
+end;
+
+
+
+end.

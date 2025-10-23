@@ -1,0 +1,5 @@
+inherited frabase1: Tfrabase1
+  inherited vcls: TVirtualTable
+    Data = {04000000000000000000}
+  end
+end
