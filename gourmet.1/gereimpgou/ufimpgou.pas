@@ -6,15 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, DBAccess, Uni,
   UniProvider, MySQLUniProvider, DASQLMonitor, UniSQLMonitor, inifiles, MemDS,
-  Vcl.Imaging.pngimage, frxRich;
-
-Function IniciaPorta(Porta: Ansistring): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function FechaPorta: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function ConfiguraModeloImpressora(ModeloImpressora: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function ImprimeBmpEspecial(Name: Ansistring; XScale: Integer; YScale: Integer; Angle: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function AcionaGuilhotina(Modo: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function Le_Status: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function HabilitaEsperaImpressao(Flag: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
+  Vcl.Imaging.pngimage, frxRich, ACBrPosPrinter;
 
 type
   Tfimpgou = class(TForm)
@@ -27,6 +19,7 @@ type
     tcisituacao: TUniQuery;
     plmensagem: TPanel;
     frxRichObject1: TfrxRichObject;
+    ACBrPosPrinter1: TACBrPosPrinter;
     procedure imprimirTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -48,6 +41,41 @@ var
 implementation
 
 {$R *.dfm}
+
+{ Traduz o conjunto de status do ACBrPosPrinter para os codigos legados da
+  MP2032.DLL usados na logica original (24=ok, 32=sem papel, 5=pouco papel,
+  9=tampa aberta, 0=offline). }
+function StatusACBrParaCodigo(St: TACBrPosPrinterStatus): Integer;
+begin
+  if St = [] then
+    Result := 24
+  else if stSemPapel in St then
+    Result := 32
+  else if stPoucoPapel in St then
+    Result := 5
+  else if stTampaAberta in St then
+    Result := 9
+  else if stOffLine in St then
+    Result := 0
+  else
+    Result := 99;
+end;
+
+{ Monta o valor de Porta do ACBr a partir do endereco gravado em tciporta.
+  Como as impressoras sao de rede, um IP "puro" vira TCP:ip:9100; valores ja
+  qualificados (TCP:..., \\host\impressora) sao mantidos. }
+function MontaPortaACBr(const Endereco: string): string;
+var
+  vEnd: string;
+begin
+  vEnd := Trim(Endereco);
+  if vEnd = '' then
+    Result := vEnd
+  else if (Pos(':', vEnd) > 0) or (Pos('\', vEnd) > 0) then
+    Result := vEnd
+  else
+    Result := 'TCP:' + vEnd + ':9100';
+end;
 
 procedure Tfimpgou.FormShow(Sender: TObject);
 begin
@@ -98,6 +126,7 @@ procedure Tfimpgou.imprimirTimer(Sender: TObject);
 var
   vlRetorno: Integer;
   vltentativas: Integer;
+  vlImpresso: Boolean;
 begin
 
   imprimir.Enabled := false;
@@ -109,13 +138,22 @@ begin
     while true do
     begin
 
-      HabilitaEsperaImpressao(1);
-
       self.Caption := 'Impressora ' + vporta;
       Application.ProcessMessages;
-      vlRetorno := ConfiguraModeloImpressora(7);
-      vlRetorno := IniciaPorta(vporta);
-      vlRetorno := Le_Status();
+
+      { Abre a porta da impressora e le o status (substitui
+        ConfiguraModeloImpressora/IniciaPorta/Le_Status da MP2032.DLL).
+        O Modelo (ppEscBematech) esta definido no componente em tempo de design. }
+      vlRetorno := 0;
+      try
+        ACBrPosPrinter1.Desativar;
+        ACBrPosPrinter1.Porta := MontaPortaACBr(vporta);
+        ACBrPosPrinter1.Ativar;
+        vlRetorno := StatusACBrParaCodigo(ACBrPosPrinter1.LerStatusImpressora);
+      except
+        vlRetorno := 0;
+      end;
+
       if vlRetorno = 24 then
       begin
 
@@ -129,49 +167,29 @@ begin
         plmensagem.Caption := 'imprimindo ...';
         Application.ProcessMessages;
 
-        if fileexists(vArquivo) then
-        begin
-          if ImprimeBmpEspecial(pchar(vArquivo), 80, 80, 0) = 1 then
+        vlImpresso := false;
+        try
+          if fileexists(vArquivo) then
           begin
+            ACBrPosPrinter1.ImprimirImagemArquivo(vArquivo);
+            ACBrPosPrinter1.CortarPapel(false);
+            RenameFile(vArquivo, ChangeFileExt(vArquivo, 'imp'));
+          end
+          else
+            ACBrPosPrinter1.CortarPapel(false);
 
-            if IniciaPorta(vporta) = 1 then
-            begin
+          vlImpresso := true;
+        except
+          vlImpresso := false;
+        end;
 
-              if AcionaGuilhotina(0) = 1 then
-              begin
-
-                tcisituacao.Edit;
-                tcisituacao.FieldByName('tciimprimindo').AsString := '';
-                tcisituacao.post;
-                FechaPorta;
-                break;
-
-              end;
-
-            end;
-
-            RenameFile(vArquivo,ChangeFileExt(vArquivo,'imp'));
-
-          end;
-        end
-        else
+        if vlImpresso then
         begin
-          if IniciaPorta(vporta) = 1 then
-          begin
-
-            if AcionaGuilhotina(0) = 1 then
-            begin
-
-              tcisituacao.Edit;
-              tcisituacao.FieldByName('tciimprimindo').AsString := '';
-              tcisituacao.post;
-              FechaPorta;
-              break;
-
-            end;
-
-          end;
-
+          tcisituacao.Edit;
+          tcisituacao.FieldByName('tciimprimindo').AsString := '';
+          tcisituacao.post;
+          ACBrPosPrinter1.Desativar;
+          break;
         end;
 
         vltentativas := vltentativas + 1;
@@ -198,7 +216,7 @@ begin
       end
       else
       begin
-        FechaPorta;
+        ACBrPosPrinter1.Desativar;
         sleep(500);
       end;
     end;

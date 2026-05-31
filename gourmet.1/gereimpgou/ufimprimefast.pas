@@ -8,15 +8,7 @@ uses
   frxDBSet, frxExportImage, Vcl.StdCtrls, Vcl.ExtCtrls,printers,System.StrUtils,shellapi,
   System.DateUtils, UniProvider, MySQLUniProvider, frxDACComponents,
   frxUniDACComponents, frxDesgn, frxBarcode, DASQLMonitor, UniSQLMonitor,
-  System.ImageList, Vcl.ImgList,inifiles;
-
-// Declarando a MP2032.DLL e sua funções em Delphi
-Function IniciaPorta(Porta: Ansistring): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function FechaPorta: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function Le_Status: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function HabilitaEsperaImpressao(Flag: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function ConfiguraModeloImpressora(ModeloImpressora: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function LeituraStatusEstendido(A: Array Of Byte): Integer; Stdcall; Far; External 'MP2032.DLL';
+  System.ImageList, Vcl.ImgList,inifiles, ACBrPosPrinter;
 
 type
   Tfimprimefast = class(TForm)
@@ -75,6 +67,7 @@ type
     UniSQLMonitor: TUniSQLMonitor;
     MySQLUniProvider: TMySQLUniProvider;
     Conexao: TUniConnection;
+    ACBrPosPrinter1: TACBrPosPrinter;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -238,7 +231,7 @@ Var
 Begin
 
   vlIndexPrinter := IsValidatePrinter(trim(vporta));
-  if vlIndexPrinter <> -1 then // Identifica se é uma impressora válida
+  if vlIndexPrinter <> -1 then // Identifica se ï¿½ uma impressora vï¿½lida
   begin
 
     Vcl.Printers.Printer.PrinterIndex := vlIndexPrinter;
@@ -278,7 +271,7 @@ Begin
     Begin
       if i_retorno = 0 then
       begin
-        erros.Lines.Add(datetimetostr(now) + ' 0 - IMPRESSORA - OFF LINE/SEM COMUNICAÇÃO ' + Porta);
+        erros.Lines.Add(datetimetostr(now) + ' 0 - IMPRESSORA - OFF LINE/SEM COMUNICAï¿½ï¿½O ' + Porta);
       end
       else if i_retorno = 32 then
       begin
@@ -294,7 +287,7 @@ Begin
       end
       else if i_retorno <> 24 then
       begin
-        erros.Lines.Add(datetimetostr(now) + '  ' + inttostr(i_retorno) + ' - IMPRESSORA - ERRO NÃO DEFINIDO ' + Porta);
+        erros.Lines.Add(datetimetostr(now) + '  ' + inttostr(i_retorno) + ' - IMPRESSORA - ERRO Nï¿½O DEFINIDO ' + Porta);
       end;
 
       Application.ProcessMessages;
@@ -684,12 +677,12 @@ begin
 
         relatorio.LoadFromFile(vlNomeArq);
 
-        { atribui o valor para variavel de grupo do relatório }
+        { atribui o valor para variavel de grupo do relatï¿½rio }
 
         relatorio.Variables['tcicodigo'] := QuotedStr(vlTciCodigo);
         relatorio.Variables['immnumepedido'] := QuotedStr(inttostr(vlNumePedido));
 
-        { defini configuração do fastreport para exibição }
+        { defini configuraï¿½ï¿½o do fastreport para exibiï¿½ï¿½o }
         relatorio.ShowReport; // .PrepareReport(True);
         relatorio.PrintOptions.ShowDialog := False;
         relatorio.ShowProgress := False;
@@ -841,7 +834,7 @@ begin
 
                 if vlTentativas = 2 then
                 begin
-                  erros.Lines.Add('Não foi possivel a impressão Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
+                  erros.Lines.Add('Nï¿½o foi possivel a impressï¿½o Orc.: ' + vlOrcChave + ' Ped.: ' + inttostr(vlNumePedido) + ' Imp.: ' + vlTciCodigo);
 
                   break;
                 end;
@@ -869,7 +862,7 @@ begin
                 ' and immnumepedido=' + inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
               consulta.ExecSQL;
 
-              // criado funcionalidade para remover serviço que sejá só para imprimir
+              // criado funcionalidade para remover serviï¿½o que sejï¿½ sï¿½ para imprimir
               //
               //
 
@@ -888,7 +881,7 @@ begin
               if consulta.Fields[0].AsString = '9' then
               begin
                 pedidos.Lines.Add('------------------');
-                pedidos.Lines.Add('ACHOU SERVIÇOS');
+                pedidos.Lines.Add('ACHOU SERVIï¿½OS');
 
                 consulta.close;
                 consulta.SQL.Text := 'delete from ito where itototalav=0 and itochave=' + vlItoChave;
@@ -943,27 +936,53 @@ begin
 end;
 
 
+{ Traduz o conjunto de status do ACBrPosPrinter para os codigos legados da
+  MP2032.DLL (24=ok, 32=sem papel, 5=pouco papel, 9=tampa aberta, 0=offline). }
+function StatusACBrParaCodigo(St: TACBrPosPrinterStatus): Integer;
+begin
+  if St = [] then
+    Result := 24
+  else if stSemPapel in St then
+    Result := 32
+  else if stPoucoPapel in St then
+    Result := 5
+  else if stTampaAberta in St then
+    Result := 9
+  else if stOffLine in St then
+    Result := 0
+  else
+    Result := 99;
+end;
+
+{ IP "puro" vira TCP:ip:9100; valores ja qualificados sao mantidos. }
+function MontaPortaACBr(const Endereco: string): string;
+var
+  vEnd: string;
+begin
+  vEnd := Trim(Endereco);
+  if vEnd = '' then
+    Result := vEnd
+  else if (Pos(':', vEnd) > 0) or (Pos('\', vEnd) > 0) then
+    Result := vEnd
+  else
+    Result := 'TCP:' + vEnd + ':9100';
+end;
+
 function Tfimprimefast.EstadoMP2032(vporta: string): Integer;
-Var
-  vu: string;
-  vlRetorno, i_retorno: Integer;
-  s_cmdtx: string;
-  i, U, E: Integer;
 Begin
-
-  vlRetorno := ConfiguraModeloImpressora(7);
-  vlRetorno := IniciaPorta(vporta);
-
-  if vlRetorno = 0 then
-  begin
-    result := 0;
-    exit;
+  Result := 0;
+  try
+    ACBrPosPrinter1.Desativar;
+    ACBrPosPrinter1.Porta := MontaPortaACBr(vporta);
+    ACBrPosPrinter1.Ativar;
+    try
+      Result := StatusACBrParaCodigo(ACBrPosPrinter1.LerStatusImpressora);
+    finally
+      ACBrPosPrinter1.Desativar;
+    end;
+  except
+    Result := 0;
   end;
-
-  vlRetorno := Le_Status();
-  FechaPorta;
-  result := vlRetorno;
-
 End;
 
 

@@ -670,4 +670,17 @@ object fimprimefast: Tfimprimefast
     Top = 168
     EncryptedPassword = '87FF9BFF9EFFC6FFC8FFCCFF'
   end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    Modelo = ppEscBematech
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    Left = 304
+    Top = 168
+  end
 end

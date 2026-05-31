@@ -11,7 +11,7 @@ uses
   UniProvider, MySQLUniProvider, DASQLMonitor, UniSQLMonitor, shellapi, registry, inifiles,
   System.DateUtils, Vcl.Printers, System.StrUtils, ufimprimefast,
   Vcl.Imaging.pngimage, frxExportBaseDialog, frxIOTransportHelpers,
-  frxIOTransportFTP;
+  frxIOTransportFTP, ACBrPosPrinter;
 
 type
   Tfprincigereimpgoufast01 = class(TForm)
@@ -89,6 +89,7 @@ type
     plHora: TPanel;
     grigrisituacao: TIntegerField;
     grigricodigo: TIntegerField;
+    ACBrPosPrinter1: TACBrPosPrinter;
     procedure inicializarTimer(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -157,7 +158,7 @@ begin
 
   if czn.IsEmpty then
   begin
-    plCozinha.Caption := 'Atenção: A Cozinha não esta aberta, solicite a abertura da Cozinha!';
+    plCozinha.Caption := 'Atenï¿½ï¿½o: A Cozinha nï¿½o esta aberta, solicite a abertura da Cozinha!';
     plCozinha.Font.Color := clYellow;
     plCozinha.Color := clred;
 
@@ -835,12 +836,12 @@ begin
 
           relatorio.LoadFromFile(vlNomeArq);
 
-          { atribui o valor para variavel de grupo do relatório }
+          { atribui o valor para variavel de grupo do relatï¿½rio }
 
           relatorio.Variables['tcicodigo'] := QuotedStr(vlTciCodigo);
           relatorio.Variables['immnumepedido'] := QuotedStr(inttostr(vlNumePedido));
 
-          { defini configuração do fastreport para exibição }
+          { defini configuraï¿½ï¿½o do fastreport para exibiï¿½ï¿½o }
           relatorio.PrepareReport(True);
           relatorio.PrintOptions.ShowDialog := False;
           relatorio.ShowProgress := False;
@@ -1032,7 +1033,7 @@ begin
                 inttostr(vlNumePedido) + ' and tcicodigo=' + vlTciCodigo + ')';
               consulta.ExecSQL;
 
-              // criado funcionalidade para remover serviço que sejá só para imprimir
+              // criado funcionalidade para remover serviï¿½o que sejï¿½ sï¿½ para imprimir
               //
               //
 
@@ -1106,7 +1107,7 @@ Var
 Begin
 
   vlIndexPrinter := IsValidatePrinter(trim(vporta));
-  if vlIndexPrinter <> -1 then // Identifica se é uma impressora válida
+  if vlIndexPrinter <> -1 then // Identifica se ï¿½ uma impressora vï¿½lida
   begin
 
     Vcl.Printers.Printer.PrinterIndex := vlIndexPrinter;
@@ -1145,17 +1146,23 @@ end;
 
 function Tfprincigereimpgoufast01.StatusEstendido: Integer;
 var
-  buffer: array [0 .. 5] of Byte;
-  status: Integer;
+  St: TACBrPosPrinterStatus;
 begin
-
-  status := LeituraStatusEstendido(buffer);
-  { if status = 1 then
-    begin
-    if (Integer(buffer[2]) and 8) <> 0 then
-    ShowMessage('Cutter Error')
-    end; }
-  result := status;
+  { Traduz o status do ACBrPosPrinter para os codigos legados (24=ok, 32=sem
+    papel, 5=pouco papel, 9=tampa aberta, 0=offline). }
+  St := ACBrPosPrinter1.LerStatusImpressora;
+  if St = [] then
+    result := 24
+  else if stSemPapel in St then
+    result := 32
+  else if stPoucoPapel in St then
+    result := 5
+  else if stTampaAberta in St then
+    result := 9
+  else if stOffLine in St then
+    result := 0
+  else
+    result := 99;
 end;
 
 end.

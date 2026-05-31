@@ -769,4 +769,17 @@ object fprincigereimpgoufast03: Tfprincigereimpgoufast03
     Left = 477
     Top = 232
   end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    Modelo = ppEscBematech
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    Left = 477
+    Top = 288
+  end
 end

@@ -10,14 +10,6 @@ uses
   System.StrUtils, frxPreview, frxBarcode, frxDBSet, frxExportImage,
   Vcl.StdCtrls, Vcl.ComCtrls, frxRich, frxExportBaseDialog;
 
-// Declarando a MP2032.DLL e sua funções em Delphi
-{Function IniciaPorta(Porta: Ansistring): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function FechaPorta: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function Le_Status: Integer; Stdcall; Far; External 'MP2032.DLL';
-Function HabilitaEsperaImpressao(Flag: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function ConfiguraModeloImpressora(ModeloImpressora: Integer): Integer; Stdcall; Far; External 'MP2032.DLL';
-Function LeituraStatusEstendido(A: Array Of Byte): Integer; Stdcall; Far; External 'MP2032.DLL';}
-
 type
   Tfimpgoufast = class(TForm)
     Image1: TImage;
@@ -147,7 +139,7 @@ begin
 
       Vcl.Printers.Printer.PrinterIndex := Vcl.Printers.Printer.Printers.IndexOf(vporta);
 
-      if IsValidatePrinter(trim(vporta)) then // Identifica se é uma impressora válida
+      if IsValidatePrinter(trim(vporta)) then // Identifica se ï¿½ uma impressora vï¿½lida
       begin
 
 
@@ -284,28 +276,10 @@ begin
 end;
 
 function Tfimpgoufast.EstadoMP2032(vporta: string): Integer;
-Var
-  vu: string;
-  vlRetorno, i_retorno: Integer;
-  s_cmdtx: string;
-  i, U, E: Integer;
 Begin
-
- { vlRetorno := ConfiguraModeloImpressora(7);
-  vlRetorno := IniciaPorta(vporta);
-
-  if vlRetorno = 0 then
-  begin
-    result := 0;
-    Exit;
-  end;
-
-  vlRetorno := Le_Status();
-  FechaPorta;
-
-  result := vlRetorno;}
-  result :=24;
-
+  { Impressao do caminho Fast e feita pelo driver do Windows (FastReport);
+    o status da porta nao e consultado aqui (sempre disponivel). }
+  result := 24;
 End;
 
 end.
