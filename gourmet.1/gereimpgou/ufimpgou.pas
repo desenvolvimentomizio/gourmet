@@ -77,6 +77,43 @@ begin
     Result := 'TCP:' + vEnd + ':9100';
 end;
 
+{ Mapeia o tipo da impressora (tip.tipcodigo, gravado em mit.tipcodigo) para o
+  Modelo do ACBrPosPrinter: 8 = EscPOS -> ppEscPosEpson; demais (ex.: 6) ->
+  ppEscBematech, mantendo o comportamento padrao. }
+function ModeloACBrPorTip(TipCodigo: Integer): TACBrPosPrinterModelo;
+begin
+  if TipCodigo = 8 then
+    Result := ppEscPosEpson
+  else
+    Result := ppEscBematech;
+end;
+
+{ Le o tipo (mit.tipcodigo) da impressora a partir do tci informado. Em caso de
+  falha ou tci inexistente, assume 6 (EscBematech). }
+function TipCodigoDoTci(AConexao: TUniConnection; const ATciCodigo: string): Integer;
+var
+  Q: TUniQuery;
+begin
+  Result := 6;
+  if Trim(ATciCodigo) = '' then
+    Exit;
+  Q := TUniQuery.Create(nil);
+  try
+    try
+      Q.Connection := AConexao;
+      Q.SQL.Text := 'select mit.tipcodigo from tci, mit ' +
+        'where tci.mitcodigo = mit.mitcodigo and tci.tcicodigo = ' + ATciCodigo;
+      Q.Open;
+      if not Q.Eof then
+        Result := Q.FieldByName('tipcodigo').AsInteger;
+    except
+      Result := 6;
+    end;
+  finally
+    Q.Free;
+  end;
+end;
+
 procedure Tfimpgou.FormShow(Sender: TObject);
 begin
   vArquivo := paramstr(1);
@@ -135,6 +172,10 @@ begin
   if conectabanco then
   begin
 
+    { Define o Modelo do ACBrPosPrinter conforme o tipo da impressora (tip):
+      tipcodigo 8 = EscPOS (ppEscPosEpson); demais usam ppEscBematech. }
+    ACBrPosPrinter1.Modelo := ModeloACBrPorTip(TipCodigoDoTci(Conexao, vTciCodigo));
+
     while true do
     begin
 
@@ -143,7 +184,7 @@ begin
 
       { Abre a porta da impressora e le o status (substitui
         ConfiguraModeloImpressora/IniciaPorta/Le_Status da MP2032.DLL).
-        O Modelo (ppEscBematech) esta definido no componente em tempo de design. }
+        O Modelo ja foi definido acima conforme o tipo (tip) da impressora. }
       vlRetorno := 0;
       try
         ACBrPosPrinter1.Desativar;

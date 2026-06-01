@@ -968,11 +968,49 @@ begin
     Result := 'TCP:' + vEnd + ':9100';
 end;
 
+{ Mapeia o tipo da impressora (tip.tipcodigo, gravado em mit.tipcodigo) para o
+  Modelo do ACBrPosPrinter: 8 = EscPOS -> ppEscPosEpson; demais (ex.: 6) ->
+  ppEscBematech, mantendo o comportamento padrao. }
+function ModeloACBrPorTip(TipCodigo: Integer): TACBrPosPrinterModelo;
+begin
+  if TipCodigo = 8 then
+    Result := ppEscPosEpson
+  else
+    Result := ppEscBematech;
+end;
+
+{ Le o tipo (mit.tipcodigo) da impressora a partir da porta (tci.tciporta). Em
+  caso de falha ou porta inexistente, assume 6 (EscBematech). }
+function TipCodigoDaPorta(AConexao: TUniConnection; const APorta: string): Integer;
+var
+  Q: TUniQuery;
+begin
+  Result := 6;
+  if Trim(APorta) = '' then
+    Exit;
+  Q := TUniQuery.Create(nil);
+  try
+    try
+      Q.Connection := AConexao;
+      Q.SQL.Text := 'select mit.tipcodigo from tci, mit ' +
+        'where tci.mitcodigo = mit.mitcodigo and tci.tciporta = ' + QuotedStr(Trim(APorta));
+      Q.Open;
+      if not Q.Eof then
+        Result := Q.FieldByName('tipcodigo').AsInteger;
+    except
+      Result := 6;
+    end;
+  finally
+    Q.Free;
+  end;
+end;
+
 function Tfimprimefast.EstadoMP2032(vporta: string): Integer;
 Begin
   Result := 0;
   try
     ACBrPosPrinter1.Desativar;
+    ACBrPosPrinter1.Modelo := ModeloACBrPorTip(TipCodigoDaPorta(Conexao, vporta));
     ACBrPosPrinter1.Porta := MontaPortaACBr(vporta);
     ACBrPosPrinter1.Ativar;
     try
