@@ -30,6 +30,7 @@
 *.identcache
 *.dsk
 *.~*
+*.cbk
 __history/
 __recovery/
 __astcache/
