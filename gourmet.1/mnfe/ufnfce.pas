@@ -2083,6 +2083,35 @@ begin
   try
     Result := False;
 
+    //
+    // Bloqueio (logo no inicio do processo, antes de qualquer leitura/alteracao do mes):
+    // nao emitir nota fiscal de venda para a propria empresa (mesmo cadastro/CNPJ).
+    // A empresa e identificada pelo cadastro informado em cfgmcfg.cfgetdempresa.
+    // Avaliacao somente leitura: NAO altera nada no registro mes; apenas avisa e sai.
+    //
+    consulta.Close;
+    consulta.SQL.Text :=
+      'select case when m.etdcodigo = c.cfgetdempresa ' +
+      '              or (ed.etddoc1 is not null and ed.etddoc1 <> '''' ' +
+      '                  and replace(replace(replace(ed.etddoc1,''.'',''''),''/'',''''),''-'','''') ' +
+      '                    = replace(replace(replace(ce.etddoc1,''.'',''''),''/'',''''),''-'','''')) ' +
+      '            then 1 else 0 end as bloqueia ' +
+      'from mes m ' +
+      'join toe t on t.toecodigo = m.toecodigo ' +
+      'left join etd ed on ed.etdcodigo = m.etdcodigo ' +
+      'cross join cfgmcfg c ' +
+      'left join etd ce on ce.etdcodigo = c.cfgetdempresa ' +
+      'where m.meschave = ' + vMesChave + ' and t.ttocodigo = ' + IntToStr(ttoVenda);
+    consulta.Open;
+
+    if (not consulta.IsEmpty) and (consulta.FieldByName('bloqueia').AsInteger = 1) then
+    begin
+      Application.MessageBox(pchar('Nao e permitido emitir nota fiscal de venda para a propria empresa (mesmo CNPJ).' + #13 + #13 +
+        'O destinatario foi identificado como o cadastro da propria empresa. Verifique o destinatario do documento.'),
+        'Emissao bloqueada', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
     PlTitulo.Caption := 'Gerar NFC-e';
     info.Lines.add('Inicio: ' + datetimetostr(now));
     fnfce.Show;
@@ -2852,10 +2881,17 @@ Begin
   etd.ParamByName('edritem').AsInteger := mesedritem.AsInteger;
   etd.Open;
 
-  if cfgetddoc1.AsString = etdetddoc1.AsString then
+  //
+  // Bloqueio: nao emitir nota fiscal de venda para a propria empresa (mesmo cadastro/CNPJ).
+  // A empresa e identificada pelo cadastro informado em cfgmcfg.cfgetdempresa.
+  //
+  if (mesetdcodigo.AsInteger = cfgcfgetdempresa.AsInteger) or
+     ((SoNumeros(etdetddoc1.AsString) <> '') and
+      (SoNumeros(etdetddoc1.AsString) = SoNumeros(cfgetddoc1.AsString))) then
   begin
-   // ShowMessage('Não é permitido emitir NFCe para a prórpria empresa!');
-
+    Application.MessageBox(pchar('Nao e permitido emitir nota fiscal de venda para a propria empresa (mesmo CNPJ).' + #13 + #13 +
+      'O destinatario foi identificado como o cadastro da propria empresa. Verifique o destinatario do documento.'),
+      'Emissao bloqueada', MB_OK + MB_ICONWARNING);
     Exit;
   end;
 
