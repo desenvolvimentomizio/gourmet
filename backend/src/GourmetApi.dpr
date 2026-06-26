@@ -26,6 +26,10 @@ uses
   Gourmet.Middleware.Auth in 'Middlewares\Gourmet.Middleware.Auth.pas',
   Gourmet.Middleware.Tenant in 'Middlewares\Gourmet.Middleware.Tenant.pas',
   Gourmet.Shared.Errors in 'Shared\Gourmet.Shared.Errors.pas',
+  Gourmet.Documento in 'Shared\Gourmet.Documento.pas',
+  Gourmet.Entidades.DTO in 'Modules\Entidades\Gourmet.Entidades.DTO.pas',
+  Gourmet.Entidades.Repository in 'Modules\Entidades\Gourmet.Entidades.Repository.pas',
+  Gourmet.Entidades.Service in 'Modules\Entidades\Gourmet.Entidades.Service.pas',
   Gourmet.Clientes.Repository in 'Modules\Clientes\Gourmet.Clientes.Repository.pas',
   Gourmet.Clientes.Service in 'Modules\Clientes\Gourmet.Clientes.Service.pas',
   Gourmet.Clientes.Controller in 'Modules\Clientes\Gourmet.Clientes.Controller.pas';
