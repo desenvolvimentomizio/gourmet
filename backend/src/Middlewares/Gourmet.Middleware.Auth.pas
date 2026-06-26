@@ -41,6 +41,20 @@ begin
   Result := GAuth;
 end;
 
+// Leitura segura de claim string (compativel com 10.4; nao usa GetValue<T>
+// com default, cujo overload nem sempre esta disponivel).
+function ClaimStr(AObj: TJSONObject; const AKey: string): string;
+var
+  LValue: TJSONValue;
+begin
+  Result := '';
+  if AObj = nil then
+    Exit;
+  LValue := AObj.GetValue(AKey);
+  if Assigned(LValue) then
+    Result := LValue.Value;
+end;
+
 function IsPublicRoute(const APath: string): Boolean;
 begin
   Result := (APath = '/health') or APath.StartsWith('/api/v1/auth/');
@@ -72,9 +86,9 @@ begin
       raise EUnauthorized.Create('Token invalido');
 
     LClaims := LJWT.Claims.JSON;
-    GAuth.UserId     := LClaims.GetValue<string>('sub', '');
-    GAuth.TenantSlug := LClaims.GetValue<string>('tenant', '');
-    GAuth.Roles      := LClaims.GetValue<string>('roles', '');
+    GAuth.UserId     := ClaimStr(LClaims, 'sub');
+    GAuth.TenantSlug := ClaimStr(LClaims, 'tenant');
+    GAuth.Roles      := ClaimStr(LClaims, 'roles');
 
     if GAuth.TenantSlug = '' then
       raise EUnauthorized.Create('Token sem tenant');

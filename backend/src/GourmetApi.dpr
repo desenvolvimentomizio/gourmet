@@ -2,7 +2,7 @@ program GourmetApi;
 
 {
   Backend SaaS multi-tenant do ERP Gourmet.
-  Stack: Delphi 13 + Horse + UniDAC + ACBr.
+  Stack: Delphi 10.4 Sydney (RAD 21.0) + Horse + UniDAC + ACBr.
 
   Conceito de tenancy: 1 schema MySQL por cliente (modelo atual do ERP).
   Cada request resolve o tenant (claim do JWT) -> schema -> conexao UniDAC

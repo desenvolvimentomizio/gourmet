@@ -1,6 +1,6 @@
 {
   "name": "gourmet-api",
-  "description": "Backend SaaS multi-tenant do ERP Gourmet (Delphi 13 + Horse + UniDAC + ACBr)",
+  "description": "Backend SaaS multi-tenant do ERP Gourmet (Delphi 10.4 Sydney + Horse + UniDAC + ACBr)",
   "version": "0.1.0",
   "homepage": "",
   "mainsrc": "src",

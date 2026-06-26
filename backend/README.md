@@ -1,7 +1,7 @@
 # Gourmet API — Backend SaaS multi-tenant
 
 Backend do ERP Gourmet como SaaS, reaproveitando o banco atual (1 schema MySQL
-por tenant). Stack: **Delphi 13 + Horse + UniDAC + ACBr**, baseado em APIs REST
+por tenant). Stack: **Delphi 10.4 Sydney + Horse + UniDAC + ACBr**, baseado em APIs REST
 e webhooks.
 
 ## Conceito de tenancy
@@ -35,7 +35,7 @@ config/
 ```
 
 ## Pré-requisitos
-- RAD Studio / Delphi 13 com **Horse**, **horse-jwt**, **horse-cors**, **Jhonson**
+- RAD Studio / Delphi 10.4 Sydney com **Horse**, **horse-jwt**, **horse-cors**, **Jhonson**
   (via [boss](https://github.com/HashLoad/boss): `boss install`).
 - **UniDAC** (Devart) instalado.
 - **ACBr** (para os módulos fiscais das próximas fases).
@@ -48,6 +48,17 @@ config/
 5. Compile `src/GourmetApi.dpr` e rode. Health: `GET http://localhost:9000/health`
 6. Com um JWT válido (claim `tenant=danielentrega`):
    `GET /api/v1/clientes?search=maria&page=1&pageSize=50`
+
+## Testes / toolchain
+Compila com **Delphi 10.4 Sydney (compiler 34.0)**. A unit pura de validação de
+documento (`Gourmet.Documento`) tem um harness em `tests/tst_doc.dpr` — já
+verificado no dcc32 do 10.4 (10/10, inclui CNPJ alfanumérico `12ABC34501DE35`):
+```
+call "C:\Program Files (x86)\Embarcadero\Studio\21.0\bin\rsvars.bat"
+dcc32 -B -CC tests\tst_doc.dpr && tests\tst_doc.exe
+```
+> O `GourmetApi.dproj` está pronto para o 10.4; o build completo depende de
+> Horse/UniDAC/ACBr instalados e nos search paths (ver `DCC_UnitSearchPath`).
 
 ## Próximas fases
 Cada um dos 72 módulos do ERP (mcli, mpro, mcpa, mcre, mmnf, mmnc, ...) vira um
