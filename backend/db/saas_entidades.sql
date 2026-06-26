@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS entidade_global (
   id_global    BIGINT AUTO_INCREMENT PRIMARY KEY,  -- etdcodigo canonico (compartilhado)
   chave_unica  VARCHAR(40)  NOT NULL UNIQUE,        -- 'CNPJ:..','CPF:..' ou 'UNI:<seq>'
   tipo_chave   ENUM('CNPJ','CPF','CODIGO_UNICO') NOT NULL,
-  doc          VARCHAR(20)  NULL,                   -- digitos do doc (quando houver)
+  doc          VARCHAR(20)  NULL,                   -- doc normalizado; CNPJ pode ser ALFANUMERICO (jul/2026)
   nome         VARCHAR(120) NOT NULL,
   tipo_pessoa  ENUM('F','J','O') NOT NULL DEFAULT 'O',
   -- dados fiscais de identidade (compartilhaveis); enderecos/IE em tabela propria

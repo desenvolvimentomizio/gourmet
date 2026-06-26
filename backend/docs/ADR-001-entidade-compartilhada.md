@@ -35,7 +35,11 @@ entre empresas, usando o documento como chave.
 ### Regra da chave única
 
 - **CNPJ/CPF normalizado e válido** (dígito verificador conferido) → é a chave
-  (`CNPJ:<dig>` / `CPF:<dig>`). Deduplica e reutiliza entre empresas.
+  (`CNPJ:<norm>` / `CPF:<dig>`). Deduplica e reutiliza entre empresas.
+  - **CNPJ alfanumérico** (Receita Federal, vigência jul/2026): 12 primeiras
+    posições aceitam `[0-9A-Z]`, DV (2 últimas) numérico; valor do caractere =
+    `ASCII − 48`, mesmos pesos mod 11. Retrocompatível com CNPJ numérico. Por
+    isso `chave_unica`/`doc` são alfanuméricos (não só dígitos).
 - **Sem doc válido** → `CODIGO_UNICO` sequencial (`UNI:<seq>`). Consumidor final
   **não** é compartilhado nem deduplicado.
 
