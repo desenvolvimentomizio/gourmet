@@ -108,6 +108,10 @@ begin
   Result := Env('JWT_SECRET', GIni.ReadString('security', 'jwt_secret', ''));
   if Result = '' then
     raise Exception.Create('JWT_SECRET nao configurado (env ou config.ini)');
+  // HS256 exige chave >= 256 bits; senao o consumer rejeita TODOS os tokens.
+  if Length(Result) < 32 then
+    raise Exception.Create(
+      'JWT_SECRET muito curto: use >= 32 caracteres (256 bits) para HS256');
 end;
 
 class function TConfig.JwtIssuer: string;

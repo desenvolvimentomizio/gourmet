@@ -34,18 +34,21 @@ var
   LChave: string;
   LGlobal: TEntidadeGlobal;
   LSchema: string;
+  LReaproveitada: Boolean;
 begin
   if ADados.Nome.Trim = '' then
     raise EApiError.Create(422, 'Nome da entidade e obrigatorio');
 
   LSchema := CurrentSchema;
   LChave := TDocumento.ChaveCanonica(ADados.Doc);
+  LReaproveitada := False;
 
   if LChave <> '' then
   begin
     // Tem doc valido: tenta reaproveitar a identidade global.
     if TEntidadesRepository.TryGetGlobalPorChave(LChave, LGlobal) then
     begin
+      LReaproveitada := True; // cadastro reaproveitado de outra empresa
       // Atualiza dados de identidade se vierem mais completos (regra simples).
       if (LGlobal.Nome = '') and (ADados.Nome <> '') then
         TEntidadesRepository.AtualizarIdentidade(LGlobal.IdGlobal, ADados);
@@ -62,6 +65,8 @@ begin
   // Vincula a entidade ao tenant atual e espelha na etd local (idempotente:
   // se ja vinculada, apenas retorna o etdcodigo_local existente).
   Result := TEntidadesRepository.VincularEEspelhar(LSchema, LGlobal, ADados);
+  // Reaproveitada = a IDENTIDADE global ja existia (reuso de cadastro).
+  Result.Reaproveitada := LReaproveitada;
 end;
 
 end.

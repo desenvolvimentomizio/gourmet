@@ -30,7 +30,7 @@ implementation
 
 uses
   System.StrUtils, System.JSON,
-  JOSE.Core.JWT, JOSE.Core.Builder, JOSE.Consumer, JOSE.Consumer.Validators,
+  JOSE.Core.JWT, JOSE.Core.JWA, JOSE.Consumer, JOSE.Context,
   Gourmet.Config, Gourmet.Shared.Errors;
 
 threadvar
@@ -63,7 +63,8 @@ end;
 procedure EnsureAuthenticated(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 var
   LHeader, LToken: string;
-  LJWT: TJWT;
+  LConsumer: IJOSEConsumer;
+  LContext: TJOSEContext;
   LClaims: TJSONObject;
 begin
   GAuth := Default(TAuthContext);
@@ -80,12 +81,25 @@ begin
 
   LToken := LHeader.Substring(7).Trim;
 
-  LJWT := TJOSE.Verify(TConfig.JwtSecret, LToken);
-  try
-    if (LJWT = nil) or (not LJWT.Verified) then
-      raise EUnauthorized.Create('Token invalido');
+  // Validacao completa: assinatura (HS256 pinado) + issuer + exp obrigatorio.
+  LConsumer := TJOSEConsumerBuilder.NewConsumer
+    .SetClaimsClass(TJWTClaims)
+    .SetVerificationKey(TConfig.JwtSecret)
+    .SetExpectedAlgorithms([TJOSEAlgorithmId.HS256])
+    .SetExpectedIssuer(True, TConfig.JwtIssuer)
+    .SetRequireExpirationTime
+    .Build;
 
-    LClaims := LJWT.Claims.JSON;
+  LContext := TJOSEContext.Create(LToken, TJWTClaims);
+  try
+    try
+      LConsumer.ProcessContext(LContext); // lanca se invalido/expirado/issuer
+    except
+      on E: Exception do
+        raise EUnauthorized.Create('Token invalido ou expirado');
+    end;
+
+    LClaims := LContext.GetClaims.JSON;
     GAuth.UserId     := ClaimStr(LClaims, 'sub');
     GAuth.TenantSlug := ClaimStr(LClaims, 'tenant');
     GAuth.Roles      := ClaimStr(LClaims, 'roles');
@@ -93,7 +107,7 @@ begin
     if GAuth.TenantSlug = '' then
       raise EUnauthorized.Create('Token sem tenant');
   finally
-    LJWT.Free;
+    LContext.Free;
   end;
 
   Next();

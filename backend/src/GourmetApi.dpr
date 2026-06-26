@@ -34,6 +34,7 @@ uses
   Gourmet.Entidades.DTO in 'Modules\Entidades\Gourmet.Entidades.DTO.pas',
   Gourmet.Entidades.Repository in 'Modules\Entidades\Gourmet.Entidades.Repository.pas',
   Gourmet.Entidades.Service in 'Modules\Entidades\Gourmet.Entidades.Service.pas',
+  Gourmet.Entidades.Controller in 'Modules\Entidades\Gourmet.Entidades.Controller.pas',
   Gourmet.Clientes.Repository in 'Modules\Clientes\Gourmet.Clientes.Repository.pas',
   Gourmet.Clientes.Service in 'Modules\Clientes\Gourmet.Clientes.Service.pas',
   Gourmet.Clientes.Controller in 'Modules\Clientes\Gourmet.Clientes.Controller.pas';
@@ -61,6 +62,7 @@ begin
   TAuthController.RegisterRoutes;
 
   // --- Modulos do ERP (cada um registra suas rotas) ---
+  TEntidadesController.RegisterRoutes;
   TClientesController.RegisterRoutes;
   // TFornecedoresController.RegisterRoutes;  // proximas fases
   // TProdutosController.RegisterRoutes;
