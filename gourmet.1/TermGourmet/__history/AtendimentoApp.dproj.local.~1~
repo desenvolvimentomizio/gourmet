@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2022/07/18 04:43:14.000.459,C:\fontes\gourmet.1\TermGourmet\Atendimento_atual.dproj=C:\fontes\gourmet.1\TermGourmet\Atendimento.dproj</Transaction>
-    <Transaction>2022/07/18 04:55:12.000.225,C:\fontes\gourmet.1\TermGourmet\Atendimento.dproj=C:\fontes\gourmet.1\TermGourmet\Atendimento_atual.dproj</Transaction>
-    <Transaction>2023/02/01 08:04:30.000.320,C:\fontes\gourmet.1\TermGourmet\Atendimento.dproj=C:\fontes\gourmet.1\TermGourmet\AtendimentoApp.dproj</Transaction>
-  </Transactions>
-</BorlandProject>
