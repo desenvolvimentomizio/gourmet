@@ -6,9 +6,9 @@
   "mainsrc": "src",
   "projects": [ "src/GourmetApi.dpr" ],
   "dependencies": {
-    "horse": "*",
-    "horse/jhonson": "*",
-    "horse/horse-cors": "*",
-    "horse/horse-jwt": "*"
+    "hashload/horse": "*",
+    "hashload/jhonson": "*",
+    "hashload/horse-cors": "*",
+    "hashload/horse-jwt": "*"
   }
 }

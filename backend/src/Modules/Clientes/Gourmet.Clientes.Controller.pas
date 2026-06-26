@@ -26,8 +26,8 @@ begin
       LPage, LPageSize: Integer;
     begin
       LSearch := Req.Query.Field('search').AsString;
-      LPage := Req.Query.Field('page').AsInteger(1);
-      LPageSize := Req.Query.Field('pageSize').AsInteger(50);
+      LPage := StrToIntDef(Req.Query.Field('page').AsString, 1);
+      LPageSize := StrToIntDef(Req.Query.Field('pageSize').AsString, 50);
       Res.Send<TJSONObject>(TClientesService.List(LSearch, LPage, LPageSize));
     end);
 end;

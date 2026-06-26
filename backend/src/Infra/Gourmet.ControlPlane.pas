@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  Uni, MySQLUniProvider, Gourmet.Config;
+  Data.DB, Uni, MySQLUniProvider, Gourmet.Config;
 
 class constructor TControlPlane.Create;
 begin

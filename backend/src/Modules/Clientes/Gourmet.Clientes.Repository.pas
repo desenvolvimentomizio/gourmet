@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  Uni, MySQLUniProvider,
+  Data.DB, Uni, MySQLUniProvider,
   Gourmet.Database, Gourmet.Middleware.Tenant;
 
 class function TClientesRepository.List(const AQuery: TClientesQuery): TJSONObject;

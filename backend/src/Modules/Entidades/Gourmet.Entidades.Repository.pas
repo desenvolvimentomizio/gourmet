@@ -36,8 +36,20 @@ type
 implementation
 
 uses
-  System.SysUtils, Uni, MySQLUniProvider,
+  System.SysUtils, Data.DB, Uni, MySQLUniProvider,
   Gourmet.Config, Gourmet.Database, Gourmet.Middleware.Auth;
+
+function LastInsertId(AQry: TUniQuery): Int64;
+begin
+  // UniDAC nao expoe LastInsertId na conexao; usa LAST_INSERT_ID() na mesma sessao.
+  AQry.SQL.Text := 'SELECT LAST_INSERT_ID() AS id';
+  AQry.Open;
+  try
+    Result := AQry.FieldByName('id').AsLargeInt;
+  finally
+    AQry.Close;
+  end;
+end;
 
 function GlobalConn: TUniConnection;
 begin
@@ -107,7 +119,7 @@ begin
     LQry.ParamByName('ie').AsString := ADados.Ie;
     LQry.Execute;
 
-    Result.IdGlobal := LConn.LastInsertId;
+    Result.IdGlobal := LastInsertId(LQry);
     Result.ChaveUnica := AChave;
     Result.TipoChave := LTipo;
     Result.Nome := ADados.Nome;
@@ -145,7 +157,7 @@ begin
     LQry.ParamByName('ie').AsString := ADados.Ie;
     LQry.Execute;
 
-    Result.IdGlobal := LConn.LastInsertId;
+    Result.IdGlobal := LastInsertId(LQry);
     Result.ChaveUnica := 'UNI:' + LSeq.ToString;
     Result.TipoChave := 'CODIGO_UNICO';
     Result.Nome := ADados.Nome;
