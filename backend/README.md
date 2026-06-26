@@ -46,8 +46,17 @@ config/
 3. Crie um usuário de banco dedicado (`gourmet_app`) com acesso aos schemas.
 4. `copy config\config.sample.ini config\config.ini` e preencha (segredos!).
 5. Compile `src/GourmetApi.dpr` e rode. Health: `GET http://localhost:9000/health`
-6. Com um JWT válido (claim `tenant=danielentrega`):
+6. Crie um usuário p/ testar login: `python db/seed_admin.py`
+   (gera hash PBKDF2 compatível; padrão `admin@gourmet.local` / `Senha@123`).
+7. **Login** (público) → recebe o JWT:
+   ```
+   POST /api/v1/auth/login
+   { "tenant": "danielentrega", "email": "admin@gourmet.local", "password": "Senha@123" }
+   → { "access_token": "...", "token_type": "Bearer", "expires_in": 28800 }
+   ```
+8. Use o token nas rotas protegidas:
    `GET /api/v1/clientes?search=maria&page=1&pageSize=50`
+   `Authorization: Bearer <access_token>`
 
 ## Build (Delphi 10.4 Sydney / RAD 21.0)
 **Compila 100% — validado**: `GourmetApi.exe` (18.716 linhas, 0 erros) com

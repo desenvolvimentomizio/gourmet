@@ -12,6 +12,7 @@ uses
 
 type
   TTenantInfo = record
+    Id: Int64;
     Slug: string;
     Schema: string;
     Active: Boolean;
@@ -91,13 +92,14 @@ begin
 
     LQry.Connection := LConn;
     LQry.SQL.Text :=
-      'SELECT db_schema, status FROM tenants WHERE slug = :slug LIMIT 1';
+      'SELECT id, db_schema, status FROM tenants WHERE slug = :slug LIMIT 1';
     LQry.ParamByName('slug').AsString := ASlug;   // parametrizado
     LQry.Open;
 
     if LQry.IsEmpty then
       raise ETenantNotFound.CreateFmt('Tenant "%s" nao encontrado', [ASlug]);
 
+    LInfo.Id := LQry.FieldByName('id').AsLargeInt;
     LInfo.Slug := ASlug;
     LInfo.Schema := LQry.FieldByName('db_schema').AsString;
     LInfo.Active := SameText(LQry.FieldByName('status').AsString, 'active');

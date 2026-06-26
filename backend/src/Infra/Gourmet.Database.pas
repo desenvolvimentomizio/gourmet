@@ -27,6 +27,8 @@ type
     class destructor Destroy;
     /// Devolve uma conexao do pool apontando para o schema informado.
     class function AcquireForSchema(const ASchema: string): TUniConnection;
+    /// Conexao ao banco control-plane (saas_control).
+    class function AcquireControl: TUniConnection;
     /// Devolve a conexao ao pool (nao destroi enquanto pooling estiver ativo).
     class procedure ReleaseConnection(AConn: TUniConnection);
   end;
@@ -80,6 +82,27 @@ begin
     Result.PoolingOptions.ConnectionLifeTime := 300000; // 5 min
     Result.SpecificOptions.Values['MySQL.UseUnicode'] := 'True';
     Result.SpecificOptions.Values['MySQL.Charset']    := 'utf8mb4';
+    Result.Connected := True;
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
+class function TDatabase.AcquireControl: TUniConnection;
+begin
+  EnsureProviders;
+  Result := TUniConnection.Create(nil);
+  try
+    Result.ProviderName := 'MySQL';
+    Result.Server   := TConfig.ControlHost;
+    Result.Port     := TConfig.ControlPort;
+    Result.Username := TConfig.ControlUser;
+    Result.Password := TConfig.ControlPassword;
+    Result.Database := TConfig.ControlSchema;
+    Result.LoginPrompt := False;
+    Result.Pooling := True;
+    Result.SpecificOptions.Values['MySQL.Charset'] := 'utf8mb4';
     Result.Connected := True;
   except
     Result.Free;

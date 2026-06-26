@@ -36,8 +36,8 @@ type
 implementation
 
 uses
-  System.SysUtils, Data.DB, Uni, MySQLUniProvider,
-  Gourmet.Config, Gourmet.Database, Gourmet.Middleware.Auth;
+  System.SysUtils, System.Classes, Data.DB, Uni, MySQLUniProvider,
+  Gourmet.Config, Gourmet.Database, Gourmet.Middleware.Auth, Gourmet.ControlPlane;
 
 function LastInsertId(AQry: TUniQuery): Int64;
 begin
@@ -188,47 +188,145 @@ begin
   end;
 end;
 
+// Compensacao: remove o espelho local se o vinculo global falhar (sem 2PC
+// entre schemas distintos).
+procedure CompensarEspelho(const ASchema: string; ALocalCode: Integer);
+var
+  LConn: TUniConnection;
+  LQry: TUniQuery;
+begin
+  LConn := TDatabase.AcquireForSchema(ASchema);
+  LQry := TUniQuery.Create(nil);
+  try
+    LQry.Connection := LConn;
+    LQry.SQL.Text := 'DELETE FROM etv WHERE etdcodigo = :c';
+    LQry.ParamByName('c').AsInteger := ALocalCode;
+    LQry.Execute;
+    LQry.SQL.Text := 'DELETE FROM etd WHERE etdcodigo = :c';
+    LQry.ParamByName('c').AsInteger := ALocalCode;
+    LQry.Execute;
+  finally
+    LQry.Free;
+    TDatabase.ReleaseConnection(LConn);
+  end;
+end;
+
+// Insere o espelho na etd local (etdcodigo e AUTO_INCREMENT) + papeis em etv,
+// numa transacao do schema do tenant. Retorna o etdcodigo_local gerado.
+function EspelharNoTenant(const ASchema: string;
+  const AGlobal: TEntidadeGlobal; const ADados: TEntidadeInput): Integer;
+var
+  LConn: TUniConnection;
+  LQry: TUniQuery;
+  LPapel: string;
+begin
+  LConn := TDatabase.AcquireForSchema(ASchema);
+  LQry := TUniQuery.Create(nil);
+  try
+    LQry.Connection := LConn;
+    LConn.StartTransaction;
+    try
+      LQry.SQL.Text :=
+        'INSERT INTO etd (etdidentificacao, etdapelido, etddoc1, etddatacad, ' +
+        '                 etddataalt, etdativo, etddeletar) ' +
+        'VALUES (:nome, :apel, :doc, :dt, :dt, 1, 0)';
+      LQry.ParamByName('nome').AsString := ADados.Nome;
+      LQry.ParamByName('apel').AsString := ADados.Nome;
+      LQry.ParamByName('doc').AsString := AGlobal.Doc;
+      LQry.ParamByName('dt').AsDate := Date;
+      LQry.Execute;
+
+      LQry.SQL.Text := 'SELECT LAST_INSERT_ID() AS id';
+      LQry.Open;
+      Result := LQry.FieldByName('id').AsInteger;
+      LQry.Close;
+
+      // papeis (etv): CSV de tvicodigo (1=cli, 2=forn, 4=transp, ...)
+      for LPapel in ADados.Papeis.Split([',']) do
+        if LPapel.Trim <> '' then
+        begin
+          LQry.SQL.Text := 'INSERT INTO etv (etdcodigo, tvicodigo) VALUES (:cod, :tvi)';
+          LQry.ParamByName('cod').AsInteger := Result;
+          LQry.ParamByName('tvi').AsInteger := StrToIntDef(LPapel.Trim, 0);
+          LQry.Execute;
+        end;
+
+      LConn.Commit;
+    except
+      LConn.Rollback;
+      raise;
+    end;
+  finally
+    LQry.Free;
+    TDatabase.ReleaseConnection(LConn);
+  end;
+end;
+
 class function TEntidadesRepository.VincularEEspelhar(const ASchema: string;
   const AGlobal: TEntidadeGlobal; const ADados: TEntidadeInput): TEntidadeResolvida;
 var
-  LGlobalConn, LTenantConn: TUniConnection;
+  LGlobalConn: TUniConnection;
   LQry: TUniQuery;
+  LTenantId: Int64;
+  LLocalCode: Integer;
 begin
   Result.IdGlobal := AGlobal.IdGlobal;
-  Result.Reaproveitada := True; // ajustado pelo chamador conforme o caso
+  Result.Reaproveitada := True;
 
+  LTenantId := TControlPlane.ResolveTenant(CurrentAuth.TenantSlug).Id;
+
+  // 1) Ja vinculada a este tenant? -> idempotente.
   LGlobalConn := GlobalConn;
-  LTenantConn := TDatabase.AcquireForSchema(ASchema);
   LQry := TUniQuery.Create(nil);
   try
-    // 1) Ja existe vinculo deste tenant com a entidade global?
     LQry.Connection := LGlobalConn;
     LQry.SQL.Text :=
       'SELECT etdcodigo_local FROM empresa_entidade ' +
       'WHERE tenant_id = :tid AND id_global = :gid LIMIT 1';
-    // tenant_id resolvido pelo slug do JWT (lookup no control-plane omitido no esqueleto)
-    LQry.ParamByName('tid').AsString := CurrentAuth.TenantSlug;
+    LQry.ParamByName('tid').AsLargeInt := LTenantId;
     LQry.ParamByName('gid').AsLargeInt := AGlobal.IdGlobal;
     LQry.Open;
     if not LQry.IsEmpty then
     begin
       Result.EtdCodigoLocal := LQry.FieldByName('etdcodigo_local').AsInteger;
-      Exit; // ja vinculada -> idempotente
+      Exit; // ja vinculada
     end;
-    LQry.Close;
-
-    // 2) TODO Fase B: transacao/unidade de trabalho cobrindo as 2 conexoes:
-    //    a) INSERT na etd local (espelho) reaproveitando id_global como etdcodigo
-    //       quando livre, ou alocando etdcodigo local e mapeando.
-    //    b) INSERT em empresa_entidade (tenant_id, id_global, etdcodigo_local, papeis).
-    //    c) INSERT papeis em etv, contatos em etf/ete (dados por-tenant).
-    //  Implementar com compensacao (sem 2PC entre schemas).
-    raise Exception.Create('VincularEEspelhar: persistencia do espelho pendente (Fase B)');
   finally
     LQry.Free;
-    LTenantConn.Free;
     LGlobalConn.Free;
   end;
+
+  // 2) Espelha na etd local (transacao no tenant).
+  LLocalCode := EspelharNoTenant(ASchema, AGlobal, ADados);
+
+  // 3) Registra o vinculo no global; se falhar, compensa o espelho local.
+  LGlobalConn := GlobalConn;
+  LQry := TUniQuery.Create(nil);
+  try
+    LQry.Connection := LGlobalConn;
+    try
+      LQry.SQL.Text :=
+        'INSERT INTO empresa_entidade (tenant_id, id_global, etdcodigo_local, papeis) ' +
+        'VALUES (:tid, :gid, :loc, :pap)';
+      LQry.ParamByName('tid').AsLargeInt := LTenantId;
+      LQry.ParamByName('gid').AsLargeInt := AGlobal.IdGlobal;
+      LQry.ParamByName('loc').AsInteger := LLocalCode;
+      LQry.ParamByName('pap').AsString := ADados.Papeis;
+      LQry.Execute;
+    except
+      on E: Exception do
+      begin
+        CompensarEspelho(ASchema, LLocalCode);
+        raise;
+      end;
+    end;
+  finally
+    LQry.Free;
+    LGlobalConn.Free;
+  end;
+
+  Result.EtdCodigoLocal := LLocalCode;
+  Result.Reaproveitada := False; // espelho novo criado neste tenant
 end;
 
 end.

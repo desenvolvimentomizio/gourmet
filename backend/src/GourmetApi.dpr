@@ -27,6 +27,10 @@ uses
   Gourmet.Middleware.Tenant in 'Middlewares\Gourmet.Middleware.Tenant.pas',
   Gourmet.Shared.Errors in 'Shared\Gourmet.Shared.Errors.pas',
   Gourmet.Documento in 'Shared\Gourmet.Documento.pas',
+  Gourmet.Password in 'Shared\Gourmet.Password.pas',
+  Gourmet.Auth.Repository in 'Modules\Auth\Gourmet.Auth.Repository.pas',
+  Gourmet.Auth.Service in 'Modules\Auth\Gourmet.Auth.Service.pas',
+  Gourmet.Auth.Controller in 'Modules\Auth\Gourmet.Auth.Controller.pas',
   Gourmet.Entidades.DTO in 'Modules\Entidades\Gourmet.Entidades.DTO.pas',
   Gourmet.Entidades.Repository in 'Modules\Entidades\Gourmet.Entidades.Repository.pas',
   Gourmet.Entidades.Service in 'Modules\Entidades\Gourmet.Entidades.Service.pas',
@@ -52,6 +56,9 @@ begin
       Res.Send('{"status":"ok","service":"gourmet-api","version":"0.1.0"}')
          .ContentType('application/json');
     end);
+
+  // --- Autenticacao (rotas publicas) ---
+  TAuthController.RegisterRoutes;
 
   // --- Modulos do ERP (cada um registra suas rotas) ---
   TClientesController.RegisterRoutes;
