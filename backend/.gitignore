@@ -1,0 +1,17 @@
+# Segredos / config local (NUNCA versionar)
+config/config.ini
+
+# Saidas de build Delphi (reforco; raiz ja ignora)
+Win32/
+Win64/
+__history/
+__recovery/
+*.local
+*.identcache
+*.dcu
+*.exe
+*.map
+
+# boss / dependencias (somente na raiz do backend; NAO casar src/Modules)
+/modules/
+.boss/

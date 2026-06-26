@@ -1,0 +1,14 @@
+{
+  "name": "gourmet-api",
+  "description": "Backend SaaS multi-tenant do ERP Gourmet (Delphi 13 + Horse + UniDAC + ACBr)",
+  "version": "0.1.0",
+  "homepage": "",
+  "mainsrc": "src",
+  "projects": [ "src/GourmetApi.dpr" ],
+  "dependencies": {
+    "horse": "*",
+    "horse/jhonson": "*",
+    "horse/horse-cors": "*",
+    "horse/horse-jwt": "*"
+  }
+}
