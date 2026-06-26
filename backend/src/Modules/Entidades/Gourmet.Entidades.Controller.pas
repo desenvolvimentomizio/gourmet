@@ -14,8 +14,9 @@ type
 implementation
 
 uses
-  System.SysUtils, System.JSON, Horse,
-  Gourmet.Entidades.Service, Gourmet.Entidades.DTO, Gourmet.Shared.Errors;
+  System.SysUtils, System.JSON, Horse, Horse.GBSwagger,
+  Gourmet.Entidades.Service, Gourmet.Entidades.DTO, Gourmet.Shared.Errors,
+  Gourmet.Swagger.Models;
 
 function OptStr(ABody: TJSONObject; const AKey: string): string;
 var
@@ -30,6 +31,21 @@ end;
 
 class procedure TEntidadesController.RegisterRoutes;
 begin
+  // --- Documentacao OpenAPI (mantida junto da rota) ---
+  Swagger
+    .Path('entidades')
+      .Tag('Entidades')
+      .POST('Criar/Reaproveitar',
+            'Resolve a identidade global por documento (CNPJ alfanumerico/CPF ou ' +
+            'CODIGO_UNICO) e espelha no tenant. Requer Bearer.')
+        .AddParamBody('entidade', 'dados da entidade')
+          .Required(True).Schema(TEntidadeRequest).&End
+        .AddResponse(201, 'Criada ou reaproveitada').Schema(TEntidadeResolvidaModel).&End
+        .AddResponse(401, 'Nao autenticado').Schema(TApiErrorModel).&End
+        .AddResponse(422, 'Dados invalidos').Schema(TApiErrorModel).&End
+      .&End
+    .&End;
+
   // POST /api/v1/entidades
   // { "doc":"12ABC34501DE35", "nome":"Fulano", "tipoPessoa":"J",
   //   "ie":"", "papeis":"1,2" }

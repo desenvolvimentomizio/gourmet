@@ -20,6 +20,8 @@ uses
   Horse,
   Horse.Jhonson,                 // body/response JSON
   Horse.CORS,                    // CORS p/ o frontend
+  Horse.GBSwagger,               // documentacao OpenAPI/Swagger (viva)
+  Gourmet.Swagger.Models in 'Shared\Gourmet.Swagger.Models.pas',
   Gourmet.Config in 'Bootstrap\Gourmet.Config.pas',
   Gourmet.Database in 'Infra\Gourmet.Database.pas',
   Gourmet.ControlPlane in 'Infra\Gourmet.ControlPlane.pas',
@@ -46,9 +48,20 @@ begin
   // --- Middlewares globais (ordem importa) ---
   THorse.Use(Jhonson);
   THorse.Use(CORS);
+  THorse.Use(HorseSwagger);                       // serve /swagger/doc/html|json
   THorse.Use(HandleErrors);                       // captura excecoes -> JSON padrao
   THorse.Use(EnsureAuthenticated);                // valida JWT (exceto rotas publicas)
   THorse.Use(ResolveTenant);                      // claim tenant -> schema/conexao
+
+  // --- Documentacao OpenAPI (cada controller documenta seu endpoint) ---
+  Swagger
+    .Info
+      .Title('Gourmet ERP API')
+      .Description('Backend SaaS multi-tenant do ERP Gourmet. ' +
+                   'Autenticacao JWT (Bearer); tenant no claim. Docs em /swagger/doc/html')
+      .Version('1.0.0')
+    .&End
+    .BasePath('/api/v1');
 
   // --- Healthcheck (publico) ---
   THorse.Get('/health',

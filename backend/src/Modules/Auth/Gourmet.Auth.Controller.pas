@@ -13,8 +13,8 @@ type
 implementation
 
 uses
-  System.SysUtils, System.JSON, Horse,
-  Gourmet.Auth.Service, Gourmet.Shared.Errors;
+  System.SysUtils, System.JSON, Horse, Horse.GBSwagger,
+  Gourmet.Auth.Service, Gourmet.Shared.Errors, Gourmet.Swagger.Models;
 
 // Extrai campo string obrigatorio do body (422 se ausente).
 function ReqStr(ABody: TJSONObject; const AKey: string): string;
@@ -29,6 +29,19 @@ end;
 
 class procedure TAuthController.RegisterRoutes;
 begin
+  // --- Documentacao OpenAPI (mantida junto da rota) ---
+  Swagger
+    .Path('auth/login')
+      .Tag('Auth')
+      .POST('Login', 'Autentica usuario e emite JWT (Bearer)')
+        .AddParamBody('credenciais', 'tenant, email e senha')
+          .Required(True).Schema(TLoginRequest).&End
+        .AddResponse(200, 'Autenticado').Schema(TLoginResponse).&End
+        .AddResponse(401, 'Credenciais invalidas').Schema(TApiErrorModel).&End
+        .AddResponse(422, 'Dados invalidos').Schema(TApiErrorModel).&End
+      .&End
+    .&End;
+
   // POST /api/v1/auth/login  { "tenant": "...", "email": "...", "password": "..." }
   THorse.Post('/api/v1/auth/login',
     procedure(Req: THorseRequest; Res: THorseResponse)

@@ -36,7 +36,9 @@ end;
 
 function IsPublicRoute(const APath: string): Boolean;
 begin
-  Result := (APath = '/health') or APath.StartsWith('/api/v1/auth/');
+  Result := (APath = '/health')
+    or APath.StartsWith('/api/v1/auth/')
+    or APath.StartsWith('/swagger');
 end;
 
 procedure ResolveTenant(Req: THorseRequest; Res: THorseResponse; Next: TProc);

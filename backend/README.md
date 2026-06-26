@@ -84,6 +84,16 @@ alfanumérico `12ABC34501DE35`).
 > ACBr ainda **não** é referenciado (entra nas fases fiscais). Quando entrar,
 > some seus search paths ao `build.bat`/dproj.
 
+## Documentação da API (OpenAPI/Swagger — viva)
+Gerada com [gbswagger](https://github.com/gabrielbaltazar/gbswagger), **sempre
+atualizada junto com o código** (ver `CLAUDE.md`). Com o servidor no ar:
+- UI: `http://localhost:9000/swagger/doc/html`
+- JSON OpenAPI 2.0: `http://localhost:9000/swagger/doc/json`
+
+Cada endpoint é documentado no próprio controller (`Swagger.Path(...)` ao lado
+da rota) e os schemas em `src/Shared/Gourmet.Swagger.Models.pas`. Ao mudar um
+contrato, atualize os dois no mesmo commit.
+
 ## Próximas fases
 Cada um dos 72 módulos do ERP (mcli, mpro, mcpa, mcre, mmnf, mmnc, ...) vira um
 diretório em `src/Modules/<Modulo>` com Controller/Service/Repository, portando

@@ -25,6 +25,7 @@ REM --- search path: UniDAC + Horse + JOSE ---
 set "U=%UNIDAC_LIB%"
 set "U=!U!;%M%\horse\src;%M%\jhonson\src;%M%\horse-cors\src"
 set "U=!U!;%M%\delphi-jose-jwt\Source\Common;%M%\delphi-jose-jwt\Source\JOSE"
+set "U=!U!;%M%\gbswagger\Source\Core;%M%\gbswagger\Source\Horse;%M%\gbswagger\Source\Validator"
 REM hashlib4pascal: todas as subpastas (recursivo)
 for /r "%M%\hashlib4pascal\HashLib\src" %%D in (.) do set "U=!U!;%%~fD"
 
