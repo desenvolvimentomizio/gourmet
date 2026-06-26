@@ -55,9 +55,15 @@ begin
     LInfo := TControlPlane.ResolveTenant(CurrentAuth.TenantSlug);
   except
     on E: ETenantNotFound do
-      raise ENotFound.Create('Tenant nao encontrado');
+    begin
+      RespondError(Res, 404, 'NotFound', 'Tenant nao encontrado');
+      raise EHorseCallbackInterrupted.Create; // short-circuit
+    end;
     on E: ETenantInactive do
-      raise EForbidden.Create('Assinatura inativa ou suspensa');
+    begin
+      RespondError(Res, 403, 'Forbidden', 'Assinatura inativa ou suspensa');
+      raise EHorseCallbackInterrupted.Create;
+    end;
   end;
 
   GSchema := LInfo.Schema;

@@ -32,6 +32,8 @@ type
   end;
 
 procedure HandleErrors(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+/// Envia resposta de erro JSON padronizada (uso em short-circuit de middleware).
+procedure RespondError(Res: THorseResponse; AStatus: Integer; const ACode, AMessage: string);
 
 implementation
 
@@ -59,14 +61,14 @@ begin
   inherited Create(404, AMessage);
 end;
 
-procedure SendError(Res: THorseResponse; AStatus: Integer; const ACode, AMessage: string);
+procedure RespondError(Res: THorseResponse; AStatus: Integer; const ACode, AMessage: string);
 var
   LJson: TJSONObject;
 begin
   LJson := TJSONObject.Create;
   LJson.AddPair('error', ACode);
   LJson.AddPair('message', AMessage);
-  Res.Send<TJSONObject>(LJson).Status(AStatus);
+  Res.Status(AStatus).Send<TJSONObject>(LJson);
 end;
 
 procedure HandleErrors(Req: THorseRequest; Res: THorseResponse; Next: TProc);
@@ -74,11 +76,16 @@ begin
   try
     Next();
   except
+    // sinais de controle do Horse: deixam passar (resposta ja enviada)
+    on E: EHorseCallbackInterrupted do
+      raise;
+    on E: EHorseException do
+      raise;
     on E: EApiError do
-      SendError(Res, E.Status, E.ClassName, E.Message);
+      RespondError(Res, E.Status, E.ClassName, E.Message);
     on E: Exception do
-      // TODO Fase A: enviar para o logger central/observabilidade
-      SendError(Res, 500, 'InternalError', E.Message);
+      // TODO: enviar para o logger central/observabilidade
+      RespondError(Res, 500, 'InternalError', E.Message);
   end;
 end;
 

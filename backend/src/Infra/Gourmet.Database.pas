@@ -80,8 +80,7 @@ begin
     Result.PoolingOptions.MaxPoolSize := 50;
     Result.PoolingOptions.MinPoolSize := 0;
     Result.PoolingOptions.ConnectionLifeTime := 300000; // 5 min
-    Result.SpecificOptions.Values['MySQL.UseUnicode'] := 'True';
-    Result.SpecificOptions.Values['MySQL.Charset']    := 'utf8mb4';
+    Result.SpecificOptions.Values['MySQL.Charset'] := 'utf8mb4';
     Result.Connected := True;
   except
     Result.Free;

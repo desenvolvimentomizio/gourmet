@@ -77,7 +77,10 @@ begin
 
   LHeader := Req.Headers['Authorization'];
   if not LHeader.StartsWith('Bearer ', True) then
-    raise EUnauthorized.Create('Token ausente');
+  begin
+    RespondError(Res, 401, 'Unauthorized', 'Token ausente');
+    raise EHorseCallbackInterrupted.Create; // short-circuit (Horse para a cadeia)
+  end;
 
   LToken := LHeader.Substring(7).Trim;
 
@@ -95,8 +98,13 @@ begin
     try
       LConsumer.ProcessContext(LContext); // lanca se invalido/expirado/issuer
     except
+      on E: EHorseCallbackInterrupted do
+        raise;
       on E: Exception do
-        raise EUnauthorized.Create('Token invalido ou expirado');
+      begin
+        RespondError(Res, 401, 'Unauthorized', 'Token invalido ou expirado');
+        raise EHorseCallbackInterrupted.Create;
+      end;
     end;
 
     LClaims := LContext.GetClaims.JSON;
@@ -105,7 +113,10 @@ begin
     GAuth.Roles      := ClaimStr(LClaims, 'roles');
 
     if GAuth.TenantSlug = '' then
-      raise EUnauthorized.Create('Token sem tenant');
+    begin
+      RespondError(Res, 401, 'Unauthorized', 'Token sem tenant');
+      raise EHorseCallbackInterrupted.Create;
+    end;
   finally
     LContext.Free;
   end;

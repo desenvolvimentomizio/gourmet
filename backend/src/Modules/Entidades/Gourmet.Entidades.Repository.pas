@@ -63,6 +63,7 @@ begin
   Result.Database := 'saas_entidades';
   Result.LoginPrompt := False;
   Result.Pooling := True;
+  Result.SpecificOptions.Values['MySQL.Charset'] := 'utf8mb4';
   Result.Connected := True;
 end;
 
@@ -122,6 +123,7 @@ begin
     Result.IdGlobal := LastInsertId(LQry);
     Result.ChaveUnica := AChave;
     Result.TipoChave := LTipo;
+    Result.Doc := AChave.Substring(AChave.IndexOf(':') + 1);
     Result.Nome := ADados.Nome;
   finally
     LQry.Free;
@@ -219,7 +221,16 @@ var
   LConn: TUniConnection;
   LQry: TUniQuery;
   LPapel: string;
+  LTpe: Integer;
 begin
+  // tpecodigo (FK -> tpe): F=Fisica(1), J=Juridica(2), demais=Outros(9).
+  if ADados.TipoPessoa = 'F' then
+    LTpe := 1
+  else if ADados.TipoPessoa = 'J' then
+    LTpe := 2
+  else
+    LTpe := 9;
+
   LConn := TDatabase.AcquireForSchema(ASchema);
   LQry := TUniQuery.Create(nil);
   try
@@ -227,12 +238,13 @@ begin
     LConn.StartTransaction;
     try
       LQry.SQL.Text :=
-        'INSERT INTO etd (etdidentificacao, etdapelido, etddoc1, etddatacad, ' +
-        '                 etddataalt, etdativo, etddeletar) ' +
-        'VALUES (:nome, :apel, :doc, :dt, :dt, 1, 0)';
+        'INSERT INTO etd (etdidentificacao, etdapelido, etddoc1, tpecodigo, ' +
+        '                 etddatacad, etddataalt, etdativo, etddeletar) ' +
+        'VALUES (:nome, :apel, :doc, :tpe, :dt, :dt, 1, 0)';
       LQry.ParamByName('nome').AsString := ADados.Nome;
       LQry.ParamByName('apel').AsString := ADados.Nome;
       LQry.ParamByName('doc').AsString := AGlobal.Doc;
+      LQry.ParamByName('tpe').AsInteger := LTpe;
       LQry.ParamByName('dt').AsDate := Date;
       LQry.Execute;
 
