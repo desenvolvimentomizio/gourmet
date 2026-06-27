@@ -26,6 +26,19 @@ src/
   components/ui/           design system (shadcn-style)
 ```
 
+## Autenticação (login → token)
+- `features/auth/` concentra o fluxo: `LoginPage` (form tenant/email/senha) →
+  `POST /api/v1/auth/login` (`auth.api.ts`) → guarda o `access_token` no
+  `localStorage` (`lib/api.ts`).
+- `AuthContext` expõe `user/isAuthenticated/login/logout`; decodifica o JWT só
+  para UI (`jwt.ts`) e **desloga automaticamente** quando o token expira ou a
+  API responde 401 em rota protegida.
+- `App` é guardado: sem sessão mostra o login; com sessão mostra o ERP.
+- Todas as chamadas enviam `Authorization: Bearer <token>` automaticamente.
+
+Teste rápido (com o backend rodando): empresa `danielentrega`, e o usuário
+criado por `backend/db/seed_admin.py` (`admin@gourmet.local` / `Senha@123`).
+
 ## Convenções
 - **Feature-first**: cada módulo do ERP (clientes, produtos, financeiro…) é uma
   pasta em `features/` com `*.api.ts`, `*.types.ts` e seus componentes.
