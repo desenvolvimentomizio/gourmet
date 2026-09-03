@@ -72,7 +72,7 @@ begin
    // aConexao.FormatOptions.StrsTrim := True;
     aConexao.Params.DataBase :=vpNomeBanco;
     aConexao.Params.Add('Server='+vpServidor);
-    aConexao.Params.UserName := 'root';
+    aConexao.Params.UserName := vpUsuario;
     aConexao.Params.Add('port='+vpPortaBanco);
     aConexao.Params.Password := vpSenha;
     aConexao.Params.Add('characterSet=utf8');

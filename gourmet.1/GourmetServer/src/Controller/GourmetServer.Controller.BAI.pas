@@ -26,7 +26,7 @@ Uses
 
   GourmetServer.Model.Entity.BAI;
 
-function BuscaCodigoBairro(vNomeBairro: string): Integer;
+function BuscaCodigoBairro(vNomeBairro: string;vTaxa:String=''): Integer;
 function BuscaProdutoBairro(vNomeBairro: string): Integer;
 function CadastraProdutoBairro(vNomeBairro: String; vValor: String; vOrigem: Integer): Integer;
 
@@ -144,7 +144,7 @@ begin
 
 end;
 
-function BuscaCodigoBairro(vNomeBairro: string): Integer;
+function BuscaCodigoBairro(vNomeBairro: string;vTaxa:String=''): Integer;
 var
   FDAO: iDAOGeneric<TBAI>;
   vlbaicodigo: Integer;
@@ -156,6 +156,13 @@ begin
   FDAO.DAO.SQL.where('lower(baiidentificacao)=' + QuotedStr(lowercase(vNomeBairro))).&End.Find;
 
   vlbaicodigo := FDAO.DataSet.FieldByName('baicodigo').asinteger;
+
+  if vlbaicodigo=0 then
+  begin
+    vlbaicodigo:= CadastraProdutoBairro(vNomeBairro,vTaxa, 8);
+  end;
+
+
   result := vlbaicodigo;
 end;
 

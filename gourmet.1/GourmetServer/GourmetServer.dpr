@@ -11,6 +11,7 @@ uses
   madListModules,
   System.SysUtils,
   System.Classes,
+  System.IOUtils,
   Vcl.Forms,
   Horse,
   Horse.Logger,
@@ -133,6 +134,39 @@ uses
   GourmetServer.Controller.ORI in 'src\Controller\GourmetServer.Controller.ORI.pas',
   GourmetServer.Service.Conexoes in 'src\Service\GourmetServer.Service.Conexoes.pas';
 
+procedure SafeLog(const AMsg: string);
+var
+  LDir: string;
+  LFile: string;
+  LLine: string;
+begin
+  try
+    LDir := TPath.Combine(ExtractFilePath(ParamStr(0)), 'logs');
+
+    if not TDirectory.Exists(LDir) then
+      TDirectory.CreateDirectory(LDir);
+
+    LFile := TPath.Combine(LDir, 'GourmetServer_' + FormatDateTime('yyyymmdd', Now) + '.log');
+    LLine := FormatDateTime('dd/mm/yyyy hh:nn:ss.zzz', Now) + ' | ' + AMsg + sLineBreak;
+
+    TFile.AppendAllText(LFile, LLine, TEncoding.UTF8);
+  except
+    // Nunca deixar falha de log derrubar o servidor.
+  end;
+end;
+
+procedure SafeConsoleLog(const AMsg: string);
+begin
+  try
+    WriteLn(AMsg);
+  except
+    // Quando executado por supervisor/servico/atalho sem console valido,
+    // WriteLn pode gerar EInOutError I/O error 105. Ignora e grava em arquivo.
+  end;
+
+  SafeLog(AMsg);
+end;
+
 Var
   App: THorse;
 
@@ -197,9 +231,7 @@ begin
   App.Listen(8091,
     procedure(Horse: THorse)
     begin
-
-
-         //Writeln('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versão: 25.28.501.17');
+       SafeConsoleLog('Servidor esta rodando - porta: ' + App.Port.ToString + ' - Versao: 25.28.504.10');
 
     end);
 

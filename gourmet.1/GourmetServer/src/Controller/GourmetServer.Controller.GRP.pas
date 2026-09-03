@@ -50,7 +50,7 @@ var
 begin
   FDAO := TDAOGeneric<TGRP>.New;
 
-  vJSONObject := TJsonObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Req.Body), 0) as TJsonObject;
+  vJSONObject := TJsonObject.ParseJSONValue(TEncoding.UTF8.GetBytes(Req.Body), 0) as TJsonObject;
   // vlJsonGrupo := vJSONObject.getvalue('aiqjson', '');
 
   Res.Send<TJsonObject>(FDAO.Insert(vJSONObject));

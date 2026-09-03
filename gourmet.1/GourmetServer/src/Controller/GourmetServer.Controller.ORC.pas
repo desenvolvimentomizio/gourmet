@@ -46,6 +46,37 @@ uses
 
 
 
+// Apaga os registros presos aos itens do orcamento que NAO saem pela cascata do FK
+// ito_orc: ISI (adicionais) so cascateia via SBI, entao os gravados direto no item
+// (sbichave=0) ficariam orfaos; IMW nao tem FK nenhuma.
+Procedure RemoveDependentesItensOrc(vOrcChave: integer);
+var
+  conexao:TFDconnection;
+  qry:TFDQuery;
+begin
+  conexao:=TFDconnection.Create(nil);
+
+  if AtivaConexao(conexao)<>nil then
+  begin
+      qry:=TFDQuery.Create(nil);
+      qry.Connection:=Conexao;
+
+      qry.sql.Text:='delete from isi where itochave in '+
+                    '(select itochave from ito where orcchave=' + vOrcChave.ToString + ')';
+      qry.ExecSQL;
+
+      qry.sql.Text:='delete from imw where itochave in '+
+                    '(select itochave from ito where orcchave=' + vOrcChave.ToString + ')';
+      qry.ExecSQL;
+
+      if qry<>nil then
+      qry.DisposeOf;
+  end;
+
+  if conexao<>nil then
+  conexao.DisposeOf;
+end;
+
 Function RemoveOrcPedidoNumeroOrigem(vNumeroPedido: String; vOriCodigo: integer): integer;
 var
   FDAO: iDAOGeneric<TORC>;
@@ -63,11 +94,24 @@ begin
   vlorcchave := 0;
   vlorcnumeropedido := vNumeroPedido;
 
+  // O numero que chega aqui eh o do pedido na integracao (orcpedidointegracao),
+  // NAO o numero diario do pedido (orcnumeropedido, ex.: '31'). Filtrar pela coluna
+  // errada fazia busca e delete nunca casarem: o endpoint respondia mas nao apagava.
   FDAO := TDAOGeneric<TORC>.New;
-  FDAO.DAO.SQL.where('orcnumeropedido=' + QuotedStr(vNumeroPedido) + ' and oricodigo=' + vOriCodigo.ToString).&End.Find;
+  FDAO.DAO.SQL.where('orcpedidointegracao=' + QuotedStr(vNumeroPedido) + ' and oricodigo=' + vOriCodigo.ToString).&End.Find;
   vlorcchave := FDAO.dataset.fieldbyname('orcchave').asInteger;
 
-  FDAO.Delete('orcnumeropedido', vNumeroPedido);
+  if vlorcchave = 0 then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  RemoveDependentesItensOrc(vlorcchave);
+
+  // ITO/IMM/SBI/BRI saem por cascata do FK ito_orc ao apagar o orcamento.
+  // Apaga pela chave encontrada, para nao atingir outro orcamento por engano.
+  FDAO.Delete('orcchave', vlorcchave.ToString);
 
   result := vlorcchave;
 

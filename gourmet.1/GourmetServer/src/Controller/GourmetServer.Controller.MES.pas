@@ -80,7 +80,8 @@ end;
 
 Function RemoveOrcVendaChaveOrigem(vMeschave: Integer; vOricodigo: Integer): Integer;
 var
-  FDAO: iDAOGeneric<TMES>;
+  conexao:TFDconnection;
+  mes:TFDQuery;
 
 begin
 
@@ -92,12 +93,30 @@ begin
 
   result := 0;
 
-  FDAO := TDAOGeneric<TMES>.New;
-  FDAO.DAO.SQL.where('meschave=' + vMeschave.ToString + ' and oricodigo=' + vOricodigo.ToString).&End.Find;
+  // O delete generico do DAO lanca excecao antes de emitir o SQL para TMES
+  // (TSimpleSQL.Delete monta o where pela PK a partir de uma instancia vazia),
+  // e a excecao subia sem apagar nada - deixando a venda orfa do orcamento ja
+  // removido. Aqui vai direto no banco: MOR/ITM/RFM/CCM/HCM saem por cascata.
+  conexao := TFDconnection.Create(nil);
 
-  FDAO.Delete('meschave', vMeschave.ToString);
+  if AtivaConexao(conexao) <> nil then
+  begin
+      mes := TFDQuery.Create(nil);
+      mes.Connection := Conexao;
+      mes.sql.Text := 'delete from mes ' +
+                      'where meschave=' + vMeschave.ToString +
+                      ' and oricodigo=' + vOricodigo.ToString;
+      mes.ExecSQL;
 
-  result := vMeschave;
+      if mes.RowsAffected > 0 then
+        result := vMeschave;
+
+      if mes <> nil then
+        mes.DisposeOf;
+  end;
+
+  if conexao <> nil then
+    conexao.DisposeOf;
 end;
 
 Function ManutencaoMES(vVenda: TJsonObject): Integer;

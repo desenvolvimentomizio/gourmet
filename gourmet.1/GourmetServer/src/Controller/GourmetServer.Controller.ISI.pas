@@ -12,6 +12,7 @@ Uses
 
 Function ManutencaoISI(vItemSabor: TJsonObject): Integer;
 Function BuscaItemISIItochave(vItoChave: String): Integer;
+Function BuscaISIITO(vItoChave: String; vprocodigo:String): Boolean;
 
 type
   TAPIError = class
@@ -31,6 +32,21 @@ begin
   FDAO.DAO.SQL.where('itochave=' + vItoChave + ' order by isiitem desc limit 1 ').&End.Find;
   result := FDAO.DataSet.FieldByName('isiitem').asInteger + 1;
 end;
+
+Function BuscaISIITO(vItoChave: String; vprocodigo:String): Boolean;
+var
+  FDAO: iDAOGeneric<TISI>;
+begin
+  FDAO := TDAOGeneric<TISI>.New;
+  FDAO.DAO.SQL.where('itochave=' + vItoChave + ' and procodigo='+vprocodigo+' order by isiitem desc limit 1 ').&End.Find;
+
+  if FDAO.DataSet.RecordCount>0 then
+    result := True
+  else
+    result := False;
+
+end;
+
 
 Function ManutencaoISI(vItemSabor: TJsonObject): Integer;
 var

@@ -159,6 +159,7 @@ begin
     vlPro.AddPair('rcspontuacao', '0');
     vlPro.AddPair('padcodigo', '1');
     vlPro.AddPair('proabc', 'A');
+    vlPro.AddPair('proncm','21069029');
 
     vlprocodigo := ManutencaoPRO(vlPro);
 

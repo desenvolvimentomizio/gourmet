@@ -454,6 +454,10 @@ begin
   vMes.AddPair('mescodigonota', '');
   vMes.AddPair('cznchave', Inttostr(v1BuscaCozinhaAberta));
   vMes.AddPair('mesnumeropedido', vFinalizacaoPedido.getvalue('orcnumeropedido', ''));
+
+  // Numero do pedido na integracao (id do aiqfome). Sem isso a venda nascia com
+  // mespedidointegracao vazio e v1BuscaVendaNumeroPedidoAIQ nunca localizava o MES.
+  vMes.AddPair('mespedidointegracao', vFinalizacaoPedido.getvalue('orcpedidointegracao', ''));
   vMes.AddPair('mescomplementanota', '0');
   vMes.AddPair('mescomplementapor', '0');
   vMes.AddPair('mescomplementadapor', '0');
