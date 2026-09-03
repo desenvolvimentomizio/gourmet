@@ -740,530 +740,6 @@ end;
 
 
 
-function InclusaoItemPedido(vItemPedido: TJsonObject; vOrcChave: string; vCategoria: string; vData: String; vHora: String): TJsonObject;
-var
-
-  // vlPedido: TJsonObject;
-
-  vlCodigoVoucher: String;
-  vlVchChave: Integer;
-
-  vlItem: TJsonObject;
-
-  vlItemSabor: TJsonObject;
-  vlItemSabores: TJsonObject;
-  vlItemBordas: TJsonObject;
-  vlItemAdicionais: TJsonObject;
-  vlItemVariacoes: TJsonObject;
-
-  vlUser: TJSONValue;
-  vlAdress: TJSONValue;
-
-  vlQtdItens: Integer;
-
-  vlOrcchave: Integer;
-  vlItoChave: Integer;
-
-  ii: Integer;
-
-  im: Integer;
-  ia: Integer;
-  ib: Integer;
-  ic: Integer;
-  iu: Integer;
-
-  vlitovalor: string;
-  vladicionalborda: Currency;
-  vlValorborda: String;
-
-  vlitovalorpromo: string;
-
-  vlitototal: string;
-  vlitosubtotal: string;
-
-  vlitopercdescav: string;
-  vlitoacrescimoav: string;
-
-  vlitoquantidade: string;
-  vlSkuTamanho: string;
-  vlSkuSabor: string;
-  vlSkuBorda: string;
-
-  vlSkuAdicional: string;
-
-  // itens com um sabor apenas
-  vlSbicodigo: string;
-  vledritem: Integer;
-
-  vlProCodigo: Integer;
-  vlGrpCodigo: Integer;
-  vlBrdCodigo: Integer;
-
-  vlGriCodigo: Integer;
-  vlTciCodigo: Integer;
-
-  vlcfgmgouctadelivery: Integer;
-  vlCcxChave: Integer;
-  vlCznChave: Integer;
-
-  vlNumeroPedido: String;
-
-  vlValorDesconto: Double;
-
-  vlitoitem: string;
-  vlSbiChave: Integer;
-
-  vlItemTaxa: TJsonObject;
-
-  a: string;
-
-  vlPercentualItem: Double;
-  vlValorTotalItens: Double;
-  vlTotalAdicionais: Double;
-
-  vlobs: string;
-
-  vlProCodigoItemAdicional: Integer;
-
-  // auto cadastramento
-  vlGrpIdentificacao: string;
-  vlUniIdentificacao: string;
-  vlSbrIdentificacao: string;
-  vlIsaIdentificacao: string;
-  vlIsaValor: string;
-
-  vlpronome: string;
-  vlIngredientes: string;
-  vlunicodigo: Integer;
-  vlBrdIdentificacao: string;
-  vlSbrCodigo: Integer;
-  vlSfnCodigo: Integer;
-  vlSbrIdentificaca: string;
-
-  // auto cadastro de variação
-
-  vlProCodigoVariacao: Integer;
-  vlPunCodigoVariacao: Integer;
-  vlPronomeVariacao: string;
-  vlGrpCodigoVariacao: Integer;
-  vlGrpIdentificacaoVariacao: String;
-  vlUnicodigoVariacao: Integer;
-  vlPunvalorVariacao: String;
-
-  vlbprchave: Integer;
-
-  vlTamanho: String;
-
-  vlListaIngredientes: TJsonarray;
-  iz: Integer;
-
-  vlRetorno: string;
-
-  vlVlrDescontoItem: Double;
-  vlVlrSaldoItem: Double;
-
-  // numero do item "pai" (o item principal do pedido ao qual este sub-item pertence).
-  // Vem no JSON via 'itoitempai'; quando presente, o sub-item eh gravado com o mesmo
-  // ITOITEM do pai, agrupando a composicao no pedido em vez de virar um item avulso.
-  vlItoItemPai: string;
-
-begin
-  try
-  vlVlrDescontoItem := 0;
-  vlVlrSaldoItem := 0;
-
-  vlItem := nil;
-
-  vlcfgmgouctadelivery := 0;
-  vlcfgmgouctadelivery := v1BuscaCodigoCfgmgouCtaDelivery;
-
-  vlCcxChave := 0;
-  vlCcxChave := v1BuscaCaixaAbertoCCXCtaDelivery(vlcfgmgouctadelivery);
-
-  vlCznChave := 0;
-  vlCznChave := v1BuscaCozinhaAberta;
-
-  vlSbicodigo := '';
-  vlSfnCodigo := 0;
-  vlGrpCodigoVariacao := 0;
-
-  vlValorDesconto := 0;
-
-  vlValorTotalItens := 0;
-
-  vlitoquantidade := vItemPedido.getvalue('quantity', '');
-  vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
-  vlitovalor := vItemPedido.getvalue('value', '');
-  vlitovalor := StringReplace(vlitovalor, '.', ',', []);
-  vlValorTotalItens := vlValorTotalItens + (strtofloat(vlitoquantidade) * strtofloat(vlitovalor));
-
-  vlTotalAdicionais := 0;
-
-  vlItem := TJsonObject.Create;
-
-  vlItem.AddPair('itochave', '0');
-
-  vlItem.AddPair('orcchave', vOrcChave);
-
-  vlitoquantidade := vItemPedido.getvalue('quantity', '');
-  vlitoquantidade := StringReplace(vlitoquantidade, '.', ',', []);
-
-  vlItem.AddPair('itoquantidade', vlitoquantidade);
-  vlItem.AddPair('clbcodigo', BuscaCodigoCLBclbNome('CARDAPIO'));
-
-  vlItem.AddPair('immnumepedido', vItemPedido.getvalue('immnumepedido', ''));
-
-  vlItoItemPai := trim(vItemPedido.getvalue('itoitempai', ''));
-
-  vlSkuTamanho := vItemPedido.getvalue('sku', '');
-
-  if pos('+',vlSkuTamanho)>0 then
-  begin
-    if copy(vlSkuTamanho,1,1)<>'+' then
-    vlSkuTamanho:='+'+trim(copy(vlSkuTamanho,pos('+',vlSkuTamanho)+1));
-  end;
-
-
-  if copy(vlSkuTamanho, 1, 1) = '+' then
-  begin
-    vlSkuTamanho := trim(copy(vlSkuTamanho, 2, 10));
-  end;
-
-
-
-  // codigounidade_codigoproduto
-  if pos('_', vlSkuTamanho) > 0 then
-  begin
-    vlSbicodigo := trim(copy(vlSkuTamanho, pos('_', vlSkuTamanho) + 1, 20));
-    vlSkuTamanho := copy(vlSkuTamanho, 1, pos('_', vlSkuTamanho) - 1);
-
-  end;
-
-  vlitovalor := vItemPedido.getvalue('value', '');
-  vlitovalor := StringReplace(vlitovalor, '.', ',', []);
-
-  vlGrpIdentificacao := vCategoria;
-
-  vlGrpIdentificacao := StringReplace(vlGrpIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]);
-  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '|', '', [rfReplaceAll, rfIgnoreCase]));
-
-  if pos('PIZZA', vlGrpIdentificacao) > 0 then
-  begin
-    vlGrpIdentificacao := 'PIZZAS';
-  end;
-
-  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '??', '', []));
-  vlGrpIdentificacao := trim(StringReplace(vlGrpIdentificacao, '?', '', []));
-
-  vlUniIdentificacao := '';
-  /// verficaar
-
-  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '??', '', [rfReplaceAll, rfIgnoreCase]));
-  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '?', '', [rfReplaceAll, rfIgnoreCase]));
-  vlUniIdentificacao := trim(StringReplace(vlUniIdentificacao, '\', '', [rfReplaceAll, rfIgnoreCase]));
-
-  vlpronome := uppercase(vItemPedido.getvalue('name', ''));
-
-  vlpronome := trim(StringReplace(vlpronome, '|', '', [rfReplaceAll, rfIgnoreCase]));
-  vlpronome := trim(StringReplace(vlpronome, '?', '', [rfReplaceAll, rfIgnoreCase]));
-
-  vlIngredientes := uppercase(vItemPedido.getvalue('description', ''));
-
-
-
-  if vlSkuTamanho = '' then
-  begin
-
-    vlGrpCodigo := manutencaoGRPIdentificacao(vlGrpIdentificacao, vOrigem);
-    vlunicodigo := ManutencaoUNINome(vlUniIdentificacao, vOrigem);
-
-    vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
-
-    if vlProCodigo <> 0 then
-    begin
-      vlSfnCodigo := 0;
-      vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
-
-      if vlSfnCodigo <> 0 then
-      begin
-
-        if pos(' + ', vlpronome) = 0 then
-        begin
-          vlSbrCodigo := ManutencaoSBRIdentificacao(vlpronome, vlProCodigo.ToString, vlGrpCodigo.ToString);
-        end
-        else
-        begin
-          vlSbrCodigo := 0;
-        end;
-      end;
-    end;
-
-  end
-  else
-  begin
-
-    vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
-
-    if vlProCodigo <> 0 then
-    begin
-
-      vlSfnCodigo := 0;
-      vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
-
-      if vlSfnCodigo <> 0 then
-      begin
-        vlSbrCodigo := 0;
-      end
-
-      else
-      begin
-        vlSbrCodigo := BuscaCodigoSBRProCodigo(vlProCodigo);
-      end;
-    end;
-
-    if (vlSbicodigo <> '0') and (vlSbicodigo <> '') then
-    begin
-      if vlProCodigo = 0 then
-      begin
-        vlProCodigo := BuscaCodigoPROProCodigo(vlSbicodigo.ToInteger);
-      end;
-
-    end;
-
-    if vlProCodigo = 0 then
-    begin
-      vlProCodigo := BuscaCodigoPROProNome(vlpronome);
-    end;
-
-    if vlProCodigo = 0 then
-    begin
-
-      vlProCodigo := BuscaCodigoPROProNome(vlGrpIdentificacao);
-
-      if vlProCodigo <> 0 then
-      begin
-        vlSfnCodigo := 0;
-        vlSfnCodigo := BuscaCodigoSFNProCodigo(vlProCodigo);
-
-        if vlSfnCodigo = 0 then
-        begin
-          vlProCodigo := BuscaCodigoPROProNome(vlpronome);
-          if vlProCodigo = 0 then
-          begin
-          end;
-
-        end;
-      end;
-
-    end;
-
-    if ((pos(' + ', vlpronome) = 0) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) = 0)) or (pos('+', vItemPedido.getvalue('sku', '')) > 0) then
-    begin
-
-      if vlIngredientes <> '' then
-      begin
-
-        if vlGrpCodigo = 0 then
-        begin
-          if vlProCodigo <> 0 then
-          begin
-            vlGrpCodigo := BuscaCodigoGRPProCodigo(vlProCodigo);
-          end;
-
-        end;
-
-        if vlSbrCodigo = 0 then
-        begin
-          if vlSbicodigo <> '' then
-          begin
-            if vlSfnCodigo <> 0 then
-            begin
-              vlSbrCodigo := vlSbicodigo.ToInteger; // BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
-            end
-            else
-            begin
-              vlSbrCodigo := BuscaCodigoSBRProCodigo(vlSbicodigo.ToInteger);
-            end;
-          end
-          else
-          begin
-            vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
-          end;
-        end;
-
-      end
-      else
-      begin
-
-        if vlSbicodigo <> '' then
-        begin
-          if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
-          begin
-            vlSbrCodigo := vlSbicodigo.ToInteger;
-          end;
-
-        end;
-        if vlSbrCodigo = 0 then
-        begin
-          vlSbrCodigo := BuscaCodigoSBRGrpCodigoIdentificacao(vlpronome, vlGrpCodigo);
-        end;
-      end;
-
-      if (vlIngredientes <> '') and (vlSfnCodigo <> 0) then
-      begin
-
-        if vlSbrCodigo = 0 then
-        begin
-
-        end;
-      end;
-    end
-    else
-    begin
-      if (vlIngredientes <> '') and (vlSfnCodigo = 1) and (pos('PIZZA', uppercase(vlGrpIdentificacao)) > 0) then
-      begin
-
-        if (vlSbicodigo <> '0') and (vlSbrCodigo = 0) and (vlSfnCodigo <> 0) then
-        begin
-          if vlSbicodigo <> '' then
-          begin
-            vlSbrCodigo := vlSbicodigo.ToInteger;
-          end;
-        end;
-
-      end;
-    end;
-
-  end;
-
-  vlitovalorpromo := vItemPedido.getvalue('promotional_value', '0');
-  vlitovalorpromo := StringReplace(vlitovalorpromo, '.', ',', [rfReplaceAll, rfIgnoreCase]);
-
-  if vlitovalorpromo <> '0' then
-  begin
-    vlItem.AddPair('itovalorav', vlitovalorpromo);
-    vlitototal := floattostr(strtofloat(vlitovalorpromo) * strtofloat(vlitoquantidade));
-  end
-  else
-  begin
-    vlItem.AddPair('itovalorav', vlitovalor);
-    vlitototal := floattostr(strtofloat(vlitovalor) * strtofloat(vlitoquantidade));
-  end;
-  a := vItemPedido.getvalue('unit_value', '');
-
-  if vlitopercdescav = '' then
-    vlitopercdescav := '0';
-
-  vlItem.AddPair('itopercdescav', vlitopercdescav);
-
-  vlitototal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
-
-  vlItem.AddPair('itototalav', vlitototal);
-
-  vlVlrDescontoItem := 0;;
-
-  vlitototal := floattostr(strtofloat(vlitototal) - (strtofloat(vlitototal) * (strtofloat(vlitopercdescav) / 100)));
-
-  vlitosubtotal := StringReplace(vlitototal, '.', ',', [rfReplaceAll, rfIgnoreCase]);
-
-  vlVlrSaldoItem := strtofloat(vlitosubtotal);
-
-  vlItem.AddPair('itodescontoav', floattostr(vlVlrDescontoItem));
-
-  vlItem.AddPair('itosaldoav', floattostr(vlVlrSaldoItem));
-  vlItem.AddPair('clbatendente', BuscaCodigoCLBclbNome('CARDAPIO'));
-  vlItem.AddPair('puncodigo', vlSkuTamanho);
-  vlProCodigo := BuscaCodigoPROpunCodigo(vlSkuTamanho);
-  vlItem.AddPair('procodigo', vlProCodigo.ToString);
-
-  // definir impressora de destino do item
-  vlGrpCodigo := BuscaCodigoGRPProCodigo(BuscaCodigoPROpunCodigo(vlSkuTamanho));
-  vlTciCodigo := BuscaCodigoGRIGrpCodigo(vlGrpCodigo);
-  vlItem.AddPair('tcicodigo', vlTciCodigo.ToString);
-
-  vlItem.AddPair('itoinclusao', vData + ' ' + vHora);
-
-  vlItem.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlSkuTamanho).ToString);
-  if vlItoItemPai <> '' then
-    vlitoitem := vlItoItemPai
-  else
-    vlitoitem := v1BuscaItemITOorcchave(vOrcChave).ToString;
-  vlItem.AddPair('itoitem', vlitoitem);
-
-  a := vItemPedido.getvalue('observations', '');
-
-  vlItem.AddPair('itoobs', vItemPedido.getvalue('observations', ''));
-  vlItem.AddPair('itopercdescap', '0');
-  vlItem.AddPair('itoproservico', '0');
-  vlItem.AddPair('itoinfadprod', '');
-  vlItem.AddPair('itoprocomple', '');
-  vlItem.AddPair('vrpcodigo', '0');
-  vlItem.AddPair('tdfcodigo', '00');
-  vlItem.AddPair('pmpchave', '0');
-  vlItem.AddPair('flacodigo', '1');
-  vlItem.AddPair('itounidades', '0');
-  vlItem.AddPair('oricodigo', '8');
-  vlItem.AddPair('itocontendo', '1');
-  vlItem.AddPair('tdecodigo', '00');
-  vlItem.AddPair('stocodigo', '1');
-  vlItem.AddPair('itovalorap', '0');
-  vlItem.AddPair('pdscodigo', '1');
-  vlItem.AddPair('itototalap', '0');
-  vlItem.AddPair('itodescontoap', '0');
-  vlItem.AddPair('itosaldoap', '0');
-  vlItem.AddPair('itoacrescimoav', '0');
-
-  vlItem.AddPair('itooutras', '0');
-
-  a := vlItem.ToString;
-
-  vlItoChave := v1ManutencaoITO(vlItem);
-
-  if IsConsole then
-  WRITELN('Registro cliente: '+vlItoChave.ToString);
-
-  if (vlSbrCodigo <> 0) then
-  begin
-
-    vlItemSabor := TJsonObject.Create;
-    vlItemSabor.AddPair('sbichave', '0');
-    vlItemSabor.AddPair('sbrcodigo', vlSbrCodigo.ToString);
-    vlItemSabor.AddPair('itochave', vlItoChave.ToString);
-    if vlItoItemPai <> '' then
-      vlitoitem := vlItoItemPai
-    else
-      vlitoitem := v1BuscaItemITOorcchave(vOrcChave).ToString;
-    vlItemSabor.AddPair('sbiitem', vlitoitem);
-
-    vlSbiChave := ManutencaoSBI(vlItemSabor);
-    vlItemSabor.free;
-
-  end
-  else
-  begin
-    vlSbiChave := 0;
-  end;
-
-  vlItem.AddPair('itochave', vlItoChave.ToString);
-
-  vlItem.RemovePair('itochave');
-  vlItem.AddPair('itochave', vlItoChave.ToString);
-  vlItem.RemovePair('itoacrescimoav');
-
-  vlItem.AddPair('itoacrescimoav', CurrToStr(vladicionalborda + (strtofloat(vlitoquantidade) * vlTotalAdicionais)));
-
-  vlItoChave := v1ManutencaoITO(vlItem);
-
-  result := vlItem;
-  except
-  on E: Exception do
-     begin
-     if IsConsole then
-        writeln('Falha 1215:'+ e.Message)
-     end;
-  end;
-end;
-
 function InclusaoPedido(vPedido: TJsonObject): String;
 var
   vlCliente: TJsonObject;
@@ -1455,9 +931,11 @@ var
   vlComboSku: string;
   vlComboSemSku: Integer;
 
-  // numero do item principal recem gravado no ITO; repassado aos sub-itens
-  // (sabores do combo, bordas/sabores de pizza) para que fiquem agrupados nele.
-  vlItoItemPai: string;
+  // escolha obrigatoria com SKU prefixado por '+': vira adicional (ISI) do item pai
+  // (vlSkuAdicional ja esta declarada acima)
+  vlQtdAdicional: string;
+  vlVlrAdicional: string;
+  vlProAdicional: Integer;
 begin
   try
 
@@ -2271,7 +1749,6 @@ begin
 
       vlItem.AddPair('unicodigo', BuscaCodigoUNIpunCodigo(vlSkuTamanho).ToString);
       vlitoitem :=v1BuscaItemITOorcchave(vlOrcchave.ToString).ToString;
-      vlItoItemPai := vlitoitem;
       vlItem.AddPair('itoitem', vlitoitem);
       a := vlListaItens[ii].getvalue('observations', '');
       vlItem.AddPair('itoobs', vlListaItens[ii].getvalue('observations', ''));
@@ -2344,12 +1821,10 @@ begin
         a := '';
       vlQtdorder_mandatory_items := JsonArrayCount(vlorder_mandatory_items);
 
-      // Combos do AIQFome: as escolhas vem em order_mandatory_items e SAO gravadas como
-      // itens do ITO (valor zero), agrupadas no mesmo ITOITEM do item principal - do mesmo
-      // jeito que ja acontece com os sabores fora de combo. Cada escolha traz o proprio SKU,
-      // entao o produto do ERP eh identificado pelo SKU e nada se perde na cozinha.
-      // A observacao abaixo eh so a rede de seguranca: registra as escolhas que vierem
-      // SEM SKU, que nao tem como virar item, para o sabor nao sumir do pedido.
+      // Combos do AIQFome: as escolhas vem em order_mandatory_items e sao gravadas como
+      // ADICIONAIS (ISI) do item do combo - ver o tratamento do SKU com '+' mais abaixo.
+      // A observacao aqui eh so a rede de seguranca: registra as escolhas que vierem
+      // SEM SKU nenhum, que nao tem como virar adicional, para nao sumirem do pedido.
       if (Pos('COMBO', UpperCase(vlGrpIdentificacao)) > 0) and (vlQtdorder_mandatory_items > 0) then
       begin
         vlComboSemSku := 0;
@@ -2506,12 +1981,89 @@ begin
           if pos('+', vlSkuBorda) > 0 then
           begin
 
-            TJsonObject(vlorder_mandatory_items[iu]).AddPair('immnumepedido', vlPedido.getvalue('immnumepedido', ''));
-            JsonSetPair(TJsonObject(vlorder_mandatory_items[iu]), 'itoitempai', vlItoItemPai);
+            // Escolha obrigatoria com SKU prefixado por '+' (ex.: '+601') eh ADICIONAL do
+            // item, nao um item proprio: o '+' eh a marca que o aiqfome usa para separar a
+            // escolha do produto realmente vendido - o combo, que tem SKU sem '+' (ex.: '650')
+            // e o preco. Antes cada escolha virava uma linha do ITO com valor zero, entao a
+            // comanda mostrava quatro itens onde existe um so e o combo se perdia no meio.
+            //
+            // O SKU do aiqfome eh o PUNCODIGO do ERP, por isso o produto sai de
+            // BuscaCodigoPROpunCodigo (e nao direto no procodigo).
+            vlSkuAdicional := trim(copy(vlSkuBorda, 2, 200));
+            vlProAdicional := BuscaCodigoPROpunCodigo(vlSkuAdicional);
 
-            a := TJsonObject(vlorder_mandatory_items[iu]).ToString;
+            if vlProAdicional = 0 then
+            begin
+              // Sem produto no ERP nao da para gravar o ISI (FK isi_pro_procodigo).
+              // Registra na observacao para a escolha nao sumir da comanda.
+              vlComboObs := trim(vlItem.getvalue('itoobs', ''));
+              if vlComboObs <> '' then
+                vlComboObs := vlComboObs + sLineBreak;
+              vlComboObs := vlComboObs + '- ' + trim(vlorder_mandatory_items[iu].getvalue('name', '')) +
+                ' (SKU ' + vlSkuBorda + ' sem produto no ERP)';
+              JsonSetPair(vlItem, 'itoobs', vlComboObs);
 
-            vlItens.Add(InclusaoItemPedido(TJsonObject(vlorder_mandatory_items[iu]), vlOrcchave.ToString, 'PIZZA', vlDataAbert, vlHoraAbert));
+              if IsConsole then
+                writeln(Datetimetostr(Now()) + ' Escolha sem produto no ERP para o SKU ' + vlSkuBorda);
+            end
+            else
+            begin
+              // ManutencaoISI descarta o registro quando sbichave=0, e combo nao passa pelo
+              // bloco de sabores. Cria sob demanda um SBI para o proprio produto do item,
+              // que eh onde os adicionais se penduram.
+              if vlSbiChave = 0 then
+              begin
+                vlSbicodigo := Inttostr(BuscaCodigoSBRProCodigo(vlProCodigo));
+                if (vlSbicodigo = '') or (vlSbicodigo = '0') then
+                  vlSbicodigo := ManutencaoSBRIdentificacao(vlpronome, vlProCodigo.ToString, '').ToString;
+
+                vlItemSabores := TJsonObject.Create;
+                try
+                  vlItemSabores.AddPair('sbichave', '0');
+                  vlItemSabores.AddPair('sbrcodigo', vlSbicodigo);
+                  vlItemSabores.AddPair('itochave', vlItoChave.ToString);
+                  vlItemSabores.AddPair('sbiitem', vlitoitem);
+                  vlSbiChave := ManutencaoSBI(vlItemSabores);
+                finally
+                  vlItemSabores.DisposeOf;
+                end;
+              end;
+
+              vlQtdAdicional := trim(vlorder_mandatory_items[iu].getvalue('quantity', ''));
+              if vlQtdAdicional = '' then
+                vlQtdAdicional := '1';
+              vlQtdAdicional := Inttostr(Trunc(StrToFloatDef(StringReplace(vlQtdAdicional, '.', ',', []), 1)));
+              if vlQtdAdicional = '0' then
+                vlQtdAdicional := '1';
+
+              vlVlrAdicional := trim(vlorder_mandatory_items[iu].getvalue('value', ''));
+              if vlVlrAdicional = '' then
+                vlVlrAdicional := '0';
+              vlVlrAdicional := StringReplace(vlVlrAdicional, '.', ',', []);
+
+              // Sem BuscaISIITO aqui de proposito: escolhas repetidas (duas esfihas do mesmo
+              // sabor, por exemplo) chegam como entradas separadas e cada uma tem de virar
+              // uma linha, senao o cliente recebe menos do que pediu.
+              vlItemAdicionais := TJsonObject.Create;
+              try
+                vlItemAdicionais.AddPair('isichave', '0');
+                vlItemAdicionais.AddPair('sbichave', vlSbiChave.ToString);
+                vlItemAdicionais.AddPair('tsicodigo', '3');
+                vlItemAdicionais.AddPair('procodigo', vlProAdicional.ToString);
+                vlItemAdicionais.AddPair('isitipo', '1');
+                vlItemAdicionais.AddPair('itochave', vlItoChave.ToString);
+                vlItemAdicionais.AddPair('isiitem', BuscaItemISIItochave(vlItoChave.ToString).ToString);
+                vlItemAdicionais.AddPair('isiquantidade', vlQtdAdicional);
+                vlItemAdicionais.AddPair('isiacrescimo', vlVlrAdicional);
+
+                ManutencaoISI(vlItemAdicionais);
+              finally
+                vlItemAdicionais.DisposeOf;
+              end;
+
+              // acumula no itoacrescimoav do item, gravado no fim do laco
+              vlTotalAdicionais := vlTotalAdicionais + StrToFloatDef(vlVlrAdicional, 0);
+            end;
 
           end
           else

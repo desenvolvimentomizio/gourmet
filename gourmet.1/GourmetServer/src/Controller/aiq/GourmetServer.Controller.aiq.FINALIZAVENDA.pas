@@ -55,11 +55,13 @@ var
   vltaxa: String;
   vlpode: boolean;
 begin
-  vlpode := true;
   vlQtdItens := vItensPedido.Count;
 
   for i := 0 to vlQtdItens - 1 do
   begin
+    // Reinicia a cada item: ficando fora do laco, a primeira taxa que aparecesse
+    // desligava vlpode de vez e todos os itens seguintes sumiam da venda.
+    vlpode := true;
 
     vltaxa := vItensPedido[i].getvalue('itooutras', '');
     vltaxa := stringreplace(vltaxa, '.', ',', []);
