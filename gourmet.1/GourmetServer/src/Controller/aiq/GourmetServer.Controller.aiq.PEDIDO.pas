@@ -931,11 +931,12 @@ var
   vlComboSku: string;
   vlComboSemSku: Integer;
 
-  // escolha obrigatoria com SKU prefixado por '+': vira adicional (ISI) do item pai
+  // escolha obrigatoria que vira adicional (ISI) do item pai
   // (vlSkuAdicional ja esta declarada acima)
   vlQtdAdicional: string;
   vlVlrAdicional: string;
   vlProAdicional: Integer;
+  vlEhCombo: Boolean;
 begin
   try
 
@@ -1513,7 +1514,18 @@ begin
       vlpronome := trim(StringReplace(vlpronome, '?', '', [rfReplaceAll, rfIgnoreCase]));
       vlpronome := trim(StringReplace(vlpronome, '''', '', [rfReplaceAll, rfIgnoreCase]));
 
-
+      // Combo: quando 'COMBO' aparece no nome do item ou na categoria do aiqfome, tudo
+      // que vem em order_mandatory_items eh definicao de ADICIONAL - o preco ja esta no
+      // produto e a descricao ('escolha os sabores!') so orienta a escolha.
+      //
+      // A marca de combo vem do texto, nao do formato do SKU: parte dos combos manda a
+      // escolha com SKU prefixado por '+' e parte manda sem prefixo nenhum (pedido
+      // 140380340), e nesse segundo caso a escolha caia no ramo de sabores e se perdia.
+      //
+      // Le direto do JSON porque vlGrpIdentificacao pode ter sido trocado logo acima por
+      // 'PIZZAS' ou pelo nome do grupo do ERP.
+      vlEhCombo := (Pos('COMBO', UpperCase(vlListaItens[ii].getvalue('name', ''))) > 0) or
+                   (Pos('COMBO', UpperCase(vlListaItens[ii].getvalue('category_name', ''))) > 0);
 
       vlIngredientes := uppercase(vlListaItens[ii].getvalue('description', ''));
 
@@ -1717,19 +1729,34 @@ begin
       if vlSkuTamanho='' then
       begin
 
-        vlProCodigo:= BuscaCodigoPROProNome(vlpronome+' SEM SKU');
-        if vlProCodigo=0 then
-          vlProCodigo:=ManutencaoPROAplicativo(vlpronome+' SEM SKU', vlGrpCodigo, vlUniCodigo,0,vlIngredientes);
+        // Item chegou sem SKU. Antes de cadastrar, procura o produto pelo nome: o
+        // cadastro quase sempre ja tem o item, so escrito de outro jeito ('dinhos
+        // burger smash' x 'DINHOS BURGER SMASH', 'coca-cola 600 ml' x 'COCA-COLA
+        // 600 ML'). Cadastrar direto enchia o banco de duplicatas '<nome> SEM SKU'.
+        vlProCodigo:= BuscaCodigoPROHeuristico(vlpronome);
+
+        if vlProCodigo<>0 then
+        begin
+          writeln(Datetimetostr(Now())+ ' Produto sem SKU localizado pelo nome: '+ vlpronome +
+                  ' -> procodigo '+ vlProCodigo.ToString);
+        end
+        else
+        begin
+          // Nao achou com seguranca. Mantem o comportamento antigo: reaproveita a
+          // duplicata ja criada em pedidos anteriores ou cadastra uma nova.
+          vlProCodigo:= BuscaCodigoPROProNome(vlpronome+' SEM SKU');
+          if vlProCodigo=0 then
+            vlProCodigo:=ManutencaoPROAplicativo(vlpronome+' SEM SKU', vlGrpCodigo, vlUniCodigo,0,vlIngredientes);
+
+          writeln(Datetimetostr(Now())+ ' ************************************' );
+          writeln(Datetimetostr(Now())+ ' Produto sem SKU, cadastrado novo produto' );
+          writeln('Nome: '+ vlpronome);
+          writeln(Datetimetostr(Now())+ ' ************************************' );
+        end;
 
         vlSkuTamanho:=Inttostr(BuscaCodigoPROProCodigo(vlProCodigo));
         if vlSkuTamanho='0' then
           vlSkuTamanho:=Inttostr(ManutencaoPUNAplicativo(vlProCodigo, vlunicodigo, floattostr(vlVlrSaldoItem)));
-
-        writeln(Datetimetostr(Now())+ ' ************************************' );
-        writeln(Datetimetostr(Now())+ ' Produto sem SKU, cadastrado novo produto' );
-        writeln('Nome: '+ vlpronome);
-        writeln('Tamanho/Unidade: '+ vlSkuTamanho);
-        writeln(Datetimetostr(Now())+ ' ************************************' );
 
 
 
@@ -1821,11 +1848,11 @@ begin
         a := '';
       vlQtdorder_mandatory_items := JsonArrayCount(vlorder_mandatory_items);
 
-      // Combos do AIQFome: as escolhas vem em order_mandatory_items e sao gravadas como
-      // ADICIONAIS (ISI) do item do combo - ver o tratamento do SKU com '+' mais abaixo.
+      // As escolhas do combo viram ADICIONAIS (ISI) do item - ver o laco mais abaixo.
       // A observacao aqui eh so a rede de seguranca: registra as escolhas que vierem
       // SEM SKU nenhum, que nao tem como virar adicional, para nao sumirem do pedido.
-      if (Pos('COMBO', UpperCase(vlGrpIdentificacao)) > 0) and (vlQtdorder_mandatory_items > 0) then
+      // Escolha COM SKU que nao resolve para produto eh anotada no proprio laco.
+      if vlEhCombo and (vlQtdorder_mandatory_items > 0) then
       begin
         vlComboSemSku := 0;
         vlComboObs := Trim(vlListaItens[ii].getvalue('observations', ''));
@@ -1869,7 +1896,9 @@ begin
 
       if (vlSbiChave = 0) and (vlBrdCodigo = 0) and
 
-      ((pos('COMBO', uppercase(vlGrpIdentificacao)) = 0) AND  ((vlQtdorder_additional_items > 0) or (vlQtdorder_mandatory_items > 0)) ) then
+      // vlEhCombo tambem exclui: combo que so tem 'COMBO' no nome do item, e nao na
+      // categoria, precisa cair no laco de baixo para as escolhas virarem adicionais.
+      ((pos('COMBO', uppercase(vlGrpIdentificacao)) = 0) AND (not vlEhCombo) AND  ((vlQtdorder_additional_items > 0) or (vlQtdorder_mandatory_items > 0)) ) then
       begin
 
         vlSbicodigo := Inttostr(BuscaCodigoSBRProCodigo(vlProCodigo));
@@ -1978,33 +2007,47 @@ begin
 
 
 
-          if pos('+', vlSkuBorda) > 0 then
+          if (pos('+', vlSkuBorda) > 0) or vlEhCombo then
           begin
 
-            // Escolha obrigatoria com SKU prefixado por '+' (ex.: '+601') eh ADICIONAL do
-            // item, nao um item proprio: o '+' eh a marca que o aiqfome usa para separar a
-            // escolha do produto realmente vendido - o combo, que tem SKU sem '+' (ex.: '650')
-            // e o preco. Antes cada escolha virava uma linha do ITO com valor zero, entao a
-            // comanda mostrava quatro itens onde existe um so e o combo se perdia no meio.
+            // Escolha obrigatoria de combo eh ADICIONAL do item, nao um item proprio: o
+            // produto realmente vendido eh o combo, que ja traz o preco. Antes cada escolha
+            // virava uma linha do ITO com valor zero, entao a comanda mostrava quatro itens
+            // onde existe um so e o combo se perdia no meio.
+            //
+            // Dois formatos chegam aqui: SKU prefixado com '+' (ex.: '+601'), que o aiqfome
+            // usa para marcar a escolha, e SKU limpo (ex.: '577') quando a loja nao usa o
+            // prefixo - dai o vlEhCombo. O prefixo, quando vem, eh so descartado.
             //
             // O SKU do aiqfome eh o PUNCODIGO do ERP, por isso o produto sai de
             // BuscaCodigoPROpunCodigo (e nao direto no procodigo).
-            vlSkuAdicional := trim(copy(vlSkuBorda, 2, 200));
-            vlProAdicional := BuscaCodigoPROpunCodigo(vlSkuAdicional);
+            vlSkuAdicional := trim(vlSkuBorda);
+            if copy(vlSkuAdicional, 1, 1) = '+' then
+              vlSkuAdicional := trim(copy(vlSkuAdicional, 2, 200));
+
+            if vlSkuAdicional = '' then
+              vlProAdicional := 0
+            else
+              vlProAdicional := BuscaCodigoPROpunCodigo(vlSkuAdicional);
 
             if vlProAdicional = 0 then
             begin
               // Sem produto no ERP nao da para gravar o ISI (FK isi_pro_procodigo).
-              // Registra na observacao para a escolha nao sumir da comanda.
-              vlComboObs := trim(vlItem.getvalue('itoobs', ''));
-              if vlComboObs <> '' then
-                vlComboObs := vlComboObs + sLineBreak;
-              vlComboObs := vlComboObs + '- ' + trim(vlorder_mandatory_items[iu].getvalue('name', '')) +
-                ' (SKU ' + vlSkuBorda + ' sem produto no ERP)';
-              JsonSetPair(vlItem, 'itoobs', vlComboObs);
+              // Registra na observacao para a escolha nao sumir da comanda. Escolha sem
+              // SKU nenhum ja foi anotada no bloco de observacao la de cima; anotar de
+              // novo aqui repetiria a mesma linha.
+              if vlSkuAdicional <> '' then
+              begin
+                vlComboObs := trim(vlItem.getvalue('itoobs', ''));
+                if vlComboObs <> '' then
+                  vlComboObs := vlComboObs + sLineBreak;
+                vlComboObs := vlComboObs + '- ' + trim(vlorder_mandatory_items[iu].getvalue('name', '')) +
+                  ' (SKU ' + vlSkuBorda + ' sem produto no ERP)';
+                JsonSetPair(vlItem, 'itoobs', vlComboObs);
 
-              if IsConsole then
-                writeln(Datetimetostr(Now()) + ' Escolha sem produto no ERP para o SKU ' + vlSkuBorda);
+                if IsConsole then
+                  writeln(Datetimetostr(Now()) + ' Escolha sem produto no ERP para o SKU ' + vlSkuBorda);
+              end;
             end
             else
             begin

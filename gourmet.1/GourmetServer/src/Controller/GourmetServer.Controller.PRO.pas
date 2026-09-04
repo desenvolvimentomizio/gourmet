@@ -18,6 +18,7 @@ function BuscaCodigoGRPProCodigo(vProCodigo: Integer): Integer;
 function BuscaCodigoPROTaxaValor(vValor: String): Integer;
 function BuscaCodigoPROProNome(vProNome: String): Integer;
 function BuscaCodigoPROIsaIdentificacao(vProNome: String): Integer;
+function BuscaCodigoPROHeuristico(vProNome: String): Integer;
 
 type
   TAPIError = class
@@ -28,6 +29,327 @@ type
   end;
 
 implementation
+
+uses
+  System.Classes,
+  Data.DB,
+  FireDAC.Comp.Client,
+  GourmetServer.Service.Conexoes;
+
+// ---------------------------------------------------------------------------
+// Busca heuristica de produto pelo nome, para quando o item do aplicativo chega
+// SEM SKU. Antes disso o sistema cadastrava direto um produto '<nome> SEM SKU',
+// o que sujava o cadastro com duplicatas do que ja existia: 'DINHOS BURGER SMASH
+// SEM SKU' convivendo com 'DINHOS BURGER SMASH', quatro variacoes de coca-cola,
+// e assim por diante.
+//
+// A comparacao ignora acento, pontuacao, apostrofo, caixa e o proprio sufixo
+// ' SEM SKU', e separa a unidade colada ao numero ('269ML' -> '269 ML'), que era
+// exatamente a diferenca entre dois cadastros do mesmo produto.
+//
+// Devolve 0 quando nao houver certeza suficiente - ai o chamador cadastra, que
+// eh o desfecho seguro: casar errado joga a venda num produto de outro grupo,
+// com outro preco e outra impressora.
+// ---------------------------------------------------------------------------
+
+const
+  // pontuacao minima para aceitar um candidato que nao seja de nome identico
+  PONTUACAO_MINIMA = 0.75;
+  // margem minima entre o melhor candidato e o segundo, para nao decidir no empate
+  MARGEM_MINIMA = 0.10;
+  // dentro desta distancia do melhor, um produto sem o sufixo ' SEM SKU' tem
+  // preferencia: eh o cadastro de verdade, nao a duplicata que se quer extinguir
+  MARGEM_PREFERE_LIMPO = 0.15;
+
+function NormalizaNomeProduto(const vNome: String): String;
+const
+  ACENTOS   = 'áàâãäÁÀÂÃÄéèêëÉÈÊËíìîïÍÌÎÏóòôõöÓÒÔÕÖúùûüÚÙÛÜçÇñÑ';
+  SEMACENTO = 'AAAAAAAAAAEEEEEEEEIIIIIIIIOOOOOOOOOOUUUUUUUUCCNN';
+var
+  i: Integer;
+  c: Char;
+  vlTexto: String;
+  vlSaida: String;
+  vlPos: Integer;
+begin
+  vlTexto := UpperCase(Trim(vNome));
+
+  // o apostrofo some em vez de virar espaco, senao DINHO'S vira dois pedacos
+  vlTexto := StringReplace(vlTexto, '''', '', [rfReplaceAll]);
+
+  vlPos := Pos(' SEM SKU', vlTexto);
+  while vlPos > 0 do
+  begin
+    Delete(vlTexto, vlPos, Length(' SEM SKU'));
+    vlPos := Pos(' SEM SKU', vlTexto);
+  end;
+
+  vlSaida := '';
+  for i := 1 to Length(vlTexto) do
+  begin
+    c := vlTexto[i];
+
+    vlPos := Pos(c, ACENTOS);
+    if vlPos > 0 then
+      c := SEMACENTO[vlPos];
+
+    if CharInSet(c, ['A' .. 'Z', '0' .. '9']) then
+    begin
+      // separa a unidade colada ao numero: 269ML -> 269 ML
+      if CharInSet(c, ['A' .. 'Z']) and (vlSaida <> '') and
+        CharInSet(vlSaida[Length(vlSaida)], ['0' .. '9']) then
+        vlSaida := vlSaida + ' ';
+
+      vlSaida := vlSaida + c;
+    end
+    else if (vlSaida <> '') and (vlSaida[Length(vlSaida)] <> ' ') then
+      vlSaida := vlSaida + ' ';
+  end;
+
+  result := Trim(vlSaida);
+end;
+
+// Descarta palavra sem valor para identificar o produto e pedaco de uma letra so.
+function EhTokenUtil(const vToken: String): Boolean;
+const
+  VAZIAS = ' DE DA DO DOS DAS COM E A O EM NO NA ';
+begin
+  result := (vToken <> '') and (Pos(' ' + vToken + ' ', VAZIAS) = 0) and
+    ((Length(vToken) > 1) or CharInSet(vToken[1], ['0' .. '9']));
+end;
+
+procedure SeparaTokens(const vNome: String; vLista: TStringList);
+var
+  vlTodos: TStringList;
+  i: Integer;
+begin
+  vLista.Clear;
+  vLista.Sorted := True;
+  vLista.Duplicates := dupIgnore;
+
+  vlTodos := TStringList.Create;
+  try
+    vlTodos.Delimiter := ' ';
+    vlTodos.StrictDelimiter := True;
+    vlTodos.DelimitedText := NormalizaNomeProduto(vNome);
+
+    for i := 0 to vlTodos.Count - 1 do
+      if EhTokenUtil(vlTodos[i]) then
+        vLista.Add(vlTodos[i]);
+  finally
+    vlTodos.Free;
+  end;
+end;
+
+// Coeficiente de Dice: 2 * comuns / (total de um + total do outro). Vale 1 quando
+// os conjuntos sao iguais e cai rapido conforme sobram palavras de um lado so.
+function PontuaTokens(vA, vB: TStringList): Double;
+var
+  i: Integer;
+  vlComuns: Integer;
+  vlIndice: Integer;
+begin
+  if (vA.Count = 0) or (vB.Count = 0) then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  vlComuns := 0;
+  for i := 0 to vA.Count - 1 do
+    if vB.Find(vA[i], vlIndice) then
+      Inc(vlComuns);
+
+  result := (2 * vlComuns) / (vA.Count + vB.Count);
+end;
+
+// Um dos conjuntos cabe inteiro dentro do outro. Sem exigir isso, dois nomes que
+// dividem parte das palavras ('COCA COLA 2LT' e 'COCA COLA 3LT') pontuariam alto.
+function UmContemOOutro(vA, vB: TStringList): Boolean;
+var
+  i: Integer;
+  vlIndice: Integer;
+  vlCabeA: Boolean;
+  vlCabeB: Boolean;
+begin
+  vlCabeA := True;
+  for i := 0 to vA.Count - 1 do
+    if not vB.Find(vA[i], vlIndice) then
+    begin
+      vlCabeA := False;
+      Break;
+    end;
+
+  vlCabeB := True;
+  for i := 0 to vB.Count - 1 do
+    if not vA.Find(vB[i], vlIndice) then
+    begin
+      vlCabeB := False;
+      Break;
+    end;
+
+  result := vlCabeA or vlCabeB;
+end;
+
+function BuscaCodigoPROHeuristico(vProNome: String): Integer;
+var
+  conexao: TFDConnection;
+  pro: TFDQuery;
+  vlAlvo: TStringList;
+  vlCand: TStringList;
+  vlAlvoNorm: String;
+  vlCandNorm: String;
+  vlNomeCand: String;
+  vlCodCand: Integer;
+  vlGrpCand: Integer;
+  vlPontos: Double;
+  vlContido: Boolean;
+  vlSemSku: Boolean;
+  vlMelhor: Double;
+  vlMelhorCod: Integer;
+  vlMelhorSemSku: Boolean;
+  vlSegundo: Double;
+  vlGrpIgual: Integer;
+  vlCodIgual: Integer;
+  vlIguaisEmOutroGrupo: Boolean;
+  vlLimpoCod: Integer;
+  vlLimpoPontos: Double;
+begin
+  result := 0;
+
+  vlAlvo := TStringList.Create;
+  vlCand := TStringList.Create;
+  try
+    SeparaTokens(vProNome, vlAlvo);
+
+    // Nome de uma palavra so ('BACON', 'AGUA', 'COCA') casa com coisa demais e o
+    // erro sai caro. Deixa cadastrar.
+    if vlAlvo.Count < 2 then
+      exit;
+
+    vlAlvoNorm := NormalizaNomeProduto(vProNome);
+
+    vlMelhor := 0;
+    vlMelhorCod := 0;
+    vlMelhorSemSku := False;
+    vlSegundo := 0;
+    vlGrpIgual := -1;
+    vlCodIgual := 0;
+    vlIguaisEmOutroGrupo := False;
+    vlLimpoCod := 0;
+    vlLimpoPontos := 0;
+
+    conexao := TFDConnection.Create(nil);
+    try
+      if AtivaConexao(conexao) = nil then
+        exit;
+
+      pro := TFDQuery.Create(nil);
+      try
+        pro.Connection := conexao;
+        pro.SQL.Text := 'select procodigo, grpcodigo, pronome from pro order by procodigo';
+        pro.Open;
+
+        while not pro.Eof do
+        begin
+          vlNomeCand := pro.FieldByName('pronome').AsString;
+          vlCodCand := pro.FieldByName('procodigo').AsInteger;
+          vlGrpCand := pro.FieldByName('grpcodigo').AsInteger;
+
+          SeparaTokens(vlNomeCand, vlCand);
+
+          if vlCand.Count > 0 then
+          begin
+            vlCandNorm := NormalizaNomeProduto(vlNomeCand);
+            vlSemSku := Pos(' SEM SKU', UpperCase(vlNomeCand)) > 0;
+
+            if vlCandNorm = vlAlvoNorm then
+            begin
+              vlPontos := 1;
+              vlContido := True;
+
+              // Duplicata ' SEM SKU' nao conta como produto concorrente: ela eh
+              // justamente o lixo que se quer parar de criar.
+              if not vlSemSku then
+              begin
+                if vlGrpIgual < 0 then
+                begin
+                  vlGrpIgual := vlGrpCand;
+                  vlCodIgual := vlCodCand;
+                end
+                else if vlGrpIgual <> vlGrpCand then
+                  vlIguaisEmOutroGrupo := True;
+              end;
+            end
+            else
+            begin
+              vlPontos := PontuaTokens(vlAlvo, vlCand);
+              vlContido := UmContemOOutro(vlAlvo, vlCand);
+            end;
+
+            if vlPontos > vlMelhor then
+            begin
+              vlSegundo := vlMelhor;
+              vlMelhor := vlPontos;
+              vlMelhorCod := vlCodCand;
+              vlMelhorSemSku := vlSemSku;
+            end
+            else if vlPontos > vlSegundo then
+              vlSegundo := vlPontos;
+
+            // melhor candidato que nao eh duplicata, guardado para a preferencia
+            if (not vlSemSku) and vlContido and (vlPontos > vlLimpoPontos) then
+            begin
+              vlLimpoPontos := vlPontos;
+              vlLimpoCod := vlCodCand;
+            end;
+          end;
+
+          pro.Next;
+        end;
+
+        pro.Close;
+      finally
+        pro.DisposeOf;
+      end;
+    finally
+      conexao.DisposeOf;
+    end;
+
+    if vlMelhor = 1 then
+    begin
+      // nome identico em produtos limpos de grupos diferentes: nao da para escolher
+      if vlIguaisEmOutroGrupo then
+        exit;
+
+      // nome identico com um unico produto limpo: eh ele
+      if vlCodIgual <> 0 then
+      begin
+        result := vlCodIgual;
+        exit;
+      end;
+    end;
+
+    if vlMelhor < PONTUACAO_MINIMA then
+      exit;
+
+    if (vlMelhor < 1) and ((vlMelhor - vlSegundo) < MARGEM_MINIMA) then
+      exit;
+
+    // entre equivalentes, o cadastro de verdade vence a duplicata ' SEM SKU'
+    if vlMelhorSemSku and (vlLimpoCod <> 0) and (vlLimpoPontos >= PONTUACAO_MINIMA)
+      and ((vlMelhor - vlLimpoPontos) < MARGEM_PREFERE_LIMPO) then
+    begin
+      result := vlLimpoCod;
+      exit;
+    end;
+
+    result := vlMelhorCod;
+  finally
+    vlAlvo.Free;
+    vlCand.Free;
+  end;
+end;
 
 function BuscaCodigoPROIsaIdentificacao(vProNome: String): Integer;
 var
