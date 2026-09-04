@@ -18,6 +18,7 @@ function BuscaCodigoGRPProCodigo(vProCodigo: Integer): Integer;
 function BuscaCodigoPROTaxaValor(vValor: String): Integer;
 function BuscaCodigoPROProNome(vProNome: String): Integer;
 function BuscaCodigoPROIsaIdentificacao(vProNome: String): Integer;
+function BuscaCodigoPROProNomeAtivo(vProNome: String): Integer;
 function BuscaCodigoPROHeuristico(vProNome: String): Integer;
 
 type
@@ -247,7 +248,10 @@ begin
       pro := TFDQuery.Create(nil);
       try
         pro.Connection := conexao;
-        pro.SQL.Text := 'select procodigo, grpcodigo, pronome from pro order by procodigo';
+        // sipcodigo 2 = Inativo. Duplicata desativada na faxina do cadastro nao pode
+        // voltar a ser escolhida, senao a limpeza se desfaz no proximo pedido.
+        pro.SQL.Text := 'select procodigo, grpcodigo, pronome from pro ' +
+          'where coalesce(sipcodigo, 1) <> 2 order by procodigo';
         pro.Open;
 
         while not pro.Eof do
@@ -613,6 +617,23 @@ begin
 
   vlprocodigo := FDAO.DataSet.FieldByName('procodigo').asinteger;
   result := vlprocodigo;
+end;
+
+// Igual a BuscaCodigoPROProNome, mas pula produto inativo (sipcodigo 2). Serve para
+// o reaproveitamento de duplicata '<nome> SEM SKU': depois que uma delas eh desativada
+// na faxina do cadastro, reencontra-la aqui ressuscitaria o cadastro que se quis matar.
+// A busca original continua como esta porque ManutencaoPRO a usa para nao duplicar
+// produto - e ali um produto inativo com o mesmo nome ainda conta como duplicata.
+function BuscaCodigoPROProNomeAtivo(vProNome: String): Integer;
+var
+  FDAO: iDAOGeneric<Tprocod>;
+begin
+  FDAO := TDAOGeneric<Tprocod>.New;
+
+  FDAO.DAO.SQL.where('pronome=' + QuotedStr(vProNome) +
+    ' and coalesce(sipcodigo, 1) <> 2').&End.Find;
+
+  result := FDAO.DataSet.FieldByName('procodigo').asinteger;
 end;
 
 function BuscaCodigoGRPProCodigo(vProCodigo: Integer): Integer;

@@ -1743,8 +1743,10 @@ begin
         else
         begin
           // Nao achou com seguranca. Mantem o comportamento antigo: reaproveita a
-          // duplicata ja criada em pedidos anteriores ou cadastra uma nova.
-          vlProCodigo:= BuscaCodigoPROProNome(vlpronome+' SEM SKU');
+          // duplicata ja criada em pedidos anteriores ou cadastra uma nova. Duplicata
+          // desativada na faxina do cadastro nao serve - reaproveita-la ressuscitaria
+          // o produto que se quis matar.
+          vlProCodigo:= BuscaCodigoPROProNomeAtivo(vlpronome+' SEM SKU');
           if vlProCodigo=0 then
             vlProCodigo:=ManutencaoPROAplicativo(vlpronome+' SEM SKU', vlGrpCodigo, vlUniCodigo,0,vlIngredientes);
 
